@@ -23,6 +23,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 
 import javax.swing.JPanel;
 
@@ -65,6 +66,9 @@ public abstract class Scale extends JPanel
 
 	private void paintLines(Graphics2D g, boolean horizontal)
 	{
+		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+				RenderingHints.VALUE_ANTIALIAS_ON);
+
 		Color colorBaseline = Color.BLACK;
 		Color colorLines = Color.RED;
 		Color colorFont = Color.BLACK;
@@ -85,8 +89,7 @@ public abstract class Scale extends JPanel
 		ScaleLine[] lines = new ScaleLine[] {
 				new ScaleLine(30, 4.0f, 100, true),
 				new ScaleLine(20, 3.0f, 50, true),
-				new ScaleLine(10, 1.0f, 10, false)
-		};
+				new ScaleLine(10, 1.0f, 10, false) };
 		// scale line drawing
 		for (int i = 0; i < lines.length; i++) {
 			ScaleLine line = lines[i];
