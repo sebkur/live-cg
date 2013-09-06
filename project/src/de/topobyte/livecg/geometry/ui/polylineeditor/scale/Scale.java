@@ -21,6 +21,7 @@ package de.topobyte.livecg.geometry.ui.polylineeditor.scale;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
@@ -74,6 +75,9 @@ public abstract class Scale extends JPanel
 		Color colorFont = Color.BLACK;
 		Color colorMarker = Color.BLACK;
 
+		// font metrics for font alignment for vertical bars
+		FontMetrics fm = getFontMetrics(getFont());
+
 		int width = getWidth();
 		int height = getHeight();
 
@@ -94,9 +98,9 @@ public abstract class Scale extends JPanel
 		for (int i = 0; i < lines.length; i++) {
 			ScaleLine line = lines[i];
 			int limit = horizontal ? width : height;
-			positions: for (int x = 0; x < limit; x += line.getStep()) {
+			positions: for (int p = 0; p < limit; p += line.getStep()) {
 				for (int k = 0; k < i; k++) {
-					if (lines[k].occupies(x)) {
+					if (lines[k].occupies(p)) {
 						continue positions;
 					}
 				}
@@ -108,18 +112,20 @@ public abstract class Scale extends JPanel
 
 				g.setColor(colorLines);
 				if (horizontal) {
-					g.drawLine(x, start, x, base);
+					g.drawLine(p, start, p, base);
 				} else {
-					g.drawLine(start, x, base, x);
+					g.drawLine(start, p, base, p);
 				}
 
 				if (line.hasLabel()) {
 					g.setColor(colorFont);
-					String label = String.format("%d", x);
+					String label = String.format("%d", p);
 					if (horizontal) {
-						g.drawString(label, x, start);
+						g.drawString(label, p, start);
 					} else {
-						g.drawString(label, start, x);
+						int labelWidth = fm.stringWidth(label);
+						int x = width - labelWidth - 5;
+						g.drawString(label, x, p);
 					}
 				}
 			}
