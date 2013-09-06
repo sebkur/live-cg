@@ -1,4 +1,4 @@
-live-cg
+LiveCG
 =======
 
 LIVE Interactive Visualization Environment for Computational Geometry
