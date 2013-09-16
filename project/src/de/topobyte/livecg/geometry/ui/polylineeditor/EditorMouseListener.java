@@ -18,7 +18,6 @@
 
 package de.topobyte.livecg.geometry.ui.polylineeditor;
 
-
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Set;
@@ -57,6 +56,11 @@ public class EditorMouseListener extends MouseAdapter
 				finishCurrentLine();
 			}
 		}
+		if (editPane.getMouseMode() == MouseMode.DELETE) {
+			if (e.getButton() == MouseEvent.BUTTON1) {
+				deleteNearestPoint(coord);
+			}
+		}
 	}
 
 	private void addCoordinateOrCreateNewLine(Coordinate coord)
@@ -92,13 +96,27 @@ public class EditorMouseListener extends MouseAdapter
 		}
 	}
 
+	private void deleteNearestPoint(Coordinate coord)
+	{
+		Set<Editable> near = editPane.getContent().getEditablesNear(coord);
+		if (near.size() > 0) {
+			Editable editable = near.iterator().next();
+			int n = editable.getNearestPointWithinThreshold(coord, 4);
+			editable.remove(n);
+			if (editable.getNumberOfCoordinates() == 0) {
+				editPane.getContent().removeLine(editable);
+			}
+			editPane.repaint();
+		}
+	}
+
 	@Override
 	public void mousePressed(MouseEvent e)
 	{
 		super.mousePressed(e);
-		
+
 		Coordinate coord = new Coordinate(e.getX(), e.getY());
-		
+
 		if (editPane.getMouseMode() == MouseMode.MOVE) {
 			if (e.getButton() == MouseEvent.BUTTON1) {
 				activateNodeForMove(coord);
@@ -110,7 +128,7 @@ public class EditorMouseListener extends MouseAdapter
 	public void mouseReleased(MouseEvent e)
 	{
 		super.mouseReleased(e);
-		
+
 		if (editPane.getMouseMode() == MouseMode.MOVE) {
 			currentMoveEditable = null;
 		}
@@ -149,7 +167,7 @@ public class EditorMouseListener extends MouseAdapter
 		Coordinate coord = new Coordinate(e.getX(), e.getY());
 
 		if (editPane.getMouseMode() == MouseMode.MOVE) {
-			if (currentMoveEditable != null){
+			if (currentMoveEditable != null) {
 				currentMoveEditable.setCoordinate(currentMoveNodeId, coord);
 				editPane.getContent().fireContentChanged();
 			}

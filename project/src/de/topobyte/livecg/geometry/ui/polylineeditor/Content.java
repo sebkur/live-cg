@@ -53,6 +53,11 @@ public class Content
 	{
 		editables.add(0, line);
 	}
+	
+	public void removeLine(Editable line)
+	{
+		editables.remove(line);
+	}
 
 	public Set<Editable> getEditablesNear(Coordinate coordinate)
 	{

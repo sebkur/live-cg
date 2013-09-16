@@ -54,6 +54,10 @@ public class Editable {
 		return coordinates.get(coordinates.size() - 1);
 	}
 
+	public void remove(int index) {
+		coordinates.remove(index);
+	}
+	
 	public void removeLastPoint() {
 		coordinates.remove(coordinates.size() - 1);
 	}
