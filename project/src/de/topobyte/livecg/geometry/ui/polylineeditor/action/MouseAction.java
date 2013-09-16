@@ -41,7 +41,7 @@ public class MouseAction extends AbstractAction implements MouseModeListener
 	private MouseModeProvider mouseModeProvider;
 	private MouseMode mouseMode;
 
-	// keep track of our recognised state here
+	// keep track of our recognized state here
 	private boolean active = false;
 
 	private void updateActivityStatus()
