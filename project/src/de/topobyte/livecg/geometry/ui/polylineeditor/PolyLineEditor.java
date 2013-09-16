@@ -88,7 +88,7 @@ public class PolyLineEditor extends JPanel
 
 		MouseAction selectAction = new MouseAction("select", MouseMode.SELECT,
 				editPane);
-		MouseAction editAction = new MouseAction("edit", MouseMode.EDIT,
+		MouseAction editAction = new MouseAction("add", MouseMode.EDIT,
 				editPane);
 		MouseAction moveAction = new MouseAction("move", MouseMode.MOVE,
 				editPane);

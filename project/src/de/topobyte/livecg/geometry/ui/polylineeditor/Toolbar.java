@@ -42,7 +42,7 @@ public class Toolbar extends JToolBar
 		
 		MouseAction selectAction = new MouseAction("select", MouseMode.SELECT,
 				mouseModeProvider);
-		MouseAction editAction = new MouseAction("edit", MouseMode.EDIT,
+		MouseAction editAction = new MouseAction("add", MouseMode.EDIT,
 				mouseModeProvider);
 		MouseAction moveAction = new MouseAction("move", MouseMode.MOVE,
 				mouseModeProvider);
