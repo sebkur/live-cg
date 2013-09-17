@@ -22,6 +22,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Set;
 
+import de.topobyte.livecg.geometry.ui.geom.CloseabilityException;
 import de.topobyte.livecg.geometry.ui.geom.Coordinate;
 import de.topobyte.livecg.geometry.ui.geom.Editable;
 import de.topobyte.livecg.geometry.ui.geometryeditor.mousemode.MouseMode;
@@ -44,7 +45,15 @@ public class EditorMouseListener extends MouseAdapter
 
 		if (editPane.getMouseMode() == MouseMode.EDIT) {
 			if (e.getButton() == MouseEvent.BUTTON1) {
-				addCoordinateOrCreateNewLine(coord);
+				if (!e.isControlDown()) {
+					addCoordinateOrCreateNewLine(coord);
+				} else {
+					try {
+						closeCurrentLine();
+					} catch (CloseabilityException ex) {
+						System.out.println("unable to close line");
+					}
+				}
 			} else if (e.getButton() == MouseEvent.BUTTON3) {
 				finishCurrentLine();
 			}
@@ -80,6 +89,19 @@ public class EditorMouseListener extends MouseAdapter
 		if (line == null) {
 			return;
 		}
+		Content content = editPane.getContent();
+		content.addLine(line);
+		editPane.getContent().setEditingLine(null);
+		editPane.repaint();
+	}
+
+	private void closeCurrentLine() throws CloseabilityException
+	{
+		Editable line = editPane.getContent().getEditingLine();
+		if (line == null) {
+			return;
+		}
+		line.setClosed(true);
 		Content content = editPane.getContent();
 		content.addLine(line);
 		editPane.getContent().setEditingLine(null);

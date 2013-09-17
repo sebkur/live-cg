@@ -29,6 +29,8 @@ import com.vividsolutions.jts.geom.Point;
 public class Editable
 {
 
+	private boolean closed = false;
+
 	private List<Coordinate> coordinates = new ArrayList<Coordinate>();
 
 	public void addPoint(Coordinate coordinate)
@@ -136,5 +138,19 @@ public class Editable
 			editable.addPoint(new Coordinate(cn.x, cn.y));
 		}
 		return editable;
+	}
+
+	public void setClosed(boolean closed) throws CloseabilityException
+	{
+		if (coordinates.size() < 3 && closed) {
+			throw new CloseabilityException(
+					"invalid number of coordinates: need at least 3 coordinates to close a geometry");
+		}
+		this.closed = closed;
+	}
+
+	public boolean isClosed()
+	{
+		return closed;
 	}
 }

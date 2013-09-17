@@ -154,6 +154,14 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 			g.drawLine(x1, y1, x2, y2);
 			last = current;
 		}
+		if (editable.isClosed()) {
+			Coordinate first = editable.getCoordinate(0);
+			int x1 = (int) Math.round(last.getX());
+			int y1 = (int) Math.round(last.getY());
+			int x2 = (int) Math.round(first.getX());
+			int y2 = (int) Math.round(first.getY());
+			g.drawLine(x1, y1, x2, y2);
+		}
 		useAntialiasing(g, false);
 		// points
 		g.setColor(colorPoints);
