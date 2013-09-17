@@ -80,7 +80,7 @@ public class EditorMouseListener extends MouseAdapter
 			editPane.getContent().setEditingLine(line);
 		}
 		line.addPoint(coord);
-		editPane.repaint();
+		editPane.getContent().fireContentChanged();
 	}
 
 	private void finishCurrentLine()
@@ -92,7 +92,7 @@ public class EditorMouseListener extends MouseAdapter
 		Content content = editPane.getContent();
 		content.addLine(line);
 		editPane.getContent().setEditingLine(null);
-		editPane.repaint();
+		editPane.getContent().fireContentChanged();
 	}
 
 	private void closeCurrentLine() throws CloseabilityException
@@ -105,7 +105,7 @@ public class EditorMouseListener extends MouseAdapter
 		Content content = editPane.getContent();
 		content.addLine(line);
 		editPane.getContent().setEditingLine(null);
-		editPane.repaint();
+		editPane.getContent().fireContentChanged();
 	}
 
 	private void selectLine(Coordinate coord)
@@ -114,7 +114,7 @@ public class EditorMouseListener extends MouseAdapter
 		if (near.size() > 0) {
 			Editable editable = near.iterator().next();
 			editPane.getContent().changeEditingLine(editable);
-			editPane.repaint();
+			editPane.getContent().fireContentChanged();
 		}
 	}
 
@@ -128,7 +128,7 @@ public class EditorMouseListener extends MouseAdapter
 			if (editable.getNumberOfCoordinates() == 0) {
 				editPane.getContent().removeLine(editable);
 			}
-			editPane.repaint();
+			editPane.getContent().fireContentChanged();
 		}
 	}
 
@@ -180,7 +180,7 @@ public class EditorMouseListener extends MouseAdapter
 		System.out.println(nodeId);
 		currentMoveEditable = editable;
 		currentMoveNodeId = nodeId;
-		editPane.repaint();
+		editPane.getContent().fireContentChanged();
 	}
 
 	@Override

@@ -28,6 +28,7 @@ import org.apache.log4j.BasicConfigurator;
 
 import de.topobyte.livecg.geometry.ui.geom.Coordinate;
 import de.topobyte.livecg.geometry.ui.geom.Editable;
+import de.topobyte.livecg.geometry.ui.geometryeditor.object.ObjectDialog;
 import de.topobyte.livecg.geometry.ui.misc.Menu;
 
 public class RunGeometryEditor
@@ -75,6 +76,11 @@ public class RunGeometryEditor
 		mainPanel.add(lineEditor, c);
 
 		frame.setVisible(true);
+
+		ObjectDialog objectDialog = new ObjectDialog(frame, lineEditor
+				.getEditPane().getContent());
+		objectDialog.setSize(300, 300);
+		objectDialog.setVisible(true);
 
 		Editable line1 = new Editable();
 		line1.addPoint(new Coordinate(100, 100));
