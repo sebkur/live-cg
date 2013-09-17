@@ -23,13 +23,19 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.ActionMap;
+import javax.swing.InputMap;
 import javax.swing.JPanel;
+import javax.swing.KeyStroke;
 
 import de.topobyte.livecg.geometry.ui.geom.Coordinate;
 import de.topobyte.livecg.geometry.ui.geom.Editable;
+import de.topobyte.livecg.geometry.ui.geometryeditor.action.OpenCloseRingAction;
 import de.topobyte.livecg.geometry.ui.geometryeditor.mousemode.MouseMode;
 import de.topobyte.livecg.geometry.ui.geometryeditor.mousemode.MouseModeListener;
 import de.topobyte.livecg.geometry.ui.geometryeditor.mousemode.MouseModeProvider;
@@ -55,7 +61,23 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 		addMouseListener(mouseListener);
 		addMouseMotionListener(mouseListener);
 
+		setupKeys();
+
 		setTransferHandler(new EditPaneTransferHandler(content));
+	}
+
+	private void setupKeys()
+	{
+		InputMap inputMap = getInputMap(WHEN_IN_FOCUSED_WINDOW);
+		ActionMap actionMap = getActionMap();
+
+		inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_O,
+				InputEvent.CTRL_DOWN_MASK), "c-o");
+
+		OpenCloseRingAction openCloseRingAction = new OpenCloseRingAction(
+				content);
+
+		actionMap.put("c-o", openCloseRingAction);
 	}
 
 	@Override
