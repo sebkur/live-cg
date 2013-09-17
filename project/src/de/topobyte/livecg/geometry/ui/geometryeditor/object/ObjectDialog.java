@@ -63,7 +63,7 @@ public class ObjectDialog extends JDialog
 		} else {
 			if (current != active) {
 				current = active;
-				pcp = new PolygonalChainPanel(active);
+				pcp = new PolygonalChainPanel(content, active);
 				setContentPane(pcp);
 			} else {
 				pcp.update();

@@ -17,12 +17,16 @@
  */
 package de.topobyte.livecg.geometry.ui.geometryeditor.object;
 
-import java.awt.BorderLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JToggleButton;
 
 import de.topobyte.livecg.geometry.ui.geom.Editable;
+import de.topobyte.livecg.geometry.ui.geometryeditor.Content;
+import de.topobyte.livecg.geometry.ui.geometryeditor.object.action.OpenCloseRingAction;
 
 public class PolygonalChainPanel extends JPanel
 {
@@ -31,13 +35,24 @@ public class PolygonalChainPanel extends JPanel
 
 	private Editable editable;
 	private JLabel label;
+	private JToggleButton closedButton;
 
-	public PolygonalChainPanel(Editable editable)
+	public PolygonalChainPanel(Content content, Editable editable)
 	{
 		this.editable = editable;
-		setLayout(new BorderLayout());
+		setLayout(new GridBagLayout());
 		label = new JLabel(getLabelText());
-		add(label, BorderLayout.CENTER);
+
+		closedButton = new JToggleButton("closed");
+		closedButton.setSelected(editable.isClosed());
+		closedButton.setAction(new OpenCloseRingAction(content, editable));
+
+		GridBagConstraints c = new GridBagConstraints();
+
+		c.gridx = 0;
+		c.gridy = GridBagConstraints.RELATIVE;
+		add(label, c);
+		add(closedButton, c);
 	}
 
 	public void update()
