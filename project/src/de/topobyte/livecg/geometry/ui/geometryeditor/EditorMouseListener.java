@@ -171,13 +171,11 @@ public class EditorMouseListener extends MouseAdapter
 			return;
 		}
 		Editable editable = near.iterator().next();
-		System.out.println("pushed line: " + editable);
 		int nodeId = editable.getNearestPointWithinThreshold(coord, 4);
 		if (nodeId == -1) {
 			currentMoveEditable = null;
 			return;
 		}
-		System.out.println(nodeId);
 		currentMoveEditable = editable;
 		currentMoveNodeId = nodeId;
 		editPane.getContent().fireContentChanged();
