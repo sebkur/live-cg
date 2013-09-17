@@ -76,11 +76,13 @@ public class RunGeometryEditor
 		mainPanel.add(lineEditor, c);
 
 		frame.setVisible(true);
+		frame.setLocationRelativeTo(null);
 
 		ObjectDialog objectDialog = new ObjectDialog(frame, lineEditor
 				.getEditPane().getContent());
 		objectDialog.setSize(300, 300);
 		objectDialog.setVisible(true);
+		objectDialog.setLocationRelativeTo(frame);
 
 		Editable line1 = new Editable();
 		line1.addPoint(new Coordinate(100, 100));
