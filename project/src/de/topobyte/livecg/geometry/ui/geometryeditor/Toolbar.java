@@ -16,18 +16,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.topobyte.livecg.geometry.ui.polylineeditor;
+package de.topobyte.livecg.geometry.ui.geometryeditor;
 
 
 import javax.swing.JToggleButton;
 import javax.swing.JToolBar;
 
-import de.topobyte.livecg.geometry.ui.polylineeditor.action.LoadAction;
-import de.topobyte.livecg.geometry.ui.polylineeditor.action.MouseAction;
-import de.topobyte.livecg.geometry.ui.polylineeditor.action.NewAction;
-import de.topobyte.livecg.geometry.ui.polylineeditor.action.SaveAction;
-import de.topobyte.livecg.geometry.ui.polylineeditor.mousemode.MouseMode;
-import de.topobyte.livecg.geometry.ui.polylineeditor.mousemode.MouseModeProvider;
+import de.topobyte.livecg.geometry.ui.geometryeditor.action.LoadAction;
+import de.topobyte.livecg.geometry.ui.geometryeditor.action.MouseAction;
+import de.topobyte.livecg.geometry.ui.geometryeditor.action.NewAction;
+import de.topobyte.livecg.geometry.ui.geometryeditor.action.SaveAction;
+import de.topobyte.livecg.geometry.ui.geometryeditor.mousemode.MouseMode;
+import de.topobyte.livecg.geometry.ui.geometryeditor.mousemode.MouseModeProvider;
 
 public class Toolbar extends JToolBar
 {

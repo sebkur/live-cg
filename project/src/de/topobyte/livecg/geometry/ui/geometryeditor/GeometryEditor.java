@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.topobyte.livecg.geometry.ui.polylineeditor;
+package de.topobyte.livecg.geometry.ui.geometryeditor;
 
 
 import java.awt.GridBagConstraints;
@@ -27,22 +27,22 @@ import javax.swing.InputMap;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 
-import de.topobyte.livecg.geometry.ui.polylineeditor.action.MouseAction;
-import de.topobyte.livecg.geometry.ui.polylineeditor.mousemode.MouseMode;
-import de.topobyte.livecg.geometry.ui.polylineeditor.scale.Scale;
-import de.topobyte.livecg.geometry.ui.polylineeditor.scale.ScaleX;
-import de.topobyte.livecg.geometry.ui.polylineeditor.scale.ScaleY;
+import de.topobyte.livecg.geometry.ui.geometryeditor.action.MouseAction;
+import de.topobyte.livecg.geometry.ui.geometryeditor.mousemode.MouseMode;
+import de.topobyte.livecg.geometry.ui.geometryeditor.scale.Scale;
+import de.topobyte.livecg.geometry.ui.geometryeditor.scale.ScaleX;
+import de.topobyte.livecg.geometry.ui.geometryeditor.scale.ScaleY;
 
-public class PolyLineEditor extends JPanel
+public class GeometryEditor extends JPanel
 {
 
 	private static final long serialVersionUID = 8780613881909508056L;
 
-	private PolyLineEditPane editPane;
+	private GeometryEditPane editPane;
 
-	public PolyLineEditor()
+	public GeometryEditor()
 	{
-		editPane = new PolyLineEditPane();
+		editPane = new GeometryEditPane();
 		Scale scaleX = new ScaleX();
 		Scale scaleY = new ScaleY();
 
@@ -101,7 +101,7 @@ public class PolyLineEditor extends JPanel
 		actionMap.put("f", deleteAction);
 	}
 
-	public PolyLineEditPane getEditPane()
+	public GeometryEditPane getEditPane()
 	{
 		return editPane;
 	}

@@ -16,13 +16,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.topobyte.livecg.geometry.ui.polylineeditor.mousemode;
+package de.topobyte.livecg.geometry.ui.geometryeditor.mousemode;
 
-public enum MouseMode {
+public interface MouseModeProvider
+{
 
-	SELECT,
-	EDIT,
-	MOVE,
-	DELETE
-
+	public MouseMode getMouseMode();
+	
+	public void setMouseMode(MouseMode mouseMode);
+	
+	public void addMouseModeListener(MouseModeListener listener);
+	
+	public void removeMouseModeListener(MouseModeListener listener);
 }

@@ -16,25 +16,24 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.topobyte.livecg.geometry.ui.polylineeditor.scale;
+package de.topobyte.livecg.geometry.ui.geometryeditor.scale;
 
 import java.awt.Dimension;
 
-public class ScaleX extends Scale
+public class ScaleY extends Scale
 {
 
-	private static final long serialVersionUID = 4410434098439170114L;
+	private static final long serialVersionUID = -7665177848187638297L;
 
 	@Override
 	public Dimension getPreferredSize()
 	{
-		return new Dimension(0, 50);
+		return new Dimension(50, 0);
 	}
 
 	@Override
 	public boolean isHorizontal()
 	{
-		return true;
+		return false;
 	}
-
 }

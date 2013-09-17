@@ -16,33 +16,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.topobyte.livecg.geometry.ui.polylineeditor.action;
+package de.topobyte.livecg.geometry.ui.geometryeditor.mousemode;
 
+public enum MouseMode {
 
-import java.awt.event.ActionEvent;
-
-import de.topobyte.livecg.geometry.ui.polylineeditor.Content;
-
-public class NewAction extends BasicAction
-{
-
-	private static final long serialVersionUID = -4452993048850158926L;
-	
-	private final Content content;
-
-	public NewAction(Content content)
-	{
-		super("New", "Start with a fresh and empty document",
-				"org/freedesktop/tango/22x22/actions/document-new.png");
-		this.content = content;
-	}
-
-	@Override
-	public void actionPerformed(ActionEvent e)
-	{
-		content.setEditingLine(null);
-		content.getLines().clear();
-		content.fireContentChanged();
-	}
+	SELECT,
+	EDIT,
+	MOVE,
+	DELETE
 
 }

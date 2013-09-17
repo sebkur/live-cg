@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.topobyte.livecg.geometry.ui.polylineeditor;
+package de.topobyte.livecg.geometry.ui.geometryeditor;
 
 
 import java.awt.BasicStroke;
@@ -31,11 +31,11 @@ import javax.swing.JPanel;
 
 import de.topobyte.livecg.geometry.ui.geom.Coordinate;
 import de.topobyte.livecg.geometry.ui.geom.Editable;
-import de.topobyte.livecg.geometry.ui.polylineeditor.mousemode.MouseMode;
-import de.topobyte.livecg.geometry.ui.polylineeditor.mousemode.MouseModeListener;
-import de.topobyte.livecg.geometry.ui.polylineeditor.mousemode.MouseModeProvider;
+import de.topobyte.livecg.geometry.ui.geometryeditor.mousemode.MouseMode;
+import de.topobyte.livecg.geometry.ui.geometryeditor.mousemode.MouseModeListener;
+import de.topobyte.livecg.geometry.ui.geometryeditor.mousemode.MouseModeProvider;
 
-public class PolyLineEditPane extends JPanel implements MouseModeProvider, ContentChangedListener {
+public class GeometryEditPane extends JPanel implements MouseModeProvider, ContentChangedListener {
 
 	private static final long serialVersionUID = -8078013859398953550L;
 
@@ -43,7 +43,7 @@ public class PolyLineEditPane extends JPanel implements MouseModeProvider, Conte
 
 	private Content content;
 	
-	public PolyLineEditPane() {
+	public GeometryEditPane() {
 		content = new Content();
 		content.addContentChangedListener(this);
 		

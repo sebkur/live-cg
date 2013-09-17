@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.topobyte.livecg.geometry.ui.polylineeditor.action;
+package de.topobyte.livecg.geometry.ui.geometryeditor.action;
 
 
 import java.awt.event.ActionEvent;
@@ -27,9 +27,9 @@ import javax.swing.Action;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.topobyte.livecg.geometry.ui.polylineeditor.mousemode.MouseMode;
-import de.topobyte.livecg.geometry.ui.polylineeditor.mousemode.MouseModeListener;
-import de.topobyte.livecg.geometry.ui.polylineeditor.mousemode.MouseModeProvider;
+import de.topobyte.livecg.geometry.ui.geometryeditor.mousemode.MouseMode;
+import de.topobyte.livecg.geometry.ui.geometryeditor.mousemode.MouseModeListener;
+import de.topobyte.livecg.geometry.ui.geometryeditor.mousemode.MouseModeProvider;
 
 public class MouseAction extends AbstractAction implements MouseModeListener
 {

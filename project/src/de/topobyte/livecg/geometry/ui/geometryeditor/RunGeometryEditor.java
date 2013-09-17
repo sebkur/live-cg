@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.topobyte.livecg.geometry.ui.polylineeditor;
+package de.topobyte.livecg.geometry.ui.geometryeditor;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -30,7 +30,7 @@ import de.topobyte.livecg.geometry.ui.geom.Coordinate;
 import de.topobyte.livecg.geometry.ui.geom.Editable;
 import de.topobyte.livecg.geometry.ui.misc.Menu;
 
-public class RunPolyLineEditor {
+public class RunGeometryEditor {
 
 	public static void main(String[] args) {
 		runProgrammatically(true);
@@ -48,7 +48,7 @@ public class RunPolyLineEditor {
 		frame.setTitle("Line Editor");
 
 		Menu menu = new Menu();
-		PolyLineEditor lineEditor = new PolyLineEditor();
+		GeometryEditor lineEditor = new GeometryEditor();
 		Toolbar toolbar = new Toolbar(lineEditor.getEditPane().getContent(),
 				lineEditor.getEditPane());
 

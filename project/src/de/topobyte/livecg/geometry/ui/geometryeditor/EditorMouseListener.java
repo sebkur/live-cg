@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.topobyte.livecg.geometry.ui.polylineeditor;
+package de.topobyte.livecg.geometry.ui.geometryeditor;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -24,13 +24,13 @@ import java.util.Set;
 
 import de.topobyte.livecg.geometry.ui.geom.Coordinate;
 import de.topobyte.livecg.geometry.ui.geom.Editable;
-import de.topobyte.livecg.geometry.ui.polylineeditor.mousemode.MouseMode;
+import de.topobyte.livecg.geometry.ui.geometryeditor.mousemode.MouseMode;
 
 public class EditorMouseListener extends MouseAdapter
 {
-	private final PolyLineEditPane editPane;
+	private final GeometryEditPane editPane;
 
-	public EditorMouseListener(PolyLineEditPane editPane)
+	public EditorMouseListener(GeometryEditPane editPane)
 	{
 		this.editPane = editPane;
 	}

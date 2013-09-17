@@ -2,4 +2,4 @@
 
 DIR=`dirname $0`
 
-$DIR/livecg de.topobyte.livecg.geometry.ui.polylineeditor.RunPolyLineEditor "$@"
+$DIR/livecg de.topobyte.livecg.geometry.ui.geometryeditor.RunGeometryEditor "$@"

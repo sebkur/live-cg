@@ -16,24 +16,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.topobyte.livecg.geometry.ui.polylineeditor.scale;
+package de.topobyte.livecg.geometry.ui.geometryeditor.mousemode;
 
-import java.awt.Dimension;
-
-public class ScaleY extends Scale
+public interface MouseModeListener
 {
-
-	private static final long serialVersionUID = -7665177848187638297L;
-
-	@Override
-	public Dimension getPreferredSize()
-	{
-		return new Dimension(50, 0);
-	}
-
-	@Override
-	public boolean isHorizontal()
-	{
-		return false;
-	}
+	public void mouseModeChanged(MouseMode mode);
 }

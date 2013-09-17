@@ -16,46 +16,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.topobyte.livecg.geometry.ui.polylineeditor.scale;
+package de.topobyte.livecg.geometry.ui.geometryeditor;
 
-public class ScaleLine
+public interface ContentChangedListener
 {
-	private final float height;
-	private final float strokeWidth;
-	private final int step;
-	private final boolean hasLabel;
 
-	public ScaleLine(float height, float strokeWidth, int step, boolean hasLabel)
-	{
-		this.height = height;
-		this.strokeWidth = strokeWidth;
-		this.step = step;
-		this.hasLabel = hasLabel;
-	}
-
-	public float getHeight()
-	{
-		return height;
-	}
-
-	public float getStrokeWidth()
-	{
-		return strokeWidth;
-	}
-
-	public int getStep()
-	{
-		return step;
-	}
+	public void contentChanged();
 	
-	public boolean hasLabel()
-	{
-		return hasLabel;
-	}
-	
-	public boolean occupies(int position)
-	{
-		return (position % step) == 0;
-	}
-
 }

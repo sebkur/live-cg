@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.topobyte.livecg.geometry.ui.polylineeditor.action;
+package de.topobyte.livecg.geometry.ui.geometryeditor.action;
 
 import java.awt.event.ActionEvent;
 import java.io.File;
@@ -35,7 +35,7 @@ import com.vividsolutions.jts.io.ParseException;
 import com.vividsolutions.jts.io.WKTReader;
 
 import de.topobyte.livecg.geometry.ui.geom.Editable;
-import de.topobyte.livecg.geometry.ui.polylineeditor.Content;
+import de.topobyte.livecg.geometry.ui.geometryeditor.Content;
 import de.topobyte.livecg.util.SwingUtil;
 
 public class LoadAction extends BasicAction {
