@@ -61,6 +61,11 @@ public class Content
 	public Set<Editable> getEditablesNear(Coordinate coordinate)
 	{
 		Set<Editable> results = new HashSet<Editable>();
+		if (currentEditable != null) {
+			if (currentEditable.hasPointWithinThreshold(coordinate, 4)) {
+				results.add(currentEditable);
+			}
+		}
 		for (Editable line : editables) {
 			if (line.hasPointWithinThreshold(coordinate, 4)) {
 				results.add(line);
