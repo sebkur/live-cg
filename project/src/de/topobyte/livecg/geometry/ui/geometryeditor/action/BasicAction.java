@@ -24,7 +24,8 @@ import javax.swing.Icon;
 
 import de.topobyte.livecg.util.ImageLoader;
 
-public abstract class BasicAction extends AbstractAction {
+public abstract class BasicAction extends AbstractAction
+{
 
 	private static final long serialVersionUID = -617461996586787954L;
 	private final String name;
@@ -32,7 +33,8 @@ public abstract class BasicAction extends AbstractAction {
 	// private final String iconPath;
 	private final Icon icon;
 
-	public BasicAction(String name, String description, String iconPath) {
+	public BasicAction(String name, String description, String iconPath)
+	{
 		this.name = name;
 		this.description = description;
 		// this.iconPath = iconPath;
@@ -40,7 +42,8 @@ public abstract class BasicAction extends AbstractAction {
 	}
 
 	@Override
-	public Object getValue(String key) {
+	public Object getValue(String key)
+	{
 		if (key.equals(Action.SMALL_ICON)) {
 			return icon;
 		} else if (key.equals(Action.NAME)) {

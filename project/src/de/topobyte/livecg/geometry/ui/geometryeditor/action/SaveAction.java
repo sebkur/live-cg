@@ -38,7 +38,8 @@ import de.topobyte.livecg.geometry.ui.geom.Editable;
 import de.topobyte.livecg.geometry.ui.geometryeditor.Content;
 import de.topobyte.livecg.util.SwingUtil;
 
-public class SaveAction extends BasicAction {
+public class SaveAction extends BasicAction
+{
 	private static final long serialVersionUID = -4452993048850158926L;
 
 	static final Logger logger = LoggerFactory.getLogger(SaveAction.class);
@@ -46,7 +47,8 @@ public class SaveAction extends BasicAction {
 	private final Content content;
 	private final JComponent component;
 
-	public SaveAction(JComponent component, Content content) {
+	public SaveAction(JComponent component, Content content)
+	{
 		super("Save", "Save the current line to a file",
 				"org/freedesktop/tango/22x22/actions/document-save.png");
 		this.component = component;
@@ -54,7 +56,8 @@ public class SaveAction extends BasicAction {
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent event) {
+	public void actionPerformed(ActionEvent event)
+	{
 		Editable line = content.getEditingLine();
 		if (line == null) {
 			return;
@@ -76,7 +79,8 @@ public class SaveAction extends BasicAction {
 		}
 	}
 
-	private void write(Editable line, File file) throws IOException {
+	private void write(Editable line, File file) throws IOException
+	{
 		Geometry geometry = line.createGeometry();
 		GeometrySerializer serializer = GeometrySerializerFactory
 				.getInstance(FileFormat.WKT);

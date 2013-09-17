@@ -18,7 +18,6 @@
 
 package de.topobyte.livecg.geometry.ui.geometryeditor.action;
 
-
 import java.awt.event.ActionEvent;
 
 import de.topobyte.livecg.geometry.ui.geometryeditor.Content;
@@ -27,7 +26,7 @@ public class NewAction extends BasicAction
 {
 
 	private static final long serialVersionUID = -4452993048850158926L;
-	
+
 	private final Content content;
 
 	public NewAction(Content content)

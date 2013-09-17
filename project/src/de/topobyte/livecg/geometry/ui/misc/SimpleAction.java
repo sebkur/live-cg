@@ -27,12 +27,12 @@ import org.slf4j.LoggerFactory;
 
 import de.topobyte.livecg.util.ImageLoader;
 
-
 /**
  * @author Sebastian Kuerten (sebastian.kuerten@fu-berlin.de)
  * 
  */
-public abstract class SimpleAction extends AbstractAction {
+public abstract class SimpleAction extends AbstractAction
+{
 
 	private static final long serialVersionUID = 1727617884915345905L;
 
@@ -61,13 +61,15 @@ public abstract class SimpleAction extends AbstractAction {
 	 * @param description
 	 *            the short description of the action.
 	 */
-	public SimpleAction(String name, String description) {
+	public SimpleAction(String name, String description)
+	{
 		this.name = name;
 		this.description = description;
 	}
 
 	@Override
-	public Object getValue(String key) {
+	public Object getValue(String key)
+	{
 		if (key.equals("SmallIcon")) {
 			return icon;
 		} else if (key.equals(Action.NAME)) {
@@ -84,7 +86,8 @@ public abstract class SimpleAction extends AbstractAction {
 	 * @param filename
 	 *            the icon to use.
 	 */
-	protected void setIconFromResource(String filename) {
+	protected void setIconFromResource(String filename)
+	{
 		logger2.debug("loading icon: " + filename);
 
 		icon = ImageLoader.load(filename);
@@ -96,7 +99,8 @@ public abstract class SimpleAction extends AbstractAction {
 	 * @param name
 	 *            the new name.
 	 */
-	protected void setName(String name) {
+	protected void setName(String name)
+	{
 		this.name = name;
 	}
 
@@ -106,7 +110,8 @@ public abstract class SimpleAction extends AbstractAction {
 	 * @param description
 	 *            the new description.
 	 */
-	protected void setDescription(String description) {
+	protected void setDescription(String description)
+	{
 		this.description = description;
 	}
 }

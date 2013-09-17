@@ -25,9 +25,11 @@ import java.awt.RenderingHints;
 
 import javax.swing.JFrame;
 
-public class SwingUtil {
+public class SwingUtil
+{
 
-	public static void useAntialiasing(Graphics2D g, boolean b) {
+	public static void useAntialiasing(Graphics2D g, boolean b)
+	{
 		if (b) {
 			g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 					RenderingHints.VALUE_ANTIALIAS_ON);
@@ -44,7 +46,8 @@ public class SwingUtil {
 	 *            the component to find the frame for.
 	 * @return the containing JFrame
 	 */
-	public static JFrame getContainingFrame(Component component) {
+	public static JFrame getContainingFrame(Component component)
+	{
 		Container parent = component.getParent();
 		while (!(parent == null || parent instanceof JFrame)) {
 			parent = parent.getParent();

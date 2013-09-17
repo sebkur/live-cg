@@ -31,7 +31,8 @@ import org.slf4j.LoggerFactory;
  * @author Sebastian Kuerten (sebastian.kuerten@fu-berlin.de)
  * 
  */
-public class ImageLoader {
+public class ImageLoader
+{
 
 	static final Logger logger = LoggerFactory.getLogger(ImageLoader.class);
 
@@ -44,7 +45,8 @@ public class ImageLoader {
 	 *            the resource to load.
 	 * @return the Icon loaded or null.
 	 */
-	public static Icon load(String filename) {
+	public static Icon load(String filename)
+	{
 		if (filename == null) {
 			return null;
 		}

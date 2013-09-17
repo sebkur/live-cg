@@ -26,47 +26,58 @@ import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.LineString;
 import com.vividsolutions.jts.geom.Point;
 
-public class Editable {
+public class Editable
+{
 
 	private List<Coordinate> coordinates = new ArrayList<Coordinate>();
 
-	public void addPoint(Coordinate coordinate) {
+	public void addPoint(Coordinate coordinate)
+	{
 		coordinates.add(coordinate);
 	}
 
-	public int getNumberOfCoordinates() {
+	public int getNumberOfCoordinates()
+	{
 		return coordinates.size();
 	}
 
-	public Coordinate getCoordinate(int i) {
+	public Coordinate getCoordinate(int i)
+	{
 		return coordinates.get(i);
 	}
 
-	public void setCoordinate(int i, Coordinate coordinate) {
+	public void setCoordinate(int i, Coordinate coordinate)
+	{
 		coordinates.set(i, coordinate);
 	}
 
-	public Coordinate getFirstCoordinate() {
+	public Coordinate getFirstCoordinate()
+	{
 		return coordinates.get(0);
 	}
 
-	public Coordinate getLastCoordinate() {
+	public Coordinate getLastCoordinate()
+	{
 		return coordinates.get(coordinates.size() - 1);
 	}
 
-	public void remove(int index) {
+	public void remove(int index)
+	{
 		coordinates.remove(index);
 	}
-	
-	public void removeLastPoint() {
+
+	public void removeLastPoint()
+	{
 		coordinates.remove(coordinates.size() - 1);
 	}
 
-	public void changeCoordinate(int index, Coordinate c) {
+	public void changeCoordinate(int index, Coordinate c)
+	{
 		coordinates.set(index, c);
 	}
 
-	public Geometry createGeometry() {
+	public Geometry createGeometry()
+	{
 		int n = coordinates.size();
 
 		GeometryFactory factory = new GeometryFactory();
@@ -84,7 +95,8 @@ public class Editable {
 	}
 
 	public boolean hasPointWithinThreshold(Coordinate coordinate,
-			double threshold) {
+			double threshold)
+	{
 		for (Coordinate c : coordinates) {
 			if (coordinate.distance(c) < threshold) {
 				return true;
@@ -94,7 +106,8 @@ public class Editable {
 	}
 
 	public int getNearestPointWithinThreshold(Coordinate coordinate,
-			double threshold) {
+			double threshold)
+	{
 		int p = -1;
 		double distance = 0;
 		for (int i = 0; i < coordinates.size(); i++) {
@@ -110,7 +123,8 @@ public class Editable {
 		return p;
 	}
 
-	public static Editable fromLineString(Geometry geometry) {
+	public static Editable fromLineString(Geometry geometry)
+	{
 		if (!(geometry instanceof LineString)) {
 			return null;
 		}

@@ -18,7 +18,6 @@
 
 package de.topobyte.livecg.geometry.ui.geometryeditor;
 
-
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
@@ -46,8 +45,8 @@ public class GeometryEditor extends JPanel
 		Scale scaleX = new ScaleX();
 		Scale scaleY = new ScaleY();
 
-		ScaleMouseListener scaleMouseListener = new ScaleMouseListener(
-				scaleX, scaleY);
+		ScaleMouseListener scaleMouseListener = new ScaleMouseListener(scaleX,
+				scaleY);
 		editPane.addMouseMotionListener(scaleMouseListener);
 
 		setLayout(new GridBagLayout());

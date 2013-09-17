@@ -31,13 +31,15 @@ import javax.swing.text.html.HTMLEditorKit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class LicensePanel extends JPanel {
+public class LicensePanel extends JPanel
+{
 
 	final static Logger logger = LoggerFactory.getLogger(LicensePanel.class);
-	
+
 	private static final long serialVersionUID = 2196163231831731968L;
 
-	public LicensePanel() {
+	public LicensePanel()
+	{
 		setLayout(new GridBagLayout());
 
 		GridBagConstraints c = new GridBagConstraints();

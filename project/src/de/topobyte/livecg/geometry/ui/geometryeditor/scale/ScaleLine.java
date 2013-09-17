@@ -47,12 +47,12 @@ public class ScaleLine
 	{
 		return step;
 	}
-	
+
 	public boolean hasLabel()
 	{
 		return hasLabel;
 	}
-	
+
 	public boolean occupies(int position)
 	{
 		return (position % step) == 0;

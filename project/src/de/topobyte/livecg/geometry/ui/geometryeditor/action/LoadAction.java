@@ -38,7 +38,8 @@ import de.topobyte.livecg.geometry.ui.geom.Editable;
 import de.topobyte.livecg.geometry.ui.geometryeditor.Content;
 import de.topobyte.livecg.util.SwingUtil;
 
-public class LoadAction extends BasicAction {
+public class LoadAction extends BasicAction
+{
 
 	private static final long serialVersionUID = -4452993048850158926L;
 
@@ -47,7 +48,8 @@ public class LoadAction extends BasicAction {
 	private final Content content;
 	private final JComponent component;
 
-	public LoadAction(JComponent component, Content content) {
+	public LoadAction(JComponent component, Content content)
+	{
 		super("Load", "Load a line from a file into the document",
 				"org/freedesktop/tango/22x22/actions/document-open.png");
 		this.component = component;
@@ -55,7 +57,8 @@ public class LoadAction extends BasicAction {
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent e) {
+	public void actionPerformed(ActionEvent e)
+	{
 		JFrame frame = SwingUtil.getContainingFrame(component);
 		JFileChooser chooser = new JFileChooser();
 		int value = chooser.showOpenDialog(frame);

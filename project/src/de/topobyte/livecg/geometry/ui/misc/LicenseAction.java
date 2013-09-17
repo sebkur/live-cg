@@ -20,9 +20,11 @@ package de.topobyte.livecg.geometry.ui.misc;
 
 import java.awt.event.ActionEvent;
 
-public class LicenseAction extends SimpleAction {
+public class LicenseAction extends SimpleAction
+{
 
-	public LicenseAction() {
+	public LicenseAction()
+	{
 		super("License", "Display the license of this sowftware");
 		setIconFromResource("org/freedesktop/tango/22x22/status/dialog-information.png");
 	}
@@ -30,7 +32,8 @@ public class LicenseAction extends SimpleAction {
 	private static final long serialVersionUID = -3413663891048957511L;
 
 	@Override
-	public void actionPerformed(ActionEvent e) {
+	public void actionPerformed(ActionEvent e)
+	{
 		AboutDialog.showDialog(AboutDialog.PAGE_LICENSE);
 	}
 

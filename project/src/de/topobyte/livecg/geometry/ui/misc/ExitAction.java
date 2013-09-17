@@ -20,9 +20,11 @@ package de.topobyte.livecg.geometry.ui.misc;
 
 import java.awt.event.ActionEvent;
 
-public class ExitAction extends SimpleAction {
+public class ExitAction extends SimpleAction
+{
 
-	public ExitAction() {
+	public ExitAction()
+	{
 		super("Exit", "Exit the program");
 		setIconFromResource("org/freedesktop/tango/22x22/actions/system-log-out.png");
 	}
@@ -30,7 +32,8 @@ public class ExitAction extends SimpleAction {
 	private static final long serialVersionUID = -3413663891048957511L;
 
 	@Override
-	public void actionPerformed(ActionEvent e) {
+	public void actionPerformed(ActionEvent e)
+	{
 		System.exit(0);
 	}
 

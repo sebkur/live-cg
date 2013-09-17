@@ -22,5 +22,5 @@ public interface ContentChangedListener
 {
 
 	public void contentChanged();
-	
+
 }

@@ -18,7 +18,6 @@
 
 package de.topobyte.livecg.geometry.ui.geometryeditor;
 
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -53,7 +52,7 @@ public class Content
 	{
 		editables.add(0, line);
 	}
-	
+
 	public void removeLine(Editable line)
 	{
 		editables.remove(line);
@@ -84,22 +83,22 @@ public class Content
 		}
 		currentEditable = editable;
 	}
-	
+
 	private List<ContentChangedListener> contentListenerns = new ArrayList<ContentChangedListener>();
-	
+
 	public void addContentChangedListener(ContentChangedListener l)
 	{
 		contentListenerns.add(l);
 	}
-	
+
 	public void removeContentChangedListener(ContentChangedListener l)
 	{
 		contentListenerns.remove(l);
 	}
-	
+
 	public void fireContentChanged()
 	{
-		for (ContentChangedListener l : contentListenerns){
+		for (ContentChangedListener l : contentListenerns) {
 			l.contentChanged();
 		}
 	}

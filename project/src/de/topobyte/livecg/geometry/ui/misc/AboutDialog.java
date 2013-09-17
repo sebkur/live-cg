@@ -21,7 +21,8 @@ package de.topobyte.livecg.geometry.ui.misc;
 import javax.swing.JDialog;
 import javax.swing.JTabbedPane;
 
-public class AboutDialog extends JDialog {
+public class AboutDialog extends JDialog
+{
 
 	private static final long serialVersionUID = -4810886271113703904L;
 
@@ -31,9 +32,10 @@ public class AboutDialog extends JDialog {
 	private AboutPanel aboutPanel;
 	private LicensePanel licensePanel;
 
-	public AboutDialog(int page) {
+	public AboutDialog(int page)
+	{
 		setTitle("LiveCG");
-		
+
 		aboutPanel = new AboutPanel();
 		licensePanel = new LicensePanel();
 
@@ -46,7 +48,7 @@ public class AboutDialog extends JDialog {
 		} else if (page == PAGE_LICENSE) {
 			tabs.setSelectedIndex(1);
 		}
-		
+
 		setContentPane(tabs);
 	}
 

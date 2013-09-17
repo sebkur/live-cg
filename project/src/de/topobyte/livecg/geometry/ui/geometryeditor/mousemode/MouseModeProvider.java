@@ -22,10 +22,10 @@ public interface MouseModeProvider
 {
 
 	public MouseMode getMouseMode();
-	
+
 	public void setMouseMode(MouseMode mouseMode);
-	
+
 	public void addMouseModeListener(MouseModeListener listener);
-	
+
 	public void removeMouseModeListener(MouseModeListener listener);
 }

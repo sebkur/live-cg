@@ -30,13 +30,16 @@ import de.topobyte.livecg.geometry.ui.geom.Coordinate;
 import de.topobyte.livecg.geometry.ui.geom.Editable;
 import de.topobyte.livecg.geometry.ui.misc.Menu;
 
-public class RunGeometryEditor {
+public class RunGeometryEditor
+{
 
-	public static void main(String[] args) {
+	public static void main(String[] args)
+	{
 		runProgrammatically(true);
 	}
 
-	public static void runProgrammatically(boolean exitOnClose) {
+	public static void runProgrammatically(boolean exitOnClose)
+	{
 		BasicConfigurator.configure();
 
 		JFrame frame = new JFrame();

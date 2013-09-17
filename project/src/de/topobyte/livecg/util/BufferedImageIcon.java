@@ -28,7 +28,8 @@ import javax.swing.Icon;
  * @author Sebastian Kuerten (sebastian.kuerten@fu-berlin.de)
  * 
  */
-public class BufferedImageIcon implements Icon {
+public class BufferedImageIcon implements Icon
+{
 
 	private BufferedImage bi;
 
@@ -38,22 +39,26 @@ public class BufferedImageIcon implements Icon {
 	 * @param bi
 	 *            the image to wrap.
 	 */
-	public BufferedImageIcon(BufferedImage bi) {
+	public BufferedImageIcon(BufferedImage bi)
+	{
 		this.bi = bi;
 	}
 
 	@Override
-	public void paintIcon(Component c, Graphics g, int x, int y) {
+	public void paintIcon(Component c, Graphics g, int x, int y)
+	{
 		g.drawImage(bi, x, y, null);
 	}
 
 	@Override
-	public int getIconWidth() {
+	public int getIconWidth()
+	{
 		return bi.getWidth();
 	}
 
 	@Override
-	public int getIconHeight() {
+	public int getIconHeight()
+	{
 		return bi.getHeight();
 	}
 

@@ -18,7 +18,6 @@
 
 package de.topobyte.livecg.geometry.ui.geometryeditor;
 
-
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -35,34 +34,39 @@ import de.topobyte.livecg.geometry.ui.geometryeditor.mousemode.MouseMode;
 import de.topobyte.livecg.geometry.ui.geometryeditor.mousemode.MouseModeListener;
 import de.topobyte.livecg.geometry.ui.geometryeditor.mousemode.MouseModeProvider;
 
-public class GeometryEditPane extends JPanel implements MouseModeProvider, ContentChangedListener {
+public class GeometryEditPane extends JPanel implements MouseModeProvider,
+		ContentChangedListener
+{
 
 	private static final long serialVersionUID = -8078013859398953550L;
 
 	private MouseMode mouseMode = MouseMode.EDIT;
 
 	private Content content;
-	
-	public GeometryEditPane() {
+
+	public GeometryEditPane()
+	{
 		content = new Content();
 		content.addContentChangedListener(this);
-		
+
 		setBackground(new Color(0xFAFAFA));
 
 		EditorMouseListener mouseListener = new EditorMouseListener(this);
 		addMouseListener(mouseListener);
 		addMouseMotionListener(mouseListener);
-		
+
 		setTransferHandler(new EditPaneTransferHandler(content));
 	}
 
 	@Override
-	public MouseMode getMouseMode() {
+	public MouseMode getMouseMode()
+	{
 		return mouseMode;
 	}
 
 	@Override
-	public void setMouseMode(MouseMode mouseMode) {
+	public void setMouseMode(MouseMode mouseMode)
+	{
 		this.mouseMode = mouseMode;
 		for (MouseModeListener listener : listeners) {
 			listener.mouseModeChanged(mouseMode);
@@ -72,12 +76,14 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider, Conte
 	private List<MouseModeListener> listeners = new ArrayList<MouseModeListener>();
 
 	@Override
-	public void addMouseModeListener(MouseModeListener listener) {
+	public void addMouseModeListener(MouseModeListener listener)
+	{
 		listeners.add(listener);
 	}
 
 	@Override
-	public void removeMouseModeListener(MouseModeListener listener) {
+	public void removeMouseModeListener(MouseModeListener listener)
+	{
 		listeners.remove(listener);
 	}
 
@@ -85,7 +91,8 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider, Conte
 	 * content
 	 */
 
-	public Content getContent() {
+	public Content getContent()
+	{
 		return content;
 	}
 
@@ -99,7 +106,8 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider, Conte
 	private Color colorEditingLinePoints = Color.BLUE;
 	private Color colorLastEditingLinePoints = Color.RED;
 
-	public void paint(Graphics graphics) {
+	public void paint(Graphics graphics)
+	{
 		super.paint(graphics);
 		Graphics2D g = (Graphics2D) graphics;
 
@@ -119,12 +127,14 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider, Conte
 		}
 	}
 
-	private String getName(int i) {
+	private String getName(int i)
+	{
 		return new Character((char) ('P' + i)).toString();
 	}
 
 	private void draw(Graphics2D g, Editable editable, Color colorLine,
-			Color colorPoints, String name) {
+			Color colorPoints, String name)
+	{
 		int n = editable.getNumberOfCoordinates();
 		if (n == 0) {
 			return;
@@ -160,7 +170,8 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider, Conte
 				(int) Math.round(first.getY()) - 4);
 	}
 
-	private void useAntialiasing(Graphics2D g, boolean b) {
+	private void useAntialiasing(Graphics2D g, boolean b)
+	{
 		if (b) {
 			g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 					RenderingHints.VALUE_ANTIALIAS_ON);
@@ -171,7 +182,8 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider, Conte
 	}
 
 	@Override
-	public void contentChanged() {
+	public void contentChanged()
+	{
 		repaint();
 	}
 

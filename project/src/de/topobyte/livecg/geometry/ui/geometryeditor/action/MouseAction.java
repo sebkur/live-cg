@@ -18,7 +18,6 @@
 
 package de.topobyte.livecg.geometry.ui.geometryeditor.action;
 
-
 import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;

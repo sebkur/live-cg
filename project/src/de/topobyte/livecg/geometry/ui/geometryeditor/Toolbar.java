@@ -18,7 +18,6 @@
 
 package de.topobyte.livecg.geometry.ui.geometryeditor;
 
-
 import javax.swing.JToggleButton;
 import javax.swing.JToolBar;
 
@@ -35,11 +34,11 @@ public class Toolbar extends JToolBar
 	private static final long serialVersionUID = 8604389649262908523L;
 
 	public Toolbar(Content content, MouseModeProvider mouseModeProvider)
-	{	
+	{
 		NewAction newAction = new NewAction(content);
 		LoadAction loadAction = new LoadAction(this, content);
 		SaveAction saveAction = new SaveAction(this, content);
-		
+
 		MouseAction selectAction = new MouseAction("select", MouseMode.SELECT,
 				mouseModeProvider);
 		MouseAction editAction = new MouseAction("add", MouseMode.EDIT,

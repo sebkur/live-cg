@@ -18,7 +18,6 @@
 
 package de.topobyte.livecg.geometry.ui.geometryeditor;
 
-
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
@@ -42,7 +41,8 @@ import com.vividsolutions.jts.io.WKTReader;
 
 import de.topobyte.livecg.geometry.ui.geom.Editable;
 
-public class EditPaneTransferHandler extends TransferHandler {
+public class EditPaneTransferHandler extends TransferHandler
+{
 
 	private static final long serialVersionUID = 1L;
 
@@ -51,11 +51,13 @@ public class EditPaneTransferHandler extends TransferHandler {
 
 	private final Content content;
 
-	public EditPaneTransferHandler(Content content) {
+	public EditPaneTransferHandler(Content content)
+	{
 		this.content = content;
 	}
 
-	private void handleFiles(List<File> handleFiles, TransferSupport ts) {
+	private void handleFiles(List<File> handleFiles, TransferSupport ts)
+	{
 		for (File file : handleFiles) {
 			WKTReader reader = new WKTReader();
 			try {
@@ -71,11 +73,13 @@ public class EditPaneTransferHandler extends TransferHandler {
 		content.fireContentChanged();
 	}
 
-	public boolean canImport(TransferSupport support) {
+	public boolean canImport(TransferSupport support)
+	{
 		return true;
 	}
 
-	public boolean importData(TransferSupport ts) {
+	public boolean importData(TransferSupport ts)
+	{
 		System.out.println("import");
 		Transferable tr = ts.getTransferable();
 		boolean handleable = false;
@@ -125,7 +129,8 @@ public class EditPaneTransferHandler extends TransferHandler {
 
 	private static String ZERO_CHAR_STRING = "" + (char) 0;
 
-	static List<File> createFileArray(BufferedReader bReader) {
+	static List<File> createFileArray(BufferedReader bReader)
+	{
 		List<File> list = new java.util.ArrayList<File>();
 		try {
 			java.lang.String line = null;
