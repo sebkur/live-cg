@@ -23,6 +23,7 @@ import java.awt.GridBagLayout;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 import org.apache.log4j.BasicConfigurator;
 
@@ -36,14 +37,34 @@ public class RunGeometryEditor
 
 	public static void main(String[] args)
 	{
-		runProgrammatically(true);
+		final RunGeometryEditor runner = new RunGeometryEditor();
+
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run()
+			{
+				runner.setup(true);
+			}
+		});
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run()
+			{
+				runner.frame.requestFocus();
+			}
+		});
 	}
 
-	public static void runProgrammatically(boolean exitOnClose)
+	private JFrame frame;
+	private ObjectDialog objectDialog;
+
+	public RunGeometryEditor()
 	{
 		BasicConfigurator.configure();
 
-		JFrame frame = new JFrame();
+		frame = new JFrame();
+	}
+
+	public void setup(boolean exitOnClose)
+	{
 		frame.setSize(500, 400);
 		if (exitOnClose) {
 			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -75,14 +96,14 @@ public class RunGeometryEditor
 		c.weighty = 1.0;
 		mainPanel.add(lineEditor, c);
 
-		frame.setVisible(true);
 		frame.setLocationRelativeTo(null);
+		frame.setVisible(true);
 
-		ObjectDialog objectDialog = new ObjectDialog(frame, lineEditor
+		objectDialog = new ObjectDialog(frame, lineEditor
 				.getEditPane().getContent());
 		objectDialog.setSize(300, 300);
+		objectDialog.setLocation(frame.getX() + frame.getWidth(), frame.getY());
 		objectDialog.setVisible(true);
-		objectDialog.setLocationRelativeTo(frame);
 
 		Editable line1 = new Editable();
 		line1.addPoint(new Coordinate(100, 100));
