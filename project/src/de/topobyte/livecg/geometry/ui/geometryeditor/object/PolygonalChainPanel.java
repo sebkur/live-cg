@@ -41,7 +41,7 @@ public class PolygonalChainPanel extends JPanel
 	{
 		this.editable = editable;
 		setLayout(new GridBagLayout());
-		label = new JLabel(getLabelText());
+		label = new JLabel();
 
 		closedButton = new JToggleButton("closed");
 		closedButton.setSelected(editable.isClosed());
@@ -53,11 +53,14 @@ public class PolygonalChainPanel extends JPanel
 		c.gridy = GridBagConstraints.RELATIVE;
 		add(label, c);
 		add(closedButton, c);
+		
+		update();
 	}
 
 	public void update()
 	{
 		label.setText(getLabelText());
+		closedButton.setEnabled(editable.getNumberOfCoordinates() > 2);
 	}
 
 	private String getLabelText()
