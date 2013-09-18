@@ -126,6 +126,7 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 	private Color colorEditLinePoints = Color.BLACK;
 	private Color colorEditingLines = Color.BLACK;
 	private Color colorEditingLinePoints = Color.BLUE;
+	private Color colorFirstEditingLinePoints = Color.GREEN;
 	private Color colorLastEditingLinePoints = Color.RED;
 
 	public void paint(Graphics graphics)
@@ -142,10 +143,18 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 		if (content.getEditingLine() != null) {
 			draw(g, content.getEditingLine(), colorEditingLines,
 					colorEditingLinePoints, "");
+
 			g.setColor(colorLastEditingLinePoints);
 			Coordinate c = content.getEditingLine().getLastCoordinate();
 			g.drawRect((int) Math.round(c.getX() - 3),
 					(int) Math.round(c.getY() - 3), 6, 6);
+
+			if (content.getEditingLine().getNumberOfCoordinates() > 1) {
+				g.setColor(colorFirstEditingLinePoints);
+				c = content.getEditingLine().getFirstCoordinate();
+				g.drawRect((int) Math.round(c.getX() - 3),
+						(int) Math.round(c.getY() - 3), 6, 6);
+			}
 		}
 	}
 
