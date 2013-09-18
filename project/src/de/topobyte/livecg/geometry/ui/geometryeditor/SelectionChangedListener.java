@@ -16,31 +16,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.topobyte.livecg.geometry.ui.geometryeditor.action;
+package de.topobyte.livecg.geometry.ui.geometryeditor;
 
-import java.awt.event.ActionEvent;
-
-import de.topobyte.livecg.geometry.ui.geometryeditor.GeometryEditPane;
-
-public class NewAction extends BasicAction
+public interface SelectionChangedListener
 {
 
-	private static final long serialVersionUID = -4452993048850158926L;
-
-	private final GeometryEditPane editPane;
-
-	public NewAction(GeometryEditPane editPane)
-	{
-		super("New", "Start with a fresh and empty document",
-				"org/freedesktop/tango/22x22/actions/document-new.png");
-		this.editPane = editPane;
-	}
-
-	@Override
-	public void actionPerformed(ActionEvent e)
-	{
-		editPane.getContent().getLines().clear();
-		editPane.getContent().fireContentChanged();
-	}
+	public void selectionChanged();
 
 }

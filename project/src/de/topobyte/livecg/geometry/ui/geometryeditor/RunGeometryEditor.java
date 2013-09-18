@@ -74,7 +74,7 @@ public class RunGeometryEditor
 
 		Menu menu = new Menu();
 		GeometryEditor lineEditor = new GeometryEditor();
-		Toolbar toolbar = new Toolbar(lineEditor.getEditPane().getContent(),
+		Toolbar toolbar = new Toolbar(lineEditor.getEditPane(),
 				lineEditor.getEditPane());
 
 		toolbar.setFloatable(false);
@@ -99,8 +99,7 @@ public class RunGeometryEditor
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 
-		objectDialog = new ObjectDialog(frame, lineEditor
-				.getEditPane().getContent());
+		objectDialog = new ObjectDialog(frame, lineEditor.getEditPane());
 		objectDialog.setSize(300, 300);
 		objectDialog.setLocation(frame.getX() + frame.getWidth(), frame.getY());
 		objectDialog.setVisible(true);

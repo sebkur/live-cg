@@ -51,6 +51,9 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 
 	private Content content;
 
+	private Node currentNode = null;
+	private Editable currentChain = null;
+
 	public GeometryEditPane()
 	{
 		content = new Content();
@@ -75,8 +78,7 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 		inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_O,
 				InputEvent.CTRL_DOWN_MASK), "c-o");
 
-		OpenCloseRingAction openCloseRingAction = new OpenCloseRingAction(
-				content);
+		OpenCloseRingAction openCloseRingAction = new OpenCloseRingAction(this);
 
 		actionMap.put("c-o", openCloseRingAction);
 	}
@@ -93,6 +95,11 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 		this.mouseMode = mouseMode;
 		for (MouseModeListener listener : listeners) {
 			listener.mouseModeChanged(mouseMode);
+		}
+		if (mouseMode != MouseMode.SELECT_MOVE) {
+			setHighlight((Node) null);
+			setHighlight((Editable) null);
+			repaint();
 		}
 	}
 
@@ -119,6 +126,36 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 		return content;
 	}
 
+	public Node getCurrentNode()
+	{
+		return currentNode;
+	}
+
+	public Editable getCurrentChain()
+	{
+		return currentChain;
+	}
+
+	public boolean setCurrentNode(Node node)
+	{
+		if (currentNode == node) {
+			return false;
+		}
+		currentNode = node;
+		fireSelectionChanged();
+		return true;
+	}
+
+	public boolean setCurrentChain(Editable editable)
+	{
+		if (currentChain == editable) {
+			return false;
+		}
+		currentChain = editable;
+		fireSelectionChanged();
+		return true;
+	}
+
 	/*
 	 * drawing
 	 */
@@ -138,25 +175,27 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 		if (highlightChain != null) {
 			drawHighlight(g, highlightChain, Color.CYAN);
 		}
-		
+
 		List<Editable> lines = content.getLines();
 		for (int i = 0; i < lines.size(); i++) {
 			Editable line = lines.get(i);
+			if (line == currentChain) {
+				continue;
+			}
 			draw(g, line, colorEditLines, colorEditLinePoints, getName(i));
 		}
 
-		if (content.getEditingLine() != null) {
-			draw(g, content.getEditingLine(), colorEditingLines,
-					colorEditingLinePoints, "");
+		if (currentChain != null) {
+			draw(g, currentChain, colorEditingLines, colorEditingLinePoints, "");
 
 			g.setColor(colorLastEditingLinePoints);
-			Coordinate c = content.getEditingLine().getLastCoordinate();
+			Coordinate c = currentChain.getLastCoordinate();
 			g.drawRect((int) Math.round(c.getX() - 3),
 					(int) Math.round(c.getY() - 3), 6, 6);
 
-			if (content.getEditingLine().getNumberOfCoordinates() > 1) {
+			if (currentChain.getNumberOfCoordinates() > 1) {
 				g.setColor(colorFirstEditingLinePoints);
-				c = content.getEditingLine().getFirstCoordinate();
+				c = currentChain.getFirstCoordinate();
 				g.drawRect((int) Math.round(c.getX() - 3),
 						(int) Math.round(c.getY() - 3), 6, 6);
 			}
@@ -167,6 +206,13 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 			Coordinate c = highlightNode.getCoordinate();
 			g.drawRect((int) Math.round(c.getX() - 3),
 					(int) Math.round(c.getY() - 3), 6, 6);
+		}
+
+		if (currentNode != null) {
+			g.setColor(Color.CYAN);
+			Coordinate c = currentNode.getCoordinate();
+			g.fillRect((int) Math.round(c.getX() - 2),
+					(int) Math.round(c.getY() - 2), 4 + 1, 4 + 1);
 		}
 	}
 
@@ -290,6 +336,25 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 			return true;
 		}
 		return false;
+	}
+
+	private List<SelectionChangedListener> selectionListenerns = new ArrayList<SelectionChangedListener>();
+
+	public void addSelectionChangedListener(SelectionChangedListener l)
+	{
+		selectionListenerns.add(l);
+	}
+
+	public void removeSelectionChangedListener(SelectionChangedListener l)
+	{
+		selectionListenerns.remove(l);
+	}
+
+	private void fireSelectionChanged()
+	{
+		for (SelectionChangedListener l : selectionListenerns) {
+			l.selectionChanged();
+		}
 	}
 
 }

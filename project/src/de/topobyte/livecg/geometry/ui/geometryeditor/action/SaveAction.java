@@ -35,7 +35,7 @@ import de.topobyte.carbon.geometry.serialization.util.FileFormat;
 import de.topobyte.carbon.geometry.serialization.util.GeometrySerializer;
 import de.topobyte.carbon.geometry.serialization.util.GeometrySerializerFactory;
 import de.topobyte.livecg.geometry.ui.geom.Editable;
-import de.topobyte.livecg.geometry.ui.geometryeditor.Content;
+import de.topobyte.livecg.geometry.ui.geometryeditor.GeometryEditPane;
 import de.topobyte.livecg.util.SwingUtil;
 
 public class SaveAction extends BasicAction
@@ -44,21 +44,21 @@ public class SaveAction extends BasicAction
 
 	static final Logger logger = LoggerFactory.getLogger(SaveAction.class);
 
-	private final Content content;
+	private final GeometryEditPane editPane;
 	private final JComponent component;
 
-	public SaveAction(JComponent component, Content content)
+	public SaveAction(JComponent component, GeometryEditPane editPane)
 	{
 		super("Save", "Save the current line to a file",
 				"org/freedesktop/tango/22x22/actions/document-save.png");
 		this.component = component;
-		this.content = content;
+		this.editPane = editPane;
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent event)
 	{
-		Editable line = content.getEditingLine();
+		Editable line = editPane.getCurrentChain();
 		if (line == null) {
 			return;
 		}

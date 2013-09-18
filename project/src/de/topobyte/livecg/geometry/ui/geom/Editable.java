@@ -174,6 +174,15 @@ public class Editable
 				distance = d2;
 			}
 		}
+		if (isClosed()) {
+			Node n1 = nodes.get(nodes.size() - 1);
+			Node n2 = nodes.get(0);
+			double d2 = GeomMath.squaredDistance(c, n1.getCoordinate(),
+					n2.getCoordinate());
+			if (d2 < distance) {
+				distance = d2;
+			}
+		}
 		return Math.sqrt(distance);
 	}
 

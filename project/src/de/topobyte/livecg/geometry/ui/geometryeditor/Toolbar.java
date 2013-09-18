@@ -33,11 +33,11 @@ public class Toolbar extends JToolBar
 
 	private static final long serialVersionUID = 8604389649262908523L;
 
-	public Toolbar(Content content, MouseModeProvider mouseModeProvider)
+	public Toolbar(GeometryEditPane editPane, MouseModeProvider mouseModeProvider)
 	{
-		NewAction newAction = new NewAction(content);
-		LoadAction loadAction = new LoadAction(this, content);
-		SaveAction saveAction = new SaveAction(this, content);
+		NewAction newAction = new NewAction(editPane);
+		LoadAction loadAction = new LoadAction(this, editPane);
+		SaveAction saveAction = new SaveAction(this, editPane);
 
 		MouseAction selectAction = new MouseAction("select / move",
 				MouseMode.SELECT_MOVE, mouseModeProvider);

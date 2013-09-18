@@ -20,7 +20,7 @@ package de.topobyte.livecg.geometry.ui.geometryeditor.object;
 import javax.swing.JFrame;
 
 import de.topobyte.livecg.geometry.ui.geom.Editable;
-import de.topobyte.livecg.geometry.ui.geometryeditor.Content;
+import de.topobyte.livecg.geometry.ui.geometryeditor.GeometryEditPane;
 
 public class TestPolygonalChainPanel
 {
@@ -28,11 +28,11 @@ public class TestPolygonalChainPanel
 	{
 		JFrame frame = new JFrame(PolygonalChainPanel.class.getSimpleName());
 
-		Content content = new Content();
+		GeometryEditPane editPane = new GeometryEditPane();
 		Editable editable = new Editable();
-		content.addLine(editable);
+		editPane.getContent().addLine(editable);
 
-		PolygonalChainPanel panel = new PolygonalChainPanel(content, editable);
+		PolygonalChainPanel panel = new PolygonalChainPanel(editPane, editable);
 		frame.setContentPane(panel);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 

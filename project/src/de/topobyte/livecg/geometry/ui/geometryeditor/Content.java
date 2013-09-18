@@ -30,19 +30,7 @@ import de.topobyte.livecg.geometry.ui.geom.Node;
 public class Content
 {
 
-	private Editable currentEditable = null;
-
 	private List<Editable> editables = new ArrayList<Editable>();
-
-	public Editable getEditingLine()
-	{
-		return currentEditable;
-	}
-
-	public void setEditingLine(Editable editable)
-	{
-		this.currentEditable = editable;
-	}
 
 	public List<Editable> getLines()
 	{
@@ -62,32 +50,12 @@ public class Content
 	public Set<Editable> getEditablesNear(Coordinate coordinate)
 	{
 		Set<Editable> results = new HashSet<Editable>();
-		if (currentEditable != null) {
-			if (currentEditable.hasPointWithinThreshold(coordinate, 4)) {
-				results.add(currentEditable);
-			}
-		}
 		for (Editable line : editables) {
 			if (line.hasPointWithinThreshold(coordinate, 4)) {
 				results.add(line);
 			}
 		}
 		return results;
-	}
-
-	public void changeEditingLine(Editable editable)
-	{
-		if (currentEditable == editable) {
-			return;
-		}
-		boolean found = editables.remove(editable);
-		if (!found) {
-			return;
-		}
-		if (currentEditable != null) {
-			editables.add(currentEditable);
-		}
-		currentEditable = editable;
 	}
 
 	private List<ContentChangedListener> contentListenerns = new ArrayList<ContentChangedListener>();

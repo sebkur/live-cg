@@ -35,7 +35,7 @@ import com.vividsolutions.jts.io.ParseException;
 import com.vividsolutions.jts.io.WKTReader;
 
 import de.topobyte.livecg.geometry.ui.geom.Editable;
-import de.topobyte.livecg.geometry.ui.geometryeditor.Content;
+import de.topobyte.livecg.geometry.ui.geometryeditor.GeometryEditPane;
 import de.topobyte.livecg.util.SwingUtil;
 
 public class LoadAction extends BasicAction
@@ -45,15 +45,15 @@ public class LoadAction extends BasicAction
 
 	static final Logger logger = LoggerFactory.getLogger(LoadAction.class);
 
-	private final Content content;
+	private final GeometryEditPane editPane;
 	private final JComponent component;
 
-	public LoadAction(JComponent component, Content content)
+	public LoadAction(JComponent component, GeometryEditPane editPane)
 	{
 		super("Load", "Load a line from a file into the document",
 				"org/freedesktop/tango/22x22/actions/document-open.png");
 		this.component = component;
-		this.content = content;
+		this.editPane = editPane;
 	}
 
 	@Override
@@ -73,8 +73,8 @@ public class LoadAction extends BasicAction
 					System.out
 							.println("loaded geometry is not a valid LineString");
 				} else {
-					content.addLine(editable);
-					content.fireContentChanged();
+					editPane.getContent().addLine(editable);
+					editPane.getContent().fireContentChanged();
 				}
 			} catch (IOException ex) {
 				System.out.println("unable to load file: " + ex.getMessage());

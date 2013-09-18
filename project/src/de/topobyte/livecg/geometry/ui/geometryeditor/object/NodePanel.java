@@ -22,37 +22,30 @@ import java.awt.GridBagLayout;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JToggleButton;
 
-import de.topobyte.livecg.geometry.ui.geom.Editable;
+import de.topobyte.livecg.geometry.ui.geom.Coordinate;
+import de.topobyte.livecg.geometry.ui.geom.Node;
 import de.topobyte.livecg.geometry.ui.geometryeditor.GeometryEditPane;
-import de.topobyte.livecg.geometry.ui.geometryeditor.object.action.OpenCloseRingAction;
 
-public class PolygonalChainPanel extends JPanel
+public class NodePanel extends JPanel
 {
 
 	private static final long serialVersionUID = 5640771403274002420L;
 
-	private Editable editable;
+	private Node node;
 	private JLabel label;
-	private JToggleButton closedButton;
 
-	public PolygonalChainPanel(GeometryEditPane editPane, Editable editable)
+	public NodePanel(GeometryEditPane editPane, Node node)
 	{
-		this.editable = editable;
+		this.node = node;
 		setLayout(new GridBagLayout());
 		label = new JLabel();
-
-		closedButton = new JToggleButton("closed");
-		closedButton.setSelected(editable.isClosed());
-		closedButton.setAction(new OpenCloseRingAction(editPane, editable));
 
 		GridBagConstraints c = new GridBagConstraints();
 
 		c.gridx = 0;
 		c.gridy = GridBagConstraints.RELATIVE;
 		add(label, c);
-		add(closedButton, c);
 		
 		update();
 	}
@@ -60,13 +53,12 @@ public class PolygonalChainPanel extends JPanel
 	public void update()
 	{
 		label.setText(getLabelText());
-		closedButton.setEnabled(editable.getNumberOfCoordinates() > 2);
 	}
 
 	private String getLabelText()
 	{
-		return "polygonal chain with " + editable.getNumberOfCoordinates()
-				+ " nodes";
+		Coordinate c = node.getCoordinate();
+		return "node: " + c.getX() + ", " + c.getY();
 	}
 
 }

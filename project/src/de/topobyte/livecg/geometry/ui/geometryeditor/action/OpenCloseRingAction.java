@@ -21,37 +21,33 @@ import java.awt.event.ActionEvent;
 
 import de.topobyte.livecg.geometry.ui.geom.CloseabilityException;
 import de.topobyte.livecg.geometry.ui.geom.Editable;
-import de.topobyte.livecg.geometry.ui.geometryeditor.Content;
+import de.topobyte.livecg.geometry.ui.geometryeditor.GeometryEditPane;
 
 public class OpenCloseRingAction extends BasicAction
 {
 
 	private static final long serialVersionUID = -7826180655312955433L;
 
-	private Content content;
+	private GeometryEditPane editPane;
 
-	public OpenCloseRingAction(Content content)
+	public OpenCloseRingAction(GeometryEditPane editPane)
 	{
 		super("Open / Close Ring", "Open / Close a ring",
 				"org/freedesktop/tango/22x22/actions/document-new.png");
-		this.content = content;
+		this.editPane = editPane;
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
-		Editable line = content.getEditingLine();
+		Editable line = editPane.getCurrentChain();
 		if (line == null) {
 			return;
 		}
 		try {
 			boolean closed = !line.isClosed();
-			line.setClosed(closed);				
-			if (closed) {
-				content.addLine(line);
-				content.setEditingLine(null);
-			}
-			content.fireContentChanged();
+			line.setClosed(closed);
+			editPane.getContent().fireContentChanged();
 		} catch (CloseabilityException e1) {
 			// ignore silently
 		}

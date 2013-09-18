@@ -56,14 +56,8 @@ public class EditorMouseListener extends MouseAdapter
 					}
 				}
 			} else if (e.getButton() == MouseEvent.BUTTON3) {
-				finishCurrentLine();
-			}
-		}
-		if (editPane.getMouseMode() == MouseMode.SELECT_MOVE) {
-			if (e.getButton() == MouseEvent.BUTTON1) {
-				selectLine(coord);
-			} else if (e.getButton() == MouseEvent.BUTTON3) {
-				finishCurrentLine();
+				selectNothing();
+				editPane.repaint();
 			}
 		}
 		if (editPane.getMouseMode() == MouseMode.DELETE) {
@@ -75,47 +69,51 @@ public class EditorMouseListener extends MouseAdapter
 
 	private void addCoordinateOrCreateNewLine(Coordinate coord)
 	{
-		Editable line = editPane.getContent().getEditingLine();
+		Editable line = editPane.getCurrentChain();
 		if (line == null) {
 			line = new Editable();
-			editPane.getContent().setEditingLine(line);
+			editPane.setCurrentChain(line);
+			editPane.getContent().addLine(line);
 		}
 		line.addPoint(coord);
 		editPane.getContent().fireContentChanged();
 	}
 
-	private void finishCurrentLine()
+	private boolean selectNothing()
 	{
-		Editable line = editPane.getContent().getEditingLine();
-		if (line == null) {
-			return;
-		}
-		Content content = editPane.getContent();
-		content.addLine(line);
-		editPane.getContent().setEditingLine(null);
-		editPane.getContent().fireContentChanged();
+		boolean changed = editPane.setCurrentNode(null);
+		changed |= editPane.setCurrentChain(null);
+		return changed;
 	}
 
 	private void closeCurrentLine() throws CloseabilityException
 	{
-		Editable line = editPane.getContent().getEditingLine();
+		Editable line = editPane.getCurrentChain();
 		if (line == null) {
 			return;
 		}
 		line.setClosed(true);
-		Content content = editPane.getContent();
-		content.addLine(line);
-		editPane.getContent().setEditingLine(null);
 		editPane.getContent().fireContentChanged();
 	}
 
-	private void selectLine(Coordinate coord)
+	private void selectObject(Coordinate coord)
 	{
-		Set<Editable> near = editPane.getContent().getEditablesNear(coord);
-		if (near.size() > 0) {
-			Editable editable = near.iterator().next();
-			editPane.getContent().changeEditingLine(editable);
-			editPane.getContent().fireContentChanged();
+		Node node = editPane.getContent().getNearestNode(coord);
+		Editable editable = editPane.getContent().getNearestChain(coord);
+		double dChain = editable.distance(coord);
+		double dNode = node.getCoordinate().distance(coord);
+		boolean changed = false;
+		if (dNode < 5) {
+			changed = editPane.setCurrentChain(null);
+			changed |= editPane.setCurrentNode(node);
+		} else if (dChain < 5) {
+			changed = editPane.setCurrentNode(null);
+			changed |= editPane.setCurrentChain(editable);
+		} else {
+			changed = selectNothing();
+		}
+		if (changed) {
+			editPane.repaint();
 		}
 	}
 
@@ -142,7 +140,11 @@ public class EditorMouseListener extends MouseAdapter
 
 		if (editPane.getMouseMode() == MouseMode.SELECT_MOVE) {
 			if (e.getButton() == MouseEvent.BUTTON1) {
+				selectObject(coord);
 				activateNodeForMove(coord);
+			} else if (e.getButton() == MouseEvent.BUTTON3) {
+				selectNothing();
+				editPane.repaint();
 			}
 		}
 	}
@@ -153,7 +155,7 @@ public class EditorMouseListener extends MouseAdapter
 		super.mouseReleased(e);
 
 		if (editPane.getMouseMode() == MouseMode.SELECT_MOVE) {
-			currentMoveEditable = null;
+			currentMoveNode = null;
 		}
 	}
 
@@ -161,24 +163,14 @@ public class EditorMouseListener extends MouseAdapter
 	 * movement of nodes
 	 */
 
-	private Editable currentMoveEditable = null;
-	private int currentMoveNodeId = 0;
+	private Node currentMoveNode = null;
 
 	private void activateNodeForMove(Coordinate coord)
 	{
-		Set<Editable> near = editPane.getContent().getEditablesNear(coord);
-		if (near.size() == 0) {
-			currentMoveEditable = null;
-			return;
+		Node node = editPane.getContent().getNearestNode(coord);
+		if (node.getCoordinate().distance(coord) < 5) {
+			currentMoveNode = node;
 		}
-		Editable editable = near.iterator().next();
-		int nodeId = editable.getNearestPointWithinThreshold(coord, 4);
-		if (nodeId == -1) {
-			currentMoveEditable = null;
-			return;
-		}
-		currentMoveEditable = editable;
-		currentMoveNodeId = nodeId;
 		editPane.getContent().fireContentChanged();
 	}
 
@@ -213,8 +205,8 @@ public class EditorMouseListener extends MouseAdapter
 		Coordinate coord = new Coordinate(e.getX(), e.getY());
 
 		if (editPane.getMouseMode() == MouseMode.SELECT_MOVE) {
-			if (currentMoveEditable != null) {
-				currentMoveEditable.setCoordinate(currentMoveNodeId, coord);
+			if (currentMoveNode != null) {
+				currentMoveNode.setCoordinate(coord);
 				editPane.getContent().fireContentChanged();
 			}
 		}

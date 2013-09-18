@@ -22,48 +22,73 @@ import java.awt.Window;
 import javax.swing.JDialog;
 
 import de.topobyte.livecg.geometry.ui.geom.Editable;
-import de.topobyte.livecg.geometry.ui.geometryeditor.Content;
+import de.topobyte.livecg.geometry.ui.geom.Node;
 import de.topobyte.livecg.geometry.ui.geometryeditor.ContentChangedListener;
+import de.topobyte.livecg.geometry.ui.geometryeditor.GeometryEditPane;
+import de.topobyte.livecg.geometry.ui.geometryeditor.SelectionChangedListener;
 
 public class ObjectDialog extends JDialog
 {
 
 	private static final long serialVersionUID = -9016694962587077670L;
 
-	private Content content;
+	private GeometryEditPane editPane;
 
-	public ObjectDialog(Window window, Content content)
+	public ObjectDialog(Window window, GeometryEditPane editPane)
 	{
 		super(window, "Object");
-		this.content = content;
+		this.editPane = editPane;
 
 		setContentPane(new NothingPanel());
 
-		content.addContentChangedListener(new ContentChangedListener() {
+		editPane.addSelectionChangedListener(new SelectionChangedListener() {
 
 			@Override
-			public void contentChanged()
+			public void selectionChanged()
 			{
 				update();
 			}
 		});
+
+		editPane.getContent().addContentChangedListener(
+				new ContentChangedListener() {
+
+					@Override
+					public void contentChanged()
+					{
+						update();
+					}
+				});
 	}
 
-	private Editable current = null;
+	private Node currentNode = null;
+	private Editable currentChain = null;
+	
+	private NodePanel np = null;
 	private PolygonalChainPanel pcp = null;
 
 	protected void update()
 	{
-		Editable active = content.getEditingLine();
-		if (active == null) {
-			if (current != null) {
-				current = null;
+		Node node = editPane.getCurrentNode();
+		Editable chain = editPane.getCurrentChain();
+		if (node == null && chain == null) {
+			if (currentNode != null || currentChain != null) {
 				setContentPane(new NothingPanel());
 			}
-		} else {
-			if (current != active) {
-				current = active;
-				pcp = new PolygonalChainPanel(content, active);
+			currentNode = null;
+			currentChain = null;
+		} else if (node != null) {
+			if (currentNode != node) {
+				currentNode = node;
+				np = new NodePanel(editPane, node);
+				setContentPane(np);
+			} else {
+				np.update();
+			}
+		} else if (chain != null) {
+			if (currentChain != chain) {
+				currentChain = chain;
+				pcp = new PolygonalChainPanel(editPane, chain);
 				setContentPane(pcp);
 			} else {
 				pcp.update();
