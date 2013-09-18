@@ -31,66 +31,66 @@ public class Editable
 
 	private boolean closed = false;
 
-	private List<Coordinate> coordinates = new ArrayList<Coordinate>();
+	private List<Node> nodes = new ArrayList<Node>();
 
 	public void addPoint(Coordinate coordinate)
 	{
-		coordinates.add(coordinate);
+		nodes.add(new Node(coordinate));
 	}
 
 	public int getNumberOfCoordinates()
 	{
-		return coordinates.size();
+		return nodes.size();
 	}
 
 	public Coordinate getCoordinate(int i)
 	{
-		return coordinates.get(i);
+		return nodes.get(i).getCoordinate();
+	}
+
+	public Node getNode(int i)
+	{
+		return nodes.get(i);
 	}
 
 	public void setCoordinate(int i, Coordinate coordinate)
 	{
-		coordinates.set(i, coordinate);
+		nodes.get(i).setCoordinate(coordinate);
 	}
 
 	public Coordinate getFirstCoordinate()
 	{
-		return coordinates.get(0);
+		return nodes.get(0).getCoordinate();
 	}
 
 	public Coordinate getLastCoordinate()
 	{
-		return coordinates.get(coordinates.size() - 1);
+		return nodes.get(nodes.size() - 1).getCoordinate();
 	}
 
 	public void remove(int index)
 	{
-		coordinates.remove(index);
+		nodes.remove(index);
 	}
 
 	public void removeLastPoint()
 	{
-		coordinates.remove(coordinates.size() - 1);
-	}
-
-	public void changeCoordinate(int index, Coordinate c)
-	{
-		coordinates.set(index, c);
+		nodes.remove(nodes.size() - 1);
 	}
 
 	public Geometry createGeometry()
 	{
-		int n = coordinates.size();
+		int n = nodes.size();
 
 		GeometryFactory factory = new GeometryFactory();
 		if (n == 0) {
-			Point point = factory.createPoint(coordinates.get(0)
+			Point point = factory.createPoint(nodes.get(0).getCoordinate()
 					.createCoordinate());
 			return point;
 		}
 		com.vividsolutions.jts.geom.Coordinate[] coords = new com.vividsolutions.jts.geom.Coordinate[n];
 		for (int i = 0; i < n; i++) {
-			coords[i] = coordinates.get(i).createCoordinate();
+			coords[i] = nodes.get(i).getCoordinate().createCoordinate();
 		}
 		LineString line = factory.createLineString(coords);
 		return line;
@@ -99,8 +99,8 @@ public class Editable
 	public boolean hasPointWithinThreshold(Coordinate coordinate,
 			double threshold)
 	{
-		for (Coordinate c : coordinates) {
-			if (coordinate.distance(c) < threshold) {
+		for (Node n : nodes) {
+			if (coordinate.distance(n.getCoordinate()) < threshold) {
 				return true;
 			}
 		}
@@ -112,9 +112,9 @@ public class Editable
 	{
 		int p = -1;
 		double distance = 0;
-		for (int i = 0; i < coordinates.size(); i++) {
-			Coordinate c = coordinates.get(i);
-			double cdist = coordinate.distance(c);
+		for (int i = 0; i < nodes.size(); i++) {
+			Node n = nodes.get(i);
+			double cdist = coordinate.distance(n.getCoordinate());
 			if (cdist < threshold) {
 				if (p == -1 || cdist < distance) {
 					p = i;
@@ -142,7 +142,7 @@ public class Editable
 
 	public void setClosed(boolean closed) throws CloseabilityException
 	{
-		if (coordinates.size() < 3 && closed) {
+		if (nodes.size() < 3 && closed) {
 			throw new CloseabilityException(
 					"invalid number of coordinates: need at least 3 coordinates to close a geometry");
 		}
@@ -152,5 +152,42 @@ public class Editable
 	public boolean isClosed()
 	{
 		return closed;
+	}
+
+	public double distance(Coordinate c)
+	{
+		double distance = Double.MAX_VALUE;
+		for (int i = 0; i < nodes.size(); i++) {
+			Node node = nodes.get(i);
+			double d = node.getCoordinate().distance(c);
+			double d2 = d * d;
+			if (d2 < distance) {
+				distance = d2;
+			}
+		}
+		for (int i = 0; i < nodes.size() - 1; i++) {
+			Node n1 = nodes.get(i);
+			Node n2 = nodes.get(i + 1);
+			double d2 = GeomMath.squaredDistance(c, n1.getCoordinate(),
+					n2.getCoordinate());
+			if (d2 < distance) {
+				distance = d2;
+			}
+		}
+		return Math.sqrt(distance);
+	}
+
+	public Node getNearestPoint(Coordinate coordinate)
+	{
+		Node nearest = null;
+		double distance = Double.MAX_VALUE;
+		for (Node node : nodes) {
+			double d = node.getCoordinate().distance(coordinate);
+			if (d < distance) {
+				distance = d;
+				nearest = node;
+			}
+		}
+		return nearest;
 	}
 }

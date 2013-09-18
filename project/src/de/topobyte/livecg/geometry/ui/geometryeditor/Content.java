@@ -25,6 +25,7 @@ import java.util.Set;
 
 import de.topobyte.livecg.geometry.ui.geom.Coordinate;
 import de.topobyte.livecg.geometry.ui.geom.Editable;
+import de.topobyte.livecg.geometry.ui.geom.Node;
 
 public class Content
 {
@@ -106,5 +107,34 @@ public class Content
 		for (ContentChangedListener l : contentListenerns) {
 			l.contentChanged();
 		}
+	}
+
+	public Node getNearestNode(Coordinate coordinate)
+	{
+		double distance = Double.MAX_VALUE;
+		Node nearestNode = null;
+		for (Editable editable : editables) {
+			Node n = editable.getNearestPoint(coordinate);
+			double d = n.getCoordinate().distance(coordinate);
+			if (d < distance) {
+				distance = d;
+				nearestNode = n;
+			}
+		}
+		return nearestNode;
+	}
+
+	public Editable getNearestChain(Coordinate coordinate)
+	{
+		double distance = Double.MAX_VALUE;
+		Editable nearest = null;
+		for (Editable editable : editables) {
+			double d = editable.distance(coordinate);
+			if (d < distance) {
+				distance = d;
+				nearest = editable;
+			}
+		}
+		return nearest;
 	}
 }

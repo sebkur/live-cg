@@ -39,18 +39,15 @@ public class Toolbar extends JToolBar
 		LoadAction loadAction = new LoadAction(this, content);
 		SaveAction saveAction = new SaveAction(this, content);
 
-		MouseAction selectAction = new MouseAction("select", MouseMode.SELECT,
-				mouseModeProvider);
+		MouseAction selectAction = new MouseAction("select / move",
+				MouseMode.SELECT_MOVE, mouseModeProvider);
 		MouseAction editAction = new MouseAction("add", MouseMode.EDIT,
-				mouseModeProvider);
-		MouseAction moveAction = new MouseAction("move", MouseMode.MOVE,
 				mouseModeProvider);
 		MouseAction deleteAction = new MouseAction("delete", MouseMode.DELETE,
 				mouseModeProvider);
 
 		JToggleButton buttonSelect = new JToggleButton(selectAction);
 		JToggleButton buttonEdit = new JToggleButton(editAction);
-		JToggleButton buttonMove = new JToggleButton(moveAction);
 		JToggleButton buttonDelete = new JToggleButton(deleteAction);
 
 		add(newAction);
@@ -58,7 +55,6 @@ public class Toolbar extends JToolBar
 		add(saveAction);
 		add(buttonSelect);
 		add(buttonEdit);
-		add(buttonMove);
 		add(buttonDelete);
 	}
 }

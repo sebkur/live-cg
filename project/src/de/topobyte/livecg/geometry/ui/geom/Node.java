@@ -15,11 +15,25 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package de.topobyte.livecg.geometry.ui.geom;
 
-package de.topobyte.livecg.geometry.ui.geometryeditor.mousemode;
+public class Node
+{
 
-public enum MouseMode {
+	private Coordinate coordinate;
 
-	SELECT_MOVE, EDIT, DELETE
+	public Node(Coordinate coordinate)
+	{
+		this.coordinate = coordinate;
+	}
 
+	public Coordinate getCoordinate()
+	{
+		return coordinate;
+	}
+	
+	public void setCoordinate(Coordinate coordinate)
+	{
+		this.coordinate = coordinate;
+	}
 }

@@ -25,6 +25,7 @@ import java.util.Set;
 import de.topobyte.livecg.geometry.ui.geom.CloseabilityException;
 import de.topobyte.livecg.geometry.ui.geom.Coordinate;
 import de.topobyte.livecg.geometry.ui.geom.Editable;
+import de.topobyte.livecg.geometry.ui.geom.Node;
 import de.topobyte.livecg.geometry.ui.geometryeditor.mousemode.MouseMode;
 
 public class EditorMouseListener extends MouseAdapter
@@ -58,7 +59,7 @@ public class EditorMouseListener extends MouseAdapter
 				finishCurrentLine();
 			}
 		}
-		if (editPane.getMouseMode() == MouseMode.SELECT) {
+		if (editPane.getMouseMode() == MouseMode.SELECT_MOVE) {
 			if (e.getButton() == MouseEvent.BUTTON1) {
 				selectLine(coord);
 			} else if (e.getButton() == MouseEvent.BUTTON3) {
@@ -139,7 +140,7 @@ public class EditorMouseListener extends MouseAdapter
 
 		Coordinate coord = new Coordinate(e.getX(), e.getY());
 
-		if (editPane.getMouseMode() == MouseMode.MOVE) {
+		if (editPane.getMouseMode() == MouseMode.SELECT_MOVE) {
 			if (e.getButton() == MouseEvent.BUTTON1) {
 				activateNodeForMove(coord);
 			}
@@ -151,7 +152,7 @@ public class EditorMouseListener extends MouseAdapter
 	{
 		super.mouseReleased(e);
 
-		if (editPane.getMouseMode() == MouseMode.MOVE) {
+		if (editPane.getMouseMode() == MouseMode.SELECT_MOVE) {
 			currentMoveEditable = null;
 		}
 	}
@@ -182,11 +183,36 @@ public class EditorMouseListener extends MouseAdapter
 	}
 
 	@Override
+	public void mouseMoved(MouseEvent e)
+	{
+		Coordinate coord = new Coordinate(e.getX(), e.getY());
+
+		if (editPane.getMouseMode() == MouseMode.SELECT_MOVE) {
+			Node node = editPane.getContent().getNearestNode(coord);
+			Editable editable = editPane.getContent().getNearestChain(coord);
+			double dChain = editable.distance(coord);
+			double dNode = node.getCoordinate().distance(coord);
+			boolean changed = false;
+			if (dNode < 5) {
+				changed = editPane.setHighlight(node);
+			} else if (dChain < 5) {
+				changed = editPane.setHighlight(editable);
+			} else {
+				changed |= editPane.setHighlight((Node) null);
+				changed |= editPane.setHighlight((Editable) null);
+			}
+			if (changed) {
+				editPane.repaint();
+			}
+		}
+	}
+
+	@Override
 	public void mouseDragged(MouseEvent e)
 	{
 		Coordinate coord = new Coordinate(e.getX(), e.getY());
 
-		if (editPane.getMouseMode() == MouseMode.MOVE) {
+		if (editPane.getMouseMode() == MouseMode.SELECT_MOVE) {
 			if (currentMoveEditable != null) {
 				currentMoveEditable.setCoordinate(currentMoveNodeId, coord);
 				editPane.getContent().fireContentChanged();
