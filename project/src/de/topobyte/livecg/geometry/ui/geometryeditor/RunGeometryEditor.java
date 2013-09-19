@@ -105,13 +105,13 @@ public class RunGeometryEditor
 		objectDialog.setVisible(true);
 
 		Editable line1 = new Editable();
-		line1.addPoint(new Coordinate(100, 100));
-		line1.addPoint(new Coordinate(200, 120));
-		line1.addPoint(new Coordinate(300, 150));
+		line1.appendPoint(new Coordinate(100, 100));
+		line1.appendPoint(new Coordinate(200, 120));
+		line1.appendPoint(new Coordinate(300, 150));
 		Editable line2 = new Editable();
-		line2.addPoint(new Coordinate(100, 140));
-		line2.addPoint(new Coordinate(200, 150));
-		line2.addPoint(new Coordinate(300, 100));
+		line2.appendPoint(new Coordinate(100, 140));
+		line2.appendPoint(new Coordinate(200, 150));
+		line2.appendPoint(new Coordinate(300, 100));
 		lineEditor.getEditPane().getContent().addLine(line1);
 		lineEditor.getEditPane().getContent().addLine(line2);
 

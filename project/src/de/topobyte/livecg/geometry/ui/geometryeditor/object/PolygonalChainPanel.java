@@ -60,12 +60,12 @@ public class PolygonalChainPanel extends JPanel
 	public void update()
 	{
 		label.setText(getLabelText());
-		closedButton.setEnabled(editable.getNumberOfCoordinates() > 2);
+		closedButton.setEnabled(editable.getNumberOfNodes() > 2);
 	}
 
 	private String getLabelText()
 	{
-		return "polygonal chain with " + editable.getNumberOfCoordinates()
+		return "polygonal chain with " + editable.getNumberOfNodes()
 				+ " nodes";
 	}
 

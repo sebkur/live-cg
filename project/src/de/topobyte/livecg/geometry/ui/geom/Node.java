@@ -17,10 +17,15 @@
  */
 package de.topobyte.livecg.geometry.ui.geom;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Node
 {
 
 	private Coordinate coordinate;
+	private List<Editable> endpointChains = new ArrayList<Editable>();;
+	private List<Editable> chains = new ArrayList<Editable>();;
 
 	public Node(Coordinate coordinate)
 	{
@@ -35,5 +40,35 @@ public class Node
 	public void setCoordinate(Coordinate coordinate)
 	{
 		this.coordinate = coordinate;
+	}
+	
+	public List<Editable> getChains()
+	{
+		return chains;
+	}
+	
+	public List<Editable> getEndpointChains()
+	{
+		return endpointChains;
+	}
+	
+	public void addChain(Editable chain)
+	{
+		chains.add(chain);
+	}
+	
+	public void removeChain(Editable chain)
+	{
+		chains.remove(chain);
+	}
+	
+	public void addEndpointChain(Editable chain)
+	{
+		endpointChains.add(chain);
+	}
+	
+	public void removeEndpointChain(Editable chain)
+	{
+		endpointChains.remove(chain);
 	}
 }

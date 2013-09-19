@@ -33,12 +33,47 @@ public class Editable
 
 	private List<Node> nodes = new ArrayList<Node>();
 
-	public void addPoint(Coordinate coordinate)
+	public void prependPoint(Coordinate coordinate)
 	{
-		nodes.add(new Node(coordinate));
+		Node node = new Node(coordinate);
+		prependNode(node);
 	}
 
-	public int getNumberOfCoordinates()
+	public void prependNode(Node node)
+	{
+		Node first = null;
+		if (nodes.size() > 1) {
+			first = nodes.get(0);
+		}
+		node.addChain(this);
+		node.addEndpointChain(this);
+		nodes.add(0, node);
+		if (first != null) {
+			first.removeEndpointChain(this);
+		}
+	}
+
+	public void appendPoint(Coordinate coordinate)
+	{
+		Node node = new Node(coordinate);
+		appendNode(node);
+	}
+
+	public void appendNode(Node node)
+	{
+		Node last = null;
+		if (nodes.size() > 1) {
+			last = nodes.get(nodes.size() - 1);
+		}
+		node.addChain(this);
+		node.addEndpointChain(this);
+		nodes.add(node);
+		if (last != null) {
+			last.removeEndpointChain(this);
+		}
+	}
+
+	public int getNumberOfNodes()
 	{
 		return nodes.size();
 	}
@@ -58,6 +93,16 @@ public class Editable
 		nodes.get(i).setCoordinate(coordinate);
 	}
 
+	public Node getFirstNode()
+	{
+		return nodes.get(0);
+	}
+
+	public Node getLastNode()
+	{
+		return nodes.get(nodes.size() - 1);
+	}
+
 	public Coordinate getFirstCoordinate()
 	{
 		return nodes.get(0).getCoordinate();
@@ -70,12 +115,37 @@ public class Editable
 
 	public void remove(int index)
 	{
+		Node node = nodes.get(index);
+
+		// If the removed node is a start- or endpoint, update the
+		// endpointChain-list of the node
+		if (getFirstNode() == node) {
+			if (getNumberOfNodes() > 1) {
+				node.removeEndpointChain(this);
+			}
+			if (getNumberOfNodes() > 2) {
+				getNode(1).addEndpointChain(this);
+			}
+		} else if (getLastNode() == node) {
+			if (getNumberOfNodes() > 1) {
+				node.removeEndpointChain(this);
+			}
+			if (getNumberOfNodes() > 2) {
+				getNode(getNumberOfNodes() - 2).addEndpointChain(this);
+			}
+		}
+
 		nodes.remove(index);
+	}
+
+	public void removeFirstPoint()
+	{
+		remove(0);
 	}
 
 	public void removeLastPoint()
 	{
-		nodes.remove(nodes.size() - 1);
+		remove(nodes.size() - 1);
 	}
 
 	public Geometry createGeometry()
@@ -135,7 +205,7 @@ public class Editable
 		for (int i = 0; i < string.getNumPoints(); i++) {
 			com.vividsolutions.jts.geom.Coordinate cn = string
 					.getCoordinateN(i);
-			editable.addPoint(new Coordinate(cn.x, cn.y));
+			editable.appendPoint(new Coordinate(cn.x, cn.y));
 		}
 		return editable;
 	}

@@ -69,13 +69,38 @@ public class EditorMouseListener extends MouseAdapter
 
 	private void addCoordinateOrCreateNewLine(Coordinate coord)
 	{
+		boolean append = true;
+		Node node = editPane.getCurrentNode();
 		Editable line = editPane.getCurrentChain();
-		if (line == null) {
+		if (line == null && node == null) {
 			line = new Editable();
-			editPane.setCurrentChain(line);
 			editPane.getContent().addLine(line);
+		} else if (line != null && node != null) {
+			if (line.getFirstNode() == node) {
+				if (line.getNumberOfNodes() != 1) {
+					append = false;
+				}
+			}
+		} else if (node != null) {
+			if (node.getEndpointChains().size() == 1
+					&& node.getEndpointChains().get(0).getNumberOfNodes() == 1) {
+				line = node.getEndpointChains().get(0);
+			} else {
+				line = new Editable();
+				editPane.getContent().addLine(line);
+			}
+			line.appendNode(node);
+		} else {
+			return;
 		}
-		line.addPoint(coord);
+		if (append) {
+			line.appendPoint(coord);
+			editPane.setCurrentNode(line.getLastNode());
+		} else {
+			line.prependPoint(coord);
+			editPane.setCurrentNode(line.getFirstNode());
+		}
+		editPane.setCurrentChain(line);
 		editPane.getContent().fireContentChanged();
 	}
 
@@ -104,7 +129,11 @@ public class EditorMouseListener extends MouseAdapter
 		double dNode = node.getCoordinate().distance(coord);
 		boolean changed = false;
 		if (dNode < 5) {
-			changed = editPane.setCurrentChain(null);
+			Editable currentChain = editPane.getCurrentChain();
+			if (currentChain != null && currentChain.getFirstNode() != node
+					&& currentChain.getLastNode() != node) {
+				changed = editPane.setCurrentChain(null);
+			}
 			changed |= editPane.setCurrentNode(node);
 		} else if (dChain < 5) {
 			changed = editPane.setCurrentNode(null);
@@ -121,10 +150,34 @@ public class EditorMouseListener extends MouseAdapter
 	{
 		Set<Editable> near = editPane.getContent().getEditablesNear(coord);
 		if (near.size() > 0) {
-			Editable editable = near.iterator().next();
+			Editable editable;
+			if (editPane.getCurrentChain() != null
+					&& near.contains(editPane.getCurrentChain())) {
+				editable = editPane.getCurrentChain();
+			} else {
+				editable = near.iterator().next();
+			}
 			int n = editable.getNearestPointWithinThreshold(coord, 4);
+			Node node = editable.getNode(n);
+			if (editPane.getCurrentNode() == node) {
+				if (editable.getNumberOfNodes() > 1) {
+					if (editable.getFirstNode() == node) {
+						editPane.setCurrentNode(editable.getNode(1));
+					} else if (editable.getLastNode() == node) {
+						editPane.setCurrentNode(editable.getNode(editable
+								.getNumberOfNodes() - 2));
+					}
+				}
+			}
+			if (editPane.getCurrentNode() == node) {
+				editPane.setCurrentNode(null);
+			}
 			editable.remove(n);
-			if (editable.getNumberOfCoordinates() == 0) {
+			if (editable.getNumberOfNodes() == 0) {
+				if (editPane.getCurrentChain() == editable) {
+					editPane.setCurrentNode(null);
+					editPane.setCurrentChain(null);
+				}
 				editPane.getContent().removeLine(editable);
 			}
 			editPane.getContent().fireContentChanged();

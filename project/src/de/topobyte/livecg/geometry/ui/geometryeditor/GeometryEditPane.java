@@ -193,7 +193,7 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 			g.drawRect((int) Math.round(c.getX() - 3),
 					(int) Math.round(c.getY() - 3), 6, 6);
 
-			if (currentChain.getNumberOfCoordinates() > 1) {
+			if (currentChain.getNumberOfNodes() > 1) {
 				g.setColor(colorFirstEditingLinePoints);
 				c = currentChain.getFirstCoordinate();
 				g.drawRect((int) Math.round(c.getX() - 3),
@@ -224,7 +224,7 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 	private void draw(Graphics2D g, Editable editable, Color colorLine,
 			Color colorPoints, String name)
 	{
-		int n = editable.getNumberOfCoordinates();
+		int n = editable.getNumberOfNodes();
 		if (n == 0) {
 			return;
 		}
@@ -269,7 +269,7 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 
 	private void drawHighlight(Graphics2D g, Editable editable, Color color)
 	{
-		int n = editable.getNumberOfCoordinates();
+		int n = editable.getNumberOfNodes();
 		if (n == 0) {
 			return;
 		}
