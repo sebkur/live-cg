@@ -60,6 +60,7 @@ public class PolygonalChainPanel extends JPanel
 	public void update()
 	{
 		label.setText(getLabelText());
+		closedButton.setSelected(editable.isClosed());
 		closedButton.setEnabled(editable.getNumberOfNodes() > 2);
 	}
 

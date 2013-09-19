@@ -136,6 +136,10 @@ public class Editable
 		}
 
 		nodes.remove(index);
+		
+		if (nodes.size() < 3 && closed) {
+			closed = false;
+		}
 	}
 
 	public void removeFirstPoint()
