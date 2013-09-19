@@ -118,6 +118,8 @@ public class EditorMouseListener extends MouseAdapter
 			return;
 		}
 		line.setClosed(true);
+		editPane.setCurrentNode(null);
+		editPane.setCurrentChain(null);
 		editPane.getContent().fireContentChanged();
 	}
 
