@@ -39,7 +39,7 @@ public class Content
 
 	public void addLine(Editable line)
 	{
-		editables.add(0, line);
+		editables.add(line);
 	}
 
 	public void removeLine(Editable line)
