@@ -85,12 +85,12 @@ public class GeometryEditor extends JPanel
 		inputMap.put(KeyStroke.getKeyStroke('d'), "d");
 		inputMap.put(KeyStroke.getKeyStroke('f'), "f");
 
-		MouseAction selectAction = new MouseAction("select / move",
+		MouseAction selectAction = new MouseAction(null, null,
 				MouseMode.SELECT_MOVE, editPane);
-		MouseAction editAction = new MouseAction("add", MouseMode.EDIT,
+		MouseAction editAction = new MouseAction(null, null, MouseMode.EDIT,
 				editPane);
-		MouseAction deleteAction = new MouseAction("delete", MouseMode.DELETE,
-				editPane);
+		MouseAction deleteAction = new MouseAction(null, null,
+				MouseMode.DELETE, editPane);
 
 		actionMap.put("a", selectAction);
 		actionMap.put("s", editAction);

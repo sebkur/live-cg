@@ -20,7 +20,6 @@ package de.topobyte.livecg.geometry.ui.geometryeditor.action;
 
 import java.awt.event.ActionEvent;
 
-import javax.swing.AbstractAction;
 import javax.swing.Action;
 
 import org.slf4j.Logger;
@@ -30,7 +29,7 @@ import de.topobyte.livecg.geometry.ui.geometryeditor.mousemode.MouseMode;
 import de.topobyte.livecg.geometry.ui.geometryeditor.mousemode.MouseModeListener;
 import de.topobyte.livecg.geometry.ui.geometryeditor.mousemode.MouseModeProvider;
 
-public class MouseAction extends AbstractAction implements MouseModeListener
+public class MouseAction extends BasicAction implements MouseModeListener
 {
 
 	private static final long serialVersionUID = 5507751575393463234L;
@@ -48,14 +47,28 @@ public class MouseAction extends AbstractAction implements MouseModeListener
 		active = mouseModeProvider.getMouseMode() == mouseMode;
 	}
 
-	public MouseAction(String name, MouseMode mouseMode,
+	public MouseAction(String name, String description, MouseMode mouseMode,
 			MouseModeProvider mouseModeProvider)
 	{
-		super(name);
+		super(name, description, getIconPath(mouseMode));
 		this.mouseMode = mouseMode;
 		this.mouseModeProvider = mouseModeProvider;
 		mouseModeProvider.addMouseModeListener(this);
 		updateActivityStatus();
+	}
+
+	private static String getIconPath(MouseMode mouseMode)
+	{
+		switch (mouseMode) {
+		case DELETE:
+			return "res/images/delete.png";
+		case EDIT:
+			return "res/images/add.png";
+		case SELECT_MOVE:
+			return "res/images/move.png";
+		default:
+			return null;
+		}
 	}
 
 	@Override

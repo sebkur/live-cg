@@ -33,18 +33,19 @@ public class Toolbar extends JToolBar
 
 	private static final long serialVersionUID = 8604389649262908523L;
 
-	public Toolbar(GeometryEditPane editPane, MouseModeProvider mouseModeProvider)
+	public Toolbar(GeometryEditPane editPane,
+			MouseModeProvider mouseModeProvider)
 	{
 		NewAction newAction = new NewAction(editPane);
 		LoadAction loadAction = new LoadAction(this, editPane);
 		SaveAction saveAction = new SaveAction(this, editPane);
 
-		MouseAction selectAction = new MouseAction("select / move",
+		MouseAction selectAction = new MouseAction(null, "select / move",
 				MouseMode.SELECT_MOVE, mouseModeProvider);
-		MouseAction editAction = new MouseAction("add", MouseMode.EDIT,
-				mouseModeProvider);
-		MouseAction deleteAction = new MouseAction("delete", MouseMode.DELETE,
-				mouseModeProvider);
+		MouseAction editAction = new MouseAction(null, "add nodes",
+				MouseMode.EDIT, mouseModeProvider);
+		MouseAction deleteAction = new MouseAction(null, "delete nodes",
+				MouseMode.DELETE, mouseModeProvider);
 
 		JToggleButton buttonSelect = new JToggleButton(selectAction);
 		JToggleButton buttonEdit = new JToggleButton(editAction);
