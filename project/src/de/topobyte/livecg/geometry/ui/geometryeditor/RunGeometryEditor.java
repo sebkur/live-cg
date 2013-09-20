@@ -79,6 +79,11 @@ public class RunGeometryEditor
 
 		toolbar.setFloatable(false);
 
+		StatusBar statusBar = new StatusBar();
+		StatusBarMouseListener statusBarMouseListener = new StatusBarMouseListener(statusBar);
+		lineEditor.getEditPane().addMouseListener(statusBarMouseListener);
+		lineEditor.getEditPane().addMouseMotionListener(statusBarMouseListener			);
+
 		GridBagConstraints c = new GridBagConstraints();
 
 		JPanel mainPanel = new JPanel(new GridBagLayout());
@@ -95,6 +100,10 @@ public class RunGeometryEditor
 		c.gridy = 1;
 		c.weighty = 1.0;
 		mainPanel.add(lineEditor, c);
+
+		c.gridy = 2;
+		c.weighty = 0.0;
+		mainPanel.add(statusBar, c);
 
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
