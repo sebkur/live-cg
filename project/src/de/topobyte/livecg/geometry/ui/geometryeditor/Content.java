@@ -26,11 +26,13 @@ import java.util.Set;
 import de.topobyte.livecg.geometry.ui.geom.Coordinate;
 import de.topobyte.livecg.geometry.ui.geom.Editable;
 import de.topobyte.livecg.geometry.ui.geom.Node;
+import de.topobyte.livecg.geometry.ui.geom.Polygon;
 
 public class Content
 {
 
 	private List<Editable> editables = new ArrayList<Editable>();
+	private List<Polygon> polygons = new ArrayList<Polygon>();
 
 	public List<Editable> getLines()
 	{
@@ -45,6 +47,21 @@ public class Content
 	public void removeLine(Editable line)
 	{
 		editables.remove(line);
+	}
+	
+	public List<Polygon> getPolygons()
+	{
+		return polygons;
+	}
+
+	public void addPolygon(Polygon polygon)
+	{
+		polygons.add(polygon);
+	}
+
+	public void removePolygon(Polygon polygon)
+	{
+		polygons.remove(polygon);
 	}
 
 	public Set<Editable> getEditablesNear(Coordinate coordinate)
@@ -89,6 +106,15 @@ public class Content
 				nearestNode = n;
 			}
 		}
+		for (Polygon polygon : polygons) {
+			Editable shell = polygon.getShell();
+			Node n = shell.getNearestPoint(coordinate);
+			double d = n.getCoordinate().distance(coordinate);
+			if (d < distance) {
+				distance = d;
+				nearestNode = n;
+			}
+		}
 		return nearestNode;
 	}
 
@@ -101,6 +127,14 @@ public class Content
 			if (d < distance) {
 				distance = d;
 				nearest = editable;
+			}
+		}
+		for (Polygon polygon : polygons) {
+			Editable shell = polygon.getShell();
+			double d = shell.distance(coordinate);
+			if (d < distance) {
+				distance = d;
+				nearest = shell;
 			}
 		}
 		return nearest;

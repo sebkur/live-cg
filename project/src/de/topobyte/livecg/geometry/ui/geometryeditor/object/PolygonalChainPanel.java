@@ -20,6 +20,7 @@ package de.topobyte.livecg.geometry.ui.geometryeditor.object;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JToggleButton;
@@ -27,6 +28,7 @@ import javax.swing.JToggleButton;
 import de.topobyte.livecg.geometry.ui.geom.Editable;
 import de.topobyte.livecg.geometry.ui.geometryeditor.GeometryEditPane;
 import de.topobyte.livecg.geometry.ui.geometryeditor.object.action.OpenCloseRingAction;
+import de.topobyte.livecg.geometry.ui.geometryeditor.object.action.ToPolygonAction;
 
 public class PolygonalChainPanel extends JPanel
 {
@@ -36,6 +38,7 @@ public class PolygonalChainPanel extends JPanel
 	private Editable editable;
 	private JLabel label;
 	private JToggleButton closedButton;
+	private JButton toPolygon;
 
 	public PolygonalChainPanel(GeometryEditPane editPane, Editable editable)
 	{
@@ -47,12 +50,16 @@ public class PolygonalChainPanel extends JPanel
 		closedButton.setSelected(editable.isClosed());
 		closedButton.setAction(new OpenCloseRingAction(editPane, editable));
 
+		toPolygon = new JButton("to polygon");
+		toPolygon.setAction(new ToPolygonAction(editPane, editable));
+		
 		GridBagConstraints c = new GridBagConstraints();
 
 		c.gridx = 0;
 		c.gridy = GridBagConstraints.RELATIVE;
 		add(label, c);
 		add(closedButton, c);
+		add(toPolygon, c);
 		
 		update();
 	}
@@ -62,6 +69,8 @@ public class PolygonalChainPanel extends JPanel
 		label.setText(getLabelText());
 		closedButton.setSelected(editable.isClosed());
 		closedButton.setEnabled(editable.getNumberOfNodes() > 2);
+		
+		toPolygon.setEnabled(editable.isClosed());
 	}
 
 	private String getLabelText()

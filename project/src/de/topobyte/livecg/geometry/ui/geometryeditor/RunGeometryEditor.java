@@ -27,6 +27,7 @@ import javax.swing.SwingUtilities;
 
 import org.apache.log4j.BasicConfigurator;
 
+import de.topobyte.livecg.geometry.ui.geom.CloseabilityException;
 import de.topobyte.livecg.geometry.ui.geom.Coordinate;
 import de.topobyte.livecg.geometry.ui.geom.Editable;
 import de.topobyte.livecg.geometry.ui.geometryeditor.object.ObjectDialog;
@@ -120,7 +121,13 @@ public class RunGeometryEditor
 		Editable line2 = new Editable();
 		line2.appendPoint(new Coordinate(100, 140));
 		line2.appendPoint(new Coordinate(200, 150));
-		line2.appendPoint(new Coordinate(300, 100));
+		line2.appendPoint(new Coordinate(200, 200));
+		line2.appendPoint(new Coordinate(90, 220));
+		try {
+			line2.setClosed(true);
+		} catch (CloseabilityException e) {
+			// ignore
+		}
 		lineEditor.getEditPane().getContent().addLine(line1);
 		lineEditor.getEditPane().getContent().addLine(line2);
 

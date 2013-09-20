@@ -25,6 +25,7 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
+import java.awt.geom.Area;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,9 +34,11 @@ import javax.swing.InputMap;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 
+import de.topobyte.livecg.geometry.ui.geom.AwtHelper;
 import de.topobyte.livecg.geometry.ui.geom.Coordinate;
 import de.topobyte.livecg.geometry.ui.geom.Editable;
 import de.topobyte.livecg.geometry.ui.geom.Node;
+import de.topobyte.livecg.geometry.ui.geom.Polygon;
 import de.topobyte.livecg.geometry.ui.geometryeditor.action.OpenCloseRingAction;
 import de.topobyte.livecg.geometry.ui.geometryeditor.mousemode.MouseMode;
 import de.topobyte.livecg.geometry.ui.geometryeditor.mousemode.MouseModeListener;
@@ -182,7 +185,7 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 
 	private Color colorEditLines = Color.BLACK;
 	private Color colorEditLinePoints = Color.BLACK;
-	private Color colorEditingLines = Color.BLACK;
+	private Color colorEditingLines = Color.BLUE;
 	private Color colorEditingLinePoints = Color.BLUE;
 	private Color colorFirstEditingLinePoints = Color.GREEN;
 	private Color colorLastEditingLinePoints = Color.RED;
@@ -191,6 +194,14 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 	{
 		super.paint(graphics);
 		Graphics2D g = (Graphics2D) graphics;
+		
+		useAntialiasing(g, true);
+		List<Polygon> polygons = content.getPolygons();
+		for (int i = 0; i < polygons.size(); i++) {
+			Polygon polygon = polygons.get(i);
+			drawInterior(g, polygon);
+		}
+		useAntialiasing(g, false);
 
 		if (highlightChain != null) {
 			drawHighlight(g, highlightChain, Color.CYAN);
@@ -204,10 +215,17 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 			}
 			draw(g, line, colorEditLines, colorEditLinePoints, getName(i));
 		}
+		
+		useAntialiasing(g, true);
+		for (int i = 0; i < polygons.size(); i++) {
+			Polygon polygon = polygons.get(i);
+			drawExterior(g, polygon);
+		}
+		useAntialiasing(g, false);
 
 		if (currentChains.size() > 0) {
 			for (Editable chain : currentChains) {
-				draw(g, chain, colorEditingLines, colorEditingLinePoints, "");
+				draw(g, chain, colorEditingLines, colorEditingLinePoints, null);
 
 				g.setColor(colorLastEditingLinePoints);
 				Coordinate c = chain.getLastCoordinate();
@@ -286,9 +304,11 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 			g.drawRect(x - 2, y - 2, 4, 4);
 		}
 		// label
-		Coordinate first = editable.getFirstCoordinate();
-		g.drawString(name, (int) Math.round(first.getX()) - 2,
-				(int) Math.round(first.getY()) - 4);
+		if (name != null) {
+			Coordinate first = editable.getFirstCoordinate();
+			g.drawString(name, (int) Math.round(first.getX()) - 2,
+					(int) Math.round(first.getY()) - 4);
+		}
 	}
 
 	private void drawHighlight(Graphics2D g, Editable editable, Color color)
@@ -320,6 +340,21 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 			int y2 = (int) Math.round(first.getY());
 			g.drawLine(x1, y1, x2, y2);
 		}
+	}
+
+	private void drawInterior(Graphics2D g, Polygon polygon)
+	{
+		Area area = AwtHelper.toShape(polygon);
+		g.setColor(new Color(0x99ff0000, true));
+		g.fill(area);
+	}
+	
+	private void drawExterior(Graphics2D g, Polygon polygon)
+	{
+		if (currentChains.contains(polygon.getShell())) {
+			return;
+		}
+		draw(g, polygon.getShell(), colorEditLines, colorEditLinePoints, null);
 	}
 
 	private void useAntialiasing(Graphics2D g, boolean b)
