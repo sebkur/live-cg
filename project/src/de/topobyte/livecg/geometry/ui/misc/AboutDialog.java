@@ -55,6 +55,7 @@ public class AboutDialog extends JDialog
 	public static void showDialog(int page)
 	{
 		AboutDialog dialog = new AboutDialog(page);
+		dialog.setLocationByPlatform(true);
 		dialog.setSize(400, 400);
 		dialog.setVisible(true);
 	}
