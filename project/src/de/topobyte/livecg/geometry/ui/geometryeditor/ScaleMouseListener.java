@@ -18,12 +18,13 @@
 
 package de.topobyte.livecg.geometry.ui.geometryeditor;
 
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
+import javax.swing.event.MouseInputAdapter;
 
 import de.topobyte.livecg.geometry.ui.geometryeditor.scale.Scale;
 
-public class ScaleMouseListener extends MouseAdapter
+public class ScaleMouseListener extends MouseInputAdapter
 {
 
 	private final Scale scaleX;
