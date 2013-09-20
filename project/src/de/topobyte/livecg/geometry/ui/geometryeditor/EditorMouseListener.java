@@ -223,8 +223,26 @@ public class EditorMouseListener extends MouseAdapter
 		super.mouseReleased(e);
 
 		if (editPane.getMouseMode() == MouseMode.SELECT_MOVE) {
+			if (snapNode != null) {
+				meld(snapNode, currentMoveNode);
+			}
 			currentMoveNode = null;
+			boolean update = editPane.setSnapHighlight(null);
+			if (update) {
+				editPane.repaint();
+			}
+			snapNode = null;
 		}
+	}
+	
+	private void meld(Node n1, Node n2)
+	{
+		for (Editable chain : n2.getChains()) {
+			chain.replaceNode(n2, n1);
+		}
+		editPane.removeCurrentNode(n2);
+		editPane.addCurrentNode(n1);
+		editPane.repaint();
 	}
 
 	/*
@@ -254,12 +272,12 @@ public class EditorMouseListener extends MouseAdapter
 			double dNode = node.getCoordinate().distance(coord);
 			boolean changed = false;
 			if (dNode < 5) {
-				changed = editPane.setHighlight(node);
+				changed = editPane.setMouseHighlight(node);
 			} else if (dChain < 5) {
-				changed = editPane.setHighlight(editable);
+				changed = editPane.setMouseHighlight(editable);
 			} else {
-				changed |= editPane.setHighlight((Node) null);
-				changed |= editPane.setHighlight((Editable) null);
+				changed |= editPane.setMouseHighlight((Node) null);
+				changed |= editPane.setMouseHighlight((Editable) null);
 			}
 			if (changed) {
 				editPane.repaint();
@@ -267,6 +285,8 @@ public class EditorMouseListener extends MouseAdapter
 		}
 	}
 
+	private Node snapNode = null;
+	
 	@Override
 	public void mouseDragged(MouseEvent e)
 	{
@@ -277,6 +297,25 @@ public class EditorMouseListener extends MouseAdapter
 				currentMoveNode.setCoordinate(coord);
 				editPane.getContent().fireContentChanged();
 			}
+		}
+
+		boolean update = false;
+		if (e.isControlDown()) {
+			Node nearest = editPane.getContent().getNearestDifferentNode(coord,
+					currentMoveNode);
+			if (nearest.getCoordinate().distance(coord) < 4) {
+				update |= editPane.setSnapHighlight(nearest);
+				snapNode = nearest;
+			} else {
+				update |= editPane.setSnapHighlight(null);
+				snapNode = null;
+			}
+		} else {
+			update |= editPane.setSnapHighlight(null);
+			snapNode = null;
+		}
+		if (update) {
+			editPane.getContent().fireContentChanged();
 		}
 	}
 

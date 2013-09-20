@@ -40,6 +40,7 @@ public class NewAction extends BasicAction
 	public void actionPerformed(ActionEvent e)
 	{
 		editPane.getContent().getLines().clear();
+		editPane.getContent().getPolygons().clear();
 		editPane.getContent().fireContentChanged();
 	}
 

@@ -100,8 +100,8 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 			listener.mouseModeChanged(mouseMode);
 		}
 		if (mouseMode != MouseMode.SELECT_MOVE) {
-			setHighlight((Node) null);
-			setHighlight((Editable) null);
+			setMouseHighlight((Node) null);
+			setMouseHighlight((Editable) null);
 			repaint();
 		}
 	}
@@ -183,18 +183,23 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 	 * drawing
 	 */
 
-	private Color colorEditLines = Color.BLACK;
-	private Color colorEditLinePoints = Color.BLACK;
-	private Color colorEditingLines = Color.BLUE;
-	private Color colorEditingLinePoints = Color.BLUE;
+	private Color colorChainLines = Color.BLACK;
+	private Color colorChainPoints = Color.BLACK;
+	private Color colorEditingChainLines = Color.BLUE;
+	private Color colorEditingChainPoints = Color.BLUE;
 	private Color colorFirstEditingLinePoints = Color.GREEN;
 	private Color colorLastEditingLinePoints = Color.RED;
+
+	private Color colorMouseHighightNode = Color.CYAN;
+	private Color colorMouseHighlightChain = Color.CYAN;
+	private Color colorSnapHighlightNode = Color.CYAN.darker();
+	private Color colorSelectedNodes = Color.CYAN;
 
 	public void paint(Graphics graphics)
 	{
 		super.paint(graphics);
 		Graphics2D g = (Graphics2D) graphics;
-		
+
 		useAntialiasing(g, true);
 		List<Polygon> polygons = content.getPolygons();
 		for (int i = 0; i < polygons.size(); i++) {
@@ -203,8 +208,8 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 		}
 		useAntialiasing(g, false);
 
-		if (highlightChain != null) {
-			drawHighlight(g, highlightChain, Color.CYAN);
+		if (mouseHighlightChain != null) {
+			drawHighlight(g, mouseHighlightChain, colorMouseHighlightChain);
 		}
 
 		List<Editable> lines = content.getLines();
@@ -213,9 +218,9 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 			if (currentChains.contains(line)) {
 				continue;
 			}
-			draw(g, line, colorEditLines, colorEditLinePoints, getName(i));
+			draw(g, line, colorChainLines, colorChainPoints, getName(i));
 		}
-		
+
 		useAntialiasing(g, true);
 		for (int i = 0; i < polygons.size(); i++) {
 			Polygon polygon = polygons.get(i);
@@ -225,7 +230,7 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 
 		if (currentChains.size() > 0) {
 			for (Editable chain : currentChains) {
-				draw(g, chain, colorEditingLines, colorEditingLinePoints, null);
+				draw(g, chain, colorEditingChainLines, colorEditingChainPoints, null);
 
 				g.setColor(colorLastEditingLinePoints);
 				Coordinate c = chain.getLastCoordinate();
@@ -241,16 +246,23 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 			}
 		}
 
-		if (highlightNode != null) {
-			g.setColor(Color.CYAN);
-			Coordinate c = highlightNode.getCoordinate();
+		if (snapHighlightNode != null) {
+			g.setColor(colorSnapHighlightNode);
+			Coordinate c = snapHighlightNode.getCoordinate();
+			g.fillRect((int) Math.round(c.getX() - 5),
+					(int) Math.round(c.getY() - 5), 10, 10);
+		}
+
+		if (mouseHighlightNode != null) {
+			g.setColor(colorMouseHighightNode);
+			Coordinate c = mouseHighlightNode.getCoordinate();
 			g.drawRect((int) Math.round(c.getX() - 3),
 					(int) Math.round(c.getY() - 3), 6, 6);
 		}
 
 		if (currentNodes.size() > 0) {
 			for (Node node : currentNodes) {
-				g.setColor(Color.CYAN);
+				g.setColor(colorSelectedNodes);
 				Coordinate c = node.getCoordinate();
 				g.fillRect((int) Math.round(c.getX() - 2),
 						(int) Math.round(c.getY() - 2), 4 + 1, 4 + 1);
@@ -348,13 +360,13 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 		g.setColor(new Color(0x99ff0000, true));
 		g.fill(area);
 	}
-	
+
 	private void drawExterior(Graphics2D g, Polygon polygon)
 	{
 		if (currentChains.contains(polygon.getShell())) {
 			return;
 		}
-		draw(g, polygon.getShell(), colorEditLines, colorEditLinePoints, null);
+		draw(g, polygon.getShell(), colorChainLines, colorChainPoints, null);
 	}
 
 	private void useAntialiasing(Graphics2D g, boolean b)
@@ -374,24 +386,34 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 		repaint();
 	}
 
-	private Node highlightNode = null;
-	private Editable highlightChain = null;
+	private Node mouseHighlightNode = null;
+	private Editable mouseHighlightChain = null;
+	private Node snapHighlightNode = null;
 
-	public boolean setHighlight(Node node)
+	public boolean setMouseHighlight(Node node)
 	{
-		if (highlightNode != node) {
-			highlightNode = node;
-			highlightChain = null;
+		if (mouseHighlightNode != node) {
+			mouseHighlightNode = node;
+			mouseHighlightChain = null;
 			return true;
 		}
 		return false;
 	}
 
-	public boolean setHighlight(Editable editable)
+	public boolean setSnapHighlight(Node node)
 	{
-		if (highlightChain != editable) {
-			highlightNode = null;
-			highlightChain = editable;
+		if (snapHighlightNode != node) {
+			snapHighlightNode = node;
+			return true;
+		}
+		return false;
+	}
+
+	public boolean setMouseHighlight(Editable editable)
+	{
+		if (mouseHighlightChain != editable) {
+			mouseHighlightNode = null;
+			mouseHighlightChain = editable;
 			return true;
 		}
 		return false;

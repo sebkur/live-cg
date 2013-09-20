@@ -136,7 +136,7 @@ public class Editable
 		}
 
 		nodes.remove(index);
-		
+
 		if (nodes.size() < 3 && closed) {
 			closed = false;
 		}
@@ -272,5 +272,33 @@ public class Editable
 			}
 		}
 		return nearest;
+	}
+
+	public Node getNearestDifferentNode(Node n)
+	{
+		Coordinate coordinate = n.getCoordinate();
+		Node nearest = null;
+		double distance = Double.MAX_VALUE;
+		for (Node node : nodes) {
+			if (node == n) {
+				continue;
+			}
+			double d = node.getCoordinate().distance(coordinate);
+			if (d < distance) {
+				distance = d;
+				nearest = node;
+			}
+		}
+		return nearest;
+	}
+
+	public void replaceNode(Node old, Node n)
+	{
+		for (int i = 0; i < nodes.size(); i++) {
+			if (nodes.get(i) == old) {
+				nodes.set(i, n);
+				break;
+			}
+		}
 	}
 }

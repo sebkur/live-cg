@@ -48,7 +48,7 @@ public class Content
 	{
 		editables.remove(line);
 	}
-	
+
 	public List<Polygon> getPolygons()
 	{
 		return polygons;
@@ -118,6 +118,36 @@ public class Content
 		return nearestNode;
 	}
 
+	public Node getNearestDifferentNode(Coordinate coordinate, Node node)
+	{
+		double distance = Double.MAX_VALUE;
+		Node nearestNode = null;
+		for (Editable editable : editables) {
+			Node n = editable.getNearestDifferentNode(node);
+			if (n == node) {
+				continue;
+			}
+			double d = n.getCoordinate().distance(coordinate);
+			if (d < distance) {
+				distance = d;
+				nearestNode = n;
+			}
+		}
+		for (Polygon polygon : polygons) {
+			Editable shell = polygon.getShell();
+			Node n = shell.getNearestDifferentNode(node);
+			if (n == node) {
+				continue;
+			}
+			double d = n.getCoordinate().distance(coordinate);
+			if (d < distance) {
+				distance = d;
+				nearestNode = n;
+			}
+		}
+		return nearestNode;
+	}
+
 	public Editable getNearestChain(Coordinate coordinate)
 	{
 		double distance = Double.MAX_VALUE;
@@ -139,4 +169,5 @@ public class Content
 		}
 		return nearest;
 	}
+
 }
