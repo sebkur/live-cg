@@ -51,8 +51,8 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 
 	private Content content;
 
-	private Node currentNode = null;
-	private Editable currentChain = null;
+	private List<Node> currentNodes = new ArrayList<Node>();
+	private List<Editable> currentChains = new ArrayList<Editable>();
 
 	public GeometryEditPane()
 	{
@@ -126,34 +126,54 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 		return content;
 	}
 
-	public Node getCurrentNode()
+	public List<Node> getCurrentNodes()
 	{
-		return currentNode;
+		return currentNodes;
 	}
 
-	public Editable getCurrentChain()
+	public List<Editable> getCurrentChains()
 	{
-		return currentChain;
+		return currentChains;
 	}
 
-	public boolean setCurrentNode(Node node)
+	public boolean addCurrentNode(Node node)
 	{
-		if (currentNode == node) {
-			return false;
-		}
-		currentNode = node;
+		currentNodes.add(node);
 		fireSelectionChanged();
 		return true;
 	}
 
-	public boolean setCurrentChain(Editable editable)
+	public boolean addCurrentChain(Editable editable)
 	{
-		if (currentChain == editable) {
-			return false;
-		}
-		currentChain = editable;
+		currentChains.add(editable);
 		fireSelectionChanged();
 		return true;
+	}
+
+	public boolean removeCurrentNode(Node node)
+	{
+		return currentNodes.remove(node);
+	}
+
+	public boolean removeCurrentChain(Editable chain)
+	{
+		return currentChains.remove(chain);
+	}
+
+	public boolean clearCurrentNodes()
+	{
+		boolean changed = currentNodes.size() != 0;
+		currentNodes.clear();
+		fireSelectionChanged();
+		return changed;
+	}
+
+	public boolean clearCurrentChains()
+	{
+		boolean changed = currentChains.size() != 0;
+		currentChains.clear();
+		fireSelectionChanged();
+		return changed;
 	}
 
 	/*
@@ -179,25 +199,27 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 		List<Editable> lines = content.getLines();
 		for (int i = 0; i < lines.size(); i++) {
 			Editable line = lines.get(i);
-			if (line == currentChain) {
+			if (currentChains.contains(line)) {
 				continue;
 			}
 			draw(g, line, colorEditLines, colorEditLinePoints, getName(i));
 		}
 
-		if (currentChain != null) {
-			draw(g, currentChain, colorEditingLines, colorEditingLinePoints, "");
+		if (currentChains.size() > 0) {
+			for (Editable chain : currentChains) {
+				draw(g, chain, colorEditingLines, colorEditingLinePoints, "");
 
-			g.setColor(colorLastEditingLinePoints);
-			Coordinate c = currentChain.getLastCoordinate();
-			g.drawRect((int) Math.round(c.getX() - 3),
-					(int) Math.round(c.getY() - 3), 6, 6);
-
-			if (currentChain.getNumberOfNodes() > 1) {
-				g.setColor(colorFirstEditingLinePoints);
-				c = currentChain.getFirstCoordinate();
+				g.setColor(colorLastEditingLinePoints);
+				Coordinate c = chain.getLastCoordinate();
 				g.drawRect((int) Math.round(c.getX() - 3),
 						(int) Math.round(c.getY() - 3), 6, 6);
+
+				if (chain.getNumberOfNodes() > 1) {
+					g.setColor(colorFirstEditingLinePoints);
+					c = chain.getFirstCoordinate();
+					g.drawRect((int) Math.round(c.getX() - 3),
+							(int) Math.round(c.getY() - 3), 6, 6);
+				}
 			}
 		}
 
@@ -208,11 +230,13 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 					(int) Math.round(c.getY() - 3), 6, 6);
 		}
 
-		if (currentNode != null) {
-			g.setColor(Color.CYAN);
-			Coordinate c = currentNode.getCoordinate();
-			g.fillRect((int) Math.round(c.getX() - 2),
-					(int) Math.round(c.getY() - 2), 4 + 1, 4 + 1);
+		if (currentNodes.size() > 0) {
+			for (Node node : currentNodes) {
+				g.setColor(Color.CYAN);
+				Coordinate c = node.getCoordinate();
+				g.fillRect((int) Math.round(c.getX() - 2),
+						(int) Math.round(c.getY() - 2), 4 + 1, 4 + 1);
+			}
 		}
 	}
 

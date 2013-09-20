@@ -20,6 +20,7 @@ package de.topobyte.livecg.geometry.ui.geometryeditor;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.List;
 import java.util.Set;
 
 import de.topobyte.livecg.geometry.ui.geom.CloseabilityException;
@@ -70,18 +71,27 @@ public class EditorMouseListener extends MouseAdapter
 	private void addCoordinateOrCreateNewLine(Coordinate coord)
 	{
 		boolean append = true;
-		Node node = editPane.getCurrentNode();
-		Editable line = editPane.getCurrentChain();
-		if (line == null && node == null) {
+		List<Node> nodes = editPane.getCurrentNodes();
+		List<Editable> lines = editPane.getCurrentChains();
+
+		if (lines.size() > 1 || nodes.size() > 1) {
+			return;
+		}
+
+		Editable line;
+		if (lines.size() == 0 && nodes.size() == 0) {
 			line = new Editable();
 			editPane.getContent().addLine(line);
-		} else if (line != null && node != null) {
+		} else if (lines.size() == 1 && nodes.size() == 1) {
+			Node node = nodes.iterator().next();
+			line = lines.iterator().next();
 			if (line.getFirstNode() == node) {
 				if (line.getNumberOfNodes() != 1) {
 					append = false;
 				}
 			}
-		} else if (node != null) {
+		} else if (nodes.size() == 1) {
+			Node node = nodes.iterator().next();
 			if (node.getEndpointChains().size() == 1
 					&& node.getEndpointChains().get(0).getNumberOfNodes() == 1) {
 				line = node.getEndpointChains().get(0);
@@ -93,33 +103,37 @@ public class EditorMouseListener extends MouseAdapter
 		} else {
 			return;
 		}
+		editPane.clearCurrentNodes();
+		editPane.clearCurrentChains();
 		if (append) {
 			line.appendPoint(coord);
-			editPane.setCurrentNode(line.getLastNode());
+			editPane.addCurrentNode(line.getLastNode());
 		} else {
 			line.prependPoint(coord);
-			editPane.setCurrentNode(line.getFirstNode());
+			editPane.addCurrentNode(line.getFirstNode());
 		}
-		editPane.setCurrentChain(line);
+		editPane.addCurrentChain(line);
 		editPane.getContent().fireContentChanged();
 	}
 
 	private boolean selectNothing()
 	{
-		boolean changed = editPane.setCurrentNode(null);
-		changed |= editPane.setCurrentChain(null);
+		boolean changed = editPane.getCurrentChains().size() > 0
+				|| editPane.getCurrentNodes().size() > 0;
+		editPane.clearCurrentNodes();
+		editPane.clearCurrentChains();
 		return changed;
 	}
 
 	private void closeCurrentLine() throws CloseabilityException
 	{
-		Editable line = editPane.getCurrentChain();
-		if (line == null) {
+		if (editPane.getCurrentChains().size() > 1) {
 			return;
 		}
+		Editable line = editPane.getCurrentChains().iterator().next();
 		line.setClosed(true);
-		editPane.setCurrentNode(null);
-		editPane.setCurrentChain(null);
+		editPane.clearCurrentNodes();
+		editPane.clearCurrentChains();
 		editPane.getContent().fireContentChanged();
 	}
 
@@ -129,17 +143,21 @@ public class EditorMouseListener extends MouseAdapter
 		Editable editable = editPane.getContent().getNearestChain(coord);
 		double dChain = editable.distance(coord);
 		double dNode = node.getCoordinate().distance(coord);
+		List<Editable> chains = editPane.getCurrentChains();
 		boolean changed = false;
 		if (dNode < 5) {
-			Editable currentChain = editPane.getCurrentChain();
-			if (currentChain != null && currentChain.getFirstNode() != node
-					&& currentChain.getLastNode() != node) {
-				changed = editPane.setCurrentChain(null);
+			if (chains.size() == 1) {
+				Editable chain = chains.iterator().next();
+				if (chain.getFirstNode() != node && chain.getLastNode() != node) {
+					editPane.clearCurrentChains();
+				}
 			}
-			changed |= editPane.setCurrentNode(node);
+			changed |= editPane.clearCurrentNodes();
+			changed |= editPane.addCurrentNode(node);
 		} else if (dChain < 5) {
-			changed = editPane.setCurrentNode(null);
-			changed |= editPane.setCurrentChain(editable);
+			changed |= editPane.clearCurrentNodes();
+			changed |= editPane.clearCurrentChains();
+			changed |= editPane.addCurrentChain(editable);
 		} else {
 			changed = selectNothing();
 		}
@@ -153,32 +171,27 @@ public class EditorMouseListener extends MouseAdapter
 		Set<Editable> near = editPane.getContent().getEditablesNear(coord);
 		if (near.size() > 0) {
 			Editable editable;
-			if (editPane.getCurrentChain() != null
-					&& near.contains(editPane.getCurrentChain())) {
-				editable = editPane.getCurrentChain();
-			} else {
-				editable = near.iterator().next();
-			}
+			// TODO: give precedence to selected chains
+			editable = near.iterator().next();
 			int n = editable.getNearestPointWithinThreshold(coord, 4);
 			Node node = editable.getNode(n);
-			if (editPane.getCurrentNode() == node) {
+			if (editPane.getCurrentNodes().contains(node)) {
 				if (editable.getNumberOfNodes() > 1) {
 					if (editable.getFirstNode() == node) {
-						editPane.setCurrentNode(editable.getNode(1));
+						editPane.addCurrentNode(editable.getNode(1));
 					} else if (editable.getLastNode() == node) {
-						editPane.setCurrentNode(editable.getNode(editable
+						editPane.addCurrentNode(editable.getNode(editable
 								.getNumberOfNodes() - 2));
 					}
 				}
 			}
-			if (editPane.getCurrentNode() == node) {
-				editPane.setCurrentNode(null);
+			if (editPane.getCurrentNodes().contains(node)) {
+				editPane.removeCurrentNode(node);
 			}
 			editable.remove(n);
 			if (editable.getNumberOfNodes() == 0) {
-				if (editPane.getCurrentChain() == editable) {
-					editPane.setCurrentNode(null);
-					editPane.setCurrentChain(null);
+				if (editPane.getCurrentChains().contains(editable)) {
+					editPane.removeCurrentChain(editable);
 				}
 				editPane.getContent().removeLine(editable);
 			}

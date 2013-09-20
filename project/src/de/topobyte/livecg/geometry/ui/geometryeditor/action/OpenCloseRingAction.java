@@ -18,6 +18,7 @@
 package de.topobyte.livecg.geometry.ui.geometryeditor.action;
 
 import java.awt.event.ActionEvent;
+import java.util.List;
 
 import de.topobyte.livecg.geometry.ui.geom.CloseabilityException;
 import de.topobyte.livecg.geometry.ui.geom.Editable;
@@ -40,13 +41,14 @@ public class OpenCloseRingAction extends BasicAction
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
-		Editable line = editPane.getCurrentChain();
-		if (line == null) {
+		List<Editable> chains = editPane.getCurrentChains();
+		if (chains.size() != 1) {
 			return;
 		}
+		Editable chain = chains.iterator().next();
 		try {
-			boolean closed = !line.isClosed();
-			line.setClosed(closed);
+			boolean closed = !chain.isClosed();
+			chain.setClosed(closed);
 			editPane.getContent().fireContentChanged();
 		} catch (CloseabilityException e1) {
 			// ignore silently

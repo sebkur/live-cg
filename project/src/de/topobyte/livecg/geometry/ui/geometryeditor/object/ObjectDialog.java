@@ -18,6 +18,7 @@
 package de.topobyte.livecg.geometry.ui.geometryeditor.object;
 
 import java.awt.Window;
+import java.util.List;
 
 import javax.swing.JDialog;
 
@@ -63,21 +64,23 @@ public class ObjectDialog extends JDialog
 
 	private Node currentNode = null;
 	private Editable currentChain = null;
-	
+
 	private NodePanel np = null;
 	private PolygonalChainPanel pcp = null;
 
 	protected void update()
 	{
-		Node node = editPane.getCurrentNode();
-		Editable chain = editPane.getCurrentChain();
-		if (node == null && chain == null) {
+		List<Node> nodes = editPane.getCurrentNodes();
+		List<Editable> chains = editPane.getCurrentChains();
+
+		if (nodes.size() == 0 && chains.size() == 0) {
 			if (currentNode != null || currentChain != null) {
 				setContentPane(new NothingPanel());
 			}
 			currentNode = null;
 			currentChain = null;
-		} else if (node != null) {
+		} else if (nodes.size() == 1 && chains.size() == 0) {
+			Node node = nodes.iterator().next();
 			if (currentNode != node) {
 				currentNode = node;
 				np = new NodePanel(editPane, node);
@@ -85,7 +88,8 @@ public class ObjectDialog extends JDialog
 			} else {
 				np.update();
 			}
-		} else if (chain != null) {
+		} else if (nodes.size() == 0 && chains.size() == 1) {
+			Editable chain = chains.iterator().next();
 			if (currentChain != chain) {
 				currentChain = chain;
 				pcp = new PolygonalChainPanel(editPane, chain);
@@ -93,6 +97,13 @@ public class ObjectDialog extends JDialog
 			} else {
 				pcp.update();
 			}
+		} else {
+			// TODO: mixed dialog
+			if (currentNode != null || currentChain != null) {
+				setContentPane(new NothingPanel());
+			}
+			currentNode = null;
+			currentChain = null;
 		}
 		validate();
 	}

@@ -21,6 +21,7 @@ package de.topobyte.livecg.geometry.ui.geometryeditor.action;
 import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
@@ -58,10 +59,11 @@ public class SaveAction extends BasicAction
 	@Override
 	public void actionPerformed(ActionEvent event)
 	{
-		Editable line = editPane.getCurrentChain();
-		if (line == null) {
+		List<Editable> chains = editPane.getCurrentChains();
+		if (chains.size() != 1) {
 			return;
 		}
+		Editable line = chains.iterator().next();
 
 		JFrame frame = SwingUtil.getContainingFrame(component);
 		JFileChooser chooser = new JFileChooser();
