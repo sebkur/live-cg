@@ -187,7 +187,7 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 	private Color colorChainPoints = Color.BLACK;
 	private Color colorEditingChainLines = Color.BLUE;
 	private Color colorEditingChainPoints = Color.BLUE;
-	private Color colorFirstEditingLinePoints = Color.GREEN;
+	private Color colorFirstEditingLinePoints = Color.RED;
 	private Color colorLastEditingLinePoints = Color.RED;
 
 	private Color colorMouseHighightNode = Color.CYAN;
