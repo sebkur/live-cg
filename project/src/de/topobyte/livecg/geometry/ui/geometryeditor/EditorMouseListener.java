@@ -26,6 +26,7 @@ import java.util.Set;
 import de.topobyte.livecg.geometry.ui.geom.CloseabilityException;
 import de.topobyte.livecg.geometry.ui.geom.Coordinate;
 import de.topobyte.livecg.geometry.ui.geom.Editable;
+import de.topobyte.livecg.geometry.ui.geom.Line;
 import de.topobyte.livecg.geometry.ui.geom.Node;
 import de.topobyte.livecg.geometry.ui.geometryeditor.mousemode.MouseMode;
 
@@ -70,7 +71,6 @@ public class EditorMouseListener extends MouseAdapter
 
 	private void addCoordinateOrCreateNewLine(Coordinate coord)
 	{
-		boolean append = true;
 		List<Node> nodes = editPane.getCurrentNodes();
 		List<Editable> lines = editPane.getCurrentChains();
 
@@ -78,42 +78,82 @@ public class EditorMouseListener extends MouseAdapter
 			return;
 		}
 
-		Editable line;
-		if (lines.size() == 0 && nodes.size() == 0) {
+		AddPointResult addPointResult = selectAddPointMode();
+		editPane.clearCurrentNodes();
+		editPane.clearCurrentChains();
+
+		switch (addPointResult.addPointMode) {
+		default:
+		case NONE:
+			break;
+		case NEW:
+			Editable line = new Editable();
+			editPane.getContent().addLine(line);
+			line.appendPoint(coord);
+			editPane.addCurrentNode(line.getLastNode());
+			editPane.addCurrentChain(line);
+			break;
+		case NEW_WITH_SELECTED:
 			line = new Editable();
 			editPane.getContent().addLine(line);
+			line.appendNode(addPointResult.node);
+			line.appendPoint(coord);
+			editPane.addCurrentNode(line.getLastNode());
+			editPane.addCurrentChain(line);
+			break;
+		case PREPEND:
+			addPointResult.chain.prependPoint(coord);
+			editPane.addCurrentNode(addPointResult.chain.getFirstNode());
+			editPane.addCurrentChain(addPointResult.chain);
+			break;
+		case APPEND:
+			addPointResult.chain.appendPoint(coord);
+			editPane.addCurrentNode(addPointResult.chain.getLastNode());
+			editPane.addCurrentChain(addPointResult.chain);
+			break;
+		}
+		editPane.getContent().fireContentChanged();
+	}
+
+	private AddPointResult selectAddPointMode()
+	{
+		AddPointResult result = new AddPointResult();
+
+		List<Node> nodes = editPane.getCurrentNodes();
+		List<Editable> lines = editPane.getCurrentChains();
+
+		if (lines.size() == 0 && nodes.size() == 0) {
+			// If nothing is selected, create a new chain
+			result.addPointMode = AddPointMode.NEW;
 		} else if (lines.size() == 1 && nodes.size() == 1) {
+			// If one chain and one node is selected, extend the selected chain
 			Node node = nodes.iterator().next();
-			line = lines.iterator().next();
-			if (line.getFirstNode() == node) {
-				if (line.getNumberOfNodes() != 1) {
-					append = false;
+			result.chain = lines.iterator().next();
+			result.addPointMode = AddPointMode.APPEND;
+			if (result.chain.getFirstNode() == node) {
+				if (result.chain.getNumberOfNodes() != 1) {
+					result.addPointMode = AddPointMode.PREPEND;
 				}
 			}
 		} else if (nodes.size() == 1) {
+			// If only one node is selected (no chain selected)
 			Node node = nodes.iterator().next();
 			if (node.getEndpointChains().size() == 1
 					&& node.getEndpointChains().get(0).getNumberOfNodes() == 1) {
-				line = node.getEndpointChains().get(0);
+				// If the node is a single point
+				result.chain = node.getEndpointChains().get(0);
+				result.addPointMode = AddPointMode.APPEND;
 			} else {
-				line = new Editable();
-				editPane.getContent().addLine(line);
+				// If the node is part of some chain
+				result.addPointMode = AddPointMode.NEW_WITH_SELECTED;
+				result.node = node;
 			}
-			line.appendNode(node);
 		} else {
-			return;
+			// Otherwise do nothing
+			result.addPointMode = AddPointMode.NONE;
 		}
-		editPane.clearCurrentNodes();
-		editPane.clearCurrentChains();
-		if (append) {
-			line.appendPoint(coord);
-			editPane.addCurrentNode(line.getLastNode());
-		} else {
-			line.prependPoint(coord);
-			editPane.addCurrentNode(line.getFirstNode());
-		}
-		editPane.addCurrentChain(line);
-		editPane.getContent().fireContentChanged();
+
+		return result;
 	}
 
 	private boolean selectNothing()
@@ -214,6 +254,11 @@ public class EditorMouseListener extends MouseAdapter
 				selectNothing();
 				editPane.repaint();
 			}
+		} else if (editPane.getMouseMode() == MouseMode.EDIT) {
+			editPane.setProspectNode(null);
+			editPane.setProspectLine(null);
+			// TODO: only if changed
+			editPane.repaint();
 		}
 	}
 
@@ -234,7 +279,7 @@ public class EditorMouseListener extends MouseAdapter
 			snapNode = null;
 		}
 	}
-	
+
 	private void meld(Node n1, Node n2)
 	{
 		for (Editable chain : n2.getChains()) {
@@ -282,11 +327,41 @@ public class EditorMouseListener extends MouseAdapter
 			if (changed) {
 				editPane.repaint();
 			}
+		} else if (editPane.getMouseMode() == MouseMode.EDIT) {
+			AddPointResult addPointResult = selectAddPointMode();
+			switch (addPointResult.addPointMode) {
+			default:
+			case NONE:
+				break;
+			case NEW:
+				editPane.setProspectNode(new Node(coord));
+				editPane.repaint();
+				break;
+			case PREPEND:
+				Coordinate start = addPointResult.chain.getFirstNode()
+						.getCoordinate();
+				editPane.setProspectNode(new Node(coord));
+				editPane.setProspectLine(new Line(start, coord));
+				editPane.repaint();
+				break;
+			case APPEND:
+				start = addPointResult.chain.getLastNode().getCoordinate();
+				editPane.setProspectNode(new Node(coord));
+				editPane.setProspectLine(new Line(start, coord));
+				editPane.repaint();
+				break;
+			case NEW_WITH_SELECTED:
+				editPane.setProspectNode(new Node(coord));
+				start = addPointResult.node.getCoordinate();
+				editPane.setProspectLine(new Line(start, coord));
+				editPane.repaint();
+				break;
+			}
 		}
 	}
 
 	private Node snapNode = null;
-	
+
 	@Override
 	public void mouseDragged(MouseEvent e)
 	{
@@ -319,4 +394,14 @@ public class EditorMouseListener extends MouseAdapter
 		}
 	}
 
+	@Override
+	public void mouseExited(MouseEvent e)
+	{
+		if (editPane.getMouseMode() == MouseMode.EDIT) {
+			editPane.setProspectNode(null);
+			editPane.setProspectLine(null);
+			// TODO: only if changed
+			editPane.repaint();
+		}
+	}
 }

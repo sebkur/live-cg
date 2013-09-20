@@ -37,6 +37,7 @@ import javax.swing.KeyStroke;
 import de.topobyte.livecg.geometry.ui.geom.AwtHelper;
 import de.topobyte.livecg.geometry.ui.geom.Coordinate;
 import de.topobyte.livecg.geometry.ui.geom.Editable;
+import de.topobyte.livecg.geometry.ui.geom.Line;
 import de.topobyte.livecg.geometry.ui.geom.Node;
 import de.topobyte.livecg.geometry.ui.geom.Polygon;
 import de.topobyte.livecg.geometry.ui.geometryeditor.action.OpenCloseRingAction;
@@ -95,6 +96,7 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 	@Override
 	public void setMouseMode(MouseMode mouseMode)
 	{
+		MouseMode old = this.mouseMode;
 		this.mouseMode = mouseMode;
 		for (MouseModeListener listener : listeners) {
 			listener.mouseModeChanged(mouseMode);
@@ -102,6 +104,11 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 		if (mouseMode != MouseMode.SELECT_MOVE) {
 			setMouseHighlight((Node) null);
 			setMouseHighlight((Editable) null);
+			repaint();
+		}
+		if (old == MouseMode.EDIT) {
+			setProspectNode(null);
+			setProspectLine(null);
 			repaint();
 		}
 	}
@@ -230,7 +237,8 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 
 		if (currentChains.size() > 0) {
 			for (Editable chain : currentChains) {
-				draw(g, chain, colorEditingChainLines, colorEditingChainPoints, null);
+				draw(g, chain, colorEditingChainLines, colorEditingChainPoints,
+						null);
 
 				g.setColor(colorLastEditingLinePoints);
 				Coordinate c = chain.getLastCoordinate();
@@ -267,6 +275,23 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 				g.fillRect((int) Math.round(c.getX() - 2),
 						(int) Math.round(c.getY() - 2), 4 + 1, 4 + 1);
 			}
+		}
+
+		if (prospectLine != null) {
+			g.setColor(Color.BLACK);
+			Coordinate c1 = prospectLine.getC1();
+			Coordinate c2 = prospectLine.getC2();
+			g.drawLine((int) Math.round(c1.getX()),
+					(int) Math.round(c1.getY()), (int) Math.round(c2.getX()),
+					(int) Math.round(c2.getY()));
+		}
+
+		if (prospectNode != null) {
+			g.setColor(Color.BLACK);
+			Coordinate c = prospectNode.getCoordinate();
+			int x = (int) Math.round(c.getX());
+			int y = (int) Math.round(c.getY());
+			g.drawRect(x - 2, y - 2, 4, 4);
 		}
 	}
 
@@ -384,6 +409,20 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 	public void contentChanged()
 	{
 		repaint();
+	}
+
+	private Node prospectNode = null;
+
+	public void setProspectNode(Node prospectNode)
+	{
+		this.prospectNode = prospectNode;
+	}
+
+	private Line prospectLine = null;
+
+	public void setProspectLine(Line prospectLine)
+	{
+		this.prospectLine = prospectLine;
 	}
 
 	private Node mouseHighlightNode = null;
