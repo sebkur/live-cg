@@ -440,7 +440,7 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 	private void drawInterior(Graphics2D g, Polygon polygon)
 	{
 		Area area = AwtHelper.toShape(polygon);
-		g.setColor(new Color(0x99ff0000, true));
+		g.setColor(new Color(0x33ff0000, true));
 		g.fill(area);
 	}
 
