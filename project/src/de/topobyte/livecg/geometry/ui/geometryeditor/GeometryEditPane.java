@@ -278,12 +278,14 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 		}
 
 		if (prospectLine != null) {
+			useAntialiasing(g, true);
 			g.setColor(Color.BLACK);
 			Coordinate c1 = prospectLine.getC1();
 			Coordinate c2 = prospectLine.getC2();
 			g.drawLine((int) Math.round(c1.getX()),
 					(int) Math.round(c1.getY()), (int) Math.round(c2.getX()),
 					(int) Math.round(c2.getY()));
+			useAntialiasing(g, false);
 		}
 
 		if (prospectNode != null) {
