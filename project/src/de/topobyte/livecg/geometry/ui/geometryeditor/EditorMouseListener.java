@@ -28,6 +28,7 @@ import de.topobyte.livecg.geometry.ui.geom.Coordinate;
 import de.topobyte.livecg.geometry.ui.geom.Editable;
 import de.topobyte.livecg.geometry.ui.geom.Line;
 import de.topobyte.livecg.geometry.ui.geom.Node;
+import de.topobyte.livecg.geometry.ui.geom.Polygon;
 import de.topobyte.livecg.geometry.ui.geometryeditor.mousemode.MouseMode;
 
 public class EditorMouseListener extends MouseAdapter
@@ -81,6 +82,7 @@ public class EditorMouseListener extends MouseAdapter
 		AddPointResult addPointResult = selectAddPointMode();
 		editPane.clearCurrentNodes();
 		editPane.clearCurrentChains();
+		editPane.clearCurrentPolygons();
 
 		switch (addPointResult.addPointMode) {
 		default:
@@ -162,6 +164,7 @@ public class EditorMouseListener extends MouseAdapter
 				|| editPane.getCurrentNodes().size() > 0;
 		editPane.clearCurrentNodes();
 		editPane.clearCurrentChains();
+		editPane.clearCurrentPolygons();
 		return changed;
 	}
 
@@ -181,8 +184,17 @@ public class EditorMouseListener extends MouseAdapter
 	{
 		Node node = editPane.getContent().getNearestNode(coord);
 		Editable editable = editPane.getContent().getNearestChain(coord);
-		double dChain = editable.distance(coord);
-		double dNode = node.getCoordinate().distance(coord);
+		Polygon polygon = editPane.getContent().getNearestPolygon(coord);
+		double dNode = Double.MAX_VALUE, dChain = Double.MAX_VALUE, dPolygon = Double.MAX_VALUE;
+		if (node != null) {
+			dNode = node.getCoordinate().distance(coord);
+		}
+		if (editable != null) {
+			dChain = editable.distance(coord);
+		}
+		if (polygon != null) {
+			dPolygon = polygon.getShell().distance(coord);
+		}
 		List<Editable> chains = editPane.getCurrentChains();
 		boolean changed = false;
 		if (dNode < 5) {
@@ -193,11 +205,18 @@ public class EditorMouseListener extends MouseAdapter
 				}
 			}
 			changed |= editPane.clearCurrentNodes();
+			changed |= editPane.clearCurrentPolygons();
 			changed |= editPane.addCurrentNode(node);
 		} else if (dChain < 5) {
 			changed |= editPane.clearCurrentNodes();
 			changed |= editPane.clearCurrentChains();
+			changed |= editPane.clearCurrentPolygons();
 			changed |= editPane.addCurrentChain(editable);
+		} else if (dPolygon < 5) {
+			changed |= editPane.clearCurrentNodes();
+			changed |= editPane.clearCurrentChains();
+			changed |= editPane.clearCurrentPolygons();
+			changed |= editPane.addCurrentPolygon(polygon);
 		} else {
 			changed = selectNothing();
 		}
@@ -284,6 +303,10 @@ public class EditorMouseListener extends MouseAdapter
 	{
 		for (Editable chain : n2.getChains()) {
 			chain.replaceNode(n2, n1);
+			n1.addChain(chain);
+		}
+		for (Editable chain : n2.getEndpointChains()) {
+			n1.addEndpointChain(chain);
 		}
 		editPane.removeCurrentNode(n2);
 		editPane.addCurrentNode(n1);
@@ -313,16 +336,28 @@ public class EditorMouseListener extends MouseAdapter
 		if (editPane.getMouseMode() == MouseMode.SELECT_MOVE) {
 			Node node = editPane.getContent().getNearestNode(coord);
 			Editable editable = editPane.getContent().getNearestChain(coord);
-			double dChain = editable.distance(coord);
-			double dNode = node.getCoordinate().distance(coord);
+			Polygon polygon = editPane.getContent().getNearestPolygon(coord);
+			double dNode = Double.MAX_VALUE, dChain = Double.MAX_VALUE, dPolygon = Double.MAX_VALUE;
+			if (node != null) {
+				dNode = node.getCoordinate().distance(coord);
+			}
+			if (editable != null) {
+				dChain = editable.distance(coord);
+			}
+			if (polygon != null) {
+				dPolygon = polygon.getShell().distance(coord);
+			}
 			boolean changed = false;
 			if (dNode < 5) {
 				changed = editPane.setMouseHighlight(node);
 			} else if (dChain < 5) {
 				changed = editPane.setMouseHighlight(editable);
+			} else if (dPolygon < 5) {
+				changed = editPane.setMouseHighlight(polygon);
 			} else {
 				changed |= editPane.setMouseHighlight((Node) null);
 				changed |= editPane.setMouseHighlight((Editable) null);
+				changed |= editPane.setMouseHighlight((Polygon) null);
 			}
 			if (changed) {
 				editPane.repaint();

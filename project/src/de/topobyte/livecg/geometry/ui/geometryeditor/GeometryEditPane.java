@@ -57,6 +57,7 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 
 	private List<Node> currentNodes = new ArrayList<Node>();
 	private List<Editable> currentChains = new ArrayList<Editable>();
+	private List<Polygon> currentPolygons = new ArrayList<Polygon>();
 
 	public GeometryEditPane()
 	{
@@ -145,6 +146,11 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 	{
 		return currentChains;
 	}
+	
+	public List<Polygon> getCurrentPolygons()
+	{
+		return currentPolygons;
+	}
 
 	public boolean addCurrentNode(Node node)
 	{
@@ -160,29 +166,67 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 		return true;
 	}
 
+	public boolean addCurrentPolygon(Polygon polygon)
+	{
+		currentPolygons.add(polygon);
+		fireSelectionChanged();
+		return true;
+	}
+
 	public boolean removeCurrentNode(Node node)
 	{
-		return currentNodes.remove(node);
+		boolean changed = currentNodes.remove(node);
+		if (changed) {
+			fireSelectionChanged();
+		}
+		return changed;
 	}
 
 	public boolean removeCurrentChain(Editable chain)
 	{
-		return currentChains.remove(chain);
+		boolean changed = currentChains.remove(chain);
+		if (changed) {
+			fireSelectionChanged();
+		}
+		return changed;
+	}
+
+	public boolean removeCurrentPolygon(Polygon polygon)
+	{
+		boolean changed = currentPolygons.remove(polygon);
+		if (changed) {
+			fireSelectionChanged();
+		}
+		return changed;
 	}
 
 	public boolean clearCurrentNodes()
 	{
 		boolean changed = currentNodes.size() != 0;
-		currentNodes.clear();
-		fireSelectionChanged();
+		if (changed) {
+			currentNodes.clear();
+			fireSelectionChanged();
+		}
 		return changed;
 	}
 
 	public boolean clearCurrentChains()
 	{
 		boolean changed = currentChains.size() != 0;
-		currentChains.clear();
-		fireSelectionChanged();
+		if (changed) {
+			currentChains.clear();
+			fireSelectionChanged();
+		}
+		return changed;
+	}
+
+	public boolean clearCurrentPolygons()
+	{
+		boolean changed = currentPolygons.size() != 0;
+		if (changed) {
+			currentPolygons.clear();
+			fireSelectionChanged();
+		}
 		return changed;
 	}
 
@@ -219,6 +263,11 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 			drawHighlight(g, mouseHighlightChain, colorMouseHighlightChain);
 		}
 
+		if (mouseHighlightPolygon != null) {
+			drawHighlight(g, mouseHighlightPolygon.getShell(),
+					colorMouseHighlightChain);
+		}
+
 		List<Editable> lines = content.getLines();
 		for (int i = 0; i < lines.size(); i++) {
 			Editable line = lines.get(i);
@@ -251,6 +300,13 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 					g.drawRect((int) Math.round(c.getX() - 3),
 							(int) Math.round(c.getY() - 3), 6, 6);
 				}
+			}
+		}
+
+		if (currentPolygons.size() > 0) {
+			for (Polygon polygon : currentPolygons) {
+				draw(g, polygon.getShell(), colorEditingChainLines,
+						colorEditingChainPoints, null);
 			}
 		}
 
@@ -429,6 +485,7 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 
 	private Node mouseHighlightNode = null;
 	private Editable mouseHighlightChain = null;
+	private Polygon mouseHighlightPolygon = null;
 	private Node snapHighlightNode = null;
 
 	public boolean setMouseHighlight(Node node)
@@ -436,6 +493,7 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 		if (mouseHighlightNode != node) {
 			mouseHighlightNode = node;
 			mouseHighlightChain = null;
+			mouseHighlightPolygon = null;
 			return true;
 		}
 		return false;
@@ -455,6 +513,18 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 		if (mouseHighlightChain != editable) {
 			mouseHighlightNode = null;
 			mouseHighlightChain = editable;
+			mouseHighlightPolygon = null;
+			return true;
+		}
+		return false;
+	}
+
+	public boolean setMouseHighlight(Polygon polygon)
+	{
+		if (mouseHighlightPolygon != polygon) {
+			mouseHighlightNode = null;
+			mouseHighlightChain = null;
+			mouseHighlightPolygon = polygon;
 			return true;
 		}
 		return false;

@@ -24,6 +24,7 @@ import javax.swing.JDialog;
 
 import de.topobyte.livecg.geometry.ui.geom.Editable;
 import de.topobyte.livecg.geometry.ui.geom.Node;
+import de.topobyte.livecg.geometry.ui.geom.Polygon;
 import de.topobyte.livecg.geometry.ui.geometryeditor.ContentChangedListener;
 import de.topobyte.livecg.geometry.ui.geometryeditor.GeometryEditPane;
 import de.topobyte.livecg.geometry.ui.geometryeditor.SelectionChangedListener;
@@ -64,22 +65,33 @@ public class ObjectDialog extends JDialog
 
 	private Node currentNode = null;
 	private Editable currentChain = null;
+	private Polygon currentPolygon = null;
 
 	private NodePanel np = null;
 	private PolygonalChainPanel pcp = null;
+	private PolygonPanel pp = null;
 
 	protected void update()
 	{
 		List<Node> nodes = editPane.getCurrentNodes();
 		List<Editable> chains = editPane.getCurrentChains();
+		List<Polygon> polygons = editPane.getCurrentPolygons();
 
-		if (nodes.size() == 0 && chains.size() == 0) {
-			if (currentNode != null || currentChain != null) {
+		int ns = nodes.size();
+		int cs = chains.size();
+		int ps = polygons.size();
+
+		System.out.println("ns: " + ns + " cs: " + cs + " ps: " + ps);
+
+		if (ns == 0 && cs == 0 && ps == 0) {
+			if (currentNode != null || currentChain != null
+					|| currentPolygon != null) {
 				setContentPane(new NothingPanel());
 			}
 			currentNode = null;
 			currentChain = null;
-		} else if (nodes.size() == 1 && chains.size() == 0) {
+			currentPolygon = null;
+		} else if (ns == 1 && cs == 0 && ps == 0) {
 			Node node = nodes.iterator().next();
 			if (currentNode != node) {
 				currentNode = node;
@@ -88,7 +100,7 @@ public class ObjectDialog extends JDialog
 			} else {
 				np.update();
 			}
-		} else if (nodes.size() == 0 && chains.size() == 1) {
+		} else if (ns == 0 && cs == 1 && ps == 0) {
 			Editable chain = chains.iterator().next();
 			if (currentChain != chain) {
 				currentChain = chain;
@@ -96,6 +108,15 @@ public class ObjectDialog extends JDialog
 				setContentPane(pcp);
 			} else {
 				pcp.update();
+			}
+		} else if (ns == 0 && cs == 0 && ps == 1) {
+			Polygon polygon = polygons.iterator().next();
+			if (currentPolygon != polygon) {
+				currentPolygon = polygon;
+				pp = new PolygonPanel(editPane, polygon);
+				setContentPane(pp);
+			} else {
+				pp.update();
 			}
 		} else {
 			// TODO: mixed dialog

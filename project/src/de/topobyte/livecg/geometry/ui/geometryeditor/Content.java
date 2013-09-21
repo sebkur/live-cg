@@ -159,12 +159,19 @@ public class Content
 				nearest = editable;
 			}
 		}
+		return nearest;
+	}
+
+	public Polygon getNearestPolygon(Coordinate coordinate)
+	{
+		double distance = Double.MAX_VALUE;
+		Polygon nearest = null;
 		for (Polygon polygon : polygons) {
 			Editable shell = polygon.getShell();
 			double d = shell.distance(coordinate);
 			if (d < distance) {
 				distance = d;
-				nearest = shell;
+				nearest = polygon;
 			}
 		}
 		return nearest;
