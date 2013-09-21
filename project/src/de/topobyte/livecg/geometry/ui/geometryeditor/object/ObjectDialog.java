@@ -81,8 +81,6 @@ public class ObjectDialog extends JDialog
 		int cs = chains.size();
 		int ps = polygons.size();
 
-		System.out.println("ns: " + ns + " cs: " + cs + " ps: " + ps);
-
 		if (ns == 0 && cs == 0 && ps == 0) {
 			if (currentNode != null || currentChain != null
 					|| currentPolygon != null) {
