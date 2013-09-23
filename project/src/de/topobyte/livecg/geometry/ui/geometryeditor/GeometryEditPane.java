@@ -62,7 +62,6 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 	public GeometryEditPane()
 	{
 		content = new Content();
-		content.addContentChangedListener(this);
 
 		setBackground(new Color(0xFAFAFA));
 
@@ -72,6 +71,12 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 
 		setupKeys();
 
+		initForContent();
+	}
+
+	private void initForContent()
+	{
+		content.addContentChangedListener(this);
 		setTransferHandler(new EditPaneTransferHandler(content));
 	}
 
@@ -135,6 +140,19 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 	public Content getContent()
 	{
 		return content;
+	}
+
+	public void setContent(Content content)
+	{
+		this.content = content;
+		initForContent();
+
+		fireContentReferenceChanged();
+
+		clearCurrentNodes();
+		clearCurrentChains();
+		clearCurrentPolygons();
+		setSnapHighlight(null);
 	}
 
 	public List<Node> getCurrentNodes()
@@ -548,7 +566,28 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 			l.selectionChanged();
 		}
 	}
-	
+
+	private List<ContentReferenceChangedListener> contentReferenceChangedListeners = new ArrayList<ContentReferenceChangedListener>();
+
+	public void addContentReferenceChangedListener(
+			ContentReferenceChangedListener l)
+	{
+		contentReferenceChangedListeners.add(l);
+	}
+
+	public void removeContentReferenceChangedListener(
+			ContentReferenceChangedListener l)
+	{
+		contentReferenceChangedListeners.remove(l);
+	}
+
+	private void fireContentReferenceChanged()
+	{
+		for (ContentReferenceChangedListener l : contentReferenceChangedListeners) {
+			l.contentReferenceChanged();
+		}
+	}
+
 	public void removeChain(Editable chain)
 	{
 		if (currentChains.contains(chain)) {

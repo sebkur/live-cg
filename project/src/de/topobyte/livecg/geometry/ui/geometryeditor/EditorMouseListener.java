@@ -382,8 +382,10 @@ public class EditorMouseListener extends MouseAdapter
 	private void activateNodeForMove(Coordinate coord)
 	{
 		Node node = editPane.getContent().getNearestNode(coord);
-		if (node.getCoordinate().distance(coord) < 5) {
-			currentMoveNode = node;
+		if (node != null) {
+			if (node.getCoordinate().distance(coord) < 5) {
+				currentMoveNode = node;
+			}
 		}
 		editPane.getContent().fireContentChanged();
 	}

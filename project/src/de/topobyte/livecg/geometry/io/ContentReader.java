@@ -15,35 +15,34 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package de.topobyte.livecg.geometry.io;
 
-package de.topobyte.livecg.geometry.ui.geometryeditor.action;
-
-import java.awt.event.ActionEvent;
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 import de.topobyte.livecg.geometry.ui.geometryeditor.Content;
-import de.topobyte.livecg.geometry.ui.geometryeditor.GeometryEditPane;
 
-public class NewAction extends BasicAction
+public class ContentReader
 {
 
-	private static final long serialVersionUID = -7366716164763979848L;
-
-	private final GeometryEditPane editPane;
-
-	public NewAction(GeometryEditPane editPane)
+	public Content read(File file) throws IOException
 	{
-		super("New", "Start with a fresh and empty document",
-				"org/freedesktop/tango/22x22/actions/document-new.png");
-		this.editPane = editPane;
+		FileInputStream fis = new FileInputStream(file);
+		BufferedInputStream bis = new BufferedInputStream(fis);
+		Content content = read(bis);
+		bis.close();
+		return content;
 	}
 
-	@Override
-	public void actionPerformed(ActionEvent e)
+	public Content read(InputStream input) throws IOException
 	{
 		Content content = new Content();
-		editPane.setContent(content);
-
-		content.fireContentChanged();
+		
+		// TODO: read input
+		
+		return content;
 	}
-
 }

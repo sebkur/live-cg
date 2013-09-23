@@ -29,25 +29,25 @@ import javax.swing.JFrame;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.topobyte.livecg.geometry.io.ContentWriter;
+import de.topobyte.livecg.geometry.io.ContentReader;
 import de.topobyte.livecg.geometry.ui.geometryeditor.Content;
 import de.topobyte.livecg.geometry.ui.geometryeditor.GeometryEditPane;
 import de.topobyte.livecg.util.SwingUtil;
 
-public class SaveAction extends BasicAction
+public class OpenAction extends BasicAction
 {
 
-	private static final long serialVersionUID = 5846324015237476127L;
+	private static final long serialVersionUID = 6902851975437908329L;
 
-	static final Logger logger = LoggerFactory.getLogger(SaveAction.class);
+	static final Logger logger = LoggerFactory.getLogger(OpenAction.class);
 
 	private final GeometryEditPane editPane;
 	private final JComponent component;
 
-	public SaveAction(JComponent component, GeometryEditPane editPane)
+	public OpenAction(JComponent component, GeometryEditPane editPane)
 	{
-		super("Save", "Save the current document to a file",
-				"org/freedesktop/tango/22x22/actions/document-save.png");
+		super("Open", "Open a document from a file",
+				"org/freedesktop/tango/22x22/actions/document-open.png");
 		this.component = component;
 		this.editPane = editPane;
 	}
@@ -57,24 +57,23 @@ public class SaveAction extends BasicAction
 	{
 		JFrame frame = SwingUtil.getContainingFrame(component);
 		JFileChooser chooser = new JFileChooser();
-		int value = chooser.showSaveDialog(frame);
+		int value = chooser.showOpenDialog(frame);
 		if (value == JFileChooser.APPROVE_OPTION) {
 			File file = chooser.getSelectedFile();
-			logger.debug("attempting to write document to file: " + file);
+			logger.debug("attempting to open document from file: " + file);
+
+			ContentReader reader = new ContentReader();
 			try {
-				write(editPane.getContent(), file);
+				Content content = reader.read(file);
+				editPane.setContent(content);
+				
+				content.fireContentChanged();
 			} catch (IOException e) {
-				logger.debug("unable to write file.");
+				logger.debug("unable to open file.");
 				logger.debug("Exception type: " + e.getClass().getSimpleName());
 				logger.debug("Exception message: " + e.getMessage());
 			}
 		}
-	}
-
-	private void write(Content content, File file) throws IOException
-	{
-		ContentWriter writer = new ContentWriter();
-		writer.write(content, file);
 	}
 
 }

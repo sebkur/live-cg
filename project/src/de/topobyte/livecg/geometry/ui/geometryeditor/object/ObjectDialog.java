@@ -26,6 +26,7 @@ import de.topobyte.livecg.geometry.ui.geom.Editable;
 import de.topobyte.livecg.geometry.ui.geom.Node;
 import de.topobyte.livecg.geometry.ui.geom.Polygon;
 import de.topobyte.livecg.geometry.ui.geometryeditor.ContentChangedListener;
+import de.topobyte.livecg.geometry.ui.geometryeditor.ContentReferenceChangedListener;
 import de.topobyte.livecg.geometry.ui.geometryeditor.GeometryEditPane;
 import de.topobyte.livecg.geometry.ui.geometryeditor.SelectionChangedListener;
 
@@ -43,6 +44,15 @@ public class ObjectDialog extends JDialog
 
 		setContentPane(new NothingPanel());
 
+		editPane.addContentReferenceChangedListener(new ContentReferenceChangedListener() {
+
+			@Override
+			public void contentReferenceChanged()
+			{
+				initForContent();
+			}
+		});
+
 		editPane.addSelectionChangedListener(new SelectionChangedListener() {
 
 			@Override
@@ -52,6 +62,11 @@ public class ObjectDialog extends JDialog
 			}
 		});
 
+		initForContent();
+	}
+
+	protected void initForContent()
+	{
 		editPane.getContent().addContentChangedListener(
 				new ContentChangedListener() {
 

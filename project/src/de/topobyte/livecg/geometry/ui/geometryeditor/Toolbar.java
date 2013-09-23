@@ -21,9 +21,9 @@ package de.topobyte.livecg.geometry.ui.geometryeditor;
 import javax.swing.JToggleButton;
 import javax.swing.JToolBar;
 
-import de.topobyte.livecg.geometry.ui.geometryeditor.action.LoadAction;
 import de.topobyte.livecg.geometry.ui.geometryeditor.action.MouseAction;
 import de.topobyte.livecg.geometry.ui.geometryeditor.action.NewAction;
+import de.topobyte.livecg.geometry.ui.geometryeditor.action.OpenAction;
 import de.topobyte.livecg.geometry.ui.geometryeditor.action.SaveAction;
 import de.topobyte.livecg.geometry.ui.geometryeditor.mousemode.MouseMode;
 import de.topobyte.livecg.geometry.ui.geometryeditor.mousemode.MouseModeProvider;
@@ -37,7 +37,7 @@ public class Toolbar extends JToolBar
 			MouseModeProvider mouseModeProvider)
 	{
 		NewAction newAction = new NewAction(editPane);
-		LoadAction loadAction = new LoadAction(this, editPane);
+		OpenAction openAction = new OpenAction(this, editPane);
 		SaveAction saveAction = new SaveAction(this, editPane);
 
 		MouseAction selectAction = new MouseAction(null, "select / move",
@@ -52,7 +52,7 @@ public class Toolbar extends JToolBar
 		JToggleButton buttonDelete = new JToggleButton(deleteAction);
 
 		add(newAction);
-		add(loadAction);
+		add(openAction);
 		add(saveAction);
 		add(buttonSelect);
 		add(buttonEdit);
