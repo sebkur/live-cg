@@ -30,7 +30,7 @@ public class TestPolygonalChainPanel
 
 		GeometryEditPane editPane = new GeometryEditPane();
 		Editable editable = new Editable();
-		editPane.getContent().addLine(editable);
+		editPane.getContent().addChain(editable);
 
 		PolygonalChainPanel panel = new PolygonalChainPanel(editPane, editable);
 		frame.setContentPane(panel);

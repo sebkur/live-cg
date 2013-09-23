@@ -32,6 +32,7 @@ public class Editable
 	private boolean closed = false;
 
 	private List<Node> nodes = new ArrayList<Node>();
+	private List<Polygon> polygons = new ArrayList<Polygon>();
 
 	public void prependPoint(Coordinate coordinate)
 	{
@@ -142,6 +143,14 @@ public class Editable
 		}
 	}
 
+	public void remove(Node node)
+	{
+		while(nodes.contains(node)) {
+			int index = nodes.indexOf(node);
+			nodes.remove(index);
+		}
+	}
+
 	public void removeFirstPoint()
 	{
 		remove(0);
@@ -152,6 +161,21 @@ public class Editable
 		remove(nodes.size() - 1);
 	}
 
+	public List<Polygon> getPolygons()
+	{
+		return polygons;
+	}
+	
+	public void addPolygon(Polygon polygon)
+	{
+		polygons.add(polygon);
+	}
+	
+	public void removePolygon(Polygon polygon)
+	{
+		polygons.remove(polygon);
+	}
+	
 	public Geometry createGeometry()
 	{
 		int n = nodes.size();
@@ -221,6 +245,11 @@ public class Editable
 					"invalid number of coordinates: need at least 3 coordinates to close a geometry");
 		}
 		this.closed = closed;
+	}
+	
+	public void setOpen()
+	{
+		this.closed = false;
 	}
 
 	public boolean isClosed()
@@ -301,4 +330,5 @@ public class Editable
 			}
 		}
 	}
+
 }

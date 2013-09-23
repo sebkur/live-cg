@@ -73,7 +73,7 @@ public class LoadAction extends BasicAction
 					System.out
 							.println("loaded geometry is not a valid LineString");
 				} else {
-					editPane.getContent().addLine(editable);
+					editPane.getContent().addChain(editable);
 					editPane.getContent().fireContentChanged();
 				}
 			} catch (IOException ex) {

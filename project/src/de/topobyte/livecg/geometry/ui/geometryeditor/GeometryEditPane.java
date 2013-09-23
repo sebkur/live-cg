@@ -146,7 +146,7 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 	{
 		return currentChains;
 	}
-	
+
 	public List<Polygon> getCurrentPolygons()
 	{
 		return currentPolygons;
@@ -268,7 +268,7 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 					colorMouseHighlightChain);
 		}
 
-		List<Editable> lines = content.getLines();
+		List<Editable> lines = content.getChains();
 		for (int i = 0; i < lines.size(); i++) {
 			Editable line = lines.get(i);
 			if (currentChains.contains(line)) {
@@ -547,6 +547,22 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 		for (SelectionChangedListener l : selectionListenerns) {
 			l.selectionChanged();
 		}
+	}
+	
+	public void removeChain(Editable chain)
+	{
+		if (currentChains.contains(chain)) {
+			removeCurrentChain(chain);
+		}
+		content.removeChain(chain);
+	}
+
+	public void removePolygon(Polygon polygon)
+	{
+		if (currentPolygons.contains(polygon)) {
+			removeCurrentPolygon(polygon);
+		}
+		content.removePolygon(polygon);
 	}
 
 }

@@ -15,33 +15,19 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package de.topobyte.livecg.util;
 
-package de.topobyte.livecg.geometry.ui.geometryeditor.action;
+import java.util.ArrayList;
+import java.util.List;
 
-import java.awt.event.ActionEvent;
-
-import de.topobyte.livecg.geometry.ui.geometryeditor.GeometryEditPane;
-
-public class NewAction extends BasicAction
+public class ListUtil
 {
-
-	private static final long serialVersionUID = -4452993048850158926L;
-
-	private final GeometryEditPane editPane;
-
-	public NewAction(GeometryEditPane editPane)
+	public static <T> List<T> copy(List<T> list)
 	{
-		super("New", "Start with a fresh and empty document",
-				"org/freedesktop/tango/22x22/actions/document-new.png");
-		this.editPane = editPane;
+		ArrayList<T> results = new ArrayList<T>();
+		for (T object : list) {
+			results.add(object);
+		}
+		return results;
 	}
-
-	@Override
-	public void actionPerformed(ActionEvent e)
-	{
-		editPane.getContent().getChains().clear();
-		editPane.getContent().getPolygons().clear();
-		editPane.getContent().fireContentChanged();
-	}
-
 }

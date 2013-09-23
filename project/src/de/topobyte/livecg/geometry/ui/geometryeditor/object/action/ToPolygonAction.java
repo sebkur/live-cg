@@ -46,7 +46,7 @@ public class ToPolygonAction extends BasicAction
 	{
 		Polygon polygon = new Polygon(editable);
 		Content content = editPane.getContent();
-		content.removeLine(editable);
+		content.removeChain(editable);
 		editPane.removeCurrentChain(editable);
 		content.addPolygon(polygon);
 		content.fireContentChanged();

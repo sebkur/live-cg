@@ -128,8 +128,8 @@ public class RunGeometryEditor
 		} catch (CloseabilityException e) {
 			// ignore
 		}
-		lineEditor.getEditPane().getContent().addLine(line1);
-		lineEditor.getEditPane().getContent().addLine(line2);
+		lineEditor.getEditPane().getContent().addChain(line1);
+		lineEditor.getEditPane().getContent().addChain(line2);
 
 	}
 }

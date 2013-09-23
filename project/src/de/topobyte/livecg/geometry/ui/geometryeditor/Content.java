@@ -34,17 +34,17 @@ public class Content
 	private List<Editable> editables = new ArrayList<Editable>();
 	private List<Polygon> polygons = new ArrayList<Polygon>();
 
-	public List<Editable> getLines()
+	public List<Editable> getChains()
 	{
 		return editables;
 	}
 
-	public void addLine(Editable line)
+	public void addChain(Editable line)
 	{
 		editables.add(line);
 	}
 
-	public void removeLine(Editable line)
+	public void removeChain(Editable line)
 	{
 		editables.remove(line);
 	}

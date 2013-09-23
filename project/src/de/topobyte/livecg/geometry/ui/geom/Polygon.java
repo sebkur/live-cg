@@ -25,6 +25,7 @@ public class Polygon
 	public Polygon(Editable shell)
 	{
 		this.shell = shell;
+		shell.addPolygon(this);
 	}
 	
 	public Editable getShell()

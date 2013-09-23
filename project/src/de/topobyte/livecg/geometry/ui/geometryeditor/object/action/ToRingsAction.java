@@ -48,7 +48,7 @@ public class ToRingsAction extends BasicAction
 		Content content = editPane.getContent();
 		content.removePolygon(polygon);
 		editPane.removeCurrentPolygon(polygon);
-		content.addLine(shell);
+		content.addChain(shell);
 		content.fireContentChanged();
 	}
 

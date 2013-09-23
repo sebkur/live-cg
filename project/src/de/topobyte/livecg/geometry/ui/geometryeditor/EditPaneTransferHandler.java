@@ -63,7 +63,7 @@ public class EditPaneTransferHandler extends TransferHandler
 			try {
 				Geometry geometry = reader.read(new FileReader(file));
 				Editable editable = Editable.fromLineString(geometry);
-				content.addLine(editable);
+				content.addChain(editable);
 			} catch (FileNotFoundException e) {
 				logger.error("unable to load geometry: " + e.getMessage());
 			} catch (ParseException e) {
