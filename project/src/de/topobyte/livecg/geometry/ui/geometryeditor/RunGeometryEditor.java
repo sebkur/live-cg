@@ -66,7 +66,7 @@ public class RunGeometryEditor
 
 	public void setup(boolean exitOnClose)
 	{
-		frame.setSize(500, 400);
+		frame.setSize(800, 600);
 		if (exitOnClose) {
 			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		}
