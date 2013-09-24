@@ -17,16 +17,24 @@
  */
 package de.topobyte.livecg.geometry.ui.geometryeditor.object;
 
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.event.DocumentEvent;
 
 import de.topobyte.livecg.geometry.ui.geom.Coordinate;
 import de.topobyte.livecg.geometry.ui.geom.Node;
 import de.topobyte.livecg.geometry.ui.geometryeditor.GeometryEditPane;
+import de.topobyte.livecg.geometry.ui.misc.Borders;
+import de.topobyte.livecg.geometry.ui.misc.Borders.BorderState;
+import de.topobyte.swing.DocumentAdapter;
+import de.topobyte.swing.JPanelTextField;
 import de.topobyte.swing.layout.GridBagHelper;
 
 public class NodePanel extends JPanel
@@ -36,16 +44,22 @@ public class NodePanel extends JPanel
 
 	private Node node;
 	private JLabel label;
-	private JTextField inputX, inputY;
+	private JPanelTextField inputX, inputY;
+
+	private GeometryEditPane editPane;
 
 	public NodePanel(GeometryEditPane editPane, Node node)
 	{
+		this.editPane = editPane;
 		this.node = node;
 		setLayout(new GridBagLayout());
 		label = new JLabel();
 
-		inputX = new JTextField();
-		inputY = new JTextField();
+		inputX = new JPanelTextField();
+		inputY = new JPanelTextField();
+
+		setNoPreferredWidth(inputX.getTextField());
+		setNoPreferredWidth(inputY.getTextField());
 
 		GridBagConstraints c = new GridBagConstraints();
 
@@ -66,6 +80,48 @@ public class NodePanel extends JPanel
 		add(new JPanel(), c);
 
 		update();
+
+		inputX.setBorder(Borders.createBorder(BorderState.NORMAL));
+		inputY.setBorder(Borders.createBorder(BorderState.NORMAL));
+
+		inputX.getTextField().getDocument()
+				.addDocumentListener(new DocumentAdapter() {
+
+					@Override
+					public void update(DocumentEvent event)
+					{
+						textfieldChanged(inputX);
+					}
+				});
+		inputY.getTextField().getDocument()
+				.addDocumentListener(new DocumentAdapter() {
+
+					@Override
+					public void update(DocumentEvent event)
+					{
+						textfieldChanged(inputY);
+					}
+				});
+
+		inputX.getTextField().addFocusListener(new FocusAdapter() {
+			public void focusLost(FocusEvent e)
+			{
+				lostFocus(inputX);
+			}
+		});
+		inputY.getTextField().addFocusListener(new FocusAdapter() {
+			public void focusLost(FocusEvent e)
+			{
+				lostFocus(inputY);
+			}
+		});
+	}
+
+	private void setNoPreferredWidth(JTextField textField)
+	{
+		Dimension dimension = textField.getPreferredSize();
+		dimension.width = 0;
+		textField.setPreferredSize(dimension);
 	}
 
 	public void update()
@@ -79,6 +135,53 @@ public class NodePanel extends JPanel
 	private String getLabelText()
 	{
 		return "Object: node";
+	}
+
+	protected void textfieldChanged(JPanelTextField input)
+	{
+		String text = input.getText();
+		try {
+			Double.valueOf(text);
+			input.setBorder(Borders.createBorder(BorderState.NORMAL));
+		} catch (NumberFormatException e) {
+			input.setBorder(Borders.createBorder(BorderState.INVALID));
+		}
+	}
+
+	protected void lostFocus(JPanelTextField input)
+	{
+		String text = input.getText();
+		try {
+			double value = Double.valueOf(text);
+			setNodeValueFromTextfield(value, input);
+		} catch (NumberFormatException e) {
+			revertTextfieldToNodeValue(input);
+		}
+	}
+
+	private void setNodeValueFromTextfield(double value, JPanelTextField input)
+	{
+		Coordinate oldCoord = node.getCoordinate();
+		Coordinate newCoord = null;
+		if (input == inputX) {
+			newCoord = new Coordinate(value, oldCoord.getY());
+		} else if (input == inputY) {
+			newCoord = new Coordinate(oldCoord.getX(), value);
+		}
+		if (newCoord != null) {
+			node.setCoordinate(newCoord);
+			editPane.repaint();
+		}
+	}
+
+	private void revertTextfieldToNodeValue(JPanelTextField input)
+	{
+		Coordinate coord = node.getCoordinate();
+		if (input == inputX) {
+			input.setText("" + coord.getX());
+		} else if (input == inputY) {
+			input.setText("" + coord.getY());
+		}
 	}
 
 }
