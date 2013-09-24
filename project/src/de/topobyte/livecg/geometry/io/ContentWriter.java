@@ -111,7 +111,9 @@ public class ContentWriter
 	private void writeChain(Editable chain) throws IOException
 	{
 		StringBuilder buffer = buildChainBuffer(chain);
-		String text = "\n  <chain>" + buffer + "</chain>";
+		String closed = chain.isClosed() ? "true" : "false";
+		String text = "\n  <chain closed=\"" + closed + "\">" + buffer
+				+ "</chain>";
 		output.write(text.getBytes());
 	}
 

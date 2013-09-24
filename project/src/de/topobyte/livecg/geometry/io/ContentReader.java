@@ -81,6 +81,8 @@ public class ContentReader extends DefaultHandler
 	private Map<Integer, Node> idToNode = new HashMap<Integer, Node>();
 	// A temporary storage for a chain's node references
 	private List<Integer> ids = new ArrayList<Integer>();
+	// A temporary storage for chain's closed attribute
+	private boolean closed = false;
 	// Store polygon's shell here
 	private Editable shell = null;
 
@@ -115,12 +117,14 @@ public class ContentReader extends DefaultHandler
 				addNode(id, x, y);
 			} else if (qName.equals("chain")) {
 				position.push(Element.Chain);
+				parseChain(attributes);
 			} else if (qName.equals("polygon")) {
 				position.push(Element.Polygon);
 			}
 		} else if (position.peek() == Element.Polygon) {
 			if (qName.equals("chain")) {
 				position.push(Element.Chain);
+				parseChain(attributes);
 			}
 		}
 	}
@@ -137,8 +141,14 @@ public class ContentReader extends DefaultHandler
 			// Nothing to do for these
 			break;
 		case Chain:
-			parseChain();
-			Editable chain = buildChain();
+			parseChainText();
+			Editable chain;
+			try {
+				chain = buildChain();
+			} catch (CloseabilityException e) {
+				throw new SAXException(
+						"A chain marked as closed was not closeable", e);
+			}
 			if (position.peek() == Element.Data) {
 				content.addChain(chain);
 			} else if (position.peek() == Element.Polygon) {
@@ -176,7 +186,17 @@ public class ContentReader extends DefaultHandler
 		idToNode.put(id, node);
 	}
 
-	private void parseChain()
+	private void parseChain(Attributes attributes)
+	{
+		closed = false;
+		String sClosed = attributes.getValue("closed");
+		if (sClosed != null) {
+			String lower = sClosed.toLowerCase();
+			closed = lower.equals("true") || lower.equals("yes");
+		}
+	}
+
+	private void parseChainText()
 	{
 		ids.clear();
 		String text = buffer.toString();
@@ -187,12 +207,15 @@ public class ContentReader extends DefaultHandler
 		}
 	}
 
-	private Editable buildChain()
+	private Editable buildChain() throws CloseabilityException
 	{
 		Editable chain = new Editable();
 		for (int id : ids) {
 			Node node = idToNode.get(id);
 			chain.appendNode(node);
+		}
+		if (closed) {
+			chain.setClosed(closed);
 		}
 		return chain;
 	}
