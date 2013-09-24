@@ -9,10 +9,9 @@ algorithms from computational geometry.
 # Editor
 ## Key Bindings
 ### Main
-* `a`: select mode
+* `a`: select/move mode
 * `s`: add mode
-* `d`: move mode
-* `f`: delete mode
+* `d`: delete mode
 
 ### Add mode
 * `left mouse button`: add a node
