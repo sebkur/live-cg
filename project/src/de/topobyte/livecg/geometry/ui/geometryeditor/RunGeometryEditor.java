@@ -20,21 +20,25 @@ package de.topobyte.livecg.geometry.ui.geometryeditor;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.io.InputStream;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import org.apache.log4j.BasicConfigurator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import de.topobyte.livecg.geometry.ui.geom.CloseabilityException;
-import de.topobyte.livecg.geometry.ui.geom.Coordinate;
-import de.topobyte.livecg.geometry.ui.geom.Editable;
+import de.topobyte.livecg.geometry.io.ContentReader;
 import de.topobyte.livecg.geometry.ui.geometryeditor.object.ObjectDialog;
 import de.topobyte.livecg.geometry.ui.misc.Menu;
 
 public class RunGeometryEditor
 {
+
+	static final Logger logger = LoggerFactory
+			.getLogger(RunGeometryEditor.class);
 
 	public static void main(String[] args)
 	{
@@ -81,9 +85,10 @@ public class RunGeometryEditor
 		toolbar.setFloatable(false);
 
 		StatusBar statusBar = new StatusBar();
-		StatusBarMouseListener statusBarMouseListener = new StatusBarMouseListener(statusBar);
+		StatusBarMouseListener statusBarMouseListener = new StatusBarMouseListener(
+				statusBar);
 		lineEditor.getEditPane().addMouseListener(statusBarMouseListener);
-		lineEditor.getEditPane().addMouseMotionListener(statusBarMouseListener			);
+		lineEditor.getEditPane().addMouseMotionListener(statusBarMouseListener);
 
 		GridBagConstraints c = new GridBagConstraints();
 
@@ -114,22 +119,18 @@ public class RunGeometryEditor
 		objectDialog.setLocation(frame.getX() + frame.getWidth(), frame.getY());
 		objectDialog.setVisible(true);
 
-		Editable line1 = new Editable();
-		line1.appendPoint(new Coordinate(100, 100));
-		line1.appendPoint(new Coordinate(200, 120));
-		line1.appendPoint(new Coordinate(300, 150));
-		Editable line2 = new Editable();
-		line2.appendPoint(new Coordinate(100, 140));
-		line2.appendPoint(new Coordinate(200, 150));
-		line2.appendPoint(new Coordinate(200, 200));
-		line2.appendPoint(new Coordinate(90, 220));
+		ContentReader reader = new ContentReader();
+		String filename = "res/geom/some.geom";
+		InputStream input = Thread.currentThread().getContextClassLoader()
+				.getResourceAsStream(filename);
 		try {
-			line2.setClosed(true);
-		} catch (CloseabilityException e) {
-			// ignore
+			Content content = reader.read(input);
+			lineEditor.getEditPane().setContent(content);
+		} catch (Exception e) {
+			logger.debug("unable to load startup geometry file");
+			logger.debug("Exception: " + e.getClass().getSimpleName());
+			logger.debug("Message: " + e.getMessage());
 		}
-		lineEditor.getEditPane().getContent().addChain(line1);
-		lineEditor.getEditPane().getContent().addChain(line2);
 
 	}
 }
