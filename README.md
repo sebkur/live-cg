@@ -13,6 +13,9 @@ algorithms from computational geometry.
 * `s`: add mode
 * `d`: delete mode
 
+### Move mode
+* `Ctrl`: while dragging nodes, snap to other nodes
+
 ### Add mode
 * `left mouse button`: add a node
 * `Ctrl + left mouse button`: close a ring
