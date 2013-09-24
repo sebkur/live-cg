@@ -185,7 +185,7 @@ public class EditorMouseListener extends MouseAdapter
 		editPane.getContent().fireContentChanged();
 	}
 
-	private void selectObject(Coordinate coord)
+	private void selectObject(Coordinate coord, boolean shift)
 	{
 		Node node = editPane.getContent().getNearestNode(coord);
 		Editable editable = editPane.getContent().getNearestChain(coord);
@@ -203,27 +203,35 @@ public class EditorMouseListener extends MouseAdapter
 		List<Editable> chains = editPane.getCurrentChains();
 		boolean changed = false;
 		if (dNode < 5) {
-			if (chains.size() == 1) {
+			if (!shift && chains.size() == 1) {
 				Editable chain = chains.iterator().next();
 				if (chain.getFirstNode() != node && chain.getLastNode() != node) {
 					editPane.clearCurrentChains();
 				}
 			}
-			changed |= editPane.clearCurrentNodes();
-			changed |= editPane.clearCurrentPolygons();
+			if (!shift) {
+				changed |= editPane.clearCurrentNodes();
+				changed |= editPane.clearCurrentPolygons();
+			}
 			changed |= editPane.addCurrentNode(node);
 		} else if (dChain < 5) {
-			changed |= editPane.clearCurrentNodes();
-			changed |= editPane.clearCurrentChains();
-			changed |= editPane.clearCurrentPolygons();
+			if (!shift) {
+				changed |= editPane.clearCurrentNodes();
+				changed |= editPane.clearCurrentChains();
+				changed |= editPane.clearCurrentPolygons();
+			}
 			changed |= editPane.addCurrentChain(editable);
 		} else if (dPolygon < 5) {
-			changed |= editPane.clearCurrentNodes();
-			changed |= editPane.clearCurrentChains();
-			changed |= editPane.clearCurrentPolygons();
+			if (!shift) {
+				changed |= editPane.clearCurrentNodes();
+				changed |= editPane.clearCurrentChains();
+				changed |= editPane.clearCurrentPolygons();
+			}
 			changed |= editPane.addCurrentPolygon(polygon);
 		} else {
-			changed = selectNothing();
+			if (!shift) {
+				changed = selectNothing();
+			}
 		}
 		if (changed) {
 			editPane.repaint();
@@ -327,7 +335,8 @@ public class EditorMouseListener extends MouseAdapter
 
 		if (editPane.getMouseMode() == MouseMode.SELECT_MOVE) {
 			if (e.getButton() == MouseEvent.BUTTON1) {
-				selectObject(coord);
+				boolean shift = e.isShiftDown();
+				selectObject(coord, shift);
 				activateNodeForMove(coord);
 			} else if (e.getButton() == MouseEvent.BUTTON3) {
 				selectNothing();

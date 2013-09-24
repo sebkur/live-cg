@@ -132,12 +132,12 @@ public class ObjectDialog extends JDialog
 				pp.update();
 			}
 		} else {
-			// TODO: mixed dialog
-			if (currentNode != null || currentChain != null) {
-				setContentPane(new NothingPanel());
+			if (currentNode != null || currentChain != null || currentPolygon != null) {
+				setContentPane(new MultiplePanel());
 			}
 			currentNode = null;
 			currentChain = null;
+			currentPolygon = null;
 		}
 		validate();
 	}
