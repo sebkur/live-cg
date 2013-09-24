@@ -9,5 +9,6 @@
 	<classpathentry kind="lib" path="lib/slf4j-log4j12-1.6.1.jar"/>
 	<classpathentry kind="lib" path="lib/carbon.jar"/>
 	<classpathentry kind="lib" path="lib/tango-icon-theme-0.8.90.jar"/>
+	<classpathentry kind="lib" path="lib/swing-misc.jar"/>
 	<classpathentry kind="output" path="bin/main"/>
 </classpath>

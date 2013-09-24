@@ -22,10 +22,12 @@ import java.awt.GridBagLayout;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 import de.topobyte.livecg.geometry.ui.geom.Coordinate;
 import de.topobyte.livecg.geometry.ui.geom.Node;
 import de.topobyte.livecg.geometry.ui.geometryeditor.GeometryEditPane;
+import de.topobyte.swing.layout.GridBagHelper;
 
 public class NodePanel extends JPanel
 {
@@ -34,6 +36,7 @@ public class NodePanel extends JPanel
 
 	private Node node;
 	private JLabel label;
+	private JTextField inputX, inputY;
 
 	public NodePanel(GeometryEditPane editPane, Node node)
 	{
@@ -41,24 +44,41 @@ public class NodePanel extends JPanel
 		setLayout(new GridBagLayout());
 		label = new JLabel();
 
+		inputX = new JTextField();
+		inputY = new JTextField();
+
 		GridBagConstraints c = new GridBagConstraints();
 
-		c.gridx = 0;
-		c.gridy = GridBagConstraints.RELATIVE;
+		GridBagHelper.setGxGyGwGh(c, 0, 0, 2, 1);
+		c.anchor = GridBagConstraints.LINE_START;
 		add(label, c);
-		
+
+		GridBagHelper.setGxGyGwGh(c, 0, 1, 1, 1);
+		GridBagHelper.setWxWyF(c, 1.0, 0.0, GridBagConstraints.HORIZONTAL);
+
+		c.gridx = 0;
+		add(inputX, c);
+		c.gridx = 1;
+		add(inputY, c);
+
+		GridBagHelper.setGxGyGwGh(c, 0, 2, 2, 1);
+		GridBagHelper.setWxWyF(c, 1.0, 1.0, GridBagConstraints.BOTH);
+		add(new JPanel(), c);
+
 		update();
 	}
 
 	public void update()
 	{
+		Coordinate c = node.getCoordinate();
 		label.setText(getLabelText());
+		inputX.setText("" + c.getX());
+		inputY.setText("" + c.getY());
 	}
 
 	private String getLabelText()
 	{
-		Coordinate c = node.getCoordinate();
-		return "node: " + c.getX() + ", " + c.getY();
+		return "Object: node";
 	}
 
 }
