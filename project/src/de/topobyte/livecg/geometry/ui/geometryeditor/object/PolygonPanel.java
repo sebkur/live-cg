@@ -27,6 +27,7 @@ import javax.swing.JPanel;
 import de.topobyte.livecg.geometry.ui.geom.Polygon;
 import de.topobyte.livecg.geometry.ui.geometryeditor.GeometryEditPane;
 import de.topobyte.livecg.geometry.ui.geometryeditor.object.action.ToRingsAction;
+import de.topobyte.swing.layout.GridBagHelper;
 
 public class PolygonPanel extends JPanel
 {
@@ -48,10 +49,16 @@ public class PolygonPanel extends JPanel
 
 		GridBagConstraints c = new GridBagConstraints();
 
-		c.gridx = 0;
-		c.gridy = GridBagConstraints.RELATIVE;
+		c.anchor = GridBagConstraints.LINE_START;
+
+		GridBagHelper.setGxGy(c, 0, 0);
 		add(label, c);
+		GridBagHelper.setGxGy(c, 0, 1);
 		add(toRings, c);
+		
+		GridBagHelper.setGxGy(c, 0, 2);
+		GridBagHelper.setWxWyF(c, 1.0, 1.0, GridBagConstraints.BOTH);
+		add(new JPanel(), c);
 
 		update();
 	}
@@ -63,7 +70,7 @@ public class PolygonPanel extends JPanel
 
 	private String getLabelText()
 	{
-		return "polygon with " + polygon.getShell().getNumberOfNodes()
+		return "Object: polygon with " + polygon.getShell().getNumberOfNodes()
 				+ " nodes";
 	}
 

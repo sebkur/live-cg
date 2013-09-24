@@ -29,6 +29,7 @@ import de.topobyte.livecg.geometry.ui.geom.Editable;
 import de.topobyte.livecg.geometry.ui.geometryeditor.GeometryEditPane;
 import de.topobyte.livecg.geometry.ui.geometryeditor.object.action.OpenCloseRingAction;
 import de.topobyte.livecg.geometry.ui.geometryeditor.object.action.ToPolygonAction;
+import de.topobyte.swing.layout.GridBagHelper;
 
 public class PolygonalChainPanel extends JPanel
 {
@@ -52,15 +53,22 @@ public class PolygonalChainPanel extends JPanel
 
 		toPolygon = new JButton("to polygon");
 		toPolygon.setAction(new ToPolygonAction(editPane, editable));
-		
+
 		GridBagConstraints c = new GridBagConstraints();
 
-		c.gridx = 0;
-		c.gridy = GridBagConstraints.RELATIVE;
+		c.anchor = GridBagConstraints.LINE_START;
+
+		GridBagHelper.setGxGy(c, 0, 0);
 		add(label, c);
+		GridBagHelper.setGxGy(c, 0, 1);
 		add(closedButton, c);
+		GridBagHelper.setGxGy(c, 0, 2);
 		add(toPolygon, c);
-		
+
+		GridBagHelper.setGxGy(c, 0, 3);
+		GridBagHelper.setWxWyF(c, 1.0, 1.0, GridBagConstraints.BOTH);
+		add(new JPanel(), c);
+
 		update();
 	}
 
@@ -69,14 +77,13 @@ public class PolygonalChainPanel extends JPanel
 		label.setText(getLabelText());
 		closedButton.setSelected(editable.isClosed());
 		closedButton.setEnabled(editable.getNumberOfNodes() > 2);
-		
+
 		toPolygon.setEnabled(editable.isClosed());
 	}
 
 	private String getLabelText()
 	{
-		return "polygonal chain with " + editable.getNumberOfNodes()
-				+ " nodes";
+		return "Object: polygonal chain with " + editable.getNumberOfNodes() + " nodes";
 	}
 
 }
