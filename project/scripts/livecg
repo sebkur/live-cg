@@ -11,6 +11,7 @@ DIR=`dirname $0`
 CLASSPATH=.
 CLASSPATH+=:$DIR/../lib/*
 CLASSPATH+=:$DIR/../bin/main/
+CLASSPATH+=:$DIR/../bin/test/
 CLASSPATH+=:$DIR/../
 #echo "CLASSPATH=$CLASSPATH"
 
