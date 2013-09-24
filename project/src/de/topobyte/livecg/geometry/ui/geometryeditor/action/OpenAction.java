@@ -25,9 +25,11 @@ import java.io.IOException;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.xml.parsers.ParserConfigurationException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.xml.sax.SAXException;
 
 import de.topobyte.livecg.geometry.io.ContentReader;
 import de.topobyte.livecg.geometry.ui.geometryeditor.Content;
@@ -69,6 +71,14 @@ public class OpenAction extends BasicAction
 				
 				content.fireContentChanged();
 			} catch (IOException e) {
+				logger.debug("unable to open file.");
+				logger.debug("Exception type: " + e.getClass().getSimpleName());
+				logger.debug("Exception message: " + e.getMessage());
+			} catch (ParserConfigurationException e) {
+				logger.debug("unable to open file.");
+				logger.debug("Exception type: " + e.getClass().getSimpleName());
+				logger.debug("Exception message: " + e.getMessage());
+			} catch (SAXException e) {
 				logger.debug("unable to open file.");
 				logger.debug("Exception type: " + e.getClass().getSimpleName());
 				logger.debug("Exception message: " + e.getMessage());

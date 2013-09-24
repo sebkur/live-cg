@@ -22,13 +22,34 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Stack;
 
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+
+import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
+import org.xml.sax.helpers.DefaultHandler;
+
+import de.topobyte.livecg.geometry.ui.geom.CloseabilityException;
+import de.topobyte.livecg.geometry.ui.geom.Coordinate;
+import de.topobyte.livecg.geometry.ui.geom.Editable;
+import de.topobyte.livecg.geometry.ui.geom.Node;
+import de.topobyte.livecg.geometry.ui.geom.Polygon;
 import de.topobyte.livecg.geometry.ui.geometryeditor.Content;
 
-public class ContentReader
+public class ContentReader extends DefaultHandler
 {
 
-	public Content read(File file) throws IOException
+	private Content content;
+
+	public Content read(File file) throws IOException,
+			ParserConfigurationException, SAXException
 	{
 		FileInputStream fis = new FileInputStream(file);
 		BufferedInputStream bis = new BufferedInputStream(fis);
@@ -37,12 +58,142 @@ public class ContentReader
 		return content;
 	}
 
-	public Content read(InputStream input) throws IOException
+	public Content read(InputStream input) throws IOException,
+			ParserConfigurationException, SAXException
 	{
-		Content content = new Content();
-		
-		// TODO: read input
-		
+		content = new Content();
+
+		SAXParser parser = SAXParserFactory.newInstance().newSAXParser();
+		parser.parse(input, this);
+
 		return content;
+	}
+
+	private enum Element {
+		Data, Node, Chain, Polygon
+	}
+
+	// Store the path within the XML document int this Stack
+	private Stack<Element> position = new Stack<Element>();
+	// Collect text received via 'characters()' in this buffer
+	private StringBuffer buffer = new StringBuffer();
+	// Map ids of nodes to node instances
+	private Map<Integer, Node> idToNode = new HashMap<Integer, Node>();
+	// A temporary storage for a chain's node references
+	private List<Integer> ids = new ArrayList<Integer>();
+	// Store polygon's shell here
+	private Editable shell = null;
+
+	/*
+	 * SAX callbacks
+	 */
+
+	@Override
+	public void endDocument() throws SAXException
+	{
+		// Nothing to do at the moment
+	}
+
+	@Override
+	public void startElement(String uri, String localName, String qName,
+			Attributes attributes) throws SAXException
+	{
+		buffer.setLength(0);
+		if (position.isEmpty()) {
+			if (qName.equals("data")) {
+				position.push(Element.Data);
+			}
+		} else if (position.size() == 1 && position.peek() == Element.Data) {
+			if (qName.equals("node")) {
+				position.push(Element.Node);
+				String sid = attributes.getValue("id");
+				String sx = attributes.getValue("x");
+				String sy = attributes.getValue("y");
+				int id = Integer.valueOf(sid);
+				double x = Double.valueOf(sx);
+				double y = Double.valueOf(sy);
+				addNode(id, x, y);
+			} else if (qName.equals("chain")) {
+				position.push(Element.Chain);
+			} else if (qName.equals("polygon")) {
+				position.push(Element.Polygon);
+			}
+		} else if (position.peek() == Element.Polygon) {
+			if (qName.equals("chain")) {
+				position.push(Element.Chain);
+			}
+		}
+	}
+
+	@Override
+	public void endElement(String uri, String localName, String qName)
+			throws SAXException
+	{
+		Element element = position.pop();
+		switch (element) {
+		default:
+		case Data:
+		case Node:
+			// Nothing to do for these
+			break;
+		case Chain:
+			parseChain();
+			Editable chain = buildChain();
+			if (position.peek() == Element.Data) {
+				content.addChain(chain);
+			} else if (position.peek() == Element.Polygon) {
+				try {
+					chain.setClosed(true);
+				} catch (CloseabilityException e) {
+					throw new SAXException(
+							"A ring of a polygon was not closeable", e);
+				}
+				shell = chain;
+			}
+			break;
+		case Polygon:
+			Polygon polygon = new Polygon(shell);
+			content.addPolygon(polygon);
+			break;
+		}
+	}
+
+	@Override
+	public void characters(char[] ch, int start, int length)
+			throws SAXException
+	{
+		buffer.append(ch, start, length);
+	}
+
+	/*
+	 * Helper methods
+	 */
+
+	private void addNode(int id, double x, double y)
+	{
+		Coordinate coordinate = new Coordinate(x, y);
+		Node node = new Node(coordinate);
+		idToNode.put(id, node);
+	}
+
+	private void parseChain()
+	{
+		ids.clear();
+		String text = buffer.toString();
+		String[] parts = text.split(" ");
+		for (String part : parts) {
+			int n = Integer.valueOf(part);
+			ids.add(n);
+		}
+	}
+
+	private Editable buildChain()
+	{
+		Editable chain = new Editable();
+		for (int id : ids) {
+			Node node = idToNode.get(id);
+			chain.appendNode(node);
+		}
+		return chain;
 	}
 }
