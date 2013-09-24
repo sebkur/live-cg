@@ -57,7 +57,7 @@ public class ContentWriter
 		writeNodes();
 		writeChains();
 		writePolygons();
-		output.write("\n<data>\n".getBytes());
+		output.write("\n</data>\n".getBytes());
 	}
 
 	private void writeNodes() throws IOException
