@@ -212,22 +212,40 @@ public class EditorMouseListener extends MouseAdapter
 			if (!shift) {
 				changed |= editPane.clearCurrentNodes();
 				changed |= editPane.clearCurrentPolygons();
+				changed |= editPane.addCurrentNode(node);
+			} else {
+				if (editPane.getCurrentNodes().contains(node)) {
+					changed |= editPane.removeCurrentNode(node);
+				} else {
+					changed |= editPane.addCurrentNode(node);
+				}
 			}
-			changed |= editPane.addCurrentNode(node);
 		} else if (dChain < 5) {
 			if (!shift) {
 				changed |= editPane.clearCurrentNodes();
 				changed |= editPane.clearCurrentChains();
 				changed |= editPane.clearCurrentPolygons();
+				changed |= editPane.addCurrentChain(editable);
+			} else {
+				if (editPane.getCurrentChains().contains(editable)) {
+					changed |= editPane.removeCurrentChain(editable);
+				} else {
+					changed |= editPane.addCurrentChain(editable);
+				}
 			}
-			changed |= editPane.addCurrentChain(editable);
 		} else if (dPolygon < 5) {
 			if (!shift) {
 				changed |= editPane.clearCurrentNodes();
 				changed |= editPane.clearCurrentChains();
 				changed |= editPane.clearCurrentPolygons();
+				changed |= editPane.addCurrentPolygon(polygon);
+			} else {
+				if (editPane.getCurrentPolygons().contains(polygon)) {
+					changed |= editPane.removeCurrentPolygon(polygon);
+				}else {
+					changed |= editPane.addCurrentPolygon(polygon);
+				}
 			}
-			changed |= editPane.addCurrentPolygon(polygon);
 		} else {
 			if (!shift) {
 				changed = selectNothing();
