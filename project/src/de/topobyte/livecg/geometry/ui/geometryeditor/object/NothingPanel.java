@@ -17,10 +17,13 @@
  */
 package de.topobyte.livecg.geometry.ui.geometryeditor.object;
 
-import java.awt.BorderLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import de.topobyte.swing.layout.GridBagHelper;
 
 public class NothingPanel extends JPanel
 {
@@ -29,9 +32,20 @@ public class NothingPanel extends JPanel
 
 	public NothingPanel()
 	{
-		setLayout(new BorderLayout());
+		setLayout(new GridBagLayout());
+		
 		JLabel label = new JLabel("no active object");
-		add(label, BorderLayout.CENTER);
+		
+		GridBagConstraints c = new GridBagConstraints();
+
+		c.anchor = GridBagConstraints.LINE_START;
+		
+		GridBagHelper.setGxGy(c, 0, 0);
+		add(label, c);
+		
+		GridBagHelper.setGxGy(c, 0, 1);
+		GridBagHelper.setWxWyF(c, 1.0, 1.0, GridBagConstraints.BOTH);
+		add(new JPanel(), c);
 	}
 
 }
