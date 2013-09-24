@@ -118,10 +118,10 @@ public class ContentWriter
 	private void writePolygon(Polygon polygon) throws IOException
 	{
 		StringBuilder buffer = buildChainBuffer(polygon.getShell());
-		output.write("\n  <polyon>".getBytes());
+		output.write("\n  <polygon>".getBytes());
 		String text = "\n    <chain>" + buffer + "</chain>";
 		output.write(text.getBytes());
-		output.write("\n  </polyon>".getBytes());
+		output.write("\n  </polygon>".getBytes());
 	}
 
 	private StringBuilder buildChainBuffer(Editable chain)
