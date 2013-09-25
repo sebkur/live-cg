@@ -189,7 +189,7 @@ public class EditorMouseListener extends MouseAdapter
 		editPane.getContent().fireContentChanged();
 	}
 
-	private void selectObjects(Rectangle rectangle, boolean shift)
+	private void selectObjects(Rectangle rectangle, boolean shift, boolean alt)
 	{
 		boolean changed = false;
 		if (!shift) {
@@ -204,24 +204,56 @@ public class EditorMouseListener extends MouseAdapter
 
 		Content content = editPane.getContent();
 		for (Editable chain : content.getChains()) {
+			boolean complete = true;
 			for (int i = 0; i < chain.getNumberOfNodes(); i++) {
 				Node node = chain.getNode(i);
 				Coordinate c = node.getCoordinate();
 				if (GeomMath.contains(rectangle, c)) {
-					if (!nodes.contains(node)) {
-						editPane.addCurrentNode(node);
+					if (shift && alt) {
+						editPane.removeCurrentNode(node);
+					} else {
+						if (!nodes.contains(node)) {
+							editPane.addCurrentNode(node);
+						}
+					}
+				} else {
+					complete = false;
+				}
+			}
+			if (complete && chain.getNumberOfNodes() > 1) {
+				if (shift && alt) {
+					editPane.removeCurrentChain(chain);
+				} else {
+					if (!chains.contains(chain)) {
+						editPane.addCurrentChain(chain);
 					}
 				}
 			}
 		}
 		for (Polygon polygon : content.getPolygons()) {
+			boolean complete = true;
 			Editable shell = polygon.getShell();
 			for (int i = 0; i < shell.getNumberOfNodes(); i++) {
 				Node node = shell.getNode(i);
 				Coordinate c = node.getCoordinate();
 				if (GeomMath.contains(rectangle, c)) {
-					if (!nodes.contains(node)) {
-						editPane.addCurrentNode(node);
+					if (shift && alt) {
+						editPane.removeCurrentNode(node);
+					} else {
+						if (!nodes.contains(node)) {
+							editPane.addCurrentNode(node);
+						}
+					}
+				} else {
+					complete = false;
+				}
+			}
+			if (complete) {
+				if (shift && alt) {
+					editPane.removeCurrentPolygon(polygon);
+				} else {
+					if (!polygons.contains(polygon)) {
+						editPane.addCurrentPolygon(polygon);
 					}
 				}
 			}
@@ -487,7 +519,8 @@ public class EditorMouseListener extends MouseAdapter
 			if (e.getButton() == MouseEvent.BUTTON1) {
 				Rectangle rectangle = editPane.getSelectionRectangle();
 				boolean shift = e.isShiftDown();
-				selectObjects(rectangle, shift);
+				boolean alt = e.isAltDown();
+				selectObjects(rectangle, shift, alt);
 
 				editPane.setSelectionRectangle(null);
 				editPane.repaint();
