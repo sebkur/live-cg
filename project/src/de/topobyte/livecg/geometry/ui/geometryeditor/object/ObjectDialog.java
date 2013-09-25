@@ -22,9 +22,9 @@ import java.util.List;
 
 import javax.swing.JDialog;
 
-import de.topobyte.livecg.geometry.ui.geom.Chain;
-import de.topobyte.livecg.geometry.ui.geom.Node;
-import de.topobyte.livecg.geometry.ui.geom.Polygon;
+import de.topobyte.livecg.geometry.geom.Chain;
+import de.topobyte.livecg.geometry.geom.Node;
+import de.topobyte.livecg.geometry.geom.Polygon;
 import de.topobyte.livecg.geometry.ui.geometryeditor.ContentChangedListener;
 import de.topobyte.livecg.geometry.ui.geometryeditor.ContentReferenceChangedListener;
 import de.topobyte.livecg.geometry.ui.geometryeditor.GeometryEditPane;

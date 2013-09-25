@@ -24,14 +24,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import de.topobyte.livecg.geometry.ui.geom.CloseabilityException;
-import de.topobyte.livecg.geometry.ui.geom.Coordinate;
-import de.topobyte.livecg.geometry.ui.geom.Chain;
-import de.topobyte.livecg.geometry.ui.geom.GeomMath;
-import de.topobyte.livecg.geometry.ui.geom.Line;
-import de.topobyte.livecg.geometry.ui.geom.Node;
-import de.topobyte.livecg.geometry.ui.geom.Polygon;
-import de.topobyte.livecg.geometry.ui.geom.Rectangle;
+import de.topobyte.livecg.geometry.geom.Chain;
+import de.topobyte.livecg.geometry.geom.CloseabilityException;
+import de.topobyte.livecg.geometry.geom.Coordinate;
+import de.topobyte.livecg.geometry.geom.GeomMath;
+import de.topobyte.livecg.geometry.geom.Line;
+import de.topobyte.livecg.geometry.geom.Node;
+import de.topobyte.livecg.geometry.geom.Polygon;
+import de.topobyte.livecg.geometry.geom.Rectangle;
 import de.topobyte.livecg.geometry.ui.geometryeditor.mousemode.MouseMode;
 import de.topobyte.livecg.util.ListUtil;
 

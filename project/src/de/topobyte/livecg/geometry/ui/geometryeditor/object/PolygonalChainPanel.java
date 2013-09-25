@@ -25,7 +25,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JToggleButton;
 
-import de.topobyte.livecg.geometry.ui.geom.Chain;
+import de.topobyte.livecg.geometry.geom.Chain;
 import de.topobyte.livecg.geometry.ui.geometryeditor.GeometryEditPane;
 import de.topobyte.livecg.geometry.ui.geometryeditor.object.action.OpenCloseRingAction;
 import de.topobyte.livecg.geometry.ui.geometryeditor.object.action.ToPolygonAction;

@@ -24,7 +24,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import de.topobyte.livecg.geometry.ui.geom.Polygon;
+import de.topobyte.livecg.geometry.geom.Polygon;
 import de.topobyte.livecg.geometry.ui.geometryeditor.GeometryEditPane;
 import de.topobyte.livecg.geometry.ui.geometryeditor.object.action.ToRingsAction;
 import de.topobyte.swing.layout.GridBagHelper;

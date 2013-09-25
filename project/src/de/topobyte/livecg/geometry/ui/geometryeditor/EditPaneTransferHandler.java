@@ -39,7 +39,7 @@ import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.io.ParseException;
 import com.vividsolutions.jts.io.WKTReader;
 
-import de.topobyte.livecg.geometry.ui.geom.Chain;
+import de.topobyte.livecg.geometry.geom.Chain;
 
 public class EditPaneTransferHandler extends TransferHandler
 {

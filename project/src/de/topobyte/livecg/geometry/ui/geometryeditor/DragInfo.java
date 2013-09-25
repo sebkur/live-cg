@@ -17,7 +17,7 @@
  */
 package de.topobyte.livecg.geometry.ui.geometryeditor;
 
-import de.topobyte.livecg.geometry.ui.geom.Coordinate;
+import de.topobyte.livecg.geometry.geom.Coordinate;
 
 public class DragInfo
 {

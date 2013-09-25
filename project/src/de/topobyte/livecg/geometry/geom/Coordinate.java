@@ -15,28 +15,39 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.topobyte.livecg.geometry.ui.geom;
 
-public class Line
+package de.topobyte.livecg.geometry.geom;
+
+public class Coordinate
 {
+	private final double x;
+	private final double y;
 
-	private Coordinate c1;
-	private Coordinate c2;
-
-	public Line(Coordinate c1, Coordinate c2)
+	public Coordinate(double x, double y)
 	{
-		this.c1 = c1;
-		this.c2 = c2;
+		this.x = x;
+		this.y = y;
 	}
 
-	public Coordinate getC1()
+	public double getX()
 	{
-		return c1;
+		return x;
 	}
 
-	public Coordinate getC2()
+	public double getY()
 	{
-		return c2;
+		return y;
 	}
 
+	public com.vividsolutions.jts.geom.Coordinate createCoordinate()
+	{
+		return new com.vividsolutions.jts.geom.Coordinate(x, y);
+	}
+
+	public double distance(Coordinate c)
+	{
+		double a = x - c.x;
+		double b = y - c.y;
+		return Math.sqrt(a * a + b * b);
+	}
 }

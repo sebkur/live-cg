@@ -21,9 +21,9 @@ package de.topobyte.livecg.geometry.ui.geometryeditor.action;
 import java.awt.event.ActionEvent;
 import java.util.List;
 
-import de.topobyte.livecg.geometry.ui.geom.Chain;
-import de.topobyte.livecg.geometry.ui.geom.Node;
-import de.topobyte.livecg.geometry.ui.geom.Polygon;
+import de.topobyte.livecg.geometry.geom.Chain;
+import de.topobyte.livecg.geometry.geom.Node;
+import de.topobyte.livecg.geometry.geom.Polygon;
 import de.topobyte.livecg.geometry.ui.geometryeditor.Content;
 import de.topobyte.livecg.geometry.ui.geometryeditor.GeometryEditPane;
 

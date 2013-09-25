@@ -28,8 +28,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 
-import de.topobyte.livecg.geometry.ui.geom.Coordinate;
-import de.topobyte.livecg.geometry.ui.geom.Node;
+import de.topobyte.livecg.geometry.geom.Coordinate;
+import de.topobyte.livecg.geometry.geom.Node;
 import de.topobyte.livecg.geometry.ui.geometryeditor.GeometryEditPane;
 import de.topobyte.livecg.geometry.ui.misc.Borders;
 import de.topobyte.livecg.geometry.ui.misc.Borders.BorderState;

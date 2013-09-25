@@ -17,8 +17,8 @@
  */
 package de.topobyte.livecg.geometry.ui.geometryeditor;
 
-import de.topobyte.livecg.geometry.ui.geom.Chain;
-import de.topobyte.livecg.geometry.ui.geom.Node;
+import de.topobyte.livecg.geometry.geom.Chain;
+import de.topobyte.livecg.geometry.geom.Node;
 
 public class AddPointResult
 {

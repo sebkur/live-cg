@@ -27,9 +27,9 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import de.topobyte.livecg.geometry.ui.geom.Chain;
-import de.topobyte.livecg.geometry.ui.geom.Node;
-import de.topobyte.livecg.geometry.ui.geom.Polygon;
+import de.topobyte.livecg.geometry.geom.Chain;
+import de.topobyte.livecg.geometry.geom.Node;
+import de.topobyte.livecg.geometry.geom.Polygon;
 import de.topobyte.livecg.geometry.ui.geometryeditor.Content;
 
 public class ContentWriter

@@ -19,8 +19,8 @@ package de.topobyte.livecg.geometry.ui.geometryeditor.object;
 
 import javax.swing.JFrame;
 
-import de.topobyte.livecg.geometry.ui.geom.Chain;
-import de.topobyte.livecg.geometry.ui.geom.Polygon;
+import de.topobyte.livecg.geometry.geom.Chain;
+import de.topobyte.livecg.geometry.geom.Polygon;
 import de.topobyte.livecg.geometry.ui.geometryeditor.GeometryEditPane;
 
 public class TestPolygonPanel
