@@ -54,6 +54,7 @@ public class Toolbar extends JToolBar
 		add(newAction);
 		add(openAction);
 		add(saveAction);
+		addSeparator();
 		add(buttonSelect);
 		add(buttonEdit);
 		add(buttonDelete);
