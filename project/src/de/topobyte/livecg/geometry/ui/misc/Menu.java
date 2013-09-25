@@ -18,9 +18,12 @@
 
 package de.topobyte.livecg.geometry.ui.misc;
 
+import java.awt.event.KeyEvent;
+
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.KeyStroke;
 
 import de.topobyte.livecg.geometry.ui.geometryeditor.GeometryEditPane;
 import de.topobyte.livecg.geometry.ui.geometryeditor.action.MouseAction;
@@ -48,12 +51,29 @@ public class Menu extends JMenuBar
 		add(tools);
 		add(edit);
 		add(help);
+		
+		file.setMnemonic('F');
+		tools.setMnemonic('T');
+		edit.setMnemonic('E');
+		help.setMnemonic('H');
 
 		JMenuItem exit = new JMenuItem(new ExitAction());
-		file.add(new NewAction(editPane));
-		file.add(new OpenAction(this, editPane));
-		file.add(new SaveAction(this, editPane));
+		JMenuItem newDocuemnt = new JMenuItem(new NewAction(editPane));
+		JMenuItem openDocuemnt = new JMenuItem(new OpenAction(this, editPane));
+		JMenuItem saveDocuemnt = new JMenuItem(new SaveAction(this, editPane));
+		file.add(newDocuemnt);
+		file.add(openDocuemnt);
+		file.add(saveDocuemnt);
 		file.add(exit);
+
+		newDocuemnt.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N,
+				KeyEvent.CTRL_DOWN_MASK));
+		openDocuemnt.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O,
+				KeyEvent.CTRL_DOWN_MASK));
+		saveDocuemnt.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,
+				KeyEvent.CTRL_DOWN_MASK));
+		exit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q,
+				KeyEvent.CTRL_DOWN_MASK));
 
 		for (MouseMode mode : new MouseMode[] { MouseMode.SELECT_MOVE,
 				MouseMode.EDIT, MouseMode.DELETE }) {
@@ -64,9 +84,18 @@ public class Menu extends JMenuBar
 			JMenuItem mouseItem = new JMenuItem(mouseAction);
 			tools.add(mouseItem);
 		}
-		
-		edit.add(new JMenuItem(new SelectNothingAction(editPane)));
-		edit.add(new JMenuItem(new SelectAllAction(editPane)));
+
+		JMenuItem selectNothing = new JMenuItem(new SelectNothingAction(
+				editPane));
+		JMenuItem selectEverything = new JMenuItem(
+				new SelectAllAction(editPane));
+		edit.add(selectNothing);
+		edit.add(selectEverything);
+
+		selectEverything.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A,
+				KeyEvent.CTRL_DOWN_MASK));
+		selectNothing.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A,
+				KeyEvent.CTRL_DOWN_MASK | KeyEvent.SHIFT_DOWN_MASK));
 
 		JMenuItem about = new JMenuItem(new AboutAction());
 		JMenuItem license = new JMenuItem(new LicenseAction());

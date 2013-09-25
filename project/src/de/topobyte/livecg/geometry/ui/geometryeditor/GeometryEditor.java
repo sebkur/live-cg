@@ -20,8 +20,6 @@ package de.topobyte.livecg.geometry.ui.geometryeditor;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.event.InputEvent;
-import java.awt.event.KeyEvent;
 
 import javax.swing.ActionMap;
 import javax.swing.InputMap;
@@ -29,7 +27,6 @@ import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 
 import de.topobyte.livecg.geometry.ui.geometryeditor.action.MouseAction;
-import de.topobyte.livecg.geometry.ui.geometryeditor.action.SelectAllAction;
 import de.topobyte.livecg.geometry.ui.geometryeditor.mousemode.MouseMode;
 import de.topobyte.livecg.geometry.ui.geometryeditor.scale.Scale;
 import de.topobyte.livecg.geometry.ui.geometryeditor.scale.ScaleX;
@@ -88,10 +85,6 @@ public class GeometryEditor extends JPanel
 		inputMap.put(KeyStroke.getKeyStroke('d'), "d");
 		inputMap.put(KeyStroke.getKeyStroke('f'), "f");
 
-		inputMap.put(
-				KeyStroke.getKeyStroke(KeyEvent.VK_A, InputEvent.CTRL_MASK),
-				"ctrl a");
-
 		MouseAction selectAction = new MouseAction(null, null,
 				MouseMode.SELECT_MOVE, editPane);
 		MouseAction editAction = new MouseAction(null, null, MouseMode.EDIT,
@@ -102,8 +95,6 @@ public class GeometryEditor extends JPanel
 		actionMap.put("a", selectAction);
 		actionMap.put("s", editAction);
 		actionMap.put("d", deleteAction);
-		
-		actionMap.put("ctrl a", new SelectAllAction(editPane));
 	}
 
 	public GeometryEditPane getEditPane()
