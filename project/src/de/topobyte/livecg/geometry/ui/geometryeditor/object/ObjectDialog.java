@@ -87,6 +87,8 @@ public class ObjectDialog extends JDialog
 	private PolygonPanel pp = null;
 	private MultiplePanel mp = null;
 
+	private Mode mode = Mode.NOTHING;
+
 	protected void update()
 	{
 		List<Node> nodes = editPane.getCurrentNodes();
@@ -98,9 +100,9 @@ public class ObjectDialog extends JDialog
 		int ps = polygons.size();
 
 		if (ns == 0 && cs == 0 && ps == 0) {
-			if (currentNode != null || currentChain != null
-					|| currentPolygon != null) {
+			if (mode != Mode.NOTHING) {
 				setContentPane(new NothingPanel());
+				mode = Mode.NOTHING;
 			}
 			currentNode = null;
 			currentChain = null;
@@ -114,6 +116,7 @@ public class ObjectDialog extends JDialog
 			} else {
 				np.update();
 			}
+			mode = Mode.NODE;
 		} else if (ns == 0 && cs == 1 && ps == 0) {
 			Editable chain = chains.iterator().next();
 			if (currentChain != chain) {
@@ -123,6 +126,7 @@ public class ObjectDialog extends JDialog
 			} else {
 				pcp.update();
 			}
+			mode = Mode.CHAIN;
 		} else if (ns == 0 && cs == 0 && ps == 1) {
 			Polygon polygon = polygons.iterator().next();
 			if (currentPolygon != polygon) {
@@ -132,6 +136,7 @@ public class ObjectDialog extends JDialog
 			} else {
 				pp.update();
 			}
+			mode = Mode.POLYGON;
 		} else {
 			boolean create = mp == null;
 			if (create) {
@@ -146,6 +151,7 @@ public class ObjectDialog extends JDialog
 				currentPolygon = null;
 				setContentPane(mp);
 			}
+			mode = Mode.MULTIPLE;
 		}
 		validate();
 	}

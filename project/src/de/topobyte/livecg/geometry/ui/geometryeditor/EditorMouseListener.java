@@ -229,6 +229,7 @@ public class EditorMouseListener extends MouseAdapter
 
 		if (changed) {
 			editPane.repaint();
+			editPane.getContent().fireContentChanged();
 		}
 	}
 
