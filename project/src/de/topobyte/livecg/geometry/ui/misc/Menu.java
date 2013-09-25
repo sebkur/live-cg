@@ -51,7 +51,7 @@ public class Menu extends JMenuBar
 		add(tools);
 		add(edit);
 		add(help);
-		
+
 		file.setMnemonic('F');
 		tools.setMnemonic('T');
 		edit.setMnemonic('E');
@@ -83,6 +83,18 @@ public class Menu extends JMenuBar
 					mouseModeProvider);
 			JMenuItem mouseItem = new JMenuItem(mouseAction);
 			tools.add(mouseItem);
+
+			switch (mode) {
+			case SELECT_MOVE:
+				mouseItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, 0));
+				break;
+			case EDIT:
+				mouseItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, 0));
+				break;
+			case DELETE:
+				mouseItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D, 0));
+				break;
+			}
 		}
 
 		JMenuItem selectNothing = new JMenuItem(new SelectNothingAction(

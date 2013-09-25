@@ -21,13 +21,8 @@ package de.topobyte.livecg.geometry.ui.geometryeditor;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
-import javax.swing.ActionMap;
-import javax.swing.InputMap;
 import javax.swing.JPanel;
-import javax.swing.KeyStroke;
 
-import de.topobyte.livecg.geometry.ui.geometryeditor.action.MouseAction;
-import de.topobyte.livecg.geometry.ui.geometryeditor.mousemode.MouseMode;
 import de.topobyte.livecg.geometry.ui.geometryeditor.scale.Scale;
 import de.topobyte.livecg.geometry.ui.geometryeditor.scale.ScaleX;
 import de.topobyte.livecg.geometry.ui.geometryeditor.scale.ScaleY;
@@ -72,29 +67,6 @@ public class GeometryEditor extends JPanel
 		c.weightx = 0.0;
 		c.weighty = 1.0;
 		add(scaleY, c);
-
-		/*
-		 * setup actions
-		 */
-
-		InputMap inputMap = getInputMap(WHEN_IN_FOCUSED_WINDOW);
-		ActionMap actionMap = getActionMap();
-
-		inputMap.put(KeyStroke.getKeyStroke('a'), "a");
-		inputMap.put(KeyStroke.getKeyStroke('s'), "s");
-		inputMap.put(KeyStroke.getKeyStroke('d'), "d");
-		inputMap.put(KeyStroke.getKeyStroke('f'), "f");
-
-		MouseAction selectAction = new MouseAction(null, null,
-				MouseMode.SELECT_MOVE, editPane);
-		MouseAction editAction = new MouseAction(null, null, MouseMode.EDIT,
-				editPane);
-		MouseAction deleteAction = new MouseAction(null, null,
-				MouseMode.DELETE, editPane);
-
-		actionMap.put("a", selectAction);
-		actionMap.put("s", editAction);
-		actionMap.put("d", deleteAction);
 	}
 
 	public GeometryEditPane getEditPane()
