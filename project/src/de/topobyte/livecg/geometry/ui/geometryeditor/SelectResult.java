@@ -17,7 +17,7 @@
  */
 package de.topobyte.livecg.geometry.ui.geometryeditor;
 
-import de.topobyte.livecg.geometry.ui.geom.Editable;
+import de.topobyte.livecg.geometry.ui.geom.Chain;
 import de.topobyte.livecg.geometry.ui.geom.Node;
 import de.topobyte.livecg.geometry.ui.geom.Polygon;
 
@@ -25,6 +25,6 @@ public class SelectResult
 {
 	public SelectMode mode;
 	public Node node;
-	public Editable chain;
+	public Chain chain;
 	public Polygon polygon;
 }

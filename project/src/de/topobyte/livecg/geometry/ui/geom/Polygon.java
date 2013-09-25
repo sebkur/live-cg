@@ -20,15 +20,15 @@ package de.topobyte.livecg.geometry.ui.geom;
 public class Polygon
 {
 
-	private Editable shell;
+	private Chain shell;
 
-	public Polygon(Editable shell)
+	public Polygon(Chain shell)
 	{
 		this.shell = shell;
 		shell.addPolygon(this);
 	}
 	
-	public Editable getShell()
+	public Chain getShell()
 	{
 		return shell;
 	}

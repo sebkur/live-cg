@@ -24,27 +24,27 @@ import java.util.List;
 import java.util.Set;
 
 import de.topobyte.livecg.geometry.ui.geom.Coordinate;
-import de.topobyte.livecg.geometry.ui.geom.Editable;
+import de.topobyte.livecg.geometry.ui.geom.Chain;
 import de.topobyte.livecg.geometry.ui.geom.Node;
 import de.topobyte.livecg.geometry.ui.geom.Polygon;
 
 public class Content
 {
 
-	private List<Editable> editables = new ArrayList<Editable>();
+	private List<Chain> editables = new ArrayList<Chain>();
 	private List<Polygon> polygons = new ArrayList<Polygon>();
 
-	public List<Editable> getChains()
+	public List<Chain> getChains()
 	{
 		return editables;
 	}
 
-	public void addChain(Editable line)
+	public void addChain(Chain line)
 	{
 		editables.add(line);
 	}
 
-	public void removeChain(Editable line)
+	public void removeChain(Chain line)
 	{
 		editables.remove(line);
 	}
@@ -64,10 +64,10 @@ public class Content
 		polygons.remove(polygon);
 	}
 
-	public Set<Editable> getEditablesNear(Coordinate coordinate)
+	public Set<Chain> getEditablesNear(Coordinate coordinate)
 	{
-		Set<Editable> results = new HashSet<Editable>();
-		for (Editable line : editables) {
+		Set<Chain> results = new HashSet<Chain>();
+		for (Chain line : editables) {
 			if (line.hasPointWithinThreshold(coordinate, 4)) {
 				results.add(line);
 			}
@@ -98,7 +98,7 @@ public class Content
 	{
 		double distance = Double.MAX_VALUE;
 		Node nearestNode = null;
-		for (Editable editable : editables) {
+		for (Chain editable : editables) {
 			Node n = editable.getNearestPoint(coordinate);
 			double d = n.getCoordinate().distance(coordinate);
 			if (d < distance) {
@@ -107,7 +107,7 @@ public class Content
 			}
 		}
 		for (Polygon polygon : polygons) {
-			Editable shell = polygon.getShell();
+			Chain shell = polygon.getShell();
 			Node n = shell.getNearestPoint(coordinate);
 			double d = n.getCoordinate().distance(coordinate);
 			if (d < distance) {
@@ -122,7 +122,7 @@ public class Content
 	{
 		double distance = Double.MAX_VALUE;
 		Node nearestNode = null;
-		for (Editable editable : editables) {
+		for (Chain editable : editables) {
 			Node n = editable.getNearestDifferentNode(node);
 			if (n == node) {
 				continue;
@@ -134,7 +134,7 @@ public class Content
 			}
 		}
 		for (Polygon polygon : polygons) {
-			Editable shell = polygon.getShell();
+			Chain shell = polygon.getShell();
 			Node n = shell.getNearestDifferentNode(node);
 			if (n == node) {
 				continue;
@@ -148,11 +148,11 @@ public class Content
 		return nearestNode;
 	}
 
-	public Editable getNearestChain(Coordinate coordinate)
+	public Chain getNearestChain(Coordinate coordinate)
 	{
 		double distance = Double.MAX_VALUE;
-		Editable nearest = null;
-		for (Editable editable : editables) {
+		Chain nearest = null;
+		for (Chain editable : editables) {
 			double d = editable.distance(coordinate);
 			if (d < distance) {
 				distance = d;
@@ -167,7 +167,7 @@ public class Content
 		double distance = Double.MAX_VALUE;
 		Polygon nearest = null;
 		for (Polygon polygon : polygons) {
-			Editable shell = polygon.getShell();
+			Chain shell = polygon.getShell();
 			double d = shell.distance(coordinate);
 			if (d < distance) {
 				distance = d;

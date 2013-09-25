@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import de.topobyte.livecg.geometry.ui.geom.Editable;
+import de.topobyte.livecg.geometry.ui.geom.Chain;
 import de.topobyte.livecg.geometry.ui.geom.Node;
 import de.topobyte.livecg.geometry.ui.geom.Polygon;
 import de.topobyte.livecg.geometry.ui.geometryeditor.Content;
@@ -35,7 +35,7 @@ import de.topobyte.livecg.geometry.ui.geometryeditor.Content;
 public class ContentWriter
 {
 
-	private List<Editable> chains;
+	private List<Chain> chains;
 	private List<Polygon> polygons;
 	private OutputStream output;
 
@@ -62,18 +62,18 @@ public class ContentWriter
 
 	private void writeNodes() throws IOException
 	{
-		for (Editable chain : chains) {
+		for (Chain chain : chains) {
 			writeNodes(chain);
 		}
 		for (Polygon polygon : polygons) {
-			Editable shell = polygon.getShell();
+			Chain shell = polygon.getShell();
 			writeNodes(shell);
 		}
 	}
 
 	private Map<Node, Integer> nodeToId = new HashMap<Node, Integer>();
 
-	private void writeNodes(Editable chain) throws IOException
+	private void writeNodes(Chain chain) throws IOException
 	{
 		for (int i = 0; i < chain.getNumberOfNodes(); i++) {
 			Node node = chain.getNode(i);
@@ -96,7 +96,7 @@ public class ContentWriter
 
 	private void writeChains() throws IOException
 	{
-		for (Editable chain : chains) {
+		for (Chain chain : chains) {
 			writeChain(chain);
 		}
 	}
@@ -108,7 +108,7 @@ public class ContentWriter
 		}
 	}
 
-	private void writeChain(Editable chain) throws IOException
+	private void writeChain(Chain chain) throws IOException
 	{
 		StringBuilder buffer = buildChainBuffer(chain);
 		String closed = chain.isClosed() ? "true" : "false";
@@ -126,7 +126,7 @@ public class ContentWriter
 		output.write("\n  </polygon>".getBytes());
 	}
 
-	private StringBuilder buildChainBuffer(Editable chain)
+	private StringBuilder buildChainBuffer(Chain chain)
 	{
 		StringBuilder buffer = new StringBuilder();
 		for (int i = 0; i < chain.getNumberOfNodes(); i++) {

@@ -35,7 +35,7 @@ import com.vividsolutions.jts.geom.Geometry;
 import de.topobyte.carbon.geometry.serialization.util.FileFormat;
 import de.topobyte.carbon.geometry.serialization.util.GeometrySerializer;
 import de.topobyte.carbon.geometry.serialization.util.GeometrySerializerFactory;
-import de.topobyte.livecg.geometry.ui.geom.Editable;
+import de.topobyte.livecg.geometry.ui.geom.Chain;
 import de.topobyte.livecg.geometry.ui.geometryeditor.GeometryEditPane;
 import de.topobyte.livecg.geometry.ui.geometryeditor.action.BasicAction;
 import de.topobyte.livecg.util.SwingUtil;
@@ -60,11 +60,11 @@ public class SaveAction extends BasicAction
 	@Override
 	public void actionPerformed(ActionEvent event)
 	{
-		List<Editable> chains = editPane.getCurrentChains();
+		List<Chain> chains = editPane.getCurrentChains();
 		if (chains.size() != 1) {
 			return;
 		}
-		Editable line = chains.iterator().next();
+		Chain line = chains.iterator().next();
 
 		JFrame frame = SwingUtil.getContainingFrame(component);
 		JFileChooser chooser = new JFileChooser();
@@ -82,7 +82,7 @@ public class SaveAction extends BasicAction
 		}
 	}
 
-	private void write(Editable line, File file) throws IOException
+	private void write(Chain line, File file) throws IOException
 	{
 		Geometry geometry = line.createGeometry();
 		GeometrySerializer serializer = GeometrySerializerFactory

@@ -25,7 +25,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JToggleButton;
 
-import de.topobyte.livecg.geometry.ui.geom.Editable;
+import de.topobyte.livecg.geometry.ui.geom.Chain;
 import de.topobyte.livecg.geometry.ui.geometryeditor.GeometryEditPane;
 import de.topobyte.livecg.geometry.ui.geometryeditor.object.action.OpenCloseRingAction;
 import de.topobyte.livecg.geometry.ui.geometryeditor.object.action.ToPolygonAction;
@@ -36,12 +36,12 @@ public class PolygonalChainPanel extends JPanel
 
 	private static final long serialVersionUID = 5640771403274002420L;
 
-	private Editable editable;
+	private Chain editable;
 	private JLabel label;
 	private JToggleButton closedButton;
 	private JButton toPolygon;
 
-	public PolygonalChainPanel(GeometryEditPane editPane, Editable editable)
+	public PolygonalChainPanel(GeometryEditPane editPane, Chain editable)
 	{
 		this.editable = editable;
 		setLayout(new GridBagLayout());

@@ -36,7 +36,7 @@ import javax.swing.KeyStroke;
 
 import de.topobyte.livecg.geometry.ui.geom.AwtHelper;
 import de.topobyte.livecg.geometry.ui.geom.Coordinate;
-import de.topobyte.livecg.geometry.ui.geom.Editable;
+import de.topobyte.livecg.geometry.ui.geom.Chain;
 import de.topobyte.livecg.geometry.ui.geom.Line;
 import de.topobyte.livecg.geometry.ui.geom.Node;
 import de.topobyte.livecg.geometry.ui.geom.Polygon;
@@ -57,7 +57,7 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 	private Content content;
 
 	private List<Node> currentNodes = new ArrayList<Node>();
-	private List<Editable> currentChains = new ArrayList<Editable>();
+	private List<Chain> currentChains = new ArrayList<Chain>();
 	private List<Polygon> currentPolygons = new ArrayList<Polygon>();
 
 	public GeometryEditPane()
@@ -110,7 +110,7 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 		}
 		if (mouseMode != MouseMode.SELECT_MOVE) {
 			setMouseHighlight((Node) null);
-			setMouseHighlight((Editable) null);
+			setMouseHighlight((Chain) null);
 			repaint();
 		}
 		if (old == MouseMode.EDIT) {
@@ -161,7 +161,7 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 		return currentNodes;
 	}
 
-	public List<Editable> getCurrentChains()
+	public List<Chain> getCurrentChains()
 	{
 		return currentChains;
 	}
@@ -178,7 +178,7 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 		return true;
 	}
 
-	public boolean addCurrentChain(Editable editable)
+	public boolean addCurrentChain(Chain editable)
 	{
 		currentChains.add(editable);
 		fireSelectionChanged();
@@ -201,7 +201,7 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 		return changed;
 	}
 
-	public boolean removeCurrentChain(Editable chain)
+	public boolean removeCurrentChain(Chain chain)
 	{
 		boolean changed = currentChains.remove(chain);
 		if (changed) {
@@ -287,9 +287,9 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 					colorMouseHighlightChain);
 		}
 
-		List<Editable> lines = content.getChains();
+		List<Chain> lines = content.getChains();
 		for (int i = 0; i < lines.size(); i++) {
-			Editable line = lines.get(i);
+			Chain line = lines.get(i);
 			if (currentChains.contains(line)) {
 				continue;
 			}
@@ -304,7 +304,7 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 		useAntialiasing(g, false);
 
 		if (currentChains.size() > 0) {
-			for (Editable chain : currentChains) {
+			for (Chain chain : currentChains) {
 				draw(g, chain, colorEditingChainLines, colorEditingChainPoints,
 						null);
 
@@ -390,7 +390,7 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 		return new Character((char) ('A' + i)).toString();
 	}
 
-	private void draw(Graphics2D g, Editable editable, Color colorLine,
+	private void draw(Graphics2D g, Chain editable, Color colorLine,
 			Color colorPoints, String name)
 	{
 		int n = editable.getNumberOfNodes();
@@ -438,7 +438,7 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 		}
 	}
 
-	private void drawHighlight(Graphics2D g, Editable editable, Color color)
+	private void drawHighlight(Graphics2D g, Chain editable, Color color)
 	{
 		int n = editable.getNumberOfNodes();
 		if (n == 0) {
@@ -520,7 +520,7 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 	}
 
 	private Node mouseHighlightNode = null;
-	private Editable mouseHighlightChain = null;
+	private Chain mouseHighlightChain = null;
 	private Polygon mouseHighlightPolygon = null;
 	private Node snapHighlightNode = null;
 
@@ -544,7 +544,7 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 		return false;
 	}
 
-	public boolean setMouseHighlight(Editable editable)
+	public boolean setMouseHighlight(Chain editable)
 	{
 		if (mouseHighlightChain != editable) {
 			mouseHighlightNode = null;
@@ -606,7 +606,7 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 		}
 	}
 
-	public void removeChain(Editable chain)
+	public void removeChain(Chain chain)
 	{
 		if (currentChains.contains(chain)) {
 			removeCurrentChain(chain);

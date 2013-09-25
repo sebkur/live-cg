@@ -22,7 +22,7 @@ import java.util.List;
 
 import javax.swing.JDialog;
 
-import de.topobyte.livecg.geometry.ui.geom.Editable;
+import de.topobyte.livecg.geometry.ui.geom.Chain;
 import de.topobyte.livecg.geometry.ui.geom.Node;
 import de.topobyte.livecg.geometry.ui.geom.Polygon;
 import de.topobyte.livecg.geometry.ui.geometryeditor.ContentChangedListener;
@@ -79,7 +79,7 @@ public class ObjectDialog extends JDialog
 	}
 
 	private Node currentNode = null;
-	private Editable currentChain = null;
+	private Chain currentChain = null;
 	private Polygon currentPolygon = null;
 
 	private NodePanel np = null;
@@ -92,7 +92,7 @@ public class ObjectDialog extends JDialog
 	protected void update()
 	{
 		List<Node> nodes = editPane.getCurrentNodes();
-		List<Editable> chains = editPane.getCurrentChains();
+		List<Chain> chains = editPane.getCurrentChains();
 		List<Polygon> polygons = editPane.getCurrentPolygons();
 
 		int ns = nodes.size();
@@ -118,7 +118,7 @@ public class ObjectDialog extends JDialog
 			}
 			mode = Mode.NODE;
 		} else if (ns == 0 && cs == 1 && ps == 0) {
-			Editable chain = chains.iterator().next();
+			Chain chain = chains.iterator().next();
 			if (currentChain != chain) {
 				currentChain = chain;
 				pcp = new PolygonalChainPanel(editPane, chain);

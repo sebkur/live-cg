@@ -19,7 +19,7 @@ package de.topobyte.livecg.geometry.ui.geometryeditor.object.action;
 
 import java.awt.event.ActionEvent;
 
-import de.topobyte.livecg.geometry.ui.geom.Editable;
+import de.topobyte.livecg.geometry.ui.geom.Chain;
 import de.topobyte.livecg.geometry.ui.geom.Polygon;
 import de.topobyte.livecg.geometry.ui.geometryeditor.Content;
 import de.topobyte.livecg.geometry.ui.geometryeditor.GeometryEditPane;
@@ -31,9 +31,9 @@ public class ToPolygonAction extends BasicAction
 	private static final long serialVersionUID = -7826180655312955433L;
 
 	private GeometryEditPane editPane;
-	private Editable editable;
+	private Chain editable;
 
-	public ToPolygonAction(GeometryEditPane editPane, Editable editable)
+	public ToPolygonAction(GeometryEditPane editPane, Chain editable)
 	{
 		super("to polygon", "Convert to polygon",
 				"org/freedesktop/tango/22x22/actions/document-new.png");

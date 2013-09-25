@@ -39,7 +39,7 @@ import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.io.ParseException;
 import com.vividsolutions.jts.io.WKTReader;
 
-import de.topobyte.livecg.geometry.ui.geom.Editable;
+import de.topobyte.livecg.geometry.ui.geom.Chain;
 
 public class EditPaneTransferHandler extends TransferHandler
 {
@@ -62,7 +62,7 @@ public class EditPaneTransferHandler extends TransferHandler
 			WKTReader reader = new WKTReader();
 			try {
 				Geometry geometry = reader.read(new FileReader(file));
-				Editable editable = Editable.fromLineString(geometry);
+				Chain editable = Chain.fromLineString(geometry);
 				content.addChain(editable);
 			} catch (FileNotFoundException e) {
 				logger.error("unable to load geometry: " + e.getMessage());

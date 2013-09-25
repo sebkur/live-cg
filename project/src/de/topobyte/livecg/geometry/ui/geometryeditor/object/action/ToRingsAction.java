@@ -19,7 +19,7 @@ package de.topobyte.livecg.geometry.ui.geometryeditor.object.action;
 
 import java.awt.event.ActionEvent;
 
-import de.topobyte.livecg.geometry.ui.geom.Editable;
+import de.topobyte.livecg.geometry.ui.geom.Chain;
 import de.topobyte.livecg.geometry.ui.geom.Polygon;
 import de.topobyte.livecg.geometry.ui.geometryeditor.Content;
 import de.topobyte.livecg.geometry.ui.geometryeditor.GeometryEditPane;
@@ -44,7 +44,7 @@ public class ToRingsAction extends BasicAction
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
-		Editable shell = polygon.getShell();
+		Chain shell = polygon.getShell();
 		Content content = editPane.getContent();
 		content.removePolygon(polygon);
 		editPane.removeCurrentPolygon(polygon);

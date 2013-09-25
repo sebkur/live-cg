@@ -26,7 +26,7 @@ import java.util.Set;
 
 import de.topobyte.livecg.geometry.ui.geom.CloseabilityException;
 import de.topobyte.livecg.geometry.ui.geom.Coordinate;
-import de.topobyte.livecg.geometry.ui.geom.Editable;
+import de.topobyte.livecg.geometry.ui.geom.Chain;
 import de.topobyte.livecg.geometry.ui.geom.GeomMath;
 import de.topobyte.livecg.geometry.ui.geom.Line;
 import de.topobyte.livecg.geometry.ui.geom.Node;
@@ -71,7 +71,7 @@ public class EditorMouseListener extends MouseAdapter
 				deleteNearestObject(coord);
 
 				editPane.setMouseHighlight((Node) null);
-				editPane.setMouseHighlight((Editable) null);
+				editPane.setMouseHighlight((Chain) null);
 				editPane.setMouseHighlight((Polygon) null);
 				editPane.repaint();
 			}
@@ -82,7 +82,7 @@ public class EditorMouseListener extends MouseAdapter
 	private void addCoordinateOrCreateNewLine(Coordinate coord)
 	{
 		List<Node> nodes = editPane.getCurrentNodes();
-		List<Editable> lines = editPane.getCurrentChains();
+		List<Chain> lines = editPane.getCurrentChains();
 
 		if (lines.size() > 1 || nodes.size() > 1) {
 			return;
@@ -98,14 +98,14 @@ public class EditorMouseListener extends MouseAdapter
 		case NONE:
 			break;
 		case NEW:
-			Editable line = new Editable();
+			Chain line = new Chain();
 			editPane.getContent().addChain(line);
 			line.appendPoint(coord);
 			editPane.addCurrentNode(line.getLastNode());
 			editPane.addCurrentChain(line);
 			break;
 		case NEW_WITH_SELECTED:
-			line = new Editable();
+			line = new Chain();
 			editPane.getContent().addChain(line);
 			line.appendNode(addPointResult.node);
 			line.appendPoint(coord);
@@ -131,7 +131,7 @@ public class EditorMouseListener extends MouseAdapter
 		AddPointResult result = new AddPointResult();
 
 		List<Node> nodes = editPane.getCurrentNodes();
-		List<Editable> lines = editPane.getCurrentChains();
+		List<Chain> lines = editPane.getCurrentChains();
 
 		if (lines.size() == 0 && nodes.size() == 0) {
 			// If nothing is selected, create a new chain
@@ -182,7 +182,7 @@ public class EditorMouseListener extends MouseAdapter
 		if (editPane.getCurrentChains().size() > 1) {
 			return;
 		}
-		Editable line = editPane.getCurrentChains().iterator().next();
+		Chain line = editPane.getCurrentChains().iterator().next();
 		line.setClosed(true);
 		editPane.clearCurrentNodes();
 		editPane.clearCurrentChains();
@@ -199,11 +199,11 @@ public class EditorMouseListener extends MouseAdapter
 		}
 
 		List<Node> nodes = editPane.getCurrentNodes();
-		List<Editable> chains = editPane.getCurrentChains();
+		List<Chain> chains = editPane.getCurrentChains();
 		List<Polygon> polygons = editPane.getCurrentPolygons();
 
 		Content content = editPane.getContent();
-		for (Editable chain : content.getChains()) {
+		for (Chain chain : content.getChains()) {
 			boolean complete = true;
 			for (int i = 0; i < chain.getNumberOfNodes(); i++) {
 				Node node = chain.getNode(i);
@@ -232,7 +232,7 @@ public class EditorMouseListener extends MouseAdapter
 		}
 		for (Polygon polygon : content.getPolygons()) {
 			boolean complete = true;
-			Editable shell = polygon.getShell();
+			Chain shell = polygon.getShell();
 			for (int i = 0; i < shell.getNumberOfNodes(); i++) {
 				Node node = shell.getNode(i);
 				Coordinate c = node.getCoordinate();
@@ -268,7 +268,7 @@ public class EditorMouseListener extends MouseAdapter
 	private void selectObject(Coordinate coord, boolean shift)
 	{
 		SelectResult nearest = nearestObject(coord);
-		List<Editable> chains = editPane.getCurrentChains();
+		List<Chain> chains = editPane.getCurrentChains();
 		List<Polygon> polygons = editPane.getCurrentPolygons();
 		boolean changed = false;
 
@@ -284,7 +284,7 @@ public class EditorMouseListener extends MouseAdapter
 			if (!shift) {
 				if (!editPane.getCurrentNodes().contains(node)) {
 					if (polygons.size() == 0 && chains.size() == 1) {
-						Editable chain = chains.iterator().next();
+						Chain chain = chains.iterator().next();
 						if (chain.getFirstNode() != node
 								&& chain.getLastNode() != node) {
 							editPane.clearCurrentChains();
@@ -310,7 +310,7 @@ public class EditorMouseListener extends MouseAdapter
 			}
 			break;
 		case CHAIN:
-			Editable chain = nearest.chain;
+			Chain chain = nearest.chain;
 			if (!shift) {
 				if (!editPane.getCurrentChains().contains(chain)) {
 					changed |= editPane.clearCurrentNodes();
@@ -361,11 +361,11 @@ public class EditorMouseListener extends MouseAdapter
 			break;
 		case NODE:
 			Node node = nearest.node;
-			List<Editable> selectedChains = editPane.getCurrentChains();
+			List<Chain> selectedChains = editPane.getCurrentChains();
 			List<Polygon> selectedPolygons = editPane.getCurrentPolygons();
 			if (selectedChains.size() == 0 && selectedPolygons.size() == 0) {
 				// Delete node from all contained elements
-				for (Editable c : node.getChains()) {
+				for (Chain c : node.getChains()) {
 					deleteNodeFromChain(c, node, false);
 				}
 				if (editPane.getCurrentNodes().contains(node)) {
@@ -373,7 +373,7 @@ public class EditorMouseListener extends MouseAdapter
 				}
 			} else {
 				// Delete node only from selected elements
-				for (Editable c : ListUtil.copy(selectedChains)) {
+				for (Chain c : ListUtil.copy(selectedChains)) {
 					deleteNodeFromChain(c, node, false);
 				}
 				for (Polygon p : ListUtil.copy(selectedPolygons)) {
@@ -397,7 +397,7 @@ public class EditorMouseListener extends MouseAdapter
 	private SelectResult nearestObject(Coordinate coord)
 	{
 		Node node = editPane.getContent().getNearestNode(coord);
-		Editable chain = editPane.getContent().getNearestChain(coord);
+		Chain chain = editPane.getContent().getNearestChain(coord);
 		Polygon polygon = editPane.getContent().getNearestPolygon(coord);
 		double dNode = Double.MAX_VALUE, dChain = Double.MAX_VALUE, dPolygon = Double.MAX_VALUE;
 		if (node != null) {
@@ -425,7 +425,7 @@ public class EditorMouseListener extends MouseAdapter
 		return selectResult;
 	}
 
-	private void deleteNodeFromChain(Editable chain, Node node,
+	private void deleteNodeFromChain(Chain chain, Node node,
 			boolean moveSelectedNodes)
 	{
 		if (moveSelectedNodes) {
@@ -462,7 +462,7 @@ public class EditorMouseListener extends MouseAdapter
 
 	private void deleteFromPolygon(Polygon polygon, Node node)
 	{
-		Editable shell = polygon.getShell();
+		Chain shell = polygon.getShell();
 		deleteNodeFromChain(shell, node, false);
 	}
 
@@ -530,11 +530,11 @@ public class EditorMouseListener extends MouseAdapter
 
 	private void meld(Node n1, Node n2)
 	{
-		for (Editable chain : n2.getChains()) {
+		for (Chain chain : n2.getChains()) {
 			chain.replaceNode(n2, n1);
 			n1.addChain(chain);
 		}
-		for (Editable chain : n2.getEndpointChains()) {
+		for (Chain chain : n2.getEndpointChains()) {
 			n1.addEndpointChain(chain);
 		}
 		editPane.removeCurrentNode(n2);
@@ -567,7 +567,7 @@ public class EditorMouseListener extends MouseAdapter
 		if (editPane.getMouseMode() == MouseMode.SELECT_MOVE
 				|| editPane.getMouseMode() == MouseMode.DELETE) {
 			Node node = editPane.getContent().getNearestNode(coord);
-			Editable editable = editPane.getContent().getNearestChain(coord);
+			Chain editable = editPane.getContent().getNearestChain(coord);
 			Polygon polygon = editPane.getContent().getNearestPolygon(coord);
 			double dNode = Double.MAX_VALUE, dChain = Double.MAX_VALUE, dPolygon = Double.MAX_VALUE;
 			if (node != null) {
@@ -588,7 +588,7 @@ public class EditorMouseListener extends MouseAdapter
 				changed = editPane.setMouseHighlight(polygon);
 			} else {
 				changed |= editPane.setMouseHighlight((Node) null);
-				changed |= editPane.setMouseHighlight((Editable) null);
+				changed |= editPane.setMouseHighlight((Chain) null);
 				changed |= editPane.setMouseHighlight((Polygon) null);
 			}
 			if (changed) {
@@ -681,7 +681,7 @@ public class EditorMouseListener extends MouseAdapter
 	private boolean onlyOneNodeSelected()
 	{
 		List<Node> nodes = editPane.getCurrentNodes();
-		List<Editable> chains = editPane.getCurrentChains();
+		List<Chain> chains = editPane.getCurrentChains();
 		List<Polygon> polygons = editPane.getCurrentPolygons();
 
 		return chains.size() == 0 && polygons.size() == 0 && nodes.size() == 1;
@@ -693,13 +693,13 @@ public class EditorMouseListener extends MouseAdapter
 		for (Node node : editPane.getCurrentNodes()) {
 			toTranslate.add(node);
 		}
-		for (Editable chain : editPane.getCurrentChains()) {
+		for (Chain chain : editPane.getCurrentChains()) {
 			for (int i = 0; i < chain.getNumberOfNodes(); i++) {
 				toTranslate.add(chain.getNode(i));
 			}
 		}
 		for (Polygon polygon : editPane.getCurrentPolygons()) {
-			Editable shell = polygon.getShell();
+			Chain shell = polygon.getShell();
 			for (int i = 0; i < shell.getNumberOfNodes(); i++) {
 				toTranslate.add(shell.getNode(i));
 			}

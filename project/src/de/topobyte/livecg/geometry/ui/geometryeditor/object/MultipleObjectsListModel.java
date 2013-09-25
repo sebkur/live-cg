@@ -23,7 +23,7 @@ import java.util.Locale;
 import javax.swing.AbstractListModel;
 
 import de.topobyte.livecg.geometry.ui.geom.Coordinate;
-import de.topobyte.livecg.geometry.ui.geom.Editable;
+import de.topobyte.livecg.geometry.ui.geom.Chain;
 import de.topobyte.livecg.geometry.ui.geom.Node;
 import de.topobyte.livecg.geometry.ui.geom.Polygon;
 import de.topobyte.livecg.geometry.ui.geometryeditor.GeometryEditPane;
@@ -44,7 +44,7 @@ public class MultipleObjectsListModel extends AbstractListModel
 	public int getSize()
 	{
 		List<Node> nodes = editPane.getCurrentNodes();
-		List<Editable> chains = editPane.getCurrentChains();
+		List<Chain> chains = editPane.getCurrentChains();
 		List<Polygon> polygons = editPane.getCurrentPolygons();
 		return nodes.size() + chains.size() + polygons.size();
 	}
@@ -53,7 +53,7 @@ public class MultipleObjectsListModel extends AbstractListModel
 	public Object getElementAt(int index)
 	{
 		List<Node> nodes = editPane.getCurrentNodes();
-		List<Editable> chains = editPane.getCurrentChains();
+		List<Chain> chains = editPane.getCurrentChains();
 		List<Polygon> polygons = editPane.getCurrentPolygons();
 		if (index < nodes.size()) {
 			Node node = nodes.get(index);
@@ -61,7 +61,7 @@ public class MultipleObjectsListModel extends AbstractListModel
 			return String.format(Locale.US, "node (%.2f, %.2f)", c.getX(),
 					c.getY());
 		} else if (index < nodes.size() + chains.size()) {
-			Editable chain = chains.get(index - nodes.size());
+			Chain chain = chains.get(index - nodes.size());
 			return String.format("chain (%d nodes)", chain.getNumberOfNodes());
 		} else if (index < nodes.size() + chains.size() + polygons.size()) {
 			Polygon polygon = polygons

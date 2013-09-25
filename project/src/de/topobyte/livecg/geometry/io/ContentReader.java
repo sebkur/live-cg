@@ -38,7 +38,7 @@ import org.xml.sax.helpers.DefaultHandler;
 
 import de.topobyte.livecg.geometry.ui.geom.CloseabilityException;
 import de.topobyte.livecg.geometry.ui.geom.Coordinate;
-import de.topobyte.livecg.geometry.ui.geom.Editable;
+import de.topobyte.livecg.geometry.ui.geom.Chain;
 import de.topobyte.livecg.geometry.ui.geom.Node;
 import de.topobyte.livecg.geometry.ui.geom.Polygon;
 import de.topobyte.livecg.geometry.ui.geometryeditor.Content;
@@ -84,7 +84,7 @@ public class ContentReader extends DefaultHandler
 	// A temporary storage for chain's closed attribute
 	private boolean closed = false;
 	// Store polygon's shell here
-	private Editable shell = null;
+	private Chain shell = null;
 
 	/*
 	 * SAX callbacks
@@ -142,7 +142,7 @@ public class ContentReader extends DefaultHandler
 			break;
 		case Chain:
 			parseChainText();
-			Editable chain;
+			Chain chain;
 			try {
 				chain = buildChain();
 			} catch (CloseabilityException e) {
@@ -207,9 +207,9 @@ public class ContentReader extends DefaultHandler
 		}
 	}
 
-	private Editable buildChain() throws CloseabilityException
+	private Chain buildChain() throws CloseabilityException
 	{
-		Editable chain = new Editable();
+		Chain chain = new Chain();
 		for (int id : ids) {
 			Node node = idToNode.get(id);
 			chain.appendNode(node);

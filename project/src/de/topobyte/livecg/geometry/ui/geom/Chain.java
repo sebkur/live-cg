@@ -26,7 +26,7 @@ import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.LineString;
 import com.vividsolutions.jts.geom.Point;
 
-public class Editable
+public class Chain
 {
 
 	private boolean closed = false;
@@ -223,12 +223,12 @@ public class Editable
 		return p;
 	}
 
-	public static Editable fromLineString(Geometry geometry)
+	public static Chain fromLineString(Geometry geometry)
 	{
 		if (!(geometry instanceof LineString)) {
 			return null;
 		}
-		Editable editable = new Editable();
+		Chain editable = new Chain();
 		LineString string = (LineString) geometry;
 		for (int i = 0; i < string.getNumPoints(); i++) {
 			com.vividsolutions.jts.geom.Coordinate cn = string

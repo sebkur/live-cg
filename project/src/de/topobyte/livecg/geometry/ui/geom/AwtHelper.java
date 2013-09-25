@@ -28,7 +28,7 @@ public class AwtHelper
 			return new Area();
 		}
 
-		Editable shell = p.getShell();
+		Chain shell = p.getShell();
 		Area outer = getArea(shell);
 
 //		for (int i = 0; i < p.getNumberOfInteriorRings(); i++) {
@@ -40,7 +40,7 @@ public class AwtHelper
 		return outer;
 	}
 
-	public static Area getArea(Editable ring)
+	public static Area getArea(Chain ring)
 	{
 		Path2D.Double path = new Path2D.Double();
 		Coordinate c = ring.getCoordinate(0);

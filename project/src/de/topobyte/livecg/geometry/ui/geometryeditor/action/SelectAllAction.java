@@ -21,7 +21,7 @@ package de.topobyte.livecg.geometry.ui.geometryeditor.action;
 import java.awt.event.ActionEvent;
 import java.util.List;
 
-import de.topobyte.livecg.geometry.ui.geom.Editable;
+import de.topobyte.livecg.geometry.ui.geom.Chain;
 import de.topobyte.livecg.geometry.ui.geom.Node;
 import de.topobyte.livecg.geometry.ui.geom.Polygon;
 import de.topobyte.livecg.geometry.ui.geometryeditor.Content;
@@ -50,10 +50,10 @@ public class SelectAllAction extends BasicAction
 		editPane.clearCurrentChains();
 		editPane.clearCurrentPolygons();
 
-		List<Editable> chains = content.getChains();
+		List<Chain> chains = content.getChains();
 		List<Polygon> polygons = content.getPolygons();
 
-		for (Editable chain : chains) {
+		for (Chain chain : chains) {
 			if (chain.getNumberOfNodes() == 1) {
 				Node node = chain.getFirstNode();
 				editPane.addCurrentNode(node);

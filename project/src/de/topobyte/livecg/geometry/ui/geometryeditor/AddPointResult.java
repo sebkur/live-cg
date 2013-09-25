@@ -17,12 +17,12 @@
  */
 package de.topobyte.livecg.geometry.ui.geometryeditor;
 
-import de.topobyte.livecg.geometry.ui.geom.Editable;
+import de.topobyte.livecg.geometry.ui.geom.Chain;
 import de.topobyte.livecg.geometry.ui.geom.Node;
 
 public class AddPointResult
 {
 	public AddPointMode addPointMode = null;
-	public Editable chain = null;
+	public Chain chain = null;
 	public Node node = null;
 }

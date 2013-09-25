@@ -24,8 +24,8 @@ public class Node
 {
 
 	private Coordinate coordinate;
-	private List<Editable> endpointChains = new ArrayList<Editable>();;
-	private List<Editable> chains = new ArrayList<Editable>();;
+	private List<Chain> endpointChains = new ArrayList<Chain>();;
+	private List<Chain> chains = new ArrayList<Chain>();;
 
 	public Node(Coordinate coordinate)
 	{
@@ -42,32 +42,32 @@ public class Node
 		this.coordinate = coordinate;
 	}
 	
-	public List<Editable> getChains()
+	public List<Chain> getChains()
 	{
 		return chains;
 	}
 	
-	public List<Editable> getEndpointChains()
+	public List<Chain> getEndpointChains()
 	{
 		return endpointChains;
 	}
 	
-	public void addChain(Editable chain)
+	public void addChain(Chain chain)
 	{
 		chains.add(chain);
 	}
 	
-	public void removeChain(Editable chain)
+	public void removeChain(Chain chain)
 	{
 		chains.remove(chain);
 	}
 	
-	public void addEndpointChain(Editable chain)
+	public void addEndpointChain(Chain chain)
 	{
 		endpointChains.add(chain);
 	}
 	
-	public void removeEndpointChain(Editable chain)
+	public void removeEndpointChain(Chain chain)
 	{
 		endpointChains.remove(chain);
 	}

@@ -34,7 +34,7 @@ import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.io.ParseException;
 import com.vividsolutions.jts.io.WKTReader;
 
-import de.topobyte.livecg.geometry.ui.geom.Editable;
+import de.topobyte.livecg.geometry.ui.geom.Chain;
 import de.topobyte.livecg.geometry.ui.geometryeditor.GeometryEditPane;
 import de.topobyte.livecg.util.SwingUtil;
 
@@ -68,7 +68,7 @@ public class LoadAction extends BasicAction
 			try {
 				WKTReader wktReader = new WKTReader();
 				Geometry geometry = wktReader.read(new FileReader(file));
-				Editable editable = Editable.fromLineString(geometry);
+				Chain editable = Chain.fromLineString(geometry);
 				if (editable == null) {
 					System.out
 							.println("loaded geometry is not a valid LineString");
