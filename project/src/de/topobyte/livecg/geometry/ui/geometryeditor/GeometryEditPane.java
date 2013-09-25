@@ -489,16 +489,20 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 
 	private Node prospectNode = null;
 
-	public void setProspectNode(Node prospectNode)
+	public boolean setProspectNode(Node prospectNode)
 	{
+		boolean changed = this.prospectNode != prospectNode;
 		this.prospectNode = prospectNode;
+		return changed;
 	}
 
 	private Line prospectLine = null;
 
-	public void setProspectLine(Line prospectLine)
+	public boolean setProspectLine(Line prospectLine)
 	{
+		boolean changed = this.prospectLine != prospectLine;
 		this.prospectLine = prospectLine;
+		return changed;
 	}
 
 	private Node mouseHighlightNode = null;

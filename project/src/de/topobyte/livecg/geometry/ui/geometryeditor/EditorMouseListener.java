@@ -399,10 +399,11 @@ public class EditorMouseListener extends MouseAdapter
 				editPane.repaint();
 			}
 		} else if (editPane.getMouseMode() == MouseMode.EDIT) {
-			editPane.setProspectNode(null);
-			editPane.setProspectLine(null);
-			// TODO: only if changed
-			editPane.repaint();
+			boolean changed = editPane.setProspectNode(null);
+			changed |= editPane.setProspectLine(null);
+			if (changed) {
+				editPane.repaint();
+			}
 		}
 	}
 
@@ -492,33 +493,39 @@ public class EditorMouseListener extends MouseAdapter
 			}
 		} else if (editPane.getMouseMode() == MouseMode.EDIT) {
 			AddPointResult addPointResult = selectAddPointMode();
+			boolean changed = false;
 			switch (addPointResult.addPointMode) {
 			default:
 			case NONE:
+				changed |= editPane.setProspectNode(null);
+				changed |= editPane.setProspectLine(null);
 				break;
 			case NEW:
 				editPane.setProspectNode(new Node(coord));
-				editPane.repaint();
+				changed = true;
 				break;
 			case PREPEND:
 				Coordinate start = addPointResult.chain.getFirstNode()
 						.getCoordinate();
 				editPane.setProspectNode(new Node(coord));
 				editPane.setProspectLine(new Line(start, coord));
-				editPane.repaint();
+				changed = true;
 				break;
 			case APPEND:
 				start = addPointResult.chain.getLastNode().getCoordinate();
 				editPane.setProspectNode(new Node(coord));
 				editPane.setProspectLine(new Line(start, coord));
-				editPane.repaint();
+				changed = true;
 				break;
 			case NEW_WITH_SELECTED:
 				editPane.setProspectNode(new Node(coord));
 				start = addPointResult.node.getCoordinate();
 				editPane.setProspectLine(new Line(start, coord));
-				editPane.repaint();
+				changed = true;
 				break;
+			}
+			if (changed) {
+				editPane.repaint();
 			}
 		}
 	}
@@ -601,10 +608,11 @@ public class EditorMouseListener extends MouseAdapter
 	public void mouseExited(MouseEvent e)
 	{
 		if (editPane.getMouseMode() == MouseMode.EDIT) {
-			editPane.setProspectNode(null);
-			editPane.setProspectLine(null);
-			// TODO: only if changed
-			editPane.repaint();
+			boolean changed = editPane.setProspectNode(null);
+			changed |= editPane.setProspectLine(null);
+			if (changed) {
+				editPane.repaint();
+			}
 		}
 	}
 }
