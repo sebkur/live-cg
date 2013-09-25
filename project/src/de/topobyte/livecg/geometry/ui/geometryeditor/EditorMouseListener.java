@@ -27,6 +27,7 @@ import java.util.Set;
 import de.topobyte.livecg.geometry.ui.geom.CloseabilityException;
 import de.topobyte.livecg.geometry.ui.geom.Coordinate;
 import de.topobyte.livecg.geometry.ui.geom.Editable;
+import de.topobyte.livecg.geometry.ui.geom.GeomMath;
 import de.topobyte.livecg.geometry.ui.geom.Line;
 import de.topobyte.livecg.geometry.ui.geom.Node;
 import de.topobyte.livecg.geometry.ui.geom.Polygon;
@@ -186,6 +187,49 @@ public class EditorMouseListener extends MouseAdapter
 		editPane.clearCurrentNodes();
 		editPane.clearCurrentChains();
 		editPane.getContent().fireContentChanged();
+	}
+
+	private void selectObjects(Rectangle rectangle, boolean shift)
+	{
+		boolean changed = false;
+		if (!shift) {
+			changed |= editPane.clearCurrentNodes();
+			changed |= editPane.clearCurrentChains();
+			changed |= editPane.clearCurrentPolygons();
+		}
+
+		List<Node> nodes = editPane.getCurrentNodes();
+		List<Editable> chains = editPane.getCurrentChains();
+		List<Polygon> polygons = editPane.getCurrentPolygons();
+
+		Content content = editPane.getContent();
+		for (Editable chain : content.getChains()) {
+			for (int i = 0; i < chain.getNumberOfNodes(); i++) {
+				Node node = chain.getNode(i);
+				Coordinate c = node.getCoordinate();
+				if (GeomMath.contains(rectangle, c)) {
+					if (!nodes.contains(node)) {
+						editPane.addCurrentNode(node);
+					}
+				}
+			}
+		}
+		for (Polygon polygon : content.getPolygons()) {
+			Editable shell = polygon.getShell();
+			for (int i = 0; i < shell.getNumberOfNodes(); i++) {
+				Node node = shell.getNode(i);
+				Coordinate c = node.getCoordinate();
+				if (GeomMath.contains(rectangle, c)) {
+					if (!nodes.contains(node)) {
+						editPane.addCurrentNode(node);
+					}
+				}
+			}
+		}
+
+		if (changed) {
+			editPane.repaint();
+		}
 	}
 
 	private void selectObject(Coordinate coord, boolean shift)
@@ -440,7 +484,10 @@ public class EditorMouseListener extends MouseAdapter
 			snapNode = null;
 		} else if (editPane.getMouseMode() == MouseMode.SELECT_RECTANGULAR) {
 			if (e.getButton() == MouseEvent.BUTTON1) {
-				// TODO: trigger some action
+				Rectangle rectangle = editPane.getSelectionRectangle();
+				boolean shift = e.isShiftDown();
+				selectObjects(rectangle, shift);
+
 				editPane.setSelectionRectangle(null);
 				editPane.repaint();
 			}
