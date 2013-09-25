@@ -85,6 +85,7 @@ public class ObjectDialog extends JDialog
 	private NodePanel np = null;
 	private PolygonalChainPanel pcp = null;
 	private PolygonPanel pp = null;
+	private MultiplePanel mp = null;
 
 	protected void update()
 	{
@@ -132,12 +133,19 @@ public class ObjectDialog extends JDialog
 				pp.update();
 			}
 		} else {
-			if (currentNode != null || currentChain != null || currentPolygon != null) {
-				setContentPane(new MultiplePanel());
+			boolean create = mp == null;
+			if (create) {
+				mp = new MultiplePanel(editPane);
+			} else {
+				mp.update();
 			}
-			currentNode = null;
-			currentChain = null;
-			currentPolygon = null;
+			if (currentNode != null || currentChain != null
+					|| currentPolygon != null) {
+				currentNode = null;
+				currentChain = null;
+				currentPolygon = null;
+				setContentPane(mp);
+			}
 		}
 		validate();
 	}

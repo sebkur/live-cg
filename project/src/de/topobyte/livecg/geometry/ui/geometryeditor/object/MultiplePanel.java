@@ -20,9 +20,13 @@ package de.topobyte.livecg.geometry.ui.geometryeditor.object;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
+import de.topobyte.livecg.geometry.ui.geometryeditor.GeometryEditPane;
 import de.topobyte.swing.layout.GridBagHelper;
 
 public class MultiplePanel extends JPanel
@@ -30,7 +34,10 @@ public class MultiplePanel extends JPanel
 
 	private static final long serialVersionUID = 1448044034372567014L;
 
-	public MultiplePanel()
+	private JList list;
+	private MultipleObjectsListModel model;
+
+	public MultiplePanel(GeometryEditPane editPane)
 	{
 		setLayout(new GridBagLayout());
 
@@ -43,9 +50,18 @@ public class MultiplePanel extends JPanel
 		GridBagHelper.setGxGy(c, 0, 0);
 		add(label, c);
 
+		model = new MultipleObjectsListModel(editPane);
+		list = new JList(model);
+		JScrollPane jsp = new JScrollPane(list);
+
 		GridBagHelper.setGxGy(c, 0, 1);
 		GridBagHelper.setWxWyF(c, 1.0, 1.0, GridBagConstraints.BOTH);
-		add(new JPanel(), c);
+		add(jsp, c);
 	}
 
+	public void update()
+	{
+		list.setModel(new DefaultListModel());
+		list.setModel(model);
+	}
 }
