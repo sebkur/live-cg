@@ -20,7 +20,9 @@ package de.topobyte.livecg.geometry.ui.geometryeditor;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import de.topobyte.livecg.geometry.ui.geom.CloseabilityException;
 import de.topobyte.livecg.geometry.ui.geom.Coordinate;
@@ -207,9 +209,11 @@ public class EditorMouseListener extends MouseAdapter
 				}
 			}
 			if (!shift) {
-				changed |= editPane.clearCurrentNodes();
-				changed |= editPane.clearCurrentPolygons();
-				changed |= editPane.addCurrentNode(node);
+				if (!editPane.getCurrentNodes().contains(node)) {
+					changed |= editPane.clearCurrentNodes();
+					changed |= editPane.clearCurrentPolygons();
+					changed |= editPane.addCurrentNode(node);
+				}
 			} else {
 				if (editPane.getCurrentNodes().contains(node)) {
 					changed |= editPane.removeCurrentNode(node);
@@ -221,10 +225,12 @@ public class EditorMouseListener extends MouseAdapter
 		case CHAIN:
 			Editable chain = nearest.chain;
 			if (!shift) {
-				changed |= editPane.clearCurrentNodes();
-				changed |= editPane.clearCurrentChains();
-				changed |= editPane.clearCurrentPolygons();
-				changed |= editPane.addCurrentChain(chain);
+				if (!editPane.getCurrentChains().contains(chain)) {
+					changed |= editPane.clearCurrentNodes();
+					changed |= editPane.clearCurrentChains();
+					changed |= editPane.clearCurrentPolygons();
+					changed |= editPane.addCurrentChain(chain);
+				}
 			} else {
 				if (editPane.getCurrentChains().contains(chain)) {
 					changed |= editPane.removeCurrentChain(chain);
@@ -236,10 +242,12 @@ public class EditorMouseListener extends MouseAdapter
 		case POLYGON:
 			Polygon polygon = nearest.polygon;
 			if (!shift) {
-				changed |= editPane.clearCurrentNodes();
-				changed |= editPane.clearCurrentChains();
-				changed |= editPane.clearCurrentPolygons();
-				changed |= editPane.addCurrentPolygon(polygon);
+				if (!editPane.getCurrentPolygons().contains(polygon)) {
+					changed |= editPane.clearCurrentNodes();
+					changed |= editPane.clearCurrentChains();
+					changed |= editPane.clearCurrentPolygons();
+					changed |= editPane.addCurrentPolygon(polygon);
+				}
 			} else {
 				if (editPane.getCurrentPolygons().contains(polygon)) {
 					changed |= editPane.removeCurrentPolygon(polygon);
@@ -371,6 +379,8 @@ public class EditorMouseListener extends MouseAdapter
 		deleteNodeFromChain(shell, node, false);
 	}
 
+	private DragInfo dragInfo = null;
+
 	@Override
 	public void mousePressed(MouseEvent e)
 	{
@@ -383,6 +393,7 @@ public class EditorMouseListener extends MouseAdapter
 				boolean shift = e.isShiftDown();
 				selectObject(coord, shift);
 				activateNodeForMove(coord);
+				dragInfo = new DragInfo(e.getX(), e.getY());
 			} else if (e.getButton() == MouseEvent.BUTTON3) {
 				selectNothing();
 				editPane.repaint();
@@ -520,7 +531,7 @@ public class EditorMouseListener extends MouseAdapter
 		Coordinate coord = new Coordinate(e.getX(), e.getY());
 
 		if (editPane.getMouseMode() == MouseMode.SELECT_MOVE) {
-			if (currentMoveNode != null) {
+			if (onlyOneNodeSelected() && currentMoveNode != null) {
 				currentMoveNode.setCoordinate(coord);
 				editPane.getContent().fireContentChanged();
 
@@ -542,7 +553,47 @@ public class EditorMouseListener extends MouseAdapter
 				if (update) {
 					editPane.getContent().fireContentChanged();
 				}
+			} else {
+				dragInfo.update(e.getX(), e.getY());
+				Coordinate delta = dragInfo.getDeltaToLast();
+				translateSelectedObjects(delta);
+				editPane.getContent().fireContentChanged();
 			}
+		}
+	}
+
+	private boolean onlyOneNodeSelected()
+	{
+		List<Node> nodes = editPane.getCurrentNodes();
+		List<Editable> chains = editPane.getCurrentChains();
+		List<Polygon> polygons = editPane.getCurrentPolygons();
+
+		return chains.size() == 0 && polygons.size() == 0 && nodes.size() == 1;
+	}
+
+	private void translateSelectedObjects(Coordinate delta)
+	{
+		Set<Node> toTranslate = new HashSet<Node>();
+		for (Node node : editPane.getCurrentNodes()) {
+			toTranslate.add(node);
+		}
+		for (Editable chain : editPane.getCurrentChains()) {
+			for (int i = 0; i < chain.getNumberOfNodes(); i++) {
+				toTranslate.add(chain.getNode(i));
+			}
+		}
+		for (Polygon polygon : editPane.getCurrentPolygons()) {
+			Editable shell = polygon.getShell();
+			for (int i = 0; i < shell.getNumberOfNodes(); i++) {
+				toTranslate.add(shell.getNode(i));
+			}
+		}
+
+		for (Node node : toTranslate) {
+			Coordinate old = node.getCoordinate();
+			Coordinate c = new Coordinate(old.getX() + delta.getX(), old.getY()
+					+ delta.getY());
+			node.setCoordinate(c);
 		}
 	}
 
