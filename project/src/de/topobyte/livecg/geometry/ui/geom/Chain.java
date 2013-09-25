@@ -228,14 +228,14 @@ public class Chain
 		if (!(geometry instanceof LineString)) {
 			return null;
 		}
-		Chain editable = new Chain();
+		Chain chain = new Chain();
 		LineString string = (LineString) geometry;
 		for (int i = 0; i < string.getNumPoints(); i++) {
 			com.vividsolutions.jts.geom.Coordinate cn = string
 					.getCoordinateN(i);
-			editable.appendPoint(new Coordinate(cn.x, cn.y));
+			chain.appendPoint(new Coordinate(cn.x, cn.y));
 		}
-		return editable;
+		return chain;
 	}
 
 	public void setClosed(boolean closed) throws CloseabilityException

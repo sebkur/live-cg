@@ -36,23 +36,23 @@ public class PolygonalChainPanel extends JPanel
 
 	private static final long serialVersionUID = 5640771403274002420L;
 
-	private Chain editable;
+	private Chain chain;
 	private JLabel label;
 	private JToggleButton closedButton;
 	private JButton toPolygon;
 
-	public PolygonalChainPanel(GeometryEditPane editPane, Chain editable)
+	public PolygonalChainPanel(GeometryEditPane editPane, Chain chain)
 	{
-		this.editable = editable;
+		this.chain = chain;
 		setLayout(new GridBagLayout());
 		label = new JLabel();
 
 		closedButton = new JToggleButton("closed");
-		closedButton.setSelected(editable.isClosed());
-		closedButton.setAction(new OpenCloseRingAction(editPane, editable));
+		closedButton.setSelected(chain.isClosed());
+		closedButton.setAction(new OpenCloseRingAction(editPane, chain));
 
 		toPolygon = new JButton("to polygon");
-		toPolygon.setAction(new ToPolygonAction(editPane, editable));
+		toPolygon.setAction(new ToPolygonAction(editPane, chain));
 
 		GridBagConstraints c = new GridBagConstraints();
 
@@ -75,15 +75,15 @@ public class PolygonalChainPanel extends JPanel
 	public void update()
 	{
 		label.setText(getLabelText());
-		closedButton.setSelected(editable.isClosed());
-		closedButton.setEnabled(editable.getNumberOfNodes() > 2);
+		closedButton.setSelected(chain.isClosed());
+		closedButton.setEnabled(chain.getNumberOfNodes() > 2);
 
-		toPolygon.setEnabled(editable.isClosed());
+		toPolygon.setEnabled(chain.isClosed());
 	}
 
 	private String getLabelText()
 	{
-		return "Object: polygonal chain with " + editable.getNumberOfNodes() + " nodes";
+		return "Object: polygonal chain with " + chain.getNumberOfNodes() + " nodes";
 	}
 
 }

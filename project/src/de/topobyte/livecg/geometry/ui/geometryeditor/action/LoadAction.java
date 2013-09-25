@@ -68,12 +68,12 @@ public class LoadAction extends BasicAction
 			try {
 				WKTReader wktReader = new WKTReader();
 				Geometry geometry = wktReader.read(new FileReader(file));
-				Chain editable = Chain.fromLineString(geometry);
-				if (editable == null) {
+				Chain chain = Chain.fromLineString(geometry);
+				if (chain == null) {
 					System.out
 							.println("loaded geometry is not a valid LineString");
 				} else {
-					editPane.getContent().addChain(editable);
+					editPane.getContent().addChain(chain);
 					editPane.getContent().fireContentChanged();
 				}
 			} catch (IOException ex) {

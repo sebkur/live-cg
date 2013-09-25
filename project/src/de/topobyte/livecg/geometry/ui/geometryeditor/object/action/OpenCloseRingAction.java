@@ -30,22 +30,22 @@ public class OpenCloseRingAction extends BasicAction
 	private static final long serialVersionUID = -7826180655312955433L;
 
 	private GeometryEditPane editPane;
-	private Chain editable;
+	private Chain chain;
 
-	public OpenCloseRingAction(GeometryEditPane editPane, Chain editable)
+	public OpenCloseRingAction(GeometryEditPane editPane, Chain chain)
 	{
 		super("closed", "Open / Close a ring",
 				"org/freedesktop/tango/22x22/actions/document-new.png");
 		this.editPane = editPane;
-		this.editable = editable;
+		this.chain = chain;
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
 		try {
-			boolean closed = !editable.isClosed();
-			editable.setClosed(closed);
+			boolean closed = !chain.isClosed();
+			chain.setClosed(closed);
 			editPane.getContent().fireContentChanged();
 		} catch (CloseabilityException e1) {
 			// ignore silently

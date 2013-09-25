@@ -62,8 +62,8 @@ public class EditPaneTransferHandler extends TransferHandler
 			WKTReader reader = new WKTReader();
 			try {
 				Geometry geometry = reader.read(new FileReader(file));
-				Chain editable = Chain.fromLineString(geometry);
-				content.addChain(editable);
+				Chain chain = Chain.fromLineString(geometry);
+				content.addChain(chain);
 			} catch (FileNotFoundException e) {
 				logger.error("unable to load geometry: " + e.getMessage());
 			} catch (ParseException e) {

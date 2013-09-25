@@ -54,12 +54,12 @@ public class EditorMouseListener extends MouseAdapter
 		if (editPane.getMouseMode() == MouseMode.EDIT) {
 			if (e.getButton() == MouseEvent.BUTTON1) {
 				if (!e.isControlDown()) {
-					addCoordinateOrCreateNewLine(coord);
+					addCoordinateOrCreateNewChain(coord);
 				} else {
 					try {
-						closeCurrentLine();
+						closeCurrentChain();
 					} catch (CloseabilityException ex) {
-						System.out.println("unable to close line");
+						System.out.println("unable to close chain");
 					}
 				}
 			} else if (e.getButton() == MouseEvent.BUTTON3) {
@@ -79,12 +79,12 @@ public class EditorMouseListener extends MouseAdapter
 
 	}
 
-	private void addCoordinateOrCreateNewLine(Coordinate coord)
+	private void addCoordinateOrCreateNewChain(Coordinate coord)
 	{
 		List<Node> nodes = editPane.getCurrentNodes();
-		List<Chain> lines = editPane.getCurrentChains();
+		List<Chain> chains = editPane.getCurrentChains();
 
-		if (lines.size() > 1 || nodes.size() > 1) {
+		if (chains.size() > 1 || nodes.size() > 1) {
 			return;
 		}
 
@@ -98,19 +98,19 @@ public class EditorMouseListener extends MouseAdapter
 		case NONE:
 			break;
 		case NEW:
-			Chain line = new Chain();
-			editPane.getContent().addChain(line);
-			line.appendPoint(coord);
-			editPane.addCurrentNode(line.getLastNode());
-			editPane.addCurrentChain(line);
+			Chain chain = new Chain();
+			editPane.getContent().addChain(chain);
+			chain.appendPoint(coord);
+			editPane.addCurrentNode(chain.getLastNode());
+			editPane.addCurrentChain(chain);
 			break;
 		case NEW_WITH_SELECTED:
-			line = new Chain();
-			editPane.getContent().addChain(line);
-			line.appendNode(addPointResult.node);
-			line.appendPoint(coord);
-			editPane.addCurrentNode(line.getLastNode());
-			editPane.addCurrentChain(line);
+			chain = new Chain();
+			editPane.getContent().addChain(chain);
+			chain.appendNode(addPointResult.node);
+			chain.appendPoint(coord);
+			editPane.addCurrentNode(chain.getLastNode());
+			editPane.addCurrentChain(chain);
 			break;
 		case PREPEND:
 			addPointResult.chain.prependPoint(coord);
@@ -131,15 +131,15 @@ public class EditorMouseListener extends MouseAdapter
 		AddPointResult result = new AddPointResult();
 
 		List<Node> nodes = editPane.getCurrentNodes();
-		List<Chain> lines = editPane.getCurrentChains();
+		List<Chain> chains = editPane.getCurrentChains();
 
-		if (lines.size() == 0 && nodes.size() == 0) {
+		if (chains.size() == 0 && nodes.size() == 0) {
 			// If nothing is selected, create a new chain
 			result.addPointMode = AddPointMode.NEW;
-		} else if (lines.size() == 1 && nodes.size() == 1) {
+		} else if (chains.size() == 1 && nodes.size() == 1) {
 			// If one chain and one node is selected, extend the selected chain
 			Node node = nodes.iterator().next();
-			result.chain = lines.iterator().next();
+			result.chain = chains.iterator().next();
 			result.addPointMode = AddPointMode.APPEND;
 			if (result.chain.getFirstNode() == node) {
 				if (result.chain.getNumberOfNodes() != 1) {
@@ -177,13 +177,13 @@ public class EditorMouseListener extends MouseAdapter
 		return changed;
 	}
 
-	private void closeCurrentLine() throws CloseabilityException
+	private void closeCurrentChain() throws CloseabilityException
 	{
 		if (editPane.getCurrentChains().size() > 1) {
 			return;
 		}
-		Chain line = editPane.getCurrentChains().iterator().next();
-		line.setClosed(true);
+		Chain chain = editPane.getCurrentChains().iterator().next();
+		chain.setClosed(true);
 		editPane.clearCurrentNodes();
 		editPane.clearCurrentChains();
 		editPane.getContent().fireContentChanged();
@@ -567,14 +567,14 @@ public class EditorMouseListener extends MouseAdapter
 		if (editPane.getMouseMode() == MouseMode.SELECT_MOVE
 				|| editPane.getMouseMode() == MouseMode.DELETE) {
 			Node node = editPane.getContent().getNearestNode(coord);
-			Chain editable = editPane.getContent().getNearestChain(coord);
+			Chain chain = editPane.getContent().getNearestChain(coord);
 			Polygon polygon = editPane.getContent().getNearestPolygon(coord);
 			double dNode = Double.MAX_VALUE, dChain = Double.MAX_VALUE, dPolygon = Double.MAX_VALUE;
 			if (node != null) {
 				dNode = node.getCoordinate().distance(coord);
 			}
-			if (editable != null) {
-				dChain = editable.distance(coord);
+			if (chain != null) {
+				dChain = chain.distance(coord);
 			}
 			if (polygon != null) {
 				dPolygon = polygon.getShell().distance(coord);
@@ -583,7 +583,7 @@ public class EditorMouseListener extends MouseAdapter
 			if (dNode < 5) {
 				changed = editPane.setMouseHighlight(node);
 			} else if (dChain < 5) {
-				changed = editPane.setMouseHighlight(editable);
+				changed = editPane.setMouseHighlight(chain);
 			} else if (dPolygon < 5) {
 				changed = editPane.setMouseHighlight(polygon);
 			} else {

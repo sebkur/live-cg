@@ -31,22 +31,22 @@ import de.topobyte.livecg.geometry.ui.geom.Polygon;
 public class Content
 {
 
-	private List<Chain> editables = new ArrayList<Chain>();
+	private List<Chain> chains = new ArrayList<Chain>();
 	private List<Polygon> polygons = new ArrayList<Polygon>();
 
 	public List<Chain> getChains()
 	{
-		return editables;
+		return chains;
 	}
 
-	public void addChain(Chain line)
+	public void addChain(Chain chain)
 	{
-		editables.add(line);
+		chains.add(chain);
 	}
 
-	public void removeChain(Chain line)
+	public void removeChain(Chain chain)
 	{
-		editables.remove(line);
+		chains.remove(chain);
 	}
 
 	public List<Polygon> getPolygons()
@@ -64,12 +64,12 @@ public class Content
 		polygons.remove(polygon);
 	}
 
-	public Set<Chain> getEditablesNear(Coordinate coordinate)
+	public Set<Chain> getChainsNear(Coordinate coordinate)
 	{
 		Set<Chain> results = new HashSet<Chain>();
-		for (Chain line : editables) {
-			if (line.hasPointWithinThreshold(coordinate, 4)) {
-				results.add(line);
+		for (Chain chain : chains) {
+			if (chain.hasPointWithinThreshold(coordinate, 4)) {
+				results.add(chain);
 			}
 		}
 		return results;
@@ -98,8 +98,8 @@ public class Content
 	{
 		double distance = Double.MAX_VALUE;
 		Node nearestNode = null;
-		for (Chain editable : editables) {
-			Node n = editable.getNearestPoint(coordinate);
+		for (Chain chain : chains) {
+			Node n = chain.getNearestPoint(coordinate);
 			double d = n.getCoordinate().distance(coordinate);
 			if (d < distance) {
 				distance = d;
@@ -122,8 +122,8 @@ public class Content
 	{
 		double distance = Double.MAX_VALUE;
 		Node nearestNode = null;
-		for (Chain editable : editables) {
-			Node n = editable.getNearestDifferentNode(node);
+		for (Chain chain : chains) {
+			Node n = chain.getNearestDifferentNode(node);
 			if (n == node) {
 				continue;
 			}
@@ -152,11 +152,11 @@ public class Content
 	{
 		double distance = Double.MAX_VALUE;
 		Chain nearest = null;
-		for (Chain editable : editables) {
-			double d = editable.distance(coordinate);
+		for (Chain chain : chains) {
+			double d = chain.distance(coordinate);
 			if (d < distance) {
 				distance = d;
-				nearest = editable;
+				nearest = chain;
 			}
 		}
 		return nearest;

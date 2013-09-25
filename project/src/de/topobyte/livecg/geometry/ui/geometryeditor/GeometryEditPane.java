@@ -178,9 +178,9 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 		return true;
 	}
 
-	public boolean addCurrentChain(Chain editable)
+	public boolean addCurrentChain(Chain chain)
 	{
-		currentChains.add(editable);
+		currentChains.add(chain);
 		fireSelectionChanged();
 		return true;
 	}
@@ -287,13 +287,13 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 					colorMouseHighlightChain);
 		}
 
-		List<Chain> lines = content.getChains();
-		for (int i = 0; i < lines.size(); i++) {
-			Chain line = lines.get(i);
-			if (currentChains.contains(line)) {
+		List<Chain> chains = content.getChains();
+		for (int i = 0; i < chains.size(); i++) {
+			Chain chain = chains.get(i);
+			if (currentChains.contains(chain)) {
 				continue;
 			}
-			draw(g, line, colorChainLines, colorChainPoints, getName(i));
+			draw(g, chain, colorChainLines, colorChainPoints, getName(i));
 		}
 
 		useAntialiasing(g, true);
@@ -390,10 +390,10 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 		return new Character((char) ('A' + i)).toString();
 	}
 
-	private void draw(Graphics2D g, Chain editable, Color colorLine,
+	private void draw(Graphics2D g, Chain chain, Color colorLine,
 			Color colorPoints, String name)
 	{
-		int n = editable.getNumberOfNodes();
+		int n = chain.getNumberOfNodes();
 		if (n == 0) {
 			return;
 		}
@@ -402,9 +402,9 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 		useAntialiasing(g, true);
 		g.setColor(colorLine);
 		g.setStroke(new BasicStroke(1.0f));
-		Coordinate last = editable.getCoordinate(0);
+		Coordinate last = chain.getCoordinate(0);
 		for (int i = 1; i < n; i++) {
-			Coordinate current = editable.getCoordinate(i);
+			Coordinate current = chain.getCoordinate(i);
 			int x1 = (int) Math.round(last.getX());
 			int y1 = (int) Math.round(last.getY());
 			int x2 = (int) Math.round(current.getX());
@@ -412,8 +412,8 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 			g.drawLine(x1, y1, x2, y2);
 			last = current;
 		}
-		if (editable.isClosed()) {
-			Coordinate first = editable.getCoordinate(0);
+		if (chain.isClosed()) {
+			Coordinate first = chain.getCoordinate(0);
 			int x1 = (int) Math.round(last.getX());
 			int y1 = (int) Math.round(last.getY());
 			int x2 = (int) Math.round(first.getX());
@@ -425,22 +425,22 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 		g.setColor(colorPoints);
 		g.setStroke(new BasicStroke(1.0f));
 		for (int i = 0; i < n; i++) {
-			Coordinate current = editable.getCoordinate(i);
+			Coordinate current = chain.getCoordinate(i);
 			int x = (int) Math.round(current.getX());
 			int y = (int) Math.round(current.getY());
 			g.drawRect(x - 2, y - 2, 4, 4);
 		}
 		// label
 		if (name != null) {
-			Coordinate first = editable.getFirstCoordinate();
+			Coordinate first = chain.getFirstCoordinate();
 			g.drawString(name, (int) Math.round(first.getX()) - 2,
 					(int) Math.round(first.getY()) - 4);
 		}
 	}
 
-	private void drawHighlight(Graphics2D g, Chain editable, Color color)
+	private void drawHighlight(Graphics2D g, Chain chain, Color color)
 	{
-		int n = editable.getNumberOfNodes();
+		int n = chain.getNumberOfNodes();
 		if (n == 0) {
 			return;
 		}
@@ -449,9 +449,9 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 		useAntialiasing(g, true);
 		g.setColor(color);
 		g.setStroke(new BasicStroke(3.0f));
-		Coordinate last = editable.getCoordinate(0);
+		Coordinate last = chain.getCoordinate(0);
 		for (int i = 1; i < n; i++) {
-			Coordinate current = editable.getCoordinate(i);
+			Coordinate current = chain.getCoordinate(i);
 			int x1 = (int) Math.round(last.getX());
 			int y1 = (int) Math.round(last.getY());
 			int x2 = (int) Math.round(current.getX());
@@ -459,8 +459,8 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 			g.drawLine(x1, y1, x2, y2);
 			last = current;
 		}
-		if (editable.isClosed()) {
-			Coordinate first = editable.getCoordinate(0);
+		if (chain.isClosed()) {
+			Coordinate first = chain.getCoordinate(0);
 			int x1 = (int) Math.round(last.getX());
 			int y1 = (int) Math.round(last.getY());
 			int x2 = (int) Math.round(first.getX());
@@ -544,11 +544,11 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 		return false;
 	}
 
-	public boolean setMouseHighlight(Chain editable)
+	public boolean setMouseHighlight(Chain chain)
 	{
-		if (mouseHighlightChain != editable) {
+		if (mouseHighlightChain != chain) {
 			mouseHighlightNode = null;
-			mouseHighlightChain = editable;
+			mouseHighlightChain = chain;
 			mouseHighlightPolygon = null;
 			return true;
 		}

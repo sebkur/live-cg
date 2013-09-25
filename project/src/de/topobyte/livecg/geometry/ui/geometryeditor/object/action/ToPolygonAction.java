@@ -31,23 +31,23 @@ public class ToPolygonAction extends BasicAction
 	private static final long serialVersionUID = -7826180655312955433L;
 
 	private GeometryEditPane editPane;
-	private Chain editable;
+	private Chain chain;
 
-	public ToPolygonAction(GeometryEditPane editPane, Chain editable)
+	public ToPolygonAction(GeometryEditPane editPane, Chain chain)
 	{
 		super("to polygon", "Convert to polygon",
 				"org/freedesktop/tango/22x22/actions/document-new.png");
 		this.editPane = editPane;
-		this.editable = editable;
+		this.chain = chain;
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
-		Polygon polygon = new Polygon(editable);
+		Polygon polygon = new Polygon(chain);
 		Content content = editPane.getContent();
-		content.removeChain(editable);
-		editPane.removeCurrentChain(editable);
+		content.removeChain(chain);
+		editPane.removeCurrentChain(chain);
 		content.addPolygon(polygon);
 		content.fireContentChanged();
 	}
