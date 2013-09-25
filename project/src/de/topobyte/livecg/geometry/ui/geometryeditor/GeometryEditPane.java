@@ -40,6 +40,7 @@ import de.topobyte.livecg.geometry.ui.geom.Editable;
 import de.topobyte.livecg.geometry.ui.geom.Line;
 import de.topobyte.livecg.geometry.ui.geom.Node;
 import de.topobyte.livecg.geometry.ui.geom.Polygon;
+import de.topobyte.livecg.geometry.ui.geom.Rectangle;
 import de.topobyte.livecg.geometry.ui.geometryeditor.action.OpenCloseRingAction;
 import de.topobyte.livecg.geometry.ui.geometryeditor.mousemode.MouseMode;
 import de.topobyte.livecg.geometry.ui.geometryeditor.mousemode.MouseModeListener;
@@ -369,6 +370,19 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 			int y = (int) Math.round(c.getY());
 			g.drawRect(x - 2, y - 2, 4, 4);
 		}
+
+		if (selectionRectangle != null) {
+			int x = Math.min(selectionRectangle.getX1(),
+					selectionRectangle.getX2());
+			int y = Math.min(selectionRectangle.getY1(),
+					selectionRectangle.getY2());
+			int width = Math.abs(selectionRectangle.getX2()
+					- selectionRectangle.getX1());
+			int height = Math.abs(selectionRectangle.getY2()
+					- selectionRectangle.getY1());
+			g.setColor(Color.BLACK);
+			g.drawRect(x, y, width, height);
+		}
 	}
 
 	private String getName(int i)
@@ -608,4 +622,15 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 		content.removePolygon(polygon);
 	}
 
+	private Rectangle selectionRectangle = null;
+
+	public Rectangle getSelectionRectangle()
+	{
+		return selectionRectangle;
+	}
+
+	public void setSelectionRectangle(Rectangle rectangle)
+	{
+		this.selectionRectangle = rectangle;
+	}
 }

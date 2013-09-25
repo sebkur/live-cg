@@ -30,6 +30,7 @@ import de.topobyte.livecg.geometry.ui.geom.Editable;
 import de.topobyte.livecg.geometry.ui.geom.Line;
 import de.topobyte.livecg.geometry.ui.geom.Node;
 import de.topobyte.livecg.geometry.ui.geom.Polygon;
+import de.topobyte.livecg.geometry.ui.geom.Rectangle;
 import de.topobyte.livecg.geometry.ui.geometryeditor.mousemode.MouseMode;
 import de.topobyte.livecg.util.ListUtil;
 
@@ -64,8 +65,7 @@ public class EditorMouseListener extends MouseAdapter
 				selectNothing();
 				editPane.repaint();
 			}
-		}
-		if (editPane.getMouseMode() == MouseMode.DELETE) {
+		} else if (editPane.getMouseMode() == MouseMode.DELETE) {
 			if (e.getButton() == MouseEvent.BUTTON1) {
 				deleteNearestObject(coord);
 
@@ -75,6 +75,7 @@ public class EditorMouseListener extends MouseAdapter
 				editPane.repaint();
 			}
 		}
+
 	}
 
 	private void addCoordinateOrCreateNewLine(Coordinate coord)
@@ -211,8 +212,10 @@ public class EditorMouseListener extends MouseAdapter
 								&& chain.getLastNode() != node) {
 							editPane.clearCurrentChains();
 						}
-						changed |= editPane.removeCurrentNode(chain.getFirstNode());
-						changed |= editPane.removeCurrentNode(chain.getLastNode());
+						changed |= editPane.removeCurrentNode(chain
+								.getFirstNode());
+						changed |= editPane.removeCurrentNode(chain
+								.getLastNode());
 						changed |= editPane.addCurrentNode(node);
 					} else {
 						changed |= editPane.clearCurrentNodes();
@@ -411,6 +414,12 @@ public class EditorMouseListener extends MouseAdapter
 			if (changed) {
 				editPane.repaint();
 			}
+		} else if (editPane.getMouseMode() == MouseMode.SELECT_RECTANGULAR) {
+			if (e.getButton() == MouseEvent.BUTTON1) {
+				Rectangle rectangle = new Rectangle(e.getX(), e.getY(),
+						e.getX(), e.getY());
+				editPane.setSelectionRectangle(rectangle);
+			}
 		}
 	}
 
@@ -429,6 +438,12 @@ public class EditorMouseListener extends MouseAdapter
 				editPane.repaint();
 			}
 			snapNode = null;
+		} else if (editPane.getMouseMode() == MouseMode.SELECT_RECTANGULAR) {
+			if (e.getButton() == MouseEvent.BUTTON1) {
+				// TODO: trigger some action
+				editPane.setSelectionRectangle(null);
+				editPane.repaint();
+			}
 		}
 	}
 
@@ -572,6 +587,12 @@ public class EditorMouseListener extends MouseAdapter
 				Coordinate delta = dragInfo.getDeltaToLast();
 				translateSelectedObjects(delta);
 				editPane.getContent().fireContentChanged();
+			}
+		} else if (editPane.getMouseMode() == MouseMode.SELECT_RECTANGULAR) {
+			if (editPane.getSelectionRectangle() != null) {
+				editPane.getSelectionRectangle().setX2(e.getX());
+				editPane.getSelectionRectangle().setY2(e.getY());
+				editPane.repaint();
 			}
 		}
 	}
