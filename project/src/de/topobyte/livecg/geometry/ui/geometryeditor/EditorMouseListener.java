@@ -191,6 +191,7 @@ public class EditorMouseListener extends MouseAdapter
 	{
 		SelectResult nearest = nearestObject(coord);
 		List<Editable> chains = editPane.getCurrentChains();
+		List<Polygon> polygons = editPane.getCurrentPolygons();
 		boolean changed = false;
 
 		switch (nearest.mode) {
@@ -202,17 +203,23 @@ public class EditorMouseListener extends MouseAdapter
 			break;
 		case NODE:
 			Node node = nearest.node;
-			if (!shift && chains.size() == 1) {
-				Editable chain = chains.iterator().next();
-				if (chain.getFirstNode() != node && chain.getLastNode() != node) {
-					editPane.clearCurrentChains();
-				}
-			}
 			if (!shift) {
 				if (!editPane.getCurrentNodes().contains(node)) {
-					changed |= editPane.clearCurrentNodes();
-					changed |= editPane.clearCurrentPolygons();
-					changed |= editPane.addCurrentNode(node);
+					if (polygons.size() == 0 && chains.size() == 1) {
+						Editable chain = chains.iterator().next();
+						if (chain.getFirstNode() != node
+								&& chain.getLastNode() != node) {
+							editPane.clearCurrentChains();
+						}
+						changed |= editPane.removeCurrentNode(chain.getFirstNode());
+						changed |= editPane.removeCurrentNode(chain.getLastNode());
+						changed |= editPane.addCurrentNode(node);
+					} else {
+						changed |= editPane.clearCurrentNodes();
+						changed |= editPane.clearCurrentChains();
+						changed |= editPane.clearCurrentPolygons();
+						changed |= editPane.addCurrentNode(node);
+					}
 				}
 			} else {
 				if (editPane.getCurrentNodes().contains(node)) {
