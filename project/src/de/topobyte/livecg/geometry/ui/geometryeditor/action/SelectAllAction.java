@@ -22,6 +22,7 @@ import java.awt.event.ActionEvent;
 import java.util.List;
 
 import de.topobyte.livecg.geometry.ui.geom.Editable;
+import de.topobyte.livecg.geometry.ui.geom.Node;
 import de.topobyte.livecg.geometry.ui.geom.Polygon;
 import de.topobyte.livecg.geometry.ui.geometryeditor.Content;
 import de.topobyte.livecg.geometry.ui.geometryeditor.GeometryEditPane;
@@ -30,7 +31,7 @@ public class SelectAllAction extends BasicAction
 {
 
 	private static final long serialVersionUID = 1880883173731363076L;
-	
+
 	private final GeometryEditPane editPane;
 
 	public SelectAllAction(GeometryEditPane editPane)
@@ -48,18 +49,23 @@ public class SelectAllAction extends BasicAction
 		editPane.clearCurrentNodes();
 		editPane.clearCurrentChains();
 		editPane.clearCurrentPolygons();
-		
+
 		List<Editable> chains = content.getChains();
 		List<Polygon> polygons = content.getPolygons();
-		
+
 		for (Editable chain : chains) {
-			editPane.addCurrentChain(chain);
+			if (chain.getNumberOfNodes() == 1) {
+				Node node = chain.getFirstNode();
+				editPane.addCurrentNode(node);
+			} else {
+				editPane.addCurrentChain(chain);
+			}
 		}
-		
+
 		for (Polygon polygon : polygons) {
 			editPane.addCurrentPolygon(polygon);
 		}
-		
+
 		editPane.repaint();
 	}
 
