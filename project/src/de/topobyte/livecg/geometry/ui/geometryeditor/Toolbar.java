@@ -26,6 +26,7 @@ import de.topobyte.livecg.geometry.ui.geometryeditor.action.NewAction;
 import de.topobyte.livecg.geometry.ui.geometryeditor.action.OpenAction;
 import de.topobyte.livecg.geometry.ui.geometryeditor.action.SaveAction;
 import de.topobyte.livecg.geometry.ui.geometryeditor.mousemode.MouseMode;
+import de.topobyte.livecg.geometry.ui.geometryeditor.mousemode.MouseModeDescriptions;
 import de.topobyte.livecg.geometry.ui.geometryeditor.mousemode.MouseModeProvider;
 
 public class Toolbar extends JToolBar
@@ -40,23 +41,17 @@ public class Toolbar extends JToolBar
 		OpenAction openAction = new OpenAction(this, editPane);
 		SaveAction saveAction = new SaveAction(this, editPane);
 
-		MouseAction selectAction = new MouseAction(null, "select / move",
-				MouseMode.SELECT_MOVE, mouseModeProvider);
-		MouseAction editAction = new MouseAction(null, "add nodes",
-				MouseMode.EDIT, mouseModeProvider);
-		MouseAction deleteAction = new MouseAction(null, "delete nodes",
-				MouseMode.DELETE, mouseModeProvider);
-
-		JToggleButton buttonSelect = new JToggleButton(selectAction);
-		JToggleButton buttonEdit = new JToggleButton(editAction);
-		JToggleButton buttonDelete = new JToggleButton(deleteAction);
-
 		add(newAction);
 		add(openAction);
 		add(saveAction);
 		addSeparator();
-		add(buttonSelect);
-		add(buttonEdit);
-		add(buttonDelete);
+
+		for (MouseMode mode : new MouseMode[] { MouseMode.SELECT_MOVE,
+				MouseMode.EDIT, MouseMode.DELETE }) {
+			MouseAction mouseAction = new MouseAction(null,
+					MouseModeDescriptions.getShort(mode), mode, mouseModeProvider);
+			JToggleButton button = new JToggleButton(mouseAction);
+			add(button);
+		}
 	}
 }

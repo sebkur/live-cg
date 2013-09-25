@@ -77,8 +77,8 @@ public class RunGeometryEditor
 
 		frame.setTitle("Line Editor");
 
-		Menu menu = new Menu();
 		GeometryEditor lineEditor = new GeometryEditor();
+		Menu menu = new Menu(lineEditor.getEditPane(), lineEditor.getEditPane());
 		Toolbar toolbar = new Toolbar(lineEditor.getEditPane(),
 				lineEditor.getEditPane());
 
