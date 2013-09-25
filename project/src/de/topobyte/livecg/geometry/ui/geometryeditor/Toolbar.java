@@ -47,9 +47,10 @@ public class Toolbar extends JToolBar
 		addSeparator();
 
 		for (MouseMode mode : new MouseMode[] { MouseMode.SELECT_MOVE,
-				MouseMode.EDIT, MouseMode.DELETE }) {
+				MouseMode.SELECT_RECTANGULAR, MouseMode.EDIT, MouseMode.DELETE }) {
 			MouseAction mouseAction = new MouseAction(null,
-					MouseModeDescriptions.getShort(mode), mode, mouseModeProvider);
+					MouseModeDescriptions.getShort(mode), mode,
+					mouseModeProvider);
 			JToggleButton button = new JToggleButton(mouseAction);
 			add(button);
 		}

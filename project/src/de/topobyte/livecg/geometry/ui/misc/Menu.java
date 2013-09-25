@@ -76,7 +76,7 @@ public class Menu extends JMenuBar
 				KeyEvent.CTRL_DOWN_MASK));
 
 		for (MouseMode mode : new MouseMode[] { MouseMode.SELECT_MOVE,
-				MouseMode.EDIT, MouseMode.DELETE }) {
+				MouseMode.SELECT_RECTANGULAR, MouseMode.EDIT, MouseMode.DELETE }) {
 			MouseAction mouseAction = new MouseAction(
 					MouseModeDescriptions.getShort(mode),
 					MouseModeDescriptions.getLong(mode), mode,
@@ -86,13 +86,20 @@ public class Menu extends JMenuBar
 
 			switch (mode) {
 			case SELECT_MOVE:
-				mouseItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, 0));
+				mouseItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A,
+						0));
+				break;
+			case SELECT_RECTANGULAR:
+				mouseItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,
+						0));
 				break;
 			case EDIT:
-				mouseItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, 0));
+				mouseItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D,
+						0));
 				break;
 			case DELETE:
-				mouseItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D, 0));
+				mouseItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F,
+						0));
 				break;
 			}
 		}

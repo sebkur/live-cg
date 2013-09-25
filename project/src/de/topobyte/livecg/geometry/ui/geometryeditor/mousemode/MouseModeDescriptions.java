@@ -17,15 +17,16 @@
  */
 package de.topobyte.livecg.geometry.ui.geometryeditor.mousemode;
 
-
 public class MouseModeDescriptions
 {
 
 	public static String getShort(MouseMode mode)
 	{
-		switch(mode) {
+		switch (mode) {
 		case SELECT_MOVE:
 			return "select / move";
+		case SELECT_RECTANGULAR:
+			return "select rectangular";
 		case EDIT:
 			return "add nodes";
 		case DELETE:
@@ -34,12 +35,14 @@ public class MouseModeDescriptions
 			return null;
 		}
 	}
-	
+
 	public static String getLong(MouseMode mode)
 	{
-		switch(mode) {
+		switch (mode) {
 		case SELECT_MOVE:
-			return "select / move nodes";
+			return "select / move objects";
+		case SELECT_RECTANGULAR:
+			return "select objects within a rectangular region";
 		case EDIT:
 			return "add nodes";
 		case DELETE:
