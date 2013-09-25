@@ -72,4 +72,9 @@ public class MultipleObjectsListModel extends AbstractListModel
 		return "what";
 	}
 
+	public void update()
+	{
+		fireContentsChanged(this, 0, getSize() - 1);
+	}
+
 }

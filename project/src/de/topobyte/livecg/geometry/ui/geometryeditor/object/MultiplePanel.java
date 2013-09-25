@@ -20,7 +20,6 @@ package de.topobyte.livecg.geometry.ui.geometryeditor.object;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
-import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -61,7 +60,6 @@ public class MultiplePanel extends JPanel
 
 	public void update()
 	{
-		list.setModel(new DefaultListModel());
-		list.setModel(model);
+		model.update();
 	}
 }
