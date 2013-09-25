@@ -65,7 +65,7 @@ public class EditorMouseListener extends MouseAdapter
 		}
 		if (editPane.getMouseMode() == MouseMode.DELETE) {
 			if (e.getButton() == MouseEvent.BUTTON1) {
-				deleteNearestPoint(coord);
+				deleteNearestObject(coord);
 
 				editPane.setMouseHighlight((Node) null);
 				editPane.setMouseHighlight((Editable) null);
@@ -187,22 +187,19 @@ public class EditorMouseListener extends MouseAdapter
 
 	private void selectObject(Coordinate coord, boolean shift)
 	{
-		Node node = editPane.getContent().getNearestNode(coord);
-		Editable editable = editPane.getContent().getNearestChain(coord);
-		Polygon polygon = editPane.getContent().getNearestPolygon(coord);
-		double dNode = Double.MAX_VALUE, dChain = Double.MAX_VALUE, dPolygon = Double.MAX_VALUE;
-		if (node != null) {
-			dNode = node.getCoordinate().distance(coord);
-		}
-		if (editable != null) {
-			dChain = editable.distance(coord);
-		}
-		if (polygon != null) {
-			dPolygon = polygon.getShell().distance(coord);
-		}
+		SelectResult nearest = nearestObject(coord);
 		List<Editable> chains = editPane.getCurrentChains();
 		boolean changed = false;
-		if (dNode < 5) {
+
+		switch (nearest.mode) {
+		default:
+		case NONE:
+			if (!shift) {
+				changed = selectNothing();
+			}
+			break;
+		case NODE:
+			Node node = nearest.node;
 			if (!shift && chains.size() == 1) {
 				Editable chain = chains.iterator().next();
 				if (chain.getFirstNode() != node && chain.getLastNode() != node) {
@@ -220,20 +217,24 @@ public class EditorMouseListener extends MouseAdapter
 					changed |= editPane.addCurrentNode(node);
 				}
 			}
-		} else if (dChain < 5) {
+			break;
+		case CHAIN:
+			Editable chain = nearest.chain;
 			if (!shift) {
 				changed |= editPane.clearCurrentNodes();
 				changed |= editPane.clearCurrentChains();
 				changed |= editPane.clearCurrentPolygons();
-				changed |= editPane.addCurrentChain(editable);
+				changed |= editPane.addCurrentChain(chain);
 			} else {
-				if (editPane.getCurrentChains().contains(editable)) {
-					changed |= editPane.removeCurrentChain(editable);
+				if (editPane.getCurrentChains().contains(chain)) {
+					changed |= editPane.removeCurrentChain(chain);
 				} else {
-					changed |= editPane.addCurrentChain(editable);
+					changed |= editPane.addCurrentChain(chain);
 				}
 			}
-		} else if (dPolygon < 5) {
+			break;
+		case POLYGON:
+			Polygon polygon = nearest.polygon;
 			if (!shift) {
 				changed |= editPane.clearCurrentNodes();
 				changed |= editPane.clearCurrentChains();
@@ -242,37 +243,29 @@ public class EditorMouseListener extends MouseAdapter
 			} else {
 				if (editPane.getCurrentPolygons().contains(polygon)) {
 					changed |= editPane.removeCurrentPolygon(polygon);
-				}else {
+				} else {
 					changed |= editPane.addCurrentPolygon(polygon);
 				}
 			}
-		} else {
-			if (!shift) {
-				changed = selectNothing();
-			}
+			break;
 		}
+
 		if (changed) {
 			editPane.repaint();
 		}
 	}
 
-	private void deleteNearestPoint(Coordinate coord)
+	private void deleteNearestObject(Coordinate coord)
 	{
-		Node node = editPane.getContent().getNearestNode(coord);
-		Editable chain = editPane.getContent().getNearestChain(coord);
-		Polygon polygon = editPane.getContent().getNearestPolygon(coord);
-		double dNode = Double.MAX_VALUE, dChain = Double.MAX_VALUE, dPolygon = Double.MAX_VALUE;
-		if (node != null) {
-			dNode = node.getCoordinate().distance(coord);
-		}
-		if (chain != null) {
-			dChain = chain.distance(coord);
-		}
-		if (polygon != null) {
-			dPolygon = polygon.getShell().distance(coord);
-		}
+		SelectResult nearest = nearestObject(coord);
 		boolean changed = false;
-		if (dNode < 5) {
+
+		switch (nearest.mode) {
+		default:
+		case NONE:
+			break;
+		case NODE:
+			Node node = nearest.node;
 			List<Editable> selectedChains = editPane.getCurrentChains();
 			List<Polygon> selectedPolygons = editPane.getCurrentPolygons();
 			if (selectedChains.size() == 0 && selectedPolygons.size() == 0) {
@@ -293,14 +286,48 @@ public class EditorMouseListener extends MouseAdapter
 				}
 			}
 			changed = true;
-		} else if (dChain < 5) {
+			break;
+		case CHAIN:
 			// TODO: delete complete chain
-		} else if (dPolygon < 5) {
+			break;
+		case POLYGON:
 			// TODO: delete complete polygon
+			break;
 		}
 		if (changed) {
 			editPane.repaint();
 		}
+	}
+
+	private SelectResult nearestObject(Coordinate coord)
+	{
+		Node node = editPane.getContent().getNearestNode(coord);
+		Editable chain = editPane.getContent().getNearestChain(coord);
+		Polygon polygon = editPane.getContent().getNearestPolygon(coord);
+		double dNode = Double.MAX_VALUE, dChain = Double.MAX_VALUE, dPolygon = Double.MAX_VALUE;
+		if (node != null) {
+			dNode = node.getCoordinate().distance(coord);
+		}
+		if (chain != null) {
+			dChain = chain.distance(coord);
+		}
+		if (polygon != null) {
+			dPolygon = polygon.getShell().distance(coord);
+		}
+		SelectResult selectResult = new SelectResult();
+		selectResult.node = node;
+		selectResult.chain = chain;
+		selectResult.polygon = polygon;
+		if (dNode < 5) {
+			selectResult.mode = SelectMode.NODE;
+		} else if (dChain < 5) {
+			selectResult.mode = SelectMode.CHAIN;
+		} else if (dPolygon < 5) {
+			selectResult.mode = SelectMode.POLYGON;
+		} else {
+			selectResult.mode = SelectMode.NONE;
+		}
+		return selectResult;
 	}
 
 	private void deleteNodeFromChain(Editable chain, Node node,
