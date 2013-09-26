@@ -34,8 +34,7 @@ public class OpenCloseRingAction extends BasicAction
 
 	public OpenCloseRingAction(GeometryEditPane editPane, Chain chain)
 	{
-		super("closed", "Open / Close a ring",
-				"org/freedesktop/tango/22x22/actions/document-new.png");
+		super("closed", "Open / Close a ring", "res/images/closedway.png");
 		this.editPane = editPane;
 		this.chain = chain;
 	}

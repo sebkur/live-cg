@@ -35,8 +35,7 @@ public class ToPolygonAction extends BasicAction
 
 	public ToPolygonAction(GeometryEditPane editPane, Chain chain)
 	{
-		super("to polygon", "Convert to polygon",
-				"org/freedesktop/tango/22x22/actions/document-new.png");
+		super("to polygon", "Convert to polygon", "res/images/multipolygon.png");
 		this.editPane = editPane;
 		this.chain = chain;
 	}

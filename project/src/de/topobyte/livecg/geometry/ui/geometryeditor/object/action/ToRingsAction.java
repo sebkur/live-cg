@@ -35,8 +35,7 @@ public class ToRingsAction extends BasicAction
 
 	public ToRingsAction(GeometryEditPane editPane, Polygon polygon)
 	{
-		super("to rings", "Convert to polygonal chains",
-				"org/freedesktop/tango/22x22/actions/document-new.png");
+		super("to rings", "Convert to polygonal chains", "res/images/closedway.png");
 		this.editPane = editPane;
 		this.polygon = polygon;
 	}
