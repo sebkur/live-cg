@@ -99,13 +99,13 @@ public class FilterAction extends BasicAction
 	{
 		switch (type) {
 		case Chain:
-			return "res/images/way.png";
+			return "res/images/16x16/way.png";
 		case Node:
-			return "res/images/node.png";
+			return "res/images/16x16/node.png";
 		case Polygon:
-			return "res/images/multipolygon.png";
+			return "res/images/16x16/multipolygon.png";
 		case Ring:
-			return "res/images/closedway.png";
+			return "res/images/16x16/closedway.png";
 		default:
 			return null;
 		}

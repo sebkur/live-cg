@@ -37,7 +37,7 @@ public class ShowFilterMenuAction extends BasicAction
 
 	public ShowFilterMenuAction(GeometryEditPane editPane, Component invoker)
 	{
-		super(null, "Show filter options", "res/images/filter.png");
+		super(null, "Show filter options", "res/images/24x24/filter.png");
 		this.editPane = editPane;
 		this.invoker = invoker;
 	}

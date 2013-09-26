@@ -61,13 +61,13 @@ public class MouseAction extends BasicAction implements MouseModeListener
 	{
 		switch (mouseMode) {
 		case DELETE:
-			return "res/images/delete.png";
+			return "res/images/24x24/delete.png";
 		case EDIT:
-			return "res/images/add.png";
+			return "res/images/24x24/add.png";
 		case SELECT_MOVE:
-			return "res/images/move.png";
+			return "res/images/24x24/move.png";
 		case SELECT_RECTANGULAR:
-			return "res/images/select.png";
+			return "res/images/24x24/select.png";
 		default:
 			return null;
 		}
