@@ -17,42 +17,21 @@
  */
 package de.topobyte.livecg.geometry.geom;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class Polygon
+public class CrossingsTestHelper
 {
-
-	private Chain shell;
-	private List<Chain> holes;
-
-	public Polygon(Chain shell, List<Chain> holes)
+	public static boolean covers(Chain chain, Chain other)
 	{
-		this.shell = shell;
-		shell.addPolygon(this);
-		if (holes == null) {
-			this.holes = new ArrayList<Chain>();
-		} else {
-			this.holes = holes;
+		CrossingsTest test = new CrossingsTest(chain);
+		boolean covers = true;
+		for (int i = 0; i < other.getNumberOfNodes(); i++) {
+			Coordinate c = other.getCoordinate(i);
+			boolean cc = test.covers(c);
+			if (cc) {
+				continue;
+			}
+			covers = false;
+			break;
 		}
-		for (Chain chain : this.holes) {
-			chain.addPolygon(this);
-		}
+		return covers;
 	}
-
-	public Chain getShell()
-	{
-		return shell;
-	}
-
-	public List<Chain> getHoles()
-	{
-		return holes;
-	}
-
-	public boolean isEmpty()
-	{
-		return shell.getNumberOfNodes() == 0;
-	}
-
 }

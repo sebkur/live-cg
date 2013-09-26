@@ -248,6 +248,23 @@ public class EditorMouseListener extends MouseAdapter
 					complete = false;
 				}
 			}
+			for (Chain hole : polygon.getHoles()) {
+				for (int i = 0; i < hole.getNumberOfNodes(); i++) {
+					Node node = hole.getNode(i);
+					Coordinate c = node.getCoordinate();
+					if (GeomMath.contains(rectangle, c)) {
+						if (shift && alt) {
+							editPane.removeCurrentNode(node);
+						} else {
+							if (!nodes.contains(node)) {
+								editPane.addCurrentNode(node);
+							}
+						}
+					} else {
+						complete = false;
+					}
+				}	
+			}
 			if (complete) {
 				if (shift && alt) {
 					editPane.removeCurrentPolygon(polygon);
@@ -702,6 +719,11 @@ public class EditorMouseListener extends MouseAdapter
 			Chain shell = polygon.getShell();
 			for (int i = 0; i < shell.getNumberOfNodes(); i++) {
 				toTranslate.add(shell.getNode(i));
+			}
+			for (Chain hole : polygon.getHoles()) {
+				for (int i = 0; i < hole.getNumberOfNodes(); i++) {
+					toTranslate.add(hole.getNode(i));
+				}
 			}
 		}
 

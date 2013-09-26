@@ -49,7 +49,7 @@ public class TestMultipleObjectsPanel
 		} catch (CloseabilityException e) {
 			// ignore
 		}
-		Polygon polygon = new Polygon(shell);
+		Polygon polygon = new Polygon(shell, null);
 		editPane.getContent().addPolygon(polygon);
 
 		editPane.addCurrentChain(chain);

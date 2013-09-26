@@ -162,7 +162,7 @@ public class ContentReader extends DefaultHandler
 			}
 			break;
 		case Polygon:
-			Polygon polygon = new Polygon(shell);
+			Polygon polygon = new Polygon(shell, null);
 			content.addPolygon(polygon);
 			break;
 		}

@@ -20,8 +20,8 @@ package de.topobyte.livecg.geometry.geom;
 
 public class Coordinate
 {
-	private final double x;
-	private final double y;
+	final double x;
+	final double y;
 
 	public Coordinate(double x, double y)
 	{

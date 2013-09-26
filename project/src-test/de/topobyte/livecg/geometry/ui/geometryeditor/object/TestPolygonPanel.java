@@ -32,7 +32,7 @@ public class TestPolygonPanel
 
 		GeometryEditPane editPane = new GeometryEditPane();
 		Chain shell = new Chain();
-		Polygon polygon = new Polygon(shell);
+		Polygon polygon = new Polygon(shell, null);
 		editPane.getContent().addPolygon(polygon);
 
 		PolygonPanel panel = new PolygonPanel(editPane, polygon);

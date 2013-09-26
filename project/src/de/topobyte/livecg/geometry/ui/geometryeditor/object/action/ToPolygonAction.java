@@ -44,7 +44,7 @@ public class ToPolygonAction extends BasicAction
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
-		Polygon polygon = new Polygon(chain);
+		Polygon polygon = new Polygon(chain, null);
 		Content content = editPane.getContent();
 		content.removeChain(chain);
 		editPane.removeCurrentChain(chain);

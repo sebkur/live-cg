@@ -482,6 +482,9 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 			return;
 		}
 		draw(g, polygon.getShell(), colorChainLines, colorChainPoints, null);
+		for (Chain hole : polygon.getHoles()) {
+			draw(g, hole, colorChainLines, colorChainPoints, null);
+		}
 	}
 
 	private void useAntialiasing(Graphics2D g, boolean b)

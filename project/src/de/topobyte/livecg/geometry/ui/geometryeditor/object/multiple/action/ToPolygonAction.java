@@ -21,8 +21,12 @@ import java.awt.event.ActionEvent;
 import java.util.List;
 
 import de.topobyte.livecg.geometry.geom.Chain;
+import de.topobyte.livecg.geometry.geom.CrossingsTestHelper;
+import de.topobyte.livecg.geometry.geom.Polygon;
+import de.topobyte.livecg.geometry.ui.geometryeditor.Content;
 import de.topobyte.livecg.geometry.ui.geometryeditor.GeometryEditPane;
 import de.topobyte.livecg.geometry.ui.geometryeditor.action.BasicAction;
+import de.topobyte.livecg.util.ListUtil;
 
 public class ToPolygonAction extends BasicAction
 {
@@ -42,6 +46,39 @@ public class ToPolygonAction extends BasicAction
 	public void actionPerformed(ActionEvent e)
 	{
 		List<Chain> chains = editPane.getCurrentChains();
+		// Identify shell
+		Chain shell = null;
+		shells: for (int i = 0; i < chains.size(); i++) {
+			Chain chain = chains.get(i);
+			holes: for (int j = 0; j < chains.size(); j++) {
+				if (i == j) {
+					continue holes;
+				}
+				Chain other = chains.get(j);
+				boolean ok = CrossingsTestHelper.covers(chain, other);
+				if (!ok) {
+					continue shells;
+				}
+			}
+			shell = chain;
+		}
+		
+		if (shell == null) {
+			return;
+		}
+		
+		List<Chain> holes = ListUtil.copy(chains);
+		holes.remove(shell);
+		Polygon polygon = new Polygon(shell, holes);
+		
+		Content content = editPane.getContent();
+		content.removeChain(shell);
+		for (Chain chain : holes) {
+			content.removeChain(chain);	
+		}
+		
+		content.addPolygon(polygon);
+		content.fireContentChanged();
 	}
 
 }

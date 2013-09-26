@@ -114,6 +114,14 @@ public class Content
 				distance = d;
 				nearestNode = n;
 			}
+			for(Chain hole : polygon.getHoles()) {
+				n = hole.getNearestPoint(coordinate);
+				d = n.getCoordinate().distance(coordinate);
+				if (d < distance) {
+					distance = d;
+					nearestNode = n;
+				}
+			}
 		}
 		return nearestNode;
 	}
