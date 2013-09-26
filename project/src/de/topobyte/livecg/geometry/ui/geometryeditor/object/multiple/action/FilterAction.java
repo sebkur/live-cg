@@ -97,7 +97,18 @@ public class FilterAction extends BasicAction
 
 	private static String getImage(ObjectType type, boolean inverse)
 	{
-		return "res/images/filter.png";
+		switch (type) {
+		case Chain:
+			return "res/images/way.png";
+		case Node:
+			return "res/images/node.png";
+		case Polygon:
+			return "res/images/multipolygon.png";
+		case Ring:
+			return "res/images/closedway.png";
+		default:
+			return null;
+		}
 	}
 
 	@Override
