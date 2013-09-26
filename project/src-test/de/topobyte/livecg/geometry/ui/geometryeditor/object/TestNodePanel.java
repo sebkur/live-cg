@@ -22,12 +22,13 @@ import javax.swing.JFrame;
 import de.topobyte.livecg.geometry.geom.Coordinate;
 import de.topobyte.livecg.geometry.geom.Node;
 import de.topobyte.livecg.geometry.ui.geometryeditor.GeometryEditPane;
+import de.topobyte.livecg.geometry.ui.geometryeditor.object.single.NodePanel;
 
 public class TestNodePanel
 {
 	public static void main(String[] args)
 	{
-		JFrame frame = new JFrame(PolygonalChainPanel.class.getSimpleName());
+		JFrame frame = new JFrame(NodePanel.class.getSimpleName());
 
 		GeometryEditPane editPane = new GeometryEditPane();
 		Coordinate coordinate = new Coordinate(200, 100);

@@ -20,22 +20,42 @@ package de.topobyte.livecg.geometry.ui.geometryeditor.object;
 import javax.swing.JFrame;
 
 import de.topobyte.livecg.geometry.geom.Chain;
+import de.topobyte.livecg.geometry.geom.CloseabilityException;
+import de.topobyte.livecg.geometry.geom.Coordinate;
 import de.topobyte.livecg.geometry.geom.Polygon;
 import de.topobyte.livecg.geometry.ui.geometryeditor.GeometryEditPane;
-import de.topobyte.livecg.geometry.ui.geometryeditor.object.single.PolygonPanel;
+import de.topobyte.livecg.geometry.ui.geometryeditor.object.multiple.MultiplePanel;
 
-public class TestPolygonPanel
+public class TestMultipleObjectsPanel
 {
 	public static void main(String[] args)
 	{
-		JFrame frame = new JFrame(PolygonPanel.class.getSimpleName());
+		JFrame frame = new JFrame(MultiplePanel.class.getSimpleName());
 
 		GeometryEditPane editPane = new GeometryEditPane();
+		
+		Chain chain = new Chain();
+		chain.appendPoint(new Coordinate(100, 100));
+		chain.appendPoint(new Coordinate(200, 100));
+		chain.appendPoint(new Coordinate(200, 200));
+		
 		Chain shell = new Chain();
+		shell.appendPoint(new Coordinate(10, 10));
+		shell.appendPoint(new Coordinate(20, 100));
+		shell.appendPoint(new Coordinate(300, 300));
+		shell.appendPoint(new Coordinate(300, 40));
+		try {
+			shell.setClosed(true);
+		} catch (CloseabilityException e) {
+			// ignore
+		}
 		Polygon polygon = new Polygon(shell);
 		editPane.getContent().addPolygon(polygon);
+		
+		editPane.addCurrentChain(chain);
+		editPane.addCurrentPolygon(polygon);
 
-		PolygonPanel panel = new PolygonPanel(editPane, polygon);
+		MultiplePanel panel = new MultiplePanel(editPane);
 		frame.setContentPane(panel);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 

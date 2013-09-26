@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.topobyte.livecg.geometry.ui.geometryeditor.object;
+package de.topobyte.livecg.geometry.ui.geometryeditor.object.single;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -23,29 +23,36 @@ import java.awt.GridBagLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JToggleButton;
 
-import de.topobyte.livecg.geometry.geom.Polygon;
+import de.topobyte.livecg.geometry.geom.Chain;
 import de.topobyte.livecg.geometry.ui.geometryeditor.GeometryEditPane;
-import de.topobyte.livecg.geometry.ui.geometryeditor.object.action.ToRingsAction;
+import de.topobyte.livecg.geometry.ui.geometryeditor.object.action.OpenCloseRingAction;
+import de.topobyte.livecg.geometry.ui.geometryeditor.object.action.ToPolygonAction;
 import de.topobyte.swing.layout.GridBagHelper;
 
-public class PolygonPanel extends JPanel
+public class PolygonalChainPanel extends JPanel
 {
 
 	private static final long serialVersionUID = 5640771403274002420L;
 
-	private Polygon polygon;
+	private Chain chain;
 	private JLabel label;
-	private JButton toRings;
+	private JToggleButton closedButton;
+	private JButton toPolygon;
 
-	public PolygonPanel(GeometryEditPane editPane, Polygon polygon)
+	public PolygonalChainPanel(GeometryEditPane editPane, Chain chain)
 	{
-		this.polygon = polygon;
+		this.chain = chain;
 		setLayout(new GridBagLayout());
 		label = new JLabel();
 
-		toRings = new JButton("to polygon");
-		toRings.setAction(new ToRingsAction(editPane, polygon));
+		closedButton = new JToggleButton("closed");
+		closedButton.setSelected(chain.isClosed());
+		closedButton.setAction(new OpenCloseRingAction(editPane, chain));
+
+		toPolygon = new JButton("to polygon");
+		toPolygon.setAction(new ToPolygonAction(editPane, chain));
 
 		GridBagConstraints c = new GridBagConstraints();
 
@@ -54,9 +61,11 @@ public class PolygonPanel extends JPanel
 		GridBagHelper.setGxGy(c, 0, 0);
 		add(label, c);
 		GridBagHelper.setGxGy(c, 0, 1);
-		add(toRings, c);
-		
+		add(closedButton, c);
 		GridBagHelper.setGxGy(c, 0, 2);
+		add(toPolygon, c);
+
+		GridBagHelper.setGxGy(c, 0, 3);
 		GridBagHelper.setWxWyF(c, 1.0, 1.0, GridBagConstraints.BOTH);
 		add(new JPanel(), c);
 
@@ -66,12 +75,15 @@ public class PolygonPanel extends JPanel
 	public void update()
 	{
 		label.setText(getLabelText());
+		closedButton.setSelected(chain.isClosed());
+		closedButton.setEnabled(chain.getNumberOfNodes() > 2);
+
+		toPolygon.setEnabled(chain.isClosed());
 	}
 
 	private String getLabelText()
 	{
-		return "Object: polygon with " + polygon.getShell().getNumberOfNodes()
-				+ " nodes";
+		return "Object: polygonal chain with " + chain.getNumberOfNodes() + " nodes";
 	}
 
 }

@@ -29,6 +29,10 @@ import de.topobyte.livecg.geometry.ui.geometryeditor.ContentChangedListener;
 import de.topobyte.livecg.geometry.ui.geometryeditor.ContentReferenceChangedListener;
 import de.topobyte.livecg.geometry.ui.geometryeditor.GeometryEditPane;
 import de.topobyte.livecg.geometry.ui.geometryeditor.SelectionChangedListener;
+import de.topobyte.livecg.geometry.ui.geometryeditor.object.multiple.MultiplePanel;
+import de.topobyte.livecg.geometry.ui.geometryeditor.object.single.NodePanel;
+import de.topobyte.livecg.geometry.ui.geometryeditor.object.single.PolygonPanel;
+import de.topobyte.livecg.geometry.ui.geometryeditor.object.single.PolygonalChainPanel;
 
 public class ObjectDialog extends JDialog
 {

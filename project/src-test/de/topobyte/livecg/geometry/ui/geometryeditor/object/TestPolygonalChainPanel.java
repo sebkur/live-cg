@@ -21,6 +21,7 @@ import javax.swing.JFrame;
 
 import de.topobyte.livecg.geometry.geom.Chain;
 import de.topobyte.livecg.geometry.ui.geometryeditor.GeometryEditPane;
+import de.topobyte.livecg.geometry.ui.geometryeditor.object.single.PolygonalChainPanel;
 
 public class TestPolygonalChainPanel
 {

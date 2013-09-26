@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.topobyte.livecg.geometry.ui.geometryeditor.object;
+package de.topobyte.livecg.geometry.ui.geometryeditor.object.single;
 
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;

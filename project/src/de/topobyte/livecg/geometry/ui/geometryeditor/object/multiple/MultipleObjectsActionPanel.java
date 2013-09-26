@@ -15,51 +15,34 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.topobyte.livecg.geometry.ui.geometryeditor.object;
+package de.topobyte.livecg.geometry.ui.geometryeditor.object.multiple;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
 
-import javax.swing.JLabel;
-import javax.swing.JList;
+import javax.swing.JButton;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 
 import de.topobyte.livecg.geometry.ui.geometryeditor.GeometryEditPane;
-import de.topobyte.swing.layout.GridBagHelper;
+import de.topobyte.livecg.geometry.ui.geometryeditor.object.multiple.action.ShowFilterMenuAction;
 
-public class MultiplePanel extends JPanel
+public class MultipleObjectsActionPanel extends JPanel
 {
 
-	private static final long serialVersionUID = 1448044034372567014L;
+	private static final long serialVersionUID = 6408336797693213234L;
 
-	private JList list;
-	private MultipleObjectsListModel model;
-
-	public MultiplePanel(GeometryEditPane editPane)
+	public MultipleObjectsActionPanel(GeometryEditPane editPane)
 	{
 		setLayout(new GridBagLayout());
-
-		JLabel label = new JLabel("multiple active objects");
-
+		
 		GridBagConstraints c = new GridBagConstraints();
-
-		c.anchor = GridBagConstraints.LINE_START;
-
-		GridBagHelper.setGxGy(c, 0, 0);
-		add(label, c);
-
-		model = new MultipleObjectsListModel(editPane);
-		list = new JList(model);
-		JScrollPane jsp = new JScrollPane(list);
-
-		GridBagHelper.setGxGy(c, 0, 1);
-		GridBagHelper.setWxWyF(c, 1.0, 1.0, GridBagConstraints.BOTH);
-		add(jsp, c);
-	}
-
-	public void update()
-	{
-		model.update();
+		
+		JButton filters = new JButton();
+		ShowFilterMenuAction filtersAction = new ShowFilterMenuAction(editPane, filters);
+		filters.setAction(filtersAction);
+		filters.setMargin(new Insets(0, 0, 0, 0));
+		
+		add(filters, c);
 	}
 }
