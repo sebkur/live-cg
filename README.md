@@ -9,9 +9,24 @@ algorithms from computational geometry.
 # Editor
 ## Key Bindings
 ### Main
+File:
+
+* `Ctrl + N`: New document
+* `Ctrl + O`: Open document
+* `Ctrl + S`: Save document
+* `Ctrl + Q`: Quit
+
+Tools:  
+
 * `a`: select/move mode
-* `s`: add mode
-* `d`: delete mode
+* `s`: rectangular selection mode
+* `d`: add mode
+* `f`: delete mode
+
+Edit:
+  
+* `Ctrl + A`: Select all objects
+* `Ctrl + Shift + A`: Select nothing
 
 ### Move mode
 * `Ctrl`: while dragging nodes, snap to other nodes
