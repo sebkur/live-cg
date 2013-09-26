@@ -36,12 +36,14 @@ public class MultiplePanel extends JPanel
 	private JList list;
 	private MultipleObjectsListModel model;
 
+	private MultipleObjectsActionPanel actions;
+
 	public MultiplePanel(GeometryEditPane editPane)
 	{
 		setLayout(new GridBagLayout());
 
 		JLabel label = new JLabel("multiple active objects");
-		MultipleObjectsActionPanel actions = new MultipleObjectsActionPanel(editPane);
+		actions = new MultipleObjectsActionPanel(editPane);
 
 		GridBagConstraints c = new GridBagConstraints();
 
@@ -65,5 +67,6 @@ public class MultiplePanel extends JPanel
 	public void update()
 	{
 		model.update();
+		actions.update();
 	}
 }
