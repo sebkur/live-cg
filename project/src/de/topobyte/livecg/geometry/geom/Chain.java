@@ -145,7 +145,7 @@ public class Chain
 
 	public void remove(Node node)
 	{
-		while(nodes.contains(node)) {
+		while (nodes.contains(node)) {
 			int index = nodes.indexOf(node);
 			nodes.remove(index);
 		}
@@ -165,17 +165,17 @@ public class Chain
 	{
 		return polygons;
 	}
-	
+
 	public void addPolygon(Polygon polygon)
 	{
 		polygons.add(polygon);
 	}
-	
+
 	public void removePolygon(Polygon polygon)
 	{
 		polygons.remove(polygon);
 	}
-	
+
 	public Geometry createGeometry()
 	{
 		int n = nodes.size();
@@ -246,7 +246,7 @@ public class Chain
 		}
 		this.closed = closed;
 	}
-	
+
 	public void setOpen()
 	{
 		this.closed = false;

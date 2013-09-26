@@ -27,7 +27,7 @@ public class Polygon
 		this.shell = shell;
 		shell.addPolygon(this);
 	}
-	
+
 	public Chain getShell()
 	{
 		return shell;

@@ -17,7 +17,6 @@
  */
 package de.topobyte.livecg.geometry.ui.geometryeditor;
 
-public enum AddPointMode
-{
+public enum AddPointMode {
 	NONE, NEW, APPEND, PREPEND, NEW_WITH_SELECTED
 }

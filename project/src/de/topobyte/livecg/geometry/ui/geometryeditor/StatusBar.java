@@ -33,16 +33,16 @@ public class StatusBar extends JPanel
 	public StatusBar()
 	{
 		setLayout(new GridBagLayout());
-		
+
 		GridBagConstraints c = new GridBagConstraints();
-	
+
 		label = new JLabel();
-		
+
 		c.fill = GridBagConstraints.BOTH;
 		c.weightx = 1.0;
 		c.gridx = 0;
 		c.gridy = 0;
-		
+
 		add(label, c);
 	}
 

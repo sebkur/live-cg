@@ -51,7 +51,7 @@ public class MultiplePanel extends JPanel
 
 		GridBagHelper.setGxGy(c, 0, 0);
 		add(label, c);
-		
+
 		GridBagHelper.setGxGy(c, 0, 1);
 		add(actions, c);
 

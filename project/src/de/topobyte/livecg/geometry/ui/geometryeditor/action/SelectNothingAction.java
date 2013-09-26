@@ -26,7 +26,7 @@ public class SelectNothingAction extends BasicAction
 {
 
 	private static final long serialVersionUID = 1880883173731363076L;
-	
+
 	private final GeometryEditPane editPane;
 
 	public SelectNothingAction(GeometryEditPane editPane)
@@ -42,7 +42,7 @@ public class SelectNothingAction extends BasicAction
 		editPane.clearCurrentNodes();
 		editPane.clearCurrentChains();
 		editPane.clearCurrentPolygons();
-		
+
 		editPane.repaint();
 	}
 

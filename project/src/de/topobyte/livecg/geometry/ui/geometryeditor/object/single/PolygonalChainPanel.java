@@ -83,7 +83,8 @@ public class PolygonalChainPanel extends JPanel
 
 	private String getLabelText()
 	{
-		return "Object: polygonal chain with " + chain.getNumberOfNodes() + " nodes";
+		return "Object: polygonal chain with " + chain.getNumberOfNodes()
+				+ " nodes";
 	}
 
 }

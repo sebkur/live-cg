@@ -68,7 +68,7 @@ public class OpenAction extends BasicAction
 			try {
 				Content content = reader.read(file);
 				editPane.setContent(content);
-				
+
 				content.fireContentChanged();
 			} catch (IOException e) {
 				logger.debug("unable to open file.");

@@ -36,37 +36,37 @@ public class Node
 	{
 		return coordinate;
 	}
-	
+
 	public void setCoordinate(Coordinate coordinate)
 	{
 		this.coordinate = coordinate;
 	}
-	
+
 	public List<Chain> getChains()
 	{
 		return chains;
 	}
-	
+
 	public List<Chain> getEndpointChains()
 	{
 		return endpointChains;
 	}
-	
+
 	public void addChain(Chain chain)
 	{
 		chains.add(chain);
 	}
-	
+
 	public void removeChain(Chain chain)
 	{
 		chains.remove(chain);
 	}
-	
+
 	public void addEndpointChain(Chain chain)
 	{
 		endpointChains.add(chain);
 	}
-	
+
 	public void removeEndpointChain(Chain chain)
 	{
 		endpointChains.remove(chain);

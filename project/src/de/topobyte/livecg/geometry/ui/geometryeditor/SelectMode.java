@@ -17,7 +17,6 @@
  */
 package de.topobyte.livecg.geometry.ui.geometryeditor;
 
-public enum SelectMode
-{
+public enum SelectMode {
 	NONE, NODE, CHAIN, POLYGON
 }

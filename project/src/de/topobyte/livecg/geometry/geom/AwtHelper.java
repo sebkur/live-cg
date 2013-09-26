@@ -31,11 +31,11 @@ public class AwtHelper
 		Chain shell = p.getShell();
 		Area outer = getArea(shell);
 
-//		for (int i = 0; i < p.getNumberOfInteriorRings(); i++) {
-//			LinearRing interior = p.getInteriorRing(i);
-//			Area inner = getArea(interior);
-//			outer.subtract(inner);
-//		}
+		// for (int i = 0; i < p.getNumberOfInteriorRings(); i++) {
+		// LinearRing interior = p.getInteriorRing(i);
+		// Area inner = getArea(interior);
+		// outer.subtract(inner);
+		// }
 
 		return outer;
 	}

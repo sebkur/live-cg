@@ -55,7 +55,7 @@ public class PolygonPanel extends JPanel
 		add(label, c);
 		GridBagHelper.setGxGy(c, 0, 1);
 		add(toRings, c);
-		
+
 		GridBagHelper.setGxGy(c, 0, 2);
 		GridBagHelper.setWxWyF(c, 1.0, 1.0, GridBagConstraints.BOTH);
 		add(new JPanel(), c);

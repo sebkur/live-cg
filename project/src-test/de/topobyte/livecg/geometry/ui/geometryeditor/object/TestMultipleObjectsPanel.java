@@ -33,12 +33,12 @@ public class TestMultipleObjectsPanel
 		JFrame frame = new JFrame(MultiplePanel.class.getSimpleName());
 
 		GeometryEditPane editPane = new GeometryEditPane();
-		
+
 		Chain chain = new Chain();
 		chain.appendPoint(new Coordinate(100, 100));
 		chain.appendPoint(new Coordinate(200, 100));
 		chain.appendPoint(new Coordinate(200, 200));
-		
+
 		Chain shell = new Chain();
 		shell.appendPoint(new Coordinate(10, 10));
 		shell.appendPoint(new Coordinate(20, 100));
@@ -51,7 +51,7 @@ public class TestMultipleObjectsPanel
 		}
 		Polygon polygon = new Polygon(shell);
 		editPane.getContent().addPolygon(polygon);
-		
+
 		editPane.addCurrentChain(chain);
 		editPane.addCurrentPolygon(polygon);
 

@@ -26,13 +26,14 @@ import org.xml.sax.SAXException;
 
 public class TestContentReader
 {
-	public static void main(String[] args) throws IOException, ParserConfigurationException, SAXException
+	public static void main(String[] args) throws IOException,
+			ParserConfigurationException, SAXException
 	{
 		if (args.length != 1) {
 			System.out.println("Please specify an input file");
 			System.exit(1);
 		}
-		
+
 		ContentReader reader = new ContentReader();
 		reader.read(new File(args[0]));
 	}

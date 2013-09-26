@@ -33,16 +33,16 @@ public class NothingPanel extends JPanel
 	public NothingPanel()
 	{
 		setLayout(new GridBagLayout());
-		
+
 		JLabel label = new JLabel("no active object");
-		
+
 		GridBagConstraints c = new GridBagConstraints();
 
 		c.anchor = GridBagConstraints.LINE_START;
-		
+
 		GridBagHelper.setGxGy(c, 0, 0);
 		add(label, c);
-		
+
 		GridBagHelper.setGxGy(c, 0, 1);
 		GridBagHelper.setWxWyF(c, 1.0, 1.0, GridBagConstraints.BOTH);
 		add(new JPanel(), c);
