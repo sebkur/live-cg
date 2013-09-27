@@ -73,8 +73,10 @@ public class ToPolygonAction extends BasicAction
 		
 		Content content = editPane.getContent();
 		content.removeChain(shell);
+		editPane.removeCurrentChain(shell);
 		for (Chain chain : holes) {
 			content.removeChain(chain);	
+			editPane.removeCurrentChain(chain);
 		}
 		
 		content.addPolygon(polygon);
