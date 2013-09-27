@@ -537,6 +537,11 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 		}
 		return false;
 	}
+	
+	public Node getMouseHighlightNode()
+	{
+		return mouseHighlightNode;
+	}
 
 	public boolean setSnapHighlight(Node node)
 	{

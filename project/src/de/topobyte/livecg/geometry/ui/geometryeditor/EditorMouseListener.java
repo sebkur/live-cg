@@ -263,7 +263,7 @@ public class EditorMouseListener extends MouseAdapter
 					} else {
 						complete = false;
 					}
-				}	
+				}
 			}
 			if (complete) {
 				if (shift && alt) {
@@ -556,6 +556,9 @@ public class EditorMouseListener extends MouseAdapter
 		}
 		editPane.removeCurrentNode(n2);
 		editPane.addCurrentNode(n1);
+		if (editPane.getMouseHighlightNode() == n2) {
+			editPane.setMouseHighlight((Node) null);
+		}
 		editPane.repaint();
 	}
 
