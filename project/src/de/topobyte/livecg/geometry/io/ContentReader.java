@@ -70,7 +70,7 @@ public class ContentReader extends DefaultHandler
 	}
 
 	private enum Element {
-		Data, Node, Chain, Polygon
+		Data, Node, Chain, Polygon, Shell, Hole
 	}
 
 	// Store the path within the XML document int this Stack
@@ -85,6 +85,8 @@ public class ContentReader extends DefaultHandler
 	private boolean closed = false;
 	// Store polygon's shell here
 	private Chain shell = null;
+	// Store polygon's holes here;
+	private List<Chain> holes = null;
 
 	/*
 	 * SAX callbacks
@@ -120,10 +122,15 @@ public class ContentReader extends DefaultHandler
 				parseChain(attributes);
 			} else if (qName.equals("polygon")) {
 				position.push(Element.Polygon);
+				shell = null;
+				holes = new ArrayList<Chain>();
 			}
 		} else if (position.peek() == Element.Polygon) {
-			if (qName.equals("chain")) {
-				position.push(Element.Chain);
+			if (qName.equals("shell")) {
+				position.push(Element.Shell);
+				parseChain(attributes);
+			} else if (qName.equals("hole")) {
+				position.push(Element.Hole);
 				parseChain(attributes);
 			}
 		}
@@ -141,6 +148,8 @@ public class ContentReader extends DefaultHandler
 			// Nothing to do for these
 			break;
 		case Chain:
+		case Shell:
+		case Hole:
 			parseChainText();
 			Chain chain;
 			try {
@@ -158,11 +167,15 @@ public class ContentReader extends DefaultHandler
 					throw new SAXException(
 							"A ring of a polygon was not closeable", e);
 				}
-				shell = chain;
+				if (element == Element.Shell) {
+					shell = chain;
+				} else if (element == Element.Hole) {
+					holes.add(chain);
+				}
 			}
 			break;
 		case Polygon:
-			Polygon polygon = new Polygon(shell, null);
+			Polygon polygon = new Polygon(shell, holes);
 			content.addPolygon(polygon);
 			break;
 		}

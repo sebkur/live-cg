@@ -127,7 +127,7 @@ public class RunGeometryEditor
 			Content content = reader.read(input);
 			lineEditor.getEditPane().setContent(content);
 		} catch (Exception e) {
-			logger.debug("unable to load startup geometry file");
+			logger.debug("unable to load startup geometry file", e);
 			logger.debug("Exception: " + e.getClass().getSimpleName());
 			logger.debug("Message: " + e.getMessage());
 		}

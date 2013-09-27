@@ -68,6 +68,9 @@ public class ContentWriter
 		for (Polygon polygon : polygons) {
 			Chain shell = polygon.getShell();
 			writeNodes(shell);
+			for (Chain hole : polygon.getHoles()) {
+				writeNodes(hole);
+			}
 		}
 	}
 
@@ -119,10 +122,15 @@ public class ContentWriter
 
 	private void writePolygon(Polygon polygon) throws IOException
 	{
-		StringBuilder buffer = buildChainBuffer(polygon.getShell());
 		output.write("\n  <polygon>".getBytes());
-		String text = "\n    <chain>" + buffer + "</chain>";
+		StringBuilder buffer = buildChainBuffer(polygon.getShell());
+		String text = "\n    <shell>" + buffer + "</shell>";
 		output.write(text.getBytes());
+		for (Chain hole : polygon.getHoles()) {
+			buffer = buildChainBuffer(hole);
+			text = "\n    <hole>" + buffer + "</hole>";
+			output.write(text.getBytes());
+		}
 		output.write("\n  </polygon>".getBytes());
 	}
 
