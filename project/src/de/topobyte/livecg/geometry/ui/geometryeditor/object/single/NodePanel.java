@@ -155,7 +155,11 @@ public class NodePanel extends JPanel
 	private String getLabelInfoText()
 	{
 		List<Chain> chains = node.getChains();
-		return String.format("Member of %d chains", chains.size());
+		int n = chains.size();
+		if (n == 1) {
+			return String.format("Member of %d chain", n);
+		}
+		return String.format("Member of %d chains", n);
 	}
 
 	protected void textfieldChanged(JPanelTextField input)
