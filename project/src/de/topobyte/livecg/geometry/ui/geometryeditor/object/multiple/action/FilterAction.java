@@ -22,7 +22,7 @@ import java.awt.event.ActionEvent;
 import de.topobyte.livecg.geometry.geom.Chain;
 import de.topobyte.livecg.geometry.ui.geometryeditor.GeometryEditPane;
 import de.topobyte.livecg.geometry.ui.geometryeditor.action.BasicAction;
-import de.topobyte.livecg.util.ListUtil;
+import de.topobyte.util.ListUtil;
 
 public class FilterAction extends BasicAction
 {

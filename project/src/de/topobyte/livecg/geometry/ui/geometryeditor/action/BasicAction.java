@@ -22,7 +22,7 @@ import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.Icon;
 
-import de.topobyte.livecg.util.ImageLoader;
+import de.topobyte.util.ImageLoader;
 
 public abstract class BasicAction extends AbstractAction
 {

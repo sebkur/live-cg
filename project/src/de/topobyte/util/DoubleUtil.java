@@ -16,50 +16,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.topobyte.livecg.util;
+package de.topobyte.util;
 
-import java.awt.Component;
-import java.awt.Graphics;
-import java.awt.image.BufferedImage;
-
-import javax.swing.Icon;
-
-/**
- * @author Sebastian Kuerten (sebastian.kuerten@fu-berlin.de)
- * 
- */
-public class BufferedImageIcon implements Icon
+public class DoubleUtil
 {
 
-	private BufferedImage bi;
-
-	/**
-	 * Create a new icon from this buffered image.
-	 * 
-	 * @param bi
-	 *            the image to wrap.
-	 */
-	public BufferedImageIcon(BufferedImage bi)
+	public static boolean isValid(double d)
 	{
-		this.bi = bi;
-	}
-
-	@Override
-	public void paintIcon(Component c, Graphics g, int x, int y)
-	{
-		g.drawImage(bi, x, y, null);
-	}
-
-	@Override
-	public int getIconWidth()
-	{
-		return bi.getWidth();
-	}
-
-	@Override
-	public int getIconHeight()
-	{
-		return bi.getHeight();
+		return !Double.isInfinite(d) && !Double.isNaN(d);
 	}
 
 }

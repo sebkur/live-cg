@@ -32,7 +32,7 @@ import org.slf4j.LoggerFactory;
 import de.topobyte.livecg.geometry.io.ContentWriter;
 import de.topobyte.livecg.geometry.ui.geometryeditor.Content;
 import de.topobyte.livecg.geometry.ui.geometryeditor.GeometryEditPane;
-import de.topobyte.livecg.util.SwingUtil;
+import de.topobyte.util.SwingUtil;
 
 public class SaveAction extends BasicAction
 {

@@ -25,7 +25,7 @@ import javax.swing.Icon;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.topobyte.livecg.util.ImageLoader;
+import de.topobyte.util.ImageLoader;
 
 /**
  * @author Sebastian Kuerten (sebastian.kuerten@fu-berlin.de)

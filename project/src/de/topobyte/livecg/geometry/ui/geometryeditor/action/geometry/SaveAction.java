@@ -38,7 +38,7 @@ import de.topobyte.carbon.geometry.serialization.util.GeometrySerializerFactory;
 import de.topobyte.livecg.geometry.geom.Chain;
 import de.topobyte.livecg.geometry.ui.geometryeditor.GeometryEditPane;
 import de.topobyte.livecg.geometry.ui.geometryeditor.action.BasicAction;
-import de.topobyte.livecg.util.SwingUtil;
+import de.topobyte.util.SwingUtil;
 
 public class SaveAction extends BasicAction
 {

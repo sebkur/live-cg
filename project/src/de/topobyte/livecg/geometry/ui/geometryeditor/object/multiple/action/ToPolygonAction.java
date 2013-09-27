@@ -26,7 +26,7 @@ import de.topobyte.livecg.geometry.geom.Polygon;
 import de.topobyte.livecg.geometry.ui.geometryeditor.Content;
 import de.topobyte.livecg.geometry.ui.geometryeditor.GeometryEditPane;
 import de.topobyte.livecg.geometry.ui.geometryeditor.action.BasicAction;
-import de.topobyte.livecg.util.ListUtil;
+import de.topobyte.util.ListUtil;
 
 public class ToPolygonAction extends BasicAction
 {

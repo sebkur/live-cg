@@ -33,7 +33,7 @@ import de.topobyte.livecg.geometry.geom.Node;
 import de.topobyte.livecg.geometry.geom.Polygon;
 import de.topobyte.livecg.geometry.geom.Rectangle;
 import de.topobyte.livecg.geometry.ui.geometryeditor.mousemode.MouseMode;
-import de.topobyte.livecg.util.ListUtil;
+import de.topobyte.util.ListUtil;
 
 public class EditorMouseListener extends MouseAdapter
 {

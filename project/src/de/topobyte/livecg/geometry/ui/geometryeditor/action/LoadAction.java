@@ -36,7 +36,7 @@ import com.vividsolutions.jts.io.WKTReader;
 
 import de.topobyte.livecg.geometry.geom.Chain;
 import de.topobyte.livecg.geometry.ui.geometryeditor.GeometryEditPane;
-import de.topobyte.livecg.util.SwingUtil;
+import de.topobyte.util.SwingUtil;
 
 public class LoadAction extends BasicAction
 {
