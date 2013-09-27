@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.topobyte.livecg.geometry.ui.misc;
+package de.topobyte.livecg.geometry.ui.geometryeditor;
 
 import java.awt.event.KeyEvent;
 
@@ -25,7 +25,6 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.KeyStroke;
 
-import de.topobyte.livecg.geometry.ui.geometryeditor.GeometryEditPane;
 import de.topobyte.livecg.geometry.ui.geometryeditor.action.MouseAction;
 import de.topobyte.livecg.geometry.ui.geometryeditor.action.NewAction;
 import de.topobyte.livecg.geometry.ui.geometryeditor.action.OpenAction;
@@ -35,6 +34,9 @@ import de.topobyte.livecg.geometry.ui.geometryeditor.action.SelectNothingAction;
 import de.topobyte.livecg.geometry.ui.geometryeditor.mousemode.MouseMode;
 import de.topobyte.livecg.geometry.ui.geometryeditor.mousemode.MouseModeDescriptions;
 import de.topobyte.livecg.geometry.ui.geometryeditor.mousemode.MouseModeProvider;
+import de.topobyte.livecg.geometry.ui.misc.AboutAction;
+import de.topobyte.livecg.geometry.ui.misc.ExitAction;
+import de.topobyte.livecg.geometry.ui.misc.LicenseAction;
 
 public class Menu extends JMenuBar
 {

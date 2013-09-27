@@ -32,7 +32,6 @@ import org.slf4j.LoggerFactory;
 
 import de.topobyte.livecg.geometry.io.ContentReader;
 import de.topobyte.livecg.geometry.ui.geometryeditor.object.ObjectDialog;
-import de.topobyte.livecg.geometry.ui.misc.Menu;
 
 public class RunGeometryEditor
 {
