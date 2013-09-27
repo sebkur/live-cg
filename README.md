@@ -36,4 +36,4 @@ Edit:
 * `Ctrl + left mouse button`: close a ring
 
 ### With selected object
-* `Ctrl + 'o'`: open / close a ring
+* `Ctrl + Shift + 'o'`: open / close a ring
