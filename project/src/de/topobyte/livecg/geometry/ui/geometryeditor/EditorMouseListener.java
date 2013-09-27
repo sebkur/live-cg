@@ -401,10 +401,12 @@ public class EditorMouseListener extends MouseAdapter
 			changed = true;
 			break;
 		case CHAIN:
-			// TODO: delete complete chain
+			Chain chain = nearest.chain;
+			editPane.removeChain(chain);
 			break;
 		case POLYGON:
-			// TODO: delete complete polygon
+			Polygon polygon = nearest.polygon;
+			editPane.removePolygon(polygon);
 			break;
 		}
 		if (changed) {
