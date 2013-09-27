@@ -26,6 +26,7 @@ import javax.swing.JPanel;
 
 import de.topobyte.livecg.geometry.geom.Polygon;
 import de.topobyte.livecg.geometry.ui.geometryeditor.GeometryEditPane;
+import de.topobyte.livecg.geometry.ui.geometryeditor.object.action.ConvexHullAction;
 import de.topobyte.livecg.geometry.ui.geometryeditor.object.action.ToRingsAction;
 import de.topobyte.swing.layout.GridBagHelper;
 
@@ -47,9 +48,15 @@ public class PolygonActionPanel extends JPanel
 		toRings.setMargin(new Insets(0, 0, 0, 0));
 		toRings.setText(null);
 
+		ConvexHullAction chAction = new ConvexHullAction(editPane);
+		JButton convexHull = new JButton(chAction);
+		convexHull.setMargin(new Insets(0, 0, 0, 0));
+		convexHull.setText(null);
+
 		c.fill = GridBagConstraints.BOTH;
 		GridBagHelper.setGxGy(c, GridBagConstraints.RELATIVE, 0);
-		add(toRings , c);
+		add(toRings, c);
+		add(convexHull, c);
 	}
 
 }

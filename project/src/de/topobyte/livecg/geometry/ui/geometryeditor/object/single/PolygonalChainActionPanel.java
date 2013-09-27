@@ -27,6 +27,7 @@ import javax.swing.JToggleButton;
 
 import de.topobyte.livecg.geometry.geom.Chain;
 import de.topobyte.livecg.geometry.ui.geometryeditor.GeometryEditPane;
+import de.topobyte.livecg.geometry.ui.geometryeditor.object.action.ConvexHullAction;
 import de.topobyte.livecg.geometry.ui.geometryeditor.object.action.OpenCloseRingAction;
 import de.topobyte.livecg.geometry.ui.geometryeditor.object.action.ToPolygonAction;
 import de.topobyte.swing.layout.GridBagHelper;
@@ -60,10 +61,16 @@ public class PolygonalChainActionPanel extends JPanel
 		toPolygon.setMargin(new Insets(0, 0, 0, 0));
 		toPolygon.setText(null);
 
+		ConvexHullAction chAction = new ConvexHullAction(editPane);
+		JButton convexHull = new JButton(chAction);
+		convexHull.setMargin(new Insets(0, 0, 0, 0));
+		convexHull.setText(null);
+
 		c.fill = GridBagConstraints.BOTH;
 		GridBagHelper.setGxGy(c, GridBagConstraints.RELATIVE, 0);
 		add(closedButton, c);
 		add(toPolygon, c);
+		add(convexHull);
 	}
 
 	public void update()

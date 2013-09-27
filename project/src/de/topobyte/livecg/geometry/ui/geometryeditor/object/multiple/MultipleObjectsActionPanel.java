@@ -29,6 +29,7 @@ import de.topobyte.livecg.geometry.geom.Chain;
 import de.topobyte.livecg.geometry.geom.Node;
 import de.topobyte.livecg.geometry.geom.Polygon;
 import de.topobyte.livecg.geometry.ui.geometryeditor.GeometryEditPane;
+import de.topobyte.livecg.geometry.ui.geometryeditor.object.action.ConvexHullAction;
 import de.topobyte.livecg.geometry.ui.geometryeditor.object.multiple.action.ShowFilterMenuAction;
 import de.topobyte.livecg.geometry.ui.geometryeditor.object.multiple.action.ToPolygonAction;
 import de.topobyte.swing.layout.GridBagHelper;
@@ -60,10 +61,16 @@ public class MultipleObjectsActionPanel extends JPanel
 		toPolygon.setMargin(new Insets(0, 0, 0, 0));
 		toPolygon.setText(null);
 
+		ConvexHullAction chAction = new ConvexHullAction(editPane);
+		JButton convexHull = new JButton(chAction);
+		convexHull.setMargin(new Insets(0, 0, 0, 0));
+		convexHull.setText(null);
+
 		c.fill = GridBagConstraints.BOTH;
 		GridBagHelper.setGxGy(c, GridBagConstraints.RELATIVE, 0);
 		add(filters, c);
 		add(toPolygon, c);
+		add(convexHull, c);
 	}
 
 	public void update()
