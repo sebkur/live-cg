@@ -36,7 +36,7 @@ public class ToPolygonAction extends BasicAction
 	public ToPolygonAction(GeometryEditPane editPane, Chain chain)
 	{
 		super("to polygon", "Convert to polygon",
-				"res/images/16x16/multipolygon.png");
+				"res/images/24x24/multipolygon.png");
 		this.editPane = editPane;
 		this.chain = chain;
 	}

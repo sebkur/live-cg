@@ -20,15 +20,11 @@ package de.topobyte.livecg.geometry.ui.geometryeditor.object.single;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JToggleButton;
 
 import de.topobyte.livecg.geometry.geom.Chain;
 import de.topobyte.livecg.geometry.ui.geometryeditor.GeometryEditPane;
-import de.topobyte.livecg.geometry.ui.geometryeditor.object.action.OpenCloseRingAction;
-import de.topobyte.livecg.geometry.ui.geometryeditor.object.action.ToPolygonAction;
 import de.topobyte.swing.layout.GridBagHelper;
 
 public class PolygonalChainPanel extends JPanel
@@ -38,21 +34,16 @@ public class PolygonalChainPanel extends JPanel
 
 	private Chain chain;
 	private JLabel label;
-	private JToggleButton closedButton;
-	private JButton toPolygon;
+
+	private PolygonalChainActionPanel actionPanel;
 
 	public PolygonalChainPanel(GeometryEditPane editPane, Chain chain)
 	{
 		this.chain = chain;
 		setLayout(new GridBagLayout());
 		label = new JLabel();
-
-		closedButton = new JToggleButton("closed");
-		closedButton.setSelected(chain.isClosed());
-		closedButton.setAction(new OpenCloseRingAction(editPane, chain));
-
-		toPolygon = new JButton("to polygon");
-		toPolygon.setAction(new ToPolygonAction(editPane, chain));
+		actionPanel = new PolygonalChainActionPanel(
+				editPane, chain);
 
 		GridBagConstraints c = new GridBagConstraints();
 
@@ -61,11 +52,9 @@ public class PolygonalChainPanel extends JPanel
 		GridBagHelper.setGxGy(c, 0, 0);
 		add(label, c);
 		GridBagHelper.setGxGy(c, 0, 1);
-		add(closedButton, c);
-		GridBagHelper.setGxGy(c, 0, 2);
-		add(toPolygon, c);
+		add(actionPanel, c);
 
-		GridBagHelper.setGxGy(c, 0, 3);
+		GridBagHelper.setGxGy(c, 0, 2);
 		GridBagHelper.setWxWyF(c, 1.0, 1.0, GridBagConstraints.BOTH);
 		add(new JPanel(), c);
 
@@ -75,10 +64,7 @@ public class PolygonalChainPanel extends JPanel
 	public void update()
 	{
 		label.setText(getLabelText());
-		closedButton.setSelected(chain.isClosed());
-		closedButton.setEnabled(chain.getNumberOfNodes() > 2);
-
-		toPolygon.setEnabled(chain.isClosed());
+		actionPanel.update();
 	}
 
 	private String getLabelText()

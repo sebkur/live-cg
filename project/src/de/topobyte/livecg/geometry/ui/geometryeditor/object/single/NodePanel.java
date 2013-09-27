@@ -61,8 +61,8 @@ public class NodePanel extends JPanel
 
 		inputX = new JPanelTextField();
 		inputY = new JPanelTextField();
-		
-		NodeActionPanel nodeActionPanel = new NodeActionPanel(editPane, node);
+
+		NodeActionPanel actionPanel = new NodeActionPanel(editPane, node);
 
 		setNoPreferredWidth(inputX.getTextField());
 		setNoPreferredWidth(inputY.getTextField());
@@ -70,13 +70,13 @@ public class NodePanel extends JPanel
 		GridBagConstraints c = new GridBagConstraints();
 
 		int y = 0;
-		
+
 		GridBagHelper.setGxGyGwGh(c, 0, y, 2, 1);
 		c.anchor = GridBagConstraints.LINE_START;
 		add(label, c);
-		
+
 		GridBagHelper.setGxGyGwGh(c, 0, ++y, 2, 1);
-		add(nodeActionPanel, c);
+		add(actionPanel, c);
 
 		GridBagHelper.setGxGyGwGh(c, 0, ++y, 1, 1);
 		GridBagHelper.setWxWyF(c, 1.0, 0.0, GridBagConstraints.HORIZONTAL);
@@ -85,7 +85,7 @@ public class NodePanel extends JPanel
 		add(inputX, c);
 		c.gridx = 1;
 		add(inputY, c);
-		
+
 		GridBagHelper.setGxGyGwGh(c, 0, ++y, 2, 1);
 		add(labelInfo, c);
 
@@ -151,7 +151,7 @@ public class NodePanel extends JPanel
 	{
 		return "Object: node";
 	}
-	
+
 	private String getLabelInfoText()
 	{
 		List<Chain> chains = node.getChains();

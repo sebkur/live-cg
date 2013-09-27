@@ -19,54 +19,37 @@ package de.topobyte.livecg.geometry.ui.geometryeditor.object.single;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
 
-import javax.swing.JLabel;
+import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import de.topobyte.livecg.geometry.geom.Polygon;
 import de.topobyte.livecg.geometry.ui.geometryeditor.GeometryEditPane;
+import de.topobyte.livecg.geometry.ui.geometryeditor.object.action.ToRingsAction;
 import de.topobyte.swing.layout.GridBagHelper;
 
-public class PolygonPanel extends JPanel
+public class PolygonActionPanel extends JPanel
 {
 
-	private static final long serialVersionUID = 5640771403274002420L;
+	private static final long serialVersionUID = -2477166078999975171L;
 
-	private Polygon polygon;
-	private JLabel label;
+	private JButton toRings;
 
-	public PolygonPanel(GeometryEditPane editPane, Polygon polygon)
+	public PolygonActionPanel(GeometryEditPane editPane, Polygon polygon)
 	{
-		this.polygon = polygon;
 		setLayout(new GridBagLayout());
-		label = new JLabel();
 
-		PolygonActionPanel actionPanel = new PolygonActionPanel(editPane, polygon);
-		
 		GridBagConstraints c = new GridBagConstraints();
-		c.anchor = GridBagConstraints.LINE_START;
 
-		GridBagHelper.setGxGy(c, 0, 0);
-		add(label, c);
-		GridBagHelper.setGxGy(c, 0, 1);
-		add(actionPanel, c);
+		ToRingsAction toRingsAction = new ToRingsAction(editPane, polygon);
+		toRings = new JButton(toRingsAction);
+		toRings.setMargin(new Insets(0, 0, 0, 0));
+		toRings.setText(null);
 
-		GridBagHelper.setGxGy(c, 0, 2);
-		GridBagHelper.setWxWyF(c, 1.0, 1.0, GridBagConstraints.BOTH);
-		add(new JPanel(), c);
-
-		update();
-	}
-
-	public void update()
-	{
-		label.setText(getLabelText());
-	}
-
-	private String getLabelText()
-	{
-		return "Object: polygon with " + polygon.getShell().getNumberOfNodes()
-				+ " nodes";
+		c.fill = GridBagConstraints.BOTH;
+		GridBagHelper.setGxGy(c, GridBagConstraints.RELATIVE, 0);
+		add(toRings , c);
 	}
 
 }
