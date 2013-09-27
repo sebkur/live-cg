@@ -61,12 +61,12 @@
 	<target name="dist" depends="dist-binary, dist-sources" />
 
 	<target name="dist-binary" depends="compile" description="generate the distribution">
-		<jar jarfile="${dist}/avl-tree.jar" basedir="${build.main}">
+		<jar jarfile="${dist}/livecg.jar" basedir="${build.main}">
 		</jar>
 	</target>
 
 	<target name="dist-sources" depends="compile" description="generate the distribution">
-		<jar jarfile="${dist}/avl-tree-src.jar" basedir="${src}">
+		<jar jarfile="${dist}/livecg-src.jar" basedir="${src}">
 		</jar>
 	</target>
 
