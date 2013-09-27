@@ -31,6 +31,8 @@ import de.topobyte.livecg.geometry.ui.geometryeditor.action.OpenAction;
 import de.topobyte.livecg.geometry.ui.geometryeditor.action.SaveAction;
 import de.topobyte.livecg.geometry.ui.geometryeditor.action.SelectAllAction;
 import de.topobyte.livecg.geometry.ui.geometryeditor.action.SelectNothingAction;
+import de.topobyte.livecg.geometry.ui.geometryeditor.action.visualizations.FortunesSweepAction;
+import de.topobyte.livecg.geometry.ui.geometryeditor.action.visualizations.FrechetDistanceAction;
 import de.topobyte.livecg.geometry.ui.geometryeditor.mousemode.MouseMode;
 import de.topobyte.livecg.geometry.ui.geometryeditor.mousemode.MouseModeDescriptions;
 import de.topobyte.livecg.geometry.ui.geometryeditor.mousemode.MouseModeProvider;
@@ -48,17 +50,24 @@ public class Menu extends JMenuBar
 		JMenu file = new JMenu("File");
 		JMenu tools = new JMenu("Tools");
 		JMenu edit = new JMenu("Edit");
+		JMenu visualizations = new JMenu("Visualizations");
 		JMenu help = new JMenu("Help");
 		add(file);
 		add(tools);
 		add(edit);
+		add(visualizations);
 		add(help);
 
 		file.setMnemonic('F');
 		tools.setMnemonic('T');
 		edit.setMnemonic('E');
+		visualizations.setMnemonic('V');
 		help.setMnemonic('H');
 
+		/*
+		 * File
+		 */
+		
 		JMenuItem exit = new JMenuItem(new ExitAction());
 		JMenuItem newDocuemnt = new JMenuItem(new NewAction(editPane));
 		JMenuItem openDocuemnt = new JMenuItem(new OpenAction(this, editPane));
@@ -77,6 +86,10 @@ public class Menu extends JMenuBar
 		exit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q,
 				KeyEvent.CTRL_DOWN_MASK));
 
+		/*
+		 * Tools
+		 */
+		
 		for (MouseMode mode : new MouseMode[] { MouseMode.SELECT_MOVE,
 				MouseMode.SELECT_RECTANGULAR, MouseMode.EDIT, MouseMode.DELETE }) {
 			MouseAction mouseAction = new MouseAction(
@@ -106,6 +119,10 @@ public class Menu extends JMenuBar
 			}
 		}
 
+		/*
+		 * Edit
+		 */
+		
 		JMenuItem selectNothing = new JMenuItem(new SelectNothingAction(
 				editPane));
 		JMenuItem selectEverything = new JMenuItem(
@@ -118,6 +135,19 @@ public class Menu extends JMenuBar
 		selectNothing.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A,
 				KeyEvent.CTRL_DOWN_MASK | KeyEvent.SHIFT_DOWN_MASK));
 
+		/*
+		 * Visualizations
+		 */
+		
+		JMenuItem fortunesSweep = new JMenuItem(new FortunesSweepAction(editPane));
+		JMenuItem frechetDistance = new JMenuItem(new FrechetDistanceAction(editPane));
+		visualizations.add(fortunesSweep);
+		visualizations.add(frechetDistance);
+		
+		/*
+		 * Help
+		 */
+		
 		JMenuItem about = new JMenuItem(new AboutAction());
 		JMenuItem license = new JMenuItem(new LicenseAction());
 		help.add(about);
