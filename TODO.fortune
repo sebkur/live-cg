@@ -1,0 +1,1 @@
+Reimplementation of EventQueue does not check/drop doubly occuring events anymore. This should be done somewhere
