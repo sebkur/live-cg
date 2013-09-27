@@ -18,7 +18,18 @@
 package de.topobyte.livecg.ui.geometryeditor.action.visualizations;
 
 import java.awt.event.ActionEvent;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.swing.JFrame;
+
+import de.topobyte.fortune.sweep.geometry.Point;
+import de.topobyte.fortune.sweep.gui.swing.SwingFortune;
+import de.topobyte.livecg.geometry.geom.Chain;
+import de.topobyte.livecg.geometry.geom.Coordinate;
+import de.topobyte.livecg.geometry.geom.Node;
+import de.topobyte.livecg.geometry.geom.Polygon;
+import de.topobyte.livecg.ui.geometryeditor.Content;
 import de.topobyte.livecg.ui.geometryeditor.GeometryEditPane;
 import de.topobyte.livecg.ui.geometryeditor.action.BasicAction;
 
@@ -26,7 +37,7 @@ public class FortunesSweepAction extends BasicAction
 {
 
 	private static final long serialVersionUID = 6593980335787529594L;
-	
+
 	private GeometryEditPane editPane;
 
 	public FortunesSweepAction(GeometryEditPane editPane)
@@ -41,7 +52,39 @@ public class FortunesSweepAction extends BasicAction
 	@Override
 	public void actionPerformed(ActionEvent event)
 	{
-		// TODO: implement
+		Content content = editPane.getContent();
+
+		List<Node> nodes = new ArrayList<Node>();
+
+		for (Chain chain : content.getChains()) {
+			collectNodes(nodes, chain);
+		}
+		for (Polygon polygon : content.getPolygons()) {
+			collectNodes(nodes, polygon.getShell());
+			for (Chain hole : polygon.getHoles()) {
+				collectNodes(nodes, hole);
+			}
+		}
+
+		SwingFortune swingFortune = new SwingFortune();
+		swingFortune.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		
+		List<Point> sites = new ArrayList<Point>();
+		for (Node node : nodes) {
+			Coordinate c = node.getCoordinate();
+			sites.add(new Point(c.getX(), c.getY()));
+		}
+		swingFortune.getAlgorithm().setSites(sites);
+	}
+
+	private void collectNodes(List<Node> nodes, Chain chain)
+	{
+		for (int i = 0; i < chain.getNumberOfNodes(); i++) {
+			Node node = chain.getNode(i);
+			if (!nodes.contains(node)) {
+				nodes.add(node);
+			}
+		}
 	}
 
 }
