@@ -152,6 +152,17 @@ public class Content
 				distance = d;
 				nearestNode = n;
 			}
+			for (Chain hole : polygon.getHoles()) {
+				n = hole.getNearestDifferentNode(node);
+				if (n == node) {
+					continue;
+				}
+				d = n.getCoordinate().distance(coordinate);
+				if (d < distance) {
+					distance = d;
+					nearestNode = n;
+				}	
+			}
 		}
 		return nearestNode;
 	}
