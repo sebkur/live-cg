@@ -22,12 +22,14 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.util.List;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 
+import de.topobyte.livecg.geometry.geom.Chain;
 import de.topobyte.livecg.geometry.geom.Coordinate;
 import de.topobyte.livecg.geometry.geom.Node;
 import de.topobyte.livecg.geometry.ui.geometryeditor.GeometryEditPane;
@@ -45,6 +47,7 @@ public class NodePanel extends JPanel
 	private Node node;
 	private JLabel label;
 	private JPanelTextField inputX, inputY;
+	private JLabel labelInfo;
 
 	private GeometryEditPane editPane;
 
@@ -54,6 +57,7 @@ public class NodePanel extends JPanel
 		this.node = node;
 		setLayout(new GridBagLayout());
 		label = new JLabel();
+		labelInfo = new JLabel();
 
 		inputX = new JPanelTextField();
 		inputY = new JPanelTextField();
@@ -74,8 +78,11 @@ public class NodePanel extends JPanel
 		add(inputX, c);
 		c.gridx = 1;
 		add(inputY, c);
-
+		
 		GridBagHelper.setGxGyGwGh(c, 0, 2, 2, 1);
+		add(labelInfo, c);
+
+		GridBagHelper.setGxGyGwGh(c, 0, 3, 2, 1);
 		GridBagHelper.setWxWyF(c, 1.0, 1.0, GridBagConstraints.BOTH);
 		add(new JPanel(), c);
 
@@ -130,11 +137,18 @@ public class NodePanel extends JPanel
 		label.setText(getLabelText());
 		inputX.setText("" + c.getX());
 		inputY.setText("" + c.getY());
+		labelInfo.setText(getLabelInfoText());
 	}
 
 	private String getLabelText()
 	{
 		return "Object: node";
+	}
+	
+	private String getLabelInfoText()
+	{
+		List<Chain> chains = node.getChains();
+		return String.format("Member of %d chains", chains.size());
 	}
 
 	protected void textfieldChanged(JPanelTextField input)
