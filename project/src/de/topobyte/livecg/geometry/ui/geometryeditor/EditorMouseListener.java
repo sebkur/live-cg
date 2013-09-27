@@ -385,9 +385,7 @@ public class EditorMouseListener extends MouseAdapter
 				for (Chain c : node.getChains()) {
 					deleteNodeFromChain(c, node, false);
 				}
-				if (editPane.getCurrentNodes().contains(node)) {
-					editPane.removeCurrentNode(node);
-				}
+
 			} else {
 				// Delete node only from selected elements
 				for (Chain c : ListUtil.copy(selectedChains)) {
@@ -396,6 +394,9 @@ public class EditorMouseListener extends MouseAdapter
 				for (Polygon p : ListUtil.copy(selectedPolygons)) {
 					deleteFromPolygon(p, node);
 				}
+			}
+			if (editPane.getCurrentNodes().contains(node)) {
+				editPane.removeCurrentNode(node);
 			}
 			changed = true;
 			break;
