@@ -89,6 +89,11 @@ public class Chain
 		return nodes.get(i);
 	}
 
+	public void setNode(int i, Node node)
+	{
+		nodes.set(i, node);
+	}
+	
 	public void setCoordinate(int i, Coordinate coordinate)
 	{
 		nodes.get(i).setCoordinate(coordinate);

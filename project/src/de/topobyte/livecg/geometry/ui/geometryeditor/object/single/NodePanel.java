@@ -61,17 +61,24 @@ public class NodePanel extends JPanel
 
 		inputX = new JPanelTextField();
 		inputY = new JPanelTextField();
+		
+		NodeActionPanel nodeActionPanel = new NodeActionPanel(editPane, node);
 
 		setNoPreferredWidth(inputX.getTextField());
 		setNoPreferredWidth(inputY.getTextField());
 
 		GridBagConstraints c = new GridBagConstraints();
 
-		GridBagHelper.setGxGyGwGh(c, 0, 0, 2, 1);
+		int y = 0;
+		
+		GridBagHelper.setGxGyGwGh(c, 0, y, 2, 1);
 		c.anchor = GridBagConstraints.LINE_START;
 		add(label, c);
+		
+		GridBagHelper.setGxGyGwGh(c, 0, ++y, 2, 1);
+		add(nodeActionPanel, c);
 
-		GridBagHelper.setGxGyGwGh(c, 0, 1, 1, 1);
+		GridBagHelper.setGxGyGwGh(c, 0, ++y, 1, 1);
 		GridBagHelper.setWxWyF(c, 1.0, 0.0, GridBagConstraints.HORIZONTAL);
 
 		c.gridx = 0;
@@ -79,10 +86,10 @@ public class NodePanel extends JPanel
 		c.gridx = 1;
 		add(inputY, c);
 		
-		GridBagHelper.setGxGyGwGh(c, 0, 2, 2, 1);
+		GridBagHelper.setGxGyGwGh(c, 0, ++y, 2, 1);
 		add(labelInfo, c);
 
-		GridBagHelper.setGxGyGwGh(c, 0, 3, 2, 1);
+		GridBagHelper.setGxGyGwGh(c, 0, ++y, 2, 1);
 		GridBagHelper.setWxWyF(c, 1.0, 1.0, GridBagConstraints.BOTH);
 		add(new JPanel(), c);
 
