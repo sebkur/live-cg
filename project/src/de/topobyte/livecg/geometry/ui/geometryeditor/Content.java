@@ -132,7 +132,7 @@ public class Content
 		Node nearestNode = null;
 		for (Chain chain : chains) {
 			Node n = chain.getNearestDifferentNode(node);
-			if (n == node) {
+			if (n == null || n == node) {
 				continue;
 			}
 			double d = n.getCoordinate().distance(coordinate);
