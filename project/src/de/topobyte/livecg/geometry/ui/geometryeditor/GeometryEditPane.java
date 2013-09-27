@@ -87,7 +87,7 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 		ActionMap actionMap = getActionMap();
 
 		inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_O,
-				InputEvent.CTRL_DOWN_MASK), "c-o");
+				InputEvent.CTRL_DOWN_MASK | InputEvent.SHIFT_MASK), "c-o");
 
 		OpenCloseRingAction openCloseRingAction = new OpenCloseRingAction(this);
 
