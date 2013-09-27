@@ -49,15 +49,15 @@ public class Controls extends Panel implements ActionListener
 
 	private static Map<String, String> paths = new HashMap<String, String>();
 	static {
-		paths.put(KEY_PLAY, "res/media-playback-start.png");
-		paths.put(KEY_PLAY_REVERSE, "res/media-playback-start-rtl.png");
-		paths.put(KEY_PAUSE, "res/media-playback-pause.png");
-		paths.put(KEY_PREVIOUS_EVENT, "res/media-skip-backward.png");
-		paths.put(KEY_NEXT_EVENT, "res/media-skip-forward.png");
-		paths.put(KEY_PREV_PIXEL, "res/media-seek-backward.png");
-		paths.put(KEY_NEXT_PIXEL, "res/media-seek-backward-rtl.png");
-		paths.put(KEY_CLEAR, "res/media-eject.png");
-		paths.put(KEY_RESTART, "res/media-playback-stop.png");
+		paths.put(KEY_PLAY, "res/images/32x32/media-playback-start.png");
+		paths.put(KEY_PLAY_REVERSE, "res/images/32x32/media-playback-start-rtl.png");
+		paths.put(KEY_PAUSE, "res/images/32x32/media-playback-pause.png");
+		paths.put(KEY_PREVIOUS_EVENT, "res/images/32x32/media-skip-backward.png");
+		paths.put(KEY_NEXT_EVENT, "res/images/32x32/media-skip-forward.png");
+		paths.put(KEY_PREV_PIXEL, "res/images/32x32/media-seek-backward.png");
+		paths.put(KEY_NEXT_PIXEL, "res/images/32x32/media-seek-backward-rtl.png");
+		paths.put(KEY_CLEAR, "res/images/32x32/media-eject.png");
+		paths.put(KEY_RESTART, "res/images/32x32/media-playback-stop.png");
 	}
 
 	private Map<String, Icon> icons = new HashMap<String, Icon>();
