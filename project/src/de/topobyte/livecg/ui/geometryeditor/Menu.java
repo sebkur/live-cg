@@ -40,6 +40,7 @@ import de.topobyte.livecg.ui.geometryeditor.action.visualizations.FrechetDistanc
 import de.topobyte.livecg.ui.geometryeditor.mousemode.MouseMode;
 import de.topobyte.livecg.ui.geometryeditor.mousemode.MouseModeDescriptions;
 import de.topobyte.livecg.ui.geometryeditor.mousemode.MouseModeProvider;
+import de.topobyte.livecg.ui.geometryeditor.presets.PresetMenu;
 import de.topobyte.livecg.ui.misc.AboutAction;
 import de.topobyte.livecg.ui.misc.ExitAction;
 import de.topobyte.livecg.ui.misc.LicenseAction;
@@ -55,12 +56,14 @@ public class Menu extends JMenuBar
 		JMenu file = new JMenu("File");
 		JMenu tools = new JMenu("Tools");
 		JMenu edit = new JMenu("Edit");
+		JMenu presets = new JMenu("Presets");
 		JMenu visualizations = new JMenu("Visualizations");
 		JMenu window = new JMenu("Window");
 		JMenu help = new JMenu("Help");
 		add(file);
 		add(tools);
 		add(edit);
+		add(presets);
 		add(visualizations);
 		add(window);
 		add(help);
@@ -68,6 +71,7 @@ public class Menu extends JMenuBar
 		file.setMnemonic('F');
 		tools.setMnemonic('T');
 		edit.setMnemonic('E');
+		presets.setMnemonic('P');
 		visualizations.setMnemonic('V');
 		window.setMnemonic('W');
 		help.setMnemonic('H');
@@ -145,6 +149,13 @@ public class Menu extends JMenuBar
 		selectNothing.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A,
 				KeyEvent.CTRL_DOWN_MASK | KeyEvent.SHIFT_DOWN_MASK));
 
+		/*
+		 * Presets
+		 */
+		
+		PresetMenu presetMenu = new PresetMenu(presets);
+		presetMenu.build(editPane);
+		
 		/*
 		 * Visualizations
 		 */
