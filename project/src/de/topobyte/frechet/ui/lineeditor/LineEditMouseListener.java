@@ -18,7 +18,6 @@
 
 package de.topobyte.frechet.ui.lineeditor;
 
-
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -30,7 +29,7 @@ public class LineEditMouseListener extends MouseAdapter
 	private final LineEditPane editPane;
 
 	private Integer end = null;
-	
+
 	public LineEditMouseListener(LineEditPane editPane)
 	{
 		this.editPane = editPane;
@@ -41,7 +40,7 @@ public class LineEditMouseListener extends MouseAdapter
 	{
 		super.mouseClicked(e);
 	}
-	
+
 	private Integer selectEnd(Coordinate coord)
 	{
 		Chain line = editPane.getLine();
@@ -74,7 +73,6 @@ public class LineEditMouseListener extends MouseAdapter
 		return coord;
 	}
 
-	
 	@Override
 	public void mousePressed(MouseEvent e)
 	{
@@ -99,7 +97,7 @@ public class LineEditMouseListener extends MouseAdapter
 		Coordinate coord = createCoordinate(e);
 		editPane.getLine().setCoordinate(end, coord);
 		editPane.repaint();
-		
+
 		editPane.triggerChange();
 	}
 

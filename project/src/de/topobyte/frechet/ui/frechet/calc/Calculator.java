@@ -21,7 +21,8 @@ package de.topobyte.frechet.ui.frechet.calc;
 public class Calculator
 {
 
-	public static Ellipse calc(LineSegment seg1, LineSegment seg2, double epsilon)
+	public static Ellipse calc(LineSegment seg1, LineSegment seg2,
+			double epsilon)
 	{
 		Vector a = seg1.getDirection();
 		Vector b = seg1.getStart();
@@ -47,7 +48,7 @@ public class Calculator
 		double D = (ax * bx_dx + ay * by_dy);
 		double E = -(cx * bx_dx + cy * by_dy);
 		double F = bx_dx * bx_dx + by_dy * by_dy - epsilon * epsilon;
-		
+
 		return new Ellipse(A, B, C, D, E, F);
 	}
 }

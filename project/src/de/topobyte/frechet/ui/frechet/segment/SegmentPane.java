@@ -18,7 +18,6 @@
 
 package de.topobyte.frechet.ui.frechet.segment;
 
-
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -38,12 +37,13 @@ import de.topobyte.util.DoubleUtil;
 import de.topobyte.util.SwingUtil;
 
 public class SegmentPane extends JPanel implements LineChangeListener,
-		EpsilonSettable {
+		EpsilonSettable
+{
 
 	private static final long serialVersionUID = 8167797259833415618L;
 
 	private static boolean DEBUG = false;
-	
+
 	private LineSegment seg1 = null;
 	private LineSegment seg2 = null;
 
@@ -53,36 +53,42 @@ public class SegmentPane extends JPanel implements LineChangeListener,
 	private Color colorFreeSpace = new Color(0xFFFFFF);
 	private Color colorFreeSpaceOuter = new Color(0xAAAAAA);
 
-	public SegmentPane(int epsilon) {
+	public SegmentPane(int epsilon)
+	{
 		this.epsilon = epsilon;
 	}
 
-	public void setEpsilon(int eps) {
+	public void setEpsilon(int eps)
+	{
 		this.epsilon = eps;
 		repaint();
 	}
 
-	public void setSegment1(LineSegment seg1) {
+	public void setSegment1(LineSegment seg1)
+	{
 		this.seg1 = seg1;
 	}
 
-	public void setSegment2(LineSegment seg2) {
+	public void setSegment2(LineSegment seg2)
+	{
 		this.seg2 = seg2;
 	}
 
 	@Override
-	public void lineChanged() {
+	public void lineChanged()
+	{
 		repaint();
 	}
 
 	@Override
-	public void paint(Graphics graphics) {
+	public void paint(Graphics graphics)
+	{
 		if (seg1 == null || seg2 == null) {
 			return;
 		}
 
 		Graphics2D g = (Graphics2D) graphics;
-		 SwingUtil.useAntialiasing(g, true);
+		SwingUtil.useAntialiasing(g, true);
 		if (DEBUG) {
 			System.out.println("clip: " + g.getClip());
 		}
@@ -164,7 +170,8 @@ public class SegmentPane extends JPanel implements LineChangeListener,
 	}
 
 	private void drawHorizontalInterval(Graphics2D g, Interval intervalP,
-			int width, int height) {
+			int width, int height)
+	{
 		if (DoubleUtil.isValid(intervalP.getStart())) {
 			int pos = (int) Math.round(intervalP.getStart() * width);
 			g.fillRect(pos - 1, height - 1, 3, 3);
@@ -176,7 +183,8 @@ public class SegmentPane extends JPanel implements LineChangeListener,
 	}
 
 	private void drawVerticalInterval(Graphics2D g, Interval intervalQ,
-			int width, int height) {
+			int width, int height)
+	{
 		if (DoubleUtil.isValid(intervalQ.getStart())) {
 			int pos = height - (int) Math.round(intervalQ.getStart() * height);
 			g.fillRect(-1, pos - 1, 3, 3);
@@ -187,7 +195,8 @@ public class SegmentPane extends JPanel implements LineChangeListener,
 		}
 	}
 
-	private Interval makeAxis(Vector a, Vector b, Vector c, Vector d) {
+	private Interval makeAxis(Vector a, Vector b, Vector c, Vector d)
+	{
 		Vector m = b.sub(d);
 		double mxcx = m.getX() * c.getX();
 		double mycy = m.getY() * c.getY();
@@ -208,7 +217,8 @@ public class SegmentPane extends JPanel implements LineChangeListener,
 	}
 
 	private AffineTransform tryHarder(Vector a, Vector c, double tlX,
-			double tlY, double initialDelta, int position) {
+			double tlY, double initialDelta, int position)
+	{
 		// We officially cheat here. Since we cannot find an elliptic solution
 		// in the degenerate case of the space between two parallel lines, we
 		// just create a nearly correct, huge ellipse that looks pretty good.
@@ -254,7 +264,8 @@ public class SegmentPane extends JPanel implements LineChangeListener,
 	// TODO: try to calculate the equation of the ellipse and plot the ellipse's
 	// main axis and secondary axis
 	private void check(Graphics2D g, LineSegment seg1, LineSegment seg2,
-			int width, int height) {
+			int width, int height)
+	{
 		Ellipse ellipse = Calculator.calc(seg1, seg2, epsilon);
 		g.setColor(Color.RED);
 		double theta = ellipse.getTheta();
@@ -265,7 +276,7 @@ public class SegmentPane extends JPanel implements LineChangeListener,
 		int x1 = (int) (x0 + Math.cos(theta) * width);
 		int y1 = (int) (y0 + Math.sin(theta) * height);
 
-//		g.drawLine(x0, y0, x1, y1);
+		// g.drawLine(x0, y0, x1, y1);
 	}
 
 }

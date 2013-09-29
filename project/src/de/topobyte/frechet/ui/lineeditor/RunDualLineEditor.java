@@ -35,16 +35,19 @@ import de.topobyte.frechet.ui.misc.Menu;
 import de.topobyte.livecg.geometry.geom.Chain;
 import de.topobyte.livecg.geometry.geom.Coordinate;
 
-public class RunDualLineEditor {
+public class RunDualLineEditor
+{
 
 	final static int STEP_SIZE = 1;
 	final static int STEP_SIZE_BIG = 10;
 
-	public static void main(String[] args) {
+	public static void main(String[] args)
+	{
 		runProgrammatically(true);
 	}
 
-	public static void runProgrammatically(boolean exitOnClose) {
+	public static void runProgrammatically(boolean exitOnClose)
+	{
 		BasicConfigurator.configure();
 
 		final JFrame frame = new JFrame();
@@ -108,7 +111,8 @@ public class RunDualLineEditor {
 		Toolkit.getDefaultToolkit().addAWTEventListener(new AWTEventListener() {
 
 			@Override
-			public void eventDispatched(AWTEvent e) {
+			public void eventDispatched(AWTEvent e)
+			{
 				if (e.getSource() != frame) {
 					System.out.println(e.getSource());
 					return;

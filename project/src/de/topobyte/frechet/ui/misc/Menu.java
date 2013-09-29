@@ -22,7 +22,8 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
-public class Menu extends JMenuBar{
+public class Menu extends JMenuBar
+{
 
 	private static final long serialVersionUID = -7983876851509766368L;
 
@@ -32,10 +33,10 @@ public class Menu extends JMenuBar{
 		JMenu help = new JMenu("Help");
 		add(file);
 		add(help);
-		
+
 		JMenuItem exit = new JMenuItem(new ExitAction());
 		file.add(exit);
-		
+
 		JMenuItem about = new JMenuItem(new AboutAction());
 		JMenuItem license = new JMenuItem(new LicenseAction());
 		help.add(about);

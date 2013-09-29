@@ -18,7 +18,6 @@
 
 package de.topobyte.frechet.ui.lineeditor;
 
-
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
@@ -43,8 +42,8 @@ public class LineEditor extends JPanel
 		Scale scaleX = new ScaleX();
 		Scale scaleY = new ScaleY();
 
-		ScaleMouseListener scaleMouseListener = new ScaleMouseListener(
-				scaleX, scaleY);
+		ScaleMouseListener scaleMouseListener = new ScaleMouseListener(scaleX,
+				scaleY);
 		editPane.addMouseMotionListener(scaleMouseListener);
 
 		setLayout(new GridBagLayout());

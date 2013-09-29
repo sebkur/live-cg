@@ -22,9 +22,11 @@ import java.awt.event.ActionEvent;
 
 import de.topobyte.livecg.ui.misc.SimpleAction;
 
-public class AboutAction extends SimpleAction {
+public class AboutAction extends SimpleAction
+{
 
-	public AboutAction() {
+	public AboutAction()
+	{
 		super("About", "Display information about this software");
 		setIconFromResource("org/freedesktop/tango/22x22/status/dialog-information.png");
 	}
@@ -32,7 +34,8 @@ public class AboutAction extends SimpleAction {
 	private static final long serialVersionUID = -3413663891048957511L;
 
 	@Override
-	public void actionPerformed(ActionEvent e) {
+	public void actionPerformed(ActionEvent e)
+	{
 		AboutDialog.showDialog(AboutDialog.PAGE_ABOUT);
 	}
 

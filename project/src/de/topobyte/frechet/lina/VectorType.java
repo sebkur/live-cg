@@ -19,6 +19,5 @@
 package de.topobyte.frechet.lina;
 
 public enum VectorType {
-	Row,
-	Column
+	Row, Column
 }

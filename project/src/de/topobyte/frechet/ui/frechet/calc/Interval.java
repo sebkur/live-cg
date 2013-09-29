@@ -39,5 +39,5 @@ public class Interval
 	{
 		return end;
 	}
-	
+
 }

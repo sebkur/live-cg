@@ -18,7 +18,6 @@
 
 package de.topobyte.frechet.ui.lineeditor;
 
-
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
@@ -36,21 +35,21 @@ public class DualLineEditor extends JPanel
 	private LineEditor editor1;
 	private LineEditor editor2;
 	private LineEditorSegmentPane segmentPane;
-	
+
 	private JSlider slider;
 
-	public DualLineEditor(int width, int height, Chain line1,
-			Chain line2, int epsilon)
+	public DualLineEditor(int width, int height, Chain line1, Chain line2,
+			int epsilon)
 	{
 		editor1 = new LineEditor(width, height, line1);
 		editor2 = new LineEditor(width, height, line2);
 		segmentPane = new LineEditorSegmentPane(editor1, editor2, epsilon);
-		
+
 		segmentPane.update();
-		
+
 		editor1.setBorder(new TitledBorder("Segment P"));
 		editor2.setBorder(new TitledBorder("Segment Q"));
-		
+
 		JPanel segmentPaneContainer = new JPanel(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
 		c.fill = GridBagConstraints.BOTH;

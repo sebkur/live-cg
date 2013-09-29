@@ -18,7 +18,6 @@
 
 package de.topobyte.frechet.ui.polylineeditor;
 
-
 import java.awt.AWTEvent;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -44,7 +43,8 @@ import de.topobyte.livecg.geometry.geom.Chain;
 import de.topobyte.livecg.ui.geometryeditor.Content;
 import de.topobyte.livecg.ui.geometryeditor.ContentChangedListener;
 
-public class FrechetDialog2 implements ContentChangedListener {
+public class FrechetDialog2 implements ContentChangedListener
+{
 
 	final static int STEP_SIZE = 1;
 	final static int STEP_SIZE_BIG = 10;
@@ -56,7 +56,8 @@ public class FrechetDialog2 implements ContentChangedListener {
 	private Chain line1 = null;
 	private Chain line2 = null;
 
-	public FrechetDialog2(final Content content) {
+	public FrechetDialog2(final Content content)
+	{
 		List<Chain> lines = content.getChains();
 		if (lines.size() < 2) {
 			System.out.println("not enough lines");
@@ -102,7 +103,7 @@ public class FrechetDialog2 implements ContentChangedListener {
 
 		final JDialog dialog = new JDialog((JFrame) null, "Fréchet distance");
 		dialog.setContentPane(panel);
-//		dialog.setSize(900, 600);
+		// dialog.setSize(900, 600);
 		dialog.setSize(850, 450);
 		dialog.setVisible(true);
 
@@ -112,7 +113,8 @@ public class FrechetDialog2 implements ContentChangedListener {
 		content.addContentChangedListener(this);
 
 		dialog.addWindowListener(new WindowAdapter() {
-			public void windowClosing(WindowEvent e) {
+			public void windowClosing(WindowEvent e)
+			{
 				content.removeContentChangedListener(FrechetDialog2.this);
 			}
 		});
@@ -120,10 +122,12 @@ public class FrechetDialog2 implements ContentChangedListener {
 		Toolkit.getDefaultToolkit().addAWTEventListener(new AWTEventListener() {
 
 			@Override
-			public void eventDispatched(AWTEvent e) {
+			public void eventDispatched(AWTEvent e)
+			{
 				if (e.getSource() != dialog) {
 					return;
-				};
+				}
+				;
 				MouseWheelEvent event = (MouseWheelEvent) e;
 
 				int modifiers = event.getModifiers();
@@ -139,7 +143,8 @@ public class FrechetDialog2 implements ContentChangedListener {
 	}
 
 	@Override
-	public void contentChanged() {
+	public void contentChanged()
+	{
 		diagram.updateSegmentsFromLines();
 		diagram.repaint();
 		lineView.repaint();

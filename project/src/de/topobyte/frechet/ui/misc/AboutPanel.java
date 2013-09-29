@@ -31,20 +31,22 @@ import javax.swing.text.html.HTMLEditorKit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class AboutPanel extends JPanel {
+public class AboutPanel extends JPanel
+{
 
 	final static Logger logger = LoggerFactory.getLogger(AboutPanel.class);
 
 	static final long serialVersionUID = -3966446075575003843L;
 
-	public AboutPanel() {
+	public AboutPanel()
+	{
 		setLayout(new GridBagLayout());
-		
+
 		GridBagConstraints c = new GridBagConstraints();
 		c.fill = GridBagConstraints.BOTH;
 		c.weightx = 1.0;
 		c.weighty = 1.0;
-		
+
 		JScrollPane jsp = new JScrollPane();
 		add(jsp, c);
 

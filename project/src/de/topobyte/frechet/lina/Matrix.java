@@ -64,12 +64,10 @@ public class Matrix
 	public void setValue(int x, int y, double v)
 	{
 		if (x < 0 || x > width - 1) {
-			throw new IllegalArgumentException(
-					"matrix out of bounds: x");
+			throw new IllegalArgumentException("matrix out of bounds: x");
 		}
 		if (y < 0 || y > height - 1) {
-			throw new IllegalArgumentException(
-					"matrix out of bounds: y");
+			throw new IllegalArgumentException("matrix out of bounds: y");
 		}
 
 		values[y][x] = v;
@@ -78,12 +76,10 @@ public class Matrix
 	public double getValue(int x, int y)
 	{
 		if (x < 0 || x > width - 1) {
-			throw new IllegalArgumentException(
-					"matrix out of bounds: x");
+			throw new IllegalArgumentException("matrix out of bounds: x");
 		}
 		if (y < 0 || y > height - 1) {
-			throw new IllegalArgumentException(
-					"matrix out of bounds: y");
+			throw new IllegalArgumentException("matrix out of bounds: y");
 		}
 
 		return values[y][x];
@@ -244,7 +240,7 @@ public class Matrix
 	public static Matrix getIdentity(int size)
 	{
 		Matrix matrix = new Matrix(size, size);
-		for (int i = 0; i < size; i++){
+		for (int i = 0; i < size; i++) {
 			matrix.values[i][i] = 1.0;
 		}
 		return matrix;
@@ -263,12 +259,12 @@ public class Matrix
 		Jama.Matrix jama = new Jama.Matrix(values);
 		return jama.det();
 	}
-	
+
 	double[][] getValues()
 	{
 		return values;
 	}
-	
+
 	public Matrix solve(Vector vector)
 	{
 		Jama.Matrix jama = new Jama.Matrix(values);

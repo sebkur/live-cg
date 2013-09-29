@@ -38,7 +38,8 @@ import de.topobyte.frechet.ui.frechet.EpsilonSettable;
 import de.topobyte.livecg.geometry.geom.Chain;
 import de.topobyte.livecg.geometry.geom.Coordinate;
 
-public class LineView extends JPanel implements EpsilonSettable {
+public class LineView extends JPanel implements EpsilonSettable
+{
 
 	private static final long serialVersionUID = 9050114560510657609L;
 
@@ -52,7 +53,8 @@ public class LineView extends JPanel implements EpsilonSettable {
 
 	public LineView(int epsilon, Chain line1, Chain line2,
 			boolean pSegmentBuffers, boolean qSegmentBuffers,
-			boolean pPointBuffers, boolean qPointBuffers) {
+			boolean pPointBuffers, boolean qPointBuffers)
+	{
 		this.epsilon = epsilon;
 		this.line1 = line1;
 		this.line2 = line2;
@@ -62,7 +64,8 @@ public class LineView extends JPanel implements EpsilonSettable {
 		this.drawPointBufferQ = qPointBuffers;
 	}
 
-	public void paint(Graphics graphics) {
+	public void paint(Graphics graphics)
+	{
 		super.paint(graphics);
 		Graphics2D g = (Graphics2D) graphics;
 
@@ -81,14 +84,15 @@ public class LineView extends JPanel implements EpsilonSettable {
 	private static final int heightEpsilonBar = 10;
 
 	private void draw(Graphics2D g, Chain editable, String name,
-			boolean drawLineBuffer, boolean drawPointBuffer) {
+			boolean drawLineBuffer, boolean drawPointBuffer)
+	{
 		int n = editable.getNumberOfNodes();
 		if (n == 0) {
 			return;
 		}
 
 		int height = getHeight() - getInsets().top - getInsets().bottom;
-//		int width = getWidth() - getInsets().left - getInsets().right;
+		// int width = getWidth() - getInsets().left - getInsets().right;
 
 		if (drawEpsilon) {
 			g.setColor(colorEpsilon);
@@ -177,7 +181,8 @@ public class LineView extends JPanel implements EpsilonSettable {
 				(int) Math.round(first.getY()) - 4);
 	}
 
-	private void useAntialiasing(Graphics2D g, boolean b) {
+	private void useAntialiasing(Graphics2D g, boolean b)
+	{
 		if (b) {
 			g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 					RenderingHints.VALUE_ANTIALIAS_ON);
@@ -188,40 +193,49 @@ public class LineView extends JPanel implements EpsilonSettable {
 	}
 
 	@Override
-	public void setEpsilon(int epsilon) {
+	public void setEpsilon(int epsilon)
+	{
 		this.epsilon = epsilon;
 		repaint();
 	}
 
-	public boolean isDrawPointBufferP() {
+	public boolean isDrawPointBufferP()
+	{
 		return drawPointBufferP;
 	}
 
-	public boolean isDrawPointBufferQ() {
+	public boolean isDrawPointBufferQ()
+	{
 		return drawPointBufferQ;
 	}
 
-	public boolean isDrawSegmentBufferP() {
+	public boolean isDrawSegmentBufferP()
+	{
 		return drawSegmentBufferP;
 	}
 
-	public boolean isDrawSegmentBufferQ() {
+	public boolean isDrawSegmentBufferQ()
+	{
 		return drawSegmentBufferQ;
 	}
 
-	public void setDrawSegmentBufferP(boolean drawSegmentBufferP) {
+	public void setDrawSegmentBufferP(boolean drawSegmentBufferP)
+	{
 		this.drawSegmentBufferP = drawSegmentBufferP;
 	}
 
-	public void setDrawSegmentBufferQ(boolean drawSegmentBufferQ) {
+	public void setDrawSegmentBufferQ(boolean drawSegmentBufferQ)
+	{
 		this.drawSegmentBufferQ = drawSegmentBufferQ;
 	}
 
-	public void setDrawPointBufferP(boolean drawPointBufferP) {
+	public void setDrawPointBufferP(boolean drawPointBufferP)
+	{
 		this.drawPointBufferP = drawPointBufferP;
 	}
 
-	public void setDrawPointBufferQ(boolean drawPointBufferQ) {
+	public void setDrawPointBufferQ(boolean drawPointBufferQ)
+	{
 		this.drawPointBufferQ = drawPointBufferQ;
 	}
 

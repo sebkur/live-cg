@@ -49,7 +49,7 @@ public class Dimension
 		Dimension other = (Dimension) o;
 		return other.height == height && other.width == width;
 	}
-	
+
 	@Override
 	public String toString()
 	{

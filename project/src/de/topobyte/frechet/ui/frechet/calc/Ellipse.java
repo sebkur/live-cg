@@ -20,7 +20,7 @@ package de.topobyte.frechet.ui.frechet.calc;
 
 public class Ellipse
 {
-	
+
 	private static boolean DEBUG = false;
 
 	private final double theta;

@@ -18,15 +18,14 @@
 
 package de.topobyte.frechet.lina;
 
-
 public class Vector extends Matrix
 {
 	private final VectorType type;
 
 	public Vector(int size, VectorType type)
 	{
-		super(type == VectorType.Row ? 1 : size,
-				type == VectorType.Column ? 1 : size);
+		super(type == VectorType.Row ? 1 : size, type == VectorType.Column ? 1
+				: size);
 		this.type = type;
 	}
 
@@ -90,12 +89,12 @@ public class Vector extends Matrix
 		}
 		return Math.sqrt(sum);
 	}
-	
+
 	public double norm()
 	{
 		return Math.sqrt(this.transponate().multiplyFromRight(this).toScalar());
 	}
-	
+
 	public Vector normalized()
 	{
 		return this.multiply(1.0 / this.norm()).toVector();

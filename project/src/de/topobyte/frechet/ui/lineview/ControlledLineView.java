@@ -23,11 +23,13 @@ import java.awt.GridBagLayout;
 
 import javax.swing.JPanel;
 
-public class ControlledLineView extends JPanel {
+public class ControlledLineView extends JPanel
+{
 
 	private static final long serialVersionUID = 6013079669477474258L;
 
-	public ControlledLineView(LineView lineView) {
+	public ControlledLineView(LineView lineView)
+	{
 		super(new GridBagLayout());
 
 		LineViewControl controls = new LineViewControl(lineView);

@@ -30,13 +30,16 @@ import de.topobyte.frechet.ui.misc.Menu;
 import de.topobyte.livecg.geometry.geom.Chain;
 import de.topobyte.livecg.geometry.geom.Coordinate;
 
-public class RunLineEditor {
+public class RunLineEditor
+{
 
-	public static void main(String[] args) {
+	public static void main(String[] args)
+	{
 		runProgrammatically(true);
 	}
 
-	public static void runProgrammatically(boolean exitOnClose) {
+	public static void runProgrammatically(boolean exitOnClose)
+	{
 		BasicConfigurator.configure();
 
 		JFrame frame = new JFrame();

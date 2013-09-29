@@ -25,11 +25,13 @@ import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
-public class LineViewControl extends JPanel {
+public class LineViewControl extends JPanel
+{
 
 	private static final long serialVersionUID = 8617637401144584172L;
 
-	public LineViewControl(final LineView lineView) {
+	public LineViewControl(final LineView lineView)
+	{
 		setBorder(new TitledBorder("Buffers"));
 		final JCheckBox checkPointP = new JCheckBox("points p");
 		final JCheckBox checkPointQ = new JCheckBox("points q");
@@ -48,7 +50,8 @@ public class LineViewControl extends JPanel {
 		checkPointP.addActionListener(new ActionListener() {
 
 			@Override
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(ActionEvent e)
+			{
 				lineView.setDrawPointBufferP(checkPointP.isSelected());
 				lineView.repaint();
 			}
@@ -56,7 +59,8 @@ public class LineViewControl extends JPanel {
 		checkPointQ.addActionListener(new ActionListener() {
 
 			@Override
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(ActionEvent e)
+			{
 				lineView.setDrawPointBufferQ(checkPointQ.isSelected());
 				lineView.repaint();
 			}
@@ -64,7 +68,8 @@ public class LineViewControl extends JPanel {
 		checkLineP.addActionListener(new ActionListener() {
 
 			@Override
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(ActionEvent e)
+			{
 				lineView.setDrawSegmentBufferP(checkLineP.isSelected());
 				lineView.repaint();
 			}
@@ -72,7 +77,8 @@ public class LineViewControl extends JPanel {
 		checkLineQ.addActionListener(new ActionListener() {
 
 			@Override
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(ActionEvent e)
+			{
 				lineView.setDrawSegmentBufferQ(checkLineQ.isSelected());
 				lineView.repaint();
 			}
