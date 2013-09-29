@@ -33,15 +33,15 @@ import org.slf4j.LoggerFactory;
 import de.topobyte.livecg.geometry.io.ContentReader;
 import de.topobyte.livecg.ui.geometryeditor.object.ObjectDialog;
 
-public class RunGeometryEditor
+public class LiveCG
 {
 
 	static final Logger logger = LoggerFactory
-			.getLogger(RunGeometryEditor.class);
+			.getLogger(LiveCG.class);
 
 	public static void main(String[] args)
 	{
-		final RunGeometryEditor runner = new RunGeometryEditor();
+		final LiveCG runner = new LiveCG();
 
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run()
@@ -60,7 +60,7 @@ public class RunGeometryEditor
 	private JFrame frame;
 	private ObjectDialog objectDialog;
 
-	public RunGeometryEditor()
+	public LiveCG()
 	{
 		BasicConfigurator.configure();
 
