@@ -74,7 +74,7 @@ public class RunGeometryEditor
 			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		}
 
-		frame.setTitle("Line Editor");
+		frame.setTitle("Live CG");
 
 		GeometryEditor lineEditor = new GeometryEditor();
 		Menu menu = new Menu(lineEditor.getEditPane(), lineEditor.getEditPane());
