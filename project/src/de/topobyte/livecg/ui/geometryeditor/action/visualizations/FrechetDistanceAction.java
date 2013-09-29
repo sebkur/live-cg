@@ -19,6 +19,7 @@ package de.topobyte.livecg.ui.geometryeditor.action.visualizations;
 
 import java.awt.event.ActionEvent;
 
+import de.topobyte.frechet.ui.lineeditor.RunDualLineEditor;
 import de.topobyte.livecg.ui.geometryeditor.GeometryEditPane;
 import de.topobyte.livecg.ui.geometryeditor.action.BasicAction;
 
@@ -41,7 +42,7 @@ public class FrechetDistanceAction extends BasicAction
 	@Override
 	public void actionPerformed(ActionEvent event)
 	{
-		// TODO: implement
+		RunDualLineEditor.runProgrammatically(false);
 	}
 
 }

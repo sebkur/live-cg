@@ -20,11 +20,13 @@ package de.topobyte.livecg.ui.geometryeditor;
 
 import java.awt.event.KeyEvent;
 
+import javax.swing.Icon;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.KeyStroke;
 
+import de.topobyte.fortune.sweep.gui.swing.ImageLoader;
 import de.topobyte.livecg.ui.geometryeditor.action.MouseAction;
 import de.topobyte.livecg.ui.geometryeditor.action.NewAction;
 import de.topobyte.livecg.ui.geometryeditor.action.OpenAction;
@@ -46,7 +48,8 @@ public class Menu extends JMenuBar
 
 	private static final long serialVersionUID = -7983876851509766368L;
 
-	public Menu(LiveCG liveCG, GeometryEditPane editPane, MouseModeProvider mouseModeProvider)
+	public Menu(LiveCG liveCG, GeometryEditPane editPane,
+			MouseModeProvider mouseModeProvider)
 	{
 		JMenu file = new JMenu("File");
 		JMenu tools = new JMenu("Tools");
@@ -68,10 +71,12 @@ public class Menu extends JMenuBar
 		window.setMnemonic('W');
 		help.setMnemonic('H');
 
+		Icon folder = ImageLoader.load("res/images/24x24/folder.png");
+
 		/*
 		 * File
 		 */
-		
+
 		JMenuItem exit = new JMenuItem(new ExitAction());
 		JMenuItem newDocuemnt = new JMenuItem(new NewAction(editPane));
 		JMenuItem openDocuemnt = new JMenuItem(new OpenAction(this, editPane));
@@ -93,7 +98,7 @@ public class Menu extends JMenuBar
 		/*
 		 * Tools
 		 */
-		
+
 		for (MouseMode mode : new MouseMode[] { MouseMode.SELECT_MOVE,
 				MouseMode.SELECT_RECTANGULAR, MouseMode.EDIT, MouseMode.DELETE }) {
 			MouseAction mouseAction = new MouseAction(
@@ -126,7 +131,7 @@ public class Menu extends JMenuBar
 		/*
 		 * Edit
 		 */
-		
+
 		JMenuItem selectNothing = new JMenuItem(new SelectNothingAction(
 				editPane));
 		JMenuItem selectEverything = new JMenuItem(
@@ -142,23 +147,31 @@ public class Menu extends JMenuBar
 		/*
 		 * Visualizations
 		 */
-		
-		JMenuItem fortunesSweep = new JMenuItem(new FortunesSweepAction(editPane));
-		JMenuItem frechetDistance = new JMenuItem(new FrechetDistanceAction(editPane));
+
+		JMenuItem fortunesSweep = new JMenuItem(new FortunesSweepAction(
+				editPane));
+		JMenu frechet = new JMenu("Fréchet distance");
+		frechet.setIcon(folder);
+		JMenuItem frechetDistance = new JMenuItem(new FrechetDistanceAction(
+				editPane));
+
 		visualizations.add(fortunesSweep);
-		visualizations.add(frechetDistance);
-		
+		visualizations.add(frechet);
+
+		frechet.add(frechetDistance);
+
 		/*
 		 * Window
 		 */
-		
-		JMenuItem showObjectDialog = new JMenuItem(new ShowObjectDialogAction(liveCG));
+
+		JMenuItem showObjectDialog = new JMenuItem(new ShowObjectDialogAction(
+				liveCG));
 		window.add(showObjectDialog);
-		
+
 		/*
 		 * Help
 		 */
-		
+
 		JMenuItem about = new JMenuItem(new AboutAction());
 		JMenuItem license = new JMenuItem(new LicenseAction());
 		help.add(about);
