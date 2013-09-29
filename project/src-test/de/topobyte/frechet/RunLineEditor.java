@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.topobyte.frechet.ui.lineeditor;
+package de.topobyte.frechet;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -26,6 +26,7 @@ import javax.swing.JPanel;
 
 import org.apache.log4j.BasicConfigurator;
 
+import de.topobyte.frechet.ui.lineeditor.LineEditor;
 import de.topobyte.frechet.ui.misc.Menu;
 import de.topobyte.livecg.geometry.geom.Chain;
 import de.topobyte.livecg.geometry.geom.Coordinate;
