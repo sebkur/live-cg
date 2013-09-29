@@ -31,6 +31,7 @@ import de.topobyte.livecg.ui.geometryeditor.action.OpenAction;
 import de.topobyte.livecg.ui.geometryeditor.action.SaveAction;
 import de.topobyte.livecg.ui.geometryeditor.action.SelectAllAction;
 import de.topobyte.livecg.ui.geometryeditor.action.SelectNothingAction;
+import de.topobyte.livecg.ui.geometryeditor.action.ShowObjectDialogAction;
 import de.topobyte.livecg.ui.geometryeditor.action.visualizations.FortunesSweepAction;
 import de.topobyte.livecg.ui.geometryeditor.action.visualizations.FrechetDistanceAction;
 import de.topobyte.livecg.ui.geometryeditor.mousemode.MouseMode;
@@ -45,23 +46,26 @@ public class Menu extends JMenuBar
 
 	private static final long serialVersionUID = -7983876851509766368L;
 
-	public Menu(GeometryEditPane editPane, MouseModeProvider mouseModeProvider)
+	public Menu(LiveCG liveCG, GeometryEditPane editPane, MouseModeProvider mouseModeProvider)
 	{
 		JMenu file = new JMenu("File");
 		JMenu tools = new JMenu("Tools");
 		JMenu edit = new JMenu("Edit");
 		JMenu visualizations = new JMenu("Visualizations");
+		JMenu window = new JMenu("Window");
 		JMenu help = new JMenu("Help");
 		add(file);
 		add(tools);
 		add(edit);
 		add(visualizations);
+		add(window);
 		add(help);
 
 		file.setMnemonic('F');
 		tools.setMnemonic('T');
 		edit.setMnemonic('E');
 		visualizations.setMnemonic('V');
+		window.setMnemonic('W');
 		help.setMnemonic('H');
 
 		/*
@@ -143,6 +147,13 @@ public class Menu extends JMenuBar
 		JMenuItem frechetDistance = new JMenuItem(new FrechetDistanceAction(editPane));
 		visualizations.add(fortunesSweep);
 		visualizations.add(frechetDistance);
+		
+		/*
+		 * Window
+		 */
+		
+		JMenuItem showObjectDialog = new JMenuItem(new ShowObjectDialogAction(liveCG));
+		window.add(showObjectDialog);
 		
 		/*
 		 * Help

@@ -77,7 +77,7 @@ public class LiveCG
 		frame.setTitle("Live CG");
 
 		GeometryEditor lineEditor = new GeometryEditor();
-		Menu menu = new Menu(lineEditor.getEditPane(), lineEditor.getEditPane());
+		Menu menu = new Menu(this, lineEditor.getEditPane(), lineEditor.getEditPane());
 		Toolbar toolbar = new Toolbar(lineEditor.getEditPane(),
 				lineEditor.getEditPane());
 
@@ -131,5 +131,10 @@ public class LiveCG
 			logger.debug("Message: " + e.getMessage());
 		}
 
+	}
+
+	public void showObjectDialog()
+	{
+		objectDialog.setVisible(true);
 	}
 }
