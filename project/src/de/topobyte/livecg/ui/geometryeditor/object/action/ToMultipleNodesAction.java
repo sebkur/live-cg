@@ -31,7 +31,7 @@ public class ToMultipleNodesAction extends BasicAction
 {
 
 	private static final long serialVersionUID = 7889373981786617466L;
-	
+
 	private GeometryEditPane editPane;
 	private Node node;
 

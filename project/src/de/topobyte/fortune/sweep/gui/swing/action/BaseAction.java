@@ -6,7 +6,6 @@ import javax.swing.Icon;
 
 import de.topobyte.fortune.sweep.gui.swing.ImageLoader;
 
-
 public abstract class BaseAction extends AbstractAction
 {
 

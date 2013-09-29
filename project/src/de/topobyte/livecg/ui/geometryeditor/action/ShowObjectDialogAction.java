@@ -25,7 +25,7 @@ public class ShowObjectDialogAction extends BasicAction
 {
 
 	private static final long serialVersionUID = -2428195809704521270L;
-	
+
 	private LiveCG liveCG;
 
 	public ShowObjectDialogAction(LiveCG liveCG)

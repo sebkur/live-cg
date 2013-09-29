@@ -68,7 +68,7 @@ public class FortunesSweepAction extends BasicAction
 
 		SwingFortune swingFortune = new SwingFortune();
 		swingFortune.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		
+
 		List<Point> sites = new ArrayList<Point>();
 		for (Node node : nodes) {
 			Coordinate c = node.getCoordinate();

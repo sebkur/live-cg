@@ -62,23 +62,23 @@ public class ToPolygonAction extends BasicAction
 			}
 			shell = chain;
 		}
-		
+
 		if (shell == null) {
 			return;
 		}
-		
+
 		List<Chain> holes = ListUtil.copy(chains);
 		holes.remove(shell);
 		Polygon polygon = new Polygon(shell, holes);
-		
+
 		Content content = editPane.getContent();
 		content.removeChain(shell);
 		editPane.removeCurrentChain(shell);
 		for (Chain chain : holes) {
-			content.removeChain(chain);	
+			content.removeChain(chain);
 			editPane.removeCurrentChain(chain);
 		}
-		
+
 		content.addPolygon(polygon);
 		content.fireContentChanged();
 	}

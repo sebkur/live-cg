@@ -25,7 +25,6 @@ import de.topobyte.fortune.sweep.gui.swing.action.QuitAction;
 import de.topobyte.fortune.sweep.gui.swing.action.SaveAction;
 import de.topobyte.fortune.sweep.gui.swing.eventqueue.EventQueueDialog;
 
-
 public class SwingFortune extends JFrame implements Runnable
 {
 
@@ -142,7 +141,8 @@ public class SwingFortune extends JFrame implements Runnable
 
 		eventQueueDialog = new EventQueueDialog(this, algorithm);
 		eventQueueDialog.setVisible(true);
-		eventQueueDialog.setLocation(getX() + getWidth(), (int) getLocation().getY());
+		eventQueueDialog.setLocation(getX() + getWidth(), (int) getLocation()
+				.getY());
 
 		/*
 		 * Start thread

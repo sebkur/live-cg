@@ -13,7 +13,6 @@ import de.topobyte.fortune.sweep.gui.core.AlgorithmPainter;
 import de.topobyte.fortune.sweep.gui.core.Config;
 import de.topobyte.fortune.sweep.gui.swing.AwtPainter;
 
-
 public class GraphicsExporter
 {
 

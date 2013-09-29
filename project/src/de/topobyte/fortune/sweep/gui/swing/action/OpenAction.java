@@ -57,7 +57,8 @@ public class OpenAction extends SwingFortuneAction
 				// ignore
 			}
 			List<Point> sites = new ArrayList<Point>();
-			for (de.topobyte.fortune.pointset.Point point : pointSet.getPoints()) {
+			for (de.topobyte.fortune.pointset.Point point : pointSet
+					.getPoints()) {
 				sites.add(new Point(point.getX(), point.getY()));
 			}
 			swingFortune.getAlgorithm().setSites(sites);

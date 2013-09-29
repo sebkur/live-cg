@@ -27,7 +27,7 @@ public class FrechetDistanceAction extends BasicAction
 {
 
 	private static final long serialVersionUID = -2630257708226818189L;
-	
+
 	private GeometryEditPane editPane;
 
 	public FrechetDistanceAction(GeometryEditPane editPane)

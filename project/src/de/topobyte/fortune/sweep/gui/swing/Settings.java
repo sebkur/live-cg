@@ -11,7 +11,6 @@ import javax.swing.JToolBar;
 
 import de.topobyte.fortune.sweep.gui.core.Config;
 
-
 public class Settings extends JToolBar implements ItemListener
 {
 
@@ -26,16 +25,16 @@ public class Settings extends JToolBar implements ItemListener
 	private static final String TEXT_BEACHLINE = "Beachline";
 	private static final String TEXT_VORONOI = "Voronoi diagram";
 	private static final String TEXT_DELAUNAY = "Delaunay triangulation";
-	
+
 	private static final String TEXT_ADD_RANDOM = "Add random points";
 
 	public Settings(Canvas canvas, Config config)
 	{
 		this.canvas = canvas;
 		this.config = config;
-		
+
 		setFloatable(false);
-		
+
 		String as[] = { TEXT_CIRCLES, TEXT_BEACHLINE, TEXT_VORONOI,
 				TEXT_DELAUNAY };
 
@@ -50,12 +49,12 @@ public class Settings extends JToolBar implements ItemListener
 		buttons[1].setSelected(config.isDrawBeach());
 		buttons[2].setSelected(config.isDrawVoronoiLines());
 		buttons[3].setSelected(config.isDrawDelaunay());
-		
+
 		JButton buttonRandom = new JButton(TEXT_ADD_RANDOM);
 		add(buttonRandom);
-		
+
 		buttonRandom.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{

@@ -14,7 +14,6 @@ import de.topobyte.fortune.sweep.gui.core.Config;
 import de.topobyte.fortune.sweep.gui.swing.FileFilterSvg;
 import de.topobyte.fortune.sweep.gui.swing.SwingFortune;
 
-
 public class ExportSvgAction extends SwingFortuneAction
 {
 

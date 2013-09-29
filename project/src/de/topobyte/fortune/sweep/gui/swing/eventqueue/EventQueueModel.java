@@ -9,7 +9,6 @@ import de.topobyte.fortune.sweep.events.EventQueue;
 import de.topobyte.fortune.sweep.events.EventQueueListener;
 import de.topobyte.fortune.sweep.events.SitePoint;
 
-
 public class EventQueueModel extends AbstractListModel implements
 		EventQueueListener
 {

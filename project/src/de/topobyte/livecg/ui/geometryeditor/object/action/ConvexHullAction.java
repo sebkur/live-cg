@@ -119,15 +119,14 @@ public class ConvexHullAction extends BasicAction
 	private void add(List<com.vividsolutions.jts.geom.Coordinate> coordinates,
 			com.vividsolutions.jts.geom.Coordinate c)
 	{
-		// Do not add equal coordinates twice because JTS gets a hiccup in that case
+		// Do not add equal coordinates twice because JTS gets a hiccup in that
+		// case
 		for (com.vividsolutions.jts.geom.Coordinate o : coordinates) {
 			if (o.x == c.x && o.y == c.y) {
 				return;
 			}
 		}
-		coordinates.add(c);	
+		coordinates.add(c);
 	}
-	
-	
 
 }

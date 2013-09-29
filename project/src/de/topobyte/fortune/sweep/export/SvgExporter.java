@@ -21,7 +21,6 @@ import de.topobyte.fortune.sweep.export.svg.SvgPainter;
 import de.topobyte.fortune.sweep.gui.core.AlgorithmPainter;
 import de.topobyte.fortune.sweep.gui.core.Config;
 
-
 public class SvgExporter
 {
 
@@ -72,10 +71,10 @@ public class SvgExporter
 		svgRoot.setAttributeNS(null, "height", Integer.toString(height));
 
 		SvgPainter painter = new SvgPainter(doc, svgRoot);
-		
+
 		AlgorithmPainter algorithmPainter = new AlgorithmPainter(algorithm,
 				config, painter);
-		
+
 		algorithmPainter.setWidth(width);
 		algorithmPainter.setHeight(height);
 		algorithmPainter.paint();
@@ -88,11 +87,12 @@ public class SvgExporter
 		StreamResult result = new StreamResult(fos);
 
 		transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "no");
-	    transformer.setOutputProperty(OutputKeys.METHOD, "xml");
-	    transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-	    transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
-	    transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
-		
+		transformer.setOutputProperty(OutputKeys.METHOD, "xml");
+		transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+		transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+		transformer.setOutputProperty(
+				"{http://xml.apache.org/xslt}indent-amount", "4");
+
 		transformer.transform(source, result);
 
 		fos.close();

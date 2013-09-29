@@ -42,8 +42,7 @@ public class PolygonalChainPanel extends JPanel
 		this.chain = chain;
 		setLayout(new GridBagLayout());
 		label = new JLabel();
-		actionPanel = new PolygonalChainActionPanel(
-				editPane, chain);
+		actionPanel = new PolygonalChainActionPanel(editPane, chain);
 
 		GridBagConstraints c = new GridBagConstraints();
 

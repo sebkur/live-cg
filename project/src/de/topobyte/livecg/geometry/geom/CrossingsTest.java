@@ -37,7 +37,7 @@ public class CrossingsTest
 
 		int n = ring.getNumberOfNodes();
 
-		Coordinate c0 = ring.getCoordinate(n-1);
+		Coordinate c0 = ring.getCoordinate(n - 1);
 		Coordinate c1 = ring.getCoordinate(0);
 
 		boolean yflag0 = (c0.y >= ty);

@@ -16,7 +16,6 @@ import de.topobyte.fortune.sweep.geometry.Point;
 import de.topobyte.fortune.sweep.gui.swing.FileFilterPointSet;
 import de.topobyte.fortune.sweep.gui.swing.SwingFortune;
 
-
 public class SaveAction extends SwingFortuneAction
 {
 
@@ -46,8 +45,8 @@ public class SaveAction extends SwingFortuneAction
 		List<Point> sites = swingFortune.getAlgorithm().getSites();
 		PointSet pointSet = new PointSet();
 		for (Point site : sites) {
-			de.topobyte.fortune.pointset.Point point = new de.topobyte.fortune.pointset.Point(site.getX(),
-					site.getY());
+			de.topobyte.fortune.pointset.Point point = new de.topobyte.fortune.pointset.Point(
+					site.getX(), site.getY());
 			pointSet.add(point);
 		}
 		try {

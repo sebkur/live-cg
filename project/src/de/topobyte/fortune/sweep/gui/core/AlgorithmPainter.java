@@ -16,7 +16,6 @@ import de.topobyte.fortune.sweep.events.EventQueue;
 import de.topobyte.fortune.sweep.geometry.Edge;
 import de.topobyte.fortune.sweep.geometry.Point;
 
-
 public class AlgorithmPainter
 {
 
@@ -247,7 +246,7 @@ public class AlgorithmPainter
 		double y1 = yTop;
 		// draw at least one segment to avoid gaps in corner cases
 		boolean firstSegment = true;
-		
+
 		List<Coordinate> coords = new ArrayList<Coordinate>();
 		coords.add(new Coordinate(x1, y1));
 		// loop over y values

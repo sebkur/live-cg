@@ -11,7 +11,6 @@ import de.topobyte.fortune.sweep.gui.core.Color;
 import de.topobyte.fortune.sweep.gui.core.Coordinate;
 import de.topobyte.fortune.sweep.gui.core.Painter;
 
-
 public class SvgPainter implements Painter
 {
 	private String svgNS = SVGDOMImplementation.SVG_NAMESPACE_URI;

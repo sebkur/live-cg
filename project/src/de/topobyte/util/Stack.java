@@ -11,12 +11,12 @@ public class Stack<T> extends ArrayList<T>
 	{
 		add(data);
 	}
-	
+
 	public T top()
 	{
 		return get(size() - 1);
 	}
-	
+
 	public T pop()
 	{
 		return remove(size() - 1);

@@ -8,7 +8,7 @@ public class Color
 	{
 		this.rgb = rgb;
 	}
-	
+
 	public int getRGB()
 	{
 		return rgb;

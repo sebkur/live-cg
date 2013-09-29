@@ -13,7 +13,6 @@ import javax.swing.JComponent;
 import de.topobyte.fortune.sweep.Algorithm;
 import de.topobyte.fortune.sweep.AlgorithmWatcher;
 
-
 public class SweepControl extends JComponent implements AlgorithmWatcher
 {
 

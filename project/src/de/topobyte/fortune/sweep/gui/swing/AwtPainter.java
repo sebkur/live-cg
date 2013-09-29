@@ -7,7 +7,6 @@ import de.topobyte.fortune.sweep.gui.core.Color;
 import de.topobyte.fortune.sweep.gui.core.Coordinate;
 import de.topobyte.fortune.sweep.gui.core.Painter;
 
-
 public class AwtPainter implements Painter
 {
 

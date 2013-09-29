@@ -14,7 +14,7 @@ public abstract class AbstractArcNodeVisitor implements ArcNodeVisitor
 	public void arc(ArcNode current, ArcNode next, double y1, double y2,
 			double sweepX)
 	{
-		// ignore		
+		// ignore
 	}
 
 }

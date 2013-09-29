@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import de.topobyte.fortune.sweep.geometry.Edge;
 
-
 public class Delaunay extends ArrayList<Edge>
 {
 

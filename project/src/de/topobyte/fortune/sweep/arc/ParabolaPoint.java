@@ -38,8 +38,7 @@ public class ParabolaPoint extends Point
 		return c;
 	}
 
-	public CirclePoint calculateCenter(Point next, ArcNode arcnode,
-			Point prev)
+	public CirclePoint calculateCenter(Point next, ArcNode arcnode, Point prev)
 	{
 		CirclePoint circlepoint = null;
 		Point p1 = new Point(arcnode.getX() - next.getX(), arcnode.getY()

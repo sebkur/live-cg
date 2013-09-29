@@ -16,7 +16,6 @@ import de.topobyte.fortune.sweep.geometry.Edge;
 import de.topobyte.fortune.sweep.geometry.Point;
 import de.topobyte.util.Stack;
 
-
 public class Algorithm
 {
 	private static final int PLAY_N_PIXELS_BEYOND_SCREEN = 1000;

@@ -41,8 +41,9 @@ public class PolygonPanel extends JPanel
 		setLayout(new GridBagLayout());
 		label = new JLabel();
 
-		PolygonActionPanel actionPanel = new PolygonActionPanel(editPane, polygon);
-		
+		PolygonActionPanel actionPanel = new PolygonActionPanel(editPane,
+				polygon);
+
 		GridBagConstraints c = new GridBagConstraints();
 		c.anchor = GridBagConstraints.LINE_START;
 

@@ -36,8 +36,7 @@ import de.topobyte.livecg.ui.geometryeditor.object.ObjectDialog;
 public class LiveCG
 {
 
-	static final Logger logger = LoggerFactory
-			.getLogger(LiveCG.class);
+	static final Logger logger = LoggerFactory.getLogger(LiveCG.class);
 
 	public static void main(String[] args)
 	{
@@ -77,7 +76,8 @@ public class LiveCG
 		frame.setTitle("Live CG");
 
 		GeometryEditor lineEditor = new GeometryEditor();
-		Menu menu = new Menu(this, lineEditor.getEditPane(), lineEditor.getEditPane());
+		Menu menu = new Menu(this, lineEditor.getEditPane(),
+				lineEditor.getEditPane());
 		Toolbar toolbar = new Toolbar(lineEditor.getEditPane(),
 				lineEditor.getEditPane());
 

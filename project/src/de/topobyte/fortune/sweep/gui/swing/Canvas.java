@@ -15,7 +15,6 @@ import de.topobyte.fortune.sweep.geometry.Point;
 import de.topobyte.fortune.sweep.gui.core.AlgorithmPainter;
 import de.topobyte.fortune.sweep.gui.core.Config;
 
-
 public class Canvas extends JPanel implements AlgorithmWatcher
 {
 

@@ -8,7 +8,6 @@ import java.util.Map;
 import de.topobyte.fortune.sweep.geometry.Edge;
 import de.topobyte.fortune.sweep.geometry.Point;
 
-
 public class Voronoi
 {
 	private List<Point> sites = new ArrayList<Point>();

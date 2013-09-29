@@ -86,7 +86,7 @@ public class ArcNode extends ParabolaPoint
 			startOfTrace = null;
 		}
 	}
-	
+
 	public void uncompleteTrace()
 	{
 		startOfTrace = startOfTraceBackup.pop();

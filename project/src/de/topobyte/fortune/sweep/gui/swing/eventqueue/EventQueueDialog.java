@@ -10,7 +10,6 @@ import javax.swing.JScrollPane;
 
 import de.topobyte.fortune.sweep.Algorithm;
 
-
 public class EventQueueDialog extends JDialog
 {
 

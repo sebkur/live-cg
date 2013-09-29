@@ -6,7 +6,6 @@ import java.util.List;
 import de.topobyte.fortune.sweep.Algorithm;
 import de.topobyte.fortune.sweep.events.EventQueueModification.Type;
 
-
 public class HistoryEventQueue extends EventQueue
 {
 
@@ -124,7 +123,7 @@ public class HistoryEventQueue extends EventQueue
 
 		return modification;
 	}
-	
+
 	public void clear()
 	{
 		super.clear();

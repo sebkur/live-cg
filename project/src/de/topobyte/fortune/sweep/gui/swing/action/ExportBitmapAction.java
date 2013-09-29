@@ -13,7 +13,6 @@ import de.topobyte.fortune.sweep.gui.core.Config;
 import de.topobyte.fortune.sweep.gui.swing.FileFilterBitmap;
 import de.topobyte.fortune.sweep.gui.swing.SwingFortune;
 
-
 public class ExportBitmapAction extends SwingFortuneAction
 {
 

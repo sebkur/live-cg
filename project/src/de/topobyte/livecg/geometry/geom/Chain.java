@@ -93,7 +93,7 @@ public class Chain
 	{
 		nodes.set(i, node);
 	}
-	
+
 	public void setCoordinate(int i, Coordinate coordinate)
 	{
 		nodes.get(i).setCoordinate(coordinate);

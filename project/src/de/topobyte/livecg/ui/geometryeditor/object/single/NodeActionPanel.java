@@ -47,7 +47,7 @@ public class NodeActionPanel extends JPanel
 		toMultipleNodes = new JButton(toMultipleNodesAction);
 		toMultipleNodes.setMargin(new Insets(0, 0, 0, 0));
 		toMultipleNodes.setText(null);
-		
+
 		toMultipleNodesAction.setEnabled(node.getChains().size() > 1);
 
 		c.fill = GridBagConstraints.BOTH;
