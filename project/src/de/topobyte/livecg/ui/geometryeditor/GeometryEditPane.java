@@ -86,8 +86,9 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 		InputMap inputMap = getInputMap(WHEN_IN_FOCUSED_WINDOW);
 		ActionMap actionMap = getActionMap();
 
-		inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_O,
-				InputEvent.CTRL_DOWN_MASK | InputEvent.SHIFT_MASK), "c-o");
+		inputMap.put(
+				KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_DOWN_MASK
+						| InputEvent.SHIFT_MASK), "c-o");
 
 		OpenCloseRingAction openCloseRingAction = new OpenCloseRingAction(this);
 
@@ -299,7 +300,10 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 		useAntialiasing(g, true);
 		for (int i = 0; i < polygons.size(); i++) {
 			Polygon polygon = polygons.get(i);
-			drawExterior(g, polygon);
+			if (currentPolygons.contains(polygon)) {
+				continue;
+			}
+			drawExterior(g, polygon, colorChainLines, colorChainPoints);
 		}
 		useAntialiasing(g, false);
 
@@ -324,8 +328,8 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 
 		if (currentPolygons.size() > 0) {
 			for (Polygon polygon : currentPolygons) {
-				draw(g, polygon.getShell(), colorEditingChainLines,
-						colorEditingChainPoints, null);
+				drawExterior(g, polygon, colorEditingChainLines,
+						colorEditingChainPoints);
 			}
 		}
 
@@ -390,7 +394,7 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 		return new Character((char) ('A' + i)).toString();
 	}
 
-	private void draw(Graphics2D g, Chain chain, Color colorLine,
+	private void draw(Graphics2D g, Chain chain, Color colorLines,
 			Color colorPoints, String name)
 	{
 		int n = chain.getNumberOfNodes();
@@ -400,7 +404,7 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 
 		// line segments
 		useAntialiasing(g, true);
-		g.setColor(colorLine);
+		g.setColor(colorLines);
 		g.setStroke(new BasicStroke(1.0f));
 		Coordinate last = chain.getCoordinate(0);
 		for (int i = 1; i < n; i++) {
@@ -476,14 +480,15 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 		g.fill(area);
 	}
 
-	private void drawExterior(Graphics2D g, Polygon polygon)
+	private void drawExterior(Graphics2D g, Polygon polygon, Color colorLines,
+			Color colorPoints)
 	{
 		if (currentChains.contains(polygon.getShell())) {
 			return;
 		}
-		draw(g, polygon.getShell(), colorChainLines, colorChainPoints, null);
+		draw(g, polygon.getShell(), colorLines, colorPoints, null);
 		for (Chain hole : polygon.getHoles()) {
-			draw(g, hole, colorChainLines, colorChainPoints, null);
+			draw(g, hole, colorLines, colorPoints, null);
 		}
 	}
 
@@ -537,7 +542,7 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 		}
 		return false;
 	}
-	
+
 	public Node getMouseHighlightNode()
 	{
 		return mouseHighlightNode;
