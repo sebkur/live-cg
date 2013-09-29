@@ -70,6 +70,13 @@
 		</jar>
 	</target>
 
+	<target name="dist-testing" depends="compile" description="generate the distribution">
+		<jar jarfile="${dist}/livecg-testing.jar" basedir="${build.main}">
+			<fileset dir="." includes="res/**"/>
+			<fileset dir="${build.test}" includes="**"/>
+		</jar>
+	</target>
+
 	<target name="clean" description="clean up">
 		<delete dir="${build}" />
 		<delete dir="${dist}" />
