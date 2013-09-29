@@ -20,23 +20,19 @@ package de.topobyte.livecg.ui.geometryeditor.action.visualizations;
 import java.awt.event.ActionEvent;
 
 import de.topobyte.frechet.ui.lineeditor.RunDualLineEditor;
-import de.topobyte.livecg.ui.geometryeditor.GeometryEditPane;
 import de.topobyte.livecg.ui.geometryeditor.action.BasicAction;
 
-public class FrechetDistanceAction extends BasicAction
+public class FrechetDistanceLinesAction extends BasicAction
 {
 
 	private static final long serialVersionUID = -2630257708226818189L;
 
-	private GeometryEditPane editPane;
-
-	public FrechetDistanceAction(GeometryEditPane editPane)
+	public FrechetDistanceLinesAction()
 	{
 		super(
-				"Fréchet Distance",
+				"Fréchet Distance (lines)",
 				"Visualize the Free Space Diagram used to compute the Fréchet Distance",
 				"res/images/24x24/way.png");
-		this.editPane = editPane;
 	}
 
 	@Override
