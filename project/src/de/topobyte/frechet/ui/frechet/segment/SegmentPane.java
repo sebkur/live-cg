@@ -36,7 +36,7 @@ public class SegmentPane extends JPanel implements LineChangeListener,
 
 	public SegmentPane(int epsilon)
 	{
-		painter = new FreeSpacePainter(epsilon);
+		painter = new FreeSpacePainter(epsilon, false, true);
 	}
 
 	public void setEpsilon(int eps)

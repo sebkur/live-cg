@@ -21,6 +21,7 @@ package de.topobyte.frechet.ui.frechet.segment;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.NoninvertibleTransformException;
 
@@ -47,11 +48,16 @@ public class FreeSpacePainter implements EpsilonSettable
 
 	private Color colorBackground = new Color(0x333333);
 	private Color colorFreeSpace = new Color(0xFFFFFF);
-	private Color colorFreeSpaceOuter = new Color(0xAAAAAA);
 
-	public FreeSpacePainter(int epsilon)
+	private boolean drawBorder;
+	private boolean drawAxisIntersection;
+
+	public FreeSpacePainter(int epsilon, boolean drawBorder,
+			boolean drawAxisIntersection)
 	{
 		this.epsilon = epsilon;
+		this.drawBorder = drawBorder;
+		this.drawAxisIntersection = drawAxisIntersection;
 	}
 
 	public void setSize(int width, int height)
@@ -87,17 +93,11 @@ public class FreeSpacePainter implements EpsilonSettable
 			System.out.println("clip: " + g.getClip());
 		}
 
+		AffineTransform transform = new AffineTransform(g.getTransform());
+		Shape clip = g.getClip();
+
 		g.setColor(colorBackground);
 		g.fillRect(0, 0, width, height);
-
-		AffineTransform transform = new AffineTransform(g.getTransform());
-		// transform.translate(10, 50);
-		// g.setTransform(transform);
-
-		g.setColor(Color.BLACK);
-		g.drawRect(0, 0, width, height);
-
-		g.setColor(colorFreeSpace);
 
 		Vector a = seg1.getDirection();
 		Vector b = seg1.getStart();
@@ -125,39 +125,38 @@ public class FreeSpacePainter implements EpsilonSettable
 			}
 		}
 
-		// g.setClip(null);
-
-		AffineTransform tx = new AffineTransform(g.getTransform());
+		AffineTransform tx = new AffineTransform(transform);
 		tx.translate(0, height); // coordinate system vertical flip
 		tx.scale(1, -1); // coordinate system vertical flip
 		tx.scale(width, height); // scale from [0..1] to full panel size
 		tx.concatenate(f); // apply the inverse of f to g to draw the ellipse
 
-		// fill the arc
-		g.setColor(colorFreeSpaceOuter);
-		g.setTransform(tx);
-		g.fillArc(-epsilon, -epsilon, 2 * epsilon, 2 * epsilon, 0, 360);
-
 		// set clip bounds
 		g.setTransform(transform);
 		g.clipRect(0, 0, width, height);
 
-		// fill the arc again
-		g.setColor(colorFreeSpace);
+		// fill the arc
 		g.setTransform(tx);
+		g.setColor(colorFreeSpace);
 		g.fillArc(-epsilon, -epsilon, 2 * epsilon, 2 * epsilon, 0, 360);
 
-		// draw the boundaries again
-		// g.setClip(null);
 		g.setTransform(transform);
-		g.setColor(Color.BLACK);
-		g.drawRect(0, 0, width, height);
+		g.setClip(clip);
 
-		// find the limits of the free space on the axes
-		Interval intervalP = makeAxis(c, d, a, b);
-		Interval intervalQ = makeAxis(a, b, c, d);
-		drawHorizontalInterval(g, intervalP, width, height);
-		drawVerticalInterval(g, intervalQ, width, height);
+		if (drawBorder) {
+			// draw the boundaries again
+			g.setColor(Color.BLACK);
+			g.drawRect(0, 0, width, height);
+		}
+
+		if (drawAxisIntersection) {
+			// find the limits of the free space on the axes
+			g.setColor(Color.BLACK);
+			Interval intervalP = makeAxis(c, d, a, b);
+			Interval intervalQ = makeAxis(a, b, c, d);
+			drawHorizontalInterval(g, intervalP, width, height);
+			drawVerticalInterval(g, intervalQ, width, height);
+		}
 	}
 
 	private void drawHorizontalInterval(Graphics2D g, Interval intervalP,

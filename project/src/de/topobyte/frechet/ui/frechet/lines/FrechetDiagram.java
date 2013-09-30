@@ -19,17 +19,16 @@
 package de.topobyte.frechet.ui.frechet.lines;
 
 import java.awt.Color;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.util.ArrayList;
-import java.util.List;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Shape;
+import java.awt.geom.AffineTransform;
 
-import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
 import de.topobyte.frechet.ui.frechet.EpsilonSettable;
 import de.topobyte.frechet.ui.frechet.calc.LineSegment;
-import de.topobyte.frechet.ui.frechet.segment.SegmentPane;
+import de.topobyte.frechet.ui.frechet.segment.FreeSpacePainter;
 import de.topobyte.livecg.geometry.geom.Chain;
 import de.topobyte.livecg.geometry.geom.Coordinate;
 
@@ -41,61 +40,18 @@ public class FrechetDiagram extends JPanel implements EpsilonSettable
 	private final Chain line1;
 	private final Chain line2;
 
-	private JPanel content = new JPanel(new GridBagLayout());
-	private List<SegmentPane> panes = new ArrayList<SegmentPane>();
-
 	public FrechetDiagram(int epsilon, Chain line1, Chain line2)
 	{
 		this.epsilon = epsilon;
 		this.line1 = line1;
 		this.line2 = line2;
-
-		setLayout(new GridBagLayout());
-
-		GridBagConstraints c = new GridBagConstraints();
-		c.fill = GridBagConstraints.BOTH;
-		c.weightx = 1.0;
-		c.weighty = 0.0;
-
-		c.gridy = 1;
-		c.weighty = 1.0;
-		add(content, c);
-
-		setup();
 	}
 
-	private void setup()
+	@Override
+	public void setEpsilon(int epsilon)
 	{
-		content.removeAll();
-		panes.clear();
-
-		GridBagConstraints c = new GridBagConstraints();
-		c.fill = GridBagConstraints.BOTH;
-		c.weightx = 1.0;
-		c.weighty = 1.0;
-
-		int nSegmentsP = line1.getNumberOfNodes() - 1;
-		int nSegmentsQ = line2.getNumberOfNodes() - 1;
-
-		for (int x = 0; x < nSegmentsP; x++) {
-			for (int y = 0; y < nSegmentsQ; y++) {
-				LineSegment segP = getSegment(line1, x);
-				LineSegment segQ = getSegment(line2, nSegmentsQ - y - 1);
-
-				SegmentPane segmentPane = new SegmentPane(epsilon);
-				segmentPane.setSegment1(segP);
-				segmentPane.setSegment2(segQ);
-
-				segmentPane.setBorder(BorderFactory
-						.createLineBorder(Color.BLACK));
-
-				panes.add(segmentPane);
-
-				c.gridx = x;
-				c.gridy = y;
-				content.add(segmentPane, c);
-			}
-		}
+		this.epsilon = epsilon;
+		repaint();
 	}
 
 	private LineSegment getSegment(Chain line, int n)
@@ -105,32 +61,58 @@ public class FrechetDiagram extends JPanel implements EpsilonSettable
 		return new LineSegment(c1, c2);
 	}
 
-	@Override
-	public void setEpsilon(int epsilon)
+	public void update()
 	{
-		this.epsilon = epsilon;
-		for (SegmentPane pane : panes) {
-			pane.setEpsilon(epsilon);
-		}
+		// called when chains have changed
 	}
 
-	public void updateSegmentsFromLines()
+	public void paint(Graphics graphics)
 	{
-		System.out.println("updating segments from lines");
+		Graphics2D g = (Graphics2D) graphics;
+
+		int width = getWidth();
+		int height = getHeight();
+
 		int nSegmentsP = line1.getNumberOfNodes() - 1;
 		int nSegmentsQ = line2.getNumberOfNodes() - 1;
 
-		int n = 0;
+		int w = width / nSegmentsP;
+		int h = height / nSegmentsQ;
+
+		FreeSpacePainter painter = new FreeSpacePainter(epsilon, false, true);
+
+		AffineTransform transform = g.getTransform();
+		Shape clip = g.getClip();
 		for (int x = 0; x < nSegmentsP; x++) {
 			for (int y = 0; y < nSegmentsQ; y++) {
 				LineSegment segP = getSegment(line1, x);
 				LineSegment segQ = getSegment(line2, nSegmentsQ - y - 1);
 
-				SegmentPane segmentPane = panes.get(n);
-				segmentPane.setSegment1(segP);
-				segmentPane.setSegment2(segQ);
-				n++;
+				int lx = x * w;
+				int ly = y * h;
+				AffineTransform t = new AffineTransform(transform);
+				t.translate(lx, ly);
+				g.setTransform(t);
+				g.setClip(0, 0, w, h);
+
+				painter.setSegment1(segP);
+				painter.setSegment2(segQ);
+				painter.setSize(w, h);
+				painter.paint(g);
 			}
+		}
+		g.setTransform(transform);
+		g.setClip(clip);
+		
+		// Draw grid
+		g.setColor(Color.BLACK);
+		for (int x = 0; x <= nSegmentsP; x++) {
+			int lx = x * w;
+			g.drawLine(lx, 0, lx, height);
+		}
+		for (int y = 0; y <= nSegmentsQ; y++) {
+			int ly = y * h;
+			g.drawLine(0, ly, width, ly);
 		}
 	}
 }
