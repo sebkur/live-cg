@@ -165,10 +165,22 @@ public class FreeSpacePainter implements EpsilonSettable
 			try {
 				return createMatrix(xa, xb, xc, xd);
 			} catch (NoninvertibleTransformException e) {
+				// move not in arbitrary direction, but a random amount
+				// in the direction perpendicular to a
+				double ax = a.getX();
+				double ay = a.getY();
+				double norm = Math.sqrt(ax * ax + ay * ay);
+				ax = ax / norm;
+				ay = ay / norm;
+				double iax = ay;
+				double iay = -ax;
+
 				Random r = new Random();
-				double x = rd(r, 0.1, 0.5);
-				double y = rd(r, 0.1, 0.5);
-				System.out.println(x + ", " + y);
+				double s = rd(r, 0.5, 1);
+
+				double x = iax * s;
+				double y = iay * s;
+
 				xa = a.add(new Vector(x, y));
 			}
 		}
