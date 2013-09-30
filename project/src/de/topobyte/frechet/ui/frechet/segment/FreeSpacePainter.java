@@ -23,6 +23,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Arc2D;
 import java.awt.geom.NoninvertibleTransformException;
 
 import de.topobyte.frechet.ui.frechet.EpsilonSettable;
@@ -46,8 +47,9 @@ public class FreeSpacePainter implements EpsilonSettable
 	private int height;
 	private int epsilon;
 
-	private Color colorBackground = new Color(0x333333);
+	private Color colorBackground = new Color(0x999999);
 	private Color colorFreeSpace = new Color(0xFFFFFF);
+	private Color colorFreeSpaceOutline = new Color(0x333333);
 
 	private boolean drawBorder;
 	private boolean drawAxisIntersection;
@@ -93,11 +95,12 @@ public class FreeSpacePainter implements EpsilonSettable
 			System.out.println("clip: " + g.getClip());
 		}
 
-		AffineTransform transform = new AffineTransform(g.getTransform());
-		Shape clip = g.getClip();
-
+		// Draw background
 		g.setColor(colorBackground);
 		g.fillRect(0, 0, width, height);
+
+		// Set clip bounds
+		g.clipRect(0, 0, width, height);
 
 		Vector a = seg1.getDirection();
 		Vector b = seg1.getStart();
@@ -125,32 +128,30 @@ public class FreeSpacePainter implements EpsilonSettable
 			}
 		}
 
-		AffineTransform tx = new AffineTransform(transform);
-		tx.translate(0, height); // coordinate system vertical flip
-		tx.scale(1, -1); // coordinate system vertical flip
-		tx.scale(width, height); // scale from [0..1] to full panel size
-		tx.concatenate(f); // apply the inverse of f to g to draw the ellipse
+		AffineTransform tx = new AffineTransform();
+		tx.translate(0, height); // Coordinate system vertical flip
+		tx.scale(1, -1); // Coordinate system vertical flip
+		tx.scale(width, height); // Scale from [0..1] to full panel size
+		tx.concatenate(f); // Apply the inverse of f to g to draw the ellipse
 
-		// set clip bounds
-		g.setTransform(transform);
-		g.clipRect(0, 0, width, height);
+		Arc2D arc = new Arc2D.Double(-epsilon, -epsilon, 2 * epsilon,
+				2 * epsilon, 0, 360, Arc2D.CHORD);
+		Shape ellipse = tx.createTransformedShape(arc);
 
-		// fill the arc
-		g.setTransform(tx);
+		// Draw the ellipse
 		g.setColor(colorFreeSpace);
-		g.fillArc(-epsilon, -epsilon, 2 * epsilon, 2 * epsilon, 0, 360);
-
-		g.setTransform(transform);
-		g.setClip(clip);
+		g.fill(ellipse);
+		g.setColor(colorFreeSpaceOutline);
+		g.draw(ellipse);
 
 		if (drawBorder) {
-			// draw the boundaries again
+			// Draw the boundaries again
 			g.setColor(Color.BLACK);
 			g.drawRect(0, 0, width, height);
 		}
 
 		if (drawAxisIntersection) {
-			// find the limits of the free space on the axes
+			// Find the limits of the free space on the axes
 			g.setColor(Color.BLACK);
 			Interval intervalP = makeAxis(c, d, a, b);
 			Interval intervalQ = makeAxis(a, b, c, d);
