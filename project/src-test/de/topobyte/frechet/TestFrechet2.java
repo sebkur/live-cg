@@ -20,6 +20,7 @@ package de.topobyte.frechet;
 import java.io.File;
 import java.io.IOException;
 
+import javax.swing.JFrame;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
@@ -37,6 +38,7 @@ public class TestFrechet2
 		ContentReader contentReader = new ContentReader();
 		Content content = contentReader.read(new File(path));
 		
-		new FrechetDialog2(content);
+		FrechetDialog2 dialog = new FrechetDialog2(content);
+		dialog.getFrame().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 }

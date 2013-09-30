@@ -20,11 +20,12 @@ package de.topobyte.frechet;
 import java.io.File;
 import java.io.IOException;
 
+import javax.swing.JFrame;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
-import de.topobyte.frechet.ui.polylineeditor.FrechetDialog;
+import de.topobyte.frechet.ui.polylineeditor.FrechetDialog1;
 import de.topobyte.livecg.geometry.io.ContentReader;
 import de.topobyte.livecg.ui.geometryeditor.Content;
 
@@ -36,7 +37,8 @@ public class TestFrechet1
 		String path = "res/presets/frechet/Paper.geom";
 		ContentReader contentReader = new ContentReader();
 		Content content = contentReader.read(new File(path));
-		
-		new FrechetDialog(content);
+
+		FrechetDialog1 dialog = new FrechetDialog1(content);
+		dialog.getFrame().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 }

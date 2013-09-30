@@ -29,7 +29,6 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.List;
 
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
@@ -41,9 +40,11 @@ import de.topobyte.livecg.geometry.geom.Chain;
 import de.topobyte.livecg.ui.geometryeditor.Content;
 import de.topobyte.livecg.ui.geometryeditor.ContentChangedListener;
 
-public class FrechetDialog implements ContentChangedListener
+public class FrechetDialog1 implements ContentChangedListener
 {
 
+	private JFrame frame;
+	
 	final static int STEP_SIZE = 1;
 	final static int STEP_SIZE_BIG = 10;
 
@@ -53,7 +54,7 @@ public class FrechetDialog implements ContentChangedListener
 	private Chain line1 = null;
 	private Chain line2 = null;
 
-	public FrechetDialog(final Content content)
+	public FrechetDialog1(final Content content)
 	{
 		List<Chain> lines = content.getChains();
 		if (lines.size() < 2) {
@@ -88,19 +89,19 @@ public class FrechetDialog implements ContentChangedListener
 		c.weighty = 1.0;
 		panel.add(diagram, c);
 
-		final JDialog dialog = new JDialog((JFrame) null, "Fréchet distance");
-		dialog.setContentPane(panel);
-		dialog.setSize(500, 600);
-		dialog.setVisible(true);
+		frame = new JFrame("Fréchet distance");
+		frame.setContentPane(panel);
+		frame.setSize(500, 600);
+		frame.setVisible(true);
 
 		slider.addChangeListener(new EpsilonChangedListener(diagram));
 
 		content.addContentChangedListener(this);
 
-		dialog.addWindowListener(new WindowAdapter() {
+		frame.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e)
 			{
-				content.removeContentChangedListener(FrechetDialog.this);
+				content.removeContentChangedListener(FrechetDialog1.this);
 			}
 		});
 
@@ -109,10 +110,10 @@ public class FrechetDialog implements ContentChangedListener
 			@Override
 			public void eventDispatched(AWTEvent e)
 			{
-				if (e.getSource() != dialog) {
+				if (e.getSource() != frame) {
 					return;
 				}
-				
+
 				MouseWheelEvent event = (MouseWheelEvent) e;
 
 				int modifiers = event.getModifiers();
@@ -132,6 +133,11 @@ public class FrechetDialog implements ContentChangedListener
 	{
 		diagram.updateSegmentsFromLines();
 		diagram.repaint();
+	}
+	
+	public JFrame getFrame()
+	{
+		return frame;
 	}
 
 }

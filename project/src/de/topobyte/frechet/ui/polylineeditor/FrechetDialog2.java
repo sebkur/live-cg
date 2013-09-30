@@ -29,7 +29,6 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.List;
 
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
@@ -45,6 +44,8 @@ import de.topobyte.livecg.ui.geometryeditor.ContentChangedListener;
 
 public class FrechetDialog2 implements ContentChangedListener
 {
+
+	private JFrame frame;
 
 	final static int STEP_SIZE = 1;
 	final static int STEP_SIZE_BIG = 10;
@@ -101,18 +102,17 @@ public class FrechetDialog2 implements ContentChangedListener
 		c.gridx = 1;
 		panel.add(controlledLineView, c);
 
-		final JDialog dialog = new JDialog((JFrame) null, "Fréchet distance");
-		dialog.setContentPane(panel);
-		// dialog.setSize(900, 600);
-		dialog.setSize(850, 450);
-		dialog.setVisible(true);
+		frame = new JFrame("Fréchet distance");
+		frame.setContentPane(panel);
+		frame.setSize(850, 450);
+		frame.setVisible(true);
 
 		slider.addChangeListener(new EpsilonChangedListener(diagram));
 		slider.addChangeListener(new EpsilonChangedListener(lineView));
 
 		content.addContentChangedListener(this);
 
-		dialog.addWindowListener(new WindowAdapter() {
+		frame.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e)
 			{
 				content.removeContentChangedListener(FrechetDialog2.this);
@@ -124,7 +124,7 @@ public class FrechetDialog2 implements ContentChangedListener
 			@Override
 			public void eventDispatched(AWTEvent e)
 			{
-				if (e.getSource() != dialog) {
+				if (e.getSource() != frame) {
 					return;
 				}
 
@@ -150,4 +150,8 @@ public class FrechetDialog2 implements ContentChangedListener
 		lineView.repaint();
 	}
 
+	public JFrame getFrame()
+	{
+		return frame;
+	}
 }
