@@ -25,6 +25,7 @@ import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Arc2D;
 import java.awt.geom.NoninvertibleTransformException;
+import java.util.Random;
 
 import de.topobyte.frechet.ui.frechet.EpsilonSettable;
 import de.topobyte.frechet.ui.frechet.calc.Calculator;
@@ -102,31 +103,9 @@ public class FreeSpacePainter implements EpsilonSettable
 		// Set clip bounds
 		g.clipRect(0, 0, width, height);
 
-		Vector a = seg1.getDirection();
-		Vector b = seg1.getStart();
-		Vector c = seg2.getDirection();
-		Vector d = seg2.getStart();
-
-		// System.out.println(String.format("line1: %s + s . %s", b.toString(),
-		// a.toString()));
-		// System.out.println(String.format("line2: %s + s . %s", d.toString(),
-		// c.toString()));
-
 		check(g, seg1, seg2, width, height);
 
-		double tlX = b.getX() - d.getX();
-		double tlY = b.getY() - d.getY();
-		AffineTransform f = new AffineTransform(a.getX(), a.getY(), -c.getX(),
-				-c.getY(), tlX, tlY);
-		try {
-			f.invert();
-		} catch (NoninvertibleTransformException e) {
-			System.out.println("not invertable: " + f);
-			f = tryHarder(a, c, tlX, tlY, 0.001, 0);
-			if (f == null) {
-				return;
-			}
-		}
+		AffineTransform f = createMatrix();
 
 		AffineTransform tx = new AffineTransform();
 		tx.translate(0, height); // Coordinate system vertical flip
@@ -150,6 +129,11 @@ public class FreeSpacePainter implements EpsilonSettable
 			g.drawRect(0, 0, width, height);
 		}
 
+		Vector a = seg1.getDirection();
+		Vector b = seg1.getStart();
+		Vector c = seg2.getDirection();
+		Vector d = seg2.getStart();
+
 		if (drawAxisIntersection) {
 			// Find the limits of the free space on the axes
 			g.setColor(Color.BLACK);
@@ -158,6 +142,54 @@ public class FreeSpacePainter implements EpsilonSettable
 			drawHorizontalInterval(g, intervalP, width, height);
 			drawVerticalInterval(g, intervalQ, width, height);
 		}
+	}
+
+	private AffineTransform createMatrix()
+	{
+		Vector a = seg1.getDirection();
+		Vector b = seg1.getStart();
+		Vector c = seg2.getDirection();
+		Vector d = seg2.getStart();
+
+		// System.out.println(String.format("line1: %s + s . %s", b.toString(),
+		// a.toString()));
+		// System.out.println(String.format("line2: %s + s . %s", d.toString(),
+		// c.toString()));
+
+		Vector xa = a.add(new Vector(0, 0));
+		Vector xb = b.add(new Vector(0, 0));
+		Vector xc = c.add(new Vector(0, 0));
+		Vector xd = d.add(new Vector(0, 0));
+
+		while (true) {
+			try {
+				return createMatrix(xa, xb, xc, xd);
+			} catch (NoninvertibleTransformException e) {
+				Random r = new Random();
+				double x = rd(r, 0.1, 0.5);
+				double y = rd(r, 0.1, 0.5);
+				System.out.println(x + ", " + y);
+				xa = a.add(new Vector(x, y));
+			}
+		}
+	}
+
+	private double rd(Random r, double min, double max)
+	{
+		double diff = Math.abs(min - max);
+		double g = r.nextDouble();
+		return min + diff * g;
+	}
+
+	private AffineTransform createMatrix(Vector a, Vector b, Vector c, Vector d)
+			throws NoninvertibleTransformException
+	{
+		double tlX = b.getX() - d.getX();
+		double tlY = b.getY() - d.getY();
+		AffineTransform f = new AffineTransform(a.getX(), a.getY(), -c.getX(),
+				-c.getY(), tlX, tlY);
+		f.invert();
+		return f;
 	}
 
 	private void drawHorizontalInterval(Graphics2D g, Interval intervalP,
@@ -205,51 +237,6 @@ public class FreeSpacePainter implements EpsilonSettable
 			System.out.println(String.format("%f -> %f", i1, i2));
 		}
 		return new Interval(i1, i2);
-	}
-
-	private AffineTransform tryHarder(Vector a, Vector c, double tlX,
-			double tlY, double initialDelta, int position)
-	{
-		// We officially cheat here. Since we cannot find an elliptic solution
-		// in the degenerate case of the space between two parallel lines, we
-		// just create a nearly correct, huge ellipse that looks pretty good.
-		double delta = initialDelta;
-		while (true) {
-			AffineTransform f = null;
-			switch (position) {
-			case 0:
-				f = new AffineTransform(a.getX() + delta, a.getY(), -c.getX(),
-						-c.getY(), tlX, tlY);
-				break;
-			case 1:
-				f = new AffineTransform(a.getX(), a.getY() + delta, -c.getX(),
-						-c.getY(), tlX, tlY);
-				break;
-			case 2:
-				f = new AffineTransform(a.getX() - delta, a.getY(), -c.getX(),
-						-c.getY(), tlX, tlY);
-				break;
-			case 3:
-				f = new AffineTransform(a.getX(), a.getY() - delta, -c.getX(),
-						-c.getY(), tlX, tlY);
-				break;
-
-			}
-			try {
-				f.invert();
-				return f;
-			} catch (NoninvertibleTransformException e) {
-				System.out.println("unable to invert with delta: " + delta);
-			}
-			delta *= 2;
-			if (delta > 1) {
-				if (position == 3) {
-					return null;
-				} else {
-					return tryHarder(a, c, tlX, tlY, initialDelta, position + 1);
-				}
-			}
-		}
 	}
 
 	// TODO: try to calculate the equation of the ellipse and plot the ellipse's
