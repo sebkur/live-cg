@@ -112,7 +112,7 @@ public class FrechetDialog implements ContentChangedListener
 				if (e.getSource() != dialog) {
 					return;
 				}
-				;
+				
 				MouseWheelEvent event = (MouseWheelEvent) e;
 
 				int modifiers = event.getModifiers();
