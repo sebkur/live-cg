@@ -31,7 +31,7 @@ import de.topobyte.frechet.ui.misc.Menu;
 import de.topobyte.livecg.geometry.geom.Chain;
 import de.topobyte.livecg.geometry.geom.Coordinate;
 
-public class RunLineEditor
+public class TestLineEditor
 {
 
 	public static void main(String[] args)
