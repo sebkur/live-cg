@@ -16,9 +16,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.topobyte.frechet.ui.frechet.segment;
+package de.topobyte.frechet.ui.freespace.segment;
 
-import de.topobyte.frechet.ui.frechet.calc.LineSegment;
+import de.topobyte.frechet.ui.freespace.calc.LineSegment;
 import de.topobyte.frechet.ui.lineeditor.LineChangeListener;
 import de.topobyte.frechet.ui.lineeditor.LineEditor;
 import de.topobyte.livecg.geometry.geom.Chain;

@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.topobyte.frechet.ui.frechet.lines;
+package de.topobyte.frechet.ui.distanceterrain.lines;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -26,32 +26,23 @@ import java.awt.geom.AffineTransform;
 
 import javax.swing.JPanel;
 
-import de.topobyte.frechet.ui.frechet.EpsilonSettable;
-import de.topobyte.frechet.ui.frechet.calc.LineSegment;
-import de.topobyte.frechet.ui.frechet.segment.FreeSpacePainter;
+import de.topobyte.frechet.ui.distanceterrain.segment.DistanceTerrainPainter;
+import de.topobyte.frechet.ui.freespace.calc.LineSegment;
 import de.topobyte.livecg.geometry.geom.Chain;
 import de.topobyte.livecg.geometry.geom.Coordinate;
 
-public class FrechetDiagram extends JPanel implements EpsilonSettable
+public class DistanceTerrain extends JPanel
 {
-	private static final long serialVersionUID = 5024820193840910054L;
 
-	private int epsilon;
+	private static final long serialVersionUID = -336337844015240678L;
+
 	private final Chain line1;
 	private final Chain line2;
 
-	public FrechetDiagram(int epsilon, Chain line1, Chain line2)
+	public DistanceTerrain(Chain line1, Chain line2)
 	{
-		this.epsilon = epsilon;
 		this.line1 = line1;
 		this.line2 = line2;
-	}
-
-	@Override
-	public void setEpsilon(int epsilon)
-	{
-		this.epsilon = epsilon;
-		repaint();
 	}
 
 	private LineSegment getSegment(Chain line, int n)
@@ -66,6 +57,7 @@ public class FrechetDiagram extends JPanel implements EpsilonSettable
 		// called when chains have changed
 	}
 
+	@Override
 	public void paint(Graphics graphics)
 	{
 		Graphics2D g = (Graphics2D) graphics;
@@ -79,7 +71,7 @@ public class FrechetDiagram extends JPanel implements EpsilonSettable
 		int w = width / nSegmentsP;
 		int h = height / nSegmentsQ;
 
-		FreeSpacePainter painter = new FreeSpacePainter(epsilon, false, true);
+		DistanceTerrainPainter painter = new DistanceTerrainPainter(true);
 
 		AffineTransform transform = g.getTransform();
 		Shape clip = g.getClip();
@@ -103,7 +95,7 @@ public class FrechetDiagram extends JPanel implements EpsilonSettable
 		}
 		g.setTransform(transform);
 		g.setClip(clip);
-		
+
 		// Draw grid
 		g.setColor(Color.BLACK);
 		for (int x = 0; x <= nSegmentsP; x++) {

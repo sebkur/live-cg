@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.topobyte.frechet;
+package de.topobyte.frechet.freespace;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,7 +25,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
-import de.topobyte.frechet.ui.polylineeditor.FrechetDialog1;
+import de.topobyte.frechet.ui.freespace.FrechetDialog1;
 import de.topobyte.livecg.geometry.io.ContentReader;
 import de.topobyte.livecg.ui.geometryeditor.Content;
 

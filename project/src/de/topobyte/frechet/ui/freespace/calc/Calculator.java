@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.topobyte.frechet.ui.frechet.calc;
+package de.topobyte.frechet.ui.freespace.calc;
 
 public class Calculator
 {

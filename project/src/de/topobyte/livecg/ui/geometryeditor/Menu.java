@@ -34,6 +34,8 @@ import de.topobyte.livecg.ui.geometryeditor.action.SaveAction;
 import de.topobyte.livecg.ui.geometryeditor.action.SelectAllAction;
 import de.topobyte.livecg.ui.geometryeditor.action.SelectNothingAction;
 import de.topobyte.livecg.ui.geometryeditor.action.ShowObjectDialogAction;
+import de.topobyte.livecg.ui.geometryeditor.action.visualizations.DistanceTerrainChainsAction;
+import de.topobyte.livecg.ui.geometryeditor.action.visualizations.DistanceTerrainLinesAction;
 import de.topobyte.livecg.ui.geometryeditor.action.visualizations.FortunesSweepAction;
 import de.topobyte.livecg.ui.geometryeditor.action.visualizations.FrechetDistanceChainsAction;
 import de.topobyte.livecg.ui.geometryeditor.action.visualizations.FrechetDistanceLinesAction;
@@ -152,10 +154,10 @@ public class Menu extends JMenuBar
 		/*
 		 * Presets
 		 */
-		
+
 		PresetMenu presetMenu = new PresetMenu(presets);
 		presetMenu.build(editPane);
-		
+
 		/*
 		 * Visualizations
 		 */
@@ -168,12 +170,18 @@ public class Menu extends JMenuBar
 				new FrechetDistanceLinesAction());
 		JMenuItem frechetDistanceChains = new JMenuItem(
 				new FrechetDistanceChainsAction(editPane));
+		JMenuItem distanceTerrainLines = new JMenuItem(
+				new DistanceTerrainLinesAction());
+		JMenuItem distanceTerrainChains = new JMenuItem(
+				new DistanceTerrainChainsAction(editPane));
 
 		visualizations.add(fortunesSweep);
 		visualizations.add(frechet);
 
 		frechet.add(frechetDistanceLines);
 		frechet.add(frechetDistanceChains);
+		frechet.add(distanceTerrainLines);
+		frechet.add(distanceTerrainChains);
 
 		/*
 		 * Window

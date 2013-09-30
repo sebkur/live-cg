@@ -16,30 +16,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.topobyte.frechet.ui.lineeditor;
+package de.topobyte.frechet.freespace;
 
-import javax.swing.JSlider;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
+import de.topobyte.frechet.ui.lineeditor.RunDualLineEditorFreespace;
 
-import de.topobyte.frechet.ui.freespace.EpsilonSettable;
-
-public class EpsilonChangedListener implements ChangeListener
+public class TestDualLineEditor
 {
 
-	private final EpsilonSettable es;
-
-	public EpsilonChangedListener(EpsilonSettable es)
+	public static void main(String[] args)
 	{
-		this.es = es;
-	}
-
-	@Override
-	public void stateChanged(ChangeEvent e)
-	{
-		JSlider slider = (JSlider) e.getSource();
-		int epsilon = slider.getValue();
-		es.setEpsilon(epsilon);
+		RunDualLineEditorFreespace.runProgrammatically(true);
 	}
 
 }

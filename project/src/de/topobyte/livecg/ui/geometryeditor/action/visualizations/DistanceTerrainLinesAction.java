@@ -19,26 +19,26 @@ package de.topobyte.livecg.ui.geometryeditor.action.visualizations;
 
 import java.awt.event.ActionEvent;
 
-import de.topobyte.frechet.ui.lineeditor.RunDualLineEditorFreespace;
+import de.topobyte.frechet.ui.lineeditor.RunDualLineEditorDistanceTerrain;
 import de.topobyte.livecg.ui.geometryeditor.action.BasicAction;
 
-public class FrechetDistanceLinesAction extends BasicAction
+public class DistanceTerrainLinesAction extends BasicAction
 {
 
-	private static final long serialVersionUID = -2630257708226818189L;
+	private static final long serialVersionUID = 3999319262987241522L;
 
-	public FrechetDistanceLinesAction()
+	public DistanceTerrainLinesAction()
 	{
 		super(
-				"Fréchet Distance (lines)",
-				"Visualize the Free Space Diagram used to compute the Fréchet Distance",
+				"Distance Terrain (lines)",
+				"Visualize the Distance Terrain used to compute the Fréchet Distance",
 				"res/images/24x24/way.png");
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent event)
 	{
-		RunDualLineEditorFreespace.runProgrammatically(false);
+		RunDualLineEditorDistanceTerrain.runProgrammatically(false);
 	}
 
 }

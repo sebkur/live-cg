@@ -20,7 +20,7 @@ package de.topobyte.livecg.ui.geometryeditor.action.visualizations;
 import java.awt.event.ActionEvent;
 import java.util.List;
 
-import de.topobyte.frechet.ui.polylineeditor.FrechetDialog2;
+import de.topobyte.frechet.ui.freespace.FrechetDialog2;
 import de.topobyte.livecg.geometry.geom.Chain;
 import de.topobyte.livecg.ui.geometryeditor.Content;
 import de.topobyte.livecg.ui.geometryeditor.GeometryEditPane;

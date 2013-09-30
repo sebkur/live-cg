@@ -16,9 +16,28 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.topobyte.frechet.ui.frechet;
+package de.topobyte.frechet.ui.freespace.calc;
 
-public interface EpsilonSettable
+public class Interval
 {
-	public void setEpsilon(int epsilon);
+
+	private final double start;
+	private final double end;
+
+	public Interval(double start, double end)
+	{
+		this.start = start;
+		this.end = end;
+	}
+
+	public double getStart()
+	{
+		return start;
+	}
+
+	public double getEnd()
+	{
+		return end;
+	}
+
 }

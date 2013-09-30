@@ -16,42 +16,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.topobyte.frechet.ui.frechet.calc;
+package de.topobyte.frechet.distanceterrain;
 
-public class Vector
+import de.topobyte.frechet.ui.lineeditor.RunDualLineEditorDistanceTerrain;
+
+public class TestDualLineEditor
 {
 
-	private final double x;
-	private final double y;
-
-	public Vector(double x, double y)
+	public static void main(String[] args)
 	{
-		this.x = x;
-		this.y = y;
+		RunDualLineEditorDistanceTerrain.runProgrammatically(true);
 	}
 
-	public double getX()
-	{
-		return x;
-	}
-
-	public double getY()
-	{
-		return y;
-	}
-
-	public String toString()
-	{
-		return String.format("%f,%f", x, y);
-	}
-
-	public Vector add(Vector other)
-	{
-		return new Vector(x + other.x, y + other.y);
-	}
-
-	public Vector sub(Vector other)
-	{
-		return new Vector(x - other.x, y - other.y);
-	}
 }

@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.topobyte.frechet;
+package de.topobyte.frechet.freespace;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;

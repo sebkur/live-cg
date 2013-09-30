@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.topobyte.frechet.ui.frechet.segment;
+package de.topobyte.frechet.ui.freespace.segment;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -27,12 +27,12 @@ import java.awt.geom.Arc2D;
 import java.awt.geom.NoninvertibleTransformException;
 import java.util.Random;
 
-import de.topobyte.frechet.ui.frechet.EpsilonSettable;
-import de.topobyte.frechet.ui.frechet.calc.Calculator;
-import de.topobyte.frechet.ui.frechet.calc.Ellipse;
-import de.topobyte.frechet.ui.frechet.calc.Interval;
-import de.topobyte.frechet.ui.frechet.calc.LineSegment;
-import de.topobyte.frechet.ui.frechet.calc.Vector;
+import de.topobyte.frechet.ui.freespace.EpsilonSettable;
+import de.topobyte.frechet.ui.freespace.calc.Calculator;
+import de.topobyte.frechet.ui.freespace.calc.Ellipse;
+import de.topobyte.frechet.ui.freespace.calc.Interval;
+import de.topobyte.frechet.ui.freespace.calc.LineSegment;
+import de.topobyte.frechet.ui.freespace.calc.Vector;
 import de.topobyte.util.DoubleUtil;
 import de.topobyte.util.SwingUtil;
 

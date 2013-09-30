@@ -16,9 +16,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.topobyte.frechet.ui.polylineeditor;
+package de.topobyte.frechet.ui.freespace;
 
 import java.awt.AWTEvent;
+import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Toolkit;
@@ -34,30 +35,27 @@ import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.border.TitledBorder;
 
-import de.topobyte.frechet.ui.frechet.lines.FrechetDiagram;
+import de.topobyte.frechet.ui.freespace.lines.FrechetDiagram;
 import de.topobyte.frechet.ui.lineeditor.EpsilonChangedListener;
-import de.topobyte.frechet.ui.lineview.ControlledLineView;
-import de.topobyte.frechet.ui.lineview.LineView;
 import de.topobyte.livecg.geometry.geom.Chain;
 import de.topobyte.livecg.ui.geometryeditor.Content;
 import de.topobyte.livecg.ui.geometryeditor.ContentChangedListener;
 
-public class FrechetDialog2 implements ContentChangedListener
+public class FrechetDialog1 implements ContentChangedListener
 {
 
 	private JFrame frame;
-
+	
 	final static int STEP_SIZE = 1;
 	final static int STEP_SIZE_BIG = 10;
 
 	private FrechetDiagram diagram = null;
-	private LineView lineView = null;
 
 	private int epsilon = 100;
 	private Chain line1 = null;
 	private Chain line2 = null;
 
-	public FrechetDialog2(final Content content)
+	public FrechetDialog1(final Content content)
 	{
 		List<Chain> lines = content.getChains();
 		if (lines.size() < 2) {
@@ -69,7 +67,7 @@ public class FrechetDialog2 implements ContentChangedListener
 		line1 = lines.get(0);
 		line2 = lines.get(1);
 
-		int maxEpsilon = 300;
+		int maxEpsilon = 200;
 		final JSlider slider = new JSlider(0, maxEpsilon);
 		slider.setPaintLabels(true);
 		slider.setPaintTicks(true);
@@ -78,44 +76,35 @@ public class FrechetDialog2 implements ContentChangedListener
 		slider.setBorder(new TitledBorder("epsilon"));
 
 		diagram = new FrechetDiagram(epsilon, line1, line2);
-		diagram.setBorder(new TitledBorder("Free space"));
-		lineView = new LineView(epsilon, line1, line2, true, false, true, false);
-		ControlledLineView controlledLineView = new ControlledLineView(lineView);
-		controlledLineView.setBorder(new TitledBorder("Curves"));
+		JPanel diagramPanel = new JPanel(new BorderLayout());
+		diagramPanel.add(diagram, BorderLayout.CENTER);
+		diagramPanel.setBorder(new TitledBorder("Free space"));
 
 		GridBagConstraints c = new GridBagConstraints();
 		c.fill = GridBagConstraints.BOTH;
 		c.weightx = c.weighty = 1.0;
 		JPanel panel = new JPanel(new GridBagLayout());
-		c.weighty = 0.0;
 		c.gridx = 0;
 		c.gridy = 0;
-		c.gridwidth = 2;
+		c.weighty = 0.0;
 		panel.add(slider, c);
-
-		c.weighty = 1.0;
-		c.gridwidth = 1;
 		c.gridy = 1;
-		c.gridx = 0;
-		panel.add(diagram, c);
-		c.weightx = 0.0;
-		c.gridx = 1;
-		panel.add(controlledLineView, c);
+		c.weighty = 1.0;
+		panel.add(diagramPanel, c);
 
 		frame = new JFrame("Fréchet distance");
 		frame.setContentPane(panel);
-		frame.setSize(850, 450);
+		frame.setSize(500, 600);
 		frame.setVisible(true);
 
 		slider.addChangeListener(new EpsilonChangedListener(diagram));
-		slider.addChangeListener(new EpsilonChangedListener(lineView));
 
 		content.addContentChangedListener(this);
 
 		frame.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e)
 			{
-				content.removeContentChangedListener(FrechetDialog2.this);
+				content.removeContentChangedListener(FrechetDialog1.this);
 			}
 		});
 
@@ -147,11 +136,11 @@ public class FrechetDialog2 implements ContentChangedListener
 	{
 		diagram.update();
 		diagram.repaint();
-		lineView.repaint();
 	}
-
+	
 	public JFrame getFrame()
 	{
 		return frame;
 	}
+
 }

@@ -34,7 +34,7 @@ import com.vividsolutions.jts.geom.Polygon;
 
 import de.topobyte.carbon.geo.draw.IdentityCoordinateTransformer;
 import de.topobyte.carbon.geometry.transformation.GeometryTransformator;
-import de.topobyte.frechet.ui.frechet.EpsilonSettable;
+import de.topobyte.frechet.ui.freespace.EpsilonSettable;
 import de.topobyte.livecg.geometry.geom.Chain;
 import de.topobyte.livecg.geometry.geom.Coordinate;
 

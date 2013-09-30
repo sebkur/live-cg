@@ -35,16 +35,11 @@ import de.topobyte.frechet.ui.misc.Menu;
 import de.topobyte.livecg.geometry.geom.Chain;
 import de.topobyte.livecg.geometry.geom.Coordinate;
 
-public class RunDualLineEditor
+public class RunDualLineEditorFreespace
 {
 
 	final static int STEP_SIZE = 1;
 	final static int STEP_SIZE_BIG = 10;
-
-	public static void main(String[] args)
-	{
-		runProgrammatically(true);
-	}
 
 	public static void runProgrammatically(boolean exitOnClose)
 	{
@@ -91,8 +86,8 @@ public class RunDualLineEditor
 		// line2.addPoint(new Coordinate(0, 200));
 		// line2.addPoint(new Coordinate(200, 0));
 
-		final DualLineEditor lineEditor = new DualLineEditor(size, size, line1,
-				line2, epsilon);
+		final DualLineEditorFreespace lineEditor = new DualLineEditorFreespace(
+				size, size, line1, line2, epsilon);
 
 		GridBagConstraints c = new GridBagConstraints();
 

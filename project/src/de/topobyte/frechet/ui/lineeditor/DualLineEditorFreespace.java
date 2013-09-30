@@ -25,10 +25,10 @@ import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.border.TitledBorder;
 
-import de.topobyte.frechet.ui.frechet.segment.LineEditorSegmentPane;
+import de.topobyte.frechet.ui.freespace.segment.LineEditorSegmentPane;
 import de.topobyte.livecg.geometry.geom.Chain;
 
-public class DualLineEditor extends JPanel
+public class DualLineEditorFreespace extends JPanel
 {
 	private static final long serialVersionUID = 3583790726202326121L;
 
@@ -38,7 +38,7 @@ public class DualLineEditor extends JPanel
 
 	private JSlider slider;
 
-	public DualLineEditor(int width, int height, Chain line1, Chain line2,
+	public DualLineEditorFreespace(int width, int height, Chain line1, Chain line2,
 			int epsilon)
 	{
 		editor1 = new LineEditor(width, height, line1);

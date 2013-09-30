@@ -16,30 +16,47 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.topobyte.frechet.ui.lineeditor;
+package de.topobyte.frechet.ui.freespace.calc;
 
-import javax.swing.JSlider;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-
-import de.topobyte.frechet.ui.freespace.EpsilonSettable;
-
-public class EpsilonChangedListener implements ChangeListener
+public class Vector
 {
 
-	private final EpsilonSettable es;
+	private final double x;
+	private final double y;
 
-	public EpsilonChangedListener(EpsilonSettable es)
+	public Vector(double x, double y)
 	{
-		this.es = es;
+		this.x = x;
+		this.y = y;
 	}
 
-	@Override
-	public void stateChanged(ChangeEvent e)
+	public double getX()
 	{
-		JSlider slider = (JSlider) e.getSource();
-		int epsilon = slider.getValue();
-		es.setEpsilon(epsilon);
+		return x;
 	}
 
+	public double getY()
+	{
+		return y;
+	}
+
+	public String toString()
+	{
+		return String.format("%f,%f", x, y);
+	}
+
+	public Vector add(Vector other)
+	{
+		return new Vector(x + other.x, y + other.y);
+	}
+
+	public Vector sub(Vector other)
+	{
+		return new Vector(x - other.x, y - other.y);
+	}
+
+	public Vector mult(double lambda)
+	{
+		return new Vector(x * lambda, y * lambda);
+	}
 }

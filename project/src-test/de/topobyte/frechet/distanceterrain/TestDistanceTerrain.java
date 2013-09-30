@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.topobyte.frechet;
+package de.topobyte.frechet.distanceterrain;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,20 +25,20 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
-import de.topobyte.frechet.ui.polylineeditor.FrechetDialog2;
+import de.topobyte.frechet.ui.distanceterrain.DistanceTerrainDialog;
 import de.topobyte.livecg.geometry.io.ContentReader;
 import de.topobyte.livecg.ui.geometryeditor.Content;
 
-public class TestFrechet2
+public class TestDistanceTerrain
 {
 	public static void main(String[] args) throws IOException,
 			ParserConfigurationException, SAXException
 	{
-		String path = "res/presets/frechet/Paper.geom";
+		String path = "res/presets/frechet/Terrain.geom";
 		ContentReader contentReader = new ContentReader();
 		Content content = contentReader.read(new File(path));
-		
-		FrechetDialog2 dialog = new FrechetDialog2(content);
+
+		DistanceTerrainDialog dialog = new DistanceTerrainDialog(content);
 		dialog.getFrame().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 }

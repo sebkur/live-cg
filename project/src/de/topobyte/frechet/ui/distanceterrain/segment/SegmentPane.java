@@ -16,33 +16,25 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.topobyte.frechet.ui.frechet.segment;
+package de.topobyte.frechet.ui.distanceterrain.segment;
 
 import java.awt.Graphics;
 
 import javax.swing.JPanel;
 
-import de.topobyte.frechet.ui.frechet.EpsilonSettable;
-import de.topobyte.frechet.ui.frechet.calc.LineSegment;
+import de.topobyte.frechet.ui.freespace.calc.LineSegment;
 import de.topobyte.frechet.ui.lineeditor.LineChangeListener;
 
-public class SegmentPane extends JPanel implements LineChangeListener,
-		EpsilonSettable
+public class SegmentPane extends JPanel implements LineChangeListener
 {
 
-	private static final long serialVersionUID = 8167797259833415618L;
-	
-	private FreeSpacePainter painter;
+	private static final long serialVersionUID = 8705743202734597623L;
 
-	public SegmentPane(int epsilon)
-	{
-		painter = new FreeSpacePainter(epsilon, false, true);
-	}
+	private DistanceTerrainPainter painter;
 
-	public void setEpsilon(int eps)
+	public SegmentPane()
 	{
-		painter.setEpsilon(eps);
-		repaint();
+		painter = new DistanceTerrainPainter(true);
 	}
 
 	public void setSegment1(LineSegment seg1)
