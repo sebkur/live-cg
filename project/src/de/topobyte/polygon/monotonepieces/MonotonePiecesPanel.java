@@ -20,13 +20,19 @@ package de.topobyte.polygon.monotonepieces;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.geom.Arc2D;
 import java.awt.geom.Area;
+import java.awt.geom.Path2D;
+import java.awt.geom.Rectangle2D;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.JPanel;
 
 import de.topobyte.livecg.geometry.geom.AwtHelper;
 import de.topobyte.livecg.geometry.geom.Chain;
 import de.topobyte.livecg.geometry.geom.Coordinate;
+import de.topobyte.livecg.geometry.geom.Node;
 import de.topobyte.livecg.geometry.geom.Polygon;
 import de.topobyte.util.SwingUtil;
 
@@ -36,10 +42,17 @@ public class MonotonePiecesPanel extends JPanel
 	private static final long serialVersionUID = 2129465700417909129L;
 
 	private Polygon polygon;
+	private Map<Node, VertexType> map = new HashMap<Node, VertexType>();
 
 	public MonotonePiecesPanel(Polygon polygon)
 	{
 		this.polygon = polygon;
+
+		Chain shell = polygon.getShell();
+		for (int i = 0; i < shell.getNumberOfNodes(); i++) {
+			Node node = shell.getNode(i);
+			map.put(node, VertexType.REGULAR);
+		}
 	}
 
 	@Override
@@ -64,6 +77,49 @@ public class MonotonePiecesPanel extends JPanel
 			g.drawLine((int) Math.round(c1.getX()),
 					(int) Math.round(c1.getY()), (int) Math.round(c2.getX()),
 					(int) Math.round(c2.getY()));
+		}
+
+		g.setColor(Color.BLACK);
+		for (int i = 0; i < shell.getNumberOfNodes(); i++) {
+			Node node = shell.getNode(i);
+			VertexType type = map.get(node);
+			Coordinate c = node.getCoordinate();
+
+			double size = 6;
+
+			Arc2D arc = new Arc2D.Double(c.getX() - size / 2, c.getY() - size
+					/ 2, size, size, 0, 360, Arc2D.CHORD);
+			Rectangle2D rect = new Rectangle2D.Double(c.getX() - size / 2,
+					c.getY() - size / 2, size, size);
+			Path2D triangle = new Path2D.Double();
+
+			switch (type) {
+			case REGULAR:
+				g.fill(arc);
+				break;
+			case START:
+				g.draw(rect);
+				break;
+			case END:
+				g.fill(rect);
+				break;
+			case SPLIT:
+				triangle.moveTo(c.getX(), c.getY() - size / 2);
+				triangle.lineTo(c.getX() - size / 2, c.getY() + size / 2);
+				triangle.lineTo(c.getX() + size / 2, c.getY() + size / 2);
+				triangle.closePath();
+				g.fill(triangle);
+				break;
+			case MERGE:
+				triangle.moveTo(c.getX(), c.getY() + size / 2);
+				triangle.lineTo(c.getX() - size / 2, c.getY() - size / 2);
+				triangle.lineTo(c.getX() + size / 2, c.getY() - size / 2);
+				triangle.closePath();
+				g.fill(triangle);
+				break;
+			default:
+				break;
+			}
 		}
 	}
 }
