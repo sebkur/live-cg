@@ -34,7 +34,7 @@ public class DistanceTerrainPainter
 	private int width;
 	private int height;
 
-	private Color color1 = new Color(0x333333);
+	private Color color1 = new Color(0xCC3333);
 	private Color color2 = new Color(0xFFFF99);
 
 	private boolean drawBorder;
