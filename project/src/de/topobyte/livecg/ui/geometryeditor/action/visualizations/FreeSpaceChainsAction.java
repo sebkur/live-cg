@@ -18,27 +18,40 @@
 package de.topobyte.livecg.ui.geometryeditor.action.visualizations;
 
 import java.awt.event.ActionEvent;
+import java.util.List;
 
-import de.topobyte.frechet.ui.lineeditor.RunDualLineEditorFreespace;
+import de.topobyte.frechet.ui.freespace.FrechetDialog2;
+import de.topobyte.livecg.geometry.geom.Chain;
+import de.topobyte.livecg.ui.geometryeditor.Content;
+import de.topobyte.livecg.ui.geometryeditor.GeometryEditPane;
 import de.topobyte.livecg.ui.geometryeditor.action.BasicAction;
 
-public class FrechetDistanceLinesAction extends BasicAction
+public class FreeSpaceChainsAction extends BasicAction
 {
 
-	private static final long serialVersionUID = -2630257708226818189L;
+	private static final long serialVersionUID = 4601842937930128005L;
 
-	public FrechetDistanceLinesAction()
+	private GeometryEditPane editPane;
+
+	public FreeSpaceChainsAction(GeometryEditPane editPane)
 	{
 		super(
-				"Fréchet Distance (lines)",
+				"Free Space (chains)",
 				"Visualize the Free Space Diagram used to compute the Fréchet Distance",
 				"res/images/24x24/way.png");
+		this.editPane = editPane;
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent event)
 	{
-		RunDualLineEditorFreespace.runProgrammatically(false);
+		Content content = editPane.getContent();
+		List<Chain> lines = content.getChains();
+		if (lines.size() < 2) {
+			System.out.println("not enough lines");
+			return;
+		}
+		new FrechetDialog2(content);
 	}
 
 }
