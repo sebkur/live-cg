@@ -59,4 +59,20 @@ public class Vector
 	{
 		return new Vector(x * lambda, y * lambda);
 	}
+
+	public double dotProduct(Vector other)
+	{
+		return x * other.x + y * other.y;
+	}
+
+	public double norm()
+	{
+		return Math.sqrt(x * x + y * y);
+	}
+
+	public Vector normalized()
+	{
+		return mult(1.0 / this.norm());
+	}
+
 }
