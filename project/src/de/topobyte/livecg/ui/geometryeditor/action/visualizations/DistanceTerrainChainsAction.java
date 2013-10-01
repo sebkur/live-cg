@@ -36,7 +36,7 @@ public class DistanceTerrainChainsAction extends BasicAction
 	public DistanceTerrainChainsAction(GeometryEditPane editPane)
 	{
 		super(
-				"Fréchet Distance (chains)",
+				"Distance Terrain (chains)",
 				"Visualize the Distance Terrain used to compute the Fréchet Distance",
 				"res/images/24x24/way.png");
 		this.editPane = editPane;
