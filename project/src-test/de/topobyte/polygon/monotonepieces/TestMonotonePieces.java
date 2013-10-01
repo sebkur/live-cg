@@ -29,7 +29,6 @@ import org.xml.sax.SAXException;
 import de.topobyte.livecg.geometry.geom.Polygon;
 import de.topobyte.livecg.geometry.io.ContentReader;
 import de.topobyte.livecg.ui.geometryeditor.Content;
-import de.topobyte.livecg.ui.geometryeditor.object.multiple.MultiplePanel;
 
 public class TestMonotonePieces
 {
@@ -42,10 +41,14 @@ public class TestMonotonePieces
 		List<Polygon> polygons = content.getPolygons();
 		Polygon polygon = polygons.get(0);
 
+//		 Chain shell = polygon.getShell();
+//		 Chain ishell = ChainHelper.invert(shell);
+//		 polygon = new Polygon(ishell, null);
+
 		MonotonePiecesPanel monotonePiecesPanel = new MonotonePiecesPanel(
 				polygon);
 
-		JFrame frame = new JFrame(MultiplePanel.class.getSimpleName());
+		JFrame frame = new JFrame(MonotonePiecesPanel.class.getSimpleName());
 		frame.setContentPane(monotonePiecesPanel);
 
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

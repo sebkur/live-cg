@@ -29,6 +29,7 @@ import java.util.Map;
 
 import javax.swing.JPanel;
 
+import de.topobyte.frechet.ui.freespace.calc.Vector;
 import de.topobyte.livecg.geometry.geom.AwtHelper;
 import de.topobyte.livecg.geometry.geom.Chain;
 import de.topobyte.livecg.geometry.geom.Coordinate;
@@ -44,6 +45,9 @@ public class MonotonePiecesPanel extends JPanel
 	private Polygon polygon;
 	private Map<Node, VertexType> map = new HashMap<Node, VertexType>();
 
+	private Map<Node, Double> dets = new HashMap<Node, Double>();
+	private Map<Node, Double> angles = new HashMap<Node, Double>();
+
 	public MonotonePiecesPanel(Polygon polygon)
 	{
 		this.polygon = polygon;
@@ -53,6 +57,98 @@ public class MonotonePiecesPanel extends JPanel
 			Node node = shell.getNode(i);
 			map.put(node, VertexType.REGULAR);
 		}
+
+		/*
+		 * Find interior side
+		 */
+
+		double sum1 = 0, sum2 = 0;
+
+		for (int i = 0; i < shell.getNumberOfNodes(); i++) {
+			Node node = shell.getNode(i);
+			int pre = i - 1;
+			if (pre < 0) {
+				pre = shell.getNumberOfNodes() - 1;
+			}
+			int suc = i + 1;
+			if (suc >= shell.getNumberOfNodes()) {
+				suc = 0;
+			}
+			Node nodePre = shell.getNode(pre);
+			Node nodeSuc = shell.getNode(suc);
+
+			Coordinate c = node.getCoordinate();
+			Coordinate cPre = nodePre.getCoordinate();
+			Coordinate cSuc = nodeSuc.getCoordinate();
+
+			double angle = angle(c, cPre, cSuc);
+			double det = determinant(c, cPre, cSuc);
+			dets.put(node, det);
+			angles.put(node, angle);
+
+			sum1 += angle;
+			sum2 += Math.PI * 2 - angle;
+		}
+
+		boolean interiorOnLeftSide = true;
+		if (sum1 > sum2) {
+			interiorOnLeftSide = false;
+		}
+		System.out.println(interiorOnLeftSide);
+
+		/*
+		 * Classify vertices
+		 */
+
+		for (int i = 0; i < shell.getNumberOfNodes(); i++) {
+			Node node = shell.getNode(i);
+			int pre = i - 1;
+			if (pre < 0) {
+				pre = shell.getNumberOfNodes() - 1;
+			}
+			int suc = i + 1;
+			if (suc >= shell.getNumberOfNodes()) {
+				suc = 0;
+			}
+			Node nodePre = shell.getNode(pre);
+			Node nodeSuc = shell.getNode(suc);
+
+			Coordinate c = node.getCoordinate();
+			Coordinate cPre = nodePre.getCoordinate();
+			Coordinate cSuc = nodeSuc.getCoordinate();
+
+			if (c.getY() < cPre.getY() && c.getY() < cSuc.getY()) {
+				map.put(node, VertexType.START);
+				double interiorAngle = angle(c, cPre, cSuc);
+				if (!interiorOnLeftSide) {
+					interiorAngle = Math.PI * 2 - interiorAngle;
+				}
+				if (interiorAngle > Math.PI) {
+					map.put(node, VertexType.SPLIT);	
+				}
+			}
+		}
+	}
+
+	private double angle(Coordinate c, Coordinate cPre, Coordinate cSuc)
+	{
+		Vector v1 = new Vector(cPre.getX() - c.getX(), cPre.getY() - c.getY());
+		Vector v2 = new Vector(cSuc.getX() - c.getX(), cSuc.getY() - c.getY());
+		double dotProduct = v1.dotProduct(v2);
+		double cosAngle = dotProduct / (v1.norm() * v2.norm());
+		double angle = Math.acos(cosAngle);
+		double det = determinant(c, cPre, cSuc);
+		if (det > 0) {
+			angle = Math.PI * 2 - angle;
+		}
+		return angle;
+	}
+
+	private double determinant(Coordinate c, Coordinate cPre, Coordinate cSuc)
+	{
+		double det = (c.getX() - cPre.getX()) * (cSuc.getY() - cPre.getY())
+				- (c.getY() - cPre.getY()) * (cSuc.getX() - cPre.getX());
+		return det;
 	}
 
 	@Override
@@ -120,6 +216,13 @@ public class MonotonePiecesPanel extends JPanel
 			default:
 				break;
 			}
+
+			double angle = angles.get(node);
+
+			g.drawString(String.format("%.1f", angle / Math.PI * 180),
+					(float) c.getX() + 4, (float) c.getY());
+			g.drawString(String.format("%d", i), (float) c.getX() + 4,
+					(float) c.getY() + 12);
 		}
 	}
 }
