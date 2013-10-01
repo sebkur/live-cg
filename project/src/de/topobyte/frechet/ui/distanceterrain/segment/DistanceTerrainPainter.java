@@ -21,6 +21,7 @@ package de.topobyte.frechet.ui.distanceterrain.segment;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 
 import de.topobyte.frechet.ui.freespace.calc.LineSegment;
 import de.topobyte.frechet.ui.freespace.calc.Vector;
@@ -68,7 +69,8 @@ public class DistanceTerrainPainter
 
 		Graphics2D g = (Graphics2D) graphics;
 
-		SwingUtil.useAntialiasing(g, false);
+		BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+		
 		for (int y = 0; y < height; y++) {
 			double t = y / (double) height;
 			Vector Qt = get(seg2, t);
@@ -80,11 +82,14 @@ public class DistanceTerrainPainter
 				double dy = Qt.getY() - Ps.getY();
 
 				double d = Math.sqrt(dx * dx + dy * dy);
-				g.setColor(getColor(d));
-				g.drawRect(x, height - y, 1, 1);
+				Color c = getColor(d);
+				image.setRGB(x, height - y - 1, c.getRGB());
 			}
 		}
 
+		SwingUtil.useAntialiasing(g, false);
+		g.drawImage(image, null, 0, 0);
+		
 		SwingUtil.useAntialiasing(g, true);
 		if (drawBorder) {
 			// Draw the boundaries again
