@@ -182,7 +182,50 @@ public class MonotonePiecesPanel extends JPanel
 			Node node = queue.poll();
 			Coordinate c = node.getCoordinate();
 
+			VertexType type = map.get(node);
+			switch (type) {
+			case START:
+				handleStart();
+				break;
+			case END:
+				handleEnd();
+				break;
+			case SPLIT:
+				handleSplit();
+				break;
+			case MERGE:
+				handleMerge();
+				break;
+			case REGULAR:
+				handleRegular();
+				break;
+			}
 		}
+	}
+
+	private void handleStart()
+	{
+		// TODO Auto-generated method stub
+	}
+
+	private void handleEnd()
+	{
+		// TODO Auto-generated method stub
+	}
+
+	private void handleSplit()
+	{
+		// TODO Auto-generated method stub
+	}
+
+	private void handleMerge()
+	{
+		// TODO Auto-generated method stub
+	}
+
+	private void handleRegular()
+	{
+		// TODO Auto-generated method stub
 	}
 
 	private double angle(Coordinate c, Coordinate cPre, Coordinate cSuc)
