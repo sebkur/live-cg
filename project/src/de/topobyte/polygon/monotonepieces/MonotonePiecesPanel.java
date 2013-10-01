@@ -24,8 +24,10 @@ import java.awt.geom.Arc2D;
 import java.awt.geom.Area;
 import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.PriorityQueue;
 
 import javax.swing.JPanel;
 
@@ -136,6 +138,50 @@ public class MonotonePiecesPanel extends JPanel
 					map.put(node, VertexType.MERGE);
 				}
 			}
+		}
+
+		/*
+		 * Create priority queue
+		 */
+
+		PriorityQueue<Node> queue = new PriorityQueue<Node>(11,
+				new Comparator<Node>() {
+
+					@Override
+					public int compare(Node o1, Node o2)
+					{
+						Coordinate c1 = o1.getCoordinate();
+						Coordinate c2 = o2.getCoordinate();
+						if (c1.getY() == c2.getY()) {
+							if (c1.getX() == c2.getX()) {
+								return 0;
+							} else if (c1.getX() < c2.getX()) {
+								return -1;
+							} else {
+								return 1;
+							}
+						}
+						if (c1.getY() < c2.getY()) {
+							return -1;
+						} else {
+							return 1;
+						}
+					}
+				});
+
+		for (int i = 0; i < shell.getNumberOfNodes(); i++) {
+			Node node = shell.getNode(i);
+			queue.add(node);
+		}
+
+		/*
+		 * Remove elements from queue as long as available
+		 */
+
+		while (!queue.isEmpty()) {
+			Node node = queue.poll();
+			Coordinate c = node.getCoordinate();
+
 		}
 	}
 
