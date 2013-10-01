@@ -41,9 +41,9 @@ public class TestMonotonePieces
 		List<Polygon> polygons = content.getPolygons();
 		Polygon polygon = polygons.get(0);
 
-//		 Chain shell = polygon.getShell();
-//		 Chain ishell = ChainHelper.invert(shell);
-//		 polygon = new Polygon(ishell, null);
+		// Chain shell = polygon.getShell();
+		// Chain ishell = ChainHelper.invert(shell);
+		// polygon = new Polygon(ishell, null);
 
 		MonotonePiecesPanel monotonePiecesPanel = new MonotonePiecesPanel(
 				polygon);

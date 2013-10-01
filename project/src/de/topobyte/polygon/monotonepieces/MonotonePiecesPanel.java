@@ -124,7 +124,16 @@ public class MonotonePiecesPanel extends JPanel
 					interiorAngle = Math.PI * 2 - interiorAngle;
 				}
 				if (interiorAngle > Math.PI) {
-					map.put(node, VertexType.SPLIT);	
+					map.put(node, VertexType.SPLIT);
+				}
+			} else if (c.getY() > cPre.getY() && c.getY() > cSuc.getY()) {
+				map.put(node, VertexType.END);
+				double interiorAngle = angle(c, cPre, cSuc);
+				if (!interiorOnLeftSide) {
+					interiorAngle = Math.PI * 2 - interiorAngle;
+				}
+				if (interiorAngle > Math.PI) {
+					map.put(node, VertexType.MERGE);
 				}
 			}
 		}
@@ -181,12 +190,14 @@ public class MonotonePiecesPanel extends JPanel
 			VertexType type = map.get(node);
 			Coordinate c = node.getCoordinate();
 
-			double size = 6;
+			double arcSize = 6;
+			double rectSize = 6;
+			double triangleSize = 8;
 
-			Arc2D arc = new Arc2D.Double(c.getX() - size / 2, c.getY() - size
-					/ 2, size, size, 0, 360, Arc2D.CHORD);
-			Rectangle2D rect = new Rectangle2D.Double(c.getX() - size / 2,
-					c.getY() - size / 2, size, size);
+			Arc2D arc = new Arc2D.Double(c.getX() - arcSize / 2, c.getY()
+					- arcSize / 2, arcSize, arcSize, 0, 360, Arc2D.CHORD);
+			Rectangle2D rect = new Rectangle2D.Double(c.getX() - rectSize / 2,
+					c.getY() - rectSize / 2, rectSize, rectSize);
 			Path2D triangle = new Path2D.Double();
 
 			switch (type) {
@@ -200,29 +211,26 @@ public class MonotonePiecesPanel extends JPanel
 				g.fill(rect);
 				break;
 			case SPLIT:
-				triangle.moveTo(c.getX(), c.getY() - size / 2);
-				triangle.lineTo(c.getX() - size / 2, c.getY() + size / 2);
-				triangle.lineTo(c.getX() + size / 2, c.getY() + size / 2);
+				triangle.moveTo(c.getX(), c.getY() - triangleSize / 2);
+				triangle.lineTo(c.getX() - triangleSize / 2, c.getY()
+						+ triangleSize / 2);
+				triangle.lineTo(c.getX() + triangleSize / 2, c.getY()
+						+ triangleSize / 2);
 				triangle.closePath();
 				g.fill(triangle);
 				break;
 			case MERGE:
-				triangle.moveTo(c.getX(), c.getY() + size / 2);
-				triangle.lineTo(c.getX() - size / 2, c.getY() - size / 2);
-				triangle.lineTo(c.getX() + size / 2, c.getY() - size / 2);
+				triangle.moveTo(c.getX(), c.getY() + arcSize / 2);
+				triangle.lineTo(c.getX() - triangleSize / 2, c.getY()
+						- triangleSize / 2);
+				triangle.lineTo(c.getX() + triangleSize / 2, c.getY()
+						- triangleSize / 2);
 				triangle.closePath();
 				g.fill(triangle);
 				break;
 			default:
 				break;
 			}
-
-			double angle = angles.get(node);
-
-			g.drawString(String.format("%.1f", angle / Math.PI * 180),
-					(float) c.getX() + 4, (float) c.getY());
-			g.drawString(String.format("%d", i), (float) c.getX() + 4,
-					(float) c.getY() + 12);
 		}
 	}
 }
