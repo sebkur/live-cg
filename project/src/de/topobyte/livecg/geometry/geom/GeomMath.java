@@ -17,6 +17,8 @@
  */
 package de.topobyte.livecg.geometry.geom;
 
+import de.topobyte.frechet.ui.freespace.calc.Vector;
+
 public class GeomMath
 {
 	// return the squared distance between points (vx, vy) and (wx, wy)
@@ -67,6 +69,29 @@ public class GeomMath
 		int y2 = Math.max(rectangle.getY1(), rectangle.getY2());
 		return c.getX() >= x1 && c.getX() <= x2 && c.getY() >= y1
 				&& c.getY() <= y2;
+	}
+
+	// return the angle formed by coordinate sequence (cPre, c, cSuc)
+	public static double angle(Coordinate c, Coordinate cPre, Coordinate cSuc)
+	{
+		Vector v1 = new Vector(cPre.getX() - c.getX(), cPre.getY() - c.getY());
+		Vector v2 = new Vector(cSuc.getX() - c.getX(), cSuc.getY() - c.getY());
+		double dotProduct = v1.dotProduct(v2);
+		double cosAngle = dotProduct / (v1.norm() * v2.norm());
+		double angle = Math.acos(cosAngle);
+		double det = determinant(c, cPre, cSuc);
+		if (det > 0) {
+			angle = Math.PI * 2 - angle;
+		}
+		return angle;
+	}
+
+	private static double determinant(Coordinate c, Coordinate cPre,
+			Coordinate cSuc)
+	{
+		double det = (c.getX() - cPre.getX()) * (cSuc.getY() - cPre.getY())
+				- (c.getY() - cPre.getY()) * (cSuc.getX() - cPre.getX());
+		return det;
 	}
 
 }

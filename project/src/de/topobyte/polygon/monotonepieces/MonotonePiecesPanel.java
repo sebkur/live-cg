@@ -33,15 +33,16 @@ import java.util.PriorityQueue;
 
 import javax.swing.JPanel;
 
-import de.topobyte.frechet.ui.freespace.calc.Vector;
 import de.topobyte.livecg.geometry.geom.AwtHelper;
 import de.topobyte.livecg.geometry.geom.Chain;
 import de.topobyte.livecg.geometry.geom.ChainHelper;
 import de.topobyte.livecg.geometry.geom.CloseabilityException;
 import de.topobyte.livecg.geometry.geom.Coordinate;
+import de.topobyte.livecg.geometry.geom.GeomMath;
 import de.topobyte.livecg.geometry.geom.IntRing;
 import de.topobyte.livecg.geometry.geom.Node;
 import de.topobyte.livecg.geometry.geom.Polygon;
+import de.topobyte.livecg.geometry.geom.PolygonHelper;
 import de.topobyte.util.SwingUtil;
 
 public class MonotonePiecesPanel extends JPanel
@@ -54,7 +55,7 @@ public class MonotonePiecesPanel extends JPanel
 
 	private Map<Node, Integer> index = new HashMap<Node, Integer>();
 	private Map<Integer, Node> helpers = new HashMap<Integer, Node>();
-	
+
 	private List<Diagonal> diagonals = new ArrayList<Diagonal>();
 
 	public MonotonePiecesPanel(Polygon polygon)
@@ -66,29 +67,8 @@ public class MonotonePiecesPanel extends JPanel
 		 * Find interior side
 		 */
 
-		double sum1 = 0, sum2 = 0;
-
-		IntRing ring = new IntRing(shell.getNumberOfNodes());
-		for (int i = 0; i < shell.getNumberOfNodes(); i++) {
-			Node node = shell.getNode(i);
-			int pre = ring.prevValue();
-			int suc = ring.next().value();
-			Node nodePre = shell.getNode(pre);
-			Node nodeSuc = shell.getNode(suc);
-
-			Coordinate c = node.getCoordinate();
-			Coordinate cPre = nodePre.getCoordinate();
-			Coordinate cSuc = nodeSuc.getCoordinate();
-
-			double angle = angle(c, cPre, cSuc);
-
-			sum1 += angle;
-			sum2 += Math.PI * 2 - angle;
-		}
-
-		if (sum1 > sum2) {
+		if (!PolygonHelper.isCounterClockwiseOriented(polygon)) {
 			try {
-				System.out.println("inverting ");
 				shell = ChainHelper.invert(shell);
 			} catch (CloseabilityException e) {
 				// TODO: what to do here
@@ -105,7 +85,7 @@ public class MonotonePiecesPanel extends JPanel
 			types.put(node, VertexType.REGULAR);
 		}
 
-		ring.reset();
+		IntRing ring = new IntRing(shell.getNumberOfNodes());
 		for (int i = 0; i < shell.getNumberOfNodes(); i++) {
 			Node node = shell.getNode(i);
 			int pre = ring.prevValue();
@@ -119,13 +99,13 @@ public class MonotonePiecesPanel extends JPanel
 
 			if (c.getY() < cPre.getY() && c.getY() < cSuc.getY()) {
 				types.put(node, VertexType.START);
-				double interiorAngle = angle(c, cPre, cSuc);
+				double interiorAngle = GeomMath.angle(c, cPre, cSuc);
 				if (interiorAngle > Math.PI) {
 					types.put(node, VertexType.SPLIT);
 				}
 			} else if (c.getY() > cPre.getY() && c.getY() > cSuc.getY()) {
 				types.put(node, VertexType.END);
-				double interiorAngle = angle(c, cPre, cSuc);
+				double interiorAngle = GeomMath.angle(c, cPre, cSuc);
 				if (interiorAngle > Math.PI) {
 					types.put(node, VertexType.MERGE);
 				}
@@ -203,26 +183,6 @@ public class MonotonePiecesPanel extends JPanel
 		}
 	}
 
-	private double angle(Coordinate c, Coordinate cPre, Coordinate cSuc)
-	{
-		Vector v1 = new Vector(cPre.getX() - c.getX(), cPre.getY() - c.getY());
-		Vector v2 = new Vector(cSuc.getX() - c.getX(), cSuc.getY() - c.getY());
-		double dotProduct = v1.dotProduct(v2);
-		double cosAngle = dotProduct / (v1.norm() * v2.norm());
-		double angle = Math.acos(cosAngle);
-		double det = determinant(c, cPre, cSuc);
-		if (det > 0) {
-			angle = Math.PI * 2 - angle;
-		}
-		return angle;
-	}
-
-	private double determinant(Coordinate c, Coordinate cPre, Coordinate cSuc)
-	{
-		double det = (c.getX() - cPre.getX()) * (cSuc.getY() - cPre.getY())
-				- (c.getY() - cPre.getY()) * (cSuc.getX() - cPre.getX());
-		return det;
-	}
 
 	private int prev(int i)
 	{
@@ -403,7 +363,7 @@ public class MonotonePiecesPanel extends JPanel
 					(int) Math.round(c1.getY()), (int) Math.round(c2.getX()),
 					(int) Math.round(c2.getY()));
 		}
-		
+
 		for (Diagonal diagonal : diagonals) {
 			Coordinate c1 = diagonal.getA().getCoordinate();
 			Coordinate c2 = diagonal.getB().getCoordinate();
