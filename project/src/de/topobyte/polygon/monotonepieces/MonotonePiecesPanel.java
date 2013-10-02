@@ -365,7 +365,6 @@ public class MonotonePiecesPanel extends JPanel
 			}
 			edge = i;
 		}
-		System.out.println("found for " + idx + ": " + edge);
 		return edge;
 	}
 
