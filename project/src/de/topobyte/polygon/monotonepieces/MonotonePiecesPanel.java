@@ -52,9 +52,6 @@ public class MonotonePiecesPanel extends JPanel
 	private Polygon polygon;
 	private Map<Node, VertexType> types = new HashMap<Node, VertexType>();
 
-	private Map<Node, Double> dets = new HashMap<Node, Double>();
-	private Map<Node, Double> angles = new HashMap<Node, Double>();
-
 	private Map<Node, Integer> index = new HashMap<Node, Integer>();
 	private Map<Integer, Node> helpers = new HashMap<Integer, Node>();
 	
@@ -84,9 +81,6 @@ public class MonotonePiecesPanel extends JPanel
 			Coordinate cSuc = nodeSuc.getCoordinate();
 
 			double angle = angle(c, cPre, cSuc);
-			double det = determinant(c, cPre, cSuc);
-			dets.put(node, det);
-			angles.put(node, angle);
 
 			sum1 += angle;
 			sum2 += Math.PI * 2 - angle;
