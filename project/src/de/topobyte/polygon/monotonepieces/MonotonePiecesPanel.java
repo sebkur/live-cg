@@ -24,8 +24,10 @@ import java.awt.geom.Arc2D;
 import java.awt.geom.Area;
 import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
 
@@ -34,7 +36,10 @@ import javax.swing.JPanel;
 import de.topobyte.frechet.ui.freespace.calc.Vector;
 import de.topobyte.livecg.geometry.geom.AwtHelper;
 import de.topobyte.livecg.geometry.geom.Chain;
+import de.topobyte.livecg.geometry.geom.ChainHelper;
+import de.topobyte.livecg.geometry.geom.CloseabilityException;
 import de.topobyte.livecg.geometry.geom.Coordinate;
+import de.topobyte.livecg.geometry.geom.IntRing;
 import de.topobyte.livecg.geometry.geom.Node;
 import de.topobyte.livecg.geometry.geom.Polygon;
 import de.topobyte.util.SwingUtil;
@@ -45,20 +50,20 @@ public class MonotonePiecesPanel extends JPanel
 	private static final long serialVersionUID = 2129465700417909129L;
 
 	private Polygon polygon;
-	private Map<Node, VertexType> map = new HashMap<Node, VertexType>();
+	private Map<Node, VertexType> types = new HashMap<Node, VertexType>();
 
 	private Map<Node, Double> dets = new HashMap<Node, Double>();
 	private Map<Node, Double> angles = new HashMap<Node, Double>();
 
+	private Map<Node, Integer> index = new HashMap<Node, Integer>();
+	private Map<Integer, Node> helpers = new HashMap<Integer, Node>();
+	
+	private List<Diagonal> diagonals = new ArrayList<Diagonal>();
+
 	public MonotonePiecesPanel(Polygon polygon)
 	{
 		this.polygon = polygon;
-
 		Chain shell = polygon.getShell();
-		for (int i = 0; i < shell.getNumberOfNodes(); i++) {
-			Node node = shell.getNode(i);
-			map.put(node, VertexType.REGULAR);
-		}
 
 		/*
 		 * Find interior side
@@ -66,16 +71,11 @@ public class MonotonePiecesPanel extends JPanel
 
 		double sum1 = 0, sum2 = 0;
 
+		IntRing ring = new IntRing(shell.getNumberOfNodes());
 		for (int i = 0; i < shell.getNumberOfNodes(); i++) {
 			Node node = shell.getNode(i);
-			int pre = i - 1;
-			if (pre < 0) {
-				pre = shell.getNumberOfNodes() - 1;
-			}
-			int suc = i + 1;
-			if (suc >= shell.getNumberOfNodes()) {
-				suc = 0;
-			}
+			int pre = ring.prevValue();
+			int suc = ring.next().value();
 			Node nodePre = shell.getNode(pre);
 			Node nodeSuc = shell.getNode(suc);
 
@@ -92,11 +92,15 @@ public class MonotonePiecesPanel extends JPanel
 			sum2 += Math.PI * 2 - angle;
 		}
 
-		boolean interiorOnLeftSide = true;
 		if (sum1 > sum2) {
-			interiorOnLeftSide = false;
+			try {
+				System.out.println("inverting ");
+				shell = ChainHelper.invert(shell);
+			} catch (CloseabilityException e) {
+				// TODO: what to do here
+			}
+			this.polygon = new Polygon(shell, null);
 		}
-		System.out.println(interiorOnLeftSide);
 
 		/*
 		 * Classify vertices
@@ -104,14 +108,14 @@ public class MonotonePiecesPanel extends JPanel
 
 		for (int i = 0; i < shell.getNumberOfNodes(); i++) {
 			Node node = shell.getNode(i);
-			int pre = i - 1;
-			if (pre < 0) {
-				pre = shell.getNumberOfNodes() - 1;
-			}
-			int suc = i + 1;
-			if (suc >= shell.getNumberOfNodes()) {
-				suc = 0;
-			}
+			types.put(node, VertexType.REGULAR);
+		}
+
+		ring.reset();
+		for (int i = 0; i < shell.getNumberOfNodes(); i++) {
+			Node node = shell.getNode(i);
+			int pre = ring.prevValue();
+			int suc = ring.next().value();
 			Node nodePre = shell.getNode(pre);
 			Node nodeSuc = shell.getNode(suc);
 
@@ -120,24 +124,27 @@ public class MonotonePiecesPanel extends JPanel
 			Coordinate cSuc = nodeSuc.getCoordinate();
 
 			if (c.getY() < cPre.getY() && c.getY() < cSuc.getY()) {
-				map.put(node, VertexType.START);
+				types.put(node, VertexType.START);
 				double interiorAngle = angle(c, cPre, cSuc);
-				if (!interiorOnLeftSide) {
-					interiorAngle = Math.PI * 2 - interiorAngle;
-				}
 				if (interiorAngle > Math.PI) {
-					map.put(node, VertexType.SPLIT);
+					types.put(node, VertexType.SPLIT);
 				}
 			} else if (c.getY() > cPre.getY() && c.getY() > cSuc.getY()) {
-				map.put(node, VertexType.END);
+				types.put(node, VertexType.END);
 				double interiorAngle = angle(c, cPre, cSuc);
-				if (!interiorOnLeftSide) {
-					interiorAngle = Math.PI * 2 - interiorAngle;
-				}
 				if (interiorAngle > Math.PI) {
-					map.put(node, VertexType.MERGE);
+					types.put(node, VertexType.MERGE);
 				}
 			}
+		}
+
+		/*
+		 * Build node index lookup
+		 */
+
+		for (int i = 0; i < shell.getNumberOfNodes(); i++) {
+			Node node = shell.getNode(i);
+			index.put(node, i);
 		}
 
 		/*
@@ -180,52 +187,26 @@ public class MonotonePiecesPanel extends JPanel
 
 		while (!queue.isEmpty()) {
 			Node node = queue.poll();
-			Coordinate c = node.getCoordinate();
 
-			VertexType type = map.get(node);
+			VertexType type = types.get(node);
 			switch (type) {
 			case START:
-				handleStart();
+				handleStart(node);
 				break;
 			case END:
-				handleEnd();
+				handleEnd(node);
 				break;
 			case SPLIT:
-				handleSplit();
+				handleSplit(node);
 				break;
 			case MERGE:
-				handleMerge();
+				handleMerge(node);
 				break;
 			case REGULAR:
-				handleRegular();
+				handleRegular(node);
 				break;
 			}
 		}
-	}
-
-	private void handleStart()
-	{
-		// TODO Auto-generated method stub
-	}
-
-	private void handleEnd()
-	{
-		// TODO Auto-generated method stub
-	}
-
-	private void handleSplit()
-	{
-		// TODO Auto-generated method stub
-	}
-
-	private void handleMerge()
-	{
-		// TODO Auto-generated method stub
-	}
-
-	private void handleRegular()
-	{
-		// TODO Auto-generated method stub
 	}
 
 	private double angle(Coordinate c, Coordinate cPre, Coordinate cSuc)
@@ -249,6 +230,165 @@ public class MonotonePiecesPanel extends JPanel
 		return det;
 	}
 
+	private int prev(int i)
+	{
+		int k = i - 1;
+		if (k == -1) {
+			return polygon.getShell().getNumberOfNodes() - 1;
+		}
+		return k;
+	}
+
+	private int next(int i)
+	{
+		int k = i + 1;
+		if (k == polygon.getShell().getNumberOfNodes()) {
+			return 0;
+		}
+		return k;
+	}
+
+	/*
+	 * Node handle methods
+	 */
+
+	private void handleStart(Node node)
+	{
+		// Insert e_(i) in T
+		int i = index(node);
+		setHelper(i, node);
+	}
+
+	private void handleEnd(Node node)
+	{
+		// Remove e_(i-1) from T
+		int i = index(node);
+		Node helper = getHelper(prev(i));
+		if (types.get(helper) == VertexType.MERGE) {
+			insertDiagonal(node, helper);
+		}
+	}
+
+	private void handleSplit(Node node)
+	{
+		int i = index(node);
+		int j = findEdgeDirectlyToTheLeftOf(node);
+		Node helper = getHelper(j);
+		insertDiagonal(node, helper);
+		setHelper(j, node);
+		// Insert e_(i) in T
+		setHelper(i, node);
+	}
+
+	private void handleMerge(Node node)
+	{
+		int i = index(node);
+		Node helper = getHelper(prev(i));
+		if (types.get(helper) == VertexType.MERGE) {
+			insertDiagonal(node, helper);
+		}
+		// Delete e_(i-1) from T
+		int j = findEdgeDirectlyToTheLeftOf(node);
+		helper = getHelper(j);
+		if (types.get(helper) == VertexType.MERGE) {
+			insertDiagonal(node, helper);
+		}
+		setHelper(j, node);
+	}
+
+	private void handleRegular(Node node)
+	{
+		int i = index(node);
+		Node next = polygon.getShell().getNode(next(i));
+		boolean interiorToTheRightOfNode = false;
+		if (next.getCoordinate().getY() == node.getCoordinate().getY()) {
+			// TODO: Degenerate case
+		} else if (next.getCoordinate().getY() > node.getCoordinate().getY()) {
+			interiorToTheRightOfNode = true;
+		} else {
+			interiorToTheRightOfNode = false;
+		}
+		if (interiorToTheRightOfNode) {
+			Node helper = getHelper(prev(i));
+			if (types.get(helper) == VertexType.MERGE) {
+				insertDiagonal(node, helper);
+			}
+			// Delete e_(i-1) from T
+			// Insert e_(i) in T
+			setHelper(i, node);
+		} else {
+			int j = findEdgeDirectlyToTheLeftOf(node);
+			Node helper = getHelper(j);
+			if (types.get(helper) == VertexType.MERGE) {
+				insertDiagonal(node, helper);
+			}
+			setHelper(j, node);
+		}
+	}
+
+	private int findEdgeDirectlyToTheLeftOf(Node node)
+	{
+		int idx = index(node);
+
+		int edge = -1;
+		double dx = Double.MAX_VALUE;
+		Coordinate c = node.getCoordinate();
+		Chain shell = polygon.getShell();
+		IntRing ring = new IntRing(shell.getNumberOfNodes());
+		for (int i = 0; i < shell.getNumberOfNodes(); i++) {
+			int j = ring.next().value();
+			// Do not allow edges adjacent to the node
+			if (idx == j || idx == i) {
+				continue;
+			}
+			Coordinate c1 = shell.getCoordinate(i);
+			Coordinate c2 = shell.getCoordinate(j);
+			// Make sure c1.y <= c2.y
+			if (c1.getY() > c2.getY()) {
+				Coordinate tmp = c1;
+				c1 = c2;
+				c2 = tmp;
+			}
+			// Only edges where node.y is within the edges y-range
+			if (c1.getY() > c.getY() || c2.getY() < c.getY()) {
+				continue;
+			}
+			// X-coordinate where horizontal ray from node meets edge
+			double x = c1.getX() + (c2.getX() - c1.getX())
+					* (c.getY() - c1.getY()) / (c2.getY() - c1.getY());
+			// Only edges to the left of node
+			if (x > c.getX()) {
+				continue;
+			}
+			if (c1.getX() - x < dx) {
+				dx = c1.getX() - x;
+			}
+			edge = i;
+		}
+		System.out.println("found for " + idx + ": " + edge);
+		return edge;
+	}
+
+	private int index(Node node)
+	{
+		return index.get(node);
+	}
+
+	private void setHelper(int i, Node node)
+	{
+		helpers.put(i, node);
+	}
+
+	private Node getHelper(int i)
+	{
+		return helpers.get(i);
+	}
+
+	private void insertDiagonal(Node node, Node helper)
+	{
+		diagonals.add(new Diagonal(node, helper));
+	}
+
 	@Override
 	public void paint(Graphics graphics)
 	{
@@ -261,13 +401,19 @@ public class MonotonePiecesPanel extends JPanel
 
 		g.setColor(Color.BLACK);
 		Chain shell = polygon.getShell();
+		IntRing ring = new IntRing(shell.getNumberOfNodes());
 		for (int i = 0; i < shell.getNumberOfNodes(); i++) {
+			int j = ring.next().value();
 			Coordinate c1 = shell.getCoordinate(i);
-			int j = i + 1;
-			if (j == shell.getNumberOfNodes()) {
-				j = 0;
-			}
 			Coordinate c2 = shell.getCoordinate(j);
+			g.drawLine((int) Math.round(c1.getX()),
+					(int) Math.round(c1.getY()), (int) Math.round(c2.getX()),
+					(int) Math.round(c2.getY()));
+		}
+		
+		for (Diagonal diagonal : diagonals) {
+			Coordinate c1 = diagonal.getA().getCoordinate();
+			Coordinate c2 = diagonal.getB().getCoordinate();
 			g.drawLine((int) Math.round(c1.getX()),
 					(int) Math.round(c1.getY()), (int) Math.round(c2.getX()),
 					(int) Math.round(c2.getY()));
@@ -276,7 +422,7 @@ public class MonotonePiecesPanel extends JPanel
 		g.setColor(Color.BLACK);
 		for (int i = 0; i < shell.getNumberOfNodes(); i++) {
 			Node node = shell.getNode(i);
-			VertexType type = map.get(node);
+			VertexType type = types.get(node);
 			Coordinate c = node.getCoordinate();
 
 			double arcSize = 6;
@@ -320,6 +466,9 @@ public class MonotonePiecesPanel extends JPanel
 			default:
 				break;
 			}
+
+			g.drawString(String.format("%d", i), (float) c.getX() + 10,
+					(float) c.getY());
 		}
 	}
 }

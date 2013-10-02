@@ -15,20 +15,30 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.topobyte.livecg.geometry.geom;
+package de.topobyte.polygon.monotonepieces;
 
-public class ChainHelper
+import de.topobyte.livecg.geometry.geom.Node;
+
+public class Diagonal
 {
 
-	public static Chain invert(Chain chain) throws CloseabilityException
+	private Node a;
+	private Node b;
+
+	public Diagonal(Node a, Node b)
 	{
-		Chain result = new Chain();
-		int n = chain.getNumberOfNodes();
-		for (int i = n - 1; i >= 0; i--) {
-			result.appendNode(chain.getNode(i));
-		}
-		result.setClosed(chain.isClosed());
-		return result;
+		this.a = a;
+		this.b = b;
+	}
+
+	public Node getA()
+	{
+		return a;
+	}
+
+	public Node getB()
+	{
+		return b;
 	}
 
 }

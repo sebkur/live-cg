@@ -42,7 +42,13 @@ public class TestMonotonePieces
 		Polygon polygon = polygons.get(0);
 
 		// Chain shell = polygon.getShell();
-		// Chain ishell = ChainHelper.invert(shell);
+		// Chain ishell = null;
+		// try {
+		// ishell = ChainHelper.invert(shell);
+		// } catch (CloseabilityException e) {
+		// System.out.println("unable to invert shell");
+		// System.exit(1);
+		// }
 		// polygon = new Polygon(ishell, null);
 
 		MonotonePiecesPanel monotonePiecesPanel = new MonotonePiecesPanel(

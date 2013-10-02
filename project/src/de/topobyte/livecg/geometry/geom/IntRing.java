@@ -17,18 +17,61 @@
  */
 package de.topobyte.livecg.geometry.geom;
 
-public class ChainHelper
+public class IntRing
 {
 
-	public static Chain invert(Chain chain) throws CloseabilityException
+	private int value = 0;
+	private int size;
+
+	public IntRing(int size)
 	{
-		Chain result = new Chain();
-		int n = chain.getNumberOfNodes();
-		for (int i = n - 1; i >= 0; i--) {
-			result.appendNode(chain.getNode(i));
+		this.size = size;
+	}
+
+	public void reset()
+	{
+		value = 0;
+	}
+	
+	public IntRing next()
+	{
+		value++;
+		if (value == size) {
+			value = 0;
 		}
-		result.setClosed(chain.isClosed());
-		return result;
+		return this;
+	}
+
+	public int nextValue()
+	{
+		int v = value + 1;
+		if (v == size) {
+			v = 0;
+		}
+		return v;
+	}
+
+	public IntRing prev()
+	{
+		value--;
+		if (value == -1) {
+			value = size - 1;
+		}
+		return this;
+	}
+
+	public int prevValue()
+	{
+		int v = value - 1;
+		if (v == -1) {
+			v = size - 1;
+		}
+		return v;
+	}
+
+	public int value()
+	{
+		return value;
 	}
 
 }
