@@ -24,6 +24,9 @@ import java.util.List;
 import javax.swing.JFrame;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.apache.log4j.BasicConfigurator;
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 import org.xml.sax.SAXException;
 
 import de.topobyte.livecg.geometry.geom.Polygon;
@@ -35,6 +38,9 @@ public class TestMonotonePieces
 	public static void main(String[] args) throws IOException,
 			ParserConfigurationException, SAXException
 	{
+		BasicConfigurator.configure();
+		Logger.getRootLogger().setLevel(Level.DEBUG);
+
 		String path = "res/presets/triangulation/Small.geom";
 		ContentReader contentReader = new ContentReader();
 		Content content = contentReader.read(new File(path));

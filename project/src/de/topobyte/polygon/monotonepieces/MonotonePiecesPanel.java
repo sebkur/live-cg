@@ -25,6 +25,7 @@ import java.awt.geom.Area;
 import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
 import java.util.List;
+import java.util.Random;
 
 import javax.swing.JPanel;
 
@@ -43,11 +44,13 @@ public class MonotonePiecesPanel extends JPanel
 
 	private Polygon polygon;
 	private MonotonePiecesOperation monotonePiecesOperation;
+	private List<Polygon> monotonePieces;
 
 	public MonotonePiecesPanel(Polygon polygon)
 	{
 		this.polygon = polygon;
 		monotonePiecesOperation = new MonotonePiecesOperation(polygon);
+		monotonePieces = monotonePiecesOperation.getMonotonePieces();
 	}
 
 	@Override
@@ -59,6 +62,15 @@ public class MonotonePiecesPanel extends JPanel
 		Area shape = AwtHelper.toShape(polygon);
 		g.setColor(new Color(0x66ff0000, true));
 		g.fill(shape);
+
+		Random r = new Random();
+		for (int i = 0; i < monotonePieces.size(); i++) {
+			Polygon piece = monotonePieces.get(i);
+			shape = AwtHelper.toShape(piece);
+			g.setColor(new Color(r.nextInt(255), r.nextInt(255),
+					r.nextInt(255), 100));
+			g.fill(shape);
+		}
 
 		g.setColor(Color.BLACK);
 		Chain shell = polygon.getShell();

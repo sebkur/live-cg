@@ -25,6 +25,7 @@ import java.awt.geom.Area;
 import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
 import java.util.List;
+import java.util.Random;
 
 import javax.swing.JPanel;
 
@@ -62,13 +63,12 @@ public class MonotonePiecesTriangulationPanel extends JPanel
 		g.setColor(new Color(0x66ff0000, true));
 		g.fill(shape);
 
-		int alphaA = 50;
-		int alphaB = 200;
+		Random r = new Random();
 		for (int i = 0; i < monotonePieces.size(); i++) {
 			Polygon piece = monotonePieces.get(i);
 			shape = AwtHelper.toShape(piece);
-			g.setColor(new Color(255, 255, 255, Math.round(alphaA
-					+ (i / monotonePieces.size()) * (alphaB - alphaA))));
+			g.setColor(new Color(r.nextInt(255), r.nextInt(255),
+					r.nextInt(255), 100));
 			g.fill(shape);
 		}
 

@@ -17,31 +17,52 @@
  */
 package de.topobyte.livecg.geometry.geom;
 
-import java.util.HashMap;
-import java.util.Map;
-
-public class ChainHelper
+public class IntRingInterval
 {
 
-	public static Chain invert(Chain chain) throws CloseabilityException
+	private int size;
+	private int a;
+	private int b;
+	private boolean wrap;
+
+	public IntRingInterval(int size, int a, int b)
 	{
-		Chain result = new Chain();
-		int n = chain.getNumberOfNodes();
-		for (int i = n - 1; i >= 0; i--) {
-			result.appendNode(chain.getNode(i));
-		}
-		result.setClosed(chain.isClosed());
-		return result;
+		this.size = size;
+		this.a = a;
+		this.b = b;
+		wrap = a > b;
 	}
 
-	public static Map<Node, Integer> buildNodeIndexLookup(Chain chain)
+	public int getSize()
 	{
-		Map<Node, Integer> index = new HashMap<Node, Integer>();
-		for (int i = 0; i < chain.getNumberOfNodes(); i++) {
-			Node node = chain.getNode(i);
-			index.put(node, i);
+		return size;
+	}
+
+	public int getA()
+	{
+		return a;
+	}
+
+	public int getB()
+	{
+		return b;
+	}
+
+	public boolean contains(int n, boolean open)
+	{
+		if (!wrap) {
+			if (open) {
+				return n > a && n < b;
+			} else {
+				return n >= a && n <= b;
+			}
+		} else {
+			if (open) {
+				return n > a || n < b;
+			} else {
+				return n >= a || n <= b;
+			}
 		}
-		return index;
 	}
 
 }

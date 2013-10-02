@@ -20,11 +20,17 @@ package de.topobyte.livecg.geometry.geom;
 public class IntRing
 {
 
-	private int value = 0;
+	private int value;
 	private int size;
 
 	public IntRing(int size)
 	{
+		this(size, 0);
+	}
+	
+	public IntRing(int size, int value)
+	{
+		this.value = value;
 		this.size = size;
 	}
 
