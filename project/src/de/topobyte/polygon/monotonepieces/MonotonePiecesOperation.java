@@ -154,6 +154,8 @@ public class MonotonePiecesOperation
 			Node node = queue.poll();
 
 			VertexType type = types.get(node);
+			logger.debug("Handle node: " + (index.get(node) + 1) + ", type: "
+					+ type);
 			switch (type) {
 			case START:
 				handleStart(node);
@@ -170,6 +172,18 @@ public class MonotonePiecesOperation
 			case REGULAR:
 				handleRegular(node);
 				break;
+			}
+		}
+		for (int i = 0; i < shell.getNumberOfNodes(); i++) {
+			Node helper = helpers.get(i);
+			if (helper == null) {
+				continue;
+			}
+			logger.debug("Remaining helper of edge " + (i + 1) + " type: "
+					+ types.get(helper));
+			if (types.get(helper) == VertexType.MERGE) {
+				Node end = shell.getNode(i);
+				insertDiagonal(helper, end);
 			}
 		}
 	}
@@ -228,6 +242,7 @@ public class MonotonePiecesOperation
 	{
 		int i = index(node);
 		Node helper = getHelper(prev(i));
+		logger.debug("Helper is: " + (index.get(helper)));
 		if (types.get(helper) == VertexType.MERGE) {
 			insertDiagonal(node, helper);
 		}
@@ -247,6 +262,7 @@ public class MonotonePiecesOperation
 		boolean interiorToTheRightOfNode = false;
 		if (next.getCoordinate().getY() == node.getCoordinate().getY()) {
 			// TODO: Degenerate case
+			logger.error("Degenerate case not implemented");
 		} else if (next.getCoordinate().getY() > node.getCoordinate().getY()) {
 			interiorToTheRightOfNode = true;
 		} else {
@@ -324,12 +340,17 @@ public class MonotonePiecesOperation
 
 	private Node getHelper(int i)
 	{
+		if (types.get(helpers.get(i)) == VertexType.MERGE) {
+			logger.debug("getHelper: MERGE");
+		}
 		return helpers.get(i);
 	}
 
-	private void insertDiagonal(Node node, Node helper)
+	private void insertDiagonal(Node from, Node to)
 	{
-		diagonals.add(new Diagonal(node, helper));
+		logger.debug("Inserting diagonal: " + (index.get(from) + 1) + " -> "
+				+ (index.get(to) + 1));
+		diagonals.add(new Diagonal(from, to));
 	}
 
 	public VertexType getType(Node node)
