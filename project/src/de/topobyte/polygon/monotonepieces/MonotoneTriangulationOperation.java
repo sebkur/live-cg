@@ -196,6 +196,15 @@ public class MonotoneTriangulationOperation
 				stack.push(uj);
 			}
 		}
+		
+		if (stack.size() > 2) {
+			stack.pop();
+			Node un = nodes.get(nodes.size() - 1);
+			while(stack.size() > 1) {
+				Node popped = stack.pop();
+				addDiagonal(un, popped);
+			}
+		}
 	}
 
 	private boolean canAdd(Node from, Node to, Node check)
