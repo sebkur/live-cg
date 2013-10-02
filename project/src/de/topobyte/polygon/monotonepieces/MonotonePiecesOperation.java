@@ -327,7 +327,7 @@ public class MonotonePiecesOperation
 	{
 		diagonals.add(new Diagonal(node, helper));
 	}
-	
+
 	public VertexType getType(Node node)
 	{
 		return types.get(node);
@@ -336,6 +336,13 @@ public class MonotonePiecesOperation
 	public List<Diagonal> getDiagonals()
 	{
 		return diagonals;
+	}
+
+	public List<Polygon> getMonotonePieces()
+	{
+		List<Polygon> pieces = new ArrayList<Polygon>();
+		// TODO: implement this
+		return pieces;
 	}
 
 }

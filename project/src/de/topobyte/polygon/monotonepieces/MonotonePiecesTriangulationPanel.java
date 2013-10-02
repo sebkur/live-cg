@@ -43,11 +43,13 @@ public class MonotonePiecesTriangulationPanel extends JPanel
 
 	private Polygon polygon;
 	private MonotonePiecesOperation monotonePiecesOperation;
+	private List<Polygon> monotonePieces;
 
 	public MonotonePiecesTriangulationPanel(Polygon polygon)
 	{
 		this.polygon = polygon;
 		monotonePiecesOperation = new MonotonePiecesOperation(polygon);
+		monotonePieces = monotonePiecesOperation.getMonotonePieces();
 	}
 
 	@Override
@@ -59,6 +61,16 @@ public class MonotonePiecesTriangulationPanel extends JPanel
 		Area shape = AwtHelper.toShape(polygon);
 		g.setColor(new Color(0x66ff0000, true));
 		g.fill(shape);
+
+		int alphaA = 50;
+		int alphaB = 200;
+		for (int i = 0; i < monotonePieces.size(); i++) {
+			Polygon piece = monotonePieces.get(i);
+			shape = AwtHelper.toShape(piece);
+			g.setColor(new Color(255, 255, 255, Math.round(alphaA
+					+ (i / monotonePieces.size()) * (alphaB - alphaA))));
+			g.fill(shape);
+		}
 
 		g.setColor(Color.BLACK);
 		Chain shell = polygon.getShell();
