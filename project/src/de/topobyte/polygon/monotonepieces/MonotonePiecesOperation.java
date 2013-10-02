@@ -301,6 +301,7 @@ public class MonotonePiecesOperation
 			if (idx == j || idx == i) {
 				continue;
 			}
+			logger.debug("checking " + i + ", " + j);
 			Coordinate c1 = shell.getCoordinate(i);
 			Coordinate c2 = shell.getCoordinate(j);
 			// Make sure c1.y <= c2.y
@@ -316,15 +317,18 @@ public class MonotonePiecesOperation
 			// X-coordinate where horizontal ray from node meets edge
 			double x = c1.getX() + (c2.getX() - c1.getX())
 					* (c.getY() - c1.getY()) / (c2.getY() - c1.getY());
+			logger.debug("x: " + x);
 			// Only edges to the left of node
 			if (x > c.getX()) {
 				continue;
 			}
-			if (c1.getX() - x < dx) {
-				dx = c1.getX() - x;
+			if (c.getX() - x < dx) {
+				logger.debug("replacing nearest edge, dx: " + dx);
+				dx = c.getX() - x;
+				edge = i;
 			}
-			edge = i;
 		}
+		logger.debug("Found edge: " + edge);
 		return edge;
 	}
 
@@ -348,6 +352,12 @@ public class MonotonePiecesOperation
 
 	private void insertDiagonal(Node from, Node to)
 	{
+		if (from == null) {			
+			logger.debug("from is null");
+		}
+		if (to == null) {
+			logger.debug("to is null");
+		}
 		logger.debug("Inserting diagonal: " + (index.get(from) + 1) + " -> "
 				+ (index.get(to) + 1));
 		diagonals.add(new Diagonal(from, to));
