@@ -94,4 +94,28 @@ public class GeomMath
 		return det;
 	}
 
+	// return whether c is right of a -> b
+	public static boolean isRightOf(Coordinate a, Coordinate b, Coordinate c)
+	{
+		double det = (a.getX() - c.getX()) * (b.getY() - c.getY())
+				- (b.getX() - c.getX()) * (a.getY() - c.getY());
+		return det > 0;
+	}
+
+	// return whether c is left of a -> b
+	public static boolean isLeftOf(Coordinate a, Coordinate b, Coordinate c)
+	{
+		double det = (a.getX() - c.getX()) * (b.getY() - c.getY())
+				- (b.getX() - c.getX()) * (a.getY() - c.getY());
+		return det < 0;
+	}
+
+	// return whether c is on a -> b
+	public static boolean isOn(Coordinate a, Coordinate b, Coordinate c)
+	{
+		double det = (a.getX() - c.getX()) * (b.getY() - c.getY())
+				- (b.getX() - c.getX()) * (a.getY() - c.getY());
+		return det == 0;
+	}
+
 }
