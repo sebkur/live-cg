@@ -51,6 +51,11 @@ public class MonotonePiecesTriangulationPanel extends JPanel
 		this.polygon = polygon;
 		monotonePiecesOperation = new MonotonePiecesOperation(polygon);
 		monotonePieces = monotonePiecesOperation.getMonotonePieces();
+
+		for (Polygon monotonePolygon : monotonePieces) {
+			MonotoneTriangulationOperation monotoneTriangulationOperation = new MonotoneTriangulationOperation(
+					monotonePolygon);
+		}
 	}
 
 	@Override
