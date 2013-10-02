@@ -24,6 +24,7 @@ import java.awt.geom.Arc2D;
 import java.awt.geom.Area;
 import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -45,6 +46,7 @@ public class MonotonePiecesTriangulationPanel extends JPanel
 	private Polygon polygon;
 	private MonotonePiecesOperation monotonePiecesOperation;
 	private List<Polygon> monotonePieces;
+	private List<List<Diagonal>> allDiagonals = new ArrayList<List<Diagonal>>();
 
 	public MonotonePiecesTriangulationPanel(Polygon polygon)
 	{
@@ -55,6 +57,9 @@ public class MonotonePiecesTriangulationPanel extends JPanel
 		for (Polygon monotonePolygon : monotonePieces) {
 			MonotoneTriangulationOperation monotoneTriangulationOperation = new MonotoneTriangulationOperation(
 					monotonePolygon);
+			List<Diagonal> diagonals = monotoneTriangulationOperation
+					.getDiagonals();
+			allDiagonals.add(diagonals);
 		}
 	}
 
@@ -97,6 +102,17 @@ public class MonotonePiecesTriangulationPanel extends JPanel
 			g.drawLine((int) Math.round(c1.getX()),
 					(int) Math.round(c1.getY()), (int) Math.round(c2.getX()),
 					(int) Math.round(c2.getY()));
+		}
+
+		for (List<Diagonal> diagonalsT : allDiagonals) {
+			for (Diagonal diagonal : diagonalsT) {
+				Coordinate c1 = diagonal.getA().getCoordinate();
+				Coordinate c2 = diagonal.getB().getCoordinate();
+				g.drawLine((int) Math.round(c1.getX()),
+						(int) Math.round(c1.getY()),
+						(int) Math.round(c2.getX()),
+						(int) Math.round(c2.getY()));
+			}
 		}
 
 		g.setColor(Color.BLACK);
