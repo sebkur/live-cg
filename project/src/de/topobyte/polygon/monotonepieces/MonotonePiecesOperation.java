@@ -20,9 +20,11 @@ package de.topobyte.polygon.monotonepieces;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,6 +53,8 @@ public class MonotonePiecesOperation
 	private Map<Integer, Node> helpers = new HashMap<Integer, Node>();
 
 	private List<Diagonal> diagonals = new ArrayList<Diagonal>();
+
+	private Set<Node> connected = new HashSet<Node>();
 
 	public MonotonePiecesOperation(Polygon polygon)
 	{
@@ -174,6 +178,11 @@ public class MonotonePiecesOperation
 				break;
 			}
 		}
+
+		/*
+		 * Look for helper-merge-vertices that have not been handled
+		 */
+
 		for (int i = 0; i < shell.getNumberOfNodes(); i++) {
 			Node helper = helpers.get(i);
 			if (helper == null) {
@@ -182,8 +191,10 @@ public class MonotonePiecesOperation
 			logger.debug("Remaining helper of edge " + (i + 1) + " type: "
 					+ types.get(helper));
 			if (types.get(helper) == VertexType.MERGE) {
-				Node end = shell.getNode(i);
-				insertDiagonal(helper, end);
+				if (!connected.contains(helper)) {
+					Node end = shell.getNode(i);
+					insertDiagonal(helper, end);
+				}
 			}
 		}
 	}
@@ -301,7 +312,7 @@ public class MonotonePiecesOperation
 			if (idx == j || idx == i) {
 				continue;
 			}
-			logger.debug("checking " + i + ", " + j);
+			// logger.debug("checking " + i + ", " + j);
 			Coordinate c1 = shell.getCoordinate(i);
 			Coordinate c2 = shell.getCoordinate(j);
 			// Make sure c1.y <= c2.y
@@ -317,7 +328,7 @@ public class MonotonePiecesOperation
 			// X-coordinate where horizontal ray from node meets edge
 			double x = c1.getX() + (c2.getX() - c1.getX())
 					* (c.getY() - c1.getY()) / (c2.getY() - c1.getY());
-			logger.debug("x: " + x);
+			// logger.debug("x: " + x);
 			// Only edges to the left of node
 			if (x > c.getX()) {
 				continue;
@@ -352,7 +363,7 @@ public class MonotonePiecesOperation
 
 	private void insertDiagonal(Node from, Node to)
 	{
-		if (from == null) {			
+		if (from == null) {
 			logger.debug("from is null");
 		}
 		if (to == null) {
@@ -361,6 +372,8 @@ public class MonotonePiecesOperation
 		logger.debug("Inserting diagonal: " + (index.get(from) + 1) + " -> "
 				+ (index.get(to) + 1));
 		diagonals.add(new Diagonal(from, to));
+		connected.add(from);
+		connected.add(to);
 	}
 
 	public VertexType getType(Node node)
