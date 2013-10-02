@@ -39,6 +39,8 @@ import de.topobyte.livecg.ui.geometryeditor.action.visualizations.DistanceTerrai
 import de.topobyte.livecg.ui.geometryeditor.action.visualizations.FortunesSweepAction;
 import de.topobyte.livecg.ui.geometryeditor.action.visualizations.FreeSpaceChainsAction;
 import de.topobyte.livecg.ui.geometryeditor.action.visualizations.FreeSpaceLinesAction;
+import de.topobyte.livecg.ui.geometryeditor.action.visualizations.MonotonePiecesAction;
+import de.topobyte.livecg.ui.geometryeditor.action.visualizations.TriangulationAction;
 import de.topobyte.livecg.ui.geometryeditor.mousemode.MouseMode;
 import de.topobyte.livecg.ui.geometryeditor.mousemode.MouseModeDescriptions;
 import de.topobyte.livecg.ui.geometryeditor.mousemode.MouseModeProvider;
@@ -164,24 +166,37 @@ public class Menu extends JMenuBar
 
 		JMenuItem fortunesSweep = new JMenuItem(new FortunesSweepAction(
 				editPane));
+
 		JMenu frechet = new JMenu("Fréchet distance");
 		frechet.setIcon(folder);
-		JMenuItem freeSpaceLines = new JMenuItem(
-				new FreeSpaceLinesAction());
-		JMenuItem freeSpaceChains = new JMenuItem(
-				new FreeSpaceChainsAction(editPane));
+
+		JMenu polygons = new JMenu("Polygons");
+		polygons.setIcon(folder);
+
+		JMenuItem freeSpaceLines = new JMenuItem(new FreeSpaceLinesAction());
+		JMenuItem freeSpaceChains = new JMenuItem(new FreeSpaceChainsAction(
+				editPane));
 		JMenuItem distanceTerrainLines = new JMenuItem(
 				new DistanceTerrainLinesAction());
 		JMenuItem distanceTerrainChains = new JMenuItem(
 				new DistanceTerrainChainsAction(editPane));
 
+		JMenuItem monotonePieces = new JMenuItem(new MonotonePiecesAction(
+				editPane));
+		JMenuItem triangulation = new JMenuItem(new TriangulationAction(
+				editPane));
+
 		visualizations.add(fortunesSweep);
 		visualizations.add(frechet);
+		visualizations.add(polygons);
 
 		frechet.add(freeSpaceLines);
 		frechet.add(freeSpaceChains);
 		frechet.add(distanceTerrainLines);
 		frechet.add(distanceTerrainChains);
+
+		polygons.add(monotonePieces);
+		polygons.add(triangulation);
 
 		/*
 		 * Window
