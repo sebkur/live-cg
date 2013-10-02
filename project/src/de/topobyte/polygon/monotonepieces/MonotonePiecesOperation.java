@@ -352,6 +352,11 @@ public class MonotonePiecesOperation
 	private void split(List<Polygon> pieces, Polygon polygon,
 			List<Diagonal> diagonals)
 	{
+		if (diagonals.isEmpty()) {
+			pieces.add(polygon);
+			return;
+		}
+
 		Chain shell = polygon.getShell();
 		logger.debug("Split, polygon size: " + shell.getNumberOfNodes()
 				+ ", #diagonals: " + diagonals.size());
@@ -414,7 +419,8 @@ public class MonotonePiecesOperation
 	{
 		Polygon piece = new Polygon(chain, null);
 		if (diags.size() == 0) {
-			logger.debug("Recursion end. Polygon size: " + chain.getNumberOfNodes());
+			logger.debug("Recursion end. Polygon size: "
+					+ chain.getNumberOfNodes());
 			pieces.add(piece);
 		} else {
 			split(pieces, piece, diags);
