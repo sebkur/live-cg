@@ -53,6 +53,10 @@ public class TestPolygonTriangulation
 		a = 10;
 		b = 25;
 
+		path = "res/presets/triangulation/Real-Big.geom";
+		a = 37;
+		b = 77;
+
 		ContentReader contentReader = new ContentReader();
 		Content content = contentReader.read(new File(path));
 		List<Polygon> polygons = content.getPolygons();
