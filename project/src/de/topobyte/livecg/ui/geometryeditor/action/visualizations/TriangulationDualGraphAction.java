@@ -26,19 +26,19 @@ import de.topobyte.livecg.geometry.geom.Polygon;
 import de.topobyte.livecg.ui.geometryeditor.Content;
 import de.topobyte.livecg.ui.geometryeditor.GeometryEditPane;
 import de.topobyte.livecg.ui.geometryeditor.action.BasicAction;
-import de.topobyte.polygon.monotonepieces.MonotonePiecesTriangulationPanel;
+import de.topobyte.polygon.monotonepieces.TriangulationPanel;
 
-public class TriangulationAction extends BasicAction
+public class TriangulationDualGraphAction extends BasicAction
 {
 
 	private static final long serialVersionUID = -602204318277526170L;
 
 	private GeometryEditPane editPane;
 
-	public TriangulationAction(GeometryEditPane editPane)
+	public TriangulationDualGraphAction(GeometryEditPane editPane)
 	{
-		super("Triangulation (via monotone pieces)",
-				"Show the triangulation of the polygon",
+		super("Triangulation with dual graph",
+				"Show the triangulation of the polygon with its dual graph",
 				"res/images/24x24/multipolygon.png");
 		this.editPane = editPane;
 	}
@@ -53,9 +53,8 @@ public class TriangulationAction extends BasicAction
 		}
 		Polygon polygon = polygons.get(0);
 
-		JFrame frame = new JFrame("Triangulation via monotone pieces");
-		MonotonePiecesTriangulationPanel panel = new MonotonePiecesTriangulationPanel(
-				polygon);
+		JFrame frame = new JFrame("Triangulation with dual graph");
+		TriangulationPanel panel = new TriangulationPanel(polygon);
 		frame.setContentPane(panel);
 		frame.setSize(500, 500);
 		frame.setVisible(true);

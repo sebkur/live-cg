@@ -41,6 +41,7 @@ import de.topobyte.livecg.ui.geometryeditor.action.visualizations.FreeSpaceChain
 import de.topobyte.livecg.ui.geometryeditor.action.visualizations.FreeSpaceLinesAction;
 import de.topobyte.livecg.ui.geometryeditor.action.visualizations.MonotonePiecesAction;
 import de.topobyte.livecg.ui.geometryeditor.action.visualizations.TriangulationAction;
+import de.topobyte.livecg.ui.geometryeditor.action.visualizations.TriangulationDualGraphAction;
 import de.topobyte.livecg.ui.geometryeditor.mousemode.MouseMode;
 import de.topobyte.livecg.ui.geometryeditor.mousemode.MouseModeDescriptions;
 import de.topobyte.livecg.ui.geometryeditor.mousemode.MouseModeProvider;
@@ -185,6 +186,8 @@ public class Menu extends JMenuBar
 				editPane));
 		JMenuItem triangulation = new JMenuItem(new TriangulationAction(
 				editPane));
+		JMenuItem triangulationWithDualGraph = new JMenuItem(
+				new TriangulationDualGraphAction(editPane));
 
 		visualizations.add(fortunesSweep);
 		visualizations.add(frechet);
@@ -197,6 +200,7 @@ public class Menu extends JMenuBar
 
 		polygons.add(monotonePieces);
 		polygons.add(triangulation);
+		polygons.add(triangulationWithDualGraph);
 
 		/*
 		 * Window
