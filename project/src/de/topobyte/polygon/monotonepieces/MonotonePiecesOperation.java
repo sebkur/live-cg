@@ -272,7 +272,7 @@ public class MonotonePiecesOperation
 		boolean interiorToTheRightOfNode = false;
 		if (next.getCoordinate().getY() == node.getCoordinate().getY()) {
 			// TODO: Degenerate case
-			logger.error("Degenerate case not implemented");
+			logger.error("Degenerate case not implemented. Node id: " + (i + 1));
 		} else if (next.getCoordinate().getY() > node.getCoordinate().getY()) {
 			interiorToTheRightOfNode = true;
 		} else {
@@ -387,7 +387,7 @@ public class MonotonePiecesOperation
 
 	public List<Polygon> getMonotonePieces()
 	{
-		SplitResult splitResult = DiagonalUtil.split(polygon, diagonals); 
+		SplitResult splitResult = DiagonalUtil.split(polygon, diagonals);
 		return splitResult.getPolygons();
 	}
 
