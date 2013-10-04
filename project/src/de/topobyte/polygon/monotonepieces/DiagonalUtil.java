@@ -104,6 +104,7 @@ public class DiagonalUtil
 			} else {
 				// Ignore, should not happen
 				logger.error("Diagonal contained in neither part");
+				assert false;
 			}
 		}
 
