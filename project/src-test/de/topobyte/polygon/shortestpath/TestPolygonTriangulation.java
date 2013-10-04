@@ -48,7 +48,11 @@ public class TestPolygonTriangulation
 
 		String path = "res/presets/triangulation/Small.geom";
 		int a = 0, b = 4;
-		
+
+		path = "res/presets/triangulation/Big.geom";
+		a = 10;
+		b = 25;
+
 		ContentReader contentReader = new ContentReader();
 		Content content = contentReader.read(new File(path));
 		List<Polygon> polygons = content.getPolygons();
@@ -65,7 +69,8 @@ public class TestPolygonTriangulation
 		Node nodeStart = shell.getNode(a);
 		Node nodeTarget = shell.getNode(b);
 
-		SleevePanel sleevePanel = new SleevePanel(polygon, nodeStart, nodeTarget);
+		SleevePanel sleevePanel = new SleevePanel(polygon, nodeStart,
+				nodeTarget);
 
 		JFrame frame = new JFrame(SleevePanel.class.getSimpleName());
 		frame.setContentPane(sleevePanel);

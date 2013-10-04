@@ -59,6 +59,8 @@ public class SleevePanel extends JPanel
 	private Polygon triangleStart;
 	private Polygon triangleTarget;
 
+	private List<Polygon> path;
+
 	public SleevePanel(Polygon polygon, Node nodeStart, Node nodeTarget)
 	{
 		this.polygon = polygon;
@@ -82,6 +84,8 @@ public class SleevePanel extends JPanel
 				}
 			}
 		}
+
+		path = GraphFinder.find(graph, triangleStart, triangleTarget);
 	}
 
 	@Override
@@ -97,6 +101,9 @@ public class SleevePanel extends JPanel
 		g.setColor(new Color(0x66ffffff, true));
 		g.fill(AwtHelper.toShape(triangleStart));
 		g.fill(AwtHelper.toShape(triangleTarget));
+		for (Polygon triangle : path) {
+			g.fill(AwtHelper.toShape(triangle));
+		}
 
 		g.setColor(Color.BLACK);
 		Chain shell = polygon.getShell();
