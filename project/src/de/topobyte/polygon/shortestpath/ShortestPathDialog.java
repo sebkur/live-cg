@@ -17,9 +17,11 @@
  */
 package de.topobyte.polygon.shortestpath;
 
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
+import java.awt.BorderLayout;
+import java.awt.Component;
 
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
@@ -27,24 +29,33 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import de.topobyte.swing.layout.GridBagHelper;
-
 public class ShortestPathDialog
 {
 
 	private JFrame frame;
+
+	private Config config;
+	private ShortestPathAlgorithm algorithm;
 
 	private JSlider slider;
 	private ShortestPathPanel spp;
 
 	public ShortestPathDialog(ShortestPathAlgorithm algorithm)
 	{
+		this.algorithm = algorithm;
+
 		frame = new JFrame("Shortest Path in Polygons");
 
-		JPanel panel = new JPanel(new GridBagLayout());
-		frame.setContentPane(panel);
+		JPanel main = new JPanel();
+		frame.setContentPane(main);
+		main.setLayout(new BorderLayout());
 
-		spp = new ShortestPathPanel(algorithm);
+		config = new Config();
+		config.setDrawDualGraph(true);
+
+		spp = new ShortestPathPanel(algorithm, config);
+
+		Settings settings = new Settings(spp, config);
 
 		Sleeve sleeve = algorithm.getSleeve();
 		int nDiagonals = sleeve.getDiagonals().size();
@@ -57,15 +68,15 @@ public class ShortestPathDialog
 		slider.setValue(0);
 		slider.setBorder(new TitledBorder("Diagonals"));
 
-		GridBagConstraints c = new GridBagConstraints();
+		Box north = new Box(BoxLayout.Y_AXIS);
+		settings.setAlignmentX(Component.LEFT_ALIGNMENT);
+		slider.setAlignmentX(Component.LEFT_ALIGNMENT);
+		north.add(settings);
+		north.add(slider);
 
-		GridBagHelper.setWxWyF(c, 1.0, 0.0, GridBagConstraints.HORIZONTAL);
-		GridBagHelper.setGxGy(c, 0, 0);
-		panel.add(slider, c);
-
-		GridBagHelper.setWxWyF(c, 1.0, 1.0, GridBagConstraints.BOTH);
-		GridBagHelper.setGxGy(c, 0, 1);
-		panel.add(spp, c);
+		main.add(north, BorderLayout.NORTH);
+		main.add(spp, BorderLayout.CENTER);
+		// main.add(south, BorderLayout.SOUTH);
 
 		frame.setLocationByPlatform(true);
 		frame.setSize(800, 500);
@@ -89,7 +100,8 @@ public class ShortestPathDialog
 	protected void setDiagonal()
 	{
 		int value = slider.getValue();
-		System.out.println(value);
+		algorithm.setStatus(value);
+		spp.repaint();
 	}
 
 }

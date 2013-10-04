@@ -43,6 +43,7 @@ public class ShortestPathAlgorithm
 	private Polygon triangleTarget;
 
 	private Sleeve sleeve;
+	private int status;
 
 	public ShortestPathAlgorithm(Polygon polygon, Node nodeStart,
 			Node nodeTarget)
@@ -116,5 +117,15 @@ public class ShortestPathAlgorithm
 	public List<Diagonal> getTriangulationDiagonals()
 	{
 		return triangulationDiagonals;
+	}
+
+	public int getStatus()
+	{
+		return status;
+	}
+	
+	public void setStatus(int status)
+	{
+		this.status = status;
 	}
 }

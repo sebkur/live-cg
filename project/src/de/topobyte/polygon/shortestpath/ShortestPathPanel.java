@@ -23,6 +23,7 @@ import java.awt.Graphics2D;
 import java.awt.geom.Arc2D;
 import java.awt.geom.Area;
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 import javax.swing.JPanel;
@@ -44,15 +45,18 @@ public class ShortestPathPanel extends JPanel
 	private static final long serialVersionUID = 7441840910845794124L;
 
 	private ShortestPathAlgorithm algorithm;
+	private Config config;
 
-	public ShortestPathPanel(ShortestPathAlgorithm algorithm)
+	public ShortestPathPanel(ShortestPathAlgorithm algorithm, Config config)
 	{
 		this.algorithm = algorithm;
+		this.config = config;
 	}
 
 	@Override
 	public void paint(Graphics graphics)
 	{
+		super.paint(graphics);
 		Graphics2D g = (Graphics2D) graphics;
 		SwingUtil.useAntialiasing(g, true);
 
@@ -60,10 +64,16 @@ public class ShortestPathPanel extends JPanel
 		g.setColor(new Color(0x66ff0000, true));
 		g.fill(shape);
 
-		g.setColor(new Color(0x66ffffff, true));
-		g.fill(AwtHelper.toShape(algorithm.getTriangleStart()));
-		g.fill(AwtHelper.toShape(algorithm.getTriangleTarget()));
-		for (Polygon triangle : algorithm.getSleeve().getPolygons()) {
+		List<Polygon> triangles = algorithm.getSleeve().getPolygons();
+		Color colorTriangle0 = new Color(0x66ffffff, true);
+		Color colorTriangle1 = new Color(0x66ffff00, true);
+		for (int i = 0; i < triangles.size(); i++) {
+			if (i < algorithm.getStatus()) {
+				g.setColor(colorTriangle1);
+			} else {
+				g.setColor(colorTriangle0);
+			}
+			Polygon triangle = triangles.get(i);
 			g.fill(AwtHelper.toShape(triangle));
 		}
 
@@ -91,24 +101,26 @@ public class ShortestPathPanel extends JPanel
 					(int) Math.round(c2.getY()));
 		}
 
-		g.setColor(Color.GREEN);
-		Collection<Polygon> nodes = algorithm.getGraph().getNodes();
-		for (Polygon p : nodes) {
-			Coordinate cp = PolygonHelper.center(p);
-			Set<Edge<Polygon, Diagonal>> edges = algorithm.getGraph()
-					.getEdgesOut(p);
-			for (Edge<Polygon, Diagonal> edge : edges) {
-				Polygon q = edge.getTarget();
-				Coordinate cq = PolygonHelper.center(q);
-				g.drawLine((int) Math.round(cp.getX()),
-						(int) Math.round(cp.getY()),
-						(int) Math.round(cq.getX()),
-						(int) Math.round(cq.getY()));
+		if (config.isDrawDualGraph()) {
+			g.setColor(Color.GREEN);
+			Collection<Polygon> nodes = algorithm.getGraph().getNodes();
+			for (Polygon p : nodes) {
+				Coordinate cp = PolygonHelper.center(p);
+				Set<Edge<Polygon, Diagonal>> edges = algorithm.getGraph()
+						.getEdgesOut(p);
+				for (Edge<Polygon, Diagonal> edge : edges) {
+					Polygon q = edge.getTarget();
+					Coordinate cq = PolygonHelper.center(q);
+					g.drawLine((int) Math.round(cp.getX()),
+							(int) Math.round(cp.getY()),
+							(int) Math.round(cq.getX()),
+							(int) Math.round(cq.getY()));
+				}
 			}
 		}
 
 		Coordinate cStart = algorithm.getNodeStart().getCoordinate();
-		Coordinate cTarget = algorithm.getNodeStart().getCoordinate();
+		Coordinate cTarget = algorithm.getNodeTarget().getCoordinate();
 		Arc2D arcStart = ShapeUtil.createArc(cStart.getX(), cStart.getY(), 5);
 		Arc2D arcTarget = ShapeUtil
 				.createArc(cTarget.getX(), cTarget.getY(), 5);
