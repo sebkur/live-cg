@@ -17,7 +17,6 @@
  */
 package de.topobyte.polygon.shortestpath;
 
-import java.util.List;
 import java.util.Set;
 
 import de.topobyte.livecg.geometry.geom.Polygon;
@@ -29,16 +28,18 @@ import de.topobyte.util.graph.Graph;
 public class GraphFinder
 {
 
-	public static List<Polygon> find(Graph<Polygon, Diagonal> graph,
-			Polygon start, Polygon target)
+	public static Sleeve find(Graph<Polygon, Diagonal> graph, Polygon start,
+			Polygon target)
 	{
 		GraphFinder finder = new GraphFinder(graph);
 		finder.find(start, target);
-		return finder.path;
+		return new Sleeve(finder.path, finder.pathDiagonals);
 	}
 
 	private Graph<Polygon, Diagonal> graph;
+
 	private Stack<Polygon> path = new Stack<Polygon>();
+	private Stack<Diagonal> pathDiagonals = new Stack<Diagonal>();
 
 	private GraphFinder(Graph<Polygon, Diagonal> graph)
 	{
@@ -68,14 +69,14 @@ public class GraphFinder
 		// Recursive Depth First Search
 		Set<Edge<Polygon, Diagonal>> out = graph.getEdgesOut(top);
 		for (Edge<Polygon, Diagonal> edge : out) {
-			Polygon edgeTarget = edge.getTarget();
 			// Ignore edge pointing to the direction where we came from
-			if (edgeTarget == top2) {
+			if (edge.getTarget() == top2) {
 				continue;
 			}
-			path.push(edgeTarget);
+			path.push(edge.getTarget());
+			pathDiagonals.push(edge.getData());
 			// If we found our target, exit
-			if (target == edgeTarget) {
+			if (target == edge.getTarget()) {
 				return true;
 			}
 			// If we are on a successful path, exit
@@ -83,6 +84,7 @@ public class GraphFinder
 				return true;
 			}
 			path.pop();
+			pathDiagonals.pop();
 		}
 		return false;
 	}

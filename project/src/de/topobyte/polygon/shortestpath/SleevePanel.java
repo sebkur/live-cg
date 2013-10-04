@@ -50,7 +50,7 @@ public class SleevePanel extends JPanel
 
 	private Polygon polygon;
 	private TriangulationOperation triangulationOperation;
-	private List<Diagonal> diagonals;
+	private List<Diagonal> triangulationDiagonals;
 	private Graph<Polygon, Diagonal> graph;
 
 	private Node nodeStart;
@@ -59,7 +59,7 @@ public class SleevePanel extends JPanel
 	private Polygon triangleStart;
 	private Polygon triangleTarget;
 
-	private List<Polygon> path;
+	private Sleeve sleeve;
 
 	public SleevePanel(Polygon polygon, Node nodeStart, Node nodeTarget)
 	{
@@ -67,9 +67,10 @@ public class SleevePanel extends JPanel
 		this.nodeStart = nodeStart;
 		this.nodeTarget = nodeTarget;
 		triangulationOperation = new TriangulationOperation(polygon);
-		diagonals = triangulationOperation.getDiagonals();
+		triangulationDiagonals = triangulationOperation.getDiagonals();
 
-		SplitResult splitResult = DiagonalUtil.split(polygon, diagonals);
+		SplitResult splitResult = DiagonalUtil.split(polygon,
+				triangulationDiagonals);
 		graph = splitResult.getGraph();
 
 		List<Polygon> triangles = splitResult.getPolygons();
@@ -85,18 +86,22 @@ public class SleevePanel extends JPanel
 			}
 		}
 
-		path = GraphFinder.find(graph, triangleStart, triangleTarget);
+		sleeve = GraphFinder.find(graph, triangleStart, triangleTarget);
 		optimizePath();
 	}
 
 	private void optimizePath()
 	{
+		List<Polygon> path = sleeve.getPolygons();
+		List<Diagonal> diagonals = sleeve.getDiagonals();
+
 		if (isOnCorner(nodeStart, triangleStart)) {
 			while (true) {
 				Polygon second = path.get(1);
 				if (isOnCorner(nodeStart, second)) {
 					triangleStart = second;
 					path.remove(0);
+					diagonals.remove(0);
 					continue;
 				}
 				break;
@@ -108,6 +113,7 @@ public class SleevePanel extends JPanel
 				if (isOnCorner(nodeTarget, beforeLast)) {
 					triangleTarget = beforeLast;
 					path.remove(path.size() - 1);
+					diagonals.remove(diagonals.size() - 1);
 					continue;
 				}
 				break;
@@ -140,7 +146,7 @@ public class SleevePanel extends JPanel
 		g.setColor(new Color(0x66ffffff, true));
 		g.fill(AwtHelper.toShape(triangleStart));
 		g.fill(AwtHelper.toShape(triangleTarget));
-		for (Polygon triangle : path) {
+		for (Polygon triangle : sleeve.getPolygons()) {
 			g.fill(AwtHelper.toShape(triangle));
 		}
 
@@ -156,8 +162,11 @@ public class SleevePanel extends JPanel
 					(int) Math.round(c2.getY()));
 		}
 
-		g.setColor(Color.BLUE);
-		for (Diagonal diagonal : diagonals) {
+		for (Diagonal diagonal : triangulationDiagonals) {
+			g.setColor(Color.BLUE);
+			if (sleeve.getDiagonals().contains(diagonal)) {
+				g.setColor(Color.RED.darker());
+			}
 			Coordinate c1 = diagonal.getA().getCoordinate();
 			Coordinate c2 = diagonal.getB().getCoordinate();
 			g.drawLine((int) Math.round(c1.getX()),
