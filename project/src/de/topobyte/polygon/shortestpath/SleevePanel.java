@@ -39,6 +39,7 @@ import de.topobyte.polygon.monotonepieces.DiagonalUtil;
 import de.topobyte.polygon.monotonepieces.Graph;
 import de.topobyte.polygon.monotonepieces.SplitResult;
 import de.topobyte.polygon.monotonepieces.TriangulationOperation;
+import de.topobyte.util.ShapeUtil;
 import de.topobyte.util.SwingUtil;
 import de.topobyte.util.graph.Edge;
 
@@ -93,7 +94,7 @@ public class SleevePanel extends JPanel
 		Area shape = AwtHelper.toShape(polygon);
 		g.setColor(new Color(0x66ff0000, true));
 		g.fill(shape);
-		
+
 		g.setColor(new Color(0x66ffffff, true));
 		g.fill(AwtHelper.toShape(triangleStart));
 		g.fill(AwtHelper.toShape(triangleTarget));
@@ -136,11 +137,9 @@ public class SleevePanel extends JPanel
 
 		Coordinate cStart = nodeStart.getCoordinate();
 		Coordinate cTarget = nodeTarget.getCoordinate();
-		double s = 10;
-		Arc2D arcStart = new Arc2D.Double(cStart.getX() - s / 2, cStart.getY()
-				- s / 2, s, s, 0, 360, Arc2D.CHORD);
-		Arc2D arcTarget = new Arc2D.Double(cTarget.getX() - s / 2,
-				cTarget.getY() - s / 2, s, s, 0, 360, Arc2D.CHORD);
+		Arc2D arcStart = ShapeUtil.createArc(cStart.getX(), cStart.getY(), 5);
+		Arc2D arcTarget = ShapeUtil
+				.createArc(cTarget.getX(), cTarget.getY(), 5);
 		g.setColor(Color.RED);
 		g.draw(arcStart);
 		g.setColor(Color.GREEN);
