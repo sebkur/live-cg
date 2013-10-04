@@ -77,6 +77,7 @@ public class TriangulationPanel extends JPanel
 					(int) Math.round(c2.getY()));
 		}
 
+		g.setColor(Color.BLUE);
 		for (Diagonal diagonal : diagonals) {
 			Coordinate c1 = diagonal.getA().getCoordinate();
 			Coordinate c2 = diagonal.getB().getCoordinate();
@@ -85,6 +86,7 @@ public class TriangulationPanel extends JPanel
 					(int) Math.round(c2.getY()));
 		}
 
+		g.setColor(Color.GREEN);
 		Collection<Polygon> nodes = graph.getNodes();
 		for (Polygon p : nodes) {
 			Coordinate cp = center(p);
