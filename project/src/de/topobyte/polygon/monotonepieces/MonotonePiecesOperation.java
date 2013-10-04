@@ -387,8 +387,8 @@ public class MonotonePiecesOperation
 
 	public List<Polygon> getMonotonePieces()
 	{
-		List<Polygon> pieces = DiagonalUtil.split(polygon, diagonals);
-		return pieces;
+		SplitResult splitResult = DiagonalUtil.split(polygon, diagonals); 
+		return splitResult.getPolygons();
 	}
 
 }

@@ -37,16 +37,17 @@ public class DiagonalUtil
 {
 	final static Logger logger = LoggerFactory.getLogger(DiagonalUtil.class);
 
-	public static List<Polygon> split(Polygon polygon,
+	public static SplitResult split(Polygon polygon,
 			Collection<Diagonal> diagonals)
 	{
+		Graph graph = new Graph(polygon);
 		List<Polygon> pieces = new ArrayList<Polygon>();
-		split(pieces, polygon, diagonals);
-		return pieces;
+		split(graph, pieces, polygon, diagonals);
+		return new SplitResult(pieces, graph);
 	}
 
-	private static void split(List<Polygon> pieces, Polygon polygon,
-			Collection<Diagonal> diagonals)
+	private static void split(Graph graph, List<Polygon> pieces,
+			Polygon polygon, Collection<Diagonal> diagonals)
 	{
 		if (diagonals.isEmpty()) {
 			pieces.add(polygon);
@@ -73,10 +74,12 @@ public class DiagonalUtil
 		logger.debug(String.format("Selected Diagonal %d -> %d", a + 1, b + 1));
 
 		// Create two chains for both subpolygons
-		Chain chainA = createChain(shell, a, b);
-		Chain chainB = createChain(shell, b, a);
 		logger.debug("Chain A: " + a + " -> " + b);
 		logger.debug("Chain B: " + b + " -> " + a);
+		Polygon polygonA = new Polygon(createChain(shell, a, b), null);
+		Polygon polygonB = new Polygon(createChain(shell, b, a), null);
+
+		graph.replace(polygon, polygonA, polygonB, diagonal);
 
 		// Now assign diagonals to subpolygons
 		IntRingInterval intA = new IntRingInterval(shell.getNumberOfNodes(), a,
@@ -109,20 +112,19 @@ public class DiagonalUtil
 		}
 
 		// Recurse with subpolygons and diagonals
-		recurse(pieces, chainA, diagsA);
-		recurse(pieces, chainB, diagsB);
+		recurse(graph, pieces, polygonA, diagsA);
+		recurse(graph, pieces, polygonB, diagsB);
 	}
 
-	private static void recurse(List<Polygon> pieces, Chain chain,
-			List<Diagonal> diags)
+	private static void recurse(Graph graph, List<Polygon> pieces,
+			Polygon piece, List<Diagonal> diags)
 	{
-		Polygon piece = new Polygon(chain, null);
 		if (diags.size() == 0) {
 			logger.debug("Recursion end. Polygon size: "
-					+ chain.getNumberOfNodes());
+					+ piece.getShell().getNumberOfNodes());
 			pieces.add(piece);
 		} else {
-			split(pieces, piece, diags);
+			split(graph, pieces, piece, diags);
 		}
 	}
 

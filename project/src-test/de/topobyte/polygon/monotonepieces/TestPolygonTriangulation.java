@@ -43,7 +43,9 @@ public class TestPolygonTriangulation
 			ParserConfigurationException, SAXException
 	{
 		BasicConfigurator.configure();
-		Logger.getRootLogger().setLevel(Level.DEBUG);
+		Logger.getRootLogger().setLevel(Level.ERROR);
+		Logger.getLogger(Graph.class).setLevel(Level.DEBUG);
+		Logger.getLogger(DiagonalUtil.class).setLevel(Level.DEBUG);
 
 		String path = "res/presets/triangulation/Small.geom";
 		ContentReader contentReader = new ContentReader();

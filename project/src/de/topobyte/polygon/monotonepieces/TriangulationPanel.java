@@ -21,7 +21,9 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.Area;
+import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 import javax.swing.JPanel;
 
@@ -31,6 +33,7 @@ import de.topobyte.livecg.geometry.geom.Coordinate;
 import de.topobyte.livecg.geometry.geom.IntRing;
 import de.topobyte.livecg.geometry.geom.Polygon;
 import de.topobyte.util.SwingUtil;
+import de.topobyte.util.graph.Edge;
 
 public class TriangulationPanel extends JPanel
 {
@@ -40,12 +43,16 @@ public class TriangulationPanel extends JPanel
 	private Polygon polygon;
 	private TriangulationOperation triangulationOperation;
 	private List<Diagonal> diagonals;
+	private Graph graph;
 
 	public TriangulationPanel(Polygon polygon)
 	{
 		this.polygon = polygon;
 		triangulationOperation = new TriangulationOperation(polygon);
 		diagonals = triangulationOperation.getDiagonals();
+
+		SplitResult splitResult = DiagonalUtil.split(polygon, diagonals);
+		graph = splitResult.getGraph();
 	}
 
 	@Override
@@ -78,5 +85,32 @@ public class TriangulationPanel extends JPanel
 					(int) Math.round(c2.getY()));
 		}
 
+		Collection<Polygon> nodes = graph.getNodes();
+		for (Polygon p : nodes) {
+			Coordinate cp = center(p);
+			Set<Edge<Polygon, Diagonal>> edges = graph.getEdgesOut(p);
+			for (Edge<Polygon, Diagonal> edge : edges) {
+				Polygon q = edge.getTarget();
+				Coordinate cq = center(q);
+				g.drawLine((int) Math.round(cp.getX()),
+						(int) Math.round(cp.getY()),
+						(int) Math.round(cq.getX()),
+						(int) Math.round(cq.getY()));
+			}
+		}
+	}
+
+	private Coordinate center(Polygon polygon)
+	{
+		double x = 0, y = 0;
+		Chain shell = polygon.getShell();
+		for (int i = 0; i < shell.getNumberOfNodes(); i++) {
+			Coordinate c = shell.getNode(i).getCoordinate();
+			x += c.getX();
+			y += c.getY();
+		}
+		x /= shell.getNumberOfNodes();
+		y /= shell.getNumberOfNodes();
+		return new Coordinate(x, y);
 	}
 }
