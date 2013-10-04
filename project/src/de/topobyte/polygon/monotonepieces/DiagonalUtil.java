@@ -18,6 +18,7 @@
 package de.topobyte.polygon.monotonepieces;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -36,7 +37,8 @@ public class DiagonalUtil
 {
 	final static Logger logger = LoggerFactory.getLogger(DiagonalUtil.class);
 
-	public static List<Polygon> split(Polygon polygon, List<Diagonal> diagonals)
+	public static List<Polygon> split(Polygon polygon,
+			Collection<Diagonal> diagonals)
 	{
 		List<Polygon> pieces = new ArrayList<Polygon>();
 		split(pieces, polygon, diagonals);
@@ -44,7 +46,7 @@ public class DiagonalUtil
 	}
 
 	private static void split(List<Polygon> pieces, Polygon polygon,
-			List<Diagonal> diagonals)
+			Collection<Diagonal> diagonals)
 	{
 		if (diagonals.isEmpty()) {
 			pieces.add(polygon);
@@ -57,8 +59,7 @@ public class DiagonalUtil
 		Map<Node, Integer> index = ChainHelper.buildNodeIndexLookup(shell);
 
 		// Print some info about diagonals
-		for (int i = 0; i < diagonals.size(); i++) {
-			Diagonal d = diagonals.get(i);
+		for (Diagonal d : diagonals) {
 			int a = index.get(d.getA());
 			int b = index.get(d.getB());
 			logger.debug(String.format("Available diagonal %d -> %d", a + 1,
@@ -66,7 +67,7 @@ public class DiagonalUtil
 		}
 
 		// Select the first diagonal
-		Diagonal diagonal = diagonals.get(0);
+		Diagonal diagonal = diagonals.iterator().next();
 		int a = index.get(diagonal.getA());
 		int b = index.get(diagonal.getB());
 		logger.debug(String.format("Selected Diagonal %d -> %d", a + 1, b + 1));
@@ -86,8 +87,10 @@ public class DiagonalUtil
 				a);
 		List<Diagonal> diagsB = new ArrayList<Diagonal>();
 
-		for (int i = 1; i < diagonals.size(); i++) {
-			Diagonal d = diagonals.get(i);
+		for (Diagonal d : diagonals) {
+			if (d == diagonal) {
+				continue;
+			}
 			int da = index.get(d.getA());
 			int db = index.get(d.getB());
 			if (intA.contains(da, false) && intA.contains(db, false)) {
@@ -109,7 +112,8 @@ public class DiagonalUtil
 		recurse(pieces, chainB, diagsB);
 	}
 
-	private static void recurse(List<Polygon> pieces, Chain chain, List<Diagonal> diags)
+	private static void recurse(List<Polygon> pieces, Chain chain,
+			List<Diagonal> diags)
 	{
 		Polygon piece = new Polygon(chain, null);
 		if (diags.size() == 0) {
