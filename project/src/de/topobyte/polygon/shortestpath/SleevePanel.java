@@ -55,6 +55,9 @@ public class SleevePanel extends JPanel
 	private Node nodeStart;
 	private Node nodeTarget;
 
+	private Polygon triangleStart;
+	private Polygon triangleTarget;
+
 	public SleevePanel(Polygon polygon, Node nodeStart, Node nodeTarget)
 	{
 		this.polygon = polygon;
@@ -65,6 +68,20 @@ public class SleevePanel extends JPanel
 
 		SplitResult splitResult = DiagonalUtil.split(polygon, diagonals);
 		graph = splitResult.getGraph();
+
+		List<Polygon> triangles = splitResult.getPolygons();
+		for (Polygon triangle : triangles) {
+			Chain shell = triangle.getShell();
+			for (int i = 0; i < shell.getNumberOfNodes(); i++) {
+				if (shell.getNode(i) == nodeStart) {
+					triangleStart = triangle;
+				}
+				if (shell.getNode(i) == nodeTarget) {
+					triangleTarget = triangle;
+				}
+			}
+		}
+
 	}
 
 	@Override
@@ -76,6 +93,10 @@ public class SleevePanel extends JPanel
 		Area shape = AwtHelper.toShape(polygon);
 		g.setColor(new Color(0x66ff0000, true));
 		g.fill(shape);
+		
+		g.setColor(new Color(0x66ffffff, true));
+		g.fill(AwtHelper.toShape(triangleStart));
+		g.fill(AwtHelper.toShape(triangleTarget));
 
 		g.setColor(Color.BLACK);
 		Chain shell = polygon.getShell();
