@@ -86,6 +86,45 @@ public class SleevePanel extends JPanel
 		}
 
 		path = GraphFinder.find(graph, triangleStart, triangleTarget);
+		optimizePath();
+	}
+
+	private void optimizePath()
+	{
+		if (isOnCorner(nodeStart, triangleStart)) {
+			while (true) {
+				Polygon second = path.get(1);
+				if (isOnCorner(nodeStart, second)) {
+					triangleStart = second;
+					path.remove(0);
+					continue;
+				}
+				break;
+			}
+		}
+		if (isOnCorner(nodeTarget, triangleTarget)) {
+			while (true) {
+				Polygon beforeLast = path.get(path.size() - 2);
+				if (isOnCorner(nodeTarget, beforeLast)) {
+					triangleTarget = beforeLast;
+					path.remove(path.size() - 1);
+					continue;
+				}
+				break;
+			}
+		}
+	}
+
+	private boolean isOnCorner(Node node, Polygon triangle)
+	{
+		Chain shell = triangle.getShell();
+		for (int i = 0; i < shell.getNumberOfNodes(); i++) {
+			Node n = shell.getNode(i);
+			if (n == node) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	@Override
