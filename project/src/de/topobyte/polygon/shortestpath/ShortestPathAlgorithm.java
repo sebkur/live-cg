@@ -98,12 +98,12 @@ public class ShortestPathAlgorithm
 	{
 		return sleeve;
 	}
-	
+
 	public Polygon getTriangleStart()
 	{
 		return triangleStart;
 	}
-	
+
 	public Polygon getTriangleTarget()
 	{
 		return triangleTarget;
@@ -113,7 +113,7 @@ public class ShortestPathAlgorithm
 	{
 		return graph;
 	}
-	
+
 	public List<Diagonal> getTriangulationDiagonals()
 	{
 		return triangulationDiagonals;
@@ -123,9 +123,15 @@ public class ShortestPathAlgorithm
 	{
 		return status;
 	}
-	
+
 	public void setStatus(int status)
 	{
 		this.status = status;
+		computeUpTo(status);
+	}
+
+	private void computeUpTo(int diagonal)
+	{
+		// TODO: Implement actual algorithm
 	}
 }
