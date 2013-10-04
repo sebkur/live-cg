@@ -34,6 +34,7 @@ import de.topobyte.livecg.geometry.geom.IntRing;
 import de.topobyte.livecg.geometry.geom.Polygon;
 import de.topobyte.util.SwingUtil;
 import de.topobyte.util.graph.Edge;
+import de.topobyte.util.graph.Graph;
 
 public class TriangulationPanel extends JPanel
 {
@@ -43,7 +44,7 @@ public class TriangulationPanel extends JPanel
 	private Polygon polygon;
 	private TriangulationOperation triangulationOperation;
 	private List<Diagonal> diagonals;
-	private Graph graph;
+	private Graph<Polygon, Diagonal> graph;
 
 	public TriangulationPanel(Polygon polygon)
 	{

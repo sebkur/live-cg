@@ -36,12 +36,12 @@ import de.topobyte.livecg.geometry.geom.Node;
 import de.topobyte.livecg.geometry.geom.Polygon;
 import de.topobyte.polygon.monotonepieces.Diagonal;
 import de.topobyte.polygon.monotonepieces.DiagonalUtil;
-import de.topobyte.polygon.monotonepieces.Graph;
 import de.topobyte.polygon.monotonepieces.SplitResult;
 import de.topobyte.polygon.monotonepieces.TriangulationOperation;
 import de.topobyte.util.ShapeUtil;
 import de.topobyte.util.SwingUtil;
 import de.topobyte.util.graph.Edge;
+import de.topobyte.util.graph.Graph;
 
 public class SleevePanel extends JPanel
 {
@@ -51,7 +51,7 @@ public class SleevePanel extends JPanel
 	private Polygon polygon;
 	private TriangulationOperation triangulationOperation;
 	private List<Diagonal> diagonals;
-	private Graph graph;
+	private Graph<Polygon, Diagonal> graph;
 
 	private Node nodeStart;
 	private Node nodeTarget;
@@ -82,7 +82,6 @@ public class SleevePanel extends JPanel
 				}
 			}
 		}
-
 	}
 
 	@Override

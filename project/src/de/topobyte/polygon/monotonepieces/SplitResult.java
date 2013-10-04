@@ -20,14 +20,15 @@ package de.topobyte.polygon.monotonepieces;
 import java.util.List;
 
 import de.topobyte.livecg.geometry.geom.Polygon;
+import de.topobyte.util.graph.Graph;
 
 public class SplitResult
 {
 
 	private List<Polygon> polygons;
-	private Graph graph;
+	private Graph<Polygon, Diagonal> graph;
 
-	public SplitResult(List<Polygon> polygons, Graph graph)
+	public SplitResult(List<Polygon> polygons, Graph<Polygon, Diagonal> graph)
 	{
 		this.polygons = polygons;
 		this.graph = graph;
@@ -38,7 +39,7 @@ public class SplitResult
 		return polygons;
 	}
 
-	public Graph getGraph()
+	public Graph<Polygon, Diagonal> getGraph()
 	{
 		return graph;
 	}
