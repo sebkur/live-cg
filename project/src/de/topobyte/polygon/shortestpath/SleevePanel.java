@@ -34,6 +34,7 @@ import de.topobyte.livecg.geometry.geom.Coordinate;
 import de.topobyte.livecg.geometry.geom.IntRing;
 import de.topobyte.livecg.geometry.geom.Node;
 import de.topobyte.livecg.geometry.geom.Polygon;
+import de.topobyte.livecg.geometry.geom.PolygonHelper;
 import de.topobyte.polygon.monotonepieces.Diagonal;
 import de.topobyte.polygon.monotonepieces.DiagonalUtil;
 import de.topobyte.polygon.monotonepieces.SplitResult;
@@ -138,11 +139,11 @@ public class SleevePanel extends JPanel
 		g.setColor(Color.GREEN);
 		Collection<Polygon> nodes = graph.getNodes();
 		for (Polygon p : nodes) {
-			Coordinate cp = center(p);
+			Coordinate cp = PolygonHelper.center(p);
 			Set<Edge<Polygon, Diagonal>> edges = graph.getEdgesOut(p);
 			for (Edge<Polygon, Diagonal> edge : edges) {
 				Polygon q = edge.getTarget();
-				Coordinate cq = center(q);
+				Coordinate cq = PolygonHelper.center(q);
 				g.drawLine((int) Math.round(cp.getX()),
 						(int) Math.round(cp.getY()),
 						(int) Math.round(cq.getX()),
@@ -168,17 +169,4 @@ public class SleevePanel extends JPanel
 		}
 	}
 
-	private Coordinate center(Polygon polygon)
-	{
-		double x = 0, y = 0;
-		Chain shell = polygon.getShell();
-		for (int i = 0; i < shell.getNumberOfNodes(); i++) {
-			Coordinate c = shell.getNode(i).getCoordinate();
-			x += c.getX();
-			y += c.getY();
-		}
-		x /= shell.getNumberOfNodes();
-		y /= shell.getNumberOfNodes();
-		return new Coordinate(x, y);
-	}
 }

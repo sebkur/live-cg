@@ -46,4 +46,17 @@ public class PolygonHelper
 		return sum1 <= sum2;
 	}
 
+	public static Coordinate center(Polygon polygon)
+	{
+		double x = 0, y = 0;
+		Chain shell = polygon.getShell();
+		for (int i = 0; i < shell.getNumberOfNodes(); i++) {
+			Coordinate c = shell.getNode(i).getCoordinate();
+			x += c.getX();
+			y += c.getY();
+		}
+		x /= shell.getNumberOfNodes();
+		y /= shell.getNumberOfNodes();
+		return new Coordinate(x, y);
+	}
 }
