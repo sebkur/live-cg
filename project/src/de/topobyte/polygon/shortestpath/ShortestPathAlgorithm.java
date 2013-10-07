@@ -145,7 +145,7 @@ public class ShortestPathAlgorithm
 	{
 		return data;
 	}
-	
+
 	private void computeUpTo(int diagonal)
 	{
 		if (diagonal == 0) {
@@ -170,7 +170,7 @@ public class ShortestPathAlgorithm
 		// Triangle is in CCW order, so this is true:
 		Node right = n0;
 		Node left = n1;
-		
+
 		// Initialize data structures
 		data = new Data(nodeStart, left, right);
 
@@ -203,14 +203,15 @@ public class ShortestPathAlgorithm
 				// Next node is on left chain
 				logger.debug("next node is on left chain");
 				currentChain = Side.LEFT;
-				updateFunnel(notOnChain,  Side.LEFT, Side.RIGHT);
+				updateFunnel(notOnChain, Side.LEFT, Side.RIGHT);
 			} else {
 				logger.error("next node could not be found on any chain");
 			}
 			logger.debug("left path length: " + data.getFunnelLength(Side.LEFT));
-			logger.debug("right path length: " + data.getFunnelLength(Side.RIGHT));
+			logger.debug("right path length: "
+					+ data.getFunnelLength(Side.RIGHT));
 		}
-		
+
 		// Make the left path the overall shortest path
 		if (diagonal == diagonals.size() + 2) {
 			for (int i = 0; i < data.getFunnelLength(currentChain); i++) {

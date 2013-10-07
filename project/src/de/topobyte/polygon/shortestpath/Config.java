@@ -21,12 +21,12 @@ public class Config
 {
 
 	private boolean drawDualGraph = true;
-	
+
 	public boolean isDrawDualGraph()
 	{
 		return drawDualGraph;
 	}
-	
+
 	public void setDrawDualGraph(boolean draw)
 	{
 		this.drawDualGraph = draw;
