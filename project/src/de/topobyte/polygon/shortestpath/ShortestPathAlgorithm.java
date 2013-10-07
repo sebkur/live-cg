@@ -141,6 +141,11 @@ public class ShortestPathAlgorithm
 	private Node v;
 	private Path leftPath, rightPath;
 
+	public Node getApex()
+	{
+		return v;
+	}
+
 	public Path getLeftPath()
 	{
 		return leftPath;

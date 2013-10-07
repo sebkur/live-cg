@@ -17,6 +17,7 @@
  */
 package de.topobyte.polygon.shortestpath;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -45,6 +46,21 @@ public class ShortestPathPanel extends JPanel
 
 	private static final long serialVersionUID = 7441840910845794124L;
 
+	private Color COLOR_POLYGON_BG = new Color(0x66ff0000, true);
+	private Color COLOR_TRIANGLE_SLEEVE = new Color(0x66ffffff, true);
+	private Color COLOR_TRIANGLE_SLEEVE_DONE = new Color(0x66ffff00, true);
+
+	private Color COLOR_POLYGON_EDGES = Color.BLACK;
+	private Color COLOR_DIAGONALS_NONSLEEVE = Color.BLUE;
+	private Color COLOR_DIAGONALS_SLEEVE = Color.RED.darker();
+	private Color COLOR_DUAL_GRAPH = Color.GREEN;
+
+	private Color COLOR_APEX = Color.WHITE;
+	private Color COLOR_LEFT_TOP = Color.YELLOW;
+	private Color COLOR_RIGHT_TOP = Color.BLUE;
+	private Color COLOR_LEFT_PATH = Color.YELLOW;
+	private Color COLOR_RIGHT_PATH = Color.BLUE;
+
 	private ShortestPathAlgorithm algorithm;
 	private Config config;
 
@@ -62,23 +78,23 @@ public class ShortestPathPanel extends JPanel
 		SwingUtil.useAntialiasing(g, true);
 
 		Area shape = AwtHelper.toShape(algorithm.getPolygon());
-		g.setColor(new Color(0x66ff0000, true));
+		g.setColor(COLOR_POLYGON_BG);
 		g.fill(shape);
 
 		List<Polygon> triangles = algorithm.getSleeve().getPolygons();
-		Color colorTriangle0 = new Color(0x66ffffff, true);
-		Color colorTriangle1 = new Color(0x66ffff00, true);
 		for (int i = 0; i < triangles.size(); i++) {
 			if (i < algorithm.getStatus()) {
-				g.setColor(colorTriangle1);
+				g.setColor(COLOR_TRIANGLE_SLEEVE_DONE);
 			} else {
-				g.setColor(colorTriangle0);
+				g.setColor(COLOR_TRIANGLE_SLEEVE);
 			}
 			Polygon triangle = triangles.get(i);
 			g.fill(AwtHelper.toShape(triangle));
 		}
 
-		g.setColor(Color.BLACK);
+		g.setStroke(new BasicStroke(1.0f));
+		
+		g.setColor(COLOR_POLYGON_EDGES);
 		Chain shell = algorithm.getPolygon().getShell();
 		IntRing ring = new IntRing(shell.getNumberOfNodes());
 		for (int i = 0; i < shell.getNumberOfNodes(); i++) {
@@ -91,9 +107,9 @@ public class ShortestPathPanel extends JPanel
 		}
 
 		for (Diagonal diagonal : algorithm.getTriangulationDiagonals()) {
-			g.setColor(Color.BLUE);
+			g.setColor(COLOR_DIAGONALS_NONSLEEVE);
 			if (algorithm.getSleeve().getDiagonals().contains(diagonal)) {
-				g.setColor(Color.RED.darker());
+				g.setColor(COLOR_DIAGONALS_SLEEVE);
 			}
 			Coordinate c1 = diagonal.getA().getCoordinate();
 			Coordinate c2 = diagonal.getB().getCoordinate();
@@ -103,7 +119,7 @@ public class ShortestPathPanel extends JPanel
 		}
 
 		if (config.isDrawDualGraph()) {
-			g.setColor(Color.GREEN);
+			g.setColor(COLOR_DUAL_GRAPH);
 			Collection<Polygon> nodes = algorithm.getGraph().getNodes();
 			for (Polygon p : nodes) {
 				Coordinate cp = PolygonHelper.center(p);
@@ -119,11 +135,19 @@ public class ShortestPathPanel extends JPanel
 				}
 			}
 		}
+		
+		g.setStroke(new BasicStroke(2.0f));
 
 		Path leftPath = algorithm.getLeftPath();
 		Path rightPath = algorithm.getRightPath();
 		paintPath(g, leftPath, true);
 		paintPath(g, rightPath, false);
+		g.setColor(COLOR_APEX);
+		Node apex = algorithm.getApex();
+		if (apex != null) {
+			Coordinate c = algorithm.getApex().getCoordinate();
+			g.fill(ShapeUtil.createArc(c.getX(), c.getY(), 3));
+		}
 
 		Coordinate cStart = algorithm.getNodeStart().getCoordinate();
 		Coordinate cTarget = algorithm.getNodeTarget().getCoordinate();
@@ -148,7 +172,11 @@ public class ShortestPathPanel extends JPanel
 		if (path == null) {
 			return;
 		}
-		g.setColor(Color.MAGENTA);
+		if (left) {
+			g.setColor(COLOR_LEFT_PATH);
+		} else {
+			g.setColor(COLOR_RIGHT_PATH);
+		}
 		List<Node> nodes = path.getNodes();
 		Node m = nodes.get(0);
 		for (int i = 1; i < nodes.size(); i++) {
@@ -160,13 +188,13 @@ public class ShortestPathPanel extends JPanel
 					(int) Math.round(cn.getY()));
 			m = n;
 		}
-		Coordinate c = nodes.get(nodes.size()- 1).getCoordinate();
+		Coordinate c = nodes.get(nodes.size() - 1).getCoordinate();
 		if (left) {
-			g.setColor(Color.YELLOW);
-		}else {
-			g.setColor(Color.BLUE);
+			g.setColor(COLOR_LEFT_TOP);
+		} else {
+			g.setColor(COLOR_RIGHT_TOP);
 		}
-		g.draw(ShapeUtil.createArc(c.getX(), c.getY(), 5));
+		g.fill(ShapeUtil.createArc(c.getX(), c.getY(), 3));
 	}
 
 }
