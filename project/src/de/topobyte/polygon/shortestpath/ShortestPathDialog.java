@@ -60,7 +60,7 @@ public class ShortestPathDialog
 		Sleeve sleeve = algorithm.getSleeve();
 		int nDiagonals = sleeve.getDiagonals().size();
 
-		int max = nDiagonals + 1;
+		int max = nDiagonals + 2;
 		slider = new JSlider(0, max);
 		slider.setPaintLabels(true);
 		slider.setPaintTicks(true);

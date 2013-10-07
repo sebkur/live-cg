@@ -139,7 +139,7 @@ public class ShortestPathAlgorithm
 	}
 
 	private Data data;
-
+	private Side currentChain;
 
 	public Data getData()
 	{
@@ -197,16 +197,26 @@ public class ShortestPathAlgorithm
 			if (alreadyOnChain == left) {
 				// Next node is on right chain
 				logger.debug("next node is on right chain");
+				currentChain = Side.RIGHT;
 				updateFunnel(notOnChain, Side.RIGHT, Side.LEFT);
 			} else if (alreadyOnChain == right) {
 				// Next node is on left chain
 				logger.debug("next node is on left chain");
+				currentChain = Side.LEFT;
 				updateFunnel(notOnChain,  Side.LEFT, Side.RIGHT);
 			} else {
 				logger.error("next node could not be found on any chain");
 			}
 			logger.debug("left path length: " + data.getFunnelLength(Side.LEFT));
 			logger.debug("right path length: " + data.getFunnelLength(Side.RIGHT));
+		}
+		
+		// Make the left path the overall shortest path
+		if (diagonal == diagonals.size() + 2) {
+			for (int i = 0; i < data.getFunnelLength(currentChain); i++) {
+				data.appendCommon(data.removeFirst(currentChain));
+			}
+			data.clear(Side.other(currentChain));
 		}
 	}
 

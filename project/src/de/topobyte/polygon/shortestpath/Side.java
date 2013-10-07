@@ -18,5 +18,13 @@
 package de.topobyte.polygon.shortestpath;
 
 public enum Side {
-	LEFT, RIGHT
+	LEFT, RIGHT;
+
+	public static Side other(Side side)
+	{
+		if (side == LEFT) {
+			return RIGHT;
+		}
+		return LEFT;
+	}
 }
