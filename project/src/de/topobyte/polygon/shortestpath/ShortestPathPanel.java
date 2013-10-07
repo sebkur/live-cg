@@ -195,11 +195,13 @@ public class ShortestPathPanel extends JPanel
 		g.draw(arcTargetOut);
 		g.draw(arcTargetIn);
 
-		g.setColor(COLOR_NODE_IDS);
-		for (int i = 0; i < shell.getNumberOfNodes(); i++) {
-			Coordinate c = shell.getNode(i).getCoordinate();
-			g.drawString(String.format("%d", i + 1), (float) c.getX() + 10,
-					(float) c.getY());
+		if (config.isDrawNodeNumbers()) {
+			g.setColor(COLOR_NODE_IDS);
+			for (int i = 0; i < shell.getNumberOfNodes(); i++) {
+				Coordinate c = shell.getNode(i).getCoordinate();
+				g.drawString(String.format("%d", i + 1), (float) c.getX() + 10,
+						(float) c.getY());
+			}
 		}
 	}
 

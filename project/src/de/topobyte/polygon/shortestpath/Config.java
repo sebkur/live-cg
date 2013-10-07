@@ -21,15 +21,26 @@ public class Config
 {
 
 	private boolean drawDualGraph = true;
+	private boolean drawNodeNumbers = false;
 
 	public boolean isDrawDualGraph()
 	{
 		return drawDualGraph;
 	}
 
-	public void setDrawDualGraph(boolean draw)
+	public void setDrawDualGraph(boolean drawDualGraph)
 	{
-		this.drawDualGraph = draw;
+		this.drawDualGraph = drawDualGraph;
+	}
+
+	public boolean isDrawNodeNumbers()
+	{
+		return drawNodeNumbers;
+	}
+
+	public void setDrawNodeNumbers(boolean drawNodeNumbers)
+	{
+		this.drawNodeNumbers = drawNodeNumbers;
 	}
 
 }
