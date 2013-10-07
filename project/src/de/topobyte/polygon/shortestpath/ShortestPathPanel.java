@@ -21,7 +21,7 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.geom.Arc2D;
+import java.awt.Shape;
 import java.awt.geom.Area;
 import java.util.Collection;
 import java.util.List;
@@ -55,12 +55,19 @@ public class ShortestPathPanel extends JPanel
 	private Color COLOR_DIAGONALS_SLEEVE = Color.RED.darker();
 	private Color COLOR_DUAL_GRAPH = Color.GREEN;
 
+	private Color COLOR_NODE_START = Color.RED;
+	private Color COLOR_NODE_TARGET = Color.GREEN;
+	private Color COLOR_NODE_START_OUTLINE = Color.BLACK;
+	private Color COLOR_NODE_TARGET_OUTLINE = Color.BLACK;
+
 	private Color COLOR_APEX = Color.WHITE;
 	private Color COLOR_LEFT_TOP = Color.YELLOW;
 	private Color COLOR_RIGHT_TOP = Color.BLUE;
 	private Color COLOR_COMMON_PATH = Color.MAGENTA;
 	private Color COLOR_LEFT_PATH = Color.YELLOW;
 	private Color COLOR_RIGHT_PATH = Color.BLUE;
+	
+	private Color COLOR_NODE_IDS = Color.BLACK;
 
 	private ShortestPathAlgorithm algorithm;
 	private Config config;
@@ -153,15 +160,37 @@ public class ShortestPathPanel extends JPanel
 
 		Coordinate cStart = algorithm.getNodeStart().getCoordinate();
 		Coordinate cTarget = algorithm.getNodeTarget().getCoordinate();
-		Arc2D arcStart = ShapeUtil.createArc(cStart.getX(), cStart.getY(), 5);
-		Arc2D arcTarget = ShapeUtil
-				.createArc(cTarget.getX(), cTarget.getY(), 5);
-		g.setColor(Color.RED);
+
+		double r = 6;
+		double w = 4;
+
+		Shape arcStart = ShapeUtil.createArc(cStart.getX(), cStart.getY(), r);
+		Shape arcTarget = ShapeUtil
+				.createArc(cTarget.getX(), cTarget.getY(), r);
+		Shape arcStartIn = ShapeUtil.createArc(cStart.getX(), cStart.getY(), r
+				- w / 2);
+		Shape arcTargetIn = ShapeUtil.createArc(cTarget.getX(), cTarget.getY(),
+				r - w / 2);
+		Shape arcStartOut = ShapeUtil.createArc(cStart.getX(), cStart.getY(), r
+				+ w / 2);
+		Shape arcTargetOut = ShapeUtil.createArc(cTarget.getX(),
+				cTarget.getY(), r + w / 2);
+
+		g.setStroke(new BasicStroke((float) w));
+		g.setColor(COLOR_NODE_START);
 		g.draw(arcStart);
-		g.setColor(Color.GREEN);
+		g.setColor(COLOR_NODE_TARGET);
 		g.draw(arcTarget);
 
-		g.setColor(Color.BLACK);
+		g.setStroke(new BasicStroke(1.0f));
+		g.setColor(COLOR_NODE_START_OUTLINE);
+		g.draw(arcStartOut);
+		g.draw(arcStartIn);
+		g.setColor(COLOR_NODE_TARGET_OUTLINE);
+		g.draw(arcTargetOut);
+		g.draw(arcTargetIn);
+
+		g.setColor(COLOR_NODE_IDS);
 		for (int i = 0; i < shell.getNumberOfNodes(); i++) {
 			Coordinate c = shell.getNode(i).getCoordinate();
 			g.drawString(String.format("%d", i + 1), (float) c.getX() + 10,

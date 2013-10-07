@@ -17,7 +17,9 @@
  */
 package de.topobyte.util;
 
+import java.awt.Shape;
 import java.awt.geom.Arc2D;
+import java.awt.geom.Area;
 
 public class ShapeUtil
 {
@@ -36,4 +38,19 @@ public class ShapeUtil
 		return arc;
 	}
 
+	public static Shape createRing(double x, double y, double r, double w)
+	{
+		double rpw = r + w / 2;
+		double rmw = r - w / 2;
+		Arc2D outerArc = new Arc2D.Double(x - rpw, y - rpw, r * 2 + w, r * 2
+				+ w, 0, 360, Arc2D.CHORD);
+		Arc2D innerArc = new Arc2D.Double(x - rmw, y - rmw, r * 2 - w,
+				r * 2 - w, 0, 360, Arc2D.CHORD);
+
+		Area outer = new Area(outerArc);
+		Area inner = new Area(innerArc);
+		outer.subtract(inner);
+
+		return outer;
+	}
 }
