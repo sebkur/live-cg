@@ -46,6 +46,8 @@ public class ShortestPathPanel extends JPanel
 
 	private static final long serialVersionUID = 7441840910845794124L;
 
+	private Color COLOR_BG = Color.WHITE;
+
 	private Color COLOR_POLYGON_BG = new Color(0x66ff0000, true);
 	private Color COLOR_TRIANGLE_SLEEVE = new Color(0x66ffffff, true);
 	private Color COLOR_TRIANGLE_SLEEVE_DONE = new Color(0x66ffff00, true);
@@ -66,7 +68,7 @@ public class ShortestPathPanel extends JPanel
 	private Color COLOR_COMMON_PATH = Color.MAGENTA;
 	private Color COLOR_LEFT_PATH = Color.YELLOW;
 	private Color COLOR_RIGHT_PATH = Color.BLUE;
-	
+
 	private Color COLOR_NODE_IDS = Color.BLACK;
 
 	private ShortestPathAlgorithm algorithm;
@@ -84,6 +86,9 @@ public class ShortestPathPanel extends JPanel
 		super.paint(graphics);
 		Graphics2D g = (Graphics2D) graphics;
 		SwingUtil.useAntialiasing(g, true);
+
+		g.setColor(COLOR_BG);
+		g.fillRect(0, 0, getWidth(), getHeight());
 
 		Area shape = AwtHelper.toShape(algorithm.getPolygon());
 		g.setColor(COLOR_POLYGON_BG);
