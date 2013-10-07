@@ -93,12 +93,27 @@ public class PickNodesListener extends MouseAdapter
 			return;
 		}
 		boolean update = false;
+		Node start = null;
+		Node target = null;
+		Coordinate c = new Coordinate(e.getX(), e.getY());
+		if (pressedStart) {
+			start = new Node(c);
+		}
+		if (pressedTarget) {
+			target = new Node(c);
+		}
 		if (pressedStart || pressedTarget) {
 			pressedStart = false;
 			pressedTarget = false;
 			update = true;
 			spp.setDragStart(null);
 			spp.setDragTarget(null);
+		}
+		if (start != null) {			
+			spp.getAlgorithm().setStart(start);
+		}
+		if (target != null) {			
+			spp.getAlgorithm().setTarget(target);
 		}
 		update |= checkOver(e);
 		if (update) {

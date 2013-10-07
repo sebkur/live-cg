@@ -23,6 +23,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.topobyte.livecg.geometry.geom.Chain;
+import de.topobyte.livecg.geometry.geom.CrossingsTest;
 import de.topobyte.livecg.geometry.geom.GeomMath;
 import de.topobyte.livecg.geometry.geom.Node;
 import de.topobyte.livecg.geometry.geom.Polygon;
@@ -40,49 +41,164 @@ public class ShortestPathAlgorithm
 	private Polygon polygon;
 	private TriangulationOperation triangulationOperation;
 	private List<Diagonal> triangulationDiagonals;
+	private SplitResult splitResult;
 	private Graph<Polygon, Diagonal> graph;
 
-	private Node nodeStart;
-	private Node nodeTarget;
+	private Node start;
+	private Node target;
 
 	private Polygon triangleStart;
 	private Polygon triangleTarget;
 
+	private boolean nodeHitStart = false;
+	private boolean nodeHitTarget = false;
+
 	private Sleeve sleeve;
 	private int status;
 
-	public ShortestPathAlgorithm(Polygon polygon, Node nodeStart,
-			Node nodeTarget)
+	private Node left;
+	private Node right;
+
+	// TODO: emit the number of diagonals so that we can update the Dialog UI
+
+	public ShortestPathAlgorithm(Polygon polygon, Node start, Node target)
 	{
 		this.polygon = polygon;
-		this.nodeStart = nodeStart;
-		this.nodeTarget = nodeTarget;
+		this.start = start;
+		this.target = target;
 		triangulationOperation = new TriangulationOperation(polygon);
 		triangulationDiagonals = triangulationOperation.getDiagonals();
 
-		SplitResult splitResult = DiagonalUtil.split(polygon,
-				triangulationDiagonals);
+		splitResult = DiagonalUtil.split(polygon, triangulationDiagonals);
 		graph = splitResult.getGraph();
 
+		setup();
+	}
+
+	public void setStart(Node start)
+	{
+		this.start = start;
+		nodeHitStart = false;
+		triangleStart = null;
+		setup();
+	}
+
+	public void setTarget(Node target)
+	{
+		this.target = target;
+		nodeHitTarget = false;
+		triangleTarget = null;
+		setup();
+	}
+
+	public void setStartTarget(Node start, Node target)
+	{
+		this.start = start;
+		this.target = target;
+		nodeHitStart = false;
+		nodeHitTarget = false;
+		triangleStart = null;
+		triangleTarget = null;
+		setup();
+	}
+
+	private void setup()
+	{
 		List<Polygon> triangulation = splitResult.getPolygons();
 		for (Polygon triangle : triangulation) {
 			Chain shell = triangle.getShell();
 			for (int i = 0; i < shell.getNumberOfNodes(); i++) {
-				if (shell.getNode(i) == nodeStart) {
+				if (shell.getNode(i) == start) {
+					nodeHitStart = true;
 					triangleStart = triangle;
 				}
-				if (shell.getNode(i) == nodeTarget) {
+				if (shell.getNode(i) == target) {
+					nodeHitTarget = true;
+					triangleTarget = triangle;
+				}
+			}
+		}
+		if (triangleStart == null || triangleTarget == null) {
+			for (Polygon triangle : triangulation) {
+				CrossingsTest test = new CrossingsTest(triangle.getShell());
+				if (triangleStart == null && test.covers(start.getCoordinate())) {
+					triangleStart = triangle;
+				}
+				if (triangleTarget == null
+						&& test.covers(target.getCoordinate())) {
 					triangleTarget = triangle;
 				}
 			}
 		}
 
+		if (triangleStart == null || triangleTarget == null) {
+			if (triangleStart == null) {
+				logger.error("unable to locate start triangle");
+			}
+			if (triangleTarget == null) {
+				logger.error("unable to locate target triangle");
+			}
+			return;
+		}
+
 		sleeve = GraphFinder.find(graph, triangleStart, triangleTarget);
-		SleeveUtil.optimizePath(sleeve, nodeStart, nodeTarget);
+		SleeveUtil.optimizePath(sleeve, start, target);
 
 		List<Polygon> triangles = sleeve.getPolygons();
 		triangleStart = triangles.get(0);
 		triangleTarget = triangles.get(triangles.size() - 1);
+
+		if (triangleStart == triangleTarget) {
+			// TODO: handle this special case somehow
+		}
+
+		// Get the first triangle
+		Polygon p0 = sleeve.getPolygons().get(0);
+		Node n0 = p0.getShell().getNode(0);
+		Node n1 = p0.getShell().getNode(1);
+		Node n2 = p0.getShell().getNode(2);
+		// Get the first diagonal
+		Diagonal d0 = sleeve.getDiagonals().get(0);
+		Node d0a = d0.getA();
+		Node d0b = d0.getB();
+		// Two of the first triangle's nodes must fit the triangle
+		if (n0 == d0a && n2 == d0b || n1 == d0a && n0 == d0b || n2 == d0a
+				&& n1 == d0b) {
+			left = d0a;
+			right = d0b;
+		} else if (n0 == d0b && n2 == d0a || n1 == d0b && n0 == d0a
+				|| n2 == d0b && n1 == d0a) {
+			left = d0b;
+			right = d0a;
+		} else {
+			logger.error("Could not match first triangle with first diagonal");
+		}
+
+		if (!nodeHitStart) {
+			Chain shell = new Chain();
+			shell.appendNode(right);
+			shell.appendNode(left);
+			shell.appendNode(start);
+			p0 = new Polygon(shell, null);
+			sleeve.getPolygons().set(0, p0);
+		}
+		if (!nodeHitTarget) {
+			Diagonal dN = sleeve.getDiagonals().get(
+					sleeve.getDiagonals().size() - 1);
+			Chain shell = new Chain();
+			if (GeomMath.isLeftOf(dN.getA().getCoordinate(), dN.getB()
+					.getCoordinate(), target.getCoordinate())) {
+				shell.appendNode(dN.getA());
+				shell.appendNode(dN.getB());
+				shell.appendNode(target);
+			} else {
+				shell.appendNode(dN.getB());
+				shell.appendNode(dN.getA());
+				shell.appendNode(target);
+			}
+			Polygon pN = new Polygon(shell, null);
+			sleeve.getPolygons().set(sleeve.getPolygons().size() - 1, pN);
+		}
 	}
 
 	public Polygon getPolygon()
@@ -92,12 +208,12 @@ public class ShortestPathAlgorithm
 
 	public Node getNodeStart()
 	{
-		return nodeStart;
+		return start;
 	}
 
 	public Node getNodeTarget()
 	{
-		return nodeTarget;
+		return target;
 	}
 
 	public Sleeve getSleeve()
@@ -152,27 +268,9 @@ public class ShortestPathAlgorithm
 			data = null;
 			return;
 		}
-		List<Polygon> polygons = sleeve.getPolygons();
-		// Get the first triangle
-		Polygon p0 = polygons.get(0);
-		// One of the first triangle's nodes must be the start node
-		Node n0 = p0.getShell().getNode(0);
-		Node n1 = p0.getShell().getNode(1);
-		Node n2 = p0.getShell().getNode(2);
-		if (n0 == nodeStart) {
-			n0 = n1;
-			n1 = n2;
-		} else if (n1 == nodeStart) {
-			n1 = n2;
-		} else if (n2 != nodeStart) {
-			logger.error("None of the first triangle's nodes is the start node");
-		}
-		// Triangle is in CCW order, so this is true:
-		Node right = n0;
-		Node left = n1;
 
 		// Initialize data structures
-		data = new Data(nodeStart, left, right);
+		data = new Data(start, left, right);
 
 		// Main algorithm loop
 		List<Diagonal> diagonals = sleeve.getDiagonals();
@@ -183,11 +281,11 @@ public class ShortestPathAlgorithm
 				d = diagonals.get(i - 1);
 			} else {
 				Diagonal last = diagonals.get(diagonals.size() - 1);
-				d = new Diagonal(last.getA(), nodeTarget);
+				d = new Diagonal(last.getA(), target);
 			}
 			// Find node of diagonal that is not node of d_(i-1)
-			left = data.getLast(Side.LEFT);
-			right = data.getLast(Side.RIGHT);
+			Node left = data.getLast(Side.LEFT);
+			Node right = data.getLast(Side.RIGHT);
 			Node notOnChain = d.getA();
 			Node alreadyOnChain = d.getB();
 			if (d.getA() == left || d.getA() == right) {
@@ -213,7 +311,7 @@ public class ShortestPathAlgorithm
 		}
 
 		// Make the left path the overall shortest path
-		if (diagonal == diagonals.size() + 2) {
+		if (diagonal >= diagonals.size() + 2) {
 			for (int i = 0; i < data.getFunnelLength(currentChain); i++) {
 				data.appendCommon(data.removeFirst(currentChain));
 			}
