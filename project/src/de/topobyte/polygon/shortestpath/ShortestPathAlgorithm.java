@@ -139,8 +139,6 @@ public class ShortestPathAlgorithm
 	}
 
 	private Data data;
-//	private Node v;
-//	private Path leftPath, rightPath;
 
 
 	public Data getData()
@@ -148,22 +146,6 @@ public class ShortestPathAlgorithm
 		return data;
 	}
 	
-//	public Node getApex()
-//	{
-//		return v;
-//		return data.getApex();
-//	}
-
-//	public Path getLeftPath()
-//	{
-//		return leftPath;
-//	}
-
-//	public Path getRightPath()
-//	{
-//		return rightPath;
-//	}
-
 	private void computeUpTo(int diagonal)
 	{
 		if (diagonal == 0) {
