@@ -23,6 +23,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.topobyte.livecg.geometry.geom.Chain;
+import de.topobyte.livecg.geometry.geom.GeomMath;
 import de.topobyte.livecg.geometry.geom.Node;
 import de.topobyte.livecg.geometry.geom.Polygon;
 import de.topobyte.polygon.monotonepieces.Diagonal;
@@ -131,10 +132,13 @@ public class ShortestPathAlgorithm
 
 	public void setStatus(int status)
 	{
-		this.status = status;
-		computeUpTo(status);
+		if (this.status != status) {
+			this.status = status;
+			computeUpTo(status);
+		}
 	}
 
+	private Node v;
 	private Path leftPath, rightPath;
 
 	public Path getLeftPath()
@@ -150,6 +154,7 @@ public class ShortestPathAlgorithm
 	private void computeUpTo(int diagonal)
 	{
 		if (diagonal == 0) {
+			v = null;
 			leftPath = null;
 			rightPath = null;
 			return;
@@ -172,16 +177,111 @@ public class ShortestPathAlgorithm
 		// Triangle is in CCW order, so this is true:
 		Node right = n0;
 		Node left = n1;
+		// Initialize v and paths
+		v = nodeStart;
 		leftPath = new Path(nodeStart, left);
 		rightPath = new Path(nodeStart, right);
 
+		// Main algorithm loop
 		List<Diagonal> diagonals = sleeve.getDiagonals();
-		for (int i = 1; i < diagonals.size() && i < diagonal; i++) {
-			// TODO: steps
+		for (int i = 2; i <= diagonals.size() + 1 && i <= diagonal; i++) {
+			logger.debug("Diagonal " + i);
+			Diagonal d;
+			if (i <= diagonals.size()) {
+				d = diagonals.get(i - 1);
+			} else {
+				Diagonal last = diagonals.get(diagonals.size() - 1);
+				d = new Diagonal(last.getA(), nodeTarget);
+			}
+			// Find node of diagonal that is not node of d_(i-1)
+			left = leftPath.lastNode();
+			right = rightPath.lastNode();
+			Node notOnChain = d.getA();
+			Node alreadyOnChain = d.getB();
+			if (d.getA() == left || d.getA() == right) {
+				notOnChain = d.getB();
+				alreadyOnChain = d.getA();
+			}
+			if (alreadyOnChain == left) {
+				// Next node is on right chain
+				logger.debug("next node is on right chain");
+				updateFunnel(rightPath, leftPath, notOnChain, false);
+			} else if (alreadyOnChain == right) {
+				// Next node is on left chain
+				logger.debug("next node is on left chain");
+				updateFunnel(leftPath, rightPath, notOnChain, true);
+			} else {
+				logger.error("next node could not be found on any chain");
+			}
+			logger.debug("left path length: " + leftPath.length());
+			logger.debug("right path length: " + rightPath.length());
 		}
+	}
 
-		if (diagonal == diagonals.size() + 1) {
-			// TODO: last step
+	private void updateFunnel(Path path1, Path path2, Node notOnChain,
+			boolean left)
+	{
+		boolean found = false;
+		if (path1.length() == 1) {
+			logger.debug("case1: path1 has length 1");
+			path1.add(notOnChain);
+			found = true;
+		}
+		if (!found) {
+			logger.debug("case2: walking backwards on path1");
+			for (int k = path1.length() - 1; k >= 1; k--) {
+				Node pn1 = path1.getNode(k - 1);
+				Node pn2 = path1.getNode(k);
+				boolean turnOk = turnOk(pn1, pn2, notOnChain, left);
+				if (!turnOk) {
+					path1.removeLast();
+				} else {
+					found = true;
+					path1.add(notOnChain);
+					break;
+				}
+			}
+		}
+		if (!found) {
+			logger.debug("case3: walking forward on path2");
+			for (int k = 0; k < path2.length() - 1; k++) {
+				Node pn1 = path2.getNode(k);
+				Node pn2 = path2.getNode(k + 1);
+				boolean turnOk = turnOk(pn1, pn2, notOnChain, left);
+				if (turnOk) {
+					found = true;
+					Node w = pn1;
+					if (k == 0) {
+						path1.add(notOnChain);
+					} else {
+						for (int l = path2.length() - 1; l > k; l--) {
+							path2.removeLast();
+						}
+						path2.add(notOnChain);
+					}
+					v = w;
+				}
+			}
+		}
+		if (!found) {
+			logger.debug("case4: moving apex to last node of path2");
+			v = path2.lastNode();
+			path2.clear();
+			path2.add(v);
+			path1.clear();
+			path1.add(v);
+			path1.add(notOnChain);
+		}
+	}
+
+	private boolean turnOk(Node pn1, Node pn2, Node notOnChain, boolean left)
+	{
+		if (left) {
+			return GeomMath.isLeftOf(pn1.getCoordinate(), pn2.getCoordinate(),
+					notOnChain.getCoordinate());
+		} else {
+			return GeomMath.isRightOf(pn1.getCoordinate(), pn2.getCoordinate(),
+					notOnChain.getCoordinate());
 		}
 	}
 }

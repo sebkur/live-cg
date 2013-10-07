@@ -39,4 +39,34 @@ public class Path
 		return Collections.unmodifiableList(nodes);
 	}
 
+	public int length()
+	{
+		return nodes.size();
+	}
+
+	public void add(Node node)
+	{
+		nodes.add(node);
+	}
+
+	public Node getNode(int i)
+	{
+		return nodes.get(i);
+	}
+
+	public Node lastNode()
+	{
+		return nodes.get(nodes.size() - 1);
+	}
+
+	public void removeLast()
+	{
+		nodes.remove(nodes.size() - 1);
+	}
+	
+	public void clear()
+	{
+		nodes.clear();
+	}
+
 }

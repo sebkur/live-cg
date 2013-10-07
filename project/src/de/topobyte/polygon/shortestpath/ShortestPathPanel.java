@@ -158,6 +158,7 @@ public class ShortestPathPanel extends JPanel
 			g.drawLine((int) Math.round(cm.getX()),
 					(int) Math.round(cm.getY()), (int) Math.round(cn.getX()),
 					(int) Math.round(cn.getY()));
+			m = n;
 		}
 		Coordinate c = nodes.get(nodes.size()- 1).getCoordinate();
 		if (left) {
