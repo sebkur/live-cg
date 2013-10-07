@@ -249,17 +249,21 @@ public class ShortestPathAlgorithm
 				Node pn2 = path2.getNode(k + 1);
 				boolean turnOk = turnOk(pn1, pn2, notOnChain, left);
 				if (turnOk) {
+					logger.debug("turn is ok with k=" + k);
 					found = true;
 					Node w = pn1;
 					if (k == 0) {
 						path1.add(notOnChain);
 					} else {
-						for (int l = path2.length() - 1; l > k; l--) {
-							path2.removeLast();
+						path1.clear();
+						path1.add(w);
+						path1.add(notOnChain);
+						for (int l = 0; l < k; l++) {
+							path2.removeFirst();
 						}
-						path2.add(notOnChain);
 					}
 					v = w;
+					break;
 				}
 			}
 		}

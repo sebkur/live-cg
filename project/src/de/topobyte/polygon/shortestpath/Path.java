@@ -59,11 +59,16 @@ public class Path
 		return nodes.get(nodes.size() - 1);
 	}
 
+	public void removeFirst()
+	{
+		nodes.remove(0);
+	}
+
 	public void removeLast()
 	{
 		nodes.remove(nodes.size() - 1);
 	}
-	
+
 	public void clear()
 	{
 		nodes.clear();
