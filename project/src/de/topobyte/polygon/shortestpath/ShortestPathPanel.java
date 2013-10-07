@@ -48,14 +48,14 @@ public class ShortestPathPanel extends JPanel
 
 	private Color COLOR_BG = Color.WHITE;
 
-	private Color COLOR_POLYGON_BG = new Color(0x66ff0000, true);
-	private Color COLOR_TRIANGLE_SLEEVE = new Color(0x66ffffff, true);
-	private Color COLOR_TRIANGLE_SLEEVE_DONE = new Color(0x66ffff00, true);
+	private Color COLOR_POLYGON_BG = new Color(0xDDDDDD);
+	private Color COLOR_TRIANGLE_SLEEVE = new Color(0xBBBBBB);
+	private Color COLOR_TRIANGLE_SLEEVE_DONE = new Color(0x3300ff00, true);
 
 	private Color COLOR_POLYGON_EDGES = Color.BLACK;
-	private Color COLOR_DIAGONALS_NONSLEEVE = Color.BLUE;
-	private Color COLOR_DIAGONALS_SLEEVE = Color.RED.darker();
-	private Color COLOR_DUAL_GRAPH = Color.GREEN;
+	private Color COLOR_DIAGONALS_NONSLEEVE = new Color(0x666666);
+	private Color COLOR_DIAGONALS_SLEEVE = new Color(0x666666);
+	private Color COLOR_DUAL_GRAPH = new Color(0xEEEE00);
 
 	private Color COLOR_NODE_START = Color.RED;
 	private Color COLOR_NODE_TARGET = Color.GREEN;
@@ -63,11 +63,11 @@ public class ShortestPathPanel extends JPanel
 	private Color COLOR_NODE_TARGET_OUTLINE = Color.BLACK;
 
 	private Color COLOR_APEX = Color.WHITE;
-	private Color COLOR_LEFT_TOP = Color.YELLOW;
-	private Color COLOR_RIGHT_TOP = Color.BLUE;
-	private Color COLOR_COMMON_PATH = Color.MAGENTA;
-	private Color COLOR_LEFT_PATH = Color.YELLOW;
-	private Color COLOR_RIGHT_PATH = Color.BLUE;
+	private Color COLOR_LEFT_TOP = Color.BLUE;
+	private Color COLOR_RIGHT_TOP = Color.RED;
+	private Color COLOR_COMMON_PATH = Color.MAGENTA.darker();
+	private Color COLOR_LEFT_PATH = Color.BLUE;
+	private Color COLOR_RIGHT_PATH = Color.RED;
 
 	private Color COLOR_NODE_IDS = Color.BLACK;
 
