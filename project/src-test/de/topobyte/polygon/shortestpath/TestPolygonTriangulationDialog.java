@@ -45,6 +45,7 @@ public class TestPolygonTriangulationDialog
 	{
 		BasicConfigurator.configure();
 		Logger.getRootLogger().setLevel(Level.INFO);
+		Logger.getLogger(ShortestPathAlgorithm.class).setLevel(Level.DEBUG);
 
 		String path = "res/presets/triangulation/Small.geom";
 		int a = 0, b = 4;
