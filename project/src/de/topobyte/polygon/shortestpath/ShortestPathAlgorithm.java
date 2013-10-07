@@ -138,30 +138,36 @@ public class ShortestPathAlgorithm
 		}
 	}
 
-	private Node v;
-	private Path leftPath, rightPath;
+	private Data data;
+//	private Node v;
+//	private Path leftPath, rightPath;
 
-	public Node getApex()
-	{
-		return v;
-	}
 
-	public Path getLeftPath()
+	public Data getData()
 	{
-		return leftPath;
+		return data;
 	}
+	
+//	public Node getApex()
+//	{
+//		return v;
+//		return data.getApex();
+//	}
 
-	public Path getRightPath()
-	{
-		return rightPath;
-	}
+//	public Path getLeftPath()
+//	{
+//		return leftPath;
+//	}
+
+//	public Path getRightPath()
+//	{
+//		return rightPath;
+//	}
 
 	private void computeUpTo(int diagonal)
 	{
 		if (diagonal == 0) {
-			v = null;
-			leftPath = null;
-			rightPath = null;
+			data = null;
 			return;
 		}
 		List<Polygon> polygons = sleeve.getPolygons();
@@ -182,10 +188,9 @@ public class ShortestPathAlgorithm
 		// Triangle is in CCW order, so this is true:
 		Node right = n0;
 		Node left = n1;
-		// Initialize v and paths
-		v = nodeStart;
-		leftPath = new Path(nodeStart, left);
-		rightPath = new Path(nodeStart, right);
+		
+		// Initialize data structures
+		data = new Data(nodeStart, left, right);
 
 		// Main algorithm loop
 		List<Diagonal> diagonals = sleeve.getDiagonals();
@@ -199,8 +204,8 @@ public class ShortestPathAlgorithm
 				d = new Diagonal(last.getA(), nodeTarget);
 			}
 			// Find node of diagonal that is not node of d_(i-1)
-			left = leftPath.lastNode();
-			right = rightPath.lastNode();
+			left = data.getLast(Side.LEFT);
+			right = data.getLast(Side.RIGHT);
 			Node notOnChain = d.getA();
 			Node alreadyOnChain = d.getB();
 			if (d.getA() == left || d.getA() == right) {
@@ -210,82 +215,79 @@ public class ShortestPathAlgorithm
 			if (alreadyOnChain == left) {
 				// Next node is on right chain
 				logger.debug("next node is on right chain");
-				updateFunnel(rightPath, leftPath, notOnChain, false);
+				updateFunnel(notOnChain, Side.RIGHT, Side.LEFT);
 			} else if (alreadyOnChain == right) {
 				// Next node is on left chain
 				logger.debug("next node is on left chain");
-				updateFunnel(leftPath, rightPath, notOnChain, true);
+				updateFunnel(notOnChain,  Side.LEFT, Side.RIGHT);
 			} else {
 				logger.error("next node could not be found on any chain");
 			}
-			logger.debug("left path length: " + leftPath.length());
-			logger.debug("right path length: " + rightPath.length());
+			logger.debug("left path length: " + data.getFunnelLength(Side.LEFT));
+			logger.debug("right path length: " + data.getFunnelLength(Side.RIGHT));
 		}
 	}
 
-	private void updateFunnel(Path path1, Path path2, Node notOnChain,
-			boolean left)
+	private void updateFunnel(Node notOnChain, Side on, Side other)
 	{
 		boolean found = false;
-		if (path1.length() == 1) {
+		if (data.getFunnelLength(on) == 0) {
 			logger.debug("case1: path1 has length 1");
-			path1.add(notOnChain);
+			data.append(on, notOnChain);
 			found = true;
 		}
 		if (!found) {
 			logger.debug("case2: walking backwards on path1");
-			for (int k = path1.length() - 1; k >= 1; k--) {
-				Node pn1 = path1.getNode(k - 1);
-				Node pn2 = path1.getNode(k);
-				boolean turnOk = turnOk(pn1, pn2, notOnChain, left);
+			for (int k = data.getFunnelLength(on) - 1; k >= 0; k--) {
+				Node pn1 = k == 0 ? data.getApex() : data.get(on, k - 1);
+				Node pn2 = data.get(on, k);
+				boolean turnOk = turnOk(pn1, pn2, notOnChain, on);
 				if (!turnOk) {
-					path1.removeLast();
+					data.removeLast(on);
 				} else {
 					found = true;
-					path1.add(notOnChain);
+					data.append(on, notOnChain);
 					break;
 				}
 			}
 		}
 		if (!found) {
 			logger.debug("case3: walking forward on path2");
-			for (int k = 0; k < path2.length() - 1; k++) {
-				Node pn1 = path2.getNode(k);
-				Node pn2 = path2.getNode(k + 1);
-				boolean turnOk = turnOk(pn1, pn2, notOnChain, left);
+			for (int k = -1; k < data.getFunnelLength(other) - 1; k++) {
+				Node pn1 = k == -1 ? data.getApex() : data.get(other, k);
+				Node pn2 = data.get(other, k + 1);
+				boolean turnOk = turnOk(pn1, pn2, notOnChain, on);
 				if (turnOk) {
 					logger.debug("turn is ok with k=" + k);
 					found = true;
 					Node w = pn1;
-					if (k == 0) {
-						path1.add(notOnChain);
+					if (k == -1) {
+						data.append(on, notOnChain);
 					} else {
-						path1.clear();
-						path1.add(w);
-						path1.add(notOnChain);
-						for (int l = 0; l < k; l++) {
-							path2.removeFirst();
+						data.clear(on);
+						data.append(on, notOnChain);
+						for (int l = 0; l <= k; l++) {
+							data.appendCommon(data.removeFirst(other));
 						}
+						data.appendCommon(w);
 					}
-					v = w;
 					break;
 				}
 			}
 		}
 		if (!found) {
 			logger.debug("case4: moving apex to last node of path2");
-			v = path2.lastNode();
-			path2.clear();
-			path2.add(v);
-			path1.clear();
-			path1.add(v);
-			path1.add(notOnChain);
+			data.clear(on);
+			data.append(on, notOnChain);
+			for (int k = 0; k < data.getFunnelLength(other);) {
+				data.appendCommon(data.removeFirst(other));
+			}
 		}
 	}
 
-	private boolean turnOk(Node pn1, Node pn2, Node notOnChain, boolean left)
+	private boolean turnOk(Node pn1, Node pn2, Node notOnChain, Side side)
 	{
-		if (left) {
+		if (side == Side.LEFT) {
 			return GeomMath.isLeftOf(pn1.getCoordinate(), pn2.getCoordinate(),
 					notOnChain.getCoordinate());
 		} else {

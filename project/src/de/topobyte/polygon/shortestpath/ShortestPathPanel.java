@@ -58,6 +58,7 @@ public class ShortestPathPanel extends JPanel
 	private Color COLOR_APEX = Color.WHITE;
 	private Color COLOR_LEFT_TOP = Color.YELLOW;
 	private Color COLOR_RIGHT_TOP = Color.BLUE;
+	private Color COLOR_COMMON_PATH = Color.MAGENTA;
 	private Color COLOR_LEFT_PATH = Color.YELLOW;
 	private Color COLOR_RIGHT_PATH = Color.BLUE;
 
@@ -93,7 +94,7 @@ public class ShortestPathPanel extends JPanel
 		}
 
 		g.setStroke(new BasicStroke(1.0f));
-		
+
 		g.setColor(COLOR_POLYGON_EDGES);
 		Chain shell = algorithm.getPolygon().getShell();
 		IntRing ring = new IntRing(shell.getNumberOfNodes());
@@ -135,17 +136,18 @@ public class ShortestPathPanel extends JPanel
 				}
 			}
 		}
-		
+
 		g.setStroke(new BasicStroke(2.0f));
 
-		Path leftPath = algorithm.getLeftPath();
-		Path rightPath = algorithm.getRightPath();
-		paintPath(g, leftPath, true);
-		paintPath(g, rightPath, false);
-		g.setColor(COLOR_APEX);
-		Node apex = algorithm.getApex();
-		if (apex != null) {
-			Coordinate c = algorithm.getApex().getCoordinate();
+		Data data = algorithm.getData();
+		if (data != null) {
+			paintCommonPath(g);
+
+			paintPath(g, Side.LEFT);
+			paintPath(g, Side.RIGHT);
+			g.setColor(COLOR_APEX);
+
+			Coordinate c = data.getApex().getCoordinate();
 			g.fill(ShapeUtil.createArc(c.getX(), c.getY(), 3));
 		}
 
@@ -167,20 +169,32 @@ public class ShortestPathPanel extends JPanel
 		}
 	}
 
-	private void paintPath(Graphics2D g, Path path, boolean left)
+	private void paintCommonPath(Graphics2D g)
 	{
-		if (path == null) {
-			return;
+		Data data = algorithm.getData();
+		g.setColor(COLOR_COMMON_PATH);
+		for (int i = 0; i < data.getCommonLength() - 1; i++) {
+			Node m = data.getCommon(i);
+			Node n = data.getCommon(i + 1);
+			Coordinate cm = m.getCoordinate();
+			Coordinate cn = n.getCoordinate();
+			g.drawLine((int) Math.round(cm.getX()),
+					(int) Math.round(cm.getY()), (int) Math.round(cn.getX()),
+					(int) Math.round(cn.getY()));
 		}
-		if (left) {
+	}
+
+	private void paintPath(Graphics2D g, Side side)
+	{
+		Data data = algorithm.getData();
+		if (side == Side.LEFT) {
 			g.setColor(COLOR_LEFT_PATH);
 		} else {
 			g.setColor(COLOR_RIGHT_PATH);
 		}
-		List<Node> nodes = path.getNodes();
-		Node m = nodes.get(0);
-		for (int i = 1; i < nodes.size(); i++) {
-			Node n = nodes.get(i);
+		Node m = data.getApex();
+		for (int i = 0; i < data.getFunnelLength(side); i++) {
+			Node n = data.get(side, i);
 			Coordinate cm = m.getCoordinate();
 			Coordinate cn = n.getCoordinate();
 			g.drawLine((int) Math.round(cm.getX()),
@@ -188,8 +202,9 @@ public class ShortestPathPanel extends JPanel
 					(int) Math.round(cn.getY()));
 			m = n;
 		}
-		Coordinate c = nodes.get(nodes.size() - 1).getCoordinate();
-		if (left) {
+		Node last = data.getLast(side);
+		Coordinate c = last.getCoordinate();
+		if (side == Side.LEFT) {
 			g.setColor(COLOR_LEFT_TOP);
 		} else {
 			g.setColor(COLOR_RIGHT_TOP);
