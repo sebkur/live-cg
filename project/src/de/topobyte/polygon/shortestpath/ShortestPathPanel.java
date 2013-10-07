@@ -32,6 +32,7 @@ import de.topobyte.livecg.geometry.geom.AwtHelper;
 import de.topobyte.livecg.geometry.geom.Chain;
 import de.topobyte.livecg.geometry.geom.Coordinate;
 import de.topobyte.livecg.geometry.geom.IntRing;
+import de.topobyte.livecg.geometry.geom.Node;
 import de.topobyte.livecg.geometry.geom.Polygon;
 import de.topobyte.livecg.geometry.geom.PolygonHelper;
 import de.topobyte.polygon.monotonepieces.Diagonal;
@@ -119,6 +120,11 @@ public class ShortestPathPanel extends JPanel
 			}
 		}
 
+		Path leftPath = algorithm.getLeftPath();
+		Path rightPath = algorithm.getRightPath();
+		paintPath(g, leftPath, true);
+		paintPath(g, rightPath, false);
+
 		Coordinate cStart = algorithm.getNodeStart().getCoordinate();
 		Coordinate cTarget = algorithm.getNodeTarget().getCoordinate();
 		Arc2D arcStart = ShapeUtil.createArc(cStart.getX(), cStart.getY(), 5);
@@ -135,6 +141,31 @@ public class ShortestPathPanel extends JPanel
 			g.drawString(String.format("%d", i + 1), (float) c.getX() + 10,
 					(float) c.getY());
 		}
+	}
+
+	private void paintPath(Graphics2D g, Path path, boolean left)
+	{
+		if (path == null) {
+			return;
+		}
+		g.setColor(Color.MAGENTA);
+		List<Node> nodes = path.getNodes();
+		Node m = nodes.get(0);
+		for (int i = 1; i < nodes.size(); i++) {
+			Node n = nodes.get(i);
+			Coordinate cm = m.getCoordinate();
+			Coordinate cn = n.getCoordinate();
+			g.drawLine((int) Math.round(cm.getX()),
+					(int) Math.round(cm.getY()), (int) Math.round(cn.getX()),
+					(int) Math.round(cn.getY()));
+		}
+		Coordinate c = nodes.get(nodes.size()- 1).getCoordinate();
+		if (left) {
+			g.setColor(Color.YELLOW);
+		}else {
+			g.setColor(Color.BLUE);
+		}
+		g.draw(ShapeUtil.createArc(c.getX(), c.getY(), 5));
 	}
 
 }

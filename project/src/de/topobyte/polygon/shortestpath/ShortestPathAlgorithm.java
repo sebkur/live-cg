@@ -19,6 +19,9 @@ package de.topobyte.polygon.shortestpath;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import de.topobyte.livecg.geometry.geom.Chain;
 import de.topobyte.livecg.geometry.geom.Node;
 import de.topobyte.livecg.geometry.geom.Polygon;
@@ -30,6 +33,8 @@ import de.topobyte.util.graph.Graph;
 
 public class ShortestPathAlgorithm
 {
+	final static Logger logger = LoggerFactory
+			.getLogger(ShortestPathAlgorithm.class);
 
 	private Polygon polygon;
 	private TriangulationOperation triangulationOperation;
@@ -130,8 +135,53 @@ public class ShortestPathAlgorithm
 		computeUpTo(status);
 	}
 
+	private Path leftPath, rightPath;
+
+	public Path getLeftPath()
+	{
+		return leftPath;
+	}
+
+	public Path getRightPath()
+	{
+		return rightPath;
+	}
+
 	private void computeUpTo(int diagonal)
 	{
-		// TODO: Implement actual algorithm
+		if (diagonal == 0) {
+			leftPath = null;
+			rightPath = null;
+			return;
+		}
+		List<Polygon> polygons = sleeve.getPolygons();
+		// Get the first triangle
+		Polygon p0 = polygons.get(0);
+		// One of the first triangle's nodes must be the start node
+		Node n0 = p0.getShell().getNode(0);
+		Node n1 = p0.getShell().getNode(1);
+		Node n2 = p0.getShell().getNode(2);
+		if (n0 == nodeStart) {
+			n0 = n1;
+			n1 = n2;
+		} else if (n1 == nodeStart) {
+			n1 = n2;
+		} else if (n2 != nodeStart) {
+			logger.error("None of the first triangle's nodes is the start node");
+		}
+		// Triangle is in CCW order, so this is true:
+		Node right = n0;
+		Node left = n1;
+		leftPath = new Path(nodeStart, left);
+		rightPath = new Path(nodeStart, right);
+
+		List<Diagonal> diagonals = sleeve.getDiagonals();
+		for (int i = 1; i < diagonals.size() && i < diagonal; i++) {
+			// TODO: steps
+		}
+
+		if (diagonal == diagonals.size() + 1) {
+			// TODO: last step
+		}
 	}
 }
