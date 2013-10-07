@@ -37,6 +37,7 @@ import de.topobyte.livecg.geometry.geom.Node;
 import de.topobyte.livecg.geometry.geom.Polygon;
 import de.topobyte.livecg.geometry.geom.PolygonHelper;
 import de.topobyte.polygon.monotonepieces.Diagonal;
+import de.topobyte.util.MouseOver;
 import de.topobyte.util.ShapeUtil;
 import de.topobyte.util.SwingUtil;
 import de.topobyte.util.graph.Edge;
@@ -78,6 +79,11 @@ public class ShortestPathPanel extends JPanel
 	{
 		this.algorithm = algorithm;
 		this.config = config;
+	}
+
+	public ShortestPathAlgorithm getAlgorithm()
+	{
+		return algorithm;
 	}
 
 	@Override
@@ -169,6 +175,13 @@ public class ShortestPathPanel extends JPanel
 		double r = 6;
 		double w = 4;
 
+		if (dragStart != null) {
+			cStart = dragStart;
+		}
+		if (dragTarget != null) {
+			cTarget = dragTarget;
+		}
+
 		Shape arcStart = ShapeUtil.createArc(cStart.getX(), cStart.getY(), r);
 		Shape arcTarget = ShapeUtil
 				.createArc(cTarget.getX(), cTarget.getY(), r);
@@ -187,6 +200,14 @@ public class ShortestPathPanel extends JPanel
 		g.setColor(COLOR_NODE_TARGET);
 		g.draw(arcTarget);
 
+		g.setColor(new Color(0xaaffffff, true));
+		if (mouseOverStart == MouseOver.OVER) {
+			g.draw(arcStart);
+		}
+		if (mouseOverTarget == MouseOver.OVER) {
+			g.draw(arcTarget);
+		}
+
 		g.setStroke(new BasicStroke(1.0f));
 		g.setColor(COLOR_NODE_START_OUTLINE);
 		g.draw(arcStartOut);
@@ -194,6 +215,19 @@ public class ShortestPathPanel extends JPanel
 		g.setColor(COLOR_NODE_TARGET_OUTLINE);
 		g.draw(arcTargetOut);
 		g.draw(arcTargetIn);
+
+		g.setStroke(new BasicStroke(2.0f));
+		g.setColor(new Color(0xaaffffff, true));
+		if (mouseOverStart == MouseOver.OVER
+				|| mouseOverStart == MouseOver.ACTIVE) {
+			g.draw(arcStartOut);
+			g.draw(arcStartIn);
+		}
+		if (mouseOverTarget == MouseOver.OVER
+				|| mouseOverTarget == MouseOver.ACTIVE) {
+			g.draw(arcTargetOut);
+			g.draw(arcTargetIn);
+		}
 
 		if (config.isDrawNodeNumbers()) {
 			g.setColor(COLOR_NODE_IDS);
@@ -248,4 +282,37 @@ public class ShortestPathPanel extends JPanel
 		g.fill(ShapeUtil.createArc(c.getX(), c.getY(), 3));
 	}
 
+	private MouseOver mouseOverStart = MouseOver.NONE;
+	private MouseOver mouseOverTarget = MouseOver.NONE;
+
+	private Coordinate dragStart = null;
+	private Coordinate dragTarget = null;
+
+	public boolean setStartMouseOver(MouseOver over)
+	{
+		if (mouseOverStart == over) {
+			return false;
+		}
+		mouseOverStart = over;
+		return true;
+	}
+
+	public boolean setTargetMouseOver(MouseOver over)
+	{
+		if (mouseOverTarget == over) {
+			return false;
+		}
+		mouseOverTarget = over;
+		return true;
+	}
+
+	public void setDragStart(Coordinate dragStart)
+	{
+		this.dragStart = dragStart;
+	}
+
+	public void setDragTarget(Coordinate dragTarget)
+	{
+		this.dragTarget = dragTarget;
+	}
 }

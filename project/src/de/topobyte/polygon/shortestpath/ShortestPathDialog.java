@@ -54,6 +54,9 @@ public class ShortestPathDialog
 		config.setDrawDualGraph(true);
 
 		spp = new ShortestPathPanel(algorithm, config);
+		PickNodesListener pickNodesListener = new PickNodesListener(spp);
+		spp.addMouseListener(pickNodesListener);
+		spp.addMouseMotionListener(pickNodesListener);
 
 		Settings settings = new Settings(spp, config);
 
