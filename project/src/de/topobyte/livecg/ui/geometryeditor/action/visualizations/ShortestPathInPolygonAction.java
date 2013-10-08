@@ -22,8 +22,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.topobyte.livecg.geometry.geom.Chain;
+import de.topobyte.livecg.geometry.geom.ConvexHullOperation;
+import de.topobyte.livecg.geometry.geom.Coordinate;
 import de.topobyte.livecg.geometry.geom.Node;
 import de.topobyte.livecg.geometry.geom.Polygon;
+import de.topobyte.livecg.geometry.geom.farthest.FarthestPairResult;
+import de.topobyte.livecg.geometry.geom.farthest.ShamosFarthestPairOperation;
 import de.topobyte.livecg.ui.geometryeditor.Content;
 import de.topobyte.livecg.ui.geometryeditor.GeometryEditPane;
 import de.topobyte.livecg.ui.geometryeditor.action.BasicAction;
@@ -62,12 +66,36 @@ public class ShortestPathInPolygonAction extends BasicAction
 		}
 		Polygon polygon = viable.get(0);
 		Chain shell = polygon.getShell();
-		int a = 0;
-		int b = shell.getNumberOfNodes() / 2;
-		Node start = shell.getNode(a);
-		Node target = shell.getNode(b);
+
+		List<Polygon> list = new ArrayList<Polygon>();
+		list.add(polygon);
+		Polygon convexHull = ConvexHullOperation.compute(null, null, list);
+		FarthestPairResult farthestPair = ShamosFarthestPairOperation
+				.compute(convexHull.getShell());
+		Coordinate c0 = convexHull.getShell()
+				.getCoordinate(farthestPair.getI());
+		Coordinate c1 = convexHull.getShell()
+				.getCoordinate(farthestPair.getJ());
+		Node start = findNearest(shell, c0);
+		Node target = findNearest(shell, c1);
+
 		ShortestPathAlgorithm algorithm = new ShortestPathAlgorithm(polygon,
 				start, target);
 		new ShortestPathDialog(algorithm);
+	}
+
+	private Node findNearest(Chain shell, Coordinate c)
+	{
+		Node nearest = null;
+		double min = Double.MAX_VALUE;
+		for (int i = 0; i < shell.getNumberOfNodes(); i++) {
+			Node node = shell.getNode(i);
+			double d = node.getCoordinate().distance(c);
+			if (d < min) {
+				min = d;
+				nearest = node;
+			}
+		}
+		return nearest;
 	}
 }
