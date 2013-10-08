@@ -29,7 +29,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-public class ShortestPathDialog
+public class ShortestPathDialog implements AlgorithmChangedListener
 {
 
 	private JFrame frame;
@@ -53,17 +53,18 @@ public class ShortestPathDialog
 		config = new Config();
 		config.setDrawDualGraph(true);
 
+		AlgorithmMonitor algorithmMonitor = new AlgorithmMonitor();
+		algorithmMonitor.addAlgorithmChangedListener(this);
+
 		spp = new ShortestPathPanel(algorithm, config);
-		PickNodesListener pickNodesListener = new PickNodesListener(spp);
+		PickNodesListener pickNodesListener = new PickNodesListener(spp,
+				algorithmMonitor);
 		spp.addMouseListener(pickNodesListener);
 		spp.addMouseMotionListener(pickNodesListener);
 
 		Settings settings = new Settings(spp, config);
 
-		Sleeve sleeve = algorithm.getSleeve();
-		int nDiagonals = sleeve.getDiagonals().size();
-
-		int max = nDiagonals + 2;
+		int max = getNumberOfSteps();
 		slider = new JSlider(0, max);
 		slider.setPaintLabels(true);
 		slider.setPaintTicks(true);
@@ -105,6 +106,19 @@ public class ShortestPathDialog
 		int value = slider.getValue();
 		algorithm.setStatus(value);
 		spp.repaint();
+	}
+
+	@Override
+	public void algorithmChanged()
+	{
+		slider.setMaximum(getNumberOfSteps());
+	}
+	
+	private int getNumberOfSteps()
+	{
+		Sleeve sleeve = algorithm.getSleeve();
+		int nDiagonals = sleeve.getDiagonals().size();
+		return nDiagonals + 2;
 	}
 
 }

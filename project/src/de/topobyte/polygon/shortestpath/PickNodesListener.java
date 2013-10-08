@@ -29,13 +29,16 @@ public class PickNodesListener extends MouseAdapter
 	private static final int SELECTION_THRESHOLD = 10;
 
 	private ShortestPathPanel spp;
+	private AlgorithmMonitor algorithmMonitor;
 
 	private boolean pressedStart = false;
 	private boolean pressedTarget = false;
 
-	public PickNodesListener(ShortestPathPanel spp)
+	public PickNodesListener(ShortestPathPanel spp,
+			AlgorithmMonitor algorithmMonitor)
 	{
 		this.spp = spp;
+		this.algorithmMonitor = algorithmMonitor;
 	}
 
 	private boolean active()
@@ -118,6 +121,9 @@ public class PickNodesListener extends MouseAdapter
 		update |= checkOver(e);
 		if (update) {
 			spp.repaint();
+		}
+		if (start != null || target != null) {
+			algorithmMonitor.fireAlgorithmChangedListener();
 		}
 	}
 

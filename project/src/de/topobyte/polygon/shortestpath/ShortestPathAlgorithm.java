@@ -59,8 +59,6 @@ public class ShortestPathAlgorithm
 	private Node left;
 	private Node right;
 
-	// TODO: emit the number of diagonals so that we can update the Dialog UI
-
 	// TODO: do not allow start / target out of polygons bounds
 
 	public ShortestPathAlgorithm(Polygon polygon, Node start, Node target)
