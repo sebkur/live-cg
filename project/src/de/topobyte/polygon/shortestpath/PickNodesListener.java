@@ -21,7 +21,9 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import de.topobyte.livecg.geometry.geom.Coordinate;
+import de.topobyte.livecg.geometry.geom.CrossingsTest;
 import de.topobyte.livecg.geometry.geom.Node;
+import de.topobyte.livecg.geometry.geom.Polygon;
 import de.topobyte.util.MouseOver;
 
 public class PickNodesListener extends MouseAdapter
@@ -112,11 +114,20 @@ public class PickNodesListener extends MouseAdapter
 			spp.setDragStart(null);
 			spp.setDragTarget(null);
 		}
-		if (start != null) {			
-			spp.getAlgorithm().setStart(start);
+		// TODO: Also implement some kind of snapping to nodes and slight
+		// correction (moving into polygon) if the desired position is outside
+		// the polygon but near
+		Polygon polygon = spp.getAlgorithm().getPolygon();
+		CrossingsTest test = new CrossingsTest(polygon.getShell());
+		if (start != null) {
+			if (test.covers(start.getCoordinate())) {
+				spp.getAlgorithm().setStart(start);
+			}
 		}
-		if (target != null) {			
-			spp.getAlgorithm().setTarget(target);
+		if (target != null) {
+			if (test.covers(target.getCoordinate())) {
+				spp.getAlgorithm().setTarget(target);
+			}
 		}
 		update |= checkOver(e);
 		if (update) {

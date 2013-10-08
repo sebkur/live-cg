@@ -60,8 +60,6 @@ public class ShortestPathAlgorithm
 	private Node left;
 	private Node right;
 
-	// TODO: do not allow start / target out of polygons bounds
-
 	public ShortestPathAlgorithm(Polygon polygon, Node start, Node target)
 	{
 		this.polygon = polygon;
