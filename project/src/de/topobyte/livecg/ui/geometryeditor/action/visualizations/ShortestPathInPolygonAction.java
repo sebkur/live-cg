@@ -21,8 +21,12 @@ import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.topobyte.livecg.geometry.geom.Chain;
+import de.topobyte.livecg.geometry.geom.ChainHelper;
+import de.topobyte.livecg.geometry.geom.CloseabilityException;
 import de.topobyte.livecg.geometry.geom.Node;
 import de.topobyte.livecg.geometry.geom.Polygon;
+import de.topobyte.livecg.geometry.geom.PolygonHelper;
 import de.topobyte.livecg.ui.geometryeditor.Content;
 import de.topobyte.livecg.ui.geometryeditor.GeometryEditPane;
 import de.topobyte.livecg.ui.geometryeditor.action.BasicAction;
@@ -62,6 +66,14 @@ public class ShortestPathInPolygonAction extends BasicAction
 			return;
 		}
 		Polygon polygon = viable.get(0);
+		if (!PolygonHelper.isCounterClockwiseOriented(polygon)) {
+			Chain shell = polygon.getShell();
+			try {
+				polygon = new Polygon(ChainHelper.invert(shell), null);
+			} catch (CloseabilityException e) {
+				// Should not happen
+			}
+		}
 
 		PairOfNodes nodes = ShortestPathHelper.determineGoodNodes(polygon);
 		Node start = nodes.getA();
