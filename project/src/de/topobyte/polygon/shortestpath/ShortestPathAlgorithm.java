@@ -151,7 +151,6 @@ public class ShortestPathAlgorithm
 
 		if (triangleStart == triangleTarget) {
 			numberOfSteps = 1;
-			// TODO: handle this special case somehow
 			return;
 		}
 
