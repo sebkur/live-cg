@@ -22,16 +22,20 @@ public class PolygonHelper
 
 	public static boolean isCounterClockwiseOriented(Polygon polygon)
 	{
+		return isCounterClockwiseOriented(polygon.getShell());
+	}
+	
+	public static boolean isCounterClockwiseOriented(Chain chain)
+	{
 		double sum1 = 0, sum2 = 0;
 
-		Chain shell = polygon.getShell();
-		IntRing ring = new IntRing(shell.getNumberOfNodes());
-		for (int i = 0; i < shell.getNumberOfNodes(); i++) {
-			Node node = shell.getNode(i);
+		IntRing ring = new IntRing(chain.getNumberOfNodes());
+		for (int i = 0; i < chain.getNumberOfNodes(); i++) {
+			Node node = chain.getNode(i);
 			int pre = ring.prevValue();
 			int suc = ring.next().value();
-			Node nodePre = shell.getNode(pre);
-			Node nodeSuc = shell.getNode(suc);
+			Node nodePre = chain.getNode(pre);
+			Node nodeSuc = chain.getNode(suc);
 
 			Coordinate c = node.getCoordinate();
 			Coordinate cPre = nodePre.getCoordinate();
