@@ -40,6 +40,7 @@ import de.topobyte.livecg.ui.geometryeditor.action.visualizations.FortunesSweepA
 import de.topobyte.livecg.ui.geometryeditor.action.visualizations.FreeSpaceChainsAction;
 import de.topobyte.livecg.ui.geometryeditor.action.visualizations.FreeSpaceLinesAction;
 import de.topobyte.livecg.ui.geometryeditor.action.visualizations.MonotonePiecesAction;
+import de.topobyte.livecg.ui.geometryeditor.action.visualizations.ShortestPathInPolygonAction;
 import de.topobyte.livecg.ui.geometryeditor.action.visualizations.TriangulationAction;
 import de.topobyte.livecg.ui.geometryeditor.action.visualizations.TriangulationDualGraphAction;
 import de.topobyte.livecg.ui.geometryeditor.mousemode.MouseMode;
@@ -188,6 +189,8 @@ public class Menu extends JMenuBar
 				editPane));
 		JMenuItem triangulationWithDualGraph = new JMenuItem(
 				new TriangulationDualGraphAction(editPane));
+		JMenuItem shortestPathInPolygon = new JMenuItem(
+				new ShortestPathInPolygonAction(editPane));
 
 		visualizations.add(fortunesSweep);
 		visualizations.add(frechet);
@@ -201,6 +204,7 @@ public class Menu extends JMenuBar
 		polygons.add(monotonePieces);
 		polygons.add(triangulation);
 		polygons.add(triangulationWithDualGraph);
+		polygons.add(shortestPathInPolygon);
 
 		/*
 		 * Window

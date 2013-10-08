@@ -31,6 +31,9 @@ public class SleeveUtil
 			Node nodeTarget)
 	{
 		List<Polygon> path = sleeve.getPolygons();
+		if (path.size() < 2) {
+			return;
+		}
 		List<Diagonal> diagonals = sleeve.getDiagonals();
 
 		Polygon triangleStart = path.get(0);
