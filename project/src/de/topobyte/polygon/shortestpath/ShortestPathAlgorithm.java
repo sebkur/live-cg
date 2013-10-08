@@ -282,6 +282,14 @@ public class ShortestPathAlgorithm
 		// Initialize data structures
 		data = new Data(start, left, right);
 
+		// Handle the case with start and target lying in the same triangle
+		if (triangleStart == triangleTarget) {
+			data.appendCommon(target);
+			data.clear(Side.LEFT);
+			data.clear(Side.RIGHT);
+			return;
+		}
+
 		// Main algorithm loop
 		List<Diagonal> diagonals = sleeve.getDiagonals();
 		for (int i = 2; i <= diagonals.size() + 1 && i <= diagonal; i++) {
