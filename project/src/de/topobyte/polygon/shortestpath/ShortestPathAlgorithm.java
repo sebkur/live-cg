@@ -55,6 +55,7 @@ public class ShortestPathAlgorithm
 
 	private Sleeve sleeve;
 	private int status;
+	private int numberOfSteps;
 
 	private Node left;
 	private Node right;
@@ -149,8 +150,12 @@ public class ShortestPathAlgorithm
 		triangleTarget = triangles.get(triangles.size() - 1);
 
 		if (triangleStart == triangleTarget) {
+			numberOfSteps = 1;
 			// TODO: handle this special case somehow
+			return;
 		}
+
+		numberOfSteps = sleeve.getDiagonals().size() + 2;
 
 		// Get the first triangle
 		Polygon p0 = sleeve.getPolygons().get(0);
@@ -239,6 +244,11 @@ public class ShortestPathAlgorithm
 	public List<Diagonal> getTriangulationDiagonals()
 	{
 		return triangulationDiagonals;
+	}
+
+	public int getNumberOfSteps()
+	{
+		return numberOfSteps;
 	}
 
 	public int getStatus()

@@ -64,7 +64,7 @@ public class ShortestPathDialog implements AlgorithmChangedListener
 
 		Settings settings = new Settings(spp, config);
 
-		int max = getNumberOfSteps();
+		int max = algorithm.getNumberOfSteps();
 		slider = new JSlider(0, max);
 		slider.setPaintLabels(true);
 		slider.setPaintTicks(true);
@@ -111,14 +111,7 @@ public class ShortestPathDialog implements AlgorithmChangedListener
 	@Override
 	public void algorithmChanged()
 	{
-		slider.setMaximum(getNumberOfSteps());
-	}
-	
-	private int getNumberOfSteps()
-	{
-		Sleeve sleeve = algorithm.getSleeve();
-		int nDiagonals = sleeve.getDiagonals().size();
-		return nDiagonals + 2;
+		slider.setMaximum(algorithm.getNumberOfSteps());
 	}
 
 }
