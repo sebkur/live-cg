@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.topobyte.livecg.geometry.geom.farthest;
+package de.topobyte.farthestpair;
 
 import de.topobyte.livecg.geometry.geom.Chain;
 import de.topobyte.livecg.geometry.geom.ChainHelper;

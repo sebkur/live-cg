@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.topobyte.livecg.geometry.farthest;
+package de.topobyte.farthestpair;
 
 import java.io.File;
 import java.io.IOException;
@@ -28,10 +28,10 @@ import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.xml.sax.SAXException;
 
+import de.topobyte.farthestpair.ShamosFarthestPairOperation;
 import de.topobyte.livecg.geometry.geom.Chain;
 import de.topobyte.livecg.geometry.geom.ConvexHullOperation;
 import de.topobyte.livecg.geometry.geom.Polygon;
-import de.topobyte.livecg.geometry.geom.farthest.ShamosFarthestPairOperation;
 import de.topobyte.livecg.geometry.io.ContentReader;
 import de.topobyte.livecg.ui.geometryeditor.Content;
 
