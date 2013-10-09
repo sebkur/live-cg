@@ -378,11 +378,9 @@ public class EditorMouseListener extends MouseAdapter
 			break;
 		case NODE:
 			Node node = nearest.node;
-			List<Node> selectedNodes = editPane.getCurrentNodes();
 			List<Chain> selectedChains = editPane.getCurrentChains();
 			List<Polygon> selectedPolygons = editPane.getCurrentPolygons();
-			if (selectedChains.size() == 0 && selectedPolygons.size() == 0
-					|| selectedNodes.contains(node)) {
+			if (selectedChains.size() == 0 && selectedPolygons.size() == 0) {
 				// Delete node from all contained elements
 				for (Chain c : node.getChains()) {
 					deleteNodeFromChain(c, node, false);
