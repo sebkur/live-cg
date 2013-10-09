@@ -390,5 +390,11 @@ public class MonotonePiecesOperation
 		SplitResult splitResult = DiagonalUtil.split(polygon, diagonals);
 		return splitResult.getPolygons();
 	}
+	
+	public SplitResult getMonotonePiecesWithGraph()
+	{
+		SplitResult splitResult = DiagonalUtil.split(polygon, diagonals);
+		return splitResult;
+	}
 
 }

@@ -36,6 +36,7 @@ import de.topobyte.livecg.geometry.geom.IntRing;
 import de.topobyte.livecg.geometry.geom.Node;
 import de.topobyte.livecg.geometry.geom.Polygon;
 import de.topobyte.util.SwingUtil;
+import de.topobyte.util.graph.Graph;
 
 public class MonotonePiecesPanel extends JPanel
 {
@@ -44,13 +45,18 @@ public class MonotonePiecesPanel extends JPanel
 
 	private Polygon polygon;
 	private MonotonePiecesOperation monotonePiecesOperation;
+
 	private List<Polygon> monotonePieces;
+	private Graph<Polygon, Diagonal> graph;
 
 	public MonotonePiecesPanel(Polygon polygon)
 	{
 		this.polygon = polygon;
 		monotonePiecesOperation = new MonotonePiecesOperation(polygon);
-		monotonePieces = monotonePiecesOperation.getMonotonePieces();
+		SplitResult split = monotonePiecesOperation
+				.getMonotonePiecesWithGraph();
+		monotonePieces = split.getPolygons();
+		graph = split.getGraph();
 	}
 
 	@Override
