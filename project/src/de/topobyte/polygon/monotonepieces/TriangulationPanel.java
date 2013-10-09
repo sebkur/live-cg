@@ -62,6 +62,9 @@ public class TriangulationPanel extends JPanel
 		Graphics2D g = (Graphics2D) graphics;
 		SwingUtil.useAntialiasing(g, true);
 
+		g.setColor(Color.WHITE);
+		g.fillRect(0, 0, getWidth(), getHeight());
+
 		Area shape = AwtHelper.toShape(polygon);
 		g.setColor(new Color(0x66ff0000, true));
 		g.fill(shape);
