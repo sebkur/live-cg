@@ -20,10 +20,10 @@ package de.topobyte.polygon.shortestpath;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.topobyte.convexhull.ConvexHullOperation;
 import de.topobyte.farthestpair.FarthestPairResult;
 import de.topobyte.farthestpair.ShamosFarthestPairOperation;
 import de.topobyte.livecg.geometry.geom.Chain;
-import de.topobyte.livecg.geometry.geom.ConvexHullOperation;
 import de.topobyte.livecg.geometry.geom.Coordinate;
 import de.topobyte.livecg.geometry.geom.Node;
 import de.topobyte.livecg.geometry.geom.Polygon;

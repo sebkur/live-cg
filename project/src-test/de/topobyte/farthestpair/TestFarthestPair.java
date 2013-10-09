@@ -28,9 +28,9 @@ import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.xml.sax.SAXException;
 
+import de.topobyte.convexhull.ConvexHullOperation;
 import de.topobyte.farthestpair.ShamosFarthestPairOperation;
 import de.topobyte.livecg.geometry.geom.Chain;
-import de.topobyte.livecg.geometry.geom.ConvexHullOperation;
 import de.topobyte.livecg.geometry.geom.Polygon;
 import de.topobyte.livecg.geometry.io.ContentReader;
 import de.topobyte.livecg.ui.geometryeditor.Content;

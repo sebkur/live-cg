@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.topobyte.livecg.geometry.geom;
+package de.topobyte.convexhull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +23,12 @@ import java.util.List;
 import com.vividsolutions.jts.algorithm.ConvexHull;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.GeometryFactory;
+
+import de.topobyte.livecg.geometry.geom.Chain;
+import de.topobyte.livecg.geometry.geom.CloseabilityException;
+import de.topobyte.livecg.geometry.geom.Coordinate;
+import de.topobyte.livecg.geometry.geom.Node;
+import de.topobyte.livecg.geometry.geom.Polygon;
 
 public class ConvexHullOperation
 {
