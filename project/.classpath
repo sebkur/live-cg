@@ -35,5 +35,6 @@
 	<classpathentry kind="lib" path="lib/batik/xml-apis-ext.jar"/>
 	<classpathentry kind="lib" path="lib/batik/xml-apis.jar"/>
 	<classpathentry kind="lib" path="lib/Jama-1.0.2.jar"/>
+	<classpathentry kind="lib" path="lib/color-util.jar"/>
 	<classpathentry kind="output" path="bin/main"/>
 </classpath>
