@@ -46,14 +46,14 @@ public class TestSleeve
 		BasicConfigurator.configure();
 		Logger.getRootLogger().setLevel(Level.INFO);
 
-		String path = "res/presets/triangulation/Small.geom";
+		String path = "res/presets/polygons/Small.geom";
 		int a = 0, b = 4;
 
-		path = "res/presets/triangulation/Big.geom";
+		path = "res/presets/polygons/Big.geom";
 		a = 10;
 		b = 25;
 
-		path = "res/presets/triangulation/Real-Big.geom";
+		path = "res/presets/polygons/Real-Big.geom";
 		a = 37;
 		b = 77;
 

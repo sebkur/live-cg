@@ -41,7 +41,7 @@ public class TestMonotonePieces
 		BasicConfigurator.configure();
 		Logger.getRootLogger().setLevel(Level.DEBUG);
 
-		String path = "res/presets/triangulation/Small.geom";
+		String path = "res/presets/polygons/Small.geom";
 		ContentReader contentReader = new ContentReader();
 		Content content = contentReader.read(new File(path));
 		List<Polygon> polygons = content.getPolygons();
