@@ -621,17 +621,57 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 
 	public void removeChain(Chain chain)
 	{
+		// Remove from current-chains
 		if (currentChains.contains(chain)) {
 			removeCurrentChain(chain);
 		}
+		// Remove nodes from current-nodes that were only present in this object
+		List<Node> gone = new ArrayList<Node>();
+		for (Node node : currentNodes) {
+			if (node.getChains().size() == 1
+					&& node.getChains().get(0) == chain) {
+				gone.add(node);
+			}
+		}
+		for (Node node : gone) {
+			removeCurrentNode(node);
+		}
+		// Eventually remove from content
 		content.removeChain(chain);
 	}
 
 	public void removePolygon(Polygon polygon)
 	{
+		// Remove from current-polygons
 		if (currentPolygons.contains(polygon)) {
 			removeCurrentPolygon(polygon);
 		}
+		// Remove nodes from current-nodes that were only present in this object
+		// -> This is a little more tricky than for chains, first find all
+		// chains used by the polygon
+		List<Chain> chains = new ArrayList<Chain>();
+		chains.add(polygon.getShell());
+		for (Chain hole : polygon.getHoles()) {
+			chains.add(hole);
+		}
+		// -> Then look at nodes
+		List<Node> gone = new ArrayList<Node>();
+		for (Node node : currentNodes) {
+			boolean keep = false;
+			for (Chain c : node.getChains()) {
+				if (!chains.contains(c)) {
+					keep = true;
+					break;
+				}
+			}
+			if (!keep) {
+				gone.add(node);
+			}
+		}
+		for (Node node : gone) {
+			removeCurrentNode(node);
+		}
+		// Eventually remove from content
 		content.removePolygon(polygon);
 	}
 
