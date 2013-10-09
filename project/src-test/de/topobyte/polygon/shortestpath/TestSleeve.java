@@ -38,7 +38,7 @@ import de.topobyte.livecg.geometry.geom.PolygonHelper;
 import de.topobyte.livecg.geometry.io.ContentReader;
 import de.topobyte.livecg.ui.geometryeditor.Content;
 
-public class TestPolygonTriangulation
+public class TestSleeve
 {
 	public static void main(String[] args) throws IOException,
 			ParserConfigurationException, SAXException

@@ -38,7 +38,7 @@ import de.topobyte.livecg.geometry.geom.PolygonHelper;
 import de.topobyte.livecg.geometry.io.ContentReader;
 import de.topobyte.livecg.ui.geometryeditor.Content;
 
-public class TestPolygonTriangulationDialog
+public class TestShortestPath
 {
 	public static void main(String[] args) throws IOException,
 			ParserConfigurationException, SAXException
@@ -58,6 +58,10 @@ public class TestPolygonTriangulationDialog
 		// a = 37;
 		// b = 77;
 
+		path = "res/presets/triangulation/Y-Monotone.geom";
+		a = 20;
+		b = 7;
+
 		ContentReader contentReader = new ContentReader();
 		Content content = contentReader.read(new File(path));
 		List<Polygon> polygons = content.getPolygons();
@@ -74,7 +78,12 @@ public class TestPolygonTriangulationDialog
 		Node nodeStart = shell.getNode(a);
 		Node nodeTarget = shell.getNode(b);
 
-		ShortestPathAlgorithm algorithm = new ShortestPathAlgorithm(polygon, nodeStart, nodeTarget);
+		// PairOfNodes nodes = ShortestPathHelper.determineGoodNodes(polygon);
+		// nodeStart = nodes.getA();
+		// nodeTarget = nodes.getB();
+
+		ShortestPathAlgorithm algorithm = new ShortestPathAlgorithm(polygon,
+				nodeStart, nodeTarget);
 		ShortestPathDialog dialog = new ShortestPathDialog(algorithm);
 		dialog.getFrame().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
