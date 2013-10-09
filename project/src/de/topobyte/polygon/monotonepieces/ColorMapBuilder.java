@@ -33,8 +33,7 @@ import de.topobyte.util.graph.Graph;
 public class ColorMapBuilder
 {
 
-	public static Map<Polygon, Color> buildColorMap(
-			Graph<Polygon, Diagonal> graph)
+	public static <T> Map<Polygon, Color> buildColorMap(Graph<Polygon, T> graph)
 	{
 		Map<Polygon, Float> hues = new HashMap<Polygon, Float>();
 		Map<Polygon, Color> map = new HashMap<Polygon, Color>();
@@ -54,13 +53,13 @@ public class ColorMapBuilder
 		return map;
 	}
 
-	private static void go(Graph<Polygon, Diagonal> graph, Polygon p,
+	private static <T> void go(Graph<Polygon, T> graph, Polygon p,
 			Map<Polygon, Float> hues)
 	{
 		// Build list of neighbors' hue values
 		List<Float> neighborHues = new ArrayList<Float>();
-		Set<Edge<Polygon, Diagonal>> edges = graph.getEdgesOut(p);
-		for (Edge<Polygon, Diagonal> edge : edges) {
+		Set<Edge<Polygon, T>> edges = graph.getEdgesOut(p);
+		for (Edge<Polygon, T> edge : edges) {
 			Polygon neighbor = edge.getTarget();
 			if (hues.containsKey(neighbor)) {
 				float hue = hues.get(neighbor);
@@ -70,7 +69,7 @@ public class ColorMapBuilder
 		// Pick the best color based on the neighbors
 		hues.put(p, pickBest(neighborHues));
 		// Recurse to neighbors
-		for (Edge<Polygon, Diagonal> edge : edges) {
+		for (Edge<Polygon, T> edge : edges) {
 			Polygon neighbor = edge.getTarget();
 			if (!hues.containsKey(neighbor)) {
 				go(graph, neighbor, hues);

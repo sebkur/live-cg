@@ -60,7 +60,10 @@ public class MonotonePiecesPanel extends JPanel
 		monotonePieces = split.getPolygons();
 		graph = split.getGraph();
 
-		colorMap = ColorMapBuilder.buildColorMap(graph);
+		Graph<Polygon, Object> extendedGraph = PolygonGraphUtil
+				.addNodeEdges(graph);
+
+		colorMap = ColorMapBuilder.buildColorMap(extendedGraph);
 	}
 
 	@Override
