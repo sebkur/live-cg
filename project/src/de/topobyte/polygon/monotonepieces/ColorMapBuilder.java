@@ -38,7 +38,7 @@ public class ColorMapBuilder
 		Map<Polygon, Float> hues = new HashMap<Polygon, Float>();
 		Map<Polygon, Color> map = new HashMap<Polygon, Color>();
 
-		float s = 50, l = 50;
+		float s = 90, l = 50;
 
 		Polygon p0 = graph.getNodes().iterator().next();
 		go(graph, p0, hues);
@@ -81,7 +81,7 @@ public class ColorMapBuilder
 	{
 		// Handle the anchor case with no neighbors with already assigned value
 		if (hues.size() == 0) {
-			return 0;
+			return 30;
 		}
 		// Otherwise find the best fit
 		Collections.sort(hues);
