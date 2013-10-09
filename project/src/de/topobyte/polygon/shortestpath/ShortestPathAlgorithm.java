@@ -296,7 +296,12 @@ public class ShortestPathAlgorithm
 				d = diagonals.get(i - 1);
 			} else {
 				Diagonal last = diagonals.get(diagonals.size() - 1);
-				d = new Diagonal(last.getA(), target);
+				// Add a final diagonal that extends the right chain
+				if (last.getA() == data.getLast(Side.LEFT)) {
+					d = new Diagonal(last.getA(), target);
+				} else {
+					d = new Diagonal(last.getB(), target);
+				}
 			}
 			// Find node of diagonal that is not node of d_(i-1)
 			Node left = data.getLast(Side.LEFT);
@@ -325,9 +330,9 @@ public class ShortestPathAlgorithm
 					+ data.getFunnelLength(Side.RIGHT));
 		}
 
-		// Make the left path the overall shortest path
+		// Make the current path the overall shortest path
 		if (diagonal >= diagonals.size() + 2) {
-			for (int i = 0; i < data.getFunnelLength(currentChain); i++) {
+			for (int i = 0; i < data.getFunnelLength(currentChain);) {
 				data.appendCommon(data.removeFirst(currentChain));
 			}
 			data.clear(Side.other(currentChain));
