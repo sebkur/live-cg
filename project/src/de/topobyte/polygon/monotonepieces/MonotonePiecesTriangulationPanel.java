@@ -39,7 +39,8 @@ import de.topobyte.livecg.geometry.geom.Polygon;
 import de.topobyte.util.SwingUtil;
 import de.topobyte.util.graph.Graph;
 
-public class MonotonePiecesTriangulationPanel extends JPanel
+public class MonotonePiecesTriangulationPanel extends JPanel implements
+		PolygonPanel
 {
 
 	private static final long serialVersionUID = 2129465700417909129L;
@@ -53,6 +54,8 @@ public class MonotonePiecesTriangulationPanel extends JPanel
 	private Map<Polygon, Color> colorMap;
 
 	private List<List<Diagonal>> allDiagonals = new ArrayList<List<Diagonal>>();
+
+	private Config polygonConfig = new Config();
 
 	public MonotonePiecesTriangulationPanel(Polygon polygon)
 	{
@@ -179,8 +182,22 @@ public class MonotonePiecesTriangulationPanel extends JPanel
 				break;
 			}
 
-			g.drawString(String.format("%d", i + 1), (float) c.getX() + 10,
-					(float) c.getY());
+			if (polygonConfig.isDrawNodeNumbers()) {
+				g.drawString(String.format("%d", i + 1), (float) c.getX() + 10,
+						(float) c.getY());
+			}
 		}
+	}
+
+	@Override
+	public Config getPolygonConfig()
+	{
+		return polygonConfig;
+	}
+
+	@Override
+	public void settingsUpdated()
+	{
+		repaint();
 	}
 }

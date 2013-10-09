@@ -31,12 +31,13 @@ import de.topobyte.livecg.geometry.geom.AwtHelper;
 import de.topobyte.livecg.geometry.geom.Chain;
 import de.topobyte.livecg.geometry.geom.Coordinate;
 import de.topobyte.livecg.geometry.geom.IntRing;
+import de.topobyte.livecg.geometry.geom.Node;
 import de.topobyte.livecg.geometry.geom.Polygon;
 import de.topobyte.util.SwingUtil;
 import de.topobyte.util.graph.Edge;
 import de.topobyte.util.graph.Graph;
 
-public class TriangulationPanel extends JPanel
+public class TriangulationPanel extends JPanel implements PolygonPanel
 {
 
 	private static final long serialVersionUID = 1265869392513220699L;
@@ -45,6 +46,8 @@ public class TriangulationPanel extends JPanel
 	private TriangulationOperation triangulationOperation;
 	private List<Diagonal> diagonals;
 	private Graph<Polygon, Diagonal> graph;
+
+	private Config polygonConfig = new Config();
 
 	public TriangulationPanel(Polygon polygon)
 	{
@@ -104,6 +107,16 @@ public class TriangulationPanel extends JPanel
 						(int) Math.round(cq.getY()));
 			}
 		}
+
+		if (polygonConfig.isDrawNodeNumbers()) {
+			g.setColor(Color.BLACK);
+			for (int i = 0; i < shell.getNumberOfNodes(); i++) {
+				Node node = shell.getNode(i);
+				Coordinate c = node.getCoordinate();
+				g.drawString(String.format("%d", i + 1), (float) c.getX() + 10,
+						(float) c.getY());
+			}
+		}
 	}
 
 	private Coordinate center(Polygon polygon)
@@ -118,5 +131,17 @@ public class TriangulationPanel extends JPanel
 		x /= shell.getNumberOfNodes();
 		y /= shell.getNumberOfNodes();
 		return new Coordinate(x, y);
+	}
+
+	@Override
+	public Config getPolygonConfig()
+	{
+		return polygonConfig;
+	}
+
+	@Override
+	public void settingsUpdated()
+	{
+		repaint();
 	}
 }

@@ -20,13 +20,11 @@ package de.topobyte.livecg.ui.geometryeditor.action.visualizations;
 import java.awt.event.ActionEvent;
 import java.util.List;
 
-import javax.swing.JFrame;
-
 import de.topobyte.livecg.geometry.geom.Polygon;
 import de.topobyte.livecg.ui.geometryeditor.Content;
 import de.topobyte.livecg.ui.geometryeditor.GeometryEditPane;
 import de.topobyte.livecg.ui.geometryeditor.action.BasicAction;
-import de.topobyte.polygon.monotonepieces.TriangulationPanel;
+import de.topobyte.polygon.monotonepieces.TriangulationDialog;
 
 public class TriangulationDualGraphAction extends BasicAction
 {
@@ -53,11 +51,7 @@ public class TriangulationDualGraphAction extends BasicAction
 		}
 		Polygon polygon = polygons.get(0);
 
-		JFrame frame = new JFrame("Triangulation with dual graph");
-		TriangulationPanel panel = new TriangulationPanel(polygon);
-		frame.setContentPane(panel);
-		frame.setSize(500, 500);
-		frame.setVisible(true);
+		new TriangulationDialog(polygon);
 	}
 
 }

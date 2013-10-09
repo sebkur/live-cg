@@ -38,7 +38,7 @@ import de.topobyte.livecg.geometry.geom.Polygon;
 import de.topobyte.util.SwingUtil;
 import de.topobyte.util.graph.Graph;
 
-public class MonotonePiecesPanel extends JPanel
+public class MonotonePiecesPanel extends JPanel implements PolygonPanel
 {
 
 	private static final long serialVersionUID = 2129465700417909129L;
@@ -50,6 +50,8 @@ public class MonotonePiecesPanel extends JPanel
 	private Graph<Polygon, Diagonal> graph;
 
 	private Map<Polygon, Color> colorMap;
+
+	private Config polygonConfig = new Config();
 
 	public MonotonePiecesPanel(Polygon polygon)
 	{
@@ -71,7 +73,7 @@ public class MonotonePiecesPanel extends JPanel
 	{
 		Graphics2D g = (Graphics2D) graphics;
 		SwingUtil.useAntialiasing(g, true);
-		
+
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, getWidth(), getHeight());
 
@@ -157,8 +159,22 @@ public class MonotonePiecesPanel extends JPanel
 				break;
 			}
 
-			g.drawString(String.format("%d", i + 1), (float) c.getX() + 10,
-					(float) c.getY());
+			if (polygonConfig.isDrawNodeNumbers()) {
+				g.drawString(String.format("%d", i + 1), (float) c.getX() + 10,
+						(float) c.getY());
+			}
 		}
+	}
+
+	@Override
+	public Config getPolygonConfig()
+	{
+		return polygonConfig;
+	}
+
+	@Override
+	public void settingsUpdated()
+	{
+		repaint();
 	}
 }

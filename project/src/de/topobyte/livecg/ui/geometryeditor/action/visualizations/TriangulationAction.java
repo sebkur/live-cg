@@ -20,13 +20,11 @@ package de.topobyte.livecg.ui.geometryeditor.action.visualizations;
 import java.awt.event.ActionEvent;
 import java.util.List;
 
-import javax.swing.JFrame;
-
 import de.topobyte.livecg.geometry.geom.Polygon;
 import de.topobyte.livecg.ui.geometryeditor.Content;
 import de.topobyte.livecg.ui.geometryeditor.GeometryEditPane;
 import de.topobyte.livecg.ui.geometryeditor.action.BasicAction;
-import de.topobyte.polygon.monotonepieces.MonotonePiecesTriangulationPanel;
+import de.topobyte.polygon.monotonepieces.MonotonePiecesTriangulationDialog;
 
 public class TriangulationAction extends BasicAction
 {
@@ -53,12 +51,7 @@ public class TriangulationAction extends BasicAction
 		}
 		Polygon polygon = polygons.get(0);
 
-		JFrame frame = new JFrame("Triangulation via monotone pieces");
-		MonotonePiecesTriangulationPanel panel = new MonotonePiecesTriangulationPanel(
-				polygon);
-		frame.setContentPane(panel);
-		frame.setSize(500, 500);
-		frame.setVisible(true);
+		new MonotonePiecesTriangulationDialog(polygon);
 	}
 
 }
