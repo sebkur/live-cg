@@ -166,7 +166,7 @@ public class ShortestPathPanel extends JPanel
 			g.setColor(COLOR_APEX);
 
 			Coordinate c = data.getApex().getCoordinate();
-			g.fill(ShapeUtil.createArc(c.getX(), c.getY(), 3));
+			g.fill(ShapeUtil.createArc(c.getX(), c.getY(), 4));
 		}
 
 		Coordinate cStart = algorithm.getNodeStart().getCoordinate();
@@ -279,7 +279,7 @@ public class ShortestPathPanel extends JPanel
 		} else {
 			g.setColor(COLOR_RIGHT_TOP);
 		}
-		g.fill(ShapeUtil.createArc(c.getX(), c.getY(), 3));
+		g.fill(ShapeUtil.createArc(c.getX(), c.getY(), 4));
 	}
 
 	private MouseOver mouseOverStart = MouseOver.NONE;
