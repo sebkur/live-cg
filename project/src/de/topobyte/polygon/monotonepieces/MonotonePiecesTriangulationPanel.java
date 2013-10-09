@@ -26,10 +26,10 @@ import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.JPanel;
 
-import de.topobyte.color.util.HSLColor;
 import de.topobyte.livecg.geometry.geom.AwtHelper;
 import de.topobyte.livecg.geometry.geom.Chain;
 import de.topobyte.livecg.geometry.geom.Coordinate;
@@ -37,6 +37,7 @@ import de.topobyte.livecg.geometry.geom.IntRing;
 import de.topobyte.livecg.geometry.geom.Node;
 import de.topobyte.livecg.geometry.geom.Polygon;
 import de.topobyte.util.SwingUtil;
+import de.topobyte.util.graph.Graph;
 
 public class MonotonePiecesTriangulationPanel extends JPanel
 {
@@ -45,14 +46,27 @@ public class MonotonePiecesTriangulationPanel extends JPanel
 
 	private Polygon polygon;
 	private MonotonePiecesOperation monotonePiecesOperation;
+
 	private List<Polygon> monotonePieces;
+	private Graph<Polygon, Diagonal> graph;
+
+	private Map<Polygon, Color> colorMap;
+
 	private List<List<Diagonal>> allDiagonals = new ArrayList<List<Diagonal>>();
 
 	public MonotonePiecesTriangulationPanel(Polygon polygon)
 	{
 		this.polygon = polygon;
 		monotonePiecesOperation = new MonotonePiecesOperation(polygon);
-		monotonePieces = monotonePiecesOperation.getMonotonePieces();
+		SplitResult split = monotonePiecesOperation
+				.getMonotonePiecesWithGraph();
+		monotonePieces = split.getPolygons();
+		graph = split.getGraph();
+
+		Graph<Polygon, Object> extendedGraph = PolygonGraphUtil
+				.addNodeEdges(graph);
+
+		colorMap = ColorMapBuilder.buildColorMap(extendedGraph);
 
 		for (Polygon monotonePolygon : monotonePieces) {
 			MonotoneTriangulationOperation monotoneTriangulationOperation = new MonotoneTriangulationOperation(
@@ -73,13 +87,11 @@ public class MonotonePiecesTriangulationPanel extends JPanel
 		g.setColor(new Color(0x66ff0000, true));
 		g.fill(shape);
 
-		float step = 360.0f / (monotonePieces.size() + 1);
 		for (int i = 0; i < monotonePieces.size(); i++) {
 			Polygon piece = monotonePieces.get(i);
 			shape = AwtHelper.toShape(piece);
-			float h = step * i;
-			HSLColor hsl = new HSLColor(h, 50, 50);
-			g.setColor(hsl.getRGB());
+			Color color = colorMap.get(piece);
+			g.setColor(color);
 			g.fill(shape);
 		}
 
