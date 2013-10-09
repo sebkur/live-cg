@@ -26,10 +26,10 @@ import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import javax.swing.JPanel;
 
+import de.topobyte.color.util.HSLColor;
 import de.topobyte.livecg.geometry.geom.AwtHelper;
 import de.topobyte.livecg.geometry.geom.Chain;
 import de.topobyte.livecg.geometry.geom.Coordinate;
@@ -73,12 +73,13 @@ public class MonotonePiecesTriangulationPanel extends JPanel
 		g.setColor(new Color(0x66ff0000, true));
 		g.fill(shape);
 
-		Random r = new Random();
+		float step = 360.0f / (monotonePieces.size() + 1);
 		for (int i = 0; i < monotonePieces.size(); i++) {
 			Polygon piece = monotonePieces.get(i);
 			shape = AwtHelper.toShape(piece);
-			g.setColor(new Color(r.nextInt(255), r.nextInt(255),
-					r.nextInt(255), 100));
+			float h = step * i;
+			HSLColor hsl = new HSLColor(h, 50, 50);
+			g.setColor(hsl.getRGB());
 			g.fill(shape);
 		}
 
