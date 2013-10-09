@@ -33,6 +33,7 @@ import de.topobyte.livecg.ui.geometryeditor.action.OpenAction;
 import de.topobyte.livecg.ui.geometryeditor.action.SaveAction;
 import de.topobyte.livecg.ui.geometryeditor.action.SelectAllAction;
 import de.topobyte.livecg.ui.geometryeditor.action.SelectNothingAction;
+import de.topobyte.livecg.ui.geometryeditor.action.ShowContentDialogAction;
 import de.topobyte.livecg.ui.geometryeditor.action.ShowObjectDialogAction;
 import de.topobyte.livecg.ui.geometryeditor.action.visualizations.DistanceTerrainChainsAction;
 import de.topobyte.livecg.ui.geometryeditor.action.visualizations.DistanceTerrainLinesAction;
@@ -212,7 +213,10 @@ public class Menu extends JMenuBar
 
 		JMenuItem showObjectDialog = new JMenuItem(new ShowObjectDialogAction(
 				liveCG));
+		JMenuItem showContentDialog = new JMenuItem(new ShowContentDialogAction(
+				liveCG));
 		window.add(showObjectDialog);
+		window.add(showContentDialog);
 
 		/*
 		 * Help

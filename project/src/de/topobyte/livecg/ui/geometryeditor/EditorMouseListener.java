@@ -402,14 +402,16 @@ public class EditorMouseListener extends MouseAdapter
 		case CHAIN:
 			Chain chain = nearest.chain;
 			editPane.removeChain(chain);
+			changed = true;
 			break;
 		case POLYGON:
 			Polygon polygon = nearest.polygon;
 			editPane.removePolygon(polygon);
+			changed = true;
 			break;
 		}
 		if (changed) {
-			editPane.repaint();
+			editPane.getContent().fireContentChanged();
 		}
 	}
 

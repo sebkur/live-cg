@@ -31,6 +31,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.topobyte.livecg.geometry.io.ContentReader;
+import de.topobyte.livecg.ui.geometryeditor.debug.ContentDialog;
 import de.topobyte.livecg.ui.geometryeditor.object.ObjectDialog;
 
 public class LiveCG
@@ -58,6 +59,7 @@ public class LiveCG
 
 	private JFrame frame;
 	private ObjectDialog objectDialog;
+	private ContentDialog contentDialog;
 
 	public LiveCG()
 	{
@@ -117,6 +119,10 @@ public class LiveCG
 		objectDialog.setSize(300, 300);
 		objectDialog.setLocation(frame.getX() + frame.getWidth(), frame.getY());
 		objectDialog.setVisible(true);
+		
+		contentDialog = new ContentDialog(frame, lineEditor.getEditPane());
+		contentDialog.setSize(300, 300);
+		contentDialog.setLocation(frame.getX() + frame.getWidth(), frame.getY());
 
 		ContentReader reader = new ContentReader();
 		String filename = "res/geom/some.geom";
@@ -136,5 +142,10 @@ public class LiveCG
 	public void showObjectDialog()
 	{
 		objectDialog.setVisible(true);
+	}
+
+	public void showContentDialog()
+	{
+		contentDialog.setVisible(true);
 	}
 }
