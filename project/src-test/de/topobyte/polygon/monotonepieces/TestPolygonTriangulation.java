@@ -61,14 +61,8 @@ public class TestPolygonTriangulation
 			}
 		}
 
-		TriangulationPanel triangulationPanel = new TriangulationPanel(polygon);
+		TriangulationDialog dialog = new TriangulationDialog(polygon);
 
-		JFrame frame = new JFrame(TriangulationPanel.class.getSimpleName());
-		frame.setContentPane(triangulationPanel);
-
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setLocationByPlatform(true);
-		frame.setSize(500, 500);
-		frame.setVisible(true);
+		dialog.getFrame().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 }

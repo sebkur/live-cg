@@ -44,7 +44,7 @@ public class TestMonotonePolygonTriangulation
 	{
 		BasicConfigurator.configure();
 		Logger.getRootLogger().setLevel(Level.DEBUG);
-		
+
 		String path = "res/presets/triangulation/Y-Monotone2.geom";
 		ContentReader contentReader = new ContentReader();
 		Content content = contentReader.read(new File(path));
@@ -59,16 +59,9 @@ public class TestMonotonePolygonTriangulation
 			}
 		}
 
-		MonotonePiecesTriangulationPanel monotonePiecesPanel = new MonotonePiecesTriangulationPanel(
+		MonotonePiecesTriangulationDialog dialog = new MonotonePiecesTriangulationDialog(
 				polygon);
 
-		JFrame frame = new JFrame(
-				MonotonePiecesTriangulationPanel.class.getSimpleName());
-		frame.setContentPane(monotonePiecesPanel);
-
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setLocationByPlatform(true);
-		frame.setSize(500, 500);
-		frame.setVisible(true);
+		dialog.getFrame().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 }

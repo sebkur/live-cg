@@ -57,15 +57,8 @@ public class TestMonotonePieces
 		// }
 		// polygon = new Polygon(ishell, null);
 
-		MonotonePiecesPanel monotonePiecesPanel = new MonotonePiecesPanel(
-				polygon);
+		MonotonePiecesDialog dialog = new MonotonePiecesDialog(polygon);
 
-		JFrame frame = new JFrame(MonotonePiecesPanel.class.getSimpleName());
-		frame.setContentPane(monotonePiecesPanel);
-
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setLocationByPlatform(true);
-		frame.setSize(500, 500);
-		frame.setVisible(true);
+		dialog.getFrame().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 }
