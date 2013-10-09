@@ -401,17 +401,33 @@ public class EditorMouseListener extends MouseAdapter
 			break;
 		case CHAIN:
 			Chain chain = nearest.chain;
+			removeChainFromNodesOfChain(chain);
 			editPane.removeChain(chain);
 			changed = true;
 			break;
 		case POLYGON:
 			Polygon polygon = nearest.polygon;
+			removeChainFromNodesOfChain(polygon.getShell());
+			for (Chain hole : polygon.getHoles()) {
+				removeChainFromNodesOfChain(hole);
+			}
 			editPane.removePolygon(polygon);
 			changed = true;
 			break;
 		}
 		if (changed) {
 			editPane.getContent().fireContentChanged();
+		}
+	}
+
+	private void removeChainFromNodesOfChain(Chain chain)
+	{
+		for (int i = 0; i < chain.getNumberOfNodes(); i++) {
+			Node n = chain.getNode(i);
+			if (n.getChains().size() > 1) {
+				n.removeChain(chain);
+				n.removeEndpointChain(chain);
+			}
 		}
 	}
 
