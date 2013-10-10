@@ -167,15 +167,16 @@ public class FreeSpacePainter implements EpsilonSettable
 				if (s < 0) {
 					s = 0;
 				}
-				// g.clipRect((int) Math.round(s * width), 0, width, height);
 				a.add(new Area(new Rectangle2D.Double((int) Math.round(s
 						* width), 0, width, height)));
 			}
 			if (LR1 != null) {
-				// g.clipRect(0, 0, width,
-				// height - (int) Math.round(LR1.getStart() * height));
+				double s = LR1.getStart();
+				if (s < 0) {
+					s = 0;
+				}
 				a.add(new Area(new Rectangle2D.Double(0, 0, width, height
-						- (int) Math.round(LR1.getStart() * height))));
+						- (int) Math.round(s * height))));
 			}
 			g.clip(a);
 			g.setColor(colorReachableSpace);
@@ -186,7 +187,7 @@ public class FreeSpacePainter implements EpsilonSettable
 		// Draw the ellipse outline -> free space border
 		g.setColor(colorFreeSpaceOutline);
 		g.draw(ellipse);
-		
+
 		if (drawBorder) {
 			// Draw the boundaries again
 			g.setColor(colorCellBoundaries);
