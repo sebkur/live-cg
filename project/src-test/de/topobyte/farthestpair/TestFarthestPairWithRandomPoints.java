@@ -45,9 +45,9 @@ public class TestFarthestPairWithRandomPoints
 
 		Random random = new Random(0);
 
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < 10000; i++) {
 			List<Node> nodes = new ArrayList<Node>();
-			for (int k = 0; k < 20; k++) {
+			for (int k = 0; k < 50; k++) {
 				int x = random.nextInt(400) + 10;
 				int y = random.nextInt(400) + 10;
 				nodes.add(new Node(new Coordinate(x, y)));
@@ -60,8 +60,14 @@ public class TestFarthestPairWithRandomPoints
 	private static void test(Polygon polygon)
 	{
 		Chain shell = polygon.getShell();
-		FarthestPairResult result = ShamosFarthestPairOperation.compute(shell);
-		System.out.println(result.getI() + ", " + result.getJ() + ", "
-				+ result.getDistance());
+		FarthestPairResult result1 = ShamosFarthestPairOperation.compute(shell);
+		FarthestPairResult result2 = NaiveFarthestPairOperation.compute(shell);
+		if (result1.getI() != result2.getI()
+				|| result1.getJ() != result2.getJ()) {
+			System.out.println("Shamos: " + result1.getI() + ", "
+					+ result1.getJ() + ", " + result1.getDistance());
+			System.out.println("Naive:  " + result2.getI() + ", "
+					+ result2.getJ() + ", " + result2.getDistance());
+		}
 	}
 }
