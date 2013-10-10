@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.topobyte.frechet.lina;
+package de.topobyte.livecg.lina;
 
 public class Vector extends Matrix
 {
