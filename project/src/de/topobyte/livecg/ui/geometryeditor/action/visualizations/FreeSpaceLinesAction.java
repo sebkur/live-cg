@@ -19,7 +19,7 @@ package de.topobyte.livecg.ui.geometryeditor.action.visualizations;
 
 import java.awt.event.ActionEvent;
 
-import de.topobyte.frechet.ui.lineeditor.RunDualLineEditorFreespace;
+import de.topobyte.frechet.lineeditor.RunDualLineEditorFreespace;
 import de.topobyte.livecg.ui.geometryeditor.action.BasicAction;
 
 public class FreeSpaceLinesAction extends BasicAction

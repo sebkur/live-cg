@@ -16,16 +16,39 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.topobyte.frechet.distanceterrain;
+package de.topobyte.frechet.freespace.calc;
 
-import de.topobyte.frechet.lineeditor.RunDualLineEditorDistanceTerrain;
+import de.topobyte.livecg.geometry.geom.Coordinate;
 
-public class TestDualLineEditor
+public class LineSegment
 {
 
-	public static void main(String[] args)
+	private final Coordinate c1;
+	private final Coordinate c2;
+
+	public LineSegment(Coordinate c1, Coordinate c2)
 	{
-		RunDualLineEditorDistanceTerrain.runProgrammatically(true);
+		this.c1 = c1;
+		this.c2 = c2;
 	}
 
+	public Coordinate getCoordinate1()
+	{
+		return c1;
+	}
+
+	public Coordinate getCoordinate2()
+	{
+		return c2;
+	}
+
+	public Vector getStart()
+	{
+		return new Vector(c1.getX(), c1.getY());
+	}
+
+	public Vector getDirection()
+	{
+		return new Vector(c2.getX() - c1.getX(), c2.getY() - c1.getY());
+	}
 }

@@ -16,16 +16,27 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.topobyte.frechet.distanceterrain;
+package de.topobyte.frechet.misc;
 
-import de.topobyte.frechet.lineeditor.RunDualLineEditorDistanceTerrain;
+import java.awt.event.ActionEvent;
 
-public class TestDualLineEditor
+import de.topobyte.livecg.ui.misc.SimpleAction;
+
+public class LicenseAction extends SimpleAction
 {
 
-	public static void main(String[] args)
+	public LicenseAction()
 	{
-		RunDualLineEditorDistanceTerrain.runProgrammatically(true);
+		super("License", "Display the license of this sowftware");
+		setIconFromResource("org/freedesktop/tango/22x22/status/dialog-information.png");
+	}
+
+	private static final long serialVersionUID = -3413663891048957511L;
+
+	@Override
+	public void actionPerformed(ActionEvent e)
+	{
+		AboutDialog.showDialog(AboutDialog.PAGE_LICENSE);
 	}
 
 }

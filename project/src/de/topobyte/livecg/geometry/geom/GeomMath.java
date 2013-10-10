@@ -17,7 +17,7 @@
  */
 package de.topobyte.livecg.geometry.geom;
 
-import de.topobyte.frechet.ui.freespace.calc.Vector;
+import de.topobyte.frechet.freespace.calc.Vector;
 
 public class GeomMath
 {

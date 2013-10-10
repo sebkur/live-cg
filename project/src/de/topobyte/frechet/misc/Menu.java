@@ -16,16 +16,30 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.topobyte.frechet.distanceterrain;
+package de.topobyte.frechet.misc;
 
-import de.topobyte.frechet.lineeditor.RunDualLineEditorDistanceTerrain;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 
-public class TestDualLineEditor
+public class Menu extends JMenuBar
 {
 
-	public static void main(String[] args)
-	{
-		RunDualLineEditorDistanceTerrain.runProgrammatically(true);
-	}
+	private static final long serialVersionUID = -7983876851509766368L;
 
+	public Menu()
+	{
+		JMenu file = new JMenu("File");
+		JMenu help = new JMenu("Help");
+		add(file);
+		add(help);
+
+		JMenuItem exit = new JMenuItem(new ExitAction());
+		file.add(exit);
+
+		JMenuItem about = new JMenuItem(new AboutAction());
+		JMenuItem license = new JMenuItem(new LicenseAction());
+		help.add(about);
+		help.add(license);
+	}
 }

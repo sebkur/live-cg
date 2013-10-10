@@ -16,16 +16,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.topobyte.frechet.distanceterrain;
+package de.topobyte.frechet.freespace;
 
-import de.topobyte.frechet.lineeditor.RunDualLineEditorDistanceTerrain;
-
-public class TestDualLineEditor
+public interface EpsilonSettable
 {
-
-	public static void main(String[] args)
-	{
-		RunDualLineEditorDistanceTerrain.runProgrammatically(true);
-	}
-
+	public void setEpsilon(int epsilon);
 }

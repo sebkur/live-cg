@@ -16,16 +16,35 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.topobyte.frechet.distanceterrain;
+package de.topobyte.frechet.lineview;
 
-import de.topobyte.frechet.lineeditor.RunDualLineEditorDistanceTerrain;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 
-public class TestDualLineEditor
+import javax.swing.JPanel;
+
+public class ControlledLineView extends JPanel
 {
 
-	public static void main(String[] args)
-	{
-		RunDualLineEditorDistanceTerrain.runProgrammatically(true);
-	}
+	private static final long serialVersionUID = 6013079669477474258L;
 
+	public ControlledLineView(LineView lineView)
+	{
+		super(new GridBagLayout());
+
+		LineViewControl controls = new LineViewControl(lineView);
+
+		GridBagConstraints c = new GridBagConstraints();
+		c.fill = GridBagConstraints.BOTH;
+		c.gridx = 0;
+		c.weightx = 0.0;
+
+		c.gridy = 0;
+		c.weighty = 0.0;
+		add(controls, c);
+
+		c.gridy = 1;
+		c.weighty = 1.0;
+		add(lineView, c);
+	}
 }

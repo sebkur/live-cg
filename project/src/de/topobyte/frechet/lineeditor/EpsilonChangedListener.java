@@ -16,16 +16,30 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.topobyte.frechet.distanceterrain;
+package de.topobyte.frechet.lineeditor;
 
-import de.topobyte.frechet.lineeditor.RunDualLineEditorDistanceTerrain;
+import javax.swing.JSlider;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
-public class TestDualLineEditor
+import de.topobyte.frechet.freespace.EpsilonSettable;
+
+public class EpsilonChangedListener implements ChangeListener
 {
 
-	public static void main(String[] args)
+	private final EpsilonSettable es;
+
+	public EpsilonChangedListener(EpsilonSettable es)
 	{
-		RunDualLineEditorDistanceTerrain.runProgrammatically(true);
+		this.es = es;
+	}
+
+	@Override
+	public void stateChanged(ChangeEvent e)
+	{
+		JSlider slider = (JSlider) e.getSource();
+		int epsilon = slider.getValue();
+		es.setEpsilon(epsilon);
 	}
 
 }

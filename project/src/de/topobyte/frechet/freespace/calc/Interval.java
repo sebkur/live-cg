@@ -16,16 +16,28 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.topobyte.frechet.distanceterrain;
+package de.topobyte.frechet.freespace.calc;
 
-import de.topobyte.frechet.lineeditor.RunDualLineEditorDistanceTerrain;
-
-public class TestDualLineEditor
+public class Interval
 {
 
-	public static void main(String[] args)
+	private final double start;
+	private final double end;
+
+	public Interval(double start, double end)
 	{
-		RunDualLineEditorDistanceTerrain.runProgrammatically(true);
+		this.start = start;
+		this.end = end;
+	}
+
+	public double getStart()
+	{
+		return start;
+	}
+
+	public double getEnd()
+	{
+		return end;
 	}
 
 }

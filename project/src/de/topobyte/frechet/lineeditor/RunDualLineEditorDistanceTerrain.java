@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.topobyte.frechet.freespace;
+package de.topobyte.frechet.lineeditor;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -26,44 +26,61 @@ import javax.swing.JPanel;
 
 import org.apache.log4j.BasicConfigurator;
 
-import de.topobyte.frechet.lineeditor.LineEditor;
 import de.topobyte.frechet.misc.Menu;
 import de.topobyte.livecg.geometry.geom.Chain;
 import de.topobyte.livecg.geometry.geom.Coordinate;
 
-public class TestLineEditor
+public class RunDualLineEditorDistanceTerrain
 {
 
-	public static void main(String[] args)
-	{
-		runProgrammatically(true);
-	}
+	final static int STEP_SIZE = 1;
+	final static int STEP_SIZE_BIG = 10;
 
 	public static void runProgrammatically(boolean exitOnClose)
 	{
 		BasicConfigurator.configure();
 
-		JFrame frame = new JFrame();
-		frame.setSize(800, 600);
+		final JFrame frame = new JFrame();
+		frame.setSize(1200, 440);
 		if (exitOnClose) {
 			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		}
 
-		frame.setTitle("Line Editor");
+		frame.setTitle("Line Editor. red - start, blue - end");
 
 		int size = 200;
 
 		Menu menu = new Menu();
 		frame.setJMenuBar(menu);
 
-		Chain line = new Chain();
+		Chain line1 = new Chain();
+		Chain line2 = new Chain();
 
-		line.appendPoint(new Coordinate(20, 50));
-		line.appendPoint(new Coordinate(180, 150));
+		// line1.addPoint(new Coordinate(20, 50));
+		// line1.addPoint(new Coordinate(170, 150));
+		//
+		// line2.addPoint(new Coordinate(30, 150));
+		// line2.addPoint(new Coordinate(140, 50));
 
-		LineEditor lineEditor = new LineEditor(size, size, line);
+		// int epsilon = 50;
 
-		// toolbar.setFloatable(false);
+		// line1.addPoint(new Coordinate(0, 100));
+		// line1.addPoint(new Coordinate(100, 0));
+		//
+		// line2.addPoint(new Coordinate(0, 50));
+		// line2.addPoint(new Coordinate(100, 50));
+
+		line1.appendPoint(new Coordinate(0, 200));
+		line1.appendPoint(new Coordinate(200, 0));
+
+		line2.appendPoint(new Coordinate(0, 100));
+		line2.appendPoint(new Coordinate(200, 100));
+
+		// line2.addPoint(new Coordinate(0, 200));
+		// line2.addPoint(new Coordinate(200, 0));
+
+		final DualLineEditorDistanceTerrain lineEditor = new DualLineEditorDistanceTerrain(
+				size, size, line1, line2);
 
 		GridBagConstraints c = new GridBagConstraints();
 
@@ -73,15 +90,10 @@ public class TestLineEditor
 		c.weightx = 1.0;
 		c.fill = GridBagConstraints.BOTH;
 
-		// c.gridy = 0;
-		// c.weighty = 0.0;
-		// mainPanel.add(toolbar, c);
-
 		c.gridy = 1;
 		c.weighty = 1.0;
 		mainPanel.add(lineEditor, c);
 
 		frame.setVisible(true);
 	}
-
 }

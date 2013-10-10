@@ -25,7 +25,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
-import de.topobyte.frechet.ui.distanceterrain.DistanceTerrainDialog;
+import de.topobyte.frechet.distanceterrain.DistanceTerrainDialog;
 import de.topobyte.livecg.geometry.io.ContentReader;
 import de.topobyte.livecg.ui.geometryeditor.Content;
 
