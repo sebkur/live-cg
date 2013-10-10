@@ -140,11 +140,9 @@ public class FreeSpacePainter implements EpsilonSettable
 				2 * epsilon, 0, 360, Arc2D.CHORD);
 		Shape ellipse = tx.createTransformedShape(arc);
 
-		// Draw the ellipse
+		// Draw the ellipse -> free space
 		g.setColor(colorFreeSpace);
 		g.fill(ellipse);
-		g.setColor(colorFreeSpaceOutline);
-		g.draw(ellipse);
 
 		// Find the limits of the free space on the axes
 		Interval BF1 = FreeSpaceUtil // bottom
@@ -185,6 +183,10 @@ public class FreeSpacePainter implements EpsilonSettable
 			g.setClip(oldClip);
 		}
 
+		// Draw the ellipse outline -> free space border
+		g.setColor(colorFreeSpaceOutline);
+		g.draw(ellipse);
+		
 		if (drawBorder) {
 			// Draw the boundaries again
 			g.setColor(colorCellBoundaries);
