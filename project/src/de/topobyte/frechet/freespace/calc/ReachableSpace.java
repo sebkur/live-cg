@@ -45,13 +45,15 @@ public class ReachableSpace
 				.freeSpace(seg1, seg2, 0, epsilon);
 
 		double ls = LF1.getStart();
+		double le = LF1.getEnd();
 		double bs = BF1.getStart();
+		double be = BF1.getEnd();
 		Interval BR1 = null;
 		Interval LR1 = null;
-		if (DoubleUtil.isValid(ls) && ls <= 0) {
+		if (DoubleUtil.isValid(ls) && ls <= 0 && le >= 0) {
 			LR1 = new Interval(LF1.getStart(), LF1.getEnd());
 		}
-		if (DoubleUtil.isValid(bs) && bs <= 0) {
+		if (DoubleUtil.isValid(bs) && bs <= 0 && be >= 0) {
 			BR1 = new Interval(BF1.getStart(), BF1.getEnd());
 		}
 
