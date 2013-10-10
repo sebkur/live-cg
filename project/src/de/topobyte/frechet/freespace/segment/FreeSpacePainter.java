@@ -48,6 +48,8 @@ public class FreeSpacePainter implements EpsilonSettable
 	private int width;
 	private int height;
 	private int epsilon;
+	private Interval LR1;
+	private Interval BR1;
 
 	private Color colorBackground = new Color(0x999999);
 	private Color colorFreeSpace = new Color(0xFFFFFF);
@@ -55,16 +57,18 @@ public class FreeSpacePainter implements EpsilonSettable
 
 	private boolean drawBorder;
 	private boolean drawAxisIntersection;
+	private boolean drawReachable = true;
 
 	private float markerWidth = 2;
 	private int markerLength = 3;
 
 	public FreeSpacePainter(int epsilon, boolean drawBorder,
-			boolean drawAxisIntersection)
+			boolean drawAxisIntersection, boolean drawReachable)
 	{
 		this.epsilon = epsilon;
 		this.drawBorder = drawBorder;
 		this.drawAxisIntersection = drawAxisIntersection;
+		this.drawReachable = drawReachable;
 	}
 
 	public void setSize(int width, int height)
@@ -86,6 +90,16 @@ public class FreeSpacePainter implements EpsilonSettable
 	public void setSegment2(LineSegment seg2)
 	{
 		this.seg2 = seg2;
+	}
+
+	public void setLR1(Interval LR1)
+	{
+		this.LR1 = LR1;
+	}
+
+	public void setBR1(Interval BR1)
+	{
+		this.BR1 = BR1;
 	}
 
 	public void paint(Graphics graphics)
@@ -131,25 +145,59 @@ public class FreeSpacePainter implements EpsilonSettable
 			g.drawRect(0, 0, width, height);
 		}
 
+		Interval BF1 = FreeSpaceUtil // bottom
+				.freeSpace(seg2, seg1, 0, epsilon);
+		Interval LF1 = FreeSpaceUtil // left
+				.freeSpace(seg1, seg2, 0, epsilon);
+		Interval BF2 = FreeSpaceUtil // top
+				.freeSpace(seg2, seg1, 1, epsilon);
+		Interval LF2 = FreeSpaceUtil // right
+				.freeSpace(seg1, seg2, 1, epsilon);
+
 		if (drawAxisIntersection) {
 			// Find the limits of the free space on the axes
 			g.setColor(Color.BLACK);
 			Stroke old = g.getStroke();
 			g.setStroke(new BasicStroke(markerWidth));
-			Interval intervalP1 = FreeSpaceUtil // bottom
-					.freeSpace(seg2, seg1, 0, epsilon);
-			Interval intervalQ1 = FreeSpaceUtil // left
-					.freeSpace(seg1, seg2, 0, epsilon);
-			Interval intervalP2 = FreeSpaceUtil // top
-					.freeSpace(seg2, seg1, 1, epsilon);
-			Interval intervalQ2 = FreeSpaceUtil // right
-					.freeSpace(seg1, seg2, 1, epsilon);
-			drawHorizontalInterval(g, intervalP1, width, height);
-			drawVerticalInterval(g, intervalQ1, height, 0);
-			drawHorizontalInterval(g, intervalP2, width, 0);
-			drawVerticalInterval(g, intervalQ2, height, width);
+			drawHorizontalInterval(g, BF1, width, height);
+			drawVerticalInterval(g, LF1, height, 0);
+			drawHorizontalInterval(g, BF2, width, 0);
+			drawVerticalInterval(g, LF2, height, width);
 			g.setStroke(old);
 		}
+
+		Interval LR2 = FreeSpaceUtil.reachableL(LR1, BR1, LF2, BF2);
+		Interval BR2 = FreeSpaceUtil.reachableB(LR1, BR1, LF2, BF2);
+		if (drawReachable) {
+			g.setColor(Color.RED);
+			Stroke old = g.getStroke();
+			g.setStroke(new BasicStroke(3));
+			if (LR1 != null) {
+				drawVerticalReachable(g, LR1, 0);
+			}
+			if (BR1 != null) {
+				drawHorizontalReachable(g, BR1, height);
+			}
+			if (LR2 != null) {
+				drawVerticalReachable(g, LR2, width);
+			}
+			if (BR2 != null) {
+				drawHorizontalReachable(g, BR2, 0);
+			}
+			g.setStroke(old);
+		}
+	}
+
+	private void drawVerticalReachable(Graphics2D g, Interval LR1, int x)
+	{
+		g.drawLine(x, (int) Math.round(height - LR1.getStart() * height), x,
+				(int) Math.round(height - LR1.getEnd() * height));
+	}
+
+	private void drawHorizontalReachable(Graphics2D g, Interval BR1, int y)
+	{
+		g.drawLine((int) Math.round(BR1.getStart() * width), y,
+				(int) Math.round(BR1.getEnd() * width), y);
 	}
 
 	private AffineTransform createMatrix()

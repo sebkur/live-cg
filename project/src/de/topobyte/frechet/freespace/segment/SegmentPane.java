@@ -23,41 +23,57 @@ import java.awt.Graphics;
 import javax.swing.JPanel;
 
 import de.topobyte.frechet.freespace.EpsilonSettable;
+import de.topobyte.frechet.freespace.calc.FreeSpaceUtil;
+import de.topobyte.frechet.freespace.calc.Interval;
 import de.topobyte.frechet.freespace.calc.LineSegment;
 import de.topobyte.frechet.lineeditor.LineChangeListener;
+import de.topobyte.util.DoubleUtil;
 
 public class SegmentPane extends JPanel implements LineChangeListener,
 		EpsilonSettable
 {
 
 	private static final long serialVersionUID = 8167797259833415618L;
-	
+
 	private FreeSpacePainter painter;
+
+	private int epsilon;
+	private LineSegment seg1;
+	private LineSegment seg2;
 
 	public SegmentPane(int epsilon)
 	{
-		painter = new FreeSpacePainter(epsilon, false, true);
+		this.epsilon = epsilon;
+		painter = new FreeSpacePainter(epsilon, false, true, true);
+		updateReachableSpace();
 	}
 
-	public void setEpsilon(int eps)
+	public void setEpsilon(int epsilon)
 	{
-		painter.setEpsilon(eps);
+		this.epsilon = epsilon;
+		painter.setEpsilon(epsilon);
+		updateReachableSpace();
 		repaint();
 	}
 
 	public void setSegment1(LineSegment seg1)
 	{
+		this.seg1 = seg1;
 		painter.setSegment1(seg1);
+		updateReachableSpace();
 	}
 
 	public void setSegment2(LineSegment seg2)
 	{
+		this.seg2 = seg2;
 		painter.setSegment2(seg2);
+		updateReachableSpace();
 	}
 
 	@Override
 	public void lineChanged()
 	{
+		updateReachableSpace();
 		repaint();
 	}
 
@@ -66,6 +82,31 @@ public class SegmentPane extends JPanel implements LineChangeListener,
 	{
 		painter.setSize(getWidth(), getHeight());
 		painter.paint(graphics);
+	}
+
+	private void updateReachableSpace()
+	{
+		if (seg1 == null || seg2 == null) {
+			return;
+		}
+		Interval BF1 = FreeSpaceUtil // bottom
+				.freeSpace(seg2, seg1, 0, epsilon);
+		Interval LF1 = FreeSpaceUtil // left
+				.freeSpace(seg1, seg2, 0, epsilon);
+
+		double ls = LF1.getStart();
+		double bs = BF1.getStart();
+		Interval BR1 = null;
+		Interval LR1 = null;
+		if (DoubleUtil.isValid(ls) && ls <= 0) {
+			LR1 = new Interval(LF1.getStart(), LF1.getEnd());
+		}
+		if (DoubleUtil.isValid(bs) && bs <= 0) {
+			BR1 = new Interval(BF1.getStart(), BF1.getEnd());
+		}
+
+		painter.setBR1(BR1);
+		painter.setLR1(LR1);
 	}
 
 }

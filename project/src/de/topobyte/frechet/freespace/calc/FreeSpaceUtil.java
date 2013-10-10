@@ -17,6 +17,8 @@
  */
 package de.topobyte.frechet.freespace.calc;
 
+import de.topobyte.util.DoubleUtil;
+
 public class FreeSpaceUtil
 {
 
@@ -56,8 +58,71 @@ public class FreeSpaceUtil
 		double ha = (mxdx + mydy) / (dx2 + dy2);
 		double hb = (ha * ha) - ((mx2 + my2 - eps2) / (dx2 + dy2));
 		double rhb = Math.sqrt(hb);
-		double y1 = ha + rhb;
-		double y2 = ha - rhb;
+		double y1 = ha - rhb;
+		double y2 = ha + rhb;
 		return new Interval(y1, y2);
 	}
+
+	public static Interval reachableL(Interval LRij, Interval BRij,
+			Interval LFi1j, Interval BFij1)
+	{
+		// If neither LR_i,j nor BR_i,j exists, nothing is reachable
+		if (LRij == null && BRij == null) {
+			return null;
+		}
+		// If something at the bottom is reachable, LF_i+1,j is completely
+		// reachable
+		if (BRij != null) {
+			return createInterval(LFi1j.getStart(), LFi1j.getEnd());
+		}
+		// If only something at the left side is reachable:
+		double start = LFi1j.getStart();
+		double end = LFi1j.getEnd();
+		if (LRij.getStart() > end) {
+			return null;
+		}
+		if (LRij.getStart() > start) {
+			start = LRij.getStart();
+		}
+		return createInterval(start, end);
+	}
+
+	public static Interval reachableB(Interval LRij, Interval BRij,
+			Interval LFi1j, Interval BFij1)
+	{
+		// If neither LR_i,j nor BR_i,j exists, nothing is reachable
+		if (LRij == null && BRij == null) {
+			return null;
+		}
+		// If something at the left side is reachable, BF_i,j+1 is completely
+		// reachable
+		if (LRij != null) {
+			return createInterval(BFij1.getStart(), BFij1.getEnd());
+		}
+		// If only something at the bottom is reachable:
+		double start = BFij1.getStart();
+		double end = BFij1.getEnd();
+		if (BRij.getStart() > end) {
+			return null;
+		}
+		if (BRij.getStart() > start) {
+			start = BRij.getStart();
+		}
+		return createInterval(start, end);
+	}
+
+	private static Interval createInterval(double start, double end)
+	{
+		if (!DoubleUtil.isValid(start) || !DoubleUtil.isValid(end)) {
+			return null;
+		}
+		if (start < 0 && end < 0) {
+			return null;
+		}
+		if (start > 1 && end > 1) {
+			return null;
+		}
+		return new Interval(start, end);
+	}
+
 }

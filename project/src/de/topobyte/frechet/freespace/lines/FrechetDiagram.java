@@ -27,10 +27,11 @@ import java.awt.geom.AffineTransform;
 import javax.swing.JPanel;
 
 import de.topobyte.frechet.freespace.EpsilonSettable;
+import de.topobyte.frechet.freespace.calc.FrechetUtil;
 import de.topobyte.frechet.freespace.calc.LineSegment;
+import de.topobyte.frechet.freespace.calc.ReachableSpace;
 import de.topobyte.frechet.freespace.segment.FreeSpacePainter;
 import de.topobyte.livecg.geometry.geom.Chain;
-import de.topobyte.livecg.geometry.geom.Coordinate;
 
 public class FrechetDiagram extends JPanel implements EpsilonSettable
 {
@@ -54,13 +55,6 @@ public class FrechetDiagram extends JPanel implements EpsilonSettable
 		repaint();
 	}
 
-	private LineSegment getSegment(Chain line, int n)
-	{
-		Coordinate c1 = line.getCoordinate(n);
-		Coordinate c2 = line.getCoordinate(n + 1);
-		return new LineSegment(c1, c2);
-	}
-
 	public void update()
 	{
 		// called when chains have changed
@@ -79,14 +73,19 @@ public class FrechetDiagram extends JPanel implements EpsilonSettable
 		int w = width / nSegmentsP;
 		int h = height / nSegmentsQ;
 
-		FreeSpacePainter painter = new FreeSpacePainter(epsilon, false, true);
+		ReachableSpace reachableSpace = new ReachableSpace(line1, line2,
+				epsilon);
+
+		FreeSpacePainter painter = new FreeSpacePainter(epsilon, false, true,
+				true);
 
 		AffineTransform transform = g.getTransform();
 		Shape clip = g.getClip();
 		for (int x = 0; x < nSegmentsP; x++) {
 			for (int y = 0; y < nSegmentsQ; y++) {
-				LineSegment segP = getSegment(line1, x);
-				LineSegment segQ = getSegment(line2, nSegmentsQ - y - 1);
+				int ry = nSegmentsQ - y - 1;
+				LineSegment segP = FrechetUtil.getSegment(line1, x);
+				LineSegment segQ = FrechetUtil.getSegment(line2, ry);
 
 				int lx = x * w;
 				int ly = y * h;
@@ -98,12 +97,14 @@ public class FrechetDiagram extends JPanel implements EpsilonSettable
 				painter.setSegment1(segP);
 				painter.setSegment2(segQ);
 				painter.setSize(w, h);
+				painter.setLR1(reachableSpace.getLR(x, ry));
+				painter.setBR1(reachableSpace.getBR(x, ry));
 				painter.paint(g);
 			}
 		}
 		g.setTransform(transform);
 		g.setClip(clip);
-		
+
 		// Draw grid
 		g.setColor(Color.BLACK);
 		for (int x = 0; x <= nSegmentsP; x++) {
