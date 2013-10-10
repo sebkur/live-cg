@@ -23,6 +23,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
+import de.topobyte.color.util.HSLColor;
 import de.topobyte.frechet.freespace.calc.LineSegment;
 import de.topobyte.frechet.freespace.calc.Vector;
 import de.topobyte.util.SwingUtil;
@@ -34,9 +35,6 @@ public class DistanceTerrainPainter
 
 	private int width;
 	private int height;
-
-	private Color color1 = new Color(0xCC3333);
-	private Color color2 = new Color(0xFFFF99);
 
 	private boolean drawBorder;
 
@@ -69,8 +67,9 @@ public class DistanceTerrainPainter
 
 		Graphics2D g = (Graphics2D) graphics;
 
-		BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-		
+		BufferedImage image = new BufferedImage(width, height,
+				BufferedImage.TYPE_INT_RGB);
+
 		for (int y = 0; y < height; y++) {
 			double t = y / (double) height;
 			Vector Qt = get(seg2, t);
@@ -89,7 +88,7 @@ public class DistanceTerrainPainter
 
 		SwingUtil.useAntialiasing(g, false);
 		g.drawImage(image, null, 0, 0);
-		
+
 		SwingUtil.useAntialiasing(g, true);
 		if (drawBorder) {
 			// Draw the boundaries again
@@ -105,30 +104,8 @@ public class DistanceTerrainPainter
 
 	public Color getColor(double distance)
 	{
-		// The smaller distance, the more influence has color1
-		// The bigger distance, the more influence has color2
-		int max = 100;
-		double f = 0;
-		if (distance <= 0) {
-			f = 0;
-		} else if (distance >= max) {
-			f = 1;
-		} else {
-			f = distance / (double) max;
-		}
-
-		int r1 = color1.getRed();
-		int g1 = color1.getGreen();
-		int b1 = color1.getBlue();
-
-		int r2 = color2.getRed();
-		int g2 = color2.getGreen();
-		int b2 = color2.getBlue();
-
-		int r = (int) Math.round(r1 + (r2 - r1) * f);
-		int g = (int) Math.round(g1 + (g2 - g1) * f);
-		int b = (int) Math.round(b1 + (b2 - b1) * f);
-
-		return new Color(r, g, b);
+		float hue = ((float) distance / 600 * 360) % 360;
+		HSLColor hsl = new HSLColor(hue, 100, 50);
+		return hsl.getRGB();
 	}
 }
