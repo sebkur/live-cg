@@ -28,8 +28,6 @@ import java.awt.geom.NoninvertibleTransformException;
 import java.util.Random;
 
 import de.topobyte.frechet.ui.freespace.EpsilonSettable;
-import de.topobyte.frechet.ui.freespace.calc.Calculator;
-import de.topobyte.frechet.ui.freespace.calc.Ellipse;
 import de.topobyte.frechet.ui.freespace.calc.Interval;
 import de.topobyte.frechet.ui.freespace.calc.LineSegment;
 import de.topobyte.frechet.ui.freespace.calc.Vector;
@@ -102,8 +100,6 @@ public class FreeSpacePainter implements EpsilonSettable
 
 		// Set clip bounds
 		g.clipRect(0, 0, width, height);
-
-		check(g, seg1, seg2, width, height);
 
 		AffineTransform f = createMatrix();
 
@@ -209,11 +205,11 @@ public class FreeSpacePainter implements EpsilonSettable
 	{
 		if (DoubleUtil.isValid(intervalP.getStart())) {
 			int pos = (int) Math.round(intervalP.getStart() * width);
-			g.fillRect(pos - 1, height - 1, 3, 3);
+			g.fillRect(pos - 1, height - 3, 3, 6);
 		}
 		if (DoubleUtil.isValid(intervalP.getEnd())) {
 			int pos = (int) Math.round(intervalP.getEnd() * width);
-			g.fillRect(pos - 1, height - 1, 3, 3);
+			g.fillRect(pos - 1, height - 3, 3, 6);
 		}
 	}
 
@@ -222,11 +218,11 @@ public class FreeSpacePainter implements EpsilonSettable
 	{
 		if (DoubleUtil.isValid(intervalQ.getStart())) {
 			int pos = height - (int) Math.round(intervalQ.getStart() * height);
-			g.fillRect(-1, pos - 1, 3, 3);
+			g.fillRect(-3, pos - 1, 6, 3);
 		}
 		if (DoubleUtil.isValid(intervalQ.getEnd())) {
 			int pos = height - (int) Math.round(intervalQ.getEnd() * height);
-			g.fillRect(-1, pos - 1, 3, 3);
+			g.fillRect(-3, pos - 1, 6, 3);
 		}
 	}
 
@@ -249,24 +245,6 @@ public class FreeSpacePainter implements EpsilonSettable
 			System.out.println(String.format("%f -> %f", i1, i2));
 		}
 		return new Interval(i1, i2);
-	}
-
-	// TODO: try to calculate the equation of the ellipse and plot the ellipse's
-	// main axis and secondary axis
-	private void check(Graphics2D g, LineSegment seg1, LineSegment seg2,
-			int width, int height)
-	{
-		Ellipse ellipse = Calculator.calc(seg1, seg2, epsilon);
-		g.setColor(Color.RED);
-		double theta = ellipse.getTheta();
-
-		int x0 = width / 2;
-		int y0 = height / 2;
-
-		int x1 = (int) (x0 + Math.cos(theta) * width);
-		int y1 = (int) (y0 + Math.sin(theta) * height);
-
-		// g.drawLine(x0, y0, x1, y1);
 	}
 
 }
