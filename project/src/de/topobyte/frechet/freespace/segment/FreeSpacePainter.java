@@ -30,6 +30,7 @@ import java.awt.geom.NoninvertibleTransformException;
 import java.util.Random;
 
 import de.topobyte.frechet.freespace.EpsilonSettable;
+import de.topobyte.frechet.freespace.calc.FreeSpaceUtil;
 import de.topobyte.frechet.freespace.calc.Interval;
 import de.topobyte.frechet.freespace.calc.LineSegment;
 import de.topobyte.frechet.freespace.calc.Vector;
@@ -130,24 +131,23 @@ public class FreeSpacePainter implements EpsilonSettable
 			g.drawRect(0, 0, width, height);
 		}
 
-		Vector a = seg1.getDirection();
-		Vector b = seg1.getStart();
-		Vector c = seg2.getDirection();
-		Vector d = seg2.getStart();
-
 		if (drawAxisIntersection) {
 			// Find the limits of the free space on the axes
 			g.setColor(Color.BLACK);
 			Stroke old = g.getStroke();
 			g.setStroke(new BasicStroke(markerWidth));
-			Interval intervalP1 = makeAxis(c, d, a, b, 0); // bottom
-			Interval intervalQ1 = makeAxis(a, b, c, d, 0); // left
-			Interval intervalP2 = makeAxis(c, d, a, b, 1); // top
-			Interval intervalQ2 = makeAxis(a, b, c, d, 1); // right
-			drawHorizontalInterval(g, intervalP1, width, height, height);
-			drawVerticalInterval(g, intervalQ1, width, height, 0);
-			drawHorizontalInterval(g, intervalP2, width, height, 0);
-			drawVerticalInterval(g, intervalQ2, width, height, width);
+			Interval intervalP1 = FreeSpaceUtil // bottom
+					.freeSpace(seg2, seg1, 0, epsilon);
+			Interval intervalQ1 = FreeSpaceUtil // left
+					.freeSpace(seg1, seg2, 0, epsilon);
+			Interval intervalP2 = FreeSpaceUtil // top
+					.freeSpace(seg2, seg1, 1, epsilon);
+			Interval intervalQ2 = FreeSpaceUtil // right
+					.freeSpace(seg1, seg2, 1, epsilon);
+			drawHorizontalInterval(g, intervalP1, width, height);
+			drawVerticalInterval(g, intervalQ1, height, 0);
+			drawHorizontalInterval(g, intervalP2, width, 0);
+			drawVerticalInterval(g, intervalQ2, height, width);
 			g.setStroke(old);
 		}
 	}
@@ -213,7 +213,7 @@ public class FreeSpacePainter implements EpsilonSettable
 	}
 
 	private void drawHorizontalInterval(Graphics2D g, Interval intervalP,
-			int width, int height, int y)
+			int width, int y)
 	{
 		if (DoubleUtil.isValid(intervalP.getStart())) {
 			int pos = (int) Math.round(intervalP.getStart() * width);
@@ -226,7 +226,7 @@ public class FreeSpacePainter implements EpsilonSettable
 	}
 
 	private void drawVerticalInterval(Graphics2D g, Interval intervalQ,
-			int width, int height, int x)
+			int height, int x)
 	{
 		if (DoubleUtil.isValid(intervalQ.getStart())) {
 			int pos = height - (int) Math.round(intervalQ.getStart() * height);
@@ -236,27 +236,6 @@ public class FreeSpacePainter implements EpsilonSettable
 			int pos = height - (int) Math.round(intervalQ.getEnd() * height);
 			g.drawLine(x - markerLength, pos, x + markerLength, pos);
 		}
-	}
-
-	private Interval makeAxis(Vector a, Vector b, Vector c, Vector d, double f)
-	{
-		Vector m = b.sub(d).add(a.mult(f));
-		double mxcx = m.getX() * c.getX();
-		double mycy = m.getY() * c.getY();
-		double cx2 = c.getX() * c.getX();
-		double cy2 = c.getY() * c.getY();
-		double mx2 = m.getX() * m.getX();
-		double my2 = m.getY() * m.getY();
-		double eps2 = epsilon * epsilon;
-		double ha = (mxcx + mycy) / (cx2 + cy2);
-		double hb = (ha * ha) - ((mx2 + my2 - eps2) / (cx2 + cy2));
-		double rhb = Math.sqrt(hb);
-		double i1 = ha + rhb;
-		double i2 = ha - rhb;
-		if (DEBUG) {
-			System.out.println(String.format("%f -> %f", i1, i2));
-		}
-		return new Interval(i1, i2);
 	}
 
 }
