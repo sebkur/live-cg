@@ -78,6 +78,15 @@ public class FrechetDialog1 implements ContentChangedListener
 		Config config = new Config();
 		Settings settings = new Settings(config);
 
+		config.addConfigChangedListener(new ConfigChangedListener() {
+
+			@Override
+			public void configChanged()
+			{
+				diagram.repaint();
+			}
+		});
+
 		diagram = new FrechetDiagram(config, epsilon, line1, line2);
 		JPanel diagramPanel = new JPanel(new BorderLayout());
 		diagramPanel.add(settings, BorderLayout.NORTH);

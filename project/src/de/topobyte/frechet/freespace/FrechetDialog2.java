@@ -80,13 +80,22 @@ public class FrechetDialog2 implements ContentChangedListener
 
 		Config config = new Config();
 		Settings settings = new Settings(config);
-		
+
+		config.addConfigChangedListener(new ConfigChangedListener() {
+
+			@Override
+			public void configChanged()
+			{
+				diagram.repaint();
+			}
+		});
+
 		diagram = new FrechetDiagram(config, epsilon, line1, line2);
 		JPanel diagramPanel = new JPanel(new BorderLayout());
 		diagramPanel.add(settings, BorderLayout.NORTH);
 		diagramPanel.add(diagram, BorderLayout.CENTER);
 		diagramPanel.setBorder(new TitledBorder("Free space"));
-		
+
 		lineView = new LineView(epsilon, line1, line2, true, false, true, false);
 		ControlledLineView controlledLineView = new ControlledLineView(lineView);
 		controlledLineView.setBorder(new TitledBorder("Curves"));

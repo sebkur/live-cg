@@ -73,6 +73,7 @@ public class Settings extends JToolBar implements ItemListener
 		} else if (s.equals(TEXT_DRAW_GRID)) {
 			config.setDrawGrid(flag);
 		}
+		config.fireConfigChanged();
 	}
 
 }

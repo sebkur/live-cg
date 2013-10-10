@@ -17,6 +17,9 @@
  */
 package de.topobyte.frechet.freespace;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Config
 {
 
@@ -24,6 +27,8 @@ public class Config
 	private boolean drawReachableSpace = false;
 	private boolean drawReachableSpaceMarkers = false;
 	private boolean drawFreeSpaceMarkers = false;
+
+	private List<ConfigChangedListener> listeners = new ArrayList<ConfigChangedListener>();
 
 	public boolean isDrawGrid()
 	{
@@ -63,6 +68,23 @@ public class Config
 	public void setDrawFreeSpaceMarkers(boolean drawFreeSpaceMarkers)
 	{
 		this.drawFreeSpaceMarkers = drawFreeSpaceMarkers;
+	}
+
+	public void addConfigChangedListener(ConfigChangedListener listener)
+	{
+		listeners.add(listener);
+	}
+
+	public void removeConfigChangedListener(ConfigChangedListener listener)
+	{
+		listeners.remove(listener);
+	}
+
+	public void fireConfigChanged()
+	{
+		for (ConfigChangedListener listener : listeners) {
+			listener.configChanged();
+		}
 	}
 
 }
