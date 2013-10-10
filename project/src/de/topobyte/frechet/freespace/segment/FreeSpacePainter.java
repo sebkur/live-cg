@@ -154,15 +154,15 @@ public class FreeSpacePainter implements EpsilonSettable
 
 	private AffineTransform createMatrix()
 	{
-		Vector a = seg1.getDirection();
-		Vector b = seg1.getStart();
-		Vector c = seg2.getDirection();
-		Vector d = seg2.getStart();
+		Vector a = seg1.getStart();
+		Vector b = seg1.getDirection();
+		Vector c = seg2.getStart();
+		Vector d = seg2.getDirection();
 
-		// System.out.println(String.format("line1: %s + s . %s", b.toString(),
-		// a.toString()));
-		// System.out.println(String.format("line2: %s + s . %s", d.toString(),
-		// c.toString()));
+		// System.out.println(String.format("line1: %s + s . %s", a.toString(),
+		// b.toString()));
+		// System.out.println(String.format("line2: %s + s . %s", c.toString(),
+		// d.toString()));
 
 		Vector xa = a.add(new Vector(0, 0));
 		Vector xb = b.add(new Vector(0, 0));
@@ -175,8 +175,8 @@ public class FreeSpacePainter implements EpsilonSettable
 			} catch (NoninvertibleTransformException e) {
 				// move not in arbitrary direction, but a random amount
 				// in the direction perpendicular to a
-				double ax = a.getX();
-				double ay = a.getY();
+				double ax = b.getX();
+				double ay = b.getY();
 				double norm = Math.sqrt(ax * ax + ay * ay);
 				ax = ax / norm;
 				ay = ay / norm;
@@ -189,7 +189,7 @@ public class FreeSpacePainter implements EpsilonSettable
 				double x = iax * s;
 				double y = iay * s;
 
-				xa = a.add(new Vector(x, y));
+				xb = b.add(new Vector(x, y));
 			}
 		}
 	}
@@ -204,10 +204,10 @@ public class FreeSpacePainter implements EpsilonSettable
 	private AffineTransform createMatrix(Vector a, Vector b, Vector c, Vector d)
 			throws NoninvertibleTransformException
 	{
-		double tlX = b.getX() - d.getX();
-		double tlY = b.getY() - d.getY();
-		AffineTransform f = new AffineTransform(a.getX(), a.getY(), -c.getX(),
-				-c.getY(), tlX, tlY);
+		double tlX = a.getX() - c.getX();
+		double tlY = a.getY() - c.getY();
+		AffineTransform f = new AffineTransform(b.getX(), b.getY(), -d.getX(),
+				-d.getY(), tlX, tlY);
 		f.invert();
 		return f;
 	}
