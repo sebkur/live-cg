@@ -31,6 +31,7 @@ import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Rectangle2D;
 import java.util.Random;
 
+import de.topobyte.frechet.freespace.Config;
 import de.topobyte.frechet.freespace.EpsilonSettable;
 import de.topobyte.frechet.freespace.calc.FreeSpaceUtil;
 import de.topobyte.frechet.freespace.calc.Interval;
@@ -47,13 +48,14 @@ public class FreeSpacePainter implements EpsilonSettable
 	private LineSegment seg1 = null;
 	private LineSegment seg2 = null;
 
+	private Config config;
+
 	private int width;
 	private int height;
 	private int epsilon;
 	private Interval LR1;
 	private Interval BR1;
 
-	private Color colorCellBoundaries = new Color(0x000000);
 	private Color colorBackground = new Color(0x999999);
 	private Color colorFreeSpace = new Color(0xFFFFFF);
 	private Color colorReachableSpace = new Color(0xFFDDDD);
@@ -62,20 +64,13 @@ public class FreeSpacePainter implements EpsilonSettable
 	private Color colorFreeSpaceMarkers = new Color(0x000000);
 	private Color colorReachableSpaceMarkers = new Color(0xFF9999);
 
-	private boolean drawBorder;
-	private boolean drawAxisIntersection;
-	private boolean drawReachable = true;
-
 	private float markerWidth = 2;
 	private int markerLength = 3;
 
-	public FreeSpacePainter(int epsilon, boolean drawBorder,
-			boolean drawAxisIntersection, boolean drawReachable)
+	public FreeSpacePainter(Config config, int epsilon)
 	{
+		this.config = config;
 		this.epsilon = epsilon;
-		this.drawBorder = drawBorder;
-		this.drawAxisIntersection = drawAxisIntersection;
-		this.drawReachable = drawReachable;
 	}
 
 	public void setSize(int width, int height)
@@ -159,42 +154,38 @@ public class FreeSpacePainter implements EpsilonSettable
 		Interval BR2 = FreeSpaceUtil.reachableB(LR1, BR1, LF2, BF2);
 
 		// Draw reachable space via clipping the ellipse
-		if (BR1 != null || LR1 != null) {
-			Shape oldClip = g.getClip();
-			Area a = new Area();
-			if (BR1 != null) {
-				double s = BR1.getStart();
-				if (s < 0) {
-					s = 0;
+		if (config.isDrawReachableSpace()) {
+			if (BR1 != null || LR1 != null) {
+				Shape oldClip = g.getClip();
+				Area a = new Area();
+				if (BR1 != null) {
+					double s = BR1.getStart();
+					if (s < 0) {
+						s = 0;
+					}
+					a.add(new Area(new Rectangle2D.Double((int) Math.round(s
+							* width), 0, width, height)));
 				}
-				a.add(new Area(new Rectangle2D.Double((int) Math.round(s
-						* width), 0, width, height)));
-			}
-			if (LR1 != null) {
-				double s = LR1.getStart();
-				if (s < 0) {
-					s = 0;
+				if (LR1 != null) {
+					double s = LR1.getStart();
+					if (s < 0) {
+						s = 0;
+					}
+					a.add(new Area(new Rectangle2D.Double(0, 0, width, height
+							- (int) Math.round(s * height))));
 				}
-				a.add(new Area(new Rectangle2D.Double(0, 0, width, height
-						- (int) Math.round(s * height))));
+				g.clip(a);
+				g.setColor(colorReachableSpace);
+				g.fill(ellipse);
+				g.setClip(oldClip);
 			}
-			g.clip(a);
-			g.setColor(colorReachableSpace);
-			g.fill(ellipse);
-			g.setClip(oldClip);
 		}
 
 		// Draw the ellipse outline -> free space border
 		g.setColor(colorFreeSpaceOutline);
 		g.draw(ellipse);
 
-		if (drawBorder) {
-			// Draw the boundaries again
-			g.setColor(colorCellBoundaries);
-			g.drawRect(0, 0, width, height);
-		}
-
-		if (drawReachable) {
+		if (config.isDrawReachableSpaceMarkers()) {
 			g.setColor(colorReachableSpaceMarkers);
 			Stroke old = g.getStroke();
 			g.setStroke(new BasicStroke(3));
@@ -213,7 +204,7 @@ public class FreeSpacePainter implements EpsilonSettable
 			g.setStroke(old);
 		}
 
-		if (drawAxisIntersection) {
+		if (config.isDrawFreeSpaceMarkers()) {
 			g.setColor(colorFreeSpaceMarkers);
 			Stroke old = g.getStroke();
 			g.setStroke(new BasicStroke(markerWidth));

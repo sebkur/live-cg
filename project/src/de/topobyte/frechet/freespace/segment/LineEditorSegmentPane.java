@@ -18,6 +18,7 @@
 
 package de.topobyte.frechet.freespace.segment;
 
+import de.topobyte.frechet.freespace.Config;
 import de.topobyte.frechet.freespace.calc.LineSegment;
 import de.topobyte.frechet.lineeditor.LineChangeListener;
 import de.topobyte.frechet.lineeditor.LineEditor;
@@ -31,10 +32,10 @@ public class LineEditorSegmentPane extends SegmentPane implements
 	private LineEditor editor1;
 	private LineEditor editor2;
 
-	public LineEditorSegmentPane(LineEditor editor1, LineEditor editor2,
-			int epsilon)
+	public LineEditorSegmentPane(Config config, LineEditor editor1,
+			LineEditor editor2, int epsilon)
 	{
-		super(epsilon);
+		super(config, epsilon);
 		this.editor1 = editor1;
 		this.editor2 = editor2;
 		editor1.getEditPane().addLineChangeListener(this);

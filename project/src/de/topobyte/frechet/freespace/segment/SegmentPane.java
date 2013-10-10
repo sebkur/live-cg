@@ -22,6 +22,7 @@ import java.awt.Graphics;
 
 import javax.swing.JPanel;
 
+import de.topobyte.frechet.freespace.Config;
 import de.topobyte.frechet.freespace.EpsilonSettable;
 import de.topobyte.frechet.freespace.calc.FreeSpaceUtil;
 import de.topobyte.frechet.freespace.calc.Interval;
@@ -41,10 +42,10 @@ public class SegmentPane extends JPanel implements LineChangeListener,
 	private LineSegment seg1;
 	private LineSegment seg2;
 
-	public SegmentPane(int epsilon)
+	public SegmentPane(Config config, int epsilon)
 	{
 		this.epsilon = epsilon;
-		painter = new FreeSpacePainter(epsilon, false, true, true);
+		painter = new FreeSpacePainter(config, epsilon);
 		updateReachableSpace();
 	}
 

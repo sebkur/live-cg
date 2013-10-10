@@ -45,7 +45,7 @@ public class FrechetDialog1 implements ContentChangedListener
 {
 
 	private JFrame frame;
-	
+
 	final static int STEP_SIZE = 1;
 	final static int STEP_SIZE_BIG = 10;
 
@@ -75,8 +75,12 @@ public class FrechetDialog1 implements ContentChangedListener
 		slider.setValue(epsilon);
 		slider.setBorder(new TitledBorder("epsilon"));
 
-		diagram = new FrechetDiagram(epsilon, line1, line2);
+		Config config = new Config();
+		Settings settings = new Settings(config);
+
+		diagram = new FrechetDiagram(config, epsilon, line1, line2);
 		JPanel diagramPanel = new JPanel(new BorderLayout());
+		diagramPanel.add(settings, BorderLayout.NORTH);
 		diagramPanel.add(diagram, BorderLayout.CENTER);
 		diagramPanel.setBorder(new TitledBorder("Free space"));
 
@@ -137,7 +141,7 @@ public class FrechetDialog1 implements ContentChangedListener
 		diagram.update();
 		diagram.repaint();
 	}
-	
+
 	public JFrame getFrame()
 	{
 		return frame;

@@ -78,8 +78,12 @@ public class FrechetDialog2 implements ContentChangedListener
 		slider.setValue(epsilon);
 		slider.setBorder(new TitledBorder("epsilon"));
 
-		diagram = new FrechetDiagram(epsilon, line1, line2);
+		Config config = new Config();
+		Settings settings = new Settings(config);
+		
+		diagram = new FrechetDiagram(config, epsilon, line1, line2);
 		JPanel diagramPanel = new JPanel(new BorderLayout());
+		diagramPanel.add(settings, BorderLayout.NORTH);
 		diagramPanel.add(diagram, BorderLayout.CENTER);
 		diagramPanel.setBorder(new TitledBorder("Free space"));
 		

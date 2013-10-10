@@ -26,6 +26,7 @@ import java.awt.geom.AffineTransform;
 
 import javax.swing.JPanel;
 
+import de.topobyte.frechet.freespace.Config;
 import de.topobyte.frechet.freespace.EpsilonSettable;
 import de.topobyte.frechet.freespace.calc.FrechetUtil;
 import de.topobyte.frechet.freespace.calc.LineSegment;
@@ -37,12 +38,17 @@ public class FrechetDiagram extends JPanel implements EpsilonSettable
 {
 	private static final long serialVersionUID = 5024820193840910054L;
 
+	private Config config;
+
+	private Color colorCellBoundaries = new Color(0x000000);
+
 	private int epsilon;
 	private final Chain line1;
 	private final Chain line2;
 
-	public FrechetDiagram(int epsilon, Chain line1, Chain line2)
+	public FrechetDiagram(Config config, int epsilon, Chain line1, Chain line2)
 	{
+		this.config = config;
 		this.epsilon = epsilon;
 		this.line1 = line1;
 		this.line2 = line2;
@@ -62,6 +68,7 @@ public class FrechetDiagram extends JPanel implements EpsilonSettable
 
 	public void paint(Graphics graphics)
 	{
+		super.paint(graphics);
 		Graphics2D g = (Graphics2D) graphics;
 
 		int width = getWidth();
@@ -76,8 +83,7 @@ public class FrechetDiagram extends JPanel implements EpsilonSettable
 		ReachableSpace reachableSpace = new ReachableSpace(line1, line2,
 				epsilon);
 
-		FreeSpacePainter painter = new FreeSpacePainter(epsilon, false, true,
-				true);
+		FreeSpacePainter painter = new FreeSpacePainter(config, epsilon);
 
 		AffineTransform transform = g.getTransform();
 		Shape clip = g.getClip();
@@ -106,14 +112,16 @@ public class FrechetDiagram extends JPanel implements EpsilonSettable
 		g.setClip(clip);
 
 		// Draw grid
-		g.setColor(Color.BLACK);
-		for (int x = 0; x <= nSegmentsP; x++) {
-			int lx = x * w;
-			g.drawLine(lx, 0, lx, height);
-		}
-		for (int y = 0; y <= nSegmentsQ; y++) {
-			int ly = y * h;
-			g.drawLine(0, ly, width, ly);
+		if (config.isDrawGrid()) {
+			g.setColor(colorCellBoundaries);
+			for (int x = 0; x <= nSegmentsP; x++) {
+				int lx = x * w;
+				g.drawLine(lx, 0, lx, height);
+			}
+			for (int y = 0; y <= nSegmentsQ; y++) {
+				int ly = y * h;
+				g.drawLine(0, ly, width, ly);
+			}
 		}
 	}
 }

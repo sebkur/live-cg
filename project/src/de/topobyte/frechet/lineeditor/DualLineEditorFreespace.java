@@ -25,6 +25,7 @@ import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.border.TitledBorder;
 
+import de.topobyte.frechet.freespace.Config;
 import de.topobyte.frechet.freespace.segment.LineEditorSegmentPane;
 import de.topobyte.livecg.geometry.geom.Chain;
 
@@ -38,12 +39,14 @@ public class DualLineEditorFreespace extends JPanel
 
 	private JSlider slider;
 
-	public DualLineEditorFreespace(int width, int height, Chain line1, Chain line2,
-			int epsilon)
+	public DualLineEditorFreespace(int width, int height, Chain line1,
+			Chain line2, int epsilon)
 	{
+		Config config = new Config();
 		editor1 = new LineEditor(width, height, line1);
 		editor2 = new LineEditor(width, height, line2);
-		segmentPane = new LineEditorSegmentPane(editor1, editor2, epsilon);
+		segmentPane = new LineEditorSegmentPane(config, editor1, editor2,
+				epsilon);
 
 		segmentPane.update();
 
