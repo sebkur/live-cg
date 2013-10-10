@@ -18,10 +18,12 @@
 
 package de.topobyte.frechet.freespace.segment;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Shape;
+import java.awt.Stroke;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Arc2D;
 import java.awt.geom.NoninvertibleTransformException;
@@ -52,6 +54,9 @@ public class FreeSpacePainter implements EpsilonSettable
 
 	private boolean drawBorder;
 	private boolean drawAxisIntersection;
+
+	private float markerWidth = 2;
+	private int markerLength = 3;
 
 	public FreeSpacePainter(int epsilon, boolean drawBorder,
 			boolean drawAxisIntersection)
@@ -133,10 +138,17 @@ public class FreeSpacePainter implements EpsilonSettable
 		if (drawAxisIntersection) {
 			// Find the limits of the free space on the axes
 			g.setColor(Color.BLACK);
-			Interval intervalP = makeAxis(c, d, a, b);
-			Interval intervalQ = makeAxis(a, b, c, d);
-			drawHorizontalInterval(g, intervalP, width, height);
-			drawVerticalInterval(g, intervalQ, width, height);
+			Stroke old = g.getStroke();
+			g.setStroke(new BasicStroke(markerWidth));
+			Interval intervalP1 = makeAxis(c, d, a, b, 0); // bottom
+			Interval intervalQ1 = makeAxis(a, b, c, d, 0); // left
+			Interval intervalP2 = makeAxis(c, d, a, b, 1); // top
+			Interval intervalQ2 = makeAxis(a, b, c, d, 1); // right
+			drawHorizontalInterval(g, intervalP1, width, height, height);
+			drawVerticalInterval(g, intervalQ1, width, height, 0);
+			drawHorizontalInterval(g, intervalP2, width, height, 0);
+			drawVerticalInterval(g, intervalQ2, width, height, width);
+			g.setStroke(old);
 		}
 	}
 
@@ -201,34 +213,34 @@ public class FreeSpacePainter implements EpsilonSettable
 	}
 
 	private void drawHorizontalInterval(Graphics2D g, Interval intervalP,
-			int width, int height)
+			int width, int height, int y)
 	{
 		if (DoubleUtil.isValid(intervalP.getStart())) {
 			int pos = (int) Math.round(intervalP.getStart() * width);
-			g.fillRect(pos - 1, height - 3, 3, 6);
+			g.drawLine(pos, y - markerLength, pos, y + markerLength);
 		}
 		if (DoubleUtil.isValid(intervalP.getEnd())) {
 			int pos = (int) Math.round(intervalP.getEnd() * width);
-			g.fillRect(pos - 1, height - 3, 3, 6);
+			g.drawLine(pos, y - markerLength, pos, y + markerLength);
 		}
 	}
 
 	private void drawVerticalInterval(Graphics2D g, Interval intervalQ,
-			int width, int height)
+			int width, int height, int x)
 	{
 		if (DoubleUtil.isValid(intervalQ.getStart())) {
 			int pos = height - (int) Math.round(intervalQ.getStart() * height);
-			g.fillRect(-3, pos - 1, 6, 3);
+			g.drawLine(x - markerLength, pos, x + markerLength, pos);
 		}
 		if (DoubleUtil.isValid(intervalQ.getEnd())) {
 			int pos = height - (int) Math.round(intervalQ.getEnd() * height);
-			g.fillRect(-3, pos - 1, 6, 3);
+			g.drawLine(x - markerLength, pos, x + markerLength, pos);
 		}
 	}
 
-	private Interval makeAxis(Vector a, Vector b, Vector c, Vector d)
+	private Interval makeAxis(Vector a, Vector b, Vector c, Vector d, double f)
 	{
-		Vector m = b.sub(d);
+		Vector m = b.sub(d).add(a.mult(f));
 		double mxcx = m.getX() * c.getX();
 		double mycy = m.getY() * c.getY();
 		double cx2 = c.getX() * c.getX();
