@@ -46,7 +46,7 @@ public class MonotonePiecesPanel extends JPanel implements PolygonPanel
 	private Config polygonConfig = new Config();
 
 	private AwtPainter painter;
-	private MonotonePiecesPainter monotonePiecesPainter;
+	private MonotonePiecesPainter algorithmPainter;
 
 	public MonotonePiecesPanel(Polygon polygon)
 	{
@@ -62,7 +62,7 @@ public class MonotonePiecesPanel extends JPanel implements PolygonPanel
 		colorMap = ColorMapBuilder.buildColorMap(extendedGraph);
 
 		painter = new AwtPainter(null);
-		monotonePiecesPainter = new MonotonePiecesPainter(painter, polygon,
+		algorithmPainter = new MonotonePiecesPainter(painter, polygon,
 				monotonePiecesOperation, monotonePieces, polygonConfig,
 				colorMap);
 	}
@@ -75,9 +75,9 @@ public class MonotonePiecesPanel extends JPanel implements PolygonPanel
 				RenderingHints.VALUE_ANTIALIAS_ON);
 
 		painter.setGraphics(g);
-		monotonePiecesPainter.setWidth(getWidth());
-		monotonePiecesPainter.setHeight(getHeight());
-		monotonePiecesPainter.paint();
+		algorithmPainter.setWidth(getWidth());
+		algorithmPainter.setHeight(getHeight());
+		algorithmPainter.paint();
 	}
 
 	@Override

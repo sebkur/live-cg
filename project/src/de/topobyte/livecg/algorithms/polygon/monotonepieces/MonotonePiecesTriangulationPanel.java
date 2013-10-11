@@ -20,23 +20,15 @@ package de.topobyte.livecg.algorithms.polygon.monotonepieces;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.geom.Arc2D;
-import java.awt.geom.Area;
-import java.awt.geom.Path2D;
-import java.awt.geom.Rectangle2D;
+import java.awt.RenderingHints;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import javax.swing.JPanel;
 
-import de.topobyte.livecg.core.geometry.geom.AwtHelper;
-import de.topobyte.livecg.core.geometry.geom.Chain;
-import de.topobyte.livecg.core.geometry.geom.Coordinate;
-import de.topobyte.livecg.core.geometry.geom.IntRing;
-import de.topobyte.livecg.core.geometry.geom.Node;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
-import de.topobyte.livecg.util.SwingUtil;
+import de.topobyte.livecg.core.painting.AwtPainter;
 import de.topobyte.livecg.util.coloring.ColorMapBuilder;
 import de.topobyte.livecg.util.graph.Graph;
 
@@ -46,7 +38,6 @@ public class MonotonePiecesTriangulationPanel extends JPanel implements
 
 	private static final long serialVersionUID = 2129465700417909129L;
 
-	private Polygon polygon;
 	private MonotonePiecesOperation monotonePiecesOperation;
 
 	private List<Polygon> monotonePieces;
@@ -58,9 +49,11 @@ public class MonotonePiecesTriangulationPanel extends JPanel implements
 
 	private Config polygonConfig = new Config();
 
+	private AwtPainter painter;
+	private MonotonePiecesTriangulationPainter algorithmPainter;
+
 	public MonotonePiecesTriangulationPanel(Polygon polygon)
 	{
-		this.polygon = polygon;
 		monotonePiecesOperation = new MonotonePiecesOperation(polygon);
 		SplitResult split = monotonePiecesOperation
 				.getMonotonePiecesWithGraph();
@@ -79,115 +72,24 @@ public class MonotonePiecesTriangulationPanel extends JPanel implements
 					.getDiagonals();
 			allDiagonals.add(diagonals);
 		}
+
+		painter = new AwtPainter(null);
+		algorithmPainter = new MonotonePiecesTriangulationPainter(painter,
+				polygon, monotonePiecesOperation, monotonePieces, allDiagonals,
+				polygonConfig, colorMap);
 	}
 
 	@Override
 	public void paint(Graphics graphics)
 	{
 		Graphics2D g = (Graphics2D) graphics;
-		SwingUtil.useAntialiasing(g, true);
+		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+				RenderingHints.VALUE_ANTIALIAS_ON);
 
-		g.setColor(Color.WHITE);
-		g.fillRect(0, 0, getWidth(), getHeight());
-
-		Area shape = AwtHelper.toShape(polygon);
-		g.setColor(new Color(0x66ff0000, true));
-		g.fill(shape);
-
-		for (int i = 0; i < monotonePieces.size(); i++) {
-			Polygon piece = monotonePieces.get(i);
-			shape = AwtHelper.toShape(piece);
-			Color color = colorMap.get(piece);
-			g.setColor(color);
-			g.fill(shape);
-		}
-
-		g.setColor(Color.BLACK);
-		Chain shell = polygon.getShell();
-		IntRing ring = new IntRing(shell.getNumberOfNodes());
-		for (int i = 0; i < shell.getNumberOfNodes(); i++) {
-			int j = ring.next().value();
-			Coordinate c1 = shell.getCoordinate(i);
-			Coordinate c2 = shell.getCoordinate(j);
-			g.drawLine((int) Math.round(c1.getX()),
-					(int) Math.round(c1.getY()), (int) Math.round(c2.getX()),
-					(int) Math.round(c2.getY()));
-		}
-
-		List<Diagonal> diagonals = monotonePiecesOperation.getDiagonals();
-
-		for (Diagonal diagonal : diagonals) {
-			Coordinate c1 = diagonal.getA().getCoordinate();
-			Coordinate c2 = diagonal.getB().getCoordinate();
-			g.drawLine((int) Math.round(c1.getX()),
-					(int) Math.round(c1.getY()), (int) Math.round(c2.getX()),
-					(int) Math.round(c2.getY()));
-		}
-
-		for (List<Diagonal> diagonalsT : allDiagonals) {
-			for (Diagonal diagonal : diagonalsT) {
-				Coordinate c1 = diagonal.getA().getCoordinate();
-				Coordinate c2 = diagonal.getB().getCoordinate();
-				g.drawLine((int) Math.round(c1.getX()),
-						(int) Math.round(c1.getY()),
-						(int) Math.round(c2.getX()),
-						(int) Math.round(c2.getY()));
-			}
-		}
-
-		g.setColor(Color.BLACK);
-		for (int i = 0; i < shell.getNumberOfNodes(); i++) {
-			Node node = shell.getNode(i);
-			VertexType type = monotonePiecesOperation.getType(node);
-			Coordinate c = node.getCoordinate();
-
-			double arcSize = 6;
-			double rectSize = 6;
-			double triangleSize = 8;
-
-			Arc2D arc = new Arc2D.Double(c.getX() - arcSize / 2, c.getY()
-					- arcSize / 2, arcSize, arcSize, 0, 360, Arc2D.CHORD);
-			Rectangle2D rect = new Rectangle2D.Double(c.getX() - rectSize / 2,
-					c.getY() - rectSize / 2, rectSize, rectSize);
-			Path2D triangle = new Path2D.Double();
-
-			switch (type) {
-			case REGULAR:
-				g.fill(arc);
-				break;
-			case START:
-				g.draw(rect);
-				break;
-			case END:
-				g.fill(rect);
-				break;
-			case SPLIT:
-				triangle.moveTo(c.getX(), c.getY() - triangleSize / 2);
-				triangle.lineTo(c.getX() - triangleSize / 2, c.getY()
-						+ triangleSize / 2);
-				triangle.lineTo(c.getX() + triangleSize / 2, c.getY()
-						+ triangleSize / 2);
-				triangle.closePath();
-				g.fill(triangle);
-				break;
-			case MERGE:
-				triangle.moveTo(c.getX(), c.getY() + arcSize / 2);
-				triangle.lineTo(c.getX() - triangleSize / 2, c.getY()
-						- triangleSize / 2);
-				triangle.lineTo(c.getX() + triangleSize / 2, c.getY()
-						- triangleSize / 2);
-				triangle.closePath();
-				g.fill(triangle);
-				break;
-			default:
-				break;
-			}
-
-			if (polygonConfig.isDrawNodeNumbers()) {
-				g.drawString(String.format("%d", i + 1), (float) c.getX() + 10,
-						(float) c.getY());
-			}
-		}
+		painter.setGraphics(g);
+		algorithmPainter.setWidth(getWidth());
+		algorithmPainter.setHeight(getHeight());
+		algorithmPainter.paint();
 	}
 
 	@Override
