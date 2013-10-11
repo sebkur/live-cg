@@ -56,6 +56,7 @@ public class FortunePainter extends BasicAlgorithmPainter
 	private int colorCircles = 0x000000;
 	private int colorDelaunay = 0x999999;
 
+	@Override
 	public void paint()
 	{
 		painter.setColor(new Color(colorBackground));

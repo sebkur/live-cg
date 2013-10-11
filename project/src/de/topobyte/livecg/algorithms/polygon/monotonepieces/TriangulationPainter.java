@@ -51,6 +51,7 @@ public class TriangulationPainter extends BasicAlgorithmPainter
 		this.polygonConfig = polygonConfig;
 	}
 
+	@Override
 	public void paint()
 	{
 

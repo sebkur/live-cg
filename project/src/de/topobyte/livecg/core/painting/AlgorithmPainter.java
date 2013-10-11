@@ -17,38 +17,16 @@
  */
 package de.topobyte.livecg.core.painting;
 
-public abstract class BasicAlgorithmPainter implements AlgorithmPainter
+public interface AlgorithmPainter
 {
 
-	protected Painter painter;
-	protected int width, height;
+	public int getWidth();
 
-	public BasicAlgorithmPainter(Painter painter)
-	{
-		this.painter = painter;
-	}
+	public void setWidth(int width);
 
-	@Override
-	public int getWidth()
-	{
-		return width;
-	}
+	public int getHeight();
 
-	@Override
-	public void setWidth(int width)
-	{
-		this.width = width;
-	}
-
-	@Override
-	public int getHeight()
-	{
-		return height;
-	}
-
-	@Override
-	public void setHeight(int height)
-	{
-		this.height = height;
-	}
+	public void setHeight(int height);
+	
+	public void paint();
 }

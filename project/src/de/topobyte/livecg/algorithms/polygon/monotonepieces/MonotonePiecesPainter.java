@@ -54,6 +54,7 @@ public class MonotonePiecesPainter extends BasicAlgorithmPainter
 		this.colorMap = colorMap;
 	}
 
+	@Override
 	public void paint()
 	{
 		painter.setColor(new Color(java.awt.Color.WHITE.getRGB()));
