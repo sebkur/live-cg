@@ -9,7 +9,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 import de.topobyte.livecg.algorithms.voronoi.fortune.Algorithm;
-import de.topobyte.livecg.algorithms.voronoi.fortune.gui.core.AlgorithmPainter;
+import de.topobyte.livecg.algorithms.voronoi.fortune.gui.core.FortunePainter;
 import de.topobyte.livecg.algorithms.voronoi.fortune.gui.core.Config;
 import de.topobyte.livecg.core.painting.AwtPainter;
 
@@ -28,7 +28,7 @@ public class GraphicsExporter
 
 		AwtPainter painter = new AwtPainter(graphics);
 
-		AlgorithmPainter algorithmPainter = new AlgorithmPainter(algorithm,
+		FortunePainter algorithmPainter = new FortunePainter(algorithm,
 				config, painter);
 
 		algorithmPainter.setWidth(width);

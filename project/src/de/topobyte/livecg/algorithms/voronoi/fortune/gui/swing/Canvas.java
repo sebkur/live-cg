@@ -12,7 +12,7 @@ import javax.swing.JPanel;
 import de.topobyte.livecg.algorithms.voronoi.fortune.Algorithm;
 import de.topobyte.livecg.algorithms.voronoi.fortune.AlgorithmWatcher;
 import de.topobyte.livecg.algorithms.voronoi.fortune.geometry.Point;
-import de.topobyte.livecg.algorithms.voronoi.fortune.gui.core.AlgorithmPainter;
+import de.topobyte.livecg.algorithms.voronoi.fortune.gui.core.FortunePainter;
 import de.topobyte.livecg.algorithms.voronoi.fortune.gui.core.Config;
 import de.topobyte.livecg.core.painting.AwtPainter;
 
@@ -22,7 +22,7 @@ public class Canvas extends JPanel implements AlgorithmWatcher
 	private static final long serialVersionUID = 461591430129084653L;
 
 	private Algorithm algorithm;
-	private AlgorithmPainter algorithmPainter;
+	private FortunePainter algorithmPainter;
 	private AwtPainter painter;
 
 	public Canvas(Algorithm algorithm, Config config, int width, int height)
@@ -30,7 +30,7 @@ public class Canvas extends JPanel implements AlgorithmWatcher
 		this.algorithm = algorithm;
 
 		painter = new AwtPainter(null);
-		algorithmPainter = new AlgorithmPainter(algorithm, config, painter);
+		algorithmPainter = new FortunePainter(algorithm, config, painter);
 
 		addMouseListener(new MouseAdapter() {
 

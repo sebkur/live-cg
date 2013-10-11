@@ -20,13 +20,13 @@ import de.topobyte.livecg.core.painting.BasicAlgorithmPainter;
 import de.topobyte.livecg.core.painting.Color;
 import de.topobyte.livecg.core.painting.Painter;
 
-public class AlgorithmPainter extends BasicAlgorithmPainter
+public class FortunePainter extends BasicAlgorithmPainter
 {
 
 	private Algorithm algorithm;
 	private Config config;
 
-	public AlgorithmPainter(Algorithm algorithm, Config config, Painter painter)
+	public FortunePainter(Algorithm algorithm, Config config, Painter painter)
 	{
 		super(painter);
 		this.algorithm = algorithm;
