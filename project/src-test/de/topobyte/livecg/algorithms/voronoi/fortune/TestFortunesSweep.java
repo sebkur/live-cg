@@ -17,7 +17,7 @@
  */
 package de.topobyte.livecg.algorithms.voronoi.fortune;
 
-import de.topobyte.livecg.algorithms.voronoi.fortune.gui.swing.SwingFortune;
+import de.topobyte.livecg.algorithms.voronoi.fortune.ui.swing.SwingFortune;
 
 public class TestFortunesSweep
 {

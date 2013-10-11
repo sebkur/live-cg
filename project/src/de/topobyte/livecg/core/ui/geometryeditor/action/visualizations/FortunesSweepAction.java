@@ -24,7 +24,7 @@ import java.util.List;
 import javax.swing.JFrame;
 
 import de.topobyte.livecg.algorithms.voronoi.fortune.geometry.Point;
-import de.topobyte.livecg.algorithms.voronoi.fortune.gui.swing.SwingFortune;
+import de.topobyte.livecg.algorithms.voronoi.fortune.ui.swing.SwingFortune;
 import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.core.geometry.geom.Coordinate;
 import de.topobyte.livecg.core.geometry.geom.Node;

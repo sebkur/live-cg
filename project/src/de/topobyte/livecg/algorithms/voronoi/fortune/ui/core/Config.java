@@ -1,4 +1,4 @@
-package de.topobyte.livecg.algorithms.voronoi.fortune.gui.core;
+package de.topobyte.livecg.algorithms.voronoi.fortune.ui.core;
 
 public class Config
 {

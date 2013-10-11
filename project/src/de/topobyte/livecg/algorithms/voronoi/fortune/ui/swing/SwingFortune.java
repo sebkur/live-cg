@@ -1,4 +1,4 @@
-package de.topobyte.livecg.algorithms.voronoi.fortune.gui.swing;
+package de.topobyte.livecg.algorithms.voronoi.fortune.ui.swing;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -17,11 +17,11 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
 import de.topobyte.livecg.algorithms.voronoi.fortune.Algorithm;
-import de.topobyte.livecg.algorithms.voronoi.fortune.gui.core.Config;
-import de.topobyte.livecg.algorithms.voronoi.fortune.gui.core.FortunePainter;
-import de.topobyte.livecg.algorithms.voronoi.fortune.gui.swing.action.OpenAction;
-import de.topobyte.livecg.algorithms.voronoi.fortune.gui.swing.action.SaveAction;
-import de.topobyte.livecg.algorithms.voronoi.fortune.gui.swing.eventqueue.EventQueueDialog;
+import de.topobyte.livecg.algorithms.voronoi.fortune.ui.core.Config;
+import de.topobyte.livecg.algorithms.voronoi.fortune.ui.core.FortunePainter;
+import de.topobyte.livecg.algorithms.voronoi.fortune.ui.swing.action.OpenAction;
+import de.topobyte.livecg.algorithms.voronoi.fortune.ui.swing.action.SaveAction;
+import de.topobyte.livecg.algorithms.voronoi.fortune.ui.swing.eventqueue.EventQueueDialog;
 import de.topobyte.livecg.core.export.ExportBitmapAction;
 import de.topobyte.livecg.core.export.ExportSvgAction;
 import de.topobyte.livecg.core.painting.AwtPainter;

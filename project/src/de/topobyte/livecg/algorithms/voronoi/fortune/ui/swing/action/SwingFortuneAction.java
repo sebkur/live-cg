@@ -1,6 +1,6 @@
-package de.topobyte.livecg.algorithms.voronoi.fortune.gui.swing.action;
+package de.topobyte.livecg.algorithms.voronoi.fortune.ui.swing.action;
 
-import de.topobyte.livecg.algorithms.voronoi.fortune.gui.swing.SwingFortune;
+import de.topobyte.livecg.algorithms.voronoi.fortune.ui.swing.SwingFortune;
 import de.topobyte.livecg.core.ui.action.BasicAction;
 
 public abstract class SwingFortuneAction extends BasicAction

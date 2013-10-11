@@ -1,4 +1,4 @@
-package de.topobyte.livecg.algorithms.voronoi.fortune.gui.swing;
+package de.topobyte.livecg.algorithms.voronoi.fortune.ui.swing;
 
 import java.io.File;
 

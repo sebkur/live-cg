@@ -1,4 +1,4 @@
-package de.topobyte.livecg.algorithms.voronoi.fortune.gui.swing;
+package de.topobyte.livecg.algorithms.voronoi.fortune.ui.swing;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,7 +9,7 @@ import javax.swing.JButton;
 import javax.swing.JToggleButton;
 import javax.swing.JToolBar;
 
-import de.topobyte.livecg.algorithms.voronoi.fortune.gui.core.Config;
+import de.topobyte.livecg.algorithms.voronoi.fortune.ui.core.Config;
 
 public class Settings extends JToolBar implements ItemListener
 {

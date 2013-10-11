@@ -1,4 +1,4 @@
-package de.topobyte.livecg.algorithms.voronoi.fortune.gui.swing.eventqueue;
+package de.topobyte.livecg.algorithms.voronoi.fortune.ui.swing.eventqueue;
 
 import javax.swing.AbstractListModel;
 

@@ -1,4 +1,4 @@
-package de.topobyte.livecg.algorithms.voronoi.fortune.gui.swing.action;
+package de.topobyte.livecg.algorithms.voronoi.fortune.ui.swing.action;
 
 import java.awt.event.ActionEvent;
 import java.io.BufferedInputStream;
@@ -12,8 +12,8 @@ import java.util.List;
 import javax.swing.JFileChooser;
 
 import de.topobyte.livecg.algorithms.voronoi.fortune.geometry.Point;
-import de.topobyte.livecg.algorithms.voronoi.fortune.gui.swing.FileFilterPointSet;
-import de.topobyte.livecg.algorithms.voronoi.fortune.gui.swing.SwingFortune;
+import de.topobyte.livecg.algorithms.voronoi.fortune.ui.swing.FileFilterPointSet;
+import de.topobyte.livecg.algorithms.voronoi.fortune.ui.swing.SwingFortune;
 import de.topobyte.livecg.algorithms.voronoi.pointset.ParseException;
 import de.topobyte.livecg.algorithms.voronoi.pointset.PointSet;
 import de.topobyte.livecg.algorithms.voronoi.pointset.PointSetReader;
