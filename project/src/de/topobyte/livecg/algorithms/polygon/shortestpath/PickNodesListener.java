@@ -111,8 +111,8 @@ public class PickNodesListener extends MouseAdapter
 			pressedStart = false;
 			pressedTarget = false;
 			update = true;
-			spp.setDragStart(null);
-			spp.setDragTarget(null);
+			spp.getPainter().setDragStart(null);
+			spp.getPainter().setDragTarget(null);
 		}
 		// TODO: Also implement some kind of snapping to nodes and slight
 		// correction (moving into polygon) if the desired position is outside
@@ -145,9 +145,9 @@ public class PickNodesListener extends MouseAdapter
 			return;
 		}
 		if (pressedStart) {
-			spp.setDragStart(new Coordinate(e.getX(), e.getY()));
+			spp.getPainter().setDragStart(new Coordinate(e.getX(), e.getY()));
 		} else if (pressedTarget) {
-			spp.setDragTarget(new Coordinate(e.getX(), e.getY()));
+			spp.getPainter().setDragTarget(new Coordinate(e.getX(), e.getY()));
 		}
 		spp.repaint();
 	}
@@ -176,16 +176,16 @@ public class PickNodesListener extends MouseAdapter
 			overTarget = MouseOver.OVER;
 		}
 		boolean update = false;
-		update |= spp.setStartMouseOver(overStart);
-		update |= spp.setTargetMouseOver(overTarget);
+		update |= spp.getPainter().setStartMouseOver(overStart);
+		update |= spp.getPainter().setTargetMouseOver(overTarget);
 		return update;
 	}
 
 	private void setNone()
 	{
 		boolean update = false;
-		update |= spp.setStartMouseOver(MouseOver.NONE);
-		update |= spp.setTargetMouseOver(MouseOver.NONE);
+		update |= spp.getPainter().setStartMouseOver(MouseOver.NONE);
+		update |= spp.getPainter().setTargetMouseOver(MouseOver.NONE);
 		if (update) {
 			spp.repaint();
 		}
@@ -194,10 +194,10 @@ public class PickNodesListener extends MouseAdapter
 	private void updatePressedState()
 	{
 		boolean update = false;
-		update |= spp.setStartMouseOver(pressedStart ? MouseOver.ACTIVE
-				: MouseOver.NONE);
-		update |= spp.setTargetMouseOver(pressedTarget ? MouseOver.ACTIVE
-				: MouseOver.NONE);
+		update |= spp.getPainter().setStartMouseOver(
+				pressedStart ? MouseOver.ACTIVE : MouseOver.NONE);
+		update |= spp.getPainter().setTargetMouseOver(
+				pressedTarget ? MouseOver.ACTIVE : MouseOver.NONE);
 		if (update) {
 			spp.repaint();
 		}

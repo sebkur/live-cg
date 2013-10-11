@@ -19,6 +19,7 @@ public class SvgPainter implements Painter
 	private Element root;
 
 	private Color color;
+	private double width;
 
 	public SvgPainter(Document doc, Element root)
 	{
@@ -30,6 +31,12 @@ public class SvgPainter implements Painter
 	public void setColor(Color color)
 	{
 		this.color = color;
+	}
+
+	@Override
+	public void setStrokeWidth(double width)
+	{
+		this.width = width;
 	}
 
 	@Override

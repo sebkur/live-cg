@@ -1,5 +1,6 @@
 package de.topobyte.livecg.core.painting;
 
+import java.awt.BasicStroke;
 import java.awt.Graphics2D;
 import java.awt.Shape;
 import java.awt.geom.Area;
@@ -28,6 +29,12 @@ public class AwtPainter implements Painter
 	public void setColor(Color color)
 	{
 		g.setColor(new java.awt.Color(color.getRGB(), true));
+	}
+
+	@Override
+	public void setStrokeWidth(double width)
+	{
+		g.setStroke(new BasicStroke((float) width));
 	}
 
 	@Override
