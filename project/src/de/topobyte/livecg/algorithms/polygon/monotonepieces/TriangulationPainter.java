@@ -57,7 +57,7 @@ public class TriangulationPainter extends BasicAlgorithmPainter
 		painter.setColor(new Color(java.awt.Color.WHITE.getRGB()));
 		painter.fillRect(0, 0, width, height);
 
-		painter.setColor(new Color(0x66ff0000));
+		painter.setColor(new Color(0x66ff0000, true));
 		painter.fillPolygon(polygon);
 
 		painter.setColor(new Color(java.awt.Color.BLACK.getRGB()));

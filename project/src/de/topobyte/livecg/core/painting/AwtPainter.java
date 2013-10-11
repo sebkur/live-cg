@@ -27,7 +27,7 @@ public class AwtPainter implements Painter
 	@Override
 	public void setColor(Color color)
 	{
-		g.setColor(new java.awt.Color(color.getRGB()));
+		g.setColor(new java.awt.Color(color.getRGB(), true));
 	}
 
 	@Override

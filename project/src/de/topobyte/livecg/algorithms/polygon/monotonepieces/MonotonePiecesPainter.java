@@ -59,7 +59,7 @@ public class MonotonePiecesPainter extends BasicAlgorithmPainter
 		painter.setColor(new Color(java.awt.Color.WHITE.getRGB()));
 		painter.fillRect(0, 0, width, height);
 
-		painter.setColor(new Color(0x66ff0000));
+		painter.setColor(new Color(0x66ff0000, true));
 		painter.fillPolygon(polygon);
 
 		for (int i = 0; i < monotonePieces.size(); i++) {
