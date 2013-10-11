@@ -24,40 +24,6 @@ import de.topobyte.livecg.core.painting.SvgPainter;
 public class SvgExporter
 {
 
-	public static void main(String[] args) throws TransformerException,
-			IOException
-	{
-		DOMImplementation impl = SVGDOMImplementation.getDOMImplementation();
-		String svgNS = SVGDOMImplementation.SVG_NAMESPACE_URI;
-		Document doc = impl.createDocument(svgNS, "svg", null);
-
-		Element svgRoot = doc.getDocumentElement();
-
-		svgRoot.setAttributeNS(null, "width", "400");
-		svgRoot.setAttributeNS(null, "height", "450");
-
-		Element rectangle = doc.createElementNS(svgNS, "rect");
-		rectangle.setAttributeNS(null, "x", "10");
-		rectangle.setAttributeNS(null, "y", "20");
-		rectangle.setAttributeNS(null, "width", "100");
-		rectangle.setAttributeNS(null, "height", "50");
-		rectangle.setAttributeNS(null, "fill", "red");
-
-		svgRoot.appendChild(rectangle);
-
-		TransformerFactory transformerFactory = TransformerFactory
-				.newInstance();
-		Transformer transformer = transformerFactory.newTransformer();
-		DOMSource source = new DOMSource(doc);
-		File file = new File("/home/z/foo.svg");
-		FileOutputStream fos = new FileOutputStream(file);
-		StreamResult result = new StreamResult(fos);
-
-		transformer.transform(source, result);
-
-		fos.close();
-	}
-
 	public static void exportSVG(File file, Algorithm algorithm, Config config,
 			int width, int height) throws TransformerException, IOException
 	{
