@@ -9,9 +9,10 @@ import javax.swing.JFileChooser;
 import javax.xml.transform.TransformerException;
 
 import de.topobyte.livecg.algorithms.voronoi.fortune.Algorithm;
-import de.topobyte.livecg.algorithms.voronoi.fortune.export.SvgExporter;
 import de.topobyte.livecg.algorithms.voronoi.fortune.gui.core.Config;
+import de.topobyte.livecg.algorithms.voronoi.fortune.gui.core.FortunePainter;
 import de.topobyte.livecg.algorithms.voronoi.fortune.gui.swing.SwingFortune;
+import de.topobyte.livecg.core.export.SvgExporter;
 import de.topobyte.livecg.core.ui.filefilters.FileFilterSvg;
 
 public class ExportSvgAction extends SwingFortuneAction
@@ -45,8 +46,11 @@ public class ExportSvgAction extends SwingFortuneAction
 		Config config = swingFortune.getConfig();
 		Dimension dimension = swingFortune.getCanvasSize();
 
+		FortunePainter algorithmPainter = new FortunePainter(algorithm, config,
+				null);
+
 		try {
-			SvgExporter.exportSVG(file, algorithm, config, dimension.width,
+			SvgExporter.exportSVG(file, algorithmPainter, dimension.width,
 					dimension.height);
 		} catch (IOException ex) {
 			System.out.println("unable to export image (IOException): "

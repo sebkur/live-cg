@@ -51,4 +51,10 @@ public abstract class BasicAlgorithmPainter implements AlgorithmPainter
 	{
 		this.height = height;
 	}
+
+	@Override
+	public void setPainter(Painter painter)
+	{
+		this.painter = painter;
+	}
 }

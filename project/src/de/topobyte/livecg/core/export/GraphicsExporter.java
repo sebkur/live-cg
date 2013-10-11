@@ -1,4 +1,4 @@
-package de.topobyte.livecg.algorithms.voronoi.fortune.export;
+package de.topobyte.livecg.core.export;
 
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
@@ -8,15 +8,13 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import de.topobyte.livecg.algorithms.voronoi.fortune.Algorithm;
-import de.topobyte.livecg.algorithms.voronoi.fortune.gui.core.FortunePainter;
-import de.topobyte.livecg.algorithms.voronoi.fortune.gui.core.Config;
+import de.topobyte.livecg.core.painting.AlgorithmPainter;
 import de.topobyte.livecg.core.painting.AwtPainter;
 
 public class GraphicsExporter
 {
 
-	public static void exportPNG(File file, Algorithm algorithm, Config config,
+	public static void exportPNG(File file, AlgorithmPainter algorithmPainter,
 			int width, int height) throws IOException
 	{
 		BufferedImage image = new BufferedImage(width, height,
@@ -28,9 +26,7 @@ public class GraphicsExporter
 
 		AwtPainter painter = new AwtPainter(graphics);
 
-		FortunePainter algorithmPainter = new FortunePainter(algorithm,
-				config, painter);
-
+		algorithmPainter.setPainter(painter);
 		algorithmPainter.setWidth(width);
 		algorithmPainter.setHeight(height);
 		algorithmPainter.paint();

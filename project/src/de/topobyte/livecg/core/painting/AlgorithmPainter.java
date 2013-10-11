@@ -27,6 +27,9 @@ public interface AlgorithmPainter
 	public int getHeight();
 
 	public void setHeight(int height);
-	
+
+	public void setPainter(Painter painter);
+
 	public void paint();
+
 }

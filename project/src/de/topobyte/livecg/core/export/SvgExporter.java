@@ -1,4 +1,4 @@
-package de.topobyte.livecg.algorithms.voronoi.fortune.export;
+package de.topobyte.livecg.core.export;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -16,15 +16,13 @@ import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import de.topobyte.livecg.algorithms.voronoi.fortune.Algorithm;
-import de.topobyte.livecg.algorithms.voronoi.fortune.gui.core.FortunePainter;
-import de.topobyte.livecg.algorithms.voronoi.fortune.gui.core.Config;
+import de.topobyte.livecg.core.painting.AlgorithmPainter;
 import de.topobyte.livecg.core.painting.SvgPainter;
 
 public class SvgExporter
 {
 
-	public static void exportSVG(File file, Algorithm algorithm, Config config,
+	public static void exportSVG(File file, AlgorithmPainter algorithmPainter,
 			int width, int height) throws TransformerException, IOException
 	{
 		DOMImplementation impl = SVGDOMImplementation.getDOMImplementation();
@@ -38,9 +36,7 @@ public class SvgExporter
 
 		SvgPainter painter = new SvgPainter(doc, svgRoot);
 
-		FortunePainter algorithmPainter = new FortunePainter(algorithm,
-				config, painter);
-
+		algorithmPainter.setPainter(painter);
 		algorithmPainter.setWidth(width);
 		algorithmPainter.setHeight(height);
 		algorithmPainter.paint();

@@ -33,11 +33,6 @@ public class FortunePainter extends BasicAlgorithmPainter
 		this.config = config;
 	}
 
-	public void setPainter(Painter painter)
-	{
-		this.painter = painter;
-	}
-
 	private int colorBackground = 0xffffff;
 	private int colorSweepline = 0xff0000;
 
