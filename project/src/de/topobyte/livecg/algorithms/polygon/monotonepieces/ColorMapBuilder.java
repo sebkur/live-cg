@@ -41,7 +41,7 @@ public class ColorMapBuilder
 		float s = 90, l = 50;
 
 		Polygon p0 = graph.getNodes().iterator().next();
-		go(graph, p0, hues);
+		traverse(graph, p0, hues);
 
 		for (Polygon p : graph.getNodes()) {
 			float h = hues.get(p);
@@ -53,7 +53,7 @@ public class ColorMapBuilder
 		return map;
 	}
 
-	private static <T> void go(Graph<Polygon, T> graph, Polygon p,
+	private static <T> void traverse(Graph<Polygon, T> graph, Polygon p,
 			Map<Polygon, Float> hues)
 	{
 		// Build list of neighbors' hue values
@@ -72,7 +72,7 @@ public class ColorMapBuilder
 		for (Edge<Polygon, T> edge : edges) {
 			Polygon neighbor = edge.getTarget();
 			if (!hues.containsKey(neighbor)) {
-				go(graph, neighbor, hues);
+				traverse(graph, neighbor, hues);
 			}
 		}
 	}
