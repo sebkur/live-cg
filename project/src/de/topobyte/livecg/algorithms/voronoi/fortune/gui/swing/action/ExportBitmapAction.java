@@ -10,8 +10,8 @@ import javax.swing.JFileChooser;
 import de.topobyte.livecg.algorithms.voronoi.fortune.Algorithm;
 import de.topobyte.livecg.algorithms.voronoi.fortune.export.GraphicsExporter;
 import de.topobyte.livecg.algorithms.voronoi.fortune.gui.core.Config;
-import de.topobyte.livecg.algorithms.voronoi.fortune.gui.swing.FileFilterBitmap;
 import de.topobyte.livecg.algorithms.voronoi.fortune.gui.swing.SwingFortune;
+import de.topobyte.livecg.core.ui.filefilters.FileFilterBitmap;
 
 public class ExportBitmapAction extends SwingFortuneAction
 {

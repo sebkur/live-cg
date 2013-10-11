@@ -11,8 +11,8 @@ import javax.xml.transform.TransformerException;
 import de.topobyte.livecg.algorithms.voronoi.fortune.Algorithm;
 import de.topobyte.livecg.algorithms.voronoi.fortune.export.SvgExporter;
 import de.topobyte.livecg.algorithms.voronoi.fortune.gui.core.Config;
-import de.topobyte.livecg.algorithms.voronoi.fortune.gui.swing.FileFilterSvg;
 import de.topobyte.livecg.algorithms.voronoi.fortune.gui.swing.SwingFortune;
+import de.topobyte.livecg.core.ui.filefilters.FileFilterSvg;
 
 public class ExportSvgAction extends SwingFortuneAction
 {
