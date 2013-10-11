@@ -4,7 +4,7 @@ import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.Icon;
 
-import de.topobyte.livecg.algorithms.voronoi.fortune.gui.swing.ImageLoader;
+import de.topobyte.livecg.util.ImageLoader;
 
 public abstract class BaseAction extends AbstractAction
 {

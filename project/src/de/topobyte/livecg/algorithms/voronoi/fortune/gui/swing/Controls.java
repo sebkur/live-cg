@@ -11,6 +11,7 @@ import javax.swing.Icon;
 import javax.swing.JButton;
 
 import de.topobyte.livecg.algorithms.voronoi.fortune.Algorithm;
+import de.topobyte.livecg.util.ImageLoader;
 
 public class Controls extends Panel implements ActionListener
 {

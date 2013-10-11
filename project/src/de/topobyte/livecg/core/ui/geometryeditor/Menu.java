@@ -26,7 +26,6 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.KeyStroke;
 
-import de.topobyte.livecg.algorithms.voronoi.fortune.gui.swing.ImageLoader;
 import de.topobyte.livecg.core.ui.geometryeditor.action.MouseAction;
 import de.topobyte.livecg.core.ui.geometryeditor.action.NewAction;
 import de.topobyte.livecg.core.ui.geometryeditor.action.OpenAction;
@@ -51,6 +50,7 @@ import de.topobyte.livecg.core.ui.geometryeditor.presets.PresetMenu;
 import de.topobyte.livecg.core.ui.misc.AboutAction;
 import de.topobyte.livecg.core.ui.misc.ExitAction;
 import de.topobyte.livecg.core.ui.misc.LicenseAction;
+import de.topobyte.livecg.util.ImageLoader;
 
 public class Menu extends JMenuBar
 {
