@@ -26,7 +26,6 @@ import javax.swing.JPanel;
 
 import org.apache.log4j.BasicConfigurator;
 
-import de.topobyte.frechet.misc.Menu;
 import de.topobyte.livecg.geometry.geom.Chain;
 import de.topobyte.livecg.geometry.geom.Coordinate;
 
@@ -49,9 +48,6 @@ public class RunDualLineEditorDistanceTerrain
 		frame.setTitle("Line Editor. red - start, blue - end");
 
 		int size = 200;
-
-		Menu menu = new Menu();
-		frame.setJMenuBar(menu);
 
 		Chain line1 = new Chain();
 		Chain line2 = new Chain();
