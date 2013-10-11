@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.topobyte.livecg.algorithms.frechet.lineview;
+package de.topobyte.livecg.algorithms.frechet.ui.lineview;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
