@@ -36,6 +36,8 @@ public class DistanceTerrain extends JPanel
 
 	private static final long serialVersionUID = -336337844015240678L;
 
+	private Color colorCellBoundaries = new Color(0x000000);
+
 	private final Chain line1;
 	private final Chain line2;
 
@@ -70,6 +72,8 @@ public class DistanceTerrain extends JPanel
 
 		int w = width / nSegmentsP;
 		int h = height / nSegmentsQ;
+		int usedWidth = w * nSegmentsP;
+		int usedHeight = h * nSegmentsQ;
 
 		DistanceTerrainPainter painter = new DistanceTerrainPainter(true);
 
@@ -97,14 +101,14 @@ public class DistanceTerrain extends JPanel
 		g.setClip(clip);
 
 		// Draw grid
-		g.setColor(Color.BLACK);
+		g.setColor(colorCellBoundaries);
 		for (int x = 0; x <= nSegmentsP; x++) {
 			int lx = x * w;
-			g.drawLine(lx, 0, lx, height);
+			g.drawLine(lx, 0, lx, usedHeight);
 		}
 		for (int y = 0; y <= nSegmentsQ; y++) {
 			int ly = y * h;
-			g.drawLine(0, ly, width, ly);
+			g.drawLine(0, ly, usedWidth, ly);
 		}
 	}
 }

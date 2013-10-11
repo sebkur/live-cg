@@ -79,6 +79,8 @@ public class FrechetDiagram extends JPanel implements EpsilonSettable
 
 		int w = width / nSegmentsP;
 		int h = height / nSegmentsQ;
+		int usedWidth = w * nSegmentsP;
+		int usedHeight = h * nSegmentsQ;
 
 		ReachableSpace reachableSpace = new ReachableSpace(line1, line2,
 				epsilon);
@@ -116,11 +118,11 @@ public class FrechetDiagram extends JPanel implements EpsilonSettable
 			g.setColor(colorCellBoundaries);
 			for (int x = 0; x <= nSegmentsP; x++) {
 				int lx = x * w;
-				g.drawLine(lx, 0, lx, height);
+				g.drawLine(lx, 0, lx, usedHeight);
 			}
 			for (int y = 0; y <= nSegmentsQ; y++) {
 				int ly = y * h;
-				g.drawLine(0, ly, width, ly);
+				g.drawLine(0, ly, usedWidth, ly);
 			}
 		}
 	}
