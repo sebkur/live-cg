@@ -20,8 +20,8 @@ package de.topobyte.livecg.core.geometry.geom;
 
 public class Coordinate
 {
-	final double x;
-	final double y;
+	double x;
+	double y;
 
 	public Coordinate(double x, double y)
 	{
@@ -45,6 +45,16 @@ public class Coordinate
 		return y;
 	}
 
+	public void setX(double x)
+	{
+		this.x = x;
+	}
+
+	public void setY(double y)
+	{
+		this.y = y;
+	}
+
 	public com.vividsolutions.jts.geom.Coordinate createCoordinate()
 	{
 		return new com.vividsolutions.jts.geom.Coordinate(x, y);
@@ -55,5 +65,30 @@ public class Coordinate
 		double a = x - c.x;
 		double b = y - c.y;
 		return Math.sqrt(a * a + b * b);
+	}
+
+	@Override
+	public String toString()
+	{
+		return x + ", " + y;
+	}
+
+	@Override
+	public int hashCode()
+	{
+		long bitsX = Double.doubleToLongBits(x);
+		long bitsY = Double.doubleToLongBits(x);
+		long bits = bitsX + bitsY;
+		return (int) (bits ^ (bits >>> 32));
+	}
+
+	@Override
+	public boolean equals(Object other)
+	{
+		if (!(other instanceof Coordinate)) {
+			return false;
+		}
+		Coordinate o = (Coordinate) other;
+		return o.getX() == getX() && o.getY() == getY();
 	}
 }

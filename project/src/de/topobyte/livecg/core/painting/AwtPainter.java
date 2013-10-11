@@ -6,8 +6,8 @@ import java.awt.Shape;
 import java.awt.geom.Area;
 import java.util.List;
 
-import de.topobyte.livecg.algorithms.voronoi.fortune.gui.core.Coordinate;
 import de.topobyte.livecg.core.geometry.geom.AwtHelper;
+import de.topobyte.livecg.core.geometry.geom.Coordinate;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
 
 public class AwtPainter implements Painter

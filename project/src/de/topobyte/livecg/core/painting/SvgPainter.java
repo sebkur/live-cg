@@ -8,7 +8,7 @@ import org.apache.batik.dom.svg.SVGDOMImplementation;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import de.topobyte.livecg.algorithms.voronoi.fortune.gui.core.Coordinate;
+import de.topobyte.livecg.core.geometry.geom.Coordinate;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
 
 public class SvgPainter implements Painter

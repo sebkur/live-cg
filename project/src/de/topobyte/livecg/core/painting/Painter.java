@@ -3,7 +3,7 @@ package de.topobyte.livecg.core.painting;
 import java.awt.Shape;
 import java.util.List;
 
-import de.topobyte.livecg.algorithms.voronoi.fortune.gui.core.Coordinate;
+import de.topobyte.livecg.core.geometry.geom.Coordinate;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
 
 public interface Painter
