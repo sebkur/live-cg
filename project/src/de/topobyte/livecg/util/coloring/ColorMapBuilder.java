@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.topobyte.livecg.algorithms.polygon.monotonepieces;
+package de.topobyte.livecg.util.coloring;
 
 import java.awt.Color;
 import java.util.ArrayList;
@@ -26,51 +26,50 @@ import java.util.Map;
 import java.util.Set;
 
 import de.topobyte.color.util.HSLColor;
-import de.topobyte.livecg.core.geometry.geom.Polygon;
 import de.topobyte.livecg.util.graph.Edge;
 import de.topobyte.livecg.util.graph.Graph;
 
 public class ColorMapBuilder
 {
 
-	public static <T> Map<Polygon, Color> buildColorMap(Graph<Polygon, T> graph)
+	public static <N, E> Map<N, Color> buildColorMap(Graph<N, E> graph)
 	{
-		Map<Polygon, Float> hues = new HashMap<Polygon, Float>();
-		Map<Polygon, Color> map = new HashMap<Polygon, Color>();
+		Map<N, Float> hues = new HashMap<N, Float>();
+		Map<N, Color> map = new HashMap<N, Color>();
 
 		float s = 90, l = 50;
 
-		Polygon p0 = graph.getNodes().iterator().next();
-		traverse(graph, p0, hues);
+		N n0 = graph.getNodes().iterator().next();
+		traverse(graph, n0, hues);
 
-		for (Polygon p : graph.getNodes()) {
-			float h = hues.get(p);
+		for (N n : graph.getNodes()) {
+			float h = hues.get(n);
 			HSLColor hsl = new HSLColor(h, s, l);
 			Color color = hsl.getRGB();
-			map.put(p, color);
+			map.put(n, color);
 		}
 
 		return map;
 	}
 
-	private static <T> void traverse(Graph<Polygon, T> graph, Polygon p,
-			Map<Polygon, Float> hues)
+	private static <N, E> void traverse(Graph<N, E> graph, N n,
+			Map<N, Float> hues)
 	{
 		// Build list of neighbors' hue values
 		List<Float> neighborHues = new ArrayList<Float>();
-		Set<Edge<Polygon, T>> edges = graph.getEdgesOut(p);
-		for (Edge<Polygon, T> edge : edges) {
-			Polygon neighbor = edge.getTarget();
+		Set<Edge<N, E>> edges = graph.getEdgesOut(n);
+		for (Edge<N, E> edge : edges) {
+			N neighbor = edge.getTarget();
 			if (hues.containsKey(neighbor)) {
 				float hue = hues.get(neighbor);
 				neighborHues.add(hue);
 			}
 		}
 		// Pick the best color based on the neighbors
-		hues.put(p, pickBest(neighborHues));
+		hues.put(n, pickBest(neighborHues));
 		// Recurse to neighbors
-		for (Edge<Polygon, T> edge : edges) {
-			Polygon neighbor = edge.getTarget();
+		for (Edge<N, E> edge : edges) {
+			N neighbor = edge.getTarget();
 			if (!hues.containsKey(neighbor)) {
 				traverse(graph, neighbor, hues);
 			}

@@ -36,6 +36,7 @@ import de.topobyte.livecg.core.geometry.geom.IntRing;
 import de.topobyte.livecg.core.geometry.geom.Node;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
 import de.topobyte.livecg.util.SwingUtil;
+import de.topobyte.livecg.util.coloring.ColorMapBuilder;
 import de.topobyte.livecg.util.graph.Graph;
 
 public class MonotonePiecesPanel extends JPanel implements PolygonPanel
