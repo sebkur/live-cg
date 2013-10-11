@@ -35,6 +35,7 @@ import com.vividsolutions.jts.io.ParseException;
 import com.vividsolutions.jts.io.WKTReader;
 
 import de.topobyte.livecg.core.geometry.geom.Chain;
+import de.topobyte.livecg.core.ui.action.BasicAction;
 import de.topobyte.livecg.core.ui.geometryeditor.GeometryEditPane;
 import de.topobyte.livecg.util.SwingUtil;
 

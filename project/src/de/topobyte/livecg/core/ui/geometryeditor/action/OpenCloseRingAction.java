@@ -22,6 +22,7 @@ import java.util.List;
 
 import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.core.geometry.geom.CloseabilityException;
+import de.topobyte.livecg.core.ui.action.BasicAction;
 import de.topobyte.livecg.core.ui.geometryeditor.GeometryEditPane;
 
 public class OpenCloseRingAction extends BasicAction

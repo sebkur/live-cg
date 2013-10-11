@@ -22,9 +22,9 @@ import java.util.List;
 
 import de.topobyte.livecg.algorithms.frechet.distanceterrain.DistanceTerrainDialog;
 import de.topobyte.livecg.core.geometry.geom.Chain;
+import de.topobyte.livecg.core.ui.action.BasicAction;
 import de.topobyte.livecg.core.ui.geometryeditor.Content;
 import de.topobyte.livecg.core.ui.geometryeditor.GeometryEditPane;
-import de.topobyte.livecg.core.ui.geometryeditor.action.BasicAction;
 
 public class DistanceTerrainChainsAction extends BasicAction
 {

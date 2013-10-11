@@ -24,8 +24,8 @@ import java.util.List;
 import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.core.geometry.geom.Coordinate;
 import de.topobyte.livecg.core.geometry.geom.Node;
+import de.topobyte.livecg.core.ui.action.BasicAction;
 import de.topobyte.livecg.core.ui.geometryeditor.GeometryEditPane;
-import de.topobyte.livecg.core.ui.geometryeditor.action.BasicAction;
 
 public class ToMultipleNodesAction extends BasicAction
 {

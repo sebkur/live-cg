@@ -20,8 +20,8 @@ package de.topobyte.livecg.core.ui.geometryeditor.object.multiple.action;
 import java.awt.event.ActionEvent;
 
 import de.topobyte.livecg.core.geometry.geom.Chain;
+import de.topobyte.livecg.core.ui.action.BasicAction;
 import de.topobyte.livecg.core.ui.geometryeditor.GeometryEditPane;
-import de.topobyte.livecg.core.ui.geometryeditor.action.BasicAction;
 import de.topobyte.livecg.util.ListUtil;
 
 public class FilterAction extends BasicAction

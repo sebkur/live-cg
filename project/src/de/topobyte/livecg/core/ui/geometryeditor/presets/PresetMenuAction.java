@@ -24,9 +24,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.topobyte.livecg.core.geometry.io.ContentReader;
+import de.topobyte.livecg.core.ui.action.BasicAction;
 import de.topobyte.livecg.core.ui.geometryeditor.Content;
 import de.topobyte.livecg.core.ui.geometryeditor.GeometryEditPane;
-import de.topobyte.livecg.core.ui.geometryeditor.action.BasicAction;
 import de.topobyte.livecg.util.resources.ResourceFile;
 
 public class PresetMenuAction extends BasicAction

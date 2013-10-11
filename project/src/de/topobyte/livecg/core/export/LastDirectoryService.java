@@ -15,31 +15,29 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.topobyte.livecg.core.ui.geometryeditor.action;
+package de.topobyte.livecg.core.export;
 
-import java.awt.event.ActionEvent;
+import java.io.File;
 
-import de.topobyte.livecg.core.ui.action.BasicAction;
-import de.topobyte.livecg.core.ui.geometryeditor.LiveCG;
-
-public class ShowObjectDialogAction extends BasicAction
+public class LastDirectoryService
 {
+	private static LastDirectoryService service = new LastDirectoryService();
 
-	private static final long serialVersionUID = -2428195809704521270L;
-
-	private LiveCG liveCG;
-
-	public ShowObjectDialogAction(LiveCG liveCG)
+	public static LastDirectoryService getInstance()
 	{
-		super("Object dialog", "Show the object dialog",
-				"res/images/24x24/empty.png");
-		this.liveCG = liveCG;
+		return service;
 	}
 
-	@Override
-	public void actionPerformed(ActionEvent event)
+	private File lastDirectory = null;
+
+	public File getLastActiveDirectory()
 	{
-		liveCG.showObjectDialog();
+		return lastDirectory;
+	}
+
+	public void setLastActiveDirectory(File lastDirectory)
+	{
+		this.lastDirectory = lastDirectory;
 	}
 
 }

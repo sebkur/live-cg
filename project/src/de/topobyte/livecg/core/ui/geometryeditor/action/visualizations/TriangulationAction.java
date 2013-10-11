@@ -22,9 +22,9 @@ import java.util.List;
 
 import de.topobyte.livecg.algorithms.polygon.monotonepieces.MonotonePiecesTriangulationDialog;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
+import de.topobyte.livecg.core.ui.action.BasicAction;
 import de.topobyte.livecg.core.ui.geometryeditor.Content;
 import de.topobyte.livecg.core.ui.geometryeditor.GeometryEditPane;
-import de.topobyte.livecg.core.ui.geometryeditor.action.BasicAction;
 
 public class TriangulationAction extends BasicAction
 {

@@ -15,31 +15,13 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.topobyte.livecg.core.ui.geometryeditor.action;
+package de.topobyte.livecg.core.export;
 
-import java.awt.event.ActionEvent;
-
-import de.topobyte.livecg.core.ui.action.BasicAction;
-import de.topobyte.livecg.core.ui.geometryeditor.LiveCG;
-
-public class ShowObjectDialogAction extends BasicAction
+public interface SizeProvider
 {
 
-	private static final long serialVersionUID = -2428195809704521270L;
-
-	private LiveCG liveCG;
-
-	public ShowObjectDialogAction(LiveCG liveCG)
-	{
-		super("Object dialog", "Show the object dialog",
-				"res/images/24x24/empty.png");
-		this.liveCG = liveCG;
-	}
-
-	@Override
-	public void actionPerformed(ActionEvent event)
-	{
-		liveCG.showObjectDialog();
-	}
-
+	public int getWidth();
+	
+	public int getHeight();
+	
 }

@@ -20,7 +20,7 @@ package de.topobyte.livecg.core.ui.geometryeditor.action.visualizations;
 import java.awt.event.ActionEvent;
 
 import de.topobyte.livecg.algorithms.frechet.ui.RunDualLineEditorDistanceTerrain;
-import de.topobyte.livecg.core.ui.geometryeditor.action.BasicAction;
+import de.topobyte.livecg.core.ui.action.BasicAction;
 
 public class DistanceTerrainLinesAction extends BasicAction
 {

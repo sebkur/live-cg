@@ -23,8 +23,8 @@ import java.awt.event.ActionEvent;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 
+import de.topobyte.livecg.core.ui.action.BasicAction;
 import de.topobyte.livecg.core.ui.geometryeditor.GeometryEditPane;
-import de.topobyte.livecg.core.ui.geometryeditor.action.BasicAction;
 import de.topobyte.livecg.core.ui.geometryeditor.object.multiple.action.FilterAction.ObjectType;
 
 public class ShowFilterMenuAction extends BasicAction

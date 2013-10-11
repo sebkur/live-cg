@@ -25,6 +25,7 @@ import javax.swing.Action;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.topobyte.livecg.core.ui.action.BasicAction;
 import de.topobyte.livecg.core.ui.geometryeditor.mousemode.MouseMode;
 import de.topobyte.livecg.core.ui.geometryeditor.mousemode.MouseModeListener;
 import de.topobyte.livecg.core.ui.geometryeditor.mousemode.MouseModeProvider;

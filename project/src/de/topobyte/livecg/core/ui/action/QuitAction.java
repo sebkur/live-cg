@@ -1,8 +1,9 @@
-package de.topobyte.livecg.algorithms.voronoi.fortune.gui.swing.action;
+package de.topobyte.livecg.core.ui.action;
 
 import java.awt.event.ActionEvent;
 
-public class QuitAction extends BaseAction
+
+public class QuitAction extends BasicAction
 {
 
 	private static final long serialVersionUID = 1L;

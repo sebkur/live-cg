@@ -18,22 +18,19 @@ import javax.swing.JPanel;
 
 import de.topobyte.livecg.algorithms.voronoi.fortune.Algorithm;
 import de.topobyte.livecg.algorithms.voronoi.fortune.gui.core.Config;
-import de.topobyte.livecg.algorithms.voronoi.fortune.gui.swing.action.ExportBitmapAction;
-import de.topobyte.livecg.algorithms.voronoi.fortune.gui.swing.action.ExportSvgAction;
+import de.topobyte.livecg.algorithms.voronoi.fortune.gui.core.FortunePainter;
 import de.topobyte.livecg.algorithms.voronoi.fortune.gui.swing.action.OpenAction;
-import de.topobyte.livecg.algorithms.voronoi.fortune.gui.swing.action.QuitAction;
 import de.topobyte.livecg.algorithms.voronoi.fortune.gui.swing.action.SaveAction;
 import de.topobyte.livecg.algorithms.voronoi.fortune.gui.swing.eventqueue.EventQueueDialog;
+import de.topobyte.livecg.core.export.ExportBitmapAction;
+import de.topobyte.livecg.core.export.ExportSvgAction;
+import de.topobyte.livecg.core.painting.AwtPainter;
+import de.topobyte.livecg.core.ui.action.QuitAction;
 
 public class SwingFortune extends JFrame implements Runnable
 {
 
 	private static final long serialVersionUID = 3917389635770683885L;
-
-	public static void main(String[] args)
-	{
-		new SwingFortune();
-	}
 
 	private Algorithm algorithm;
 	private Canvas canvas;
@@ -61,32 +58,6 @@ public class SwingFortune extends JFrame implements Runnable
 
 	public void init()
 	{
-		/*
-		 * Menus
-		 */
-
-		menu = new JMenuBar();
-
-		JMenu menuFile = new JMenu("File");
-		menu.add(menuFile);
-		JMenuItem open = new JMenuItem(new OpenAction(this));
-		menuFile.add(open);
-		JMenuItem save = new JMenuItem(new SaveAction(this));
-		menuFile.add(save);
-		JMenuItem exportBitmap = new JMenuItem(new ExportBitmapAction(this));
-		menuFile.add(exportBitmap);
-		JMenuItem exportSvg = new JMenuItem(new ExportSvgAction(this));
-		menuFile.add(exportSvg);
-		JMenuItem quit = new JMenuItem(new QuitAction());
-		menuFile.add(quit);
-
-		JMenu menuHelp = new JMenu("Help");
-		menu.add(menuHelp);
-		JMenuItem about = new JMenuItem("About");
-		menuHelp.add(about);
-
-		setJMenuBar(menu);
-
 		/*
 		 * Components, layout
 		 */
@@ -134,6 +105,37 @@ public class SwingFortune extends JFrame implements Runnable
 
 		setSize(800, 600);
 		setVisible(true);
+
+		/*
+		 * Menus
+		 */
+
+		FortunePainter painter = new FortunePainter(algorithm, config,
+				new AwtPainter(null));
+
+		menu = new JMenuBar();
+
+		JMenu menuFile = new JMenu("File");
+		menu.add(menuFile);
+		JMenuItem open = new JMenuItem(new OpenAction(this));
+		menuFile.add(open);
+		JMenuItem save = new JMenuItem(new SaveAction(this));
+		menuFile.add(save);
+		JMenuItem exportBitmap = new JMenuItem(new ExportBitmapAction(this,
+				painter, canvas));
+		menuFile.add(exportBitmap);
+		JMenuItem exportSvg = new JMenuItem(new ExportSvgAction(this, painter,
+				canvas));
+		menuFile.add(exportSvg);
+		JMenuItem quit = new JMenuItem(new QuitAction());
+		menuFile.add(quit);
+
+		JMenu menuHelp = new JMenu("Help");
+		menu.add(menuHelp);
+		JMenuItem about = new JMenuItem("About");
+		menuHelp.add(about);
+
+		setJMenuBar(menu);
 
 		/*
 		 * EventQueue dialog
