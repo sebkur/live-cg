@@ -23,8 +23,6 @@ import java.util.List;
 
 import javax.swing.JFrame;
 
-import de.topobyte.fortune.sweep.geometry.Point;
-import de.topobyte.fortune.sweep.gui.swing.SwingFortune;
 import de.topobyte.livecg.geometry.geom.Chain;
 import de.topobyte.livecg.geometry.geom.Coordinate;
 import de.topobyte.livecg.geometry.geom.Node;
@@ -32,6 +30,8 @@ import de.topobyte.livecg.geometry.geom.Polygon;
 import de.topobyte.livecg.ui.geometryeditor.Content;
 import de.topobyte.livecg.ui.geometryeditor.GeometryEditPane;
 import de.topobyte.livecg.ui.geometryeditor.action.BasicAction;
+import de.topobyte.voronoi.fortune.geometry.Point;
+import de.topobyte.voronoi.fortune.gui.swing.SwingFortune;
 
 public class FortunesSweepAction extends BasicAction
 {
