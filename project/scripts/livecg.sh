@@ -2,4 +2,4 @@
 
 DIR=`dirname $0`
 
-$DIR/livecg de.topobyte.livecg.ui.geometryeditor.LiveCG "$@"
+$DIR/livecg de.topobyte.livecg.core.ui.geometryeditor.LiveCG "$@"
