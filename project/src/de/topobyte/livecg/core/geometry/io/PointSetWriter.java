@@ -1,10 +1,13 @@
-package de.topobyte.livecg.algorithms.voronoi.pointset;
+package de.topobyte.livecg.core.geometry.io;
 
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.text.NumberFormat;
 import java.util.Locale;
+
+import de.topobyte.livecg.core.geometry.pointset.Point;
+import de.topobyte.livecg.core.geometry.pointset.PointSet;
 
 public class PointSetWriter
 {

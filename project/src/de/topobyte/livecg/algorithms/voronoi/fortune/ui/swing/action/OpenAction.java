@@ -14,9 +14,9 @@ import javax.swing.JFileChooser;
 import de.topobyte.livecg.algorithms.voronoi.fortune.geometry.Point;
 import de.topobyte.livecg.algorithms.voronoi.fortune.ui.swing.FileFilterPointSet;
 import de.topobyte.livecg.algorithms.voronoi.fortune.ui.swing.SwingFortune;
-import de.topobyte.livecg.algorithms.voronoi.pointset.ParseException;
-import de.topobyte.livecg.algorithms.voronoi.pointset.PointSet;
-import de.topobyte.livecg.algorithms.voronoi.pointset.PointSetReader;
+import de.topobyte.livecg.core.geometry.io.PointSetReader;
+import de.topobyte.livecg.core.geometry.pointset.PointSet;
+import de.topobyte.livecg.util.exception.ParseException;
 
 public class OpenAction extends SwingFortuneAction
 {
@@ -57,7 +57,7 @@ public class OpenAction extends SwingFortuneAction
 				// ignore
 			}
 			List<Point> sites = new ArrayList<Point>();
-			for (de.topobyte.livecg.algorithms.voronoi.pointset.Point point : pointSet
+			for (de.topobyte.livecg.core.geometry.pointset.Point point : pointSet
 					.getPoints()) {
 				sites.add(new Point(point.getX(), point.getY()));
 			}

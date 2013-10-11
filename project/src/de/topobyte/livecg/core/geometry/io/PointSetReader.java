@@ -1,4 +1,4 @@
-package de.topobyte.livecg.algorithms.voronoi.pointset;
+package de.topobyte.livecg.core.geometry.io;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -6,6 +6,10 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.text.NumberFormat;
 import java.util.Locale;
+
+import de.topobyte.livecg.core.geometry.pointset.Point;
+import de.topobyte.livecg.core.geometry.pointset.PointSet;
+import de.topobyte.livecg.util.exception.ParseException;
 
 public class PointSetReader
 {

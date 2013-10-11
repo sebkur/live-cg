@@ -1,4 +1,4 @@
-package de.topobyte.livecg.algorithms.voronoi.pointset;
+package de.topobyte.livecg.core.geometry.pointset;
 
 import java.util.ArrayList;
 import java.util.Collections;

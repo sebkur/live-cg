@@ -1,4 +1,4 @@
-package de.topobyte.livecg.algorithms.voronoi.pointset;
+package de.topobyte.livecg.util.exception;
 
 public class ParseException extends Exception
 {
