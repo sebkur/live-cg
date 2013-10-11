@@ -14,6 +14,7 @@ import de.topobyte.livecg.algorithms.voronoi.fortune.AlgorithmWatcher;
 import de.topobyte.livecg.algorithms.voronoi.fortune.geometry.Point;
 import de.topobyte.livecg.algorithms.voronoi.fortune.gui.core.AlgorithmPainter;
 import de.topobyte.livecg.algorithms.voronoi.fortune.gui.core.Config;
+import de.topobyte.livecg.core.painting.AwtPainter;
 
 public class Canvas extends JPanel implements AlgorithmWatcher
 {
@@ -58,7 +59,7 @@ public class Canvas extends JPanel implements AlgorithmWatcher
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 				RenderingHints.VALUE_ANTIALIAS_ON);
 
-		painter.setGraphics(g);
+		painter.setGraphics(g2d);
 		algorithmPainter.setWidth(getWidth());
 		algorithmPainter.setHeight(getHeight());
 		algorithmPainter.paint();

@@ -1,6 +1,10 @@
-package de.topobyte.livecg.algorithms.voronoi.fortune.gui.core;
+package de.topobyte.livecg.core.painting;
 
+import java.awt.Shape;
 import java.util.List;
+
+import de.topobyte.livecg.algorithms.voronoi.fortune.gui.core.Coordinate;
+import de.topobyte.livecg.core.geometry.geom.Polygon;
 
 public interface Painter
 {
@@ -19,5 +23,15 @@ public interface Painter
 	public void drawCircle(double x, double y, double radius);
 
 	public void fillCircle(double x, double y, double radius);
+
+	public void drawPolygon(Polygon polygon);
+
+	public void fillPolygon(Polygon polygon);
+
+	public void draw(Shape shape);
+
+	public void fill(Shape shape);
+
+	public void drawString(String text, double x, double y);
 
 }

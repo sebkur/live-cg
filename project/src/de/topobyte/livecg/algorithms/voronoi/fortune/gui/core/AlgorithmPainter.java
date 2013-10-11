@@ -15,41 +15,21 @@ import de.topobyte.livecg.algorithms.voronoi.fortune.events.EventPoint;
 import de.topobyte.livecg.algorithms.voronoi.fortune.events.EventQueue;
 import de.topobyte.livecg.algorithms.voronoi.fortune.geometry.Edge;
 import de.topobyte.livecg.algorithms.voronoi.fortune.geometry.Point;
+import de.topobyte.livecg.core.painting.BasicAlgorithmPainter;
+import de.topobyte.livecg.core.painting.Color;
+import de.topobyte.livecg.core.painting.Painter;
 
-public class AlgorithmPainter
+public class AlgorithmPainter extends BasicAlgorithmPainter
 {
 
 	private Algorithm algorithm;
 	private Config config;
-	private Painter painter;
-
-	private int width, height;
 
 	public AlgorithmPainter(Algorithm algorithm, Config config, Painter painter)
 	{
+		super(painter);
 		this.algorithm = algorithm;
 		this.config = config;
-		this.painter = painter;
-	}
-
-	public int getWidth()
-	{
-		return width;
-	}
-
-	public void setWidth(int width)
-	{
-		this.width = width;
-	}
-
-	public int getHeight()
-	{
-		return height;
-	}
-
-	public void setHeight(int height)
-	{
-		this.height = height;
 	}
 
 	public void setPainter(Painter painter)

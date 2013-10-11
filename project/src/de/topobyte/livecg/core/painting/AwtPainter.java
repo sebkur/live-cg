@@ -1,23 +1,25 @@
-package de.topobyte.livecg.algorithms.voronoi.fortune.gui.swing;
+package de.topobyte.livecg.core.painting;
 
-import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Shape;
+import java.awt.geom.Area;
 import java.util.List;
 
-import de.topobyte.livecg.algorithms.voronoi.fortune.gui.core.Color;
 import de.topobyte.livecg.algorithms.voronoi.fortune.gui.core.Coordinate;
-import de.topobyte.livecg.algorithms.voronoi.fortune.gui.core.Painter;
+import de.topobyte.livecg.core.geometry.geom.AwtHelper;
+import de.topobyte.livecg.core.geometry.geom.Polygon;
 
 public class AwtPainter implements Painter
 {
 
-	private Graphics g;
+	private Graphics2D g;
 
-	public AwtPainter(Graphics g)
+	public AwtPainter(Graphics2D g)
 	{
 		this.g = g;
 	}
 
-	public void setGraphics(Graphics g)
+	public void setGraphics(Graphics2D g)
 	{
 		this.g = g;
 	}
@@ -88,6 +90,38 @@ public class AwtPainter implements Painter
 		int px = (int) Math.round(x - radius);
 		int py = (int) Math.round(y - radius);
 		g.fillOval(px, py, d, d);
+	}
+
+	@Override
+	public void drawPolygon(Polygon polygon)
+	{
+		Area area = AwtHelper.toShape(polygon);
+		g.draw(area);
+	}
+
+	@Override
+	public void fillPolygon(Polygon polygon)
+	{
+		Area area = AwtHelper.toShape(polygon);
+		g.fill(area);
+	}
+
+	@Override
+	public void draw(Shape shape)
+	{
+		g.draw(shape);
+	}
+
+	@Override
+	public void fill(Shape shape)
+	{
+		g.fill(shape);
+	}
+
+	@Override
+	public void drawString(String text, double x, double y)
+	{
+		g.drawString(text, (float) x, (float) y);
 	}
 
 }

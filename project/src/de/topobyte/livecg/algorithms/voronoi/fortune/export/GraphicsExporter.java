@@ -11,7 +11,7 @@ import javax.imageio.ImageIO;
 import de.topobyte.livecg.algorithms.voronoi.fortune.Algorithm;
 import de.topobyte.livecg.algorithms.voronoi.fortune.gui.core.AlgorithmPainter;
 import de.topobyte.livecg.algorithms.voronoi.fortune.gui.core.Config;
-import de.topobyte.livecg.algorithms.voronoi.fortune.gui.swing.AwtPainter;
+import de.topobyte.livecg.core.painting.AwtPainter;
 
 public class GraphicsExporter
 {

@@ -17,9 +17,9 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import de.topobyte.livecg.algorithms.voronoi.fortune.Algorithm;
-import de.topobyte.livecg.algorithms.voronoi.fortune.export.svg.SvgPainter;
 import de.topobyte.livecg.algorithms.voronoi.fortune.gui.core.AlgorithmPainter;
 import de.topobyte.livecg.algorithms.voronoi.fortune.gui.core.Config;
+import de.topobyte.livecg.core.painting.SvgPainter;
 
 public class SvgExporter
 {

@@ -1,5 +1,6 @@
-package de.topobyte.livecg.algorithms.voronoi.fortune.export.svg;
+package de.topobyte.livecg.core.painting;
 
+import java.awt.Shape;
 import java.util.List;
 import java.util.Locale;
 
@@ -7,9 +8,8 @@ import org.apache.batik.dom.svg.SVGDOMImplementation;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import de.topobyte.livecg.algorithms.voronoi.fortune.gui.core.Color;
 import de.topobyte.livecg.algorithms.voronoi.fortune.gui.core.Coordinate;
-import de.topobyte.livecg.algorithms.voronoi.fortune.gui.core.Painter;
+import de.topobyte.livecg.core.geometry.geom.Polygon;
 
 public class SvgPainter implements Painter
 {
@@ -138,6 +138,41 @@ public class SvgPainter implements Painter
 	private String getCurrentColor()
 	{
 		return String.format("#%06x", color.getRGB());
+	}
+
+	@Override
+	public void drawPolygon(Polygon polygon)
+	{
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void fillPolygon(Polygon polygon)
+	{
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void draw(Shape shape)
+	{
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void fill(Shape shape)
+	{
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void drawString(String text, double x, double y)
+	{
+		// TODO Auto-generated method stub
+
 	}
 
 }
