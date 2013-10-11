@@ -17,24 +17,15 @@
  */
 package de.topobyte.livecg.algorithms.polygon.monotonepieces;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.geom.Area;
-import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 import javax.swing.JPanel;
 
-import de.topobyte.livecg.core.geometry.geom.AwtHelper;
-import de.topobyte.livecg.core.geometry.geom.Chain;
-import de.topobyte.livecg.core.geometry.geom.Coordinate;
-import de.topobyte.livecg.core.geometry.geom.IntRing;
-import de.topobyte.livecg.core.geometry.geom.Node;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
+import de.topobyte.livecg.core.painting.AwtPainter;
 import de.topobyte.livecg.util.SwingUtil;
-import de.topobyte.livecg.util.graph.Edge;
 import de.topobyte.livecg.util.graph.Graph;
 
 public class TriangulationPanel extends JPanel implements PolygonPanel
@@ -42,21 +33,25 @@ public class TriangulationPanel extends JPanel implements PolygonPanel
 
 	private static final long serialVersionUID = 1265869392513220699L;
 
-	private Polygon polygon;
 	private TriangulationOperation triangulationOperation;
 	private List<Diagonal> diagonals;
-	private Graph<Polygon, Diagonal> graph;
 
 	private Config polygonConfig = new Config();
 
+	private AwtPainter painter;
+	private TriangulationPainter algorithmPainter;
+
 	public TriangulationPanel(Polygon polygon)
 	{
-		this.polygon = polygon;
 		triangulationOperation = new TriangulationOperation(polygon);
 		diagonals = triangulationOperation.getDiagonals();
 
 		SplitResult splitResult = DiagonalUtil.split(polygon, diagonals);
-		graph = splitResult.getGraph();
+		Graph<Polygon, Diagonal> graph = splitResult.getGraph();
+
+		painter = new AwtPainter(null);
+		algorithmPainter = new TriangulationPainter(painter, polygon,
+				diagonals, graph, polygonConfig);
 	}
 
 	@Override
@@ -65,72 +60,10 @@ public class TriangulationPanel extends JPanel implements PolygonPanel
 		Graphics2D g = (Graphics2D) graphics;
 		SwingUtil.useAntialiasing(g, true);
 
-		g.setColor(Color.WHITE);
-		g.fillRect(0, 0, getWidth(), getHeight());
-
-		Area shape = AwtHelper.toShape(polygon);
-		g.setColor(new Color(0x66ff0000, true));
-		g.fill(shape);
-
-		g.setColor(Color.BLACK);
-		Chain shell = polygon.getShell();
-		IntRing ring = new IntRing(shell.getNumberOfNodes());
-		for (int i = 0; i < shell.getNumberOfNodes(); i++) {
-			int j = ring.next().value();
-			Coordinate c1 = shell.getCoordinate(i);
-			Coordinate c2 = shell.getCoordinate(j);
-			g.drawLine((int) Math.round(c1.getX()),
-					(int) Math.round(c1.getY()), (int) Math.round(c2.getX()),
-					(int) Math.round(c2.getY()));
-		}
-
-		g.setColor(Color.BLUE);
-		for (Diagonal diagonal : diagonals) {
-			Coordinate c1 = diagonal.getA().getCoordinate();
-			Coordinate c2 = diagonal.getB().getCoordinate();
-			g.drawLine((int) Math.round(c1.getX()),
-					(int) Math.round(c1.getY()), (int) Math.round(c2.getX()),
-					(int) Math.round(c2.getY()));
-		}
-
-		g.setColor(Color.GREEN);
-		Collection<Polygon> nodes = graph.getNodes();
-		for (Polygon p : nodes) {
-			Coordinate cp = center(p);
-			Set<Edge<Polygon, Diagonal>> edges = graph.getEdgesOut(p);
-			for (Edge<Polygon, Diagonal> edge : edges) {
-				Polygon q = edge.getTarget();
-				Coordinate cq = center(q);
-				g.drawLine((int) Math.round(cp.getX()),
-						(int) Math.round(cp.getY()),
-						(int) Math.round(cq.getX()),
-						(int) Math.round(cq.getY()));
-			}
-		}
-
-		if (polygonConfig.isDrawNodeNumbers()) {
-			g.setColor(Color.BLACK);
-			for (int i = 0; i < shell.getNumberOfNodes(); i++) {
-				Node node = shell.getNode(i);
-				Coordinate c = node.getCoordinate();
-				g.drawString(String.format("%d", i + 1), (float) c.getX() + 10,
-						(float) c.getY());
-			}
-		}
-	}
-
-	private Coordinate center(Polygon polygon)
-	{
-		double x = 0, y = 0;
-		Chain shell = polygon.getShell();
-		for (int i = 0; i < shell.getNumberOfNodes(); i++) {
-			Coordinate c = shell.getNode(i).getCoordinate();
-			x += c.getX();
-			y += c.getY();
-		}
-		x /= shell.getNumberOfNodes();
-		y /= shell.getNumberOfNodes();
-		return new Coordinate(x, y);
+		painter.setGraphics(g);
+		algorithmPainter.setWidth(getWidth());
+		algorithmPainter.setHeight(getHeight());
+		algorithmPainter.paint();
 	}
 
 	@Override

@@ -20,7 +20,6 @@ package de.topobyte.livecg.algorithms.polygon.monotonepieces;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.RenderingHints;
 import java.util.List;
 import java.util.Map;
 
@@ -28,6 +27,7 @@ import javax.swing.JPanel;
 
 import de.topobyte.livecg.core.geometry.geom.Polygon;
 import de.topobyte.livecg.core.painting.AwtPainter;
+import de.topobyte.livecg.util.SwingUtil;
 import de.topobyte.livecg.util.coloring.ColorMapBuilder;
 import de.topobyte.livecg.util.graph.Graph;
 
@@ -71,8 +71,7 @@ public class MonotonePiecesPanel extends JPanel implements PolygonPanel
 	public void paint(Graphics graphics)
 	{
 		Graphics2D g = (Graphics2D) graphics;
-		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-				RenderingHints.VALUE_ANTIALIAS_ON);
+		SwingUtil.useAntialiasing(g, true);
 
 		painter.setGraphics(g);
 		algorithmPainter.setWidth(getWidth());
