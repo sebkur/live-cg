@@ -18,7 +18,7 @@
 
 package de.topobyte.frechet.distanceterrain;
 
-import de.topobyte.frechet.lineeditor.RunDualLineEditorDistanceTerrain;
+import de.topobyte.frechet.ui.RunDualLineEditorDistanceTerrain;
 
 public class TestDualLineEditor
 {

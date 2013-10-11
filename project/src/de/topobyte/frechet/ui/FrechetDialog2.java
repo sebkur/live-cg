@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.topobyte.frechet.freespace;
+package de.topobyte.frechet.ui;
 
 import java.awt.AWTEvent;
 import java.awt.BorderLayout;
@@ -35,8 +35,10 @@ import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.border.TitledBorder;
 
-import de.topobyte.frechet.freespace.lines.FrechetDiagram;
-import de.topobyte.frechet.lineeditor.EpsilonChangedListener;
+import de.topobyte.frechet.freespace.Config;
+import de.topobyte.frechet.freespace.ConfigChangedListener;
+import de.topobyte.frechet.freespace.Settings;
+import de.topobyte.frechet.freespace.chains.FrechetDiagram;
 import de.topobyte.frechet.lineview.ControlledLineView;
 import de.topobyte.frechet.lineview.LineView;
 import de.topobyte.livecg.geometry.geom.Chain;

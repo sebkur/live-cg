@@ -16,30 +16,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.topobyte.frechet.lineeditor;
+package de.topobyte.livecg.ui.lineeditor;
 
-import javax.swing.JSlider;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-
-import de.topobyte.frechet.freespace.EpsilonSettable;
-
-public class EpsilonChangedListener implements ChangeListener
+public interface LineChangeListener
 {
 
-	private final EpsilonSettable es;
-
-	public EpsilonChangedListener(EpsilonSettable es)
-	{
-		this.es = es;
-	}
-
-	@Override
-	public void stateChanged(ChangeEvent e)
-	{
-		JSlider slider = (JSlider) e.getSource();
-		int epsilon = slider.getValue();
-		es.setEpsilon(epsilon);
-	}
+	public void lineChanged();
 
 }

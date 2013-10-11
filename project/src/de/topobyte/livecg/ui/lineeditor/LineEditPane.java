@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.topobyte.frechet.lineeditor;
+package de.topobyte.livecg.ui.lineeditor;
 
 import java.awt.BasicStroke;
 import java.awt.Color;

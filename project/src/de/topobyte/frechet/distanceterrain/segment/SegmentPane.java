@@ -23,7 +23,7 @@ import java.awt.Graphics;
 import javax.swing.JPanel;
 
 import de.topobyte.frechet.freespace.calc.LineSegment;
-import de.topobyte.frechet.lineeditor.LineChangeListener;
+import de.topobyte.livecg.ui.lineeditor.LineChangeListener;
 
 public class SegmentPane extends JPanel implements LineChangeListener
 {

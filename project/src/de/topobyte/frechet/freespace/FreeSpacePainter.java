@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.topobyte.frechet.freespace.segment;
+package de.topobyte.frechet.freespace;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -31,8 +31,6 @@ import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Rectangle2D;
 import java.util.Random;
 
-import de.topobyte.frechet.freespace.Config;
-import de.topobyte.frechet.freespace.EpsilonSettable;
 import de.topobyte.frechet.freespace.calc.FreeSpaceUtil;
 import de.topobyte.frechet.freespace.calc.Interval;
 import de.topobyte.frechet.freespace.calc.LineSegment;

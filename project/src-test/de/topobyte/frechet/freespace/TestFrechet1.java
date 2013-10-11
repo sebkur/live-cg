@@ -25,7 +25,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
-import de.topobyte.frechet.freespace.FrechetDialog1;
+import de.topobyte.frechet.ui.FrechetDialog1;
 import de.topobyte.livecg.geometry.io.ContentReader;
 import de.topobyte.livecg.ui.geometryeditor.Content;
 

@@ -18,7 +18,7 @@
 
 package de.topobyte.frechet.freespace;
 
-import de.topobyte.frechet.lineeditor.RunDualLineEditorFreespace;
+import de.topobyte.frechet.ui.RunDualLineEditorFreespace;
 
 public class TestDualLineEditor
 {

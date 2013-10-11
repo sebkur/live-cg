@@ -24,10 +24,11 @@ import javax.swing.JPanel;
 
 import de.topobyte.frechet.freespace.Config;
 import de.topobyte.frechet.freespace.EpsilonSettable;
+import de.topobyte.frechet.freespace.FreeSpacePainter;
 import de.topobyte.frechet.freespace.calc.FreeSpaceUtil;
 import de.topobyte.frechet.freespace.calc.Interval;
 import de.topobyte.frechet.freespace.calc.LineSegment;
-import de.topobyte.frechet.lineeditor.LineChangeListener;
+import de.topobyte.livecg.ui.lineeditor.LineChangeListener;
 import de.topobyte.util.DoubleUtil;
 
 public class SegmentPane extends JPanel implements LineChangeListener,

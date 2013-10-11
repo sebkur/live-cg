@@ -26,10 +26,10 @@ import javax.swing.JPanel;
 
 import org.apache.log4j.BasicConfigurator;
 
-import de.topobyte.frechet.lineeditor.LineEditor;
 import de.topobyte.frechet.misc.Menu;
 import de.topobyte.livecg.geometry.geom.Chain;
 import de.topobyte.livecg.geometry.geom.Coordinate;
+import de.topobyte.livecg.ui.lineeditor.LineEditor;
 
 public class TestLineEditor
 {

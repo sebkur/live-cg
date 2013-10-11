@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.topobyte.frechet.freespace.lines;
+package de.topobyte.frechet.distanceterrain.chains;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -26,39 +26,30 @@ import java.awt.geom.AffineTransform;
 
 import javax.swing.JPanel;
 
-import de.topobyte.frechet.freespace.Config;
-import de.topobyte.frechet.freespace.EpsilonSettable;
-import de.topobyte.frechet.freespace.calc.FrechetUtil;
+import de.topobyte.frechet.distanceterrain.segment.DistanceTerrainPainter;
 import de.topobyte.frechet.freespace.calc.LineSegment;
-import de.topobyte.frechet.freespace.calc.ReachableSpace;
-import de.topobyte.frechet.freespace.segment.FreeSpacePainter;
 import de.topobyte.livecg.geometry.geom.Chain;
+import de.topobyte.livecg.geometry.geom.Coordinate;
 
-public class FrechetDiagram extends JPanel implements EpsilonSettable
+public class DistanceTerrain extends JPanel
 {
-	private static final long serialVersionUID = 5024820193840910054L;
 
-	private Config config;
+	private static final long serialVersionUID = -336337844015240678L;
 
-	private Color colorCellBoundaries = new Color(0x000000);
-
-	private int epsilon;
 	private final Chain line1;
 	private final Chain line2;
 
-	public FrechetDiagram(Config config, int epsilon, Chain line1, Chain line2)
+	public DistanceTerrain(Chain line1, Chain line2)
 	{
-		this.config = config;
-		this.epsilon = epsilon;
 		this.line1 = line1;
 		this.line2 = line2;
 	}
 
-	@Override
-	public void setEpsilon(int epsilon)
+	private LineSegment getSegment(Chain line, int n)
 	{
-		this.epsilon = epsilon;
-		repaint();
+		Coordinate c1 = line.getCoordinate(n);
+		Coordinate c2 = line.getCoordinate(n + 1);
+		return new LineSegment(c1, c2);
 	}
 
 	public void update()
@@ -66,9 +57,9 @@ public class FrechetDiagram extends JPanel implements EpsilonSettable
 		// called when chains have changed
 	}
 
+	@Override
 	public void paint(Graphics graphics)
 	{
-		super.paint(graphics);
 		Graphics2D g = (Graphics2D) graphics;
 
 		int width = getWidth();
@@ -80,18 +71,14 @@ public class FrechetDiagram extends JPanel implements EpsilonSettable
 		int w = width / nSegmentsP;
 		int h = height / nSegmentsQ;
 
-		ReachableSpace reachableSpace = new ReachableSpace(line1, line2,
-				epsilon);
-
-		FreeSpacePainter painter = new FreeSpacePainter(config, epsilon);
+		DistanceTerrainPainter painter = new DistanceTerrainPainter(true);
 
 		AffineTransform transform = g.getTransform();
 		Shape clip = g.getClip();
 		for (int x = 0; x < nSegmentsP; x++) {
 			for (int y = 0; y < nSegmentsQ; y++) {
-				int ry = nSegmentsQ - y - 1;
-				LineSegment segP = FrechetUtil.getSegment(line1, x);
-				LineSegment segQ = FrechetUtil.getSegment(line2, ry);
+				LineSegment segP = getSegment(line1, x);
+				LineSegment segQ = getSegment(line2, nSegmentsQ - y - 1);
 
 				int lx = x * w;
 				int ly = y * h;
@@ -103,8 +90,6 @@ public class FrechetDiagram extends JPanel implements EpsilonSettable
 				painter.setSegment1(segP);
 				painter.setSegment2(segQ);
 				painter.setSize(w, h);
-				painter.setLR1(reachableSpace.getLR(x, ry));
-				painter.setBR1(reachableSpace.getBR(x, ry));
 				painter.paint(g);
 			}
 		}
@@ -112,16 +97,14 @@ public class FrechetDiagram extends JPanel implements EpsilonSettable
 		g.setClip(clip);
 
 		// Draw grid
-		if (config.isDrawGrid()) {
-			g.setColor(colorCellBoundaries);
-			for (int x = 0; x <= nSegmentsP; x++) {
-				int lx = x * w;
-				g.drawLine(lx, 0, lx, height);
-			}
-			for (int y = 0; y <= nSegmentsQ; y++) {
-				int ly = y * h;
-				g.drawLine(0, ly, width, ly);
-			}
+		g.setColor(Color.BLACK);
+		for (int x = 0; x <= nSegmentsP; x++) {
+			int lx = x * w;
+			g.drawLine(lx, 0, lx, height);
+		}
+		for (int y = 0; y <= nSegmentsQ; y++) {
+			int ly = y * h;
+			g.drawLine(0, ly, width, ly);
 		}
 	}
 }

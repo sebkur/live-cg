@@ -20,9 +20,9 @@ package de.topobyte.frechet.freespace.segment;
 
 import de.topobyte.frechet.freespace.Config;
 import de.topobyte.frechet.freespace.calc.LineSegment;
-import de.topobyte.frechet.lineeditor.LineChangeListener;
-import de.topobyte.frechet.lineeditor.LineEditor;
 import de.topobyte.livecg.geometry.geom.Chain;
+import de.topobyte.livecg.ui.lineeditor.LineChangeListener;
+import de.topobyte.livecg.ui.lineeditor.LineEditor;
 
 public class LineEditorSegmentPane extends SegmentPane implements
 		LineChangeListener
