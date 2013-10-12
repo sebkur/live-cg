@@ -214,8 +214,10 @@ public class SvgPainter implements Painter
 		}
 
 		Element path = doc.createElementNS(svgNS, "path");
-		path.setAttributeNS(null, "style", "fill:" + getCurrentColor()
-				+ ";fill-rule:evenodd;stroke:none;fill-opacity:0.5");
+		path.setAttributeNS(null, "style",
+				"fill:" + getCurrentColor()
+						+ ";fill-rule:evenodd;stroke:none;fill-opacity:"
+						+ color.getAlpha());
 		path.setAttributeNS(null, "d", strb.toString());
 
 		root.appendChild(path);

@@ -89,7 +89,7 @@ public class TestSvgDrawPolygon
 
 	private static void paint(SvgPainter painter, Polygon polygon)
 	{
-		painter.setColor(new Color(0x000099));
+		painter.setColor(new Color(0x99000099, true));
 		painter.fillPolygon(polygon);
 		painter.setStrokeWidth(2);
 		painter.setColor(new Color(0x990000));

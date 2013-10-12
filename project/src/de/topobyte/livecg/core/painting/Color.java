@@ -28,4 +28,9 @@ public class Color
 		return rgb;
 	}
 
+	public double getAlpha()
+	{
+		int a = (rgb & 0xff000000) >>> 24;
+		return a / 255.0;
+	}
 }
