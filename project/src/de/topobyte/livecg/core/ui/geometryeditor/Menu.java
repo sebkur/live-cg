@@ -26,6 +26,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.KeyStroke;
 
+import de.topobyte.livecg.LiveCG;
 import de.topobyte.livecg.core.ui.geometryeditor.action.MouseAction;
 import de.topobyte.livecg.core.ui.geometryeditor.action.NewAction;
 import de.topobyte.livecg.core.ui.geometryeditor.action.OpenAction;

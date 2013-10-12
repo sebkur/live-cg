@@ -19,8 +19,8 @@ package de.topobyte.livecg.core.ui.geometryeditor.action;
 
 import java.awt.event.ActionEvent;
 
+import de.topobyte.livecg.LiveCG;
 import de.topobyte.livecg.core.ui.action.BasicAction;
-import de.topobyte.livecg.core.ui.geometryeditor.LiveCG;
 
 public class ShowContentDialogAction extends BasicAction
 {

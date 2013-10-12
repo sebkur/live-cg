@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.topobyte.livecg.core.ui.geometryeditor;
+package de.topobyte.livecg;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -31,6 +31,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.topobyte.livecg.core.geometry.io.ContentReader;
+import de.topobyte.livecg.core.ui.geometryeditor.Content;
+import de.topobyte.livecg.core.ui.geometryeditor.GeometryEditor;
+import de.topobyte.livecg.core.ui.geometryeditor.Menu;
+import de.topobyte.livecg.core.ui.geometryeditor.StatusBar;
+import de.topobyte.livecg.core.ui.geometryeditor.StatusBarMouseListener;
+import de.topobyte.livecg.core.ui.geometryeditor.Toolbar;
 import de.topobyte.livecg.core.ui.geometryeditor.debug.ContentDialog;
 import de.topobyte.livecg.core.ui.geometryeditor.object.ObjectDialog;
 
