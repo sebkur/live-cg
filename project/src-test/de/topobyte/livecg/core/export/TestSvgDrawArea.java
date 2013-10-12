@@ -50,7 +50,7 @@ public class TestSvgDrawArea
 			ParserConfigurationException, SAXException, TransformerException
 	{
 		File file = new File("/tmp/area.svg");
-		String path = "res/presets/polygons/Small.geom";
+		String path = "res/presets/polygons/Hole.geom";
 
 		ContentReader contentReader = new ContentReader();
 		Content content = contentReader.read(new File(path));

@@ -1,6 +1,8 @@
 package de.topobyte.livecg.core.painting;
 
 import java.awt.Shape;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.PathIterator;
 import java.util.List;
 import java.util.Locale;
 
@@ -99,26 +101,14 @@ public class SvgPainter implements Painter
 
 		StringBuilder strb = new StringBuilder();
 		Coordinate start = points.get(0);
-		strb.append(String.format(Locale.US, "M %f,%f", start.getX(),
-				start.getY()));
+		pathMoveTo(strb, start);
 
 		for (int i = 1; i < points.size(); i++) {
 			Coordinate c = points.get(i);
-			strb.append(String.format(Locale.US, " %f,%f", c.getX(), c.getY()));
+			pathLineTo(strb, c);
 		}
 
-		Element path = doc.createElementNS(svgNS, "path");
-		path.setAttributeNS(
-				null,
-				"style",
-				"fill:none;stroke:"
-						+ getCurrentColor()
-						+ ";stroke-width:"
-						+ width
-						+ "px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1");
-		path.setAttributeNS(null, "d", strb.toString());
-
-		root.appendChild(path);
+		stroke(strb);
 	}
 
 	@Override
@@ -152,6 +142,59 @@ public class SvgPainter implements Painter
 		return String.format("#%06x", color.getRGB());
 	}
 
+	private static void pathMoveTo(StringBuilder strb, double x, double y)
+	{
+		strb.append(String.format(Locale.US, "M %f,%f", x, y));
+	}
+
+	private static void pathMoveTo(StringBuilder strb, Coordinate c)
+	{
+		pathMoveTo(strb, c.getX(), c.getY());
+	}
+
+	private static void pathLineTo(StringBuilder strb, double x, double y)
+	{
+		strb.append(String.format(Locale.US, " %f,%f", x, y));
+	}
+
+	private static void pathLineTo(StringBuilder strb, Coordinate c)
+	{
+		pathLineTo(strb, c.getX(), c.getY());
+	}
+
+	private static void pathClose(StringBuilder strb)
+	{
+		strb.append(" Z");
+	}
+
+	private void stroke(StringBuilder strb)
+	{
+		Element path = doc.createElementNS(svgNS, "path");
+		path.setAttributeNS(
+				null,
+				"style",
+				"fill:none;stroke:"
+						+ getCurrentColor()
+						+ ";stroke-width:"
+						+ width
+						+ "px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1");
+		path.setAttributeNS(null, "d", strb.toString());
+
+		root.appendChild(path);
+	}
+
+	private void fill(StringBuilder strb)
+	{
+		Element path = doc.createElementNS(svgNS, "path");
+		path.setAttributeNS(null, "style",
+				"fill:" + getCurrentColor()
+						+ ";fill-rule:evenodd;stroke:none;fill-opacity:"
+						+ color.getAlpha());
+		path.setAttributeNS(null, "d", strb.toString());
+
+		root.appendChild(path);
+	}
+
 	@Override
 	public void drawPolygon(Polygon polygon)
 	{
@@ -171,33 +214,21 @@ public class SvgPainter implements Painter
 		StringBuilder strb = new StringBuilder();
 		appendChain(strb, chain);
 
-		Element path = doc.createElementNS(svgNS, "path");
-		path.setAttributeNS(
-				null,
-				"style",
-				"fill:none;stroke:"
-						+ getCurrentColor()
-						+ ";stroke-width:"
-						+ width
-						+ "px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1");
-		path.setAttributeNS(null, "d", strb.toString());
-
-		root.appendChild(path);
+		stroke(strb);
 	}
 
 	private void appendChain(StringBuilder strb, Chain chain)
 	{
 		Coordinate start = chain.getCoordinate(0);
-		strb.append(String.format(Locale.US, "M %f,%f", start.getX(),
-				start.getY()));
+		pathMoveTo(strb, start);
 
 		for (int i = 1; i < chain.getNumberOfNodes(); i++) {
 			Coordinate c = chain.getCoordinate(i);
-			strb.append(String.format(Locale.US, " %f,%f", c.getX(), c.getY()));
+			pathLineTo(strb, c);
 		}
 
 		if (chain.isClosed()) {
-			strb.append(" Z");
+			pathClose(strb);
 		}
 	}
 
@@ -213,28 +244,51 @@ public class SvgPainter implements Painter
 			appendChain(strb, hole);
 		}
 
-		Element path = doc.createElementNS(svgNS, "path");
-		path.setAttributeNS(null, "style",
-				"fill:" + getCurrentColor()
-						+ ";fill-rule:evenodd;stroke:none;fill-opacity:"
-						+ color.getAlpha());
-		path.setAttributeNS(null, "d", strb.toString());
-
-		root.appendChild(path);
+		fill(strb);
 	}
 
 	@Override
 	public void draw(Shape shape)
 	{
-		// TODO Auto-generated method stub
-
+		StringBuilder strb = buildPath(shape);
+		stroke(strb);
 	}
 
 	@Override
 	public void fill(Shape shape)
 	{
-		// TODO Auto-generated method stub
+		StringBuilder strb = buildPath(shape);
+		fill(strb);
+	}
 
+	private StringBuilder buildPath(Shape shape)
+	{
+		StringBuilder strb = new StringBuilder();
+
+		PathIterator pathIterator = shape
+				.getPathIterator(new AffineTransform());
+		while (!pathIterator.isDone()) {
+			double[] coords = new double[6];
+			int type = pathIterator.currentSegment(coords);
+			pathIterator.next();
+
+			switch (type) {
+			case PathIterator.SEG_MOVETO:
+				double cx = coords[0];
+				double cy = coords[1];
+				pathMoveTo(strb, cx, cy);
+				break;
+			case PathIterator.SEG_LINETO:
+				cx = coords[0];
+				cy = coords[1];
+				pathLineTo(strb, cx, cy);
+				break;
+			case PathIterator.SEG_CLOSE:
+				pathClose(strb);
+				break;
+			}
+		}
+		return strb;
 	}
 
 	@Override
