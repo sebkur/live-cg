@@ -24,7 +24,6 @@ import de.topobyte.livecg.algorithms.voronoi.fortune.ui.swing.action.SaveAction;
 import de.topobyte.livecg.algorithms.voronoi.fortune.ui.swing.eventqueue.EventQueueDialog;
 import de.topobyte.livecg.core.export.ExportBitmapAction;
 import de.topobyte.livecg.core.export.ExportSvgAction;
-import de.topobyte.livecg.core.painting.AwtPainter;
 import de.topobyte.livecg.core.ui.action.QuitAction;
 
 public class SwingFortune extends JFrame implements Runnable
@@ -110,8 +109,7 @@ public class SwingFortune extends JFrame implements Runnable
 		 * Menus
 		 */
 
-		FortunePainter painter = new FortunePainter(algorithm, config,
-				new AwtPainter(null));
+		FortunePainter painter = new FortunePainter(algorithm, config, null);
 
 		menu = new JMenuBar();
 
@@ -129,11 +127,6 @@ public class SwingFortune extends JFrame implements Runnable
 		menuFile.add(exportSvg);
 		JMenuItem quit = new JMenuItem(new QuitAction());
 		menuFile.add(quit);
-
-		JMenu menuHelp = new JMenu("Help");
-		menu.add(menuHelp);
-		JMenuItem about = new JMenuItem("About");
-		menuHelp.add(about);
 
 		setJMenuBar(menu);
 

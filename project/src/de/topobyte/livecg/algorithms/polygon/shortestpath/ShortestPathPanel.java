@@ -22,10 +22,11 @@ import java.awt.Graphics2D;
 
 import javax.swing.JPanel;
 
+import de.topobyte.livecg.core.export.SizeProvider;
 import de.topobyte.livecg.core.painting.AwtPainter;
 import de.topobyte.livecg.util.SwingUtil;
 
-public class ShortestPathPanel extends JPanel
+public class ShortestPathPanel extends JPanel implements SizeProvider
 {
 
 	private static final long serialVersionUID = 7441840910845794124L;

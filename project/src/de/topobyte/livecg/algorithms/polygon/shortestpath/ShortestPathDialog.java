@@ -23,11 +23,17 @@ import java.awt.Component;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+
+import de.topobyte.livecg.core.export.ExportBitmapAction;
+import de.topobyte.livecg.core.export.ExportSvgAction;
 
 public class ShortestPathDialog implements AlgorithmChangedListener
 {
@@ -81,6 +87,26 @@ public class ShortestPathDialog implements AlgorithmChangedListener
 		main.add(north, BorderLayout.NORTH);
 		main.add(spp, BorderLayout.CENTER);
 		// main.add(south, BorderLayout.SOUTH);
+
+		/*
+		 * Menu
+		 */
+
+		ShortestPathPainter painter = new ShortestPathPainter(null, algorithm,
+				config);
+
+		JMenuBar menu = new JMenuBar();
+
+		JMenu menuFile = new JMenu("File");
+		menu.add(menuFile);
+		JMenuItem exportBitmap = new JMenuItem(new ExportBitmapAction(frame,
+				painter, spp));
+		menuFile.add(exportBitmap);
+		JMenuItem exportSvg = new JMenuItem(new ExportSvgAction(frame, painter,
+				spp));
+		menuFile.add(exportSvg);
+
+		frame.setJMenuBar(menu);
 
 		frame.setLocationByPlatform(true);
 		frame.setSize(800, 500);
