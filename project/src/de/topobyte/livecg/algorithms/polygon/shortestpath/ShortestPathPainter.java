@@ -18,13 +18,11 @@
 package de.topobyte.livecg.algorithms.polygon.shortestpath;
 
 import java.awt.Shape;
-import java.awt.geom.Area;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
 import de.topobyte.livecg.algorithms.polygon.monotonepieces.Diagonal;
-import de.topobyte.livecg.core.geometry.geom.AwtHelper;
 import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.core.geometry.geom.Coordinate;
 import de.topobyte.livecg.core.geometry.geom.IntRing;
@@ -121,9 +119,8 @@ public class ShortestPathPainter extends BasicAlgorithmPainter
 		painter.setColor(COLOR_BG);
 		painter.fillRect(0, 0, getWidth(), getHeight());
 
-		Area shape = AwtHelper.toShape(algorithm.getPolygon());
 		painter.setColor(COLOR_POLYGON_BG);
-		painter.fill(shape);
+		painter.fillPolygon(algorithm.getPolygon());
 
 		List<Polygon> triangles = algorithm.getSleeve().getPolygons();
 		for (int i = 0; i < triangles.size(); i++) {
@@ -133,7 +130,7 @@ public class ShortestPathPainter extends BasicAlgorithmPainter
 				painter.setColor(COLOR_TRIANGLE_SLEEVE);
 			}
 			Polygon triangle = triangles.get(i);
-			painter.fill(AwtHelper.toShape(triangle));
+			painter.fillPolygon(triangle);
 		}
 
 		painter.setStrokeWidth(1.0);
