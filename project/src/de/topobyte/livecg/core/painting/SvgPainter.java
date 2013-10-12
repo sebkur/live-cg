@@ -8,6 +8,7 @@ import org.apache.batik.dom.svg.SVGDOMImplementation;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.core.geometry.geom.Coordinate;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
 
@@ -19,7 +20,7 @@ public class SvgPainter implements Painter
 	private Element root;
 
 	private Color color;
-	private double width;
+	private double width = 1;
 
 	public SvgPainter(Document doc, Element root)
 	{
@@ -80,7 +81,9 @@ public class SvgPainter implements Painter
 				"style",
 				"fill:none;stroke:"
 						+ getCurrentColor()
-						+ ";stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1");
+						+ ";stroke-width:"
+						+ width
+						+ "px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1");
 		path.setAttributeNS(null, "d",
 				String.format(Locale.US, "M %f,%f %f,%f", x1, y1, x2, y2));
 
@@ -110,7 +113,9 @@ public class SvgPainter implements Painter
 				"style",
 				"fill:none;stroke:"
 						+ getCurrentColor()
-						+ ";stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1");
+						+ ";stroke-width:"
+						+ width
+						+ "px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1");
 		path.setAttributeNS(null, "d", strb.toString());
 
 		root.appendChild(path);
@@ -125,7 +130,7 @@ public class SvgPainter implements Painter
 		circle.setAttributeNS(null, "r", Double.toString(radius));
 		circle.setAttributeNS(null, "fill", "none");
 		circle.setAttributeNS(null, "stroke", getCurrentColor());
-		circle.setAttributeNS(null, "stroke-width", "1");
+		circle.setAttributeNS(null, "stroke-width", width + "px");
 
 		root.appendChild(circle);
 	}
@@ -150,15 +155,70 @@ public class SvgPainter implements Painter
 	@Override
 	public void drawPolygon(Polygon polygon)
 	{
-		// TODO Auto-generated method stub
+		Chain shell = polygon.getShell();
+		drawChain(shell);
+		for (Chain hole : polygon.getHoles()) {
+			drawChain(hole);
+		}
+	}
 
+	private void drawChain(Chain chain)
+	{
+		if (chain.getNumberOfNodes() < 2) {
+			return;
+		}
+
+		StringBuilder strb = new StringBuilder();
+		appendChain(strb, chain);
+
+		Element path = doc.createElementNS(svgNS, "path");
+		path.setAttributeNS(
+				null,
+				"style",
+				"fill:none;stroke:"
+						+ getCurrentColor()
+						+ ";stroke-width:"
+						+ width
+						+ "px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1");
+		path.setAttributeNS(null, "d", strb.toString());
+
+		root.appendChild(path);
+	}
+
+	private void appendChain(StringBuilder strb, Chain chain)
+	{
+		Coordinate start = chain.getCoordinate(0);
+		strb.append(String.format(Locale.US, "M %f,%f", start.getX(),
+				start.getY()));
+
+		for (int i = 1; i < chain.getNumberOfNodes(); i++) {
+			Coordinate c = chain.getCoordinate(i);
+			strb.append(String.format(Locale.US, " %f,%f", c.getX(), c.getY()));
+		}
+
+		if (chain.isClosed()) {
+			strb.append(" Z");
+		}
 	}
 
 	@Override
 	public void fillPolygon(Polygon polygon)
 	{
-		// TODO Auto-generated method stub
+		StringBuilder strb = new StringBuilder();
 
+		Chain shell = polygon.getShell();
+		appendChain(strb, shell);
+		for (Chain hole : polygon.getHoles()) {
+			strb.append(" ");
+			appendChain(strb, hole);
+		}
+
+		Element path = doc.createElementNS(svgNS, "path");
+		path.setAttributeNS(null, "style", "fill:" + getCurrentColor()
+				+ ";fill-rule:evenodd;stroke:none;fill-opacity:0.5");
+		path.setAttributeNS(null, "d", strb.toString());
+
+		root.appendChild(path);
 	}
 
 	@Override
