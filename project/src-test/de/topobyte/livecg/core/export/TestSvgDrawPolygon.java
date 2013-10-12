@@ -47,7 +47,7 @@ public class TestSvgDrawPolygon
 	public static void main(String[] args) throws IOException,
 			ParserConfigurationException, SAXException, TransformerException
 	{
-		File file = new File("/tmp/test.svg");
+		File file = new File("/tmp/polygon.svg");
 		String path = "res/presets/polygons/Hole.geom";
 
 		ContentReader contentReader = new ContentReader();
