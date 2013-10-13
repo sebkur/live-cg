@@ -2,19 +2,19 @@ package de.topobyte.livecg.core.painting;
 
 public class Color
 {
-	private int rgb;
+	private int argb;
 
 	public Color(int rgb)
 	{
-		this.rgb = setFullAlpha(rgb);
+		this.argb = setFullAlpha(rgb);
 	}
 
 	public Color(int rgb, boolean hasAlpha)
 	{
 		if (hasAlpha) {
-			this.rgb = rgb;
+			this.argb = rgb;
 		} else {
-			this.rgb = setFullAlpha(rgb);
+			this.argb = setFullAlpha(rgb);
 		}
 	}
 
@@ -23,14 +23,19 @@ public class Color
 		return 0xff000000 | rgb;
 	}
 
+	public int getARGB()
+	{
+		return argb;
+	}
+	
 	public int getRGB()
 	{
-		return rgb;
+		return argb & 0xFFFFFF;
 	}
 
 	public double getAlpha()
 	{
-		int a = (rgb & 0xff000000) >>> 24;
+		int a = (argb & 0xff000000) >>> 24;
 		return a / 255.0;
 	}
 }
