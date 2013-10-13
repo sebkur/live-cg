@@ -167,6 +167,12 @@ public class SvgPainter implements Painter
 		strb.append(" Z");
 	}
 
+	private void pathQuadraticTo(StringBuilder strb, double x1, double y1,
+			double x, double y)
+	{
+		strb.append(String.format(Locale.US, "Q %f %f %f %f", x1, y1, x, y));
+	}
+
 	private void pathCubicTo(StringBuilder strb, double x1, double y1,
 			double x2, double y2, double x, double y)
 	{
@@ -293,11 +299,18 @@ public class SvgPainter implements Painter
 			case PathIterator.SEG_CLOSE:
 				pathClose(strb);
 				break;
+			case PathIterator.SEG_QUADTO:
+				cx = coords[2];
+				cy = coords[3];
+				double c1x = coords[0];
+				double c1y = coords[1];
+				pathQuadraticTo(strb, c1x, c1y, cx, cy);
+				break;
 			case PathIterator.SEG_CUBICTO:
 				cx = coords[4];
 				cy = coords[5];
-				double c1x = coords[0];
-				double c1y = coords[1];
+				c1x = coords[0];
+				c1y = coords[1];
 				double c2x = coords[2];
 				double c2y = coords[3];
 				pathCubicTo(strb, c1x, c1y, c2x, c2y, cx, cy);
