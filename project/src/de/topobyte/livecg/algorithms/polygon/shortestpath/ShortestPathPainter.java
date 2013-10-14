@@ -57,7 +57,8 @@ public class ShortestPathPainter extends BasicAlgorithmPainter
 	private Color COLOR_NODE_TARGET_OUTLINE = new Color(
 			java.awt.Color.BLACK.getRGB());
 
-	private Color COLOR_APEX = new Color(java.awt.Color.WHITE.getRGB());
+	private Color COLOR_APEX = new Color(java.awt.Color.MAGENTA.darker()
+			.getRGB());
 	private Color COLOR_LEFT_TOP = new Color(java.awt.Color.BLUE.getRGB());
 	private Color COLOR_RIGHT_TOP = new Color(java.awt.Color.RED.getRGB());
 	private Color COLOR_COMMON_PATH = new Color(java.awt.Color.MAGENTA.darker()
