@@ -58,7 +58,7 @@
 		</fileset>
 	</path>
 
-	<target name="dist" depends="dist-binary, dist-sources" />
+	<target name="dist" depends="dist-binary, dist-sources, dist-testing, dist-fat" />
 
 	<target name="dist-binary" depends="compile" description="generate the distribution">
 		<jar jarfile="${dist}/livecg.jar" basedir="${build.main}">
@@ -74,6 +74,18 @@
 		<jar jarfile="${dist}/livecg-testing.jar" basedir="${build.main}">
 			<fileset dir="." includes="res/**"/>
 			<fileset dir="${build.test}" includes="**"/>
+		</jar>
+	</target>
+
+	<target name="dist-fat" depends="compile" description="generate the distribution">
+		<jar jarfile="${dist}/livecg-fat.jar" basedir="${build.main}">
+			<manifest>
+				<attribute name="Main-Class" value="de.topobyte.livecg.LiveCG" />
+			</manifest>
+			<zipgroupfileset dir="lib" includes="*.jar" />
+			<zipgroupfileset dir="lib/batik" includes="*.jar" />
+			<fileset dir="." includes="res/**"/>
+			<fileset dir="." includes="log4j.properties"/>
 		</jar>
 	</target>
 
