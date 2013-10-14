@@ -20,26 +20,21 @@ package de.topobyte.livecg.algorithms.polygon.monotonepieces;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.util.List;
 import java.util.Map;
 
 import javax.swing.JPanel;
 
+import de.topobyte.livecg.core.export.SizeProvider;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
 import de.topobyte.livecg.core.painting.AwtPainter;
 import de.topobyte.livecg.util.SwingUtil;
 import de.topobyte.livecg.util.coloring.ColorMapBuilder;
-import de.topobyte.livecg.util.graph.Graph;
 
-public class MonotonePiecesPanel extends JPanel implements PolygonPanel
+public class MonotonePiecesPanel extends JPanel implements PolygonPanel,
+		SizeProvider
 {
 
 	private static final long serialVersionUID = 2129465700417909129L;
-
-	private MonotonePiecesOperation monotonePiecesOperation;
-
-	private List<Polygon> monotonePieces;
-	private Graph<Polygon, Diagonal> graph;
 
 	private Map<Polygon, Color> colorMap;
 
@@ -48,22 +43,12 @@ public class MonotonePiecesPanel extends JPanel implements PolygonPanel
 	private AwtPainter painter;
 	private MonotonePiecesPainter algorithmPainter;
 
-	public MonotonePiecesPanel(Polygon polygon)
+	public MonotonePiecesPanel(MonotonePiecesAlgorithm algorithm)
 	{
-		monotonePiecesOperation = new MonotonePiecesOperation(polygon);
-		SplitResult split = monotonePiecesOperation
-				.getMonotonePiecesWithGraph();
-		monotonePieces = split.getPolygons();
-		graph = split.getGraph();
-
-		Graph<Polygon, Object> extendedGraph = PolygonGraphUtil
-				.addNodeEdges(graph);
-
-		colorMap = ColorMapBuilder.buildColorMap(extendedGraph);
+		colorMap = ColorMapBuilder.buildColorMap(algorithm.getExtendedGraph());
 
 		painter = new AwtPainter(null);
-		algorithmPainter = new MonotonePiecesPainter(polygon,
-				monotonePiecesOperation, monotonePieces, polygonConfig,
+		algorithmPainter = new MonotonePiecesPainter(algorithm, polygonConfig,
 				colorMap, painter);
 	}
 

@@ -29,7 +29,6 @@ import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.xml.sax.SAXException;
 
-import de.topobyte.livecg.algorithms.polygon.monotonepieces.MonotonePiecesDialog;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
 import de.topobyte.livecg.core.geometry.io.ContentReader;
 import de.topobyte.livecg.core.ui.geometryeditor.Content;
@@ -58,7 +57,8 @@ public class TestMonotonePieces
 		// }
 		// polygon = new Polygon(ishell, null);
 
-		MonotonePiecesDialog dialog = new MonotonePiecesDialog(polygon);
+		MonotonePiecesAlgorithm algorithm = new MonotonePiecesAlgorithm(polygon);
+		MonotonePiecesDialog dialog = new MonotonePiecesDialog(algorithm);
 
 		dialog.getFrame().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}

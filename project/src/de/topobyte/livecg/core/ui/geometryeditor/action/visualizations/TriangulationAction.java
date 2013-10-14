@@ -20,6 +20,7 @@ package de.topobyte.livecg.core.ui.geometryeditor.action.visualizations;
 import java.awt.event.ActionEvent;
 import java.util.List;
 
+import de.topobyte.livecg.algorithms.polygon.monotonepieces.MonotonePiecesTriangulationAlgorithm;
 import de.topobyte.livecg.algorithms.polygon.monotonepieces.MonotonePiecesTriangulationDialog;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
 import de.topobyte.livecg.core.ui.action.BasicAction;
@@ -51,7 +52,9 @@ public class TriangulationAction extends BasicAction
 		}
 		Polygon polygon = polygons.get(0);
 
-		new MonotonePiecesTriangulationDialog(polygon);
+		MonotonePiecesTriangulationAlgorithm algorithm = new MonotonePiecesTriangulationAlgorithm(
+				polygon);
+		new MonotonePiecesTriangulationDialog(algorithm);
 	}
 
 }

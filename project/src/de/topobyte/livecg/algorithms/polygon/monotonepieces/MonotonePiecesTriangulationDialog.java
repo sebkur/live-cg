@@ -18,18 +18,26 @@
 package de.topobyte.livecg.algorithms.polygon.monotonepieces;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.util.Map;
 
 import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 
+import de.topobyte.livecg.core.export.ExportUtil;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
+import de.topobyte.livecg.core.painting.AlgorithmPainter;
+import de.topobyte.livecg.util.coloring.ColorMapBuilder;
 
 public class MonotonePiecesTriangulationDialog
 {
 
 	private JFrame frame;
 
-	public MonotonePiecesTriangulationDialog(Polygon polygon)
+	public MonotonePiecesTriangulationDialog(
+			MonotonePiecesTriangulationAlgorithm algorithm)
 	{
 		frame = new JFrame("Triangulation via monotone pieces");
 
@@ -37,12 +45,38 @@ public class MonotonePiecesTriangulationDialog
 		frame.setContentPane(main);
 		main.setLayout(new BorderLayout());
 
-		MonotonePiecesTriangulationPanel mptp = new MonotonePiecesTriangulationPanel(polygon);
+		Config polygonConfig = new Config();
+		MonotonePiecesTriangulationPanel mptp = new MonotonePiecesTriangulationPanel(
+				algorithm);
 
 		Settings settings = new Settings(mptp);
 
 		main.add(settings, BorderLayout.NORTH);
 		main.add(mptp, BorderLayout.CENTER);
+
+		/*
+		 * Menu
+		 */
+
+		Map<Polygon, Color> colorMap = ColorMapBuilder.buildColorMap(algorithm
+				.getExtendedGraph());
+
+		AlgorithmPainter painter = new MonotonePiecesTriangulationPainter(
+				algorithm, polygonConfig, colorMap, null);
+
+		JMenuBar menu = new JMenuBar();
+
+		JMenu menuFile = new JMenu("File");
+		menu.add(menuFile);
+
+		ExportUtil.addExportPngItem(menuFile, frame, painter, mptp);
+		ExportUtil.addExportSvgItem(menuFile, frame, painter, mptp);
+
+		frame.setJMenuBar(menu);
+
+		/*
+		 * Show
+		 */
 
 		frame.setLocationByPlatform(true);
 		frame.setSize(800, 500);

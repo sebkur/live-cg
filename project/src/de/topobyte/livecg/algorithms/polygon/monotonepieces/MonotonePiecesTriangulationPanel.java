@@ -20,63 +20,37 @@ package de.topobyte.livecg.algorithms.polygon.monotonepieces;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 import javax.swing.JPanel;
 
+import de.topobyte.livecg.core.export.SizeProvider;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
 import de.topobyte.livecg.core.painting.AwtPainter;
 import de.topobyte.livecg.util.SwingUtil;
 import de.topobyte.livecg.util.coloring.ColorMapBuilder;
-import de.topobyte.livecg.util.graph.Graph;
 
 public class MonotonePiecesTriangulationPanel extends JPanel implements
-		PolygonPanel
+		PolygonPanel, SizeProvider
 {
 
 	private static final long serialVersionUID = 2129465700417909129L;
 
-	private MonotonePiecesOperation monotonePiecesOperation;
-
-	private List<Polygon> monotonePieces;
-	private Graph<Polygon, Diagonal> graph;
-
 	private Map<Polygon, Color> colorMap;
-
-	private List<List<Diagonal>> allDiagonals = new ArrayList<List<Diagonal>>();
 
 	private Config polygonConfig = new Config();
 
 	private AwtPainter painter;
 	private MonotonePiecesTriangulationPainter algorithmPainter;
 
-	public MonotonePiecesTriangulationPanel(Polygon polygon)
+	public MonotonePiecesTriangulationPanel(
+			MonotonePiecesTriangulationAlgorithm algorithm)
 	{
-		monotonePiecesOperation = new MonotonePiecesOperation(polygon);
-		SplitResult split = monotonePiecesOperation
-				.getMonotonePiecesWithGraph();
-		monotonePieces = split.getPolygons();
-		graph = split.getGraph();
-
-		Graph<Polygon, Object> extendedGraph = PolygonGraphUtil
-				.addNodeEdges(graph);
-
-		colorMap = ColorMapBuilder.buildColorMap(extendedGraph);
-
-		for (Polygon monotonePolygon : monotonePieces) {
-			MonotoneTriangulationOperation monotoneTriangulationOperation = new MonotoneTriangulationOperation(
-					monotonePolygon);
-			List<Diagonal> diagonals = monotoneTriangulationOperation
-					.getDiagonals();
-			allDiagonals.add(diagonals);
-		}
+		colorMap = ColorMapBuilder.buildColorMap(algorithm.getExtendedGraph());
 
 		painter = new AwtPainter(null);
-		algorithmPainter = new MonotonePiecesTriangulationPainter(painter,
-				polygon, monotonePiecesOperation, monotonePieces, allDiagonals,
-				polygonConfig, colorMap);
+		algorithmPainter = new MonotonePiecesTriangulationPainter(algorithm,
+				polygonConfig, colorMap, painter);
 	}
 
 	@Override

@@ -18,18 +18,25 @@
 package de.topobyte.livecg.algorithms.polygon.monotonepieces;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.util.Map;
 
 import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 
+import de.topobyte.livecg.core.export.ExportUtil;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
+import de.topobyte.livecg.core.painting.AlgorithmPainter;
+import de.topobyte.livecg.util.coloring.ColorMapBuilder;
 
 public class MonotonePiecesDialog
 {
 
 	private JFrame frame;
 
-	public MonotonePiecesDialog(Polygon polygon)
+	public MonotonePiecesDialog(MonotonePiecesAlgorithm algorithm)
 	{
 		frame = new JFrame("Monotone pieces");
 
@@ -37,12 +44,37 @@ public class MonotonePiecesDialog
 		frame.setContentPane(main);
 		main.setLayout(new BorderLayout());
 
-		MonotonePiecesPanel mpp = new MonotonePiecesPanel(polygon);
+		Config polygonConfig = new Config();
+		MonotonePiecesPanel mpp = new MonotonePiecesPanel(algorithm);
 
 		Settings settings = new Settings(mpp);
 
 		main.add(settings, BorderLayout.NORTH);
 		main.add(mpp, BorderLayout.CENTER);
+
+		/*
+		 * Menu
+		 */
+
+		Map<Polygon, Color> colorMap = ColorMapBuilder.buildColorMap(algorithm
+				.getExtendedGraph());
+
+		AlgorithmPainter painter = new MonotonePiecesPainter(algorithm,
+				polygonConfig, colorMap, null);
+
+		JMenuBar menu = new JMenuBar();
+
+		JMenu menuFile = new JMenu("File");
+		menu.add(menuFile);
+
+		ExportUtil.addExportPngItem(menuFile, frame, painter, mpp);
+		ExportUtil.addExportSvgItem(menuFile, frame, painter, mpp);
+
+		frame.setJMenuBar(menu);
+
+		/*
+		 * Show
+		 */
 
 		frame.setLocationByPlatform(true);
 		frame.setSize(800, 500);

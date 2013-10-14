@@ -17,41 +17,40 @@
  */
 package de.topobyte.livecg.algorithms.polygon.monotonepieces;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
-import de.topobyte.livecg.core.geometry.geom.Coordinate;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
-import de.topobyte.livecg.core.painting.Color;
-import de.topobyte.livecg.core.painting.Painter;
 
-public class MonotonePiecesTriangulationPainter extends MonotonePiecesPainter
+public class MonotonePiecesTriangulationAlgorithm extends
+		MonotonePiecesAlgorithm
 {
 
 	private List<List<Diagonal>> allDiagonals;
 
-	public MonotonePiecesTriangulationPainter(
-			MonotonePiecesTriangulationAlgorithm algorithm,
-			Config polygonConfig, Map<Polygon, java.awt.Color> colorMap,
-			Painter painter)
+	public MonotonePiecesTriangulationAlgorithm(Polygon polygon)
 	{
-		super(algorithm, polygonConfig, colorMap, painter);
-		this.allDiagonals = algorithm.getAllDiagonals();
+		super(polygon);
 	}
 
-	@Override
-	public void paint()
+	public void execute()
 	{
-		super.paint();
+		super.execute();
+		System.out.println("execute: " + this.getClass().getSimpleName());
 
-		painter.setColor(new Color(java.awt.Color.BLACK.getRGB()));
-		for (List<Diagonal> diagonalsT : allDiagonals) {
-			for (Diagonal diagonal : diagonalsT) {
-				Coordinate c1 = diagonal.getA().getCoordinate();
-				Coordinate c2 = diagonal.getB().getCoordinate();
-				painter.drawLine(c1.getX(), c1.getY(), c2.getX(), c2.getY());
-			}
+		allDiagonals = new ArrayList<List<Diagonal>>();
+		List<Polygon> monotonePieces = getMonotonePieces();
+		for (Polygon monotonePolygon : monotonePieces) {
+			MonotoneTriangulationOperation monotoneTriangulationOperation = new MonotoneTriangulationOperation(
+					monotonePolygon);
+			List<Diagonal> diagonals = monotoneTriangulationOperation
+					.getDiagonals();
+			allDiagonals.add(diagonals);
 		}
 	}
 
+	public List<List<Diagonal>> getAllDiagonals()
+	{
+		return allDiagonals;
+	}
 }

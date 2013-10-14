@@ -20,6 +20,7 @@ package de.topobyte.livecg.core.ui.geometryeditor.action.visualizations;
 import java.awt.event.ActionEvent;
 import java.util.List;
 
+import de.topobyte.livecg.algorithms.polygon.monotonepieces.MonotonePiecesAlgorithm;
 import de.topobyte.livecg.algorithms.polygon.monotonepieces.MonotonePiecesDialog;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
 import de.topobyte.livecg.core.ui.action.BasicAction;
@@ -51,7 +52,8 @@ public class MonotonePiecesAction extends BasicAction
 		}
 		Polygon polygon = polygons.get(0);
 
-		new MonotonePiecesDialog(polygon);
+		MonotonePiecesAlgorithm algorithm = new MonotonePiecesAlgorithm(polygon);
+		new MonotonePiecesDialog(algorithm);
 	}
 
 }

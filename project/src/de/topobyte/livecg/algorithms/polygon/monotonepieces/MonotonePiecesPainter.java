@@ -41,15 +41,14 @@ public class MonotonePiecesPainter extends BasicAlgorithmPainter
 	private Config polygonConfig;
 	private Map<Polygon, java.awt.Color> colorMap;
 
-	public MonotonePiecesPainter(Polygon polygon,
-			MonotonePiecesOperation monotonePiecesOperation,
-			List<Polygon> monotonePieces, Config polygonConfig,
-			Map<Polygon, java.awt.Color> colorMap, Painter painter)
+	public MonotonePiecesPainter(MonotonePiecesAlgorithm algorithm,
+			Config polygonConfig, Map<Polygon, java.awt.Color> colorMap,
+			Painter painter)
 	{
 		super(painter);
-		this.polygon = polygon;
-		this.monotonePiecesOperation = monotonePiecesOperation;
-		this.monotonePieces = monotonePieces;
+		this.polygon = algorithm.getPolygon();
+		this.monotonePiecesOperation = algorithm.getMonotonePiecesOperation();
+		this.monotonePieces = algorithm.getMonotonePieces();
 		this.polygonConfig = polygonConfig;
 		this.colorMap = colorMap;
 	}

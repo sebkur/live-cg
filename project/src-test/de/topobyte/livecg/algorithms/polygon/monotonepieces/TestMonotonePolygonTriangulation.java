@@ -29,7 +29,6 @@ import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.xml.sax.SAXException;
 
-import de.topobyte.livecg.algorithms.polygon.monotonepieces.MonotonePiecesTriangulationDialog;
 import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.core.geometry.geom.ChainHelper;
 import de.topobyte.livecg.core.geometry.geom.CloseabilityException;
@@ -60,8 +59,10 @@ public class TestMonotonePolygonTriangulation
 			}
 		}
 
-		MonotonePiecesTriangulationDialog dialog = new MonotonePiecesTriangulationDialog(
+		MonotonePiecesTriangulationAlgorithm algorithm = new MonotonePiecesTriangulationAlgorithm(
 				polygon);
+		MonotonePiecesTriangulationDialog dialog = new MonotonePiecesTriangulationDialog(
+				algorithm);
 
 		dialog.getFrame().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
