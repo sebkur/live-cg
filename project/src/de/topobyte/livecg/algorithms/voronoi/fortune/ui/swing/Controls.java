@@ -18,7 +18,7 @@ public class Controls extends Panel implements ActionListener
 
 	private static final long serialVersionUID = -8452143409724541737L;
 
-	private SwingFortune fortune;
+	private FortuneDialog fortune;
 
 	private Algorithm algorithm;
 
@@ -65,7 +65,7 @@ public class Controls extends Panel implements ActionListener
 
 	private Map<String, Icon> icons = new HashMap<String, Icon>();
 
-	public Controls(SwingFortune fortune, Algorithm algorithm)
+	public Controls(FortuneDialog fortune, Algorithm algorithm)
 	{
 		this.fortune = fortune;
 		this.algorithm = algorithm;

@@ -13,36 +13,36 @@ import javax.swing.JFileChooser;
 
 import de.topobyte.livecg.algorithms.voronoi.fortune.geometry.Point;
 import de.topobyte.livecg.algorithms.voronoi.fortune.ui.swing.FileFilterPointSet;
-import de.topobyte.livecg.algorithms.voronoi.fortune.ui.swing.SwingFortune;
+import de.topobyte.livecg.algorithms.voronoi.fortune.ui.swing.FortuneDialog;
 import de.topobyte.livecg.core.geometry.io.PointSetReader;
 import de.topobyte.livecg.core.geometry.pointset.PointSet;
 import de.topobyte.livecg.util.exception.ParseException;
 
-public class OpenAction extends SwingFortuneAction
+public class OpenAction extends FortuneAction
 {
 
 	private static final long serialVersionUID = 1L;
 
-	public OpenAction(SwingFortune swingFortune)
+	public OpenAction(FortuneDialog fortune)
 	{
-		super("Open", "Open a point set", null, swingFortune);
+		super("Open", "Open a point set", null, fortune);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
 		final JFileChooser fc = new JFileChooser();
-		fc.setCurrentDirectory(swingFortune.getLastActiveDirectory());
+		fc.setCurrentDirectory(fortune.getLastActiveDirectory());
 		fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
 		fc.setFileFilter(new FileFilterPointSet());
-		int returnVal = fc.showOpenDialog(swingFortune);
+		int returnVal = fc.showOpenDialog(fortune);
 
 		if (returnVal != JFileChooser.APPROVE_OPTION) {
 			return;
 		}
 
 		File file = fc.getSelectedFile();
-		swingFortune.setLastActiveDirectory(file.getParentFile());
+		fortune.setLastActiveDirectory(file.getParentFile());
 
 		FileInputStream fis;
 		try {
@@ -61,7 +61,7 @@ public class OpenAction extends SwingFortuneAction
 					.getPoints()) {
 				sites.add(new Point(point.getX(), point.getY()));
 			}
-			swingFortune.getAlgorithm().setSites(sites);
+			fortune.getAlgorithm().setSites(sites);
 		} catch (FileNotFoundException ex) {
 			System.out.println("file not found: '" + file + "'");
 		} catch (IOException ex) {

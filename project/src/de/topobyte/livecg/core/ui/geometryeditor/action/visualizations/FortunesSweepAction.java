@@ -24,7 +24,7 @@ import java.util.List;
 import javax.swing.JFrame;
 
 import de.topobyte.livecg.algorithms.voronoi.fortune.geometry.Point;
-import de.topobyte.livecg.algorithms.voronoi.fortune.ui.swing.SwingFortune;
+import de.topobyte.livecg.algorithms.voronoi.fortune.ui.swing.FortuneDialog;
 import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.core.geometry.geom.Coordinate;
 import de.topobyte.livecg.core.geometry.geom.Node;
@@ -66,15 +66,15 @@ public class FortunesSweepAction extends BasicAction
 			}
 		}
 
-		SwingFortune swingFortune = new SwingFortune();
-		swingFortune.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		FortuneDialog dialog = new FortuneDialog();
+		dialog.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
 		List<Point> sites = new ArrayList<Point>();
 		for (Node node : nodes) {
 			Coordinate c = node.getCoordinate();
 			sites.add(new Point(c.getX(), c.getY()));
 		}
-		swingFortune.getAlgorithm().setSites(sites);
+		dialog.getAlgorithm().setSites(sites);
 	}
 
 	private void collectNodes(List<Node> nodes, Chain chain)

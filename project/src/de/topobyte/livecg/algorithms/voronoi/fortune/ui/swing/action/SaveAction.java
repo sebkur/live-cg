@@ -12,37 +12,37 @@ import javax.swing.JFileChooser;
 
 import de.topobyte.livecg.algorithms.voronoi.fortune.geometry.Point;
 import de.topobyte.livecg.algorithms.voronoi.fortune.ui.swing.FileFilterPointSet;
-import de.topobyte.livecg.algorithms.voronoi.fortune.ui.swing.SwingFortune;
+import de.topobyte.livecg.algorithms.voronoi.fortune.ui.swing.FortuneDialog;
 import de.topobyte.livecg.core.geometry.io.PointSetWriter;
 import de.topobyte.livecg.core.geometry.pointset.PointSet;
 
-public class SaveAction extends SwingFortuneAction
+public class SaveAction extends FortuneAction
 {
 
 	private static final long serialVersionUID = 1L;
 
-	public SaveAction(SwingFortune swingFortune)
+	public SaveAction(FortuneDialog fortune)
 	{
-		super("Save", "Save the current point set", null, swingFortune);
+		super("Save", "Save the current point set", null, fortune);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
 		final JFileChooser fc = new JFileChooser();
-		fc.setCurrentDirectory(swingFortune.getLastActiveDirectory());
+		fc.setCurrentDirectory(fortune.getLastActiveDirectory());
 		fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
 		fc.setFileFilter(new FileFilterPointSet());
-		int returnVal = fc.showSaveDialog(swingFortune);
+		int returnVal = fc.showSaveDialog(fortune);
 
 		if (returnVal != JFileChooser.APPROVE_OPTION) {
 			return;
 		}
 
 		File file = fc.getSelectedFile();
-		swingFortune.setLastActiveDirectory(file.getParentFile());
+		fortune.setLastActiveDirectory(file.getParentFile());
 
-		List<Point> sites = swingFortune.getAlgorithm().getSites();
+		List<Point> sites = fortune.getAlgorithm().getSites();
 		PointSet pointSet = new PointSet();
 		for (Point site : sites) {
 			de.topobyte.livecg.core.geometry.pointset.Point point = new de.topobyte.livecg.core.geometry.pointset.Point(

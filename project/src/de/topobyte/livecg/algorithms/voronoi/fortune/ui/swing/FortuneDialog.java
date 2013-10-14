@@ -25,7 +25,7 @@ import de.topobyte.livecg.algorithms.voronoi.fortune.ui.swing.eventqueue.EventQu
 import de.topobyte.livecg.core.export.ExportUtil;
 import de.topobyte.livecg.core.ui.action.QuitAction;
 
-public class SwingFortune extends JFrame implements Runnable
+public class FortuneDialog extends JFrame implements Runnable
 {
 
 	private static final long serialVersionUID = 3917389635770683885L;
@@ -46,7 +46,7 @@ public class SwingFortune extends JFrame implements Runnable
 	private Thread thread;
 	private Object wait = new Object();
 
-	public SwingFortune()
+	public FortuneDialog()
 	{
 		super("Fortune's sweep");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

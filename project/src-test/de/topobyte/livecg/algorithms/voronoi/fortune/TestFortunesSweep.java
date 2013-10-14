@@ -17,13 +17,13 @@
  */
 package de.topobyte.livecg.algorithms.voronoi.fortune;
 
-import de.topobyte.livecg.algorithms.voronoi.fortune.ui.swing.SwingFortune;
+import de.topobyte.livecg.algorithms.voronoi.fortune.ui.swing.FortuneDialog;
 
 public class TestFortunesSweep
 {
 
 	public static void main(String[] args)
 	{
-		new SwingFortune();
+		new FortuneDialog();
 	}
 }
