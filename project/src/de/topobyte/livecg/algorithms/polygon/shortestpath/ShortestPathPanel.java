@@ -41,7 +41,7 @@ public class ShortestPathPanel extends JPanel implements SizeProvider
 		this.algorithm = algorithm;
 
 		painter = new AwtPainter(null);
-		algorithmPainter = new ShortestPathPainter(painter, algorithm, config);
+		algorithmPainter = new ShortestPathPainter(algorithm, config, painter);
 	}
 
 	public ShortestPathAlgorithm getAlgorithm()

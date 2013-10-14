@@ -50,8 +50,8 @@ public class TriangulationPanel extends JPanel implements PolygonPanel
 		Graph<Polygon, Diagonal> graph = splitResult.getGraph();
 
 		painter = new AwtPainter(null);
-		algorithmPainter = new TriangulationPainter(painter, polygon,
-				diagonals, graph, polygonConfig);
+		algorithmPainter = new TriangulationPainter(polygon, diagonals, graph,
+				polygonConfig, painter);
 	}
 
 	@Override

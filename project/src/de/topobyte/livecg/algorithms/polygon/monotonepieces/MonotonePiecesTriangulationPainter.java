@@ -35,8 +35,8 @@ public class MonotonePiecesTriangulationPainter extends MonotonePiecesPainter
 			List<Polygon> monotonePieces, List<List<Diagonal>> allDiagonals,
 			Config polygonConfig, Map<Polygon, java.awt.Color> colorMap)
 	{
-		super(painter, polygon, monotonePiecesOperation, monotonePieces,
-				polygonConfig, colorMap);
+		super(polygon, monotonePiecesOperation, monotonePieces, polygonConfig,
+				colorMap, painter);
 		this.allDiagonals = allDiagonals;
 	}
 

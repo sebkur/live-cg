@@ -26,9 +26,9 @@ import de.topobyte.livecg.core.geometry.geom.Coordinate;
 import de.topobyte.livecg.core.geometry.geom.IntRing;
 import de.topobyte.livecg.core.geometry.geom.Node;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
-import de.topobyte.livecg.core.painting.AwtPainter;
 import de.topobyte.livecg.core.painting.BasicAlgorithmPainter;
 import de.topobyte.livecg.core.painting.Color;
+import de.topobyte.livecg.core.painting.Painter;
 import de.topobyte.livecg.util.graph.Edge;
 import de.topobyte.livecg.util.graph.Graph;
 
@@ -40,9 +40,9 @@ public class TriangulationPainter extends BasicAlgorithmPainter
 	private Graph<Polygon, Diagonal> graph;
 	private Config polygonConfig;
 
-	public TriangulationPainter(AwtPainter painter, Polygon polygon,
-			List<Diagonal> diagonals, Graph<Polygon, Diagonal> graph,
-			Config polygonConfig)
+	public TriangulationPainter(Polygon polygon, List<Diagonal> diagonals,
+			Graph<Polygon, Diagonal> graph, Config polygonConfig,
+			Painter painter)
 	{
 		super(painter);
 		this.polygon = polygon;

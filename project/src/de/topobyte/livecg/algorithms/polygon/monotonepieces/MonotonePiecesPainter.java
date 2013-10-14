@@ -28,9 +28,9 @@ import de.topobyte.livecg.core.geometry.geom.Coordinate;
 import de.topobyte.livecg.core.geometry.geom.IntRing;
 import de.topobyte.livecg.core.geometry.geom.Node;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
-import de.topobyte.livecg.core.painting.AwtPainter;
 import de.topobyte.livecg.core.painting.BasicAlgorithmPainter;
 import de.topobyte.livecg.core.painting.Color;
+import de.topobyte.livecg.core.painting.Painter;
 
 public class MonotonePiecesPainter extends BasicAlgorithmPainter
 {
@@ -41,10 +41,10 @@ public class MonotonePiecesPainter extends BasicAlgorithmPainter
 	private Config polygonConfig;
 	private Map<Polygon, java.awt.Color> colorMap;
 
-	public MonotonePiecesPainter(AwtPainter painter, Polygon polygon,
+	public MonotonePiecesPainter(Polygon polygon,
 			MonotonePiecesOperation monotonePiecesOperation,
 			List<Polygon> monotonePieces, Config polygonConfig,
-			Map<Polygon, java.awt.Color> colorMap)
+			Map<Polygon, java.awt.Color> colorMap, Painter painter)
 	{
 		super(painter);
 		this.polygon = polygon;

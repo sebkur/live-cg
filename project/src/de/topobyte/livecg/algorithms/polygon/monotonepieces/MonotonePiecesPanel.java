@@ -62,9 +62,9 @@ public class MonotonePiecesPanel extends JPanel implements PolygonPanel
 		colorMap = ColorMapBuilder.buildColorMap(extendedGraph);
 
 		painter = new AwtPainter(null);
-		algorithmPainter = new MonotonePiecesPainter(painter, polygon,
+		algorithmPainter = new MonotonePiecesPainter(polygon,
 				monotonePiecesOperation, monotonePieces, polygonConfig,
-				colorMap);
+				colorMap, painter);
 	}
 
 	@Override

@@ -79,8 +79,8 @@ public class ShortestPathPainter extends BasicAlgorithmPainter
 	private MouseOver mouseOverStart = MouseOver.NONE;
 	private MouseOver mouseOverTarget = MouseOver.NONE;
 
-	public ShortestPathPainter(Painter painter,
-			ShortestPathAlgorithm algorithm, Config config)
+	public ShortestPathPainter(ShortestPathAlgorithm algorithm, Config config,
+			Painter painter)
 	{
 		super(painter);
 		this.algorithm = algorithm;

@@ -92,8 +92,8 @@ public class ShortestPathDialog implements AlgorithmChangedListener
 		 * Menu
 		 */
 
-		ShortestPathPainter painter = new ShortestPathPainter(null, algorithm,
-				config);
+		ShortestPathPainter painter = new ShortestPathPainter(algorithm,
+				config, null);
 
 		JMenuBar menu = new JMenuBar();
 
