@@ -25,7 +25,6 @@ import java.util.Map;
 
 import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.core.geometry.geom.Coordinate;
-import de.topobyte.livecg.core.geometry.geom.IntRing;
 import de.topobyte.livecg.core.geometry.geom.Node;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
 import de.topobyte.livecg.core.painting.BasicAlgorithmPainter;
@@ -56,30 +55,46 @@ public class MonotonePiecesPainter extends BasicAlgorithmPainter
 	@Override
 	public void paint()
 	{
+		fillBackground();
+
+		fillPolygon();
+
+		fillMonotonePieces();
+
+		drawDiagonals();
+
+		drawPolygon();
+
+		drawNodes();
+
+		drawLabels();
+	}
+
+	protected void fillBackground()
+	{
 		painter.setColor(new Color(java.awt.Color.WHITE.getRGB()));
 		painter.fillRect(0, 0, width, height);
+	}
 
+	protected void fillPolygon()
+	{
 		painter.setColor(new Color(0x66ff0000, true));
 		painter.fillPolygon(polygon);
+	}
 
+	protected void fillMonotonePieces()
+	{
 		for (int i = 0; i < monotonePieces.size(); i++) {
 			Polygon piece = monotonePieces.get(i);
 			java.awt.Color color = colorMap.get(piece);
 			painter.setColor(new Color(color.getRGB()));
 			painter.fillPolygon(piece);
 		}
+	}
 
+	protected void drawDiagonals()
+	{
 		painter.setColor(new Color(java.awt.Color.BLACK.getRGB()));
-
-		Chain shell = polygon.getShell();
-		IntRing ring = new IntRing(shell.getNumberOfNodes());
-		for (int i = 0; i < shell.getNumberOfNodes(); i++) {
-			int j = ring.next().value();
-			Coordinate c1 = shell.getCoordinate(i);
-			Coordinate c2 = shell.getCoordinate(j);
-			painter.drawLine(c1.getX(), c1.getY(), c2.getX(), c2.getY());
-		}
-
 		List<Diagonal> diagonals = monotonePiecesOperation.getDiagonals();
 
 		for (Diagonal diagonal : diagonals) {
@@ -87,8 +102,19 @@ public class MonotonePiecesPainter extends BasicAlgorithmPainter
 			Coordinate c2 = diagonal.getB().getCoordinate();
 			painter.drawLine(c1.getX(), c1.getY(), c2.getX(), c2.getY());
 		}
+	}
 
+	protected void drawPolygon()
+	{
 		painter.setColor(new Color(java.awt.Color.BLACK.getRGB()));
+		painter.drawPolygon(polygon);
+	}
+
+	protected void drawNodes()
+	{
+		painter.setColor(new Color(java.awt.Color.BLACK.getRGB()));
+
+		Chain shell = polygon.getShell();
 		for (int i = 0; i < shell.getNumberOfNodes(); i++) {
 			Node node = shell.getNode(i);
 			VertexType type = monotonePiecesOperation.getType(node);
@@ -137,7 +163,11 @@ public class MonotonePiecesPainter extends BasicAlgorithmPainter
 			}
 
 		}
+	}
 
+	protected void drawLabels()
+	{
+		Chain shell = polygon.getShell();
 		painter.setColor(new Color(java.awt.Color.BLACK.getRGB()));
 		if (polygonConfig.isDrawNodeNumbers()) {
 			for (int i = 0; i < shell.getNumberOfNodes(); i++) {

@@ -46,8 +46,27 @@ public class MonotonePiecesTriangulationPainter extends MonotonePiecesPainter
 	@Override
 	public void paint()
 	{
-		super.paint();
+		fillBackground();
 
+		fillPolygon();
+
+		fillMonotonePieces();
+
+		drawTriangleHighlights();
+
+		drawTriangulationDiagonals();
+
+		drawDiagonals();
+
+		drawPolygon();
+
+		drawNodes();
+
+		drawLabels();
+	}
+
+	private void drawTriangleHighlights()
+	{
 		java.awt.Color a = new java.awt.Color(0x00ffffff, true);
 		java.awt.Color b = new java.awt.Color(0x77ffffff, true);
 
@@ -64,7 +83,10 @@ public class MonotonePiecesTriangulationPainter extends MonotonePiecesPainter
 				painter.fillPolygon(triangle);
 			}
 		}
+	}
 
+	private void drawTriangulationDiagonals()
+	{
 		painter.setColor(new Color(java.awt.Color.BLACK.getRGB()));
 		for (List<Diagonal> diagonalsT : allDiagonals) {
 			for (Diagonal diagonal : diagonalsT) {
