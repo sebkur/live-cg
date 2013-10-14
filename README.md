@@ -19,7 +19,7 @@ Running from build directory:
 `./scripts/livecg.sh`
 
 Running from distribution:
-`java -jar dist/dist-fat.jar`
+`java -jar dist/livecg-fat.jar`
 
 # Editor
 ## Key Bindings
