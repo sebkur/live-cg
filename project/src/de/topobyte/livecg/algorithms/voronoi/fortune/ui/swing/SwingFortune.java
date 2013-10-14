@@ -22,8 +22,7 @@ import de.topobyte.livecg.algorithms.voronoi.fortune.ui.core.FortunePainter;
 import de.topobyte.livecg.algorithms.voronoi.fortune.ui.swing.action.OpenAction;
 import de.topobyte.livecg.algorithms.voronoi.fortune.ui.swing.action.SaveAction;
 import de.topobyte.livecg.algorithms.voronoi.fortune.ui.swing.eventqueue.EventQueueDialog;
-import de.topobyte.livecg.core.export.ExportBitmapAction;
-import de.topobyte.livecg.core.export.ExportSvgAction;
+import de.topobyte.livecg.core.export.ExportUtil;
 import de.topobyte.livecg.core.ui.action.QuitAction;
 
 public class SwingFortune extends JFrame implements Runnable
@@ -102,9 +101,6 @@ public class SwingFortune extends JFrame implements Runnable
 
 		});
 
-		setSize(800, 600);
-		setVisible(true);
-
 		/*
 		 * Menus
 		 */
@@ -119,16 +115,15 @@ public class SwingFortune extends JFrame implements Runnable
 		menuFile.add(open);
 		JMenuItem save = new JMenuItem(new SaveAction(this));
 		menuFile.add(save);
-		JMenuItem exportBitmap = new JMenuItem(new ExportBitmapAction(this,
-				painter, canvas));
-		menuFile.add(exportBitmap);
-		JMenuItem exportSvg = new JMenuItem(new ExportSvgAction(this, painter,
-				canvas));
-		menuFile.add(exportSvg);
+		ExportUtil.addExportPngItem(menuFile, this, painter, canvas);
+		ExportUtil.addExportSvgItem(menuFile, this, painter, canvas);
 		JMenuItem quit = new JMenuItem(new QuitAction());
 		menuFile.add(quit);
 
 		setJMenuBar(menu);
+
+		setSize(800, 600);
+		setVisible(true);
 
 		/*
 		 * EventQueue dialog
