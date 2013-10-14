@@ -6,6 +6,21 @@ LIVE Interactive Visualization Environment for Computational Geometry
 This project aims to create a system for interactive visualization of 
 algorithms from computational geometry.
 
+# Building and running
+## Building
+Compiling:
+`ant compile`
+
+Building the distribution:
+`ant dist`
+
+## Running
+Running from build directory:
+`./scripts/livecg.sh`
+
+Running from distribution:
+`java -jar dist/dist-fat.jar`
+
 # Editor
 ## Key Bindings
 ### Main
