@@ -124,6 +124,7 @@ public class FortuneDialog extends JFrame implements Runnable
 
 		setJMenuBar(menu);
 
+		setLocationByPlatform(true);
 		setSize(800, 600);
 		setVisible(true);
 
