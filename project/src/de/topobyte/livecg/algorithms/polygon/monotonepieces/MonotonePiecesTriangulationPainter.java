@@ -24,10 +24,13 @@ import de.topobyte.livecg.core.geometry.geom.Coordinate;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
 import de.topobyte.livecg.core.painting.Color;
 import de.topobyte.livecg.core.painting.Painter;
+import de.topobyte.livecg.util.coloring.AlternatingColorMapBuilder;
+import de.topobyte.livecg.util.graph.Graph;
 
 public class MonotonePiecesTriangulationPainter extends MonotonePiecesPainter
 {
 
+	private MonotonePiecesTriangulationAlgorithm algorithm;
 	private List<List<Diagonal>> allDiagonals;
 
 	public MonotonePiecesTriangulationPainter(
@@ -36,6 +39,7 @@ public class MonotonePiecesTriangulationPainter extends MonotonePiecesPainter
 			Painter painter)
 	{
 		super(algorithm, polygonConfig, colorMap, painter);
+		this.algorithm = algorithm;
 		this.allDiagonals = algorithm.getAllDiagonals();
 	}
 
@@ -43,6 +47,23 @@ public class MonotonePiecesTriangulationPainter extends MonotonePiecesPainter
 	public void paint()
 	{
 		super.paint();
+
+		java.awt.Color a = new java.awt.Color(0x00ffffff, true);
+		java.awt.Color b = new java.awt.Color(0x77ffffff, true);
+
+		List<Polygon> pieces = algorithm.getMonotonePieces();
+		for (Polygon piece : pieces) {
+			SplitResult splitResult = algorithm.getSplitResult(piece);
+			Graph<Polygon, Diagonal> graph = splitResult.getGraph();
+			Map<Polygon, java.awt.Color> colorMap = AlternatingColorMapBuilder
+					.buildColorMap(graph, a, b);
+			for (Polygon triangle : splitResult.getPolygons()) {
+				java.awt.Color color = colorMap.get(triangle);
+				if (color != null)
+					painter.setColor(new Color(color.getRGB(), true));
+				painter.fillPolygon(triangle);
+			}
+		}
 
 		painter.setColor(new Color(java.awt.Color.BLACK.getRGB()));
 		for (List<Diagonal> diagonalsT : allDiagonals) {
@@ -53,5 +74,4 @@ public class MonotonePiecesTriangulationPainter extends MonotonePiecesPainter
 			}
 		}
 	}
-
 }

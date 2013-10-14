@@ -18,7 +18,9 @@
 package de.topobyte.livecg.algorithms.polygon.monotonepieces;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import de.topobyte.livecg.core.geometry.geom.Polygon;
 
@@ -27,6 +29,7 @@ public class MonotonePiecesTriangulationAlgorithm extends
 {
 
 	private List<List<Diagonal>> allDiagonals;
+	private Map<Polygon, SplitResult> splitResults;
 
 	public MonotonePiecesTriangulationAlgorithm(Polygon polygon)
 	{
@@ -39,6 +42,8 @@ public class MonotonePiecesTriangulationAlgorithm extends
 		System.out.println("execute: " + this.getClass().getSimpleName());
 
 		allDiagonals = new ArrayList<List<Diagonal>>();
+		splitResults = new HashMap<Polygon, SplitResult>();
+
 		List<Polygon> monotonePieces = getMonotonePieces();
 		for (Polygon monotonePolygon : monotonePieces) {
 			MonotoneTriangulationOperation monotoneTriangulationOperation = new MonotoneTriangulationOperation(
@@ -46,11 +51,21 @@ public class MonotonePiecesTriangulationAlgorithm extends
 			List<Diagonal> diagonals = monotoneTriangulationOperation
 					.getDiagonals();
 			allDiagonals.add(diagonals);
+
+			SplitResult splitResult = DiagonalUtil.split(monotonePolygon,
+					diagonals);
+			splitResults.put(monotonePolygon, splitResult);
 		}
+
 	}
 
 	public List<List<Diagonal>> getAllDiagonals()
 	{
 		return allDiagonals;
+	}
+
+	public SplitResult getSplitResult(Polygon piece)
+	{
+		return splitResults.get(piece);
 	}
 }
