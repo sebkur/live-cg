@@ -25,15 +25,13 @@ import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import de.topobyte.livecg.core.export.ExportBitmapAction;
-import de.topobyte.livecg.core.export.ExportSvgAction;
+import de.topobyte.livecg.core.export.ExportUtil;
 
 public class ShortestPathDialog implements AlgorithmChangedListener
 {
@@ -99,12 +97,9 @@ public class ShortestPathDialog implements AlgorithmChangedListener
 
 		JMenu menuFile = new JMenu("File");
 		menu.add(menuFile);
-		JMenuItem exportBitmap = new JMenuItem(new ExportBitmapAction(frame,
-				painter, spp));
-		menuFile.add(exportBitmap);
-		JMenuItem exportSvg = new JMenuItem(new ExportSvgAction(frame, painter,
-				spp));
-		menuFile.add(exportSvg);
+
+		ExportUtil.addExportPngItem(menuFile, frame, painter, spp);
+		ExportUtil.addExportSvgItem(menuFile, frame, painter, spp);
 
 		frame.setJMenuBar(menu);
 
