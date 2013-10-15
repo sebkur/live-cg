@@ -1,0 +1,6 @@
+algorithm.polygon.shortestpath.colors.background = #000000
+algorithm.polygon.shortestpath.colors.boundary = #ffffff
+algorithm.polygon.shortestpath.colors.diagonals = #ffffff
+algorithm.polygon.shortestpath.colors.dualgraph = #ffffff
+algorithm.polygon.shortestpath.colors.polygon = #666666
+algorithm.polygon.shortestpath.colors.sleeve = #aaaaaa

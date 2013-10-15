@@ -18,6 +18,17 @@ public class Color
 		}
 	}
 
+	public Color(int r, int g, int b)
+	{
+		this(r, g, b, 255);
+	}
+
+	public Color(int r, int g, int b, int a)
+	{
+		argb = ((a & 0xFF) << 24) | ((r & 0xFF) << 16) | ((g & 0xFF) << 8)
+				| ((b & 0xFF) << 0);
+	}
+
 	private int setFullAlpha(int rgb)
 	{
 		return 0xff000000 | rgb;
