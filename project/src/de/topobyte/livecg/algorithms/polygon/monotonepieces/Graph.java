@@ -27,7 +27,8 @@ import de.topobyte.livecg.core.geometry.geom.Node;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
 import de.topobyte.livecg.util.graph.Edge;
 
-public class Graph extends de.topobyte.livecg.util.graph.Graph<Polygon, Diagonal>
+public class Graph extends
+		de.topobyte.livecg.util.graph.Graph<Polygon, Diagonal>
 {
 	final static Logger logger = LoggerFactory.getLogger(Graph.class);
 

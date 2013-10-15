@@ -214,8 +214,8 @@ public class Menu extends JMenuBar
 
 		JMenuItem showObjectDialog = new JMenuItem(new ShowObjectDialogAction(
 				liveCG));
-		JMenuItem showContentDialog = new JMenuItem(new ShowContentDialogAction(
-				liveCG));
+		JMenuItem showContentDialog = new JMenuItem(
+				new ShowContentDialogAction(liveCG));
 		window.add(showObjectDialog);
 		window.add(showContentDialog);
 

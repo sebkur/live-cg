@@ -2,7 +2,6 @@ package de.topobyte.livecg.core.ui.action;
 
 import java.awt.event.ActionEvent;
 
-
 public class QuitAction extends BasicAction
 {
 

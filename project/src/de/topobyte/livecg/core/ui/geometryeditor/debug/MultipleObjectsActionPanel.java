@@ -39,7 +39,7 @@ public class MultipleObjectsActionPanel extends JPanel
 		setLayout(new GridBagLayout());
 
 		GridBagConstraints c = new GridBagConstraints();
-		
+
 		c.fill = GridBagConstraints.BOTH;
 		GridBagHelper.setGxGy(c, GridBagConstraints.RELATIVE, 0);
 	}

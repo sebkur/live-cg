@@ -21,7 +21,7 @@ public interface SizeProvider
 {
 
 	public int getWidth();
-	
+
 	public int getHeight();
-	
+
 }

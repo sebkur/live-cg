@@ -27,7 +27,7 @@ public class IntRing
 	{
 		this(size, 0);
 	}
-	
+
 	public IntRing(int size, int value)
 	{
 		this.value = value;
@@ -38,7 +38,7 @@ public class IntRing
 	{
 		value = 0;
 	}
-	
+
 	public IntRing next()
 	{
 		value++;

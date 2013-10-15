@@ -27,7 +27,7 @@ public class Color
 	{
 		return argb;
 	}
-	
+
 	public int getRGB()
 	{
 		return argb & 0xFFFFFF;

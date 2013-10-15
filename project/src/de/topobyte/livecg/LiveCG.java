@@ -125,10 +125,11 @@ public class LiveCG
 		objectDialog.setSize(300, 300);
 		objectDialog.setLocation(frame.getX() + frame.getWidth(), frame.getY());
 		objectDialog.setVisible(true);
-		
+
 		contentDialog = new ContentDialog(frame, lineEditor.getEditPane());
 		contentDialog.setSize(300, 300);
-		contentDialog.setLocation(frame.getX() + frame.getWidth(), frame.getY());
+		contentDialog
+				.setLocation(frame.getX() + frame.getWidth(), frame.getY());
 
 		ContentReader reader = new ContentReader();
 		String filename = "res/geom/some.geom";

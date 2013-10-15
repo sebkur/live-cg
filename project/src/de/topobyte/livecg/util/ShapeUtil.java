@@ -44,8 +44,8 @@ public class ShapeUtil
 		double rmw = r - w / 2;
 		Arc2D outerArc = new Arc2D.Double(x - rpw, y - rpw, r * 2 + w, r * 2
 				+ w, 0, 360, Arc2D.CHORD);
-		Arc2D innerArc = new Arc2D.Double(x - rmw, y - rmw, r * 2 - w,
-				r * 2 - w, 0, 360, Arc2D.CHORD);
+		Arc2D innerArc = new Arc2D.Double(x - rmw, y - rmw, r * 2 - w, r * 2
+				- w, 0, 360, Arc2D.CHORD);
 
 		Area outer = new Area(outerArc);
 		Area inner = new Area(innerArc);

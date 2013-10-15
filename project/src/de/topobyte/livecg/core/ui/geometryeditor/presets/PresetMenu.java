@@ -35,7 +35,7 @@ public class PresetMenu
 	private JMenu presetsMenu;
 
 	private Icon folder = ImageLoader.load("res/images/24x24/folder.png");
-	
+
 	public PresetMenu(JMenu presets)
 	{
 		this.presetsMenu = presets;
@@ -74,7 +74,8 @@ public class PresetMenu
 			}
 		} else {
 			String fileName = file.getName();
-			PresetMenuAction action = new PresetMenuAction(editPane, fileName, file);
+			PresetMenuAction action = new PresetMenuAction(editPane, fileName,
+					file);
 			JMenuItem item = new JMenuItem(action);
 			menu.add(item);
 		}

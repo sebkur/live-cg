@@ -35,7 +35,7 @@ public class PairOfNodes
 	{
 		return a;
 	}
-	
+
 	public Node getB()
 	{
 		return b;

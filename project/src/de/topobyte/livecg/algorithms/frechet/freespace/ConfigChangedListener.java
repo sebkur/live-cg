@@ -21,5 +21,5 @@ public interface ConfigChangedListener
 {
 
 	public void configChanged();
-	
+
 }

@@ -24,7 +24,7 @@ public class PolygonHelper
 	{
 		return isCounterClockwiseOriented(polygon.getShell());
 	}
-	
+
 	public static boolean isCounterClockwiseOriented(Chain chain)
 	{
 		double sum1 = 0, sum2 = 0;

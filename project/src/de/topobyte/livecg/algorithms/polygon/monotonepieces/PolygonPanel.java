@@ -23,5 +23,5 @@ public interface PolygonPanel
 	public Config getPolygonConfig();
 
 	public void settingsUpdated();
-	
+
 }

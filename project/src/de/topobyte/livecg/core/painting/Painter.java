@@ -9,7 +9,7 @@ import de.topobyte.livecg.core.geometry.geom.Polygon;
 public interface Painter
 {
 	public void setColor(Color color);
-	
+
 	public void setStrokeWidth(double width);
 
 	public void fillRect(int x, int y, int width, int height);
