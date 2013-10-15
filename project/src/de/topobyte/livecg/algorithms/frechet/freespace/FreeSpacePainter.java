@@ -56,11 +56,11 @@ public class FreeSpacePainter implements EpsilonSettable
 
 	private Color colorBackground = new Color(0x999999);
 	private Color colorFreeSpace = new Color(0xFFFFFF);
-	private Color colorReachableSpace = new Color(0xFFDDDD);
+	private Color colorReachableSpace = new Color(0xFFBBBB);
 	private Color colorFreeSpaceOutline = new Color(0x333333);
 
 	private Color colorFreeSpaceMarkers = new Color(0x000000);
-	private Color colorReachableSpaceMarkers = new Color(0xFF9999);
+	private Color colorReachableSpaceMarkers = new Color(0xAA3333);
 
 	private float markerWidth = 2;
 	private int markerLength = 3;
