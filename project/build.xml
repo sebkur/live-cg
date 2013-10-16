@@ -47,6 +47,7 @@
 				<pathelement path="${build.main}" />
 				<fileset dir="${lib}" erroronmissingdir="false">
 					<include name="*.jar" />
+					<include name="**/*.jar" />
 				</fileset>
 			</classpath>
 		</javac>
