@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Set;
 
 import de.topobyte.livecg.algorithms.polygon.monotonepieces.Diagonal;
+import de.topobyte.livecg.core.config.LiveConfig;
 import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.core.geometry.geom.Coordinate;
 import de.topobyte.livecg.core.geometry.geom.IntRing;
@@ -39,34 +40,39 @@ import de.topobyte.livecg.util.graph.Edge;
 public class ShortestPathPainter extends BasicAlgorithmPainter
 {
 
-	private Color COLOR_BG = new Color(java.awt.Color.WHITE.getRGB());
+	private String q(String property)
+	{
+		return "algorithm.polygon.shortestpath.colors." + property;
+	}
 
-	private Color COLOR_POLYGON_BG = new Color(0xDDDDDD);
-	private Color COLOR_TRIANGLE_SLEEVE = new Color(0xBBBBBB);
-	private Color COLOR_TRIANGLE_SLEEVE_DONE = new Color(0x3300ff00, true);
+	private Color COLOR_BG = LiveConfig.getColor(q("background"));
 
-	private Color COLOR_POLYGON_EDGES = new Color(java.awt.Color.BLACK.getRGB());
-	private Color COLOR_DIAGONALS_NONSLEEVE = new Color(0x666666);
-	private Color COLOR_DIAGONALS_SLEEVE = new Color(0x666666);
-	private Color COLOR_DUAL_GRAPH = new Color(0xEEEE00);
+	private Color COLOR_POLYGON_BG = LiveConfig.getColor(q("polygon"));
+	private Color COLOR_TRIANGLE_SLEEVE = LiveConfig.getColor(q("sleeve"));
+	private Color COLOR_TRIANGLE_SLEEVE_DONE = LiveConfig
+			.getColor(q("sleeve.done"));
 
-	private Color COLOR_NODE_START = new Color(java.awt.Color.RED.getRGB());
-	private Color COLOR_NODE_TARGET = new Color(java.awt.Color.GREEN.getRGB());
-	private Color COLOR_NODE_START_OUTLINE = new Color(
-			java.awt.Color.BLACK.getRGB());
-	private Color COLOR_NODE_TARGET_OUTLINE = new Color(
-			java.awt.Color.BLACK.getRGB());
+	private Color COLOR_POLYGON_EDGES = LiveConfig.getColor(q("boundary"));
+	private Color COLOR_DIAGONALS_NONSLEEVE = LiveConfig
+			.getColor(q("diagonals"));
+	private Color COLOR_DIAGONALS_SLEEVE = LiveConfig.getColor(q("diagonals"));
+	private Color COLOR_DUAL_GRAPH = LiveConfig.getColor(q("dualgraph"));
 
-	private Color COLOR_APEX = new Color(java.awt.Color.MAGENTA.darker()
-			.getRGB());
-	private Color COLOR_LEFT_TOP = new Color(java.awt.Color.BLUE.getRGB());
-	private Color COLOR_RIGHT_TOP = new Color(java.awt.Color.RED.getRGB());
-	private Color COLOR_COMMON_PATH = new Color(java.awt.Color.MAGENTA.darker()
-			.getRGB());
-	private Color COLOR_LEFT_PATH = new Color(java.awt.Color.BLUE.getRGB());
-	private Color COLOR_RIGHT_PATH = new Color(java.awt.Color.RED.getRGB());;
+	private Color COLOR_NODE_START = LiveConfig.getColor(q("node.start"));
+	private Color COLOR_NODE_TARGET = LiveConfig.getColor(q("node.target"));
+	private Color COLOR_NODE_START_OUTLINE = LiveConfig
+			.getColor(q("node.start.outline"));
+	private Color COLOR_NODE_TARGET_OUTLINE = LiveConfig
+			.getColor(q("node.target.outline"));
 
-	private Color COLOR_NODE_IDS = new Color(java.awt.Color.BLACK.getRGB());
+	private Color COLOR_APEX = LiveConfig.getColor(q("path.apex"));
+	private Color COLOR_LEFT_TOP = LiveConfig.getColor(q("path.left.top"));
+	private Color COLOR_RIGHT_TOP = LiveConfig.getColor(q("path.right.top"));
+	private Color COLOR_COMMON_PATH = LiveConfig.getColor(q("path.common"));
+	private Color COLOR_LEFT_PATH = LiveConfig.getColor(q("path.left"));
+	private Color COLOR_RIGHT_PATH = LiveConfig.getColor(q("path.right"));
+
+	private Color COLOR_NODE_IDS = LiveConfig.getColor(q("node.ids"));
 
 	private ShortestPathAlgorithm algorithm;
 	private Config config;
