@@ -24,12 +24,18 @@ import java.io.InputStreamReader;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import de.topobyte.livecg.core.painting.Color;
+import de.topobyte.livecg.util.Stack;
 import de.topobyte.livecg.util.resources.ResourceFile;
 import de.topobyte.livecg.util.resources.ResourceLoader;
 
 public class ConfigParser
 {
+	final static Logger logger = LoggerFactory.getLogger(ConfigParser.class);
+
 	private Configuration config;
 
 	private ConfigParser()
@@ -43,6 +49,7 @@ public class ConfigParser
 		ResourceFile file = ResourceLoader.open(path);
 		InputStream input = file.open();
 		BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+		logger.debug("PARSING: " + path);
 		while (true) {
 			String line = reader.readLine();
 			if (line == null) {
@@ -54,8 +61,21 @@ public class ConfigParser
 		return parser.config;
 	}
 
+	private Stack<String> prefixes = new Stack<String>();
+
 	private void parseLine(String line)
 	{
+		String trimmedLine = line.trim();
+		if (trimmedLine.endsWith("{")) {
+			String prefix = trimmedLine.substring(0, trimmedLine.length() - 1);
+			prefix = prefix.trim();
+			logger.debug("PREFIX: " + prefix);
+			prefixes.push(prefix);
+			return;
+		} else if (trimmedLine.startsWith("}")) {
+			prefixes.pop();
+			return;
+		}
 		String[] parts = line.split("=");
 		if (parts.length != 2) {
 			return;
@@ -63,10 +83,24 @@ public class ConfigParser
 		String name = parts[0].trim();
 		String value = parts[1].trim();
 
+		String fullName = buildName(name);
+
 		if (value.startsWith("#")) {
 			Color color = parseColor(value, null);
-			config.colors.put(name, color);
+			config.colors.put(fullName, color);
 		}
+	}
+
+	private String buildName(String name)
+	{
+		StringBuilder buffer = new StringBuilder();
+		for (String prefix : prefixes) {
+			buffer.append(prefix);
+			buffer.append(".");
+		}
+		buffer.append(name);
+		logger.debug("FULL: " + buffer.toString());
+		return buffer.toString();
 	}
 
 	private static Pattern patternColor = Pattern

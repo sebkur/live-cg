@@ -1,24 +1,24 @@
 algorithm.polygon.shortestpath.colors {
-	background = #ffffff
+	background = #000000
 	node {
-		start = #ffffff
+		start = #00ff00
+		target = #00ff00
+		start.outline = #ffffff
+		target.outline = #ffffff
+		ids = #ffffff
+	}
+	boundary = #ffffff
+	diagonals = #ffffff
+	dualgraph = #ffffff
+	polygon = #666666
+	sleeve = #aaaaaa
+	sleeve.done = #3300ff00
+	path {
+		left = #ffffff
+		right = #ffffff
+		left.top = #ffffff
+		right.top = #ffffff
+		apex = #ffffff
+		common = #ffffff
 	}
 }
-algorithm.polygon.shortestpath.colors.background = #000000
-algorithm.polygon.shortestpath.colors.boundary = #ffffff
-algorithm.polygon.shortestpath.colors.diagonals = #ffffff
-algorithm.polygon.shortestpath.colors.dualgraph = #ffffff
-algorithm.polygon.shortestpath.colors.polygon = #666666
-algorithm.polygon.shortestpath.colors.sleeve = #aaaaaa
-algorithm.polygon.shortestpath.colors.sleeve.done = #3300ff00
-algorithm.polygon.shortestpath.colors.node.start = #00ff00
-algorithm.polygon.shortestpath.colors.node.target = #00ff00
-algorithm.polygon.shortestpath.colors.node.start.outline = #ffffff
-algorithm.polygon.shortestpath.colors.node.target.outline = #ffffff
-algorithm.polygon.shortestpath.colors.path.left = #ffffff
-algorithm.polygon.shortestpath.colors.path.right = #ffffff
-algorithm.polygon.shortestpath.colors.path.left.top = #ffffff
-algorithm.polygon.shortestpath.colors.path.right.top = #ffffff
-algorithm.polygon.shortestpath.colors.path.apex = #ffffff
-algorithm.polygon.shortestpath.colors.path.common = #ffffff
-algorithm.polygon.shortestpath.colors.node.ids = #ffffff

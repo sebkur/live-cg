@@ -24,13 +24,10 @@ import java.util.List;
 import javax.swing.JFrame;
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.xml.sax.SAXException;
 
-import de.topobyte.livecg.algorithms.polygon.shortestpath.ShortestPathAlgorithm;
-import de.topobyte.livecg.algorithms.polygon.shortestpath.ShortestPathDialog;
 import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.core.geometry.geom.ChainHelper;
 import de.topobyte.livecg.core.geometry.geom.CloseabilityException;
@@ -45,7 +42,6 @@ public class TestShortestPath
 	public static void main(String[] args) throws IOException,
 			ParserConfigurationException, SAXException
 	{
-		BasicConfigurator.configure();
 		Logger.getRootLogger().setLevel(Level.INFO);
 		Logger.getLogger(ShortestPathAlgorithm.class).setLevel(Level.DEBUG);
 
