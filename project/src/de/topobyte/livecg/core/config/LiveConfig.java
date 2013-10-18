@@ -23,23 +23,35 @@ import de.topobyte.livecg.core.painting.Color;
 
 public class LiveConfig
 {
+	private static final String DEFAULT_PATH = "res/config";
 
-	static Configuration config = null;
-	static {
-		try {
-			config = ConfigParser.parse("res/config");
-		} catch (IOException e) {
-			System.out.println("unable to load configuration");
-		}
+	private static Configuration config = null;
+	private static String path = DEFAULT_PATH;
+
+	public static void setPath(String path)
+	{
+		LiveConfig.path = path;
 	}
-
+	
 	public static Color getColor(String key)
 	{
+		initialize();
 		Color color = config.getColor(key);
 		if (color != null) {
 			return color;
 		}
 		return new Color(0x000000);
+	}
+
+	private static void initialize()
+	{
+		if (config == null) {
+			try {
+				config = ConfigParser.parse(path);
+			} catch (IOException e) {
+				System.out.println("unable to load configuration");
+			}
+		}
 	}
 
 }

@@ -26,10 +26,17 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.GnuParser;
+import org.apache.commons.cli.HelpFormatter;
+import org.apache.commons.cli.Options;
+import org.apache.commons.cli.ParseException;
 import org.apache.log4j.BasicConfigurator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.topobyte.livecg.core.config.LiveConfig;
 import de.topobyte.livecg.core.geometry.io.ContentReader;
 import de.topobyte.livecg.core.ui.geometryeditor.Content;
 import de.topobyte.livecg.core.ui.geometryeditor.GeometryEditor;
@@ -39,14 +46,44 @@ import de.topobyte.livecg.core.ui.geometryeditor.StatusBarMouseListener;
 import de.topobyte.livecg.core.ui.geometryeditor.Toolbar;
 import de.topobyte.livecg.core.ui.geometryeditor.debug.ContentDialog;
 import de.topobyte.livecg.core.ui.geometryeditor.object.ObjectDialog;
+import de.topobyte.utilities.apache.commons.cli.ArgumentHelper;
+import de.topobyte.utilities.apache.commons.cli.OptionHelper;
+import de.topobyte.utilities.apache.commons.cli.StringOption;
 
 public class LiveCG
 {
 
 	static final Logger logger = LoggerFactory.getLogger(LiveCG.class);
 
+	private static final String HELP_MESSAGE = "LiveCG [args]";
+
+	private static final String OPTION_CONFIG = "config";
+
 	public static void main(String[] args)
 	{
+		// @formatter:off
+		Options options = new Options();
+		OptionHelper.add(options, OPTION_CONFIG, true, false, "path", "config file");
+		// @formatter:on
+
+		CommandLineParser clp = new GnuParser();
+
+		CommandLine line = null;
+		try {
+			line = clp.parse(options, args);
+		} catch (ParseException e) {
+			System.err
+					.println("Parsing command line failed: " + e.getMessage());
+			new HelpFormatter().printHelp(HELP_MESSAGE, options);
+			System.exit(1);
+		}
+
+		StringOption config = ArgumentHelper.getString(line, OPTION_CONFIG);
+		if (config.hasValue()) {
+			String configPath = config.getValue();
+			LiveConfig.setPath(configPath);
+		}
+
 		final LiveCG runner = new LiveCG();
 
 		SwingUtilities.invokeLater(new Runnable() {
