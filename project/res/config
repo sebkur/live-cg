@@ -1,3 +1,22 @@
+geometryeditor.colors {
+	background = #ffffff
+	chains.points = #000000
+	chains.lines = #000000
+	editing {
+		chains.points = #0000ff
+		chains.lines = #0000ff
+		chains.first = #ff0000
+		chains.last = #ff0000
+	}
+	mousehighlight.node= #00ffff
+	mousehighlight.chain = #00ffff
+	nodes.selected = #00ffff
+	nodes.snaphighlight = #00aaaa
+	prospect.node = #000000
+	prospect.line = #000000
+	selection.rectangle = #000000
+	polygon.interior = #33ff0000
+}
 algorithm.polygon.shortestpath.colors {
 	background = #ffffff
 	node {

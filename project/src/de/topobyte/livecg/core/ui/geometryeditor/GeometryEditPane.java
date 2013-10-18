@@ -19,7 +19,6 @@
 package de.topobyte.livecg.core.ui.geometryeditor;
 
 import java.awt.BasicStroke;
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
@@ -34,6 +33,7 @@ import javax.swing.InputMap;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 
+import de.topobyte.livecg.core.config.LiveConfig;
 import de.topobyte.livecg.core.geometry.geom.AwtHelper;
 import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.core.geometry.geom.Coordinate;
@@ -41,6 +41,7 @@ import de.topobyte.livecg.core.geometry.geom.Line;
 import de.topobyte.livecg.core.geometry.geom.Node;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
 import de.topobyte.livecg.core.geometry.geom.Rectangle;
+import de.topobyte.livecg.core.painting.Color;
 import de.topobyte.livecg.core.ui.geometryeditor.action.OpenCloseRingAction;
 import de.topobyte.livecg.core.ui.geometryeditor.mousemode.MouseMode;
 import de.topobyte.livecg.core.ui.geometryeditor.mousemode.MouseModeListener;
@@ -51,6 +52,18 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 {
 
 	private static final long serialVersionUID = -8078013859398953550L;
+
+	private String q(String property)
+	{
+		return "geometryeditor.colors." + property;
+	}
+
+	private java.awt.Color color(Color c)
+	{
+		return new java.awt.Color(c.getARGB(), true);
+	}
+
+	private Color COLOR_BG = LiveConfig.getColor(q("background"));
 
 	private MouseMode mouseMode = MouseMode.EDIT;
 
@@ -64,7 +77,7 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 	{
 		content = new Content();
 
-		setBackground(new Color(0xFAFAFA));
+		setBackground(new java.awt.Color(COLOR_BG.getRGB()));
 
 		EditorMouseListener mouseListener = new EditorMouseListener(this);
 		addMouseListener(mouseListener);
@@ -254,17 +267,30 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 	 * drawing
 	 */
 
-	private Color colorChainLines = Color.BLACK;
-	private Color colorChainPoints = Color.BLACK;
-	private Color colorEditingChainLines = Color.BLUE;
-	private Color colorEditingChainPoints = Color.BLUE;
-	private Color colorFirstEditingLinePoints = Color.RED;
-	private Color colorLastEditingLinePoints = Color.RED;
+	private Color colorChainLines = LiveConfig.getColor(q("chains.lines"));
+	private Color colorChainPoints = LiveConfig.getColor(q("chains.points"));
+	private Color colorEditingChainLines = LiveConfig
+			.getColor(q("editing.chains.lines"));
+	private Color colorEditingChainPoints = LiveConfig
+			.getColor(q("editing.chains.points"));
+	private Color colorFirstEditingLinePoints = LiveConfig
+			.getColor(q("editing.chains.first"));
+	private Color colorLastEditingLinePoints = LiveConfig
+			.getColor(q("editing.chains.last"));
 
-	private Color colorMouseHighightNode = Color.CYAN;
-	private Color colorMouseHighlightChain = Color.CYAN;
-	private Color colorSnapHighlightNode = Color.CYAN.darker();
-	private Color colorSelectedNodes = Color.CYAN;
+	private Color colorMouseHighightNode = LiveConfig
+			.getColor(q("mousehighlight.node"));
+	private Color colorMouseHighlightChain = LiveConfig
+			.getColor(q("mousehighlight.chain"));
+	private Color colorSnapHighlightNode = LiveConfig
+			.getColor(q("nodes.snaphighlight"));
+	private Color colorSelectedNodes = LiveConfig.getColor(q("nodes.selected"));
+	private Color colorProspectNode = LiveConfig.getColor(q("prospect.node"));
+	private Color colorProspectLine = LiveConfig.getColor(q("prospect.line"));
+	private Color colorSelectionRectangle = LiveConfig
+			.getColor(q("selection.rectangle"));
+	private Color colorPolygonInterior = LiveConfig
+			.getColor(q("polygon.interior"));
 
 	public void paint(Graphics graphics)
 	{
@@ -280,12 +306,13 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 		useAntialiasing(g, false);
 
 		if (mouseHighlightChain != null) {
-			drawHighlight(g, mouseHighlightChain, colorMouseHighlightChain);
+			drawHighlight(g, mouseHighlightChain,
+					color(colorMouseHighlightChain));
 		}
 
 		if (mouseHighlightPolygon != null) {
 			drawHighlight(g, mouseHighlightPolygon.getShell(),
-					colorMouseHighlightChain);
+					color(colorMouseHighlightChain));
 		}
 
 		List<Chain> chains = content.getChains();
@@ -312,13 +339,13 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 				draw(g, chain, colorEditingChainLines, colorEditingChainPoints,
 						null);
 
-				g.setColor(colorLastEditingLinePoints);
+				g.setColor(color(colorLastEditingLinePoints));
 				Coordinate c = chain.getLastCoordinate();
 				g.drawRect((int) Math.round(c.getX() - 3),
 						(int) Math.round(c.getY() - 3), 6, 6);
 
 				if (chain.getNumberOfNodes() > 1) {
-					g.setColor(colorFirstEditingLinePoints);
+					g.setColor(color(colorFirstEditingLinePoints));
 					c = chain.getFirstCoordinate();
 					g.drawRect((int) Math.round(c.getX() - 3),
 							(int) Math.round(c.getY() - 3), 6, 6);
@@ -334,14 +361,14 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 		}
 
 		if (snapHighlightNode != null) {
-			g.setColor(colorSnapHighlightNode);
+			g.setColor(color(colorSnapHighlightNode));
 			Coordinate c = snapHighlightNode.getCoordinate();
 			g.fillRect((int) Math.round(c.getX() - 5),
 					(int) Math.round(c.getY() - 5), 10, 10);
 		}
 
 		if (mouseHighlightNode != null) {
-			g.setColor(colorMouseHighightNode);
+			g.setColor(color(colorMouseHighightNode));
 			Coordinate c = mouseHighlightNode.getCoordinate();
 			g.drawRect((int) Math.round(c.getX() - 3),
 					(int) Math.round(c.getY() - 3), 6, 6);
@@ -349,7 +376,7 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 
 		if (currentNodes.size() > 0) {
 			for (Node node : currentNodes) {
-				g.setColor(colorSelectedNodes);
+				g.setColor(color(colorSelectedNodes));
 				Coordinate c = node.getCoordinate();
 				g.fillRect((int) Math.round(c.getX() - 2),
 						(int) Math.round(c.getY() - 2), 4 + 1, 4 + 1);
@@ -358,7 +385,7 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 
 		if (prospectLine != null) {
 			useAntialiasing(g, true);
-			g.setColor(Color.BLACK);
+			g.setColor(color(colorProspectLine));
 			Coordinate c1 = prospectLine.getC1();
 			Coordinate c2 = prospectLine.getC2();
 			g.drawLine((int) Math.round(c1.getX()),
@@ -368,7 +395,7 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 		}
 
 		if (prospectNode != null) {
-			g.setColor(Color.BLACK);
+			g.setColor(color(colorProspectNode));
 			Coordinate c = prospectNode.getCoordinate();
 			int x = (int) Math.round(c.getX());
 			int y = (int) Math.round(c.getY());
@@ -384,7 +411,7 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 					- selectionRectangle.getX1());
 			int height = Math.abs(selectionRectangle.getY2()
 					- selectionRectangle.getY1());
-			g.setColor(Color.BLACK);
+			g.setColor(color(colorSelectionRectangle));
 			g.drawRect(x, y, width, height);
 		}
 	}
@@ -404,7 +431,7 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 
 		// line segments
 		useAntialiasing(g, true);
-		g.setColor(colorLines);
+		g.setColor(color(colorLines));
 		g.setStroke(new BasicStroke(1.0f));
 		Coordinate last = chain.getCoordinate(0);
 		for (int i = 1; i < n; i++) {
@@ -426,7 +453,7 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 		}
 		useAntialiasing(g, false);
 		// points
-		g.setColor(colorPoints);
+		g.setColor(color(colorPoints));
 		g.setStroke(new BasicStroke(1.0f));
 		for (int i = 0; i < n; i++) {
 			Coordinate current = chain.getCoordinate(i);
@@ -442,7 +469,7 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 		}
 	}
 
-	private void drawHighlight(Graphics2D g, Chain chain, Color color)
+	private void drawHighlight(Graphics2D g, Chain chain, java.awt.Color color)
 	{
 		int n = chain.getNumberOfNodes();
 		if (n == 0) {
@@ -476,7 +503,7 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 	private void drawInterior(Graphics2D g, Polygon polygon)
 	{
 		Area area = AwtHelper.toShape(polygon);
-		g.setColor(new Color(0x33ff0000, true));
+		g.setColor(color(colorPolygonInterior));
 		g.fill(area);
 	}
 
