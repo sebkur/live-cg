@@ -1,24 +1,24 @@
 algorithm.polygon.shortestpath.colors {
-	background = #000000
+	background = #ffffff
 	node {
-		start = #00ff00
+		start = #ff0000
 		target = #00ff00
-		start.outline = #ffffff
-		target.outline = #ffffff
-		ids = #ffffff
+		start.outline = #000000
+		target.outline = #000000
+		ids = #000000
 	}
-	boundary = #ffffff
-	diagonals = #ffffff
-	dualgraph = #ffffff
-	polygon = #666666
-	sleeve = #aaaaaa
+	boundary = #000000
+	diagonals = #000000
+	dualgraph = #eeee00
+	polygon = #dddddd
+	sleeve = #bbbbbb
 	sleeve.done = #3300ff00
 	path {
-		left = #ffffff
-		right = #ffffff
-		left.top = #ffffff
-		right.top = #ffffff
-		apex = #ffffff
-		common = #ffffff
+		left = #0000ff
+		right = #ff0000
+		left.top = #0000ff
+		right.top = #ff0000
+		apex = #b200b2
+		common = #b200b2
 	}
 }
