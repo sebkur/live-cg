@@ -20,20 +20,32 @@ package de.topobyte.livecg.core.geometry.dcel;
 import java.io.File;
 import java.io.IOException;
 
+import javax.swing.JFrame;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
+import de.topobyte.livecg.algorithms.dcel.DcelPanel;
 import de.topobyte.livecg.core.geometry.io.ContentReader;
 import de.topobyte.livecg.core.ui.geometryeditor.Content;
 
 public class TestBuildDCEL
 {
-	public static void main(String[] args) throws IOException, ParserConfigurationException, SAXException
+	public static void main(String[] args) throws IOException,
+			ParserConfigurationException, SAXException
 	{
 		String path = "res/presets/arrangements/Arrangement1.geom";
 		ContentReader contentReader = new ContentReader();
 		Content content = contentReader.read(new File(path));
+
+		DCEL dcel = DcelConverter.convert(content);
+
+		DcelPanel panel = new DcelPanel(dcel);
 		
+		JFrame frame = new JFrame();
+		frame.setContentPane(panel);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setSize(800, 600);
+		frame.setVisible(true);
 	}
 }
