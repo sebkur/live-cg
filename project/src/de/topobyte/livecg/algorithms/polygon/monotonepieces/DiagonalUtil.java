@@ -28,10 +28,10 @@ import org.slf4j.LoggerFactory;
 import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.core.geometry.geom.ChainHelper;
 import de.topobyte.livecg.core.geometry.geom.CloseabilityException;
-import de.topobyte.livecg.core.geometry.geom.IntRing;
-import de.topobyte.livecg.core.geometry.geom.IntRingInterval;
 import de.topobyte.livecg.core.geometry.geom.Node;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
+import de.topobyte.livecg.util.circular.IntRing;
+import de.topobyte.livecg.util.circular.IntRingInterval;
 
 public class DiagonalUtil
 {

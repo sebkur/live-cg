@@ -20,8 +20,8 @@ package de.topobyte.livecg.core.geometry.util;
 import java.util.Iterator;
 
 import de.topobyte.livecg.core.geometry.geom.Chain;
-import de.topobyte.livecg.core.geometry.geom.IntRing;
 import de.topobyte.livecg.core.geometry.geom.Node;
+import de.topobyte.livecg.util.circular.IntRing;
 
 public class SegmentIterable implements Iterable<Segment>
 {

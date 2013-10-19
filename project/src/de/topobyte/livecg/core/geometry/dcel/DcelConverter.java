@@ -26,11 +26,11 @@ import java.util.Map;
 import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.core.geometry.geom.Coordinate;
 import de.topobyte.livecg.core.geometry.geom.GeomMath;
-import de.topobyte.livecg.core.geometry.geom.IntRing;
 import de.topobyte.livecg.core.geometry.geom.Node;
 import de.topobyte.livecg.core.geometry.util.Segment;
 import de.topobyte.livecg.core.geometry.util.SegmentIterable;
 import de.topobyte.livecg.core.ui.geometryeditor.Content;
+import de.topobyte.livecg.util.circular.IntRing;
 import de.topobyte.livecg.util.datasorting.ObjectWithDouble;
 
 public class DcelConverter

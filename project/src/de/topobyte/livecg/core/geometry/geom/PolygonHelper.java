@@ -17,6 +17,8 @@
  */
 package de.topobyte.livecg.core.geometry.geom;
 
+import de.topobyte.livecg.util.circular.IntRing;
+
 public class PolygonHelper
 {
 
