@@ -60,32 +60,16 @@ public class DcelPainter extends BasicAlgorithmPainter
 		}
 		painter.setColor(new Color(255, 0, 255));
 		for (HalfEdge halfedge : dcel.halfedges) {
-			HalfEdge twin = halfedge.getTwin();
-			Vertex origin = halfedge.getOrigin();
-			Vertex destination = twin.getOrigin();
-			Coordinate co = origin.getCoordinate();
-			Coordinate cd = destination.getCoordinate();
+			HalfEdgeArrow arrow = new HalfEdgeArrow(halfedge);
 
-			double gap = 5;
-			double shorten = 6;
-			double length = 15;
-			double alpha = Math.PI / 8;
-			double lsa = length * Math.sin(alpha);
-			double lca = length * Math.cos(alpha);
-
-			Vector vo = new Vector(co);
-			Vector vd = new Vector(cd);
-			Vector he = new Vector(co, cd).normalized();
-			Vector ppd = he.perpendicular().normalized();
-			
-			Vector ao = vo.add(ppd.mult(gap)).add(he.mult(shorten));
-			Vector ad = vd.add(ppd.mult(gap)).sub(he.mult(shorten));
-			painter.drawLine(ao.getX(), ao.getY(), ad.getX(), ad.getY());
-			
-			Vector end = ad.add(ppd.mult(lsa)).sub(he.mult(lca));
-
-			painter.drawLine(ad.getX(), ad.getY(), end.getX(), end.getY());
+			drawLine(arrow.getOrigin(), arrow.getDestination());
+			drawLine(arrow.getDestination(), arrow.getMarker());
 		}
+	}
+
+	private void drawLine(Vector v1, Vector v2)
+	{
+		painter.drawLine(v1.getX(), v1.getY(), v2.getX(), v2.getY());
 	}
 
 }
