@@ -66,7 +66,7 @@ public class HalfEdgeArrow
 			length -= shorten * 2;
 		}
 
-		Vector ppd = e.perpendicular().normalized();
+		Vector ppd = e.perpendicularRight().normalized();
 		am = ad.add(ppd.mult(lsa)).sub(e.mult(lca));
 	}
 
@@ -102,7 +102,7 @@ public class HalfEdgeArrow
 		} else { // Obtuse angle
 			// Just move the target point p an amount 'gap' in the direction
 			// perpendicular to the edge
-			Vector ppd = e.perpendicular().normalized();
+			Vector ppd = e.perpendicularRight().normalized();
 			Vector p = v2.add(ppd.mult(gap));
 			return p;
 		}

@@ -86,7 +86,12 @@ public class Vector
 		return mult(1.0 / this.norm());
 	}
 
-	public Vector perpendicular()
+	public Vector perpendicularLeft()
+	{
+		return new Vector(-y, x);
+	}
+
+	public Vector perpendicularRight()
 	{
 		return new Vector(y, -x);
 	}
