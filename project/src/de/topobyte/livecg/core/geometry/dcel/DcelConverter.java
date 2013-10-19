@@ -27,6 +27,7 @@ import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.core.geometry.geom.Coordinate;
 import de.topobyte.livecg.core.geometry.geom.GeomMath;
 import de.topobyte.livecg.core.geometry.geom.Node;
+import de.topobyte.livecg.core.geometry.geom.Polygon;
 import de.topobyte.livecg.core.geometry.util.Segment;
 import de.topobyte.livecg.core.geometry.util.SegmentIterable;
 import de.topobyte.livecg.geometryeditor.geometryeditor.Content;
@@ -59,12 +60,38 @@ public class DcelConverter
 	private void convert()
 	{
 		List<Chain> chains = content.getChains();
+		List<Polygon> polygons = content.getPolygons();
+
+		// Create vertices for chains and polygons
+
 		for (Chain chain : chains) {
 			createVertices(chain);
 		}
+		for (Polygon polygon : polygons) {
+			Chain shell = polygon.getShell();
+			createVertices(shell);
+			for (int i = 0; i < polygon.getHoles().size(); i++) {
+				Chain hole = polygon.getHoles().get(i);
+				createVertices(hole);
+			}
+		}
+
+		// Create halfedges for chains and polygons
+
 		for (Chain chain : chains) {
 			createHalfEdges(chain);
 		}
+		for (Polygon polygon : polygons) {
+			Chain shell = polygon.getShell();
+			createHalfEdges(shell);
+			for (int i = 0; i < polygon.getHoles().size(); i++) {
+				Chain hole = polygon.getHoles().get(i);
+				createHalfEdges(hole);
+			}
+		}
+
+		// Link halfedges (create next / previous pointers)
+
 		for (Vertex v : vertexToOutgoingHalfedges.keySet()) {
 			List<HalfEdge> halfEdges = vertexToOutgoingHalfedges.get(v);
 			linkHalfedges(halfEdges);
