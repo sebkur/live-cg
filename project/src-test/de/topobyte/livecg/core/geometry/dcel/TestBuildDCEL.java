@@ -34,14 +34,14 @@ public class TestBuildDCEL
 	public static void main(String[] args) throws IOException,
 			ParserConfigurationException, SAXException
 	{
-		String path = "res/presets/arrangements/Arrangement2.geom";
+		String path = "res/presets/Startup.geom";
 		ContentReader contentReader = new ContentReader();
 		Content content = contentReader.read(new File(path));
 
 		DCEL dcel = DcelConverter.convert(content);
 
 		DcelPanel panel = new DcelPanel(dcel);
-		
+
 		JFrame frame = new JFrame();
 		frame.setContentPane(panel);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
