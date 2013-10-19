@@ -17,6 +17,7 @@
  */
 package de.topobyte.livecg.algorithms.frechet.freespace.calc;
 
+import de.topobyte.livecg.core.lina2.Vector;
 import de.topobyte.livecg.util.DoubleUtil;
 
 public class FreeSpaceUtil

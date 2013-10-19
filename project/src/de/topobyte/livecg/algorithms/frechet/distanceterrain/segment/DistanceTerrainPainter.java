@@ -25,7 +25,7 @@ import java.awt.image.BufferedImage;
 
 import de.topobyte.color.util.HSLColor;
 import de.topobyte.livecg.algorithms.frechet.freespace.calc.LineSegment;
-import de.topobyte.livecg.algorithms.frechet.freespace.calc.Vector;
+import de.topobyte.livecg.core.lina2.Vector;
 import de.topobyte.livecg.util.SwingUtil;
 
 public class DistanceTerrainPainter

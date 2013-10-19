@@ -17,7 +17,7 @@
  */
 package de.topobyte.livecg.core.geometry.geom;
 
-import de.topobyte.livecg.algorithms.frechet.freespace.calc.Vector;
+import de.topobyte.livecg.core.lina2.Vector;
 
 public class GeomMath
 {

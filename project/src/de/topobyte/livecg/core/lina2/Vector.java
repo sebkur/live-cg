@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.topobyte.livecg.algorithms.frechet.freespace.calc;
+package de.topobyte.livecg.core.lina2;
 
 public class Vector
 {

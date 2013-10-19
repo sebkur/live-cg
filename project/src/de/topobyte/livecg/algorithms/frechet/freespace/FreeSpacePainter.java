@@ -34,7 +34,7 @@ import java.util.Random;
 import de.topobyte.livecg.algorithms.frechet.freespace.calc.FreeSpaceUtil;
 import de.topobyte.livecg.algorithms.frechet.freespace.calc.Interval;
 import de.topobyte.livecg.algorithms.frechet.freespace.calc.LineSegment;
-import de.topobyte.livecg.algorithms.frechet.freespace.calc.Vector;
+import de.topobyte.livecg.core.lina2.Vector;
 import de.topobyte.livecg.util.DoubleUtil;
 import de.topobyte.livecg.util.SwingUtil;
 
