@@ -1,6 +1,6 @@
-/* This file is part of Frechet tools. 
+/* This file is part of LiveCG. 
  * 
- * Copyright (C) 2012  Sebastian Kuerten
+ * Copyright (C) 2013  Sebastian Kuerten
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,8 +15,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package de.topobyte.livecg.core.lina2;
+
+import de.topobyte.livecg.core.geometry.geom.Coordinate;
 
 public class Vector
 {
@@ -28,6 +29,11 @@ public class Vector
 	{
 		this.x = x;
 		this.y = y;
+	}
+
+	public Vector(Coordinate from, Coordinate to)
+	{
+		this(to.getX() - from.getX(), to.getY() - from.getY());
 	}
 
 	public double getX()
