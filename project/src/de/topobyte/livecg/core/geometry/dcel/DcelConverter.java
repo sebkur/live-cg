@@ -86,9 +86,21 @@ public class DcelConverter
 
 	private void createHalfEdges(Chain chain)
 	{
-		for (Segment segment : new SegmentIterable(chain)) {
+		segments: for (Segment segment : new SegmentIterable(chain)) {
 			Vertex v1 = nodeToVertex.get(segment.getNode1());
 			Vertex v2 = nodeToVertex.get(segment.getNode2());
+
+			// Check for duplicate connections between nodes to avoid creation
+			// of duplicate halfedges
+			List<HalfEdge> halfEdges = vertexToOutgoingHalfedges.get(v1);
+			if (halfEdges != null) {
+				for (HalfEdge e : halfEdges) {
+					if (e.getTwin().getOrigin() == v2) {
+						continue segments;
+					}
+				}
+			}
+
 			HalfEdge a = new HalfEdge(v1, null, null, null, null);
 			HalfEdge b = new HalfEdge(v2, null, null, null, null);
 			a.setTwin(b);
