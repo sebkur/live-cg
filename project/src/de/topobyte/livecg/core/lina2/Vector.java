@@ -31,6 +31,11 @@ public class Vector
 		this.y = y;
 	}
 
+	public Vector(Coordinate c)
+	{
+		this(c.getX(), c.getY());
+	}
+
 	public Vector(Coordinate from, Coordinate to)
 	{
 		this(to.getX() - from.getX(), to.getY() - from.getY());
@@ -79,6 +84,11 @@ public class Vector
 	public Vector normalized()
 	{
 		return mult(1.0 / this.norm());
+	}
+
+	public Vector perpendicular()
+	{
+		return new Vector(y, -x);
 	}
 
 }
