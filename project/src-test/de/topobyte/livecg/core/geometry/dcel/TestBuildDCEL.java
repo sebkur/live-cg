@@ -34,7 +34,7 @@ public class TestBuildDCEL
 	public static void main(String[] args) throws IOException,
 			ParserConfigurationException, SAXException
 	{
-		String path = "res/presets/arrangements/Arrangement1.geom";
+		String path = "res/presets/arrangements/Arrangement2.geom";
 		ContentReader contentReader = new ContentReader();
 		Content content = contentReader.read(new File(path));
 
