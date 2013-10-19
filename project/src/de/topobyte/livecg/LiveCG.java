@@ -169,7 +169,7 @@ public class LiveCG
 				.setLocation(frame.getX() + frame.getWidth(), frame.getY());
 
 		ContentReader reader = new ContentReader();
-		String filename = "res/geom/some.geom";
+		String filename = "res/presets/Startup.geom";
 		InputStream input = Thread.currentThread().getContextClassLoader()
 				.getResourceAsStream(filename);
 		try {
