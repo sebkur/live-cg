@@ -87,7 +87,7 @@ public class HalfEdgeArrow
 		Vector e = new Vector(co, cd).normalized();
 
 		double angle = GeomMath.angle(c2, c1, c3);
-		if (angle <= 0.00001) {
+		if (Math.abs(angle) <= 0.00001) {
 			Vector d = e1.perpendicularRight().normalized();
 			Vector p;
 			if (origin) {
@@ -96,7 +96,7 @@ public class HalfEdgeArrow
 				p = v2.add(d.mult(gap));
 			}
 			return p;
-		} else if (angle <= Math.PI) { // Acute angle
+		} else if (angle <= Math.PI - 0.00001) { // Acute angle
 			// d is the direction in which to shift the point from v2
 			Vector d = e1.mult(-1).add(e2).normalized();
 			// Find lambda such that lambda * d shifts the target point p from
