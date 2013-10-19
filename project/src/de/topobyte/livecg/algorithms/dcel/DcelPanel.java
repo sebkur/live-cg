@@ -32,13 +32,20 @@ public class DcelPanel extends JPanel implements SizeProvider
 
 	private static final long serialVersionUID = 8978186265217218174L;
 
+	private DcelConfig config;
 	private AwtPainter painter;
 	private DcelPainter algorithmPainter;
 
 	public DcelPanel(DCEL dcel)
 	{
+		config = new DcelConfig();
 		painter = new AwtPainter(null);
 		algorithmPainter = new DcelPainter(painter, dcel);
+	}
+
+	public DcelConfig getConfig()
+	{
+		return config;
 	}
 
 	@Override
@@ -52,6 +59,11 @@ public class DcelPanel extends JPanel implements SizeProvider
 		algorithmPainter.setWidth(getWidth());
 		algorithmPainter.setHeight(getHeight());
 		algorithmPainter.paint();
+	}
+
+	public void settingsUpdated()
+	{
+		repaint();
 	}
 
 }

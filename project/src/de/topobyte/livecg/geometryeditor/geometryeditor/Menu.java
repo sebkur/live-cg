@@ -35,6 +35,7 @@ import de.topobyte.livecg.geometryeditor.geometryeditor.action.SelectAllAction;
 import de.topobyte.livecg.geometryeditor.geometryeditor.action.SelectNothingAction;
 import de.topobyte.livecg.geometryeditor.geometryeditor.action.ShowContentDialogAction;
 import de.topobyte.livecg.geometryeditor.geometryeditor.action.ShowObjectDialogAction;
+import de.topobyte.livecg.geometryeditor.geometryeditor.action.visualizations.DcelAction;
 import de.topobyte.livecg.geometryeditor.geometryeditor.action.visualizations.DistanceTerrainChainsAction;
 import de.topobyte.livecg.geometryeditor.geometryeditor.action.visualizations.DistanceTerrainLinesAction;
 import de.topobyte.livecg.geometryeditor.geometryeditor.action.visualizations.FortunesSweepAction;
@@ -171,11 +172,16 @@ public class Menu extends JMenuBar
 		JMenuItem fortunesSweep = new JMenuItem(new FortunesSweepAction(
 				editPane));
 
+		JMenu arrangements = new JMenu("Arrangements");
+		arrangements.setIcon(folder);
+
 		JMenu frechet = new JMenu("Fréchet distance");
 		frechet.setIcon(folder);
 
 		JMenu polygons = new JMenu("Polygons");
 		polygons.setIcon(folder);
+
+		JMenuItem dcel = new JMenuItem(new DcelAction(editPane));
 
 		JMenuItem freeSpaceLines = new JMenuItem(new FreeSpaceLinesAction());
 		JMenuItem freeSpaceChains = new JMenuItem(new FreeSpaceChainsAction(
@@ -195,8 +201,11 @@ public class Menu extends JMenuBar
 				new ShortestPathInPolygonAction(editPane));
 
 		visualizations.add(fortunesSweep);
+		visualizations.add(arrangements);
 		visualizations.add(frechet);
 		visualizations.add(polygons);
+
+		arrangements.add(dcel);
 
 		frechet.add(freeSpaceLines);
 		frechet.add(freeSpaceChains);
