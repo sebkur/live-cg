@@ -4,6 +4,7 @@ import java.awt.BasicStroke;
 import java.awt.Graphics2D;
 import java.awt.Shape;
 import java.awt.geom.Area;
+import java.awt.geom.GeneralPath;
 import java.util.List;
 
 import de.topobyte.livecg.core.geometry.geom.AwtHelper;
@@ -62,8 +63,10 @@ public class AwtPainter implements Painter
 	@Override
 	public void drawLine(double x1, double y1, double x2, double y2)
 	{
-		g.drawLine((int) Math.round(x1), (int) Math.round(y1),
-				(int) Math.round(x2), (int) Math.round(y2));
+		GeneralPath p = new GeneralPath();
+		p.moveTo(x1, y1);
+		p.lineTo(x2, y2);
+		g.draw(p);
 	}
 
 	@Override
