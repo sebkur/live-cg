@@ -40,8 +40,8 @@ import de.topobyte.livecg.algorithms.frechet.freespace.ConfigChangedListener;
 import de.topobyte.livecg.algorithms.frechet.freespace.Settings;
 import de.topobyte.livecg.algorithms.frechet.freespace.chains.FrechetDiagram;
 import de.topobyte.livecg.core.geometry.geom.Chain;
-import de.topobyte.livecg.core.ui.geometryeditor.Content;
-import de.topobyte.livecg.core.ui.geometryeditor.ContentChangedListener;
+import de.topobyte.livecg.geometryeditor.geometryeditor.Content;
+import de.topobyte.livecg.geometryeditor.geometryeditor.ContentChangedListener;
 
 public class FrechetDialog1 implements ContentChangedListener
 {

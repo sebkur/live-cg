@@ -8,8 +8,8 @@ import java.io.IOException;
 import javax.swing.JFileChooser;
 
 import de.topobyte.livecg.core.painting.AlgorithmPainter;
-import de.topobyte.livecg.core.ui.action.BasicAction;
-import de.topobyte.livecg.core.ui.filefilters.FileFilterBitmap;
+import de.topobyte.livecg.geometryeditor.action.BasicAction;
+import de.topobyte.livecg.geometryeditor.filefilters.FileFilterBitmap;
 
 public class ExportBitmapAction extends BasicAction
 {

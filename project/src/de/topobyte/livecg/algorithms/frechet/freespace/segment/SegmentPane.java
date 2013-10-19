@@ -28,7 +28,7 @@ import de.topobyte.livecg.algorithms.frechet.freespace.FreeSpacePainter;
 import de.topobyte.livecg.algorithms.frechet.freespace.calc.FreeSpaceUtil;
 import de.topobyte.livecg.algorithms.frechet.freespace.calc.Interval;
 import de.topobyte.livecg.algorithms.frechet.freespace.calc.LineSegment;
-import de.topobyte.livecg.core.ui.lineeditor.LineChangeListener;
+import de.topobyte.livecg.geometryeditor.lineeditor.LineChangeListener;
 import de.topobyte.livecg.util.DoubleUtil;
 
 public class SegmentPane extends JPanel implements LineChangeListener,

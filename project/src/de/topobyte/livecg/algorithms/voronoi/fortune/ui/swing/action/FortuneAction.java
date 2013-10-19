@@ -1,7 +1,7 @@
 package de.topobyte.livecg.algorithms.voronoi.fortune.ui.swing.action;
 
 import de.topobyte.livecg.algorithms.voronoi.fortune.ui.swing.FortuneDialog;
-import de.topobyte.livecg.core.ui.action.BasicAction;
+import de.topobyte.livecg.geometryeditor.action.BasicAction;
 
 public abstract class FortuneAction extends BasicAction
 {

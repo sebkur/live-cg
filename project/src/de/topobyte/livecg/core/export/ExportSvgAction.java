@@ -9,8 +9,8 @@ import javax.swing.JFileChooser;
 import javax.xml.transform.TransformerException;
 
 import de.topobyte.livecg.core.painting.AlgorithmPainter;
-import de.topobyte.livecg.core.ui.action.BasicAction;
-import de.topobyte.livecg.core.ui.filefilters.FileFilterSvg;
+import de.topobyte.livecg.geometryeditor.action.BasicAction;
+import de.topobyte.livecg.geometryeditor.filefilters.FileFilterSvg;
 
 public class ExportSvgAction extends BasicAction
 {

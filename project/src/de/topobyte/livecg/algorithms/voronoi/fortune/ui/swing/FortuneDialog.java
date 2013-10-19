@@ -23,7 +23,7 @@ import de.topobyte.livecg.algorithms.voronoi.fortune.ui.swing.action.OpenAction;
 import de.topobyte.livecg.algorithms.voronoi.fortune.ui.swing.action.SaveAction;
 import de.topobyte.livecg.algorithms.voronoi.fortune.ui.swing.eventqueue.EventQueueDialog;
 import de.topobyte.livecg.core.export.ExportUtil;
-import de.topobyte.livecg.core.ui.action.QuitAction;
+import de.topobyte.livecg.geometryeditor.action.QuitAction;
 
 public class FortuneDialog extends JFrame implements Runnable
 {

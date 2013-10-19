@@ -21,8 +21,8 @@ package de.topobyte.livecg.algorithms.frechet.freespace.segment;
 import de.topobyte.livecg.algorithms.frechet.freespace.Config;
 import de.topobyte.livecg.algorithms.frechet.freespace.calc.LineSegment;
 import de.topobyte.livecg.core.geometry.geom.Chain;
-import de.topobyte.livecg.core.ui.lineeditor.LineChangeListener;
-import de.topobyte.livecg.core.ui.lineeditor.LineEditor;
+import de.topobyte.livecg.geometryeditor.lineeditor.LineChangeListener;
+import de.topobyte.livecg.geometryeditor.lineeditor.LineEditor;
 
 public class LineEditorSegmentPane extends SegmentPane implements
 		LineChangeListener

@@ -28,7 +28,7 @@ import javax.swing.border.TitledBorder;
 import de.topobyte.livecg.algorithms.frechet.freespace.Config;
 import de.topobyte.livecg.algorithms.frechet.freespace.segment.LineEditorSegmentPane;
 import de.topobyte.livecg.core.geometry.geom.Chain;
-import de.topobyte.livecg.core.ui.lineeditor.LineEditor;
+import de.topobyte.livecg.geometryeditor.lineeditor.LineEditor;
 
 public class DualLineEditorFreespace extends JPanel
 {

@@ -26,7 +26,7 @@ import javax.swing.border.TitledBorder;
 
 import de.topobyte.livecg.algorithms.frechet.distanceterrain.segment.LineEditorSegmentPane;
 import de.topobyte.livecg.core.geometry.geom.Chain;
-import de.topobyte.livecg.core.ui.lineeditor.LineEditor;
+import de.topobyte.livecg.geometryeditor.lineeditor.LineEditor;
 
 public class DualLineEditorDistanceTerrain extends JPanel
 {

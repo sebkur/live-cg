@@ -30,7 +30,7 @@ import java.util.Map;
 import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.core.geometry.geom.Node;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
-import de.topobyte.livecg.core.ui.geometryeditor.Content;
+import de.topobyte.livecg.geometryeditor.geometryeditor.Content;
 
 public class ContentWriter
 {

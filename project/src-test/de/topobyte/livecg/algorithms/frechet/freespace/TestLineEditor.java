@@ -28,7 +28,7 @@ import org.apache.log4j.BasicConfigurator;
 
 import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.core.geometry.geom.Coordinate;
-import de.topobyte.livecg.core.ui.lineeditor.LineEditor;
+import de.topobyte.livecg.geometryeditor.lineeditor.LineEditor;
 
 public class TestLineEditor
 {

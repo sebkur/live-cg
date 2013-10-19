@@ -31,8 +31,8 @@ import javax.swing.border.TitledBorder;
 
 import de.topobyte.livecg.algorithms.frechet.distanceterrain.chains.DistanceTerrain;
 import de.topobyte.livecg.core.geometry.geom.Chain;
-import de.topobyte.livecg.core.ui.geometryeditor.Content;
-import de.topobyte.livecg.core.ui.geometryeditor.ContentChangedListener;
+import de.topobyte.livecg.geometryeditor.geometryeditor.Content;
+import de.topobyte.livecg.geometryeditor.geometryeditor.ContentChangedListener;
 
 public class DistanceTerrainDialog implements ContentChangedListener
 {
