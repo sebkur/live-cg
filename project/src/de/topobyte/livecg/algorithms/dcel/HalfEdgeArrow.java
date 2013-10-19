@@ -26,13 +26,15 @@ import de.topobyte.livecg.core.lina2.Vector;
 public class HalfEdgeArrow
 {
 	private double gap = 6;
-	private double shorten = 5;
-	private double length = 12;
+	private double shorten = 6;
+	private double markerLen = 12;
 	private double alpha = Math.PI / 8;
-	private double lsa = length * Math.sin(alpha);
-	private double lca = length * Math.cos(alpha);
+	private double lsa = markerLen * Math.sin(alpha);
+	private double lca = markerLen * Math.cos(alpha);
 
+	private boolean valid;
 	private Vector ao, ad, am;
+	private double length;
 
 	public HalfEdgeArrow(HalfEdge halfedge)
 	{
@@ -49,10 +51,21 @@ public class HalfEdgeArrow
 		Vertex nextDestination = next.getTwin().getOrigin();
 		Coordinate cnd = nextDestination.getCoordinate();
 
-		ao = findPoint(cpo, co, cd, co, cd, true);
-		ad = findPoint(co, cd, cnd, co, cd, false);
+		ao = findPoint(cpo, co, cd, co, cd);
+		ad = findPoint(co, cd, cnd, co, cd);
 
 		Vector e = new Vector(co, cd).normalized();
+
+		Vector arrow = ad.sub(ao);
+		length = arrow.norm();
+		valid = length >= shorten * 2;
+
+		if (valid) {
+			ao = ao.add(e.mult(shorten));
+			ad = ad.sub(e.mult(shorten));
+			length -= shorten * 2;
+		}
+
 		Vector ppd = e.perpendicular().normalized();
 		am = ad.add(ppd.mult(lsa)).sub(e.mult(lca));
 	}
@@ -62,13 +75,9 @@ public class HalfEdgeArrow
 	 * 
 	 * Coordinates co, cd are the coordinates of the segment that the current
 	 * arrow is parallel to.
-	 * 
-	 * @param isOrigin
-	 *            tells whether the method call is for a start- or endpoint of
-	 *            the arrow
 	 */
 	private Vector findPoint(Coordinate c1, Coordinate c2, Coordinate c3,
-			Coordinate co, Coordinate cd, boolean isOrigin)
+			Coordinate co, Coordinate cd)
 	{
 		Vector v2 = new Vector(c2);
 		Vector e1 = new Vector(c1, c2).normalized();
@@ -89,22 +98,19 @@ public class HalfEdgeArrow
 			double lambda = gap
 					/ Math.sqrt(1 - (dx2 * ex2 + dy2 * ey2 + remaining));
 			Vector p = v2.add(d.mult(lambda));
-			if (isOrigin) {
-				return p.add(e.mult(shorten));
-			} else {
-				return p.sub(e.mult(shorten));
-			}
+			return p;
 		} else { // Obtuse angle
 			// Just move the target point p an amount 'gap' in the direction
 			// perpendicular to the edge
 			Vector ppd = e.perpendicular().normalized();
 			Vector p = v2.add(ppd.mult(gap));
-			if (isOrigin) {
-				return p.add(e.mult(shorten));
-			} else {
-				return p.sub(e.mult(shorten));
-			}
+			return p;
 		}
+	}
+
+	public boolean isValid()
+	{
+		return valid;
 	}
 
 	public Vector getOrigin()
@@ -120,6 +126,11 @@ public class HalfEdgeArrow
 	public Vector getMarker()
 	{
 		return am;
+	}
+
+	public double getLength()
+	{
+		return length;
 	}
 
 }
