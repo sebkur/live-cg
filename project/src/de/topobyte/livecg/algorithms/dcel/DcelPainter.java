@@ -32,11 +32,13 @@ public class DcelPainter extends BasicAlgorithmPainter
 {
 
 	private DCEL dcel;
+	private DcelConfig config;
 
-	public DcelPainter(Painter painter, DCEL dcel)
+	public DcelPainter(DCEL dcel, DcelConfig config, Painter painter)
 	{
 		super(painter);
 		this.dcel = dcel;
+		this.config = config;
 	}
 
 	@Override
@@ -70,50 +72,54 @@ public class DcelPainter extends BasicAlgorithmPainter
 			HalfEdgeArrow arrow = new HalfEdgeArrow(halfedge, gap, shorten,
 					markerLen, alpha);
 
-			if (arrow.isValid()) {
-				painter.setStrokeWidth(1.0);
-				painter.setColor(new Color(255, 0, 255));
-				drawLine(arrow.getOrigin(), arrow.getDestination());
-				if (arrow.getLength() >= minArrowLen) {
-					drawLine(arrow.getDestination(), arrow.getMarker());
-				}
+			if (!arrow.isValid()) {
+				continue;
+			}
+			painter.setStrokeWidth(1.0);
+			painter.setColor(new Color(255, 0, 255));
+			drawLine(arrow.getOrigin(), arrow.getDestination());
+			if (arrow.getLength() >= minArrowLen) {
+				drawLine(arrow.getDestination(), arrow.getMarker());
+			}
 
+			if (config.isDrawConnectors()) {
 				painter.setStrokeWidth(1.0);
 				painter.setColor(new Color(0, 255, 0));
 				HalfEdge next = halfedge.getNext();
-				if (next != null) {
-					HalfEdgeArrow nextArrow = new HalfEdgeArrow(next, gap,
-							shorten, markerLen, alpha);
-					if (nextArrow.isValid()) {
-						// drawLine(arrow.getDestination(),
-						// nextArrow.getOrigin());
-
-						Vertex origin = halfedge.getOrigin();
-						Vertex destination = halfedge.getTwin().getOrigin();
-						Coordinate co = origin.getCoordinate();
-						Coordinate cd = destination.getCoordinate();
-
-						Vertex nextDestination = next.getTwin().getOrigin();
-						Coordinate cnd = nextDestination.getCoordinate();
-
-						Vector e1 = new Vector(co, cd).normalized();
-						Vector e2 = new Vector(cd, cnd).normalized();
-
-						Vector c1 = arrow.getDestination().add(e1.mult(shorten));
-						Vector c2 = nextArrow.getOrigin().sub(e2.mult(shorten));
-
-						GeneralPath path = new GeneralPath();
-						path.moveTo(arrow.getDestination().getX(), arrow
-								.getDestination().getY());
-
-						path.curveTo(c1.getX(), c1.getY(), c2.getX(),
-								c2.getY(), nextArrow.getOrigin().getX(),
-								nextArrow.getOrigin().getY());
-						painter.draw(path);
-					}
+				if (next == null) {
+					continue;
 				}
-			}
+				HalfEdgeArrow nextArrow = new HalfEdgeArrow(next, gap, shorten,
+						markerLen, alpha);
+				if (!nextArrow.isValid()) {
+					continue;
+				}
+				// drawLine(arrow.getDestination(),
+				// nextArrow.getOrigin());
 
+				Vertex origin = halfedge.getOrigin();
+				Vertex destination = halfedge.getTwin().getOrigin();
+				Coordinate co = origin.getCoordinate();
+				Coordinate cd = destination.getCoordinate();
+
+				Vertex nextDestination = next.getTwin().getOrigin();
+				Coordinate cnd = nextDestination.getCoordinate();
+
+				Vector e1 = new Vector(co, cd).normalized();
+				Vector e2 = new Vector(cd, cnd).normalized();
+
+				Vector c1 = arrow.getDestination().add(e1.mult(shorten));
+				Vector c2 = nextArrow.getOrigin().sub(e2.mult(shorten));
+
+				GeneralPath path = new GeneralPath();
+				path.moveTo(arrow.getDestination().getX(), arrow
+						.getDestination().getY());
+
+				path.curveTo(c1.getX(), c1.getY(), c2.getX(), c2.getY(),
+						nextArrow.getOrigin().getX(), nextArrow.getOrigin()
+								.getY());
+				painter.draw(path);
+			}
 		}
 	}
 
