@@ -25,7 +25,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
-import de.topobyte.livecg.algorithms.dcel.DcelPanel;
+import de.topobyte.livecg.algorithms.dcel.DcelDialog;
 import de.topobyte.livecg.core.geometry.io.ContentReader;
 import de.topobyte.livecg.geometryeditor.geometryeditor.Content;
 
@@ -38,14 +38,10 @@ public class TestBuildDCEL
 		ContentReader contentReader = new ContentReader();
 		Content content = contentReader.read(new File(path));
 
-		DCEL dcel = DcelConverter.convert(content);
+		// DCEL dcel = DcelConverter.convert(content);
 
-		DcelPanel panel = new DcelPanel(dcel);
+		DcelDialog dialog = new DcelDialog(content);
 
-		JFrame frame = new JFrame();
-		frame.setContentPane(panel);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setSize(800, 600);
-		frame.setVisible(true);
+		dialog.getFrame().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 }
