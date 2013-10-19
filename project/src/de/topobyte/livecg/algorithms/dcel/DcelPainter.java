@@ -58,12 +58,21 @@ public class DcelPainter extends BasicAlgorithmPainter
 			Coordinate cd = destination.getCoordinate();
 			painter.drawLine(co.getX(), co.getY(), cd.getX(), cd.getY());
 		}
-		painter.setColor(new Color(255, 0, 255));
 		for (HalfEdge halfedge : dcel.halfedges) {
+			painter.setStrokeWidth(1.0);
+			painter.setColor(new Color(255, 0, 255));
 			HalfEdgeArrow arrow = new HalfEdgeArrow(halfedge);
 
 			drawLine(arrow.getOrigin(), arrow.getDestination());
 			drawLine(arrow.getDestination(), arrow.getMarker());
+
+			painter.setStrokeWidth(2.0);
+			painter.setColor(new Color(0, 255, 0));
+			HalfEdge next = halfedge.getNext();
+			if (next != null) {
+				HalfEdgeArrow nextArrow = new HalfEdgeArrow(next);
+				drawLine(arrow.getDestination(), nextArrow.getOrigin());
+			}
 		}
 	}
 
