@@ -131,8 +131,12 @@ public class DcelConverter
 	 */
 	private void linkHalfedges(List<HalfEdge> halfEdges)
 	{
-		if (halfEdges.size() < 2) {
+		if (halfEdges.size() == 0) {
 			return;
+		} else if (halfEdges.size() == 1) {
+			HalfEdge e = halfEdges.get(0);
+			e.setPrev(e.getTwin());
+			e.getTwin().setNext(e);
 		} else if (halfEdges.size() == 2) {
 			HalfEdge e1 = halfEdges.get(0);
 			HalfEdge e2 = halfEdges.get(1);

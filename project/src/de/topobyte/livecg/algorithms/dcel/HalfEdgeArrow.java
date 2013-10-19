@@ -51,8 +51,8 @@ public class HalfEdgeArrow
 		Vertex nextDestination = next.getTwin().getOrigin();
 		Coordinate cnd = nextDestination.getCoordinate();
 
-		ao = findPoint(cpo, co, cd, co, cd);
-		ad = findPoint(co, cd, cnd, co, cd);
+		ao = findPoint(cpo, co, cd, co, cd, true);
+		ad = findPoint(co, cd, cnd, co, cd, false);
 
 		Vector e = new Vector(co, cd).normalized();
 
@@ -75,9 +75,11 @@ public class HalfEdgeArrow
 	 * 
 	 * Coordinates co, cd are the coordinates of the segment that the current
 	 * arrow is parallel to.
+	 * 
+	 * @param origin
 	 */
 	private Vector findPoint(Coordinate c1, Coordinate c2, Coordinate c3,
-			Coordinate co, Coordinate cd)
+			Coordinate co, Coordinate cd, boolean origin)
 	{
 		Vector v2 = new Vector(c2);
 		Vector e1 = new Vector(c1, c2).normalized();
@@ -85,7 +87,16 @@ public class HalfEdgeArrow
 		Vector e = new Vector(co, cd).normalized();
 
 		double angle = GeomMath.angle(c2, c1, c3);
-		if (angle <= Math.PI) { // Acute angle
+		if (angle <= 0.00001) {
+			Vector d = e1.perpendicularRight().normalized();
+			Vector p;
+			if (origin) {
+				p = v2.sub(d.mult(gap));
+			} else {
+				p = v2.add(d.mult(gap));
+			}
+			return p;
+		} else if (angle <= Math.PI) { // Acute angle
 			// d is the direction in which to shift the point from v2
 			Vector d = e1.mult(-1).add(e2).normalized();
 			// Find lambda such that lambda * d shifts the target point p from
@@ -94,9 +105,9 @@ public class HalfEdgeArrow
 			double ex2 = e2.getX() * e2.getX();
 			double dy2 = d.getY() * d.getY();
 			double ey2 = e2.getY() * e2.getY();
-			double remaining = 2 * d.getX() * e2.getX() * d.getY() * e2.getY();
-			double lambda = gap
-					/ Math.sqrt(1 - (dx2 * ex2 + dy2 * ey2 + remaining));
+			double dxexdyey = 2 * d.getX() * e2.getX() * d.getY() * e2.getY();
+			double sub = (dx2 * ex2 + dy2 * ey2 + dxexdyey);
+			double lambda = gap / Math.sqrt(1 - sub);
 			Vector p = v2.add(d.mult(lambda));
 			return p;
 		} else { // Obtuse angle
