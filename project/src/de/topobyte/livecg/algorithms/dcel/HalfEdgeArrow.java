@@ -25,19 +25,19 @@ import de.topobyte.livecg.core.lina2.Vector;
 
 public class HalfEdgeArrow
 {
-	private double gap = 6;
-	private double shorten = 6;
-	private double markerLen = 12;
-	private double alpha = Math.PI / 8;
-	private double lsa = markerLen * Math.sin(alpha);
-	private double lca = markerLen * Math.cos(alpha);
+	private double gap;
 
 	private boolean valid;
 	private Vector ao, ad, am;
 	private double length;
 
-	public HalfEdgeArrow(HalfEdge halfedge)
+	public HalfEdgeArrow(HalfEdge halfedge, double gap, double shorten,
+			double markerLen, double alpha)
 	{
+		this.gap = gap;
+		double lsa = markerLen * Math.sin(alpha);
+		double lca = markerLen * Math.cos(alpha);
+
 		Vertex origin = halfedge.getOrigin();
 		Vertex destination = halfedge.getTwin().getOrigin();
 		Coordinate co = origin.getCoordinate();
