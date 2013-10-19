@@ -20,6 +20,7 @@ package de.topobyte.livecg.core.geometry.util;
 import java.util.Iterator;
 
 import de.topobyte.livecg.core.geometry.geom.Chain;
+import de.topobyte.livecg.core.geometry.geom.IntRing;
 import de.topobyte.livecg.core.geometry.geom.Node;
 
 public class SegmentIterable implements Iterable<Segment>
@@ -40,16 +41,18 @@ public class SegmentIterable implements Iterable<Segment>
 	private class SegmentIterator implements Iterator<Segment>
 	{
 
-		int i, max, n;
+		int i, max;
+		IntRing ring;
 
 		public SegmentIterator()
 		{
 			i = 0;
-			n = chain.getNumberOfNodes();
+			int n = chain.getNumberOfNodes();
 			max = n - 2;
 			if (chain.isClosed()) {
 				max += 1;
 			}
+			ring = new IntRing(n);
 		}
 
 		@Override
@@ -61,10 +64,9 @@ public class SegmentIterable implements Iterable<Segment>
 		@Override
 		public Segment next()
 		{
-			Node n1 = chain.getNode(i);
-			int j = (i + 1) % n;
+			int j = ring.next().value();
+			Node n1 = chain.getNode(i++);
 			Node n2 = chain.getNode(j);
-			i += 1;
 			return new Segment(n1, n2);
 		}
 
