@@ -2,13 +2,14 @@ package de.topobyte.livecg.algorithms.voronoi.fortune.arc;
 
 import de.topobyte.livecg.algorithms.voronoi.fortune.events.HistoryEventQueue;
 import de.topobyte.livecg.algorithms.voronoi.fortune.geometry.Point;
+import de.topobyte.livecg.core.geometry.dcel.DCEL;
 
 public class ArcTree
 {
 
 	private ArcNode arcs;
 
-	public void insert(Point point, double sweepX, HistoryEventQueue eventQueue)
+	public void insert(Point point, double sweepX, HistoryEventQueue eventQueue, DCEL dcel)
 	{
 		if (arcs == null) {
 			arcs = new ArcNode(point);
@@ -18,7 +19,7 @@ public class ArcTree
 			ParabolaPoint parabolaPoint = new ParabolaPoint(point);
 			parabolaPoint.init(sweepX);
 			arcs.init(sweepX);
-			arcs.insert(parabolaPoint, sweepX, eventQueue);
+			arcs.insert(parabolaPoint, sweepX, eventQueue, dcel);
 			return;
 		} catch (MathException e) {
 			System.out

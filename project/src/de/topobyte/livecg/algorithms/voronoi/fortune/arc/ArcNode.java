@@ -5,6 +5,10 @@ import de.topobyte.livecg.algorithms.voronoi.fortune.events.CirclePoint;
 import de.topobyte.livecg.algorithms.voronoi.fortune.events.HistoryEventQueue;
 import de.topobyte.livecg.algorithms.voronoi.fortune.geometry.Edge;
 import de.topobyte.livecg.algorithms.voronoi.fortune.geometry.Point;
+import de.topobyte.livecg.core.geometry.dcel.DCEL;
+import de.topobyte.livecg.core.geometry.dcel.HalfEdge;
+import de.topobyte.livecg.core.geometry.dcel.Vertex;
+import de.topobyte.livecg.core.geometry.geom.Coordinate;
 import de.topobyte.livecg.util.Stack;
 
 public class ArcNode extends ParabolaPoint
@@ -13,6 +17,7 @@ public class ArcNode extends ParabolaPoint
 	private CirclePoint circlePoint;
 	private Point startOfTrace;
 	private Stack<Point> startOfTraceBackup = new Stack<Point>();
+	private HalfEdge edge;
 
 	public ArcNode(Point point)
 	{
@@ -59,6 +64,16 @@ public class ArcNode extends ParabolaPoint
 		this.startOfTrace = startOfTrace;
 	}
 
+	public HalfEdge getHalfedge()
+	{
+		return edge;
+	}
+	
+	public void setHalfedge(HalfEdge edge)
+	{
+		this.edge = edge;
+	}
+
 	public void checkCircle(HistoryEventQueue eventQueue)
 	{
 		if (prev != null && next != null) {
@@ -77,7 +92,7 @@ public class ArcNode extends ParabolaPoint
 		}
 	}
 
-	public void completeTrace(Algorithm algorithm, Point point)
+	public void completeTrace(Algorithm algorithm, Point point, CirclePoint circlePoint)
 	{
 		if (startOfTrace != null) {
 			algorithm.getVoronoi().addLine(new Edge(startOfTrace, point));
@@ -93,7 +108,7 @@ public class ArcNode extends ParabolaPoint
 	}
 
 	public void insert(ParabolaPoint parabolaPoint, double sweepX,
-			HistoryEventQueue eventQueue) throws MathException
+			HistoryEventQueue eventQueue, DCEL dcel) throws MathException
 	{
 		boolean split = true;
 		if (next != null) {
@@ -140,12 +155,49 @@ public class ArcNode extends ParabolaPoint
 			 */
 
 			next.next.startOfTrace = startOfTrace;
-			startOfTrace = new Point(sweepX - f(parabolaPoint.getY()),
+			Point start = new Point(sweepX - f(parabolaPoint.getY()),
 					parabolaPoint.getY());
-			next.startOfTrace = new Point(sweepX - f(parabolaPoint.getY()),
-					parabolaPoint.getY());
+			startOfTrace = start;
+			next.startOfTrace = start;
+
+			/*
+			 * DCEL
+			 */
+			
+			v1 = new Vertex(new Coordinate(start.getX(), start.getY()), null);
+			v2 = new Vertex(new Coordinate(start.getX(), start.getY()), null);
+			a = new HalfEdge(v1, null, null, null, null);
+			b = new HalfEdge(v2, null, null, null, null);
+			a.setTwin(b);
+			b.setTwin(a);
+			a.setNext(b);
+			a.setPrev(b);
+			b.setNext(a);
+			b.setPrev(a);
+			dcel.vertices.add(v1);
+			dcel.vertices.add(v2);
+			dcel.halfedges.add(a);
+			dcel.halfedges.add(b);
+			
+			next.next.edge = edge;
+			edge = a;
+			next.edge = b;
 		} else {
-			next.insert(parabolaPoint, sweepX, eventQueue);
+			next.insert(parabolaPoint, sweepX, eventQueue, dcel);
+		}
+	}
+
+	Vertex v1, v2;
+	HalfEdge a, b;
+
+	public void updateDcel(double y, double sweepX)
+	{
+		System.out.println("update: " + sweepX);
+		if (edge != null) {
+			System.out.println("edge");
+			Vertex origin = edge.getOrigin();			
+			double beachX = sweepX - f(y);
+			origin.setCoordinate(new Coordinate(beachX, y));
 		}
 	}
 

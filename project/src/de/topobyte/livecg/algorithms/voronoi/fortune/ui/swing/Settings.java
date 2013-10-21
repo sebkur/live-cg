@@ -25,6 +25,7 @@ public class Settings extends JToolBar implements ItemListener
 	private static final String TEXT_BEACHLINE = "Beachline";
 	private static final String TEXT_VORONOI = "Voronoi diagram";
 	private static final String TEXT_DELAUNAY = "Delaunay triangulation";
+	private static final String TEXT_DCEL = "DCEL";
 
 	private static final String TEXT_ADD_RANDOM = "Add random points";
 
@@ -36,7 +37,7 @@ public class Settings extends JToolBar implements ItemListener
 		setFloatable(false);
 
 		String as[] = { TEXT_CIRCLES, TEXT_BEACHLINE, TEXT_VORONOI,
-				TEXT_DELAUNAY };
+				TEXT_DELAUNAY, TEXT_DCEL };
 
 		buttons = new JToggleButton[as.length];
 		for (int i = 0; i < as.length; i++) {
@@ -49,6 +50,7 @@ public class Settings extends JToolBar implements ItemListener
 		buttons[1].setSelected(config.isDrawBeach());
 		buttons[2].setSelected(config.isDrawVoronoiLines());
 		buttons[3].setSelected(config.isDrawDelaunay());
+		buttons[4].setSelected(config.isDrawDcel());
 
 		JButton buttonRandom = new JButton(TEXT_ADD_RANDOM);
 		add(buttonRandom);
@@ -76,6 +78,8 @@ public class Settings extends JToolBar implements ItemListener
 			config.setDrawVoronoiLines(flag);
 		} else if (s.equals(TEXT_DELAUNAY)) {
 			config.setDrawDelaunay(flag);
+		} else if (s.equals(TEXT_DCEL)) {
+			config.setDrawDcel(flag);
 		}
 		canvas.repaint();
 	}

@@ -3,7 +3,8 @@ package de.topobyte.livecg.algorithms.voronoi.fortune.ui.core;
 public class Config
 {
 
-	private boolean drawCircles, drawBeach, drawVoronoiLines, drawDelaunay;
+	private boolean drawCircles, drawBeach, drawVoronoiLines, drawDelaunay,
+			drawDcel;
 
 	public Config()
 	{
@@ -11,6 +12,7 @@ public class Config
 		drawBeach = true;
 		drawVoronoiLines = true;
 		drawDelaunay = false;
+		drawDcel = true;
 	}
 
 	public boolean isDrawCircles()
@@ -52,4 +54,15 @@ public class Config
 	{
 		this.drawDelaunay = drawDelaunay;
 	}
+
+	public boolean isDrawDcel()
+	{
+		return drawDcel;
+	}
+
+	public void setDrawDcel(boolean drawDcel)
+	{
+		this.drawDcel = drawDcel;
+	}
+
 }

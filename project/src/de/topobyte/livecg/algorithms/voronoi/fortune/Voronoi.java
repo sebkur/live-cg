@@ -7,12 +7,14 @@ import java.util.Map;
 
 import de.topobyte.livecg.algorithms.voronoi.fortune.geometry.Edge;
 import de.topobyte.livecg.algorithms.voronoi.fortune.geometry.Point;
+import de.topobyte.livecg.core.geometry.dcel.DCEL;
 
 public class Voronoi
 {
 	private List<Point> sites = new ArrayList<Point>();
 	private List<Edge> edges = new ArrayList<Edge>();
 	private Map<Point, List<Edge>> pointToEdges = new HashMap<Point, List<Edge>>();
+	private DCEL dcel = new DCEL();
 
 	public Voronoi()
 	{
@@ -27,6 +29,11 @@ public class Voronoi
 	public List<Edge> getEdges()
 	{
 		return edges;
+	}
+
+	public DCEL getDcel()
+	{
+		return dcel;
 	}
 
 	public void checkDegenerate()

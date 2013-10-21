@@ -4,7 +4,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import de.topobyte.livecg.algorithms.voronoi.fortune.arc.AbstractArcNodeVisitor;
 import de.topobyte.livecg.algorithms.voronoi.fortune.arc.ArcNode;
+import de.topobyte.livecg.algorithms.voronoi.fortune.arc.ArcNodeWalker;
 import de.topobyte.livecg.algorithms.voronoi.fortune.arc.ArcTree;
 import de.topobyte.livecg.algorithms.voronoi.fortune.events.CirclePoint;
 import de.topobyte.livecg.algorithms.voronoi.fortune.events.EventPoint;
@@ -14,10 +19,15 @@ import de.topobyte.livecg.algorithms.voronoi.fortune.events.SitePoint;
 import de.topobyte.livecg.algorithms.voronoi.fortune.events.EventQueueModification.Type;
 import de.topobyte.livecg.algorithms.voronoi.fortune.geometry.Edge;
 import de.topobyte.livecg.algorithms.voronoi.fortune.geometry.Point;
+import de.topobyte.livecg.core.geometry.dcel.HalfEdge;
+import de.topobyte.livecg.core.geometry.dcel.Vertex;
+import de.topobyte.livecg.core.geometry.geom.Coordinate;
 import de.topobyte.livecg.util.Stack;
 
 public class Algorithm
 {
+	private Logger logger = LoggerFactory.getLogger(Algorithm.class);
+
 	private static final int PLAY_N_PIXELS_BEYOND_SCREEN = 1000;
 
 	/*
@@ -231,6 +241,8 @@ public class Algorithm
 			currentEvent = null;
 		}
 
+		initArcs(arcs.getArcs(), sweepX);
+
 		notifyWatchers();
 		return !isFinshed();
 	}
@@ -263,6 +275,8 @@ public class Algorithm
 				revert(circlePoint);
 			}
 		}
+
+		initArcs(arcs.getArcs(), sweepX);
 
 		notifyWatchers();
 		return sweepX > 0;
@@ -302,8 +316,6 @@ public class Algorithm
 		} else if (sweepX > x) {
 			moveBackward(sweepX - x);
 		}
-
-		notifyWatchers();
 	}
 
 	public synchronized boolean isFinshed()
@@ -323,6 +335,9 @@ public class Algorithm
 			sweepX = width;
 			currentEvent = null;
 		}
+
+		initArcs(arcs.getArcs(), sweepX);
+
 		notifyWatchers();
 	}
 
@@ -381,6 +396,9 @@ public class Algorithm
 			process(point);
 			currentEvent = point;
 		}
+
+		initArcs(arcs.getArcs(), sweepX);
+
 		notifyWatchers();
 	}
 
@@ -406,6 +424,8 @@ public class Algorithm
 		// Remember that this event has been executed
 		executedEvents.push(eventPoint);
 
+		initArcs(arcs.getArcs(), sweepX);
+
 		// Actually execute the event depending on its type
 		if (eventPoint instanceof SitePoint) {
 			SitePoint sitePoint = (SitePoint) eventPoint;
@@ -420,12 +440,12 @@ public class Algorithm
 
 	private void process(SitePoint sitePoint)
 	{
-		getArcs().insert(sitePoint, getSweepX(), getEventQueue());
+		arcs.insert(sitePoint, getSweepX(), getEventQueue(), voronoi.getDcel());
 	}
 
 	private void revert(SitePoint sitePoint)
 	{
-		getArcs().remove(sitePoint);
+		arcs.remove(sitePoint);
 	}
 
 	// Circle events
@@ -441,10 +461,56 @@ public class Algorithm
 		Point point = new Point(circlePoint.getX() - circlePoint.getRadius(),
 				circlePoint.getY());
 		// Add two new voronoi edges
-		prev.completeTrace(this, point);
-		arc.completeTrace(this, point);
+		prev.completeTrace(this, point, circlePoint);
+		arc.completeTrace(this, point, circlePoint);
 		// Add a new trace
 		prev.setStartOfTrace(point);
+
+		// Get both halfedges starting at the voronoi vertex
+		HalfEdge e1 = prev.getHalfedge();
+		HalfEdge e2 = arc.getHalfedge();
+
+		if (e1.getOrigin().getCoordinate()
+				.distance(e2.getOrigin().getCoordinate()) > 0.0001) {
+			logger.error("Meeting halfedges do not coincide in vertex.");
+			logger.error("e1.origin: " + e1.getOrigin().getCoordinate());
+			logger.error("e1.target: "
+					+ e1.getTwin().getOrigin().getCoordinate());
+			logger.error("e2.origin: " + e2.getOrigin().getCoordinate());
+			logger.error("e2.target: "
+					+ e2.getTwin().getOrigin().getCoordinate());
+		}
+
+		// Create a new vertex for the new trace
+		Vertex v = new Vertex(new Coordinate(point.getX(), point.getY()), null);
+		voronoi.getDcel().vertices.add(v);
+		// Create two new halfedges that connect v with the voronoi vertex
+		HalfEdge a = new HalfEdge(v, null, null, null, null);
+		HalfEdge b = new HalfEdge(e1.getOrigin(), null, null, null, null);
+		a.setTwin(b);
+		b.setTwin(a);
+		voronoi.getDcel().halfedges.add(a);
+		voronoi.getDcel().halfedges.add(b);
+
+		// Replace one of the old edges vertex with the other's vertex
+		voronoi.getDcel().vertices.remove(e2.getOrigin());
+		e2.setOrigin(e1.getOrigin());
+
+		// Connect new halfedges
+		a.setPrev(b);
+		b.setNext(a);
+		// Connect old halfedges
+		e2.getTwin().setNext(e1);
+		e1.setPrev(e2.getTwin());
+		// Connect new halfedges with the old ones
+		a.setNext(e2);
+		e2.setPrev(a);
+		b.setPrev(e1.getTwin());
+		e1.getTwin().setNext(b);
+
+		// Update the arc's edge pointer
+		prev.setHalfedge(a);
+
 		// Change arc pointers
 		prev.setNext(next);
 		next.setPrevious(prev);
@@ -481,6 +547,24 @@ public class Algorithm
 		delaunay.remove(new Edge(arc, arc.getNext()));
 		delaunay.remove(new Edge(arc.getPrevious(), arc));
 		delaunay.remove(new Edge(arc.getNext(), arc));
+	}
+
+	private void initArcs(ArcNode arcNode, double sweepX)
+	{
+		for (ArcNode current = arcNode; current != null; current = current
+				.getNext()) {
+			current.init(sweepX);
+		}
+
+		ArcNodeWalker.walk(new AbstractArcNodeVisitor() {
+
+			@Override
+			public void arc(ArcNode current, ArcNode next, double y1,
+					double y2, double sweepX)
+			{
+				current.updateDcel(y2, sweepX);
+			}
+		}, arcNode, height, sweepX);
 	}
 
 }
