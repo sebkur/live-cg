@@ -192,9 +192,7 @@ public class ArcNode extends ParabolaPoint
 
 	public void updateDcel(double y, double sweepX)
 	{
-		System.out.println("update: " + sweepX);
 		if (edge != null) {
-			System.out.println("edge");
 			Vertex origin = edge.getOrigin();			
 			double beachX = sweepX - f(y);
 			origin.setCoordinate(new Coordinate(beachX, y));

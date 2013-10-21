@@ -510,6 +510,10 @@ public class Algorithm
 
 		// Update the arc's edge pointer
 		prev.setHalfedge(a);
+		logger.debug("connect");
+		logger.debug("new: " + a);
+		logger.debug("e1: " + e1);
+		logger.debug("e2: " + e2);
 
 		// Change arc pointers
 		prev.setNext(next);
@@ -547,6 +551,34 @@ public class Algorithm
 		delaunay.remove(new Edge(arc, arc.getNext()));
 		delaunay.remove(new Edge(arc.getPrevious(), arc));
 		delaunay.remove(new Edge(arc.getNext(), arc));
+
+		// Update DCEL
+		HalfEdge edge = arc.getPrevious().getHalfedge();
+		HalfEdge e1 = edge.getTwin().getPrev().getTwin();
+		HalfEdge e2 = edge.getNext();
+		logger.debug("disconnect");
+		logger.debug("rem:" + edge);
+		logger.debug("e1:" + e1);
+		logger.debug("e2:" + e2);
+
+		Coordinate origin = e2.getOrigin().getCoordinate();
+		Vertex v = new Vertex(new Coordinate(origin.getX(), origin.getY()),
+				null);
+		e2.setOrigin(v);
+		voronoi.getDcel().vertices.add(v);
+
+		voronoi.getDcel().vertices.remove(edge.getOrigin());
+		voronoi.getDcel().halfedges.remove(edge);
+		voronoi.getDcel().halfedges.remove(edge.getTwin());
+
+		arc.getPrevious().setHalfedge(e1);
+		arc.setHalfedge(e2);
+
+		e1.setPrev(e1.getTwin());
+		e1.getTwin().setNext(e1);
+
+		e2.setPrev(e2.getTwin());
+		e2.getTwin().setNext(e2);
 	}
 
 	private void initArcs(ArcNode arcNode, double sweepX)
