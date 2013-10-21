@@ -58,6 +58,13 @@ public class FortunePainter extends BasicAlgorithmPainter
 	private int colorDelaunay = 0x999999;
 
 	@Override
+	public void setPainter(Painter painter)
+	{
+		super.setPainter(painter);
+		dcelPainter.setPainter(painter);
+	}
+	
+	@Override
 	public void paint()
 	{
 		painter.setColor(new Color(colorBackground));
