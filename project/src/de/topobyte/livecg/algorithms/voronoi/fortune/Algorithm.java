@@ -476,6 +476,20 @@ public class Algorithm
 			}
 			prev.setStartOfTrace(next.getStartOfTrace());
 		}
+
+		// Update DCEL
+		HalfEdge a = prev.getHalfedge();
+		HalfEdge b = iter.getHalfedge();
+		logger.debug("remove");
+		logger.debug("a: " + a);
+		logger.debug("b: " + b);
+		iter.setHalfedge(null);
+		prev.setHalfedge(null);
+		voronoi.getDcel().halfedges.remove(a);
+		voronoi.getDcel().halfedges.remove(b);
+		voronoi.getDcel().vertices.remove(a.getOrigin());
+		voronoi.getDcel().vertices.remove(b.getOrigin());
+		prev.setHalfedge(next.getHalfedge());
 	}
 
 	// Circle events

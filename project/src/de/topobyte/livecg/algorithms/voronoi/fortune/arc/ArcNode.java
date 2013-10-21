@@ -1,5 +1,8 @@
 package de.topobyte.livecg.algorithms.voronoi.fortune.arc;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import de.topobyte.livecg.algorithms.voronoi.fortune.Algorithm;
 import de.topobyte.livecg.algorithms.voronoi.fortune.events.CirclePoint;
 import de.topobyte.livecg.algorithms.voronoi.fortune.events.HistoryEventQueue;
@@ -13,6 +16,8 @@ import de.topobyte.livecg.util.Stack;
 
 public class ArcNode extends ParabolaPoint
 {
+	final static Logger logger = LoggerFactory.getLogger(ArcNode.class);
+	
 	private ArcNode next, prev;
 	private CirclePoint circlePoint;
 	private Point startOfTrace;
@@ -178,6 +183,10 @@ public class ArcNode extends ParabolaPoint
 			dcel.vertices.add(v2);
 			dcel.halfedges.add(a);
 			dcel.halfedges.add(b);
+			
+			logger.debug("create");
+			logger.debug("a: " + a);
+			logger.debug("b: " + b);
 			
 			next.next.edge = edge;
 			edge = a;
