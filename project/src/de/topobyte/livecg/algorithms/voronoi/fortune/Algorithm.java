@@ -14,9 +14,9 @@ import de.topobyte.livecg.algorithms.voronoi.fortune.arc.ArcTree;
 import de.topobyte.livecg.algorithms.voronoi.fortune.events.CirclePoint;
 import de.topobyte.livecg.algorithms.voronoi.fortune.events.EventPoint;
 import de.topobyte.livecg.algorithms.voronoi.fortune.events.EventQueueModification;
+import de.topobyte.livecg.algorithms.voronoi.fortune.events.EventQueueModification.Type;
 import de.topobyte.livecg.algorithms.voronoi.fortune.events.HistoryEventQueue;
 import de.topobyte.livecg.algorithms.voronoi.fortune.events.SitePoint;
-import de.topobyte.livecg.algorithms.voronoi.fortune.events.EventQueueModification.Type;
 import de.topobyte.livecg.algorithms.voronoi.fortune.geometry.Edge;
 import de.topobyte.livecg.algorithms.voronoi.fortune.geometry.Point;
 import de.topobyte.livecg.core.geometry.dcel.HalfEdge;
@@ -497,10 +497,10 @@ public class Algorithm
 	private void process(CirclePoint circlePoint)
 	{
 		// arc is the disappearing arc
-		ArcNode arc = circlePoint.getArc();
+		final ArcNode arc = circlePoint.getArc();
 		// prev and next are the new neighbors on the beachline
-		ArcNode prev = arc.getPrevious();
-		ArcNode next = arc.getNext();
+		final ArcNode prev = arc.getPrevious();
+		final ArcNode next = arc.getNext();
 		// point is the position of the new voronoi vertex
 		Point point = new Point(circlePoint.getX() - circlePoint.getRadius(),
 				circlePoint.getY());
@@ -509,6 +509,34 @@ public class Algorithm
 		arc.completeTrace(this, point, circlePoint);
 		// Add a new trace
 		prev.setStartOfTrace(point);
+
+		// Change arc pointers
+		prev.setNext(next);
+		next.setPrevious(prev);
+		// Dismiss now invalid circle events
+		if (prev.getCirclePoint() != null) {
+			getEventQueue().remove(prev.getCirclePoint());
+			prev.setCirclePoint(null);
+		}
+		if (next.getCirclePoint() != null) {
+			getEventQueue().remove(next.getCirclePoint());
+			next.setCirclePoint(null);
+		}
+		// Check for new circle events
+		prev.checkCircle(getEventQueue());
+		next.checkCircle(getEventQueue());
+
+		ArcNodeWalker.walk(new AbstractArcNodeVisitor() {
+
+			@Override
+			public void arc(ArcNode current, ArcNode next, double y1,
+					double y2, double sweepX)
+			{
+				if (current == prev) {
+					current.updateDcel(y2, sweepX);
+				}
+			}
+		}, arcs.getArcs(), height, sweepX);
 
 		// Get both halfedges starting at the voronoi vertex
 		HalfEdge e1 = prev.getHalfedge();
@@ -558,22 +586,6 @@ public class Algorithm
 		logger.debug("new: " + a);
 		logger.debug("e1: " + e1);
 		logger.debug("e2: " + e2);
-
-		// Change arc pointers
-		prev.setNext(next);
-		next.setPrevious(prev);
-		// Dismiss now invalid circle events
-		if (prev.getCirclePoint() != null) {
-			getEventQueue().remove(prev.getCirclePoint());
-			prev.setCirclePoint(null);
-		}
-		if (next.getCirclePoint() != null) {
-			getEventQueue().remove(next.getCirclePoint());
-			next.setCirclePoint(null);
-		}
-		// Check for new circle events
-		prev.checkCircle(getEventQueue());
-		next.checkCircle(getEventQueue());
 	}
 
 	private void revert(CirclePoint circlePoint)
