@@ -17,6 +17,9 @@
  */
 package de.topobyte.livecg.algorithms.voronoi.fortune;
 
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
+
 import de.topobyte.livecg.algorithms.voronoi.fortune.geometry.Point;
 import de.topobyte.livecg.algorithms.voronoi.fortune.ui.swing.FortuneDialog;
 
@@ -25,6 +28,8 @@ public class TestFortunesSweep
 
 	public static void main(String[] args)
 	{
+		Logger.getLogger(Algorithm.class.getPackage().getName()).setLevel(Level.DEBUG);
+		
 		FortuneDialog dialog = new FortuneDialog();
 		Algorithm algorithm = dialog.getAlgorithm();
 		algorithm.addSite(new Point(200, 200));
