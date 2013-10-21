@@ -17,6 +17,7 @@
  */
 package de.topobyte.livecg.algorithms.voronoi.fortune;
 
+import de.topobyte.livecg.algorithms.voronoi.fortune.geometry.Point;
 import de.topobyte.livecg.algorithms.voronoi.fortune.ui.swing.FortuneDialog;
 
 public class TestFortunesSweep
@@ -24,6 +25,12 @@ public class TestFortunesSweep
 
 	public static void main(String[] args)
 	{
-		new FortuneDialog();
+		FortuneDialog dialog = new FortuneDialog();
+		Algorithm algorithm = dialog.getAlgorithm();
+		algorithm.addSite(new Point(200, 200));
+		algorithm.addSite(new Point(250, 250));
+		algorithm.addSite(new Point(300, 150));
+		algorithm.addSite(new Point(350, 300));
+		algorithm.restart();
 	}
 }
