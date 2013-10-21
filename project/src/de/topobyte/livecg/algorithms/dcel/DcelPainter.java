@@ -28,18 +28,18 @@ import de.topobyte.livecg.core.painting.BasicAlgorithmPainter;
 import de.topobyte.livecg.core.painting.Color;
 import de.topobyte.livecg.core.painting.Painter;
 
-public class DcelPainter extends BasicAlgorithmPainter
+public abstract class DcelPainter extends BasicAlgorithmPainter
 {
 
-	private DCEL dcel;
 	private DcelConfig config;
 
-	public DcelPainter(DCEL dcel, DcelConfig config, Painter painter)
+	public DcelPainter(DcelConfig config, Painter painter)
 	{
 		super(painter);
-		this.dcel = dcel;
 		this.config = config;
 	}
+
+	public abstract DCEL getDcel();
 
 	@Override
 	public void paint()
@@ -54,13 +54,13 @@ public class DcelPainter extends BasicAlgorithmPainter
 		painter.fillRect(0, 0, getWidth(), getHeight());
 
 		painter.setColor(new Color(0, 0, 0));
-		for (Vertex vertex : dcel.vertices) {
+		for (Vertex vertex : getDcel().vertices) {
 			Coordinate c = vertex.getCoordinate();
 			painter.fillCircle(c.getX(), c.getY(), 4);
 		}
 
 		painter.setColor(new Color(0, 0, 255));
-		for (HalfEdge halfedge : dcel.halfedges) {
+		for (HalfEdge halfedge : getDcel().halfedges) {
 			HalfEdge twin = halfedge.getTwin();
 			Vertex origin = halfedge.getOrigin();
 			Vertex destination = twin.getOrigin();
@@ -68,7 +68,7 @@ public class DcelPainter extends BasicAlgorithmPainter
 			Coordinate cd = destination.getCoordinate();
 			painter.drawLine(co.getX(), co.getY(), cd.getX(), cd.getY());
 		}
-		for (HalfEdge halfedge : dcel.halfedges) {
+		for (HalfEdge halfedge : getDcel().halfedges) {
 			HalfEdgeArrow arrow = new HalfEdgeArrow(halfedge, gap, shorten,
 					markerLen, alpha);
 

@@ -40,7 +40,7 @@ public class DcelPanel extends JPanel implements SizeProvider
 	{
 		config = new DcelConfig();
 		painter = new AwtPainter(null);
-		algorithmPainter = new DcelPainter(dcel, config, painter);
+		algorithmPainter = new InstanceDcelPainter(dcel, config, painter);
 	}
 
 	public DcelConfig getConfig()

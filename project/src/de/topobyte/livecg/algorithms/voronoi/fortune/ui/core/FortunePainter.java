@@ -17,6 +17,7 @@ import de.topobyte.livecg.algorithms.voronoi.fortune.events.EventPoint;
 import de.topobyte.livecg.algorithms.voronoi.fortune.events.EventQueue;
 import de.topobyte.livecg.algorithms.voronoi.fortune.geometry.Edge;
 import de.topobyte.livecg.algorithms.voronoi.fortune.geometry.Point;
+import de.topobyte.livecg.core.geometry.dcel.DCEL;
 import de.topobyte.livecg.core.geometry.geom.Coordinate;
 import de.topobyte.livecg.core.painting.BasicAlgorithmPainter;
 import de.topobyte.livecg.core.painting.Color;
@@ -35,8 +36,15 @@ public class FortunePainter extends BasicAlgorithmPainter
 		this.algorithm = algorithm;
 		this.config = config;
 		DcelConfig dcelConfig = new DcelConfig();
-		dcelPainter = new DcelPainter(algorithm.getVoronoi().getDcel(),
-				dcelConfig, painter);
+		dcelPainter = new DcelPainter(dcelConfig, painter) {
+
+			@Override
+			public DCEL getDcel()
+			{
+				return FortunePainter.this.algorithm.getVoronoi().getDcel();
+			}
+
+		};
 	}
 
 	private int colorBackground = 0xffffff;
@@ -63,13 +71,13 @@ public class FortunePainter extends BasicAlgorithmPainter
 		super.setPainter(painter);
 		dcelPainter.setPainter(painter);
 	}
-	
+
 	@Override
 	public void paint()
 	{
 		painter.setColor(new Color(colorBackground));
 		painter.fillRect(0, 0, width, height);
-		
+
 		if (config.isDrawDcel()) {
 			dcelPainter.paint();
 		}
@@ -162,7 +170,7 @@ public class FortunePainter extends BasicAlgorithmPainter
 			}
 		}
 	}
-	
+
 	private void paintArcs(ArcNode arcNode, double sweepX)
 	{
 		ArcNodeWalker.walk(new AbstractArcNodeVisitor() {
