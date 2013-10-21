@@ -241,7 +241,7 @@ public class Algorithm
 			currentEvent = null;
 		}
 
-		initArcs(arcs.getArcs(), sweepX);
+		initArcs(arcs, sweepX);
 
 		notifyWatchers();
 		return !isFinshed();
@@ -276,7 +276,7 @@ public class Algorithm
 			}
 		}
 
-		initArcs(arcs.getArcs(), sweepX);
+		initArcs(arcs, sweepX);
 
 		notifyWatchers();
 		return sweepX > 0;
@@ -336,7 +336,7 @@ public class Algorithm
 			currentEvent = null;
 		}
 
-		initArcs(arcs.getArcs(), sweepX);
+		initArcs(arcs, sweepX);
 
 		notifyWatchers();
 	}
@@ -397,7 +397,7 @@ public class Algorithm
 			currentEvent = point;
 		}
 
-		initArcs(arcs.getArcs(), sweepX);
+		initArcs(arcs, sweepX);
 
 		notifyWatchers();
 	}
@@ -424,7 +424,7 @@ public class Algorithm
 		// Remember that this event has been executed
 		executedEvents.push(eventPoint);
 
-		initArcs(arcs.getArcs(), sweepX);
+		initArcs(arcs, sweepX);
 
 		// Actually execute the event depending on its type
 		if (eventPoint instanceof SitePoint) {
@@ -450,7 +450,7 @@ public class Algorithm
 			return;
 		}
 		if (size == 1) {
-			arcs = null;
+			arcs = new ArcTree();
 			return;
 		}
 		ArcNode iter = arcs.getArcs();
@@ -611,8 +611,9 @@ public class Algorithm
 		e2.getTwin().setNext(e2);
 	}
 
-	private void initArcs(ArcNode arcNode, double sweepX)
+	private void initArcs(ArcTree arcs, double sweepX)
 	{
+		ArcNode arcNode = arcs.getArcs();
 		for (ArcNode current = arcNode; current != null; current = current
 				.getNext()) {
 			current.init(sweepX);
