@@ -541,7 +541,7 @@ public class Algorithm
 		arc.getPrevious().uncompleteTrace();
 		// Remove vertex/edges from voronoi diagram
 		voronoi.removeLinesFromVertex(point);
-		// Remove edge from delaunay triangulation. Remove each each twice with
+		// Remove edge from delaunay triangulation. Remove each edge twice with
 		// inverted coordinates to make sure equals() works with one of them.
 		delaunay.remove(new Edge(arc, arc.getPrevious()));
 		delaunay.remove(new Edge(arc, arc.getNext()));
