@@ -9,7 +9,8 @@ public class ArcTree
 
 	private ArcNode arcs;
 
-	public void insert(Point point, double sweepX, HistoryEventQueue eventQueue, DCEL dcel)
+	public void insert(Point point, double sweepX,
+			HistoryEventQueue eventQueue, DCEL dcel)
 	{
 		if (arcs == null) {
 			arcs = new ArcNode(point);
@@ -24,34 +25,6 @@ public class ArcTree
 		} catch (MathException e) {
 			System.out
 					.println("*** error: No parabola intersection during ArcTree.insert()");
-		}
-	}
-
-	public void remove(Point point)
-	{
-		int size = size();
-		if (size == 0) {
-			return;
-		}
-		if (size == 1) {
-			arcs = null;
-			return;
-		}
-		ArcNode iter = arcs;
-		while (iter != null) {
-			if (iter.getX() == point.getX() && iter.getY() == point.getY()) {
-				ArcNode prev = iter.getPrevious();
-				ArcNode next = iter.getNext();
-				if (prev.equals(next)) {
-					prev.setNext(next.getNext());
-					if (prev.getNext() != null) {
-						prev.getNext().setPrevious(prev);
-					}
-					prev.setStartOfTrace(next.getStartOfTrace());
-				}
-				break;
-			}
-			iter = iter.getNext();
 		}
 	}
 

@@ -445,7 +445,37 @@ public class Algorithm
 
 	private void revert(SitePoint sitePoint)
 	{
-		arcs.remove(sitePoint);
+		int size = arcs.size();
+		if (size == 0) {
+			return;
+		}
+		if (size == 1) {
+			arcs = null;
+			return;
+		}
+		ArcNode iter = arcs.getArcs();
+		while (iter != null) {
+			if (iter.getX() == sitePoint.getX()
+					&& iter.getY() == sitePoint.getY()) {
+				revert(iter);
+				break;
+			}
+			iter = iter.getNext();
+		}
+	}
+
+	private void revert(ArcNode iter)
+	{
+		// Remove iter and next
+		ArcNode prev = iter.getPrevious();
+		ArcNode next = iter.getNext();
+		if (prev.equals(next)) {
+			prev.setNext(next.getNext());
+			if (prev.getNext() != null) {
+				prev.getNext().setPrevious(prev);
+			}
+			prev.setStartOfTrace(next.getStartOfTrace());
+		}
 	}
 
 	// Circle events
