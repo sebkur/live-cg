@@ -478,18 +478,20 @@ public class Algorithm
 		}
 
 		// Update DCEL
-		HalfEdge a = prev.getHalfedge();
-		HalfEdge b = iter.getHalfedge();
-		logger.debug("remove");
-		logger.debug("a: " + a);
-		logger.debug("b: " + b);
-		iter.setHalfedge(null);
-		prev.setHalfedge(null);
-		voronoi.getDcel().getHalfedges().remove(a);
-		voronoi.getDcel().getHalfedges().remove(b);
-		voronoi.getDcel().getVertices().remove(a.getOrigin());
-		voronoi.getDcel().getVertices().remove(b.getOrigin());
-		prev.setHalfedge(next.getHalfedge());
+		synchronized (voronoi.getDcel()) {
+			HalfEdge a = prev.getHalfedge();
+			HalfEdge b = iter.getHalfedge();
+			logger.debug("remove");
+			logger.debug("a: " + a);
+			logger.debug("b: " + b);
+			iter.setHalfedge(null);
+			prev.setHalfedge(null);
+			voronoi.getDcel().getHalfedges().remove(a);
+			voronoi.getDcel().getHalfedges().remove(b);
+			voronoi.getDcel().getVertices().remove(a.getOrigin());
+			voronoi.getDcel().getVertices().remove(b.getOrigin());
+			prev.setHalfedge(next.getHalfedge());
+		}
 	}
 
 	// Circle events
@@ -553,39 +555,42 @@ public class Algorithm
 					+ e2.getTwin().getOrigin().getCoordinate());
 		}
 
-		// Create a new vertex for the new trace
-		Vertex v = new Vertex(new Coordinate(point.getX(), point.getY()), null);
-		voronoi.getDcel().getVertices().add(v);
-		// Create two new halfedges that connect v with the voronoi vertex
-		HalfEdge a = new HalfEdge(v, null, null, null, null);
-		HalfEdge b = new HalfEdge(e1.getOrigin(), null, null, null, null);
-		a.setTwin(b);
-		b.setTwin(a);
-		voronoi.getDcel().getHalfedges().add(a);
-		voronoi.getDcel().getHalfedges().add(b);
+		synchronized (voronoi.getDcel()) {
+			// Create a new vertex for the new trace
+			Vertex v = new Vertex(new Coordinate(point.getX(), point.getY()),
+					null);
+			voronoi.getDcel().getVertices().add(v);
+			// Create two new halfedges that connect v with the voronoi vertex
+			HalfEdge a = new HalfEdge(v, null, null, null, null);
+			HalfEdge b = new HalfEdge(e1.getOrigin(), null, null, null, null);
+			a.setTwin(b);
+			b.setTwin(a);
+			voronoi.getDcel().getHalfedges().add(a);
+			voronoi.getDcel().getHalfedges().add(b);
 
-		// Replace one of the old edges vertex with the other's vertex
-		voronoi.getDcel().getVertices().remove(e2.getOrigin());
-		e2.setOrigin(e1.getOrigin());
+			// Replace one of the old edges vertex with the other's vertex
+			voronoi.getDcel().getVertices().remove(e2.getOrigin());
+			e2.setOrigin(e1.getOrigin());
 
-		// Connect new halfedges
-		a.setPrev(b);
-		b.setNext(a);
-		// Connect old halfedges
-		e2.getTwin().setNext(e1);
-		e1.setPrev(e2.getTwin());
-		// Connect new halfedges with the old ones
-		a.setNext(e2);
-		e2.setPrev(a);
-		b.setPrev(e1.getTwin());
-		e1.getTwin().setNext(b);
+			// Connect new halfedges
+			a.setPrev(b);
+			b.setNext(a);
+			// Connect old halfedges
+			e2.getTwin().setNext(e1);
+			e1.setPrev(e2.getTwin());
+			// Connect new halfedges with the old ones
+			a.setNext(e2);
+			e2.setPrev(a);
+			b.setPrev(e1.getTwin());
+			e1.getTwin().setNext(b);
 
-		// Update the arc's edge pointer
-		prev.setHalfedge(a);
-		logger.debug("connect");
-		logger.debug("new: " + a);
-		logger.debug("e1: " + e1);
-		logger.debug("e2: " + e2);
+			// Update the arc's edge pointer
+			prev.setHalfedge(a);
+			logger.debug("connect");
+			logger.debug("new: " + a);
+			logger.debug("e1: " + e1);
+			logger.debug("e2: " + e2);
+		}
 	}
 
 	private void revert(CirclePoint circlePoint)
@@ -609,32 +614,34 @@ public class Algorithm
 		delaunay.remove(new Edge(arc.getNext(), arc));
 
 		// Update DCEL
-		HalfEdge edge = arc.getPrevious().getHalfedge();
-		HalfEdge e1 = edge.getTwin().getPrev().getTwin();
-		HalfEdge e2 = edge.getNext();
-		logger.debug("disconnect");
-		logger.debug("rem:" + edge);
-		logger.debug("e1:" + e1);
-		logger.debug("e2:" + e2);
+		synchronized (voronoi.getDcel()) {
+			HalfEdge edge = arc.getPrevious().getHalfedge();
+			HalfEdge e1 = edge.getTwin().getPrev().getTwin();
+			HalfEdge e2 = edge.getNext();
+			logger.debug("disconnect");
+			logger.debug("rem:" + edge);
+			logger.debug("e1:" + e1);
+			logger.debug("e2:" + e2);
 
-		Coordinate origin = e2.getOrigin().getCoordinate();
-		Vertex v = new Vertex(new Coordinate(origin.getX(), origin.getY()),
-				null);
-		e2.setOrigin(v);
-		voronoi.getDcel().getVertices().add(v);
+			Coordinate origin = e2.getOrigin().getCoordinate();
+			Vertex v = new Vertex(new Coordinate(origin.getX(), origin.getY()),
+					null);
+			e2.setOrigin(v);
+			voronoi.getDcel().getVertices().add(v);
 
-		voronoi.getDcel().getVertices().remove(edge.getOrigin());
-		voronoi.getDcel().getHalfedges().remove(edge);
-		voronoi.getDcel().getHalfedges().remove(edge.getTwin());
+			voronoi.getDcel().getVertices().remove(edge.getOrigin());
+			voronoi.getDcel().getHalfedges().remove(edge);
+			voronoi.getDcel().getHalfedges().remove(edge.getTwin());
 
-		arc.getPrevious().setHalfedge(e1);
-		arc.setHalfedge(e2);
+			arc.getPrevious().setHalfedge(e1);
+			arc.setHalfedge(e2);
 
-		e1.setPrev(e1.getTwin());
-		e1.getTwin().setNext(e1);
+			e1.setPrev(e1.getTwin());
+			e1.getTwin().setNext(e1);
 
-		e2.setPrev(e2.getTwin());
-		e2.getTwin().setNext(e2);
+			e2.setPrev(e2.getTwin());
+			e2.getTwin().setNext(e2);
+		}
 	}
 
 	private void initArcs(ArcTree arcs, double sweepX)

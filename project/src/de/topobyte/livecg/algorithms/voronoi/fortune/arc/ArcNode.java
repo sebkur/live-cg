@@ -17,7 +17,7 @@ import de.topobyte.livecg.util.Stack;
 public class ArcNode extends ParabolaPoint
 {
 	final static Logger logger = LoggerFactory.getLogger(ArcNode.class);
-	
+
 	private ArcNode next, prev;
 	private CirclePoint circlePoint;
 	private Point startOfTrace;
@@ -73,7 +73,7 @@ public class ArcNode extends ParabolaPoint
 	{
 		return edge;
 	}
-	
+
 	public void setHalfedge(HalfEdge edge)
 	{
 		this.edge = edge;
@@ -97,7 +97,8 @@ public class ArcNode extends ParabolaPoint
 		}
 	}
 
-	public void completeTrace(Algorithm algorithm, Point point, CirclePoint circlePoint)
+	public void completeTrace(Algorithm algorithm, Point point,
+			CirclePoint circlePoint)
 	{
 		if (startOfTrace != null) {
 			algorithm.getVoronoi().addLine(new Edge(startOfTrace, point));
@@ -168,26 +169,30 @@ public class ArcNode extends ParabolaPoint
 			/*
 			 * DCEL
 			 */
-			
-			v1 = new Vertex(new Coordinate(start.getX(), start.getY()), null);
-			v2 = new Vertex(new Coordinate(start.getX(), start.getY()), null);
-			a = new HalfEdge(v1, null, null, null, null);
-			b = new HalfEdge(v2, null, null, null, null);
-			a.setTwin(b);
-			b.setTwin(a);
-			a.setNext(b);
-			a.setPrev(b);
-			b.setNext(a);
-			b.setPrev(a);
-			dcel.getVertices().add(v1);
-			dcel.getVertices().add(v2);
-			dcel.getHalfedges().add(a);
-			dcel.getHalfedges().add(b);
-			
+
+			synchronized (dcel) {
+				v1 = new Vertex(new Coordinate(start.getX(), start.getY()),
+						null);
+				v2 = new Vertex(new Coordinate(start.getX(), start.getY()),
+						null);
+				a = new HalfEdge(v1, null, null, null, null);
+				b = new HalfEdge(v2, null, null, null, null);
+				a.setTwin(b);
+				b.setTwin(a);
+				a.setNext(b);
+				a.setPrev(b);
+				b.setNext(a);
+				b.setPrev(a);
+				dcel.getVertices().add(v1);
+				dcel.getVertices().add(v2);
+				dcel.getHalfedges().add(a);
+				dcel.getHalfedges().add(b);
+			}
+
 			logger.debug("create");
 			logger.debug("a: " + a);
 			logger.debug("b: " + b);
-			
+
 			next.next.edge = edge;
 			edge = a;
 			next.edge = b;
@@ -202,7 +207,7 @@ public class ArcNode extends ParabolaPoint
 	public void updateDcel(double y, double sweepX)
 	{
 		if (edge != null) {
-			Vertex origin = edge.getOrigin();			
+			Vertex origin = edge.getOrigin();
 			double beachX = sweepX - f(y);
 			origin.setCoordinate(new Coordinate(beachX, y));
 		}
