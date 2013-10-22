@@ -3,6 +3,7 @@ package de.topobyte.livecg.core.painting;
 import java.awt.BasicStroke;
 import java.awt.Graphics2D;
 import java.awt.Shape;
+import java.awt.geom.Arc2D;
 import java.awt.geom.Area;
 import java.awt.geom.GeneralPath;
 import java.util.List;
@@ -10,6 +11,7 @@ import java.util.List;
 import de.topobyte.livecg.core.geometry.geom.AwtHelper;
 import de.topobyte.livecg.core.geometry.geom.Coordinate;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
+import de.topobyte.livecg.util.ShapeUtil;
 
 public class AwtPainter implements Painter
 {
@@ -85,21 +87,15 @@ public class AwtPainter implements Painter
 	@Override
 	public void drawCircle(double x, double y, double radius)
 	{
-		double diam = radius * 2;
-		int d = (int) Math.round(diam);
-		int px = (int) Math.round(x - radius);
-		int py = (int) Math.round(y - radius);
-		g.drawOval(px, py, d, d);
+		Arc2D arc = ShapeUtil.createArc(x, y, radius);
+		g.draw(arc);
 	}
 
 	@Override
 	public void fillCircle(double x, double y, double radius)
 	{
-		double diam = radius * 2;
-		int d = (int) Math.round(diam);
-		int px = (int) Math.round(x - radius);
-		int py = (int) Math.round(y - radius);
-		g.fillOval(px, py, d, d);
+		Arc2D arc = ShapeUtil.createArc(x, y, radius);
+		g.fill(arc);
 	}
 
 	@Override
