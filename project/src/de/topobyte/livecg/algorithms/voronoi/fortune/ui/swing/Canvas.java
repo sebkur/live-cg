@@ -40,7 +40,7 @@ public class Canvas extends JPanel implements AlgorithmWatcher, SizeProvider
 			{
 				Point point = new Point(e.getPoint().x, e.getPoint().y);
 				if (point.getX() > Canvas.this.algorithm.getSweepX()) {
-					Canvas.this.algorithm.addSite(point);
+					Canvas.this.algorithm.addSite(point, true);
 					repaint();
 				}
 			}
@@ -88,7 +88,7 @@ public class Canvas extends JPanel implements AlgorithmWatcher, SizeProvider
 		for (int i = 0; i < 16; i++) {
 			int x = random.nextInt(width - marginX * 2 - 1) + sx + marginX + 1;
 			int y = random.nextInt(getHeight() - marginY * 2) + marginY;
-			algorithm.addSite(new Point(x, y));
+			algorithm.addSite(new Point(x, y), true);
 		}
 		update();
 	}

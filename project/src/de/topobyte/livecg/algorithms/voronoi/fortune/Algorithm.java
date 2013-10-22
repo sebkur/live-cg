@@ -91,13 +91,15 @@ public class Algorithm
 	 * Public API
 	 */
 
-	public void addSite(Point point)
+	public void addSite(Point point, boolean checkDegenerate)
 	{
 		boolean inserted = events.insertEvent(new SitePoint(point));
 		if (inserted) {
 			sites.add(point);
 			voronoi.addSite(point);
-			voronoi.checkDegenerate();
+			if (checkDegenerate) {
+				voronoi.checkDegenerate();
+			}
 		}
 	}
 

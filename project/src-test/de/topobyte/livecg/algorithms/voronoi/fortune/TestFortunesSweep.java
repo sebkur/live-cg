@@ -51,14 +51,14 @@ public class TestFortunesSweep
 		// algorithm.addSite(new Point(300, 150));
 		// algorithm.addSite(new Point(350, 300));
 
-		String path = "res/presets/voronoi/Points2.geom";
+		String path = "res/presets/voronoi/Points1.geom";
 		ContentReader contentReader = new ContentReader();
 		Content content = contentReader.read(new File(path));
 		for (Chain chain : content.getChains()) {
 			for (int i = 0; i < chain.getNumberOfNodes(); i++) {
 				Node node = chain.getNode(i);
 				Coordinate c = node.getCoordinate();
-				algorithm.addSite(new Point(c.getX(), c.getY()));
+				algorithm.addSite(new Point(c.getX(), c.getY()), false);
 			}
 		}
 
