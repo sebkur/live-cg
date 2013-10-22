@@ -34,6 +34,10 @@ algorithm.voronoi.fortune.colors {
 	arcs = #ffffff
 	circles = #ffffff
 	delaunay = #999999
+
+	sweep.control.background = #220000
+	sweep.control.handle = #ff0000
+	sweep.control.border = #ffffff
 }
 algorithm.polygon.shortestpath.colors {
 	background = #000000

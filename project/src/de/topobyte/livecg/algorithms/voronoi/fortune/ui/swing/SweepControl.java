@@ -1,6 +1,5 @@
 package de.topobyte.livecg.algorithms.voronoi.fortune.ui.swing;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -12,11 +11,18 @@ import javax.swing.JComponent;
 
 import de.topobyte.livecg.algorithms.voronoi.fortune.Algorithm;
 import de.topobyte.livecg.algorithms.voronoi.fortune.AlgorithmWatcher;
+import de.topobyte.livecg.core.config.LiveConfig;
+import de.topobyte.livecg.core.painting.Color;
 
 public class SweepControl extends JComponent implements AlgorithmWatcher
 {
 
 	private static final long serialVersionUID = 2560101765472976128L;
+
+	private Color COLOR_SWEEP_CONTROL_BG = LiveConfig
+			.getColor("algorithm.voronoi.fortune.colors.sweep.control.background");
+	private Color COLOR_SWEEP_CONTROL_HANDLE = LiveConfig
+			.getColor("algorithm.voronoi.fortune.colors.sweep.control.handle");
 
 	private Algorithm algorithm;
 
@@ -38,10 +44,11 @@ public class SweepControl extends JComponent implements AlgorithmWatcher
 	{
 		Graphics2D g = (Graphics2D) gr;
 
-		g.setColor(Color.WHITE);
+		g.setColor(new java.awt.Color(COLOR_SWEEP_CONTROL_BG.getARGB(), true));
 		g.fillRect(0, 0, getWidth(), getHeight());
 
-		g.setColor(Color.RED);
+		g.setColor(new java.awt.Color(COLOR_SWEEP_CONTROL_HANDLE.getARGB(),
+				true));
 		g.fillRect((int) Math.round(algorithm.getSweepX()) - cw / 2,
 				getHeight() / 2 - ch / 2, cw, ch);
 	}

@@ -19,10 +19,15 @@ package de.topobyte.livecg.core.config;
 
 import java.io.IOException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import de.topobyte.livecg.core.painting.Color;
 
 public class LiveConfig
 {
+	final static Logger logger = LoggerFactory.getLogger(LiveConfig.class);
+	
 	private static final String DEFAULT_PATH = "res/config";
 
 	private static Configuration config = null;
@@ -40,6 +45,7 @@ public class LiveConfig
 		if (color != null) {
 			return color;
 		}
+		logger.warn("color not found: " + key);
 		return new Color(0x000000);
 	}
 

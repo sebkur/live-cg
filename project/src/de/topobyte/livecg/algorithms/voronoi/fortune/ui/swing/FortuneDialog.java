@@ -1,7 +1,6 @@
 package de.topobyte.livecg.algorithms.voronoi.fortune.ui.swing;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
@@ -22,13 +21,18 @@ import de.topobyte.livecg.algorithms.voronoi.fortune.ui.core.FortunePainter;
 import de.topobyte.livecg.algorithms.voronoi.fortune.ui.swing.action.OpenAction;
 import de.topobyte.livecg.algorithms.voronoi.fortune.ui.swing.action.SaveAction;
 import de.topobyte.livecg.algorithms.voronoi.fortune.ui.swing.eventqueue.EventQueueDialog;
+import de.topobyte.livecg.core.config.LiveConfig;
 import de.topobyte.livecg.core.export.ExportUtil;
+import de.topobyte.livecg.core.painting.Color;
 import de.topobyte.livecg.geometryeditor.action.QuitAction;
 
 public class FortuneDialog extends JFrame implements Runnable
 {
 
 	private static final long serialVersionUID = 3917389635770683885L;
+
+	private Color COLOR_SWEEP_CONTROL_BORDER = LiveConfig
+			.getColor("algorithm.voronoi.fortune.colors.sweep.control.border");
 
 	private Algorithm algorithm;
 	private Canvas canvas;
@@ -77,7 +81,9 @@ public class FortuneDialog extends JFrame implements Runnable
 		settings = new Settings(canvas, config);
 
 		SweepControl sweepControl = new SweepControl(algorithm);
-		sweepControl.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		sweepControl.setBorder(BorderFactory
+				.createLineBorder(new java.awt.Color(COLOR_SWEEP_CONTROL_BORDER
+						.getARGB(), true)));
 
 		Box south = new Box(BoxLayout.Y_AXIS);
 		south.add(sweepControl);
