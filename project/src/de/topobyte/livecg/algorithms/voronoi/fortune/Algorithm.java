@@ -485,10 +485,10 @@ public class Algorithm
 		logger.debug("b: " + b);
 		iter.setHalfedge(null);
 		prev.setHalfedge(null);
-		voronoi.getDcel().halfedges.remove(a);
-		voronoi.getDcel().halfedges.remove(b);
-		voronoi.getDcel().vertices.remove(a.getOrigin());
-		voronoi.getDcel().vertices.remove(b.getOrigin());
+		voronoi.getDcel().getHalfedges().remove(a);
+		voronoi.getDcel().getHalfedges().remove(b);
+		voronoi.getDcel().getVertices().remove(a.getOrigin());
+		voronoi.getDcel().getVertices().remove(b.getOrigin());
 		prev.setHalfedge(next.getHalfedge());
 	}
 
@@ -555,17 +555,17 @@ public class Algorithm
 
 		// Create a new vertex for the new trace
 		Vertex v = new Vertex(new Coordinate(point.getX(), point.getY()), null);
-		voronoi.getDcel().vertices.add(v);
+		voronoi.getDcel().getVertices().add(v);
 		// Create two new halfedges that connect v with the voronoi vertex
 		HalfEdge a = new HalfEdge(v, null, null, null, null);
 		HalfEdge b = new HalfEdge(e1.getOrigin(), null, null, null, null);
 		a.setTwin(b);
 		b.setTwin(a);
-		voronoi.getDcel().halfedges.add(a);
-		voronoi.getDcel().halfedges.add(b);
+		voronoi.getDcel().getHalfedges().add(a);
+		voronoi.getDcel().getHalfedges().add(b);
 
 		// Replace one of the old edges vertex with the other's vertex
-		voronoi.getDcel().vertices.remove(e2.getOrigin());
+		voronoi.getDcel().getVertices().remove(e2.getOrigin());
 		e2.setOrigin(e1.getOrigin());
 
 		// Connect new halfedges
@@ -621,11 +621,11 @@ public class Algorithm
 		Vertex v = new Vertex(new Coordinate(origin.getX(), origin.getY()),
 				null);
 		e2.setOrigin(v);
-		voronoi.getDcel().vertices.add(v);
+		voronoi.getDcel().getVertices().add(v);
 
-		voronoi.getDcel().vertices.remove(edge.getOrigin());
-		voronoi.getDcel().halfedges.remove(edge);
-		voronoi.getDcel().halfedges.remove(edge.getTwin());
+		voronoi.getDcel().getVertices().remove(edge.getOrigin());
+		voronoi.getDcel().getHalfedges().remove(edge);
+		voronoi.getDcel().getHalfedges().remove(edge.getTwin());
 
 		arc.getPrevious().setHalfedge(e1);
 		arc.setHalfedge(e2);

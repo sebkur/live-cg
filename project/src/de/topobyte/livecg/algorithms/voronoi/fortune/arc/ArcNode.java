@@ -179,10 +179,10 @@ public class ArcNode extends ParabolaPoint
 			a.setPrev(b);
 			b.setNext(a);
 			b.setPrev(a);
-			dcel.vertices.add(v1);
-			dcel.vertices.add(v2);
-			dcel.halfedges.add(a);
-			dcel.halfedges.add(b);
+			dcel.getVertices().add(v1);
+			dcel.getVertices().add(v2);
+			dcel.getHalfedges().add(a);
+			dcel.getHalfedges().add(b);
 			
 			logger.debug("create");
 			logger.debug("a: " + a);

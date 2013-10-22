@@ -54,13 +54,13 @@ public abstract class DcelPainter extends BasicAlgorithmPainter
 		painter.fillRect(0, 0, getWidth(), getHeight());
 
 		painter.setColor(new Color(0, 0, 0));
-		for (Vertex vertex : getDcel().vertices) {
+		for (Vertex vertex : getDcel().getVertices()) {
 			Coordinate c = vertex.getCoordinate();
 			painter.fillCircle(c.getX(), c.getY(), 4);
 		}
 
 		painter.setColor(new Color(0, 0, 255));
-		for (HalfEdge halfedge : getDcel().halfedges) {
+		for (HalfEdge halfedge : getDcel().getHalfedges()) {
 			HalfEdge twin = halfedge.getTwin();
 			Vertex origin = halfedge.getOrigin();
 			Vertex destination = twin.getOrigin();
@@ -68,7 +68,7 @@ public abstract class DcelPainter extends BasicAlgorithmPainter
 			Coordinate cd = destination.getCoordinate();
 			painter.drawLine(co.getX(), co.getY(), cd.getX(), cd.getY());
 		}
-		for (HalfEdge halfedge : getDcel().halfedges) {
+		for (HalfEdge halfedge : getDcel().getHalfedges()) {
 			HalfEdgeArrow arrow = new HalfEdgeArrow(halfedge, gap, shorten,
 					markerLen, alpha);
 
