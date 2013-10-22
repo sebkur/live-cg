@@ -118,7 +118,6 @@ public class ArcNode extends ParabolaPoint
 	{
 		boolean split = true;
 		if (next != null) {
-			next.init(sweepX);
 			if (sweepX > next.getX() && sweepX > getX()) {
 				double xs[] = solveQuadratic(getA() - next.getA(), getB()
 						- next.getB(), getC() - next.getC());
