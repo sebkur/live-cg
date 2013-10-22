@@ -125,7 +125,7 @@ public class FortunePainter extends BasicAlgorithmPainter
 		}
 
 		painter.setColor(new Color(colorVoronoiSegments));
-		if (config.isDrawVoronoiLines()) {
+		if (config.isDrawVoronoiLines() && !config.isDrawDcel()) {
 			for (int i = 0; i < edges.size(); i++) {
 				Point p1 = edges.get(i).getStart();
 				Point p2 = edges.get(i).getEnd();
@@ -179,7 +179,7 @@ public class FortunePainter extends BasicAlgorithmPainter
 			public void arc(ArcNode current, ArcNode next, double y1,
 					double y2, double sweepX)
 			{
-				if (config.isDrawVoronoiLines()) {
+				if (config.isDrawVoronoiLines() && !config.isDrawDcel()) {
 					paintTraces(y2, current, sweepX);
 				}
 
@@ -195,7 +195,8 @@ public class FortunePainter extends BasicAlgorithmPainter
 			public void arc(ArcNode current, ArcNode next, double y1,
 					double y2, double sweepX)
 			{
-				if (config.isDrawBeach() || config.isDrawVoronoiLines()) {
+				if (config.isDrawBeach() || config.isDrawVoronoiLines()
+						|| config.isDrawDcel()) {
 					paintBeachlineIntersections(y2, current, sweepX);
 				}
 			}
