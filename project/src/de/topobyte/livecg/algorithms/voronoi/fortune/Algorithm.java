@@ -11,6 +11,8 @@ import de.topobyte.livecg.algorithms.voronoi.fortune.arc.AbstractArcNodeVisitor;
 import de.topobyte.livecg.algorithms.voronoi.fortune.arc.ArcNode;
 import de.topobyte.livecg.algorithms.voronoi.fortune.arc.ArcNodeWalker;
 import de.topobyte.livecg.algorithms.voronoi.fortune.arc.ArcTree;
+import de.topobyte.livecg.algorithms.voronoi.fortune.arc.MathException;
+import de.topobyte.livecg.algorithms.voronoi.fortune.arc.ParabolaPoint;
 import de.topobyte.livecg.algorithms.voronoi.fortune.events.CirclePoint;
 import de.topobyte.livecg.algorithms.voronoi.fortune.events.EventPoint;
 import de.topobyte.livecg.algorithms.voronoi.fortune.events.EventQueueModification;
@@ -19,6 +21,7 @@ import de.topobyte.livecg.algorithms.voronoi.fortune.events.HistoryEventQueue;
 import de.topobyte.livecg.algorithms.voronoi.fortune.events.SitePoint;
 import de.topobyte.livecg.algorithms.voronoi.fortune.geometry.Edge;
 import de.topobyte.livecg.algorithms.voronoi.fortune.geometry.Point;
+import de.topobyte.livecg.core.geometry.dcel.DCEL;
 import de.topobyte.livecg.core.geometry.dcel.HalfEdge;
 import de.topobyte.livecg.core.geometry.dcel.Vertex;
 import de.topobyte.livecg.core.geometry.geom.Coordinate;
@@ -440,7 +443,116 @@ public class Algorithm
 
 	private void process(SitePoint sitePoint)
 	{
-		arcs.insert(sitePoint, getSweepX(), getEventQueue(), voronoi.getDcel());
+		boolean first = arcs.insert(sitePoint, getSweepX(), getEventQueue(),
+				voronoi.getDcel());
+		if (first) {
+			return;
+		}
+
+		ParabolaPoint parabolaPoint = new ParabolaPoint(sitePoint);
+		parabolaPoint.init(sweepX);
+
+		ArcNode iter = arcs.getArcs();
+		while (iter != null) {
+			ArcNode next = iter.getNext();
+			boolean split = true;
+			if (next != null) {
+				if (sweepX > next.getX() && sweepX > iter.getX()) {
+					double xs[];
+					try {
+						xs = ParabolaPoint.solveQuadratic(
+								iter.getA() - next.getA(),
+								iter.getB() - next.getB(),
+								iter.getC() - next.getC());
+						if (xs[0] <= parabolaPoint.realX() && xs[0] != xs[1]) {
+							split = false;
+						}
+					} catch (MathException e) {
+						break;
+					}
+				} else {
+					split = false;
+				}
+
+			}
+			if (split) {
+				insert(iter, parabolaPoint);
+				break;
+			}
+
+			iter = iter.getNext();
+		}
+	}
+
+	private void insert(ArcNode splitArc, ParabolaPoint parabolaPoint)
+	{
+		splitArc.removeCircle(events);
+
+		/*
+		 * insert new arc and update pointers
+		 */
+
+		ArcNode newArc = new ArcNode(parabolaPoint);
+		newArc.setNext(new ArcNode(splitArc));
+		newArc.setPrevious(splitArc);
+		newArc.getNext().setNext(splitArc.getNext());
+		newArc.getNext().setPrevious(newArc);
+
+		if (splitArc.getNext() != null) {
+			splitArc.getNext().setPrevious(newArc.getNext());
+		}
+
+		splitArc.setNext(newArc);
+
+		/*
+		 * circle events
+		 */
+
+		splitArc.checkCircle(events);
+		splitArc.getNext().getNext().checkCircle(events);
+
+		/*
+		 * traces
+		 */
+
+		splitArc.getNext().getNext()
+				.setStartOfTrace(splitArc.getStartOfTrace());
+		Point start = new Point(sweepX - splitArc.f(parabolaPoint.getY()),
+				parabolaPoint.getY());
+		splitArc.setStartOfTrace(start);
+		splitArc.getNext().setStartOfTrace(start);
+
+		/*
+		 * DCEL
+		 */
+
+		DCEL dcel = voronoi.getDcel();
+		synchronized (dcel) {
+			Vertex v1 = new Vertex(new Coordinate(start.getX(), start.getY()),
+					null);
+			Vertex v2 = new Vertex(new Coordinate(start.getX(), start.getY()),
+					null);
+			HalfEdge a = new HalfEdge(v1, null, null, null, null);
+			HalfEdge b = new HalfEdge(v2, null, null, null, null);
+			a.setTwin(b);
+			b.setTwin(a);
+			a.setNext(b);
+			a.setPrev(b);
+			b.setNext(a);
+			b.setPrev(a);
+			dcel.getVertices().add(v1);
+			dcel.getVertices().add(v2);
+			dcel.getHalfedges().add(a);
+			dcel.getHalfedges().add(b);
+
+			logger.debug("create");
+			logger.debug("a: " + a);
+			logger.debug("b: " + b);
+
+			splitArc.getNext().getNext().setHalfedge(splitArc.getHalfedge());
+			splitArc.setHalfedge(a);
+			splitArc.getNext().setHalfedge(b);
+		}
 	}
 
 	private void revert(SitePoint sitePoint)

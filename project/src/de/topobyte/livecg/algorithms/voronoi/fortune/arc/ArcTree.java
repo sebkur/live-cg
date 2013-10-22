@@ -9,23 +9,14 @@ public class ArcTree
 
 	private ArcNode arcs;
 
-	public void insert(Point point, double sweepX,
+	public boolean insert(Point point, double sweepX,
 			HistoryEventQueue eventQueue, DCEL dcel)
 	{
 		if (arcs == null) {
 			arcs = new ArcNode(point);
-			return;
+			return true;
 		}
-		try {
-			ParabolaPoint parabolaPoint = new ParabolaPoint(point);
-			parabolaPoint.init(sweepX);
-			arcs.init(sweepX);
-			arcs.insert(parabolaPoint, sweepX, eventQueue, dcel);
-			return;
-		} catch (MathException e) {
-			System.out
-					.println("*** error: No parabola intersection during ArcTree.insert()");
-		}
+		return false;
 	}
 
 	public ArcNode getArcs()
