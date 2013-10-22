@@ -63,7 +63,7 @@ public class Point
 	public int hashCode()
 	{
 		long bitsX = Double.doubleToLongBits(x);
-		long bitsY = Double.doubleToLongBits(x);
+		long bitsY = Double.doubleToLongBits(y);
 		long bits = bitsX + bitsY;
 		return (int) (bits ^ (bits >>> 32));
 	}
