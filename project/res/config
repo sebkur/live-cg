@@ -17,6 +17,24 @@ geometryeditor.colors {
 	selection.rectangle = #000000
 	polygon.interior = #33ff0000
 }
+algorithm.voronoi.fortune.colors {
+	background = #ffffff
+	sweepline = #ff0000
+	
+	sites = #000000
+	sites.done = #666666
+	sites.active = #ff0000
+	circle.event.point = #00ff00
+	circle.event.point.active = #ff0000
+	beachline.intersections = #00ff00
+	spikes = #000000
+	spike.intersections = #ff0000
+	voronoi.segments = #0000ff
+	voronoi.traces = #ff0000
+	arcs = #000000
+	circles = #000000
+	delaunay = #999999
+}
 algorithm.polygon.shortestpath.colors {
 	background = #ffffff
 	node {

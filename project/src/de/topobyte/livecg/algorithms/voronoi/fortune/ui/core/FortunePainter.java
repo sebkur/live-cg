@@ -17,6 +17,7 @@ import de.topobyte.livecg.algorithms.voronoi.fortune.events.EventPoint;
 import de.topobyte.livecg.algorithms.voronoi.fortune.events.EventQueue;
 import de.topobyte.livecg.algorithms.voronoi.fortune.geometry.Edge;
 import de.topobyte.livecg.algorithms.voronoi.fortune.geometry.Point;
+import de.topobyte.livecg.core.config.LiveConfig;
 import de.topobyte.livecg.core.geometry.dcel.DCEL;
 import de.topobyte.livecg.core.geometry.geom.Coordinate;
 import de.topobyte.livecg.core.painting.BasicAlgorithmPainter;
@@ -47,23 +48,33 @@ public class FortunePainter extends BasicAlgorithmPainter
 		};
 	}
 
-	private int colorBackground = 0xffffff;
-	private int colorSweepline = 0xff0000;
+	private String q(String property)
+	{
+		return "algorithm.voronoi.fortune.colors." + property;
+	}
 
-	private int colorSites = 0x000000;
-	private int colorSitesVisited = 0x666666;
-	private int colorSiteActive = 0xff0000;
-	private int colorCircleEventPoints = 0x00ff00;
-	private int colorCircleEventPointsActive = 0xff0000;
-	private int colorBeachlineIntersections = 0x00ff00;
-	private int colorSpikes = 0x000000;
-	private int colorSpikeIntersections = 0xff0000;
+	private Color COLOR_BG = LiveConfig.getColor(q("background"));
+	private Color COLOR_SWEEPLINE = LiveConfig.getColor(q("sweepline"));
 
-	private int colorVoronoiSegments = 0x0000ff;
-	private int colorVoronoiTraces = 0xff0000;
-	private int colorArcs = 0x000000;
-	private int colorCircles = 0x000000;
-	private int colorDelaunay = 0x999999;
+	private Color colorSites = LiveConfig.getColor(q("sites"));
+	private Color colorSitesVisited = LiveConfig.getColor(q("sites.done"));
+	private Color colorSiteActive = LiveConfig.getColor(q("sites.active"));
+	private Color colorCircleEventPoints = LiveConfig
+			.getColor(q("circle.event.point"));
+	private Color colorCircleEventPointsActive = LiveConfig
+			.getColor(q("circle.event.point.active"));
+	private Color colorBeachlineIntersections = LiveConfig
+			.getColor(q("beachline.intersections"));
+	private Color colorSpikes = LiveConfig.getColor(q("spikes"));
+	private Color colorSpikeIntersections = LiveConfig
+			.getColor(q("spike.intersections"));
+
+	private Color colorVoronoiSegments = LiveConfig
+			.getColor(q("voronoi.segments"));
+	private Color colorVoronoiTraces = LiveConfig.getColor(q("voronoi.traces"));
+	private Color colorArcs = LiveConfig.getColor(q("arcs"));
+	private Color colorCircles = LiveConfig.getColor(q("circles"));
+	private Color colorDelaunay = LiveConfig.getColor(q("delaunay"));
 
 	@Override
 	public void setPainter(Painter painter)
@@ -75,21 +86,28 @@ public class FortunePainter extends BasicAlgorithmPainter
 	@Override
 	public void paint()
 	{
-		painter.setColor(new Color(colorBackground));
+		painter.setColor(COLOR_BG);
 		painter.fillRect(0, 0, width, height);
 
 		if (config.isDrawDcel()) {
 			dcelPainter.paint();
 		}
 
-		paintSitesAndEdges(algorithm.getVoronoi());
+		paintSites(algorithm.getVoronoi());
 
-		painter.setColor(new Color(colorSweepline));
+		if (config.isDrawVoronoiLines() && !config.isDrawDcel()) {
+			paintVoronoiEdges(algorithm.getVoronoi());
+		}
+
+		painter.setColor(COLOR_SWEEPLINE);
 		painter.drawLine(algorithm.getSweepX(), 0, algorithm.getSweepX(),
 				height);
 
-		if (algorithm.getEventQueue() != null && algorithm.getArcs() != null) {
+		if (algorithm.getEventQueue() != null) {
 			paintEventQueue(algorithm.getEventQueue(), config.isDrawCircles());
+		}
+
+		if (algorithm.getArcs() != null) {
 			paintArcs(algorithm.getArcs(), algorithm.getSweepX());
 		}
 
@@ -103,9 +121,20 @@ public class FortunePainter extends BasicAlgorithmPainter
 		}
 	}
 
+	private void paintSites(Voronoi v)
+	{
+		painter.setColor(colorSitesVisited);
+		List<Point> sites = v.getSites();
+		for (Point p : sites) {
+			if (p.getX() < algorithm.getSweepX()) {
+				painter.fillCircle(p.getX(), p.getY(), 3.5);
+			}
+		}
+	}
+
 	private void paintDelaunay(Delaunay d)
 	{
-		painter.setColor(new Color(colorDelaunay));
+		painter.setColor(colorDelaunay);
 		for (int i = 0; i < d.size(); i++) {
 			Point p1 = d.get(i).getStart();
 			Point p2 = d.get(i).getEnd();
@@ -113,24 +142,14 @@ public class FortunePainter extends BasicAlgorithmPainter
 		}
 	}
 
-	private void paintSitesAndEdges(Voronoi v)
+	private void paintVoronoiEdges(Voronoi v)
 	{
-		List<Point> sites = v.getSites();
 		List<Edge> edges = v.getEdges();
-
-		painter.setColor(new Color(colorSitesVisited));
-		for (int i = 0; i < sites.size(); i++) {
-			Point p = sites.get(i);
-			painter.fillCircle(p.getX(), p.getY(), 3.5);
-		}
-
-		painter.setColor(new Color(colorVoronoiSegments));
-		if (config.isDrawVoronoiLines() && !config.isDrawDcel()) {
-			for (int i = 0; i < edges.size(); i++) {
-				Point p1 = edges.get(i).getStart();
-				Point p2 = edges.get(i).getEnd();
-				painter.drawLine(p1.getX(), p1.getY(), p2.getX(), p2.getY());
-			}
+		painter.setColor(colorVoronoiSegments);
+		for (int i = 0; i < edges.size(); i++) {
+			Point p1 = edges.get(i).getStart();
+			Point p2 = edges.get(i).getEnd();
+			painter.drawLine(p1.getX(), p1.getY(), p2.getX(), p2.getY());
 		}
 	}
 
@@ -150,21 +169,21 @@ public class FortunePainter extends BasicAlgorithmPainter
 			if (eventPoint instanceof CirclePoint) {
 				CirclePoint cp = (CirclePoint) eventPoint;
 
-				painter.setColor(new Color(colorCircles));
+				painter.setColor(colorCircles);
 				painter.drawCircle(cp.getX() - cp.getRadius(), cp.getY(),
 						cp.getRadius());
 
 				if (isActive) {
-					painter.setColor(new Color(colorCircleEventPointsActive));
+					painter.setColor(colorCircleEventPointsActive);
 				} else {
-					painter.setColor(new Color(colorCircleEventPoints));
+					painter.setColor(colorCircleEventPoints);
 				}
 				painter.fillCircle(eventPoint.getX(), eventPoint.getY(), 3.5);
 			} else {
 				if (isActive) {
-					painter.setColor(new Color(colorSiteActive));
+					painter.setColor(colorSiteActive);
 				} else {
-					painter.setColor(new Color(colorSites));
+					painter.setColor(colorSites);
 				}
 				painter.fillCircle(eventPoint.getX(), eventPoint.getY(), 3.5);
 			}
@@ -222,11 +241,11 @@ public class FortunePainter extends BasicAlgorithmPainter
 	private void paintSpike(double sweepX, ArcNode point, ArcNode arc)
 	{
 		double beachlineX = arc != null ? sweepX - arc.f(point.getY()) : 0.0D;
-		painter.setColor(new Color(colorSpikes));
+		painter.setColor(colorSpikes);
 		painter.drawLine(beachlineX, point.getY(), sweepX, point.getY());
 
 		// snip debug: red dot where spike meets beachline
-		painter.setColor(new Color(colorSpikeIntersections));
+		painter.setColor(colorSpikeIntersections);
 		painter.fillCircle(beachlineX, point.getY(), 2.5);
 		// snap debug
 	}
@@ -234,7 +253,7 @@ public class FortunePainter extends BasicAlgorithmPainter
 	private void paintBeachlineArc(double yTop, double yBottom,
 			ArcNode current, double sweepX)
 	{
-		painter.setColor(new Color(colorArcs));
+		painter.setColor(colorArcs);
 		// y stepping for parabola approximation
 		int yStep = 3;
 		// yMax: clamp yBottom between 0 and 'height'
@@ -270,7 +289,7 @@ public class FortunePainter extends BasicAlgorithmPainter
 		Point startOfTrace = current.getStartOfTrace();
 		if (startOfTrace != null) {
 			double beachX = sweepX - current.f(beachY);
-			painter.setColor(new Color(colorVoronoiTraces));
+			painter.setColor(colorVoronoiTraces);
 			painter.drawLine(startOfTrace.getX(), startOfTrace.getY(), beachX,
 					beachY);
 		}
@@ -284,7 +303,7 @@ public class FortunePainter extends BasicAlgorithmPainter
 			double beachX = sweepX - current.f(beachY);
 			// snip debug: green dots where neighboring beachline arcs
 			// intersect
-			painter.setColor(new Color(colorBeachlineIntersections));
+			painter.setColor(colorBeachlineIntersections);
 			painter.fillCircle(beachX, beachY, 2.5);
 			// snap debug
 		}
