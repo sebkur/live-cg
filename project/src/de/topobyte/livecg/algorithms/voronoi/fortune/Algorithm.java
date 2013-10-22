@@ -10,7 +10,6 @@ import org.slf4j.LoggerFactory;
 import de.topobyte.livecg.algorithms.voronoi.fortune.arc.AbstractArcNodeVisitor;
 import de.topobyte.livecg.algorithms.voronoi.fortune.arc.ArcNode;
 import de.topobyte.livecg.algorithms.voronoi.fortune.arc.ArcNodeWalker;
-import de.topobyte.livecg.algorithms.voronoi.fortune.arc.ArcTree;
 import de.topobyte.livecg.algorithms.voronoi.fortune.arc.MathException;
 import de.topobyte.livecg.algorithms.voronoi.fortune.arc.ParabolaPoint;
 import de.topobyte.livecg.algorithms.voronoi.fortune.events.CirclePoint;
@@ -72,7 +71,7 @@ public class Algorithm
 	/*
 	 * The beachline data structure.
 	 */
-	private ArcTree arcs = new ArcTree();
+	private ArcNode arcs = null;
 
 	/*
 	 * Watchers that need to be notified once the algorithm moved to a new
@@ -176,7 +175,7 @@ public class Algorithm
 		return currentEvent;
 	}
 
-	public ArcTree getArcs()
+	public ArcNode getArcs()
 	{
 		return arcs;
 	}
@@ -200,7 +199,7 @@ public class Algorithm
 	private synchronized void init()
 	{
 		sweepX = 0;
-		arcs.clear();
+		arcs = null;
 		events.clear();
 		executedEvents = new Stack<EventPoint>();
 		currentEvent = null;
@@ -346,7 +345,7 @@ public class Algorithm
 		notifyWatchers();
 	}
 
-	public void previousEvent()
+	public synchronized void previousEvent()
 	{
 		if (executedEvents.isEmpty()) {
 			// If we are before the first event but after 0, just go to 0.
@@ -445,84 +444,128 @@ public class Algorithm
 
 	private void process(SitePoint sitePoint)
 	{
-		boolean first = arcs.insert(sitePoint, getSweepX(), getEventQueue(),
-				voronoi.getDcel());
-		if (first) {
+		// Nothing special happens for the first arc
+		if (arcs == null) {
+			arcs = new ArcNode(sitePoint);
 			return;
 		}
-
+		// Define a parabola for the new site
 		ParabolaPoint parabolaPoint = new ParabolaPoint(sitePoint);
 		parabolaPoint.init(sweepX);
-
-		ArcNode iter = arcs.getArcs();
+		// Go through arcs
+		ArcNode iter = arcs;
 		while (iter != null) {
-			ArcNode next = iter.getNext();
-			boolean split = true;
-			if (next != null) {
-				if (sweepX > next.getX() && sweepX > iter.getX()) {
-					double xs[];
-					try {
-						xs = ParabolaPoint.solveQuadratic(
-								iter.getA() - next.getA(),
-								iter.getB() - next.getB(),
-								iter.getC() - next.getC());
-						if (xs[0] <= parabolaPoint.realX() && xs[0] != xs[1]) {
-							split = false;
-						}
-					} catch (MathException e) {
-						break;
-					}
-				} else {
-					split = false;
-				}
+			ArcNode current = iter;
+			ArcNode next = current.getNext();
+			iter = iter.getNext();
 
+			// If we reached the last arc, we insert there anyway (Also if the
+			// node that created the last node has the same x-coordinate as this
+			// node)
+			if (next == null) {
+				insert(current, parabolaPoint);
+				break;
 			}
-			if (split) {
-				insert(iter, parabolaPoint);
+			// We first check two cases with points that are not in general
+			// position, in this context meaning that they have the same
+			// x-coordinate. In both cases, there has already been another site
+			// p with the same x-coordinate before this site. The arc of that
+			// node cannot be split (first case). Also p splits its predecessor
+			// in two arcs of which only the lower part is may be split by the
+			// new site (second case).
+
+			// @formatter:off
+			// \
+			//  \
+			//   \
+			//    |------------x <-- p (Don't split this arc)
+			//   /
+			//  /--------------x <-- new site
+			// /
+			// @formatter:on
+			if (current.getX() == sitePoint.getX()) {
+				continue;
+			}
+
+			// @formatter:off
+			// \
+			//  \ <-- Don't split this arc
+			//   \
+			//    |------------x <-- p
+			//   /
+			//  /--------------x <-- new site
+			// /
+			// @formatter:on
+			if (next.getX() == sitePoint.getX()) {
+				continue;
+			}
+
+			// Otherwise we examine the intersection with the arc.
+			double xs[];
+			try {
+				xs = ParabolaPoint.solveQuadratic(current.getA() - next.getA(),
+						current.getB() - next.getB(),
+						current.getC() - next.getC());
+				System.out.println(xs[0] + "," + xs[1] + ", "
+						+ parabolaPoint.realX());
+				if (xs[0] <= parabolaPoint.realX() && xs[0] != xs[1]) {
+					continue;
+				}
+			} catch (MathException e) {
+				logger.error("Exception while calculating intersection");
 				break;
 			}
 
-			iter = iter.getNext();
+			// Continue with the subroutine
+			insert(current, parabolaPoint);
+			break;
 		}
 	}
 
 	private void insert(ArcNode splitArc, ParabolaPoint parabolaPoint)
 	{
-		splitArc.removeCircle(events);
+		// Behavior is different when the node that created the split arc has
+		// the same x-coordinate as the new site. This only happens if there
+		// sites with the same x-coordinate are the first sites, such that there
+		// is no arc with an intersection at the moment of the event.
+		boolean parallelSpikes = splitArc.getX() == parabolaPoint.getX();
+		Point start;
+		if (parallelSpikes) {
+			// Create one new arc and insert it after the splitted arc
+			ArcNode newArc = new ArcNode(parabolaPoint);
+			splitArc.setNext(newArc);
+			newArc.setPrevious(splitArc);
 
-		/*
-		 * insert new arc and update pointers
-		 */
+			// Create a supporting point at the left of the image
+			start = new Point(0, (splitArc.getY() + parabolaPoint.getY()) / 2);
+			splitArc.setStartOfTrace(start);
+		} else {
+			// Delete now invalid circle-event
+			splitArc.removeCircle(events);
 
-		ArcNode newArc = new ArcNode(parabolaPoint);
-		newArc.setNext(new ArcNode(splitArc));
-		newArc.setPrevious(splitArc);
-		newArc.getNext().setNext(splitArc.getNext());
-		newArc.getNext().setPrevious(newArc);
+			// Insert new arc and update pointers
+			ArcNode newArc = new ArcNode(parabolaPoint);
+			newArc.setNext(new ArcNode(splitArc));
+			newArc.setPrevious(splitArc);
+			newArc.getNext().setNext(splitArc.getNext());
+			newArc.getNext().setPrevious(newArc);
+			if (splitArc.getNext() != null) {
+				splitArc.getNext().setPrevious(newArc.getNext());
+			}
+			splitArc.setNext(newArc);
 
-		if (splitArc.getNext() != null) {
-			splitArc.getNext().setPrevious(newArc.getNext());
+			// Check for new circle events
+			splitArc.checkCircle(events);
+			splitArc.getNext().getNext().checkCircle(events);
+
+			// Create traces for voronoi edges
+			splitArc.getNext().getNext()
+					.setStartOfTrace(splitArc.getStartOfTrace());
+			start = new Point(sweepX - splitArc.f(parabolaPoint.getY()),
+					parabolaPoint.getY());
+			splitArc.setStartOfTrace(start);
+			splitArc.getNext().setStartOfTrace(start);
 		}
-
-		splitArc.setNext(newArc);
-
-		/*
-		 * circle events
-		 */
-
-		splitArc.checkCircle(events);
-		splitArc.getNext().getNext().checkCircle(events);
-
-		/*
-		 * traces
-		 */
-
-		splitArc.getNext().getNext()
-				.setStartOfTrace(splitArc.getStartOfTrace());
-		Point start = new Point(sweepX - splitArc.f(parabolaPoint.getY()),
-				parabolaPoint.getY());
-		splitArc.setStartOfTrace(start);
-		splitArc.getNext().setStartOfTrace(start);
 
 		/*
 		 * DCEL
@@ -551,23 +594,29 @@ public class Algorithm
 			logger.debug("a: " + a);
 			logger.debug("b: " + b);
 
-			splitArc.getNext().getNext().setHalfedge(splitArc.getHalfedge());
+			if (!parallelSpikes) {
+				splitArc.getNext().getNext()
+						.setHalfedge(splitArc.getHalfedge());
+			}
 			splitArc.setHalfedge(a);
 			splitArc.getNext().setHalfedge(b);
+
+			if (parallelSpikes) {
+				splitArc.getNext().setHalfedge(null);
+			}
 		}
 	}
 
 	private void revert(SitePoint sitePoint)
 	{
-		int size = arcs.size();
-		if (size == 0) {
+		if (arcs == null) {
 			return;
 		}
-		if (size == 1) {
-			arcs = new ArcTree();
+		if (arcs.getNext() == null) {
+			arcs = null;
 			return;
 		}
-		ArcNode iter = arcs.getArcs();
+		ArcNode iter = arcs;
 		while (iter != null) {
 			if (iter.getX() == sitePoint.getX()
 					&& iter.getY() == sitePoint.getY()) {
@@ -580,15 +629,21 @@ public class Algorithm
 
 	private void revert(ArcNode iter)
 	{
-		// Remove iter and next
 		ArcNode prev = iter.getPrevious();
 		ArcNode next = iter.getNext();
+		boolean degenerate = iter.getX() == prev.getX();
+
+		// Remove iter and next
 		if (prev.equals(next)) {
 			prev.setNext(next.getNext());
 			if (prev.getNext() != null) {
 				prev.getNext().setPrevious(prev);
 			}
 			prev.setStartOfTrace(next.getStartOfTrace());
+		}
+
+		if (degenerate) {
+			prev.setNext(null);
 		}
 
 		// Update DCEL
@@ -598,13 +653,21 @@ public class Algorithm
 			logger.debug("remove");
 			logger.debug("a: " + a);
 			logger.debug("b: " + b);
-			iter.setHalfedge(null);
-			prev.setHalfedge(null);
-			voronoi.getDcel().getHalfedges().remove(a);
-			voronoi.getDcel().getHalfedges().remove(b);
-			voronoi.getDcel().getVertices().remove(a.getOrigin());
-			voronoi.getDcel().getVertices().remove(b.getOrigin());
-			prev.setHalfedge(next.getHalfedge());
+			if (degenerate) {
+				prev.setHalfedge(null);
+				voronoi.getDcel().getHalfedges().remove(a);
+				voronoi.getDcel().getHalfedges().remove(a.getTwin());
+				voronoi.getDcel().getVertices().remove(a.getOrigin());
+				voronoi.getDcel().getVertices().remove(a.getTwin().getOrigin());
+			} else {
+				iter.setHalfedge(null);
+				prev.setHalfedge(null);
+				voronoi.getDcel().getHalfedges().remove(a);
+				voronoi.getDcel().getVertices().remove(a.getOrigin());
+				voronoi.getDcel().getHalfedges().remove(b);
+				voronoi.getDcel().getVertices().remove(b.getOrigin());
+				prev.setHalfedge(next.getHalfedge());
+			}
 		}
 	}
 
@@ -652,7 +715,7 @@ public class Algorithm
 					current.updateDcel(y2, sweepX);
 				}
 			}
-		}, arcs.getArcs(), height, sweepX);
+		}, arcs, height, sweepX);
 
 		// Get both halfedges starting at the voronoi vertex
 		HalfEdge e1 = prev.getHalfedge();
@@ -758,9 +821,8 @@ public class Algorithm
 		}
 	}
 
-	private void initArcs(ArcTree arcs, double sweepX)
+	private void initArcs(ArcNode arcNode, double sweepX)
 	{
-		ArcNode arcNode = arcs.getArcs();
 		for (ArcNode current = arcNode; current != null; current = current
 				.getNext()) {
 			current.init(sweepX);

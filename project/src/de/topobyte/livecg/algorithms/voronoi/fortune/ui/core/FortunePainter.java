@@ -90,7 +90,7 @@ public class FortunePainter extends BasicAlgorithmPainter
 
 		if (algorithm.getEventQueue() != null && algorithm.getArcs() != null) {
 			paintEventQueue(algorithm.getEventQueue(), config.isDrawCircles());
-			paintArcs(algorithm.getArcs().getArcs(), algorithm.getSweepX());
+			paintArcs(algorithm.getArcs(), algorithm.getSweepX());
 		}
 
 		if (algorithm.getCurrentEvent() != null) {
