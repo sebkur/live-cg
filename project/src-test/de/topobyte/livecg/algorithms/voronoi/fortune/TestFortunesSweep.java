@@ -17,7 +17,6 @@
  */
 package de.topobyte.livecg.algorithms.voronoi.fortune;
 
-import java.io.File;
 import java.io.IOException;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -28,11 +27,6 @@ import org.xml.sax.SAXException;
 
 import de.topobyte.livecg.algorithms.voronoi.fortune.geometry.Point;
 import de.topobyte.livecg.algorithms.voronoi.fortune.ui.swing.FortuneDialog;
-import de.topobyte.livecg.core.geometry.geom.Chain;
-import de.topobyte.livecg.core.geometry.geom.Coordinate;
-import de.topobyte.livecg.core.geometry.geom.Node;
-import de.topobyte.livecg.core.geometry.io.ContentReader;
-import de.topobyte.livecg.geometryeditor.geometryeditor.Content;
 
 public class TestFortunesSweep
 {
@@ -46,21 +40,23 @@ public class TestFortunesSweep
 		FortuneDialog dialog = new FortuneDialog();
 		Algorithm algorithm = dialog.getAlgorithm();
 
-		// algorithm.addSite(new Point(200, 200));
-		// algorithm.addSite(new Point(250, 250));
-		// algorithm.addSite(new Point(300, 150));
-		// algorithm.addSite(new Point(350, 300));
+		// String path = "res/presets/voronoi/Points1.geom";
+		// ContentReader contentReader = new ContentReader();
+		// Content content = contentReader.read(new File(path));
+		// for (Chain chain : content.getChains()) {
+		// for (int i = 0; i < chain.getNumberOfNodes(); i++) {
+		// Node node = chain.getNode(i);
+		// Coordinate c = node.getCoordinate();
+		// algorithm.addSite(new Point(c.getX(), c.getY()), false);
+		// }
+		// }
 
-		String path = "res/presets/voronoi/Points1.geom";
-		ContentReader contentReader = new ContentReader();
-		Content content = contentReader.read(new File(path));
-		for (Chain chain : content.getChains()) {
-			for (int i = 0; i < chain.getNumberOfNodes(); i++) {
-				Node node = chain.getNode(i);
-				Coordinate c = node.getCoordinate();
-				algorithm.addSite(new Point(c.getX(), c.getY()), false);
-			}
-		}
+		algorithm.addSite(new Point(150, 180), false);
+		algorithm.addSite(new Point(300, 100), false);
+		algorithm.addSite(new Point(300, 200), false);
+		algorithm.addSite(new Point(300, 300), false);
+		algorithm.addSite(new Point(300, 350), false);
+		algorithm.addSite(new Point(450, 240), false);
 
 		algorithm.restart();
 	}
