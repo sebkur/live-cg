@@ -262,10 +262,6 @@ public class FortunePainter extends BasicAlgorithmPainter
 			y1 = y2;
 		}
 		painter.drawPath(coords);
-		// painter.setColor(new Color(0x000000));
-		// painter.fillCircle(coords.get(0).getX(), coords.get(0).getY(), 5);
-		// painter.fillCircle(coords.get(coords.size() - 1).getX(),
-		// coords.get(coords.size() - 1).getY(), 5);
 	}
 
 	private void paintTraces(double beachY, ArcNode current, double sweepX)
@@ -276,9 +272,6 @@ public class FortunePainter extends BasicAlgorithmPainter
 			painter.setColor(new Color(colorVoronoiTraces));
 			painter.drawLine(startOfTrace.getX(), startOfTrace.getY(), beachX,
 					beachY);
-			painter.setColor(new Color(0x000000));
-			painter.fillCircle(startOfTrace.getX(), startOfTrace.getY(), 2);
-			painter.fillCircle(beachX, beachY, 2);
 		}
 	}
 
