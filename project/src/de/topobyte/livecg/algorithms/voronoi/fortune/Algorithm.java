@@ -831,6 +831,13 @@ public class Algorithm
 		ArcNodeWalker.walk(new AbstractArcNodeVisitor() {
 
 			@Override
+			public void spike(ArcNode current, ArcNode next, double y1,
+					double y2, double sweepX)
+			{
+				current.updateDcel(y2, sweepX);
+			}
+
+			@Override
 			public void arc(ArcNode current, ArcNode next, double y1,
 					double y2, double sweepX)
 			{
