@@ -8,14 +8,18 @@ import java.io.IOException;
 import javax.swing.JFileChooser;
 import javax.xml.transform.TransformerException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import de.topobyte.livecg.core.painting.AlgorithmPainter;
 import de.topobyte.livecg.geometryeditor.action.BasicAction;
 import de.topobyte.livecg.geometryeditor.filefilters.FileFilterSvg;
 
 public class ExportSvgAction extends BasicAction
 {
-
 	private static final long serialVersionUID = 1L;
+
+	final static Logger logger = LoggerFactory.getLogger(ExportSvgAction.class);
 
 	private Component component;
 	private AlgorithmPainter algorithmPainter;
@@ -52,10 +56,10 @@ public class ExportSvgAction extends BasicAction
 			SvgExporter.exportSVG(file, algorithmPainter,
 					sizeProvider.getWidth(), sizeProvider.getHeight());
 		} catch (IOException ex) {
-			System.out.println("unable to export image (IOException): "
+			logger.error("unable to export image (IOException): "
 					+ ex.getMessage());
 		} catch (TransformerException ex) {
-			System.out.println("unable to export image (TransfomerException): "
+			logger.error("unable to export image (TransfomerException): "
 					+ ex.getMessage());
 		}
 	}

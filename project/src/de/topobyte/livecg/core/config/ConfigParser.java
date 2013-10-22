@@ -113,7 +113,7 @@ public class ConfigParser
 		}
 		Matcher matcher = patternColor.matcher(value);
 		if (!matcher.matches()) {
-			System.out.println(value);
+			logger.error("unable to parse color: " + value);
 		}
 		if (value.length() == 7) {
 			String r = value.substring(1, 3);

@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Locale;
 
 import org.apache.batik.dom.svg.SVGDOMImplementation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -16,6 +18,8 @@ import de.topobyte.livecg.core.geometry.geom.Polygon;
 
 public class SvgPainter implements Painter
 {
+	final static Logger logger = LoggerFactory.getLogger(SvgPainter.class);
+	
 	private String svgNS = SVGDOMImplementation.SVG_NAMESPACE_URI;
 
 	private Document doc;
@@ -316,7 +320,7 @@ public class SvgPainter implements Painter
 				pathCubicTo(strb, c1x, c1y, c2x, c2y, cx, cy);
 				break;
 			default:
-				System.out.println("Not implemented! PathIterator type: "
+				logger.error("Not implemented! PathIterator type: "
 						+ type);
 			}
 		}

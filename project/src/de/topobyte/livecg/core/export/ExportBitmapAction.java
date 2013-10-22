@@ -7,6 +7,9 @@ import java.io.IOException;
 
 import javax.swing.JFileChooser;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import de.topobyte.livecg.core.painting.AlgorithmPainter;
 import de.topobyte.livecg.geometryeditor.action.BasicAction;
 import de.topobyte.livecg.geometryeditor.filefilters.FileFilterBitmap;
@@ -15,6 +18,9 @@ public class ExportBitmapAction extends BasicAction
 {
 
 	private static final long serialVersionUID = 1L;
+
+	final static Logger logger = LoggerFactory
+			.getLogger(ExportBitmapAction.class);
 
 	private Component component;
 	private AlgorithmPainter algorithmPainter;
@@ -52,7 +58,7 @@ public class ExportBitmapAction extends BasicAction
 			GraphicsExporter.exportPNG(file, algorithmPainter,
 					sizeProvider.getWidth(), sizeProvider.getHeight());
 		} catch (IOException ex) {
-			System.out.println("unable to export image: " + ex.getMessage());
+			logger.error("unable to export image: " + ex.getMessage());
 		}
 	}
 

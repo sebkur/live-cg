@@ -27,7 +27,7 @@ import de.topobyte.livecg.core.painting.Color;
 public class LiveConfig
 {
 	final static Logger logger = LoggerFactory.getLogger(LiveConfig.class);
-	
+
 	private static final String DEFAULT_PATH = "res/config";
 
 	private static Configuration config = null;
@@ -37,7 +37,7 @@ public class LiveConfig
 	{
 		LiveConfig.path = path;
 	}
-	
+
 	public static Color getColor(String key)
 	{
 		initialize();
@@ -55,7 +55,7 @@ public class LiveConfig
 			try {
 				config = ConfigParser.parse(path);
 			} catch (IOException e) {
-				System.out.println("unable to load configuration");
+				logger.error("unable to load configuration");
 			}
 		}
 	}
