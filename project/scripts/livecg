@@ -10,6 +10,7 @@ DIR=`dirname $0`
 #echo "we are operating from: $DIR"
 CLASSPATH=.
 CLASSPATH+=:$DIR/../lib/*
+CLASSPATH+=:$DIR/../lib/batik/*
 CLASSPATH+=:$DIR/../bin/main/
 CLASSPATH+=:$DIR/../bin/test/
 CLASSPATH+=:$DIR/../
