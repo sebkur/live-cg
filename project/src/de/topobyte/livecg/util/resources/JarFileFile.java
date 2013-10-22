@@ -27,8 +27,12 @@ import java.util.Set;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class JarFileFile implements ResourceFile
 {
+	final static Logger logger = LoggerFactory.getLogger(JarFileFile.class);
 
 	private String relativePath;
 	private String name;
@@ -49,9 +53,9 @@ public class JarFileFile implements ResourceFile
 		jar = urlcon.getJarFile();
 		jarDict = new JarDict(jar);
 
-		System.out.println("jardict.get: " + relativePath);
+		logger.debug("jardict.get: " + relativePath);
 		entry = jarDict.get(relativePath);
-		System.out.println(entry);
+		logger.debug("entry: " + entry);
 	}
 
 	public JarFileFile(JarFile jar, JarDict jarDict, String relativePath)
