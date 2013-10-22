@@ -61,6 +61,9 @@ public class Voronoi
 	public void clear()
 	{
 		edges.clear();
+		dcel.getVertices().clear();
+		dcel.getHalfedges().clear();
+		dcel.getFaces().clear();
 	}
 
 	public void addSite(Point site)
