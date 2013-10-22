@@ -506,8 +506,6 @@ public class Algorithm
 				xs = ParabolaPoint.solveQuadratic(current.getA() - next.getA(),
 						current.getB() - next.getB(),
 						current.getC() - next.getC());
-				System.out.println(xs[0] + "," + xs[1] + ", "
-						+ parabolaPoint.realX());
 				if (xs[0] <= parabolaPoint.realX() && xs[0] != xs[1]) {
 					continue;
 				}

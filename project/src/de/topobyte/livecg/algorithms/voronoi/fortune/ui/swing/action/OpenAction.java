@@ -11,6 +11,9 @@ import java.util.List;
 
 import javax.swing.JFileChooser;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import de.topobyte.livecg.algorithms.voronoi.fortune.geometry.Point;
 import de.topobyte.livecg.algorithms.voronoi.fortune.ui.swing.FileFilterPointSet;
 import de.topobyte.livecg.algorithms.voronoi.fortune.ui.swing.FortuneDialog;
@@ -20,6 +23,7 @@ import de.topobyte.livecg.util.exception.ParseException;
 
 public class OpenAction extends FortuneAction
 {
+	final static Logger logger = LoggerFactory.getLogger(OpenAction.class);
 
 	private static final long serialVersionUID = 1L;
 
@@ -63,12 +67,12 @@ public class OpenAction extends FortuneAction
 			}
 			fortune.getAlgorithm().setSites(sites);
 		} catch (FileNotFoundException ex) {
-			System.out.println("file not found: '" + file + "'");
+			logger.error("file not found: '" + file + "'");
 		} catch (IOException ex) {
-			System.out.println("IOException while reading point set: "
+			logger.error("IOException while reading point set: "
 					+ ex.getMessage());
 		} catch (ParseException ex) {
-			System.out.println("ParseException while reading point set: "
+			logger.error("ParseException while reading point set: "
 					+ ex.getMessage());
 		}
 	}

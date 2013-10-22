@@ -10,6 +10,9 @@ import java.util.List;
 
 import javax.swing.JFileChooser;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import de.topobyte.livecg.algorithms.voronoi.fortune.geometry.Point;
 import de.topobyte.livecg.algorithms.voronoi.fortune.ui.swing.FileFilterPointSet;
 import de.topobyte.livecg.algorithms.voronoi.fortune.ui.swing.FortuneDialog;
@@ -18,6 +21,8 @@ import de.topobyte.livecg.core.geometry.pointset.PointSet;
 
 public class SaveAction extends FortuneAction
 {
+
+	final static Logger logger = LoggerFactory.getLogger(SaveAction.class);
 
 	private static final long serialVersionUID = 1L;
 
@@ -57,9 +62,9 @@ public class SaveAction extends FortuneAction
 
 			bos.close();
 		} catch (FileNotFoundException ex) {
-			System.out.println("file not found: '" + file + "'");
+			logger.error("file not found: '" + file + "'");
 		} catch (IOException ex) {
-			System.out.println("unable to close output file");
+			logger.error("unable to close output file");
 		}
 	}
 

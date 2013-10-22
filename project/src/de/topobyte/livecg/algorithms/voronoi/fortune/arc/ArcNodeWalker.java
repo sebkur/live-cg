@@ -1,7 +1,12 @@
 package de.topobyte.livecg.algorithms.voronoi.fortune.arc;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class ArcNodeWalker
 {
+	final static Logger logger = LoggerFactory.getLogger(ArcNodeWalker.class);
+
 	public static void walk(ArcNodeVisitor visitor, ArcNode arcNode,
 			double height, double sweepX)
 	{
@@ -31,13 +36,12 @@ public class ArcNodeWalker
 							y2 = ad[0];
 						} catch (MathException e) {
 							y2 = y1;
-							System.out
-									.println("*** error: No parabola intersection while painting arc - SLine: "
-											+ sweepX
-											+ ", "
-											+ current.toString()
-											+ " "
-											+ next.toString());
+							logger.error("No parabola intersection while painting arc - SLine: "
+									+ sweepX
+									+ ", "
+									+ current.toString()
+									+ " "
+									+ next.toString());
 						}
 					}
 				}

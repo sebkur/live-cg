@@ -5,12 +5,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import de.topobyte.livecg.algorithms.voronoi.fortune.geometry.Edge;
 import de.topobyte.livecg.algorithms.voronoi.fortune.geometry.Point;
 import de.topobyte.livecg.core.geometry.dcel.DCEL;
 
 public class Voronoi
 {
+	final static Logger logger = LoggerFactory.getLogger(Voronoi.class);
+	
 	private List<Point> sites = new ArrayList<Point>();
 	private List<Edge> edges = new ArrayList<Edge>();
 	private Map<Point, List<Edge>> pointToEdges = new HashMap<Point, List<Edge>>();
@@ -52,8 +57,7 @@ public class Voronoi
 
 			if (min.getX() == next.getX() && min != next) {
 				min.setX(min.getX() - 1);
-				System.out.println("Moved point: " + next.getX() + " -> "
-						+ min.getX());
+				logger.info("Moved point: " + next.getX() + " -> " + min.getX());
 			}
 		}
 	}
