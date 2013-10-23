@@ -14,5 +14,11 @@ public class EventPoint extends Point
 	{
 		super(x, y);
 	}
+	
+	@Override
+	public String toString()
+	{
+		return getClass().getSimpleName() + " " + super.toString();
+	}
 
 }
