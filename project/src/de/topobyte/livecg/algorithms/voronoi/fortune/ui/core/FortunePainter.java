@@ -127,7 +127,7 @@ public class FortunePainter extends BasicAlgorithmPainter
 		painter.setColor(COLOR_SITES_VISITED);
 		List<Point> sites = v.getSites();
 		for (Point p : sites) {
-			if (p.getX() < algorithm.getSweepX()) {
+			if (p.getX() <= algorithm.getSweepX()) {
 				painter.fillCircle(p.getX(), p.getY(), 3.5);
 			}
 		}

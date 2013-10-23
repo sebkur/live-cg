@@ -1,15 +1,22 @@
 package de.topobyte.livecg.algorithms.voronoi.fortune.events;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import de.topobyte.livecg.algorithms.voronoi.fortune.Algorithm;
 import de.topobyte.livecg.algorithms.voronoi.fortune.events.EventQueueModification.Type;
 
 public class HistoryEventQueue extends EventQueue
 {
+	static final Logger logger = LoggerFactory
+			.getLogger(HistoryEventQueue.class);
 
-	private List<EventQueueModification> modifications = new ArrayList<EventQueueModification>();
+	private Map<EventPoint, List<EventQueueModification>> modifications = new HashMap<EventPoint, List<EventQueueModification>>();
 
 	private Algorithm algorithm;
 
@@ -18,110 +25,42 @@ public class HistoryEventQueue extends EventQueue
 		this.algorithm = algorithm;
 	}
 
-	public synchronized boolean insertEvent(EventPoint eventPoint)
+	public synchronized void insertEvent(EventPoint reason,
+			CirclePoint circlePoint)
 	{
-		if (eventPoint instanceof CirclePoint) {
+		logger.debug("insertEvent() " + reason.getClass().getSimpleName());
+		List<EventQueueModification> changes;
+		changes = modifications.get(reason);
+		if (changes == null) {
+			changes = new ArrayList<EventQueueModification>();
+			modifications.put(reason, changes);
+		}
+
+		if (circlePoint instanceof CirclePoint) {
 			EventQueueModification modification = new EventQueueModification(
-					algorithm.getSweepX(), Type.ADD, eventPoint);
+					algorithm.getSweepX(), Type.ADD, circlePoint);
 			// Circle events will just be appended
-			modifications.add(modification);
-			insert(eventPoint);
-			return true;
-		} else if (eventPoint instanceof SitePoint) {
-			EventQueueModification modification = new EventQueueModification(
-					0.0, Type.ADD, eventPoint);
-			// Site events need to be inserted at the correct position
-			int pos = findLastSiteInsertion();
-			modifications.add(pos + 1, modification);
-			insert(eventPoint);
-			return true;
+			changes.add(modification);
+			insert(circlePoint);
 		}
-		return false;
 	}
 
-	/**
-	 * Find the position of the last insertion of a SitePoint. Since all
-	 * SitePoint insertion are stored as a sequence at the beginning of the
-	 * modifications list, the returned value is the index of the last SitePoint
-	 * insertion of that sequence.
-	 * 
-	 * @return the index of the last SitePoint insertion in the sequence of
-	 *         SitePoint insertions or -1 if there has not been any SitePoint
-	 *         insertion yet.
-	 */
-	private int findLastSiteInsertion()
+	public synchronized boolean remove(EventPoint reason,
+			CirclePoint circlePoint)
 	{
-		int pos = -1;
-		for (int i = 0; i < modifications.size(); i++) {
-			EventQueueModification mod = modifications.get(i);
-			if (mod.getType() == Type.ADD
-					&& mod.getEventPoint() instanceof SitePoint) {
-				pos = i;
-			} else {
-				break;
-			}
-		}
-		return pos;
-	}
-
-	@Override
-	public synchronized boolean remove(EventPoint eventPoint)
-	{
-		boolean remove = super.remove(eventPoint);
+		logger.debug("remove() " + reason.getClass().getSimpleName());
+		boolean remove = super.remove(circlePoint);
 		if (remove) {
-			modifications.add(new EventQueueModification(algorithm.getSweepX(),
-					Type.REMOVE, eventPoint));
+			List<EventQueueModification> changes = modifications.get(reason);
+			if (changes == null) {
+				changes = new ArrayList<EventQueueModification>();
+				modifications.put(reason, changes);
+			}
+			EventQueueModification modification = new EventQueueModification(
+					algorithm.getSweepX(), Type.REMOVE, circlePoint);
+			changes.add(modification);
 		}
 		return remove;
-	}
-
-	@Override
-	public synchronized EventPoint pop()
-	{
-		EventPoint eventPoint = top();
-		modifications.add(new EventQueueModification(eventPoint.getX(),
-				Type.REMOVE, eventPoint));
-		return super.pop();
-	}
-
-	public synchronized boolean hasModification()
-	{
-		return modifications.size() > 0;
-	}
-
-	public synchronized EventQueueModification getLatestModification()
-	{
-		if (modifications.size() == 0) {
-			return null;
-		}
-		return modifications.get(modifications.size() - 1);
-	}
-
-	public synchronized EventQueueModification revertModification()
-	{
-		if (modifications.size() == 0) {
-			return null;
-		}
-		EventQueueModification modification = modifications
-				.remove(modifications.size() - 1);
-		// Reverse EventQueue modification
-		if (modification.getType() == Type.ADD) {
-			// Remove if the event was added
-			if (modification.getEventPoint() instanceof CirclePoint) {
-				super.remove(modification.getEventPoint());
-			}
-		} else if (modification.getType() == Type.REMOVE) {
-			// Insert if the event was removed
-			insert(modification.getEventPoint());
-			// Revert pointers of arcs to their circle events.
-			if (modification.getEventPoint() instanceof CirclePoint) {
-				CirclePoint circlePoint = (CirclePoint) modification
-						.getEventPoint();
-				circlePoint.getArc().setCirclePoint(circlePoint);
-			}
-		}
-
-		return modification;
 	}
 
 	public void clear()
@@ -130,4 +69,25 @@ public class HistoryEventQueue extends EventQueue
 		modifications.clear();
 	}
 
+	public List<EventQueueModification> getModifications(EventPoint eventPoint)
+	{
+		return modifications.get(eventPoint);
+	}
+
+	public synchronized void revertModification(
+			EventQueueModification modification)
+	{
+		logger.debug("revertModification() " + modification.getType());
+		// Reverse EventQueue modification
+		if (modification.getType() == Type.ADD) {
+			// Remove if the event was added
+			super.remove(modification.getEventPoint());
+		} else if (modification.getType() == Type.REMOVE) {
+			// Insert if the event was removed
+			insert(modification.getEventPoint());
+			// Revert pointers of arcs to their circle events.
+			CirclePoint circlePoint = modification.getEventPoint();
+			circlePoint.getArc().setCirclePoint(circlePoint);
+		}
+	}
 }

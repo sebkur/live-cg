@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 
 import de.topobyte.livecg.algorithms.voronoi.fortune.Algorithm;
 import de.topobyte.livecg.algorithms.voronoi.fortune.events.CirclePoint;
+import de.topobyte.livecg.algorithms.voronoi.fortune.events.EventPoint;
 import de.topobyte.livecg.algorithms.voronoi.fortune.events.HistoryEventQueue;
 import de.topobyte.livecg.algorithms.voronoi.fortune.geometry.Edge;
 import de.topobyte.livecg.algorithms.voronoi.fortune.geometry.Point;
@@ -78,20 +79,20 @@ public class ArcNode extends ParabolaPoint
 		this.edge = edge;
 	}
 
-	public void checkCircle(HistoryEventQueue eventQueue)
+	public void checkCircle(EventPoint reason, HistoryEventQueue eventQueue)
 	{
 		if (prev != null && next != null) {
 			circlePoint = calculateCenter(next, this, prev);
 			if (circlePoint != null) {
-				eventQueue.insertEvent(circlePoint);
+				eventQueue.insertEvent(reason, circlePoint);
 			}
 		}
 	}
 
-	public void removeCircle(HistoryEventQueue eventQueue)
+	public void removeCircle(EventPoint reason, HistoryEventQueue eventQueue)
 	{
 		if (circlePoint != null) {
-			eventQueue.remove(circlePoint);
+			eventQueue.remove(reason, circlePoint);
 			circlePoint = null;
 		}
 	}

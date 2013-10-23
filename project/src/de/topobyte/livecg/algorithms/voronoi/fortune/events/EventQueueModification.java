@@ -9,9 +9,9 @@ public class EventQueueModification
 
 	private double x;
 	private Type type;
-	private EventPoint eventPoint;
+	private CirclePoint eventPoint;
 
-	public EventQueueModification(double x, Type type, EventPoint eventPoint)
+	public EventQueueModification(double x, Type type, CirclePoint eventPoint)
 	{
 		this.x = x;
 		this.type = type;
@@ -28,7 +28,7 @@ public class EventQueueModification
 		return type;
 	}
 
-	public EventPoint getEventPoint()
+	public CirclePoint getEventPoint()
 	{
 		return eventPoint;
 	}

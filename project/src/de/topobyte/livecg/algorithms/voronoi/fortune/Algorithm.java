@@ -15,7 +15,6 @@ import de.topobyte.livecg.algorithms.voronoi.fortune.arc.ParabolaPoint;
 import de.topobyte.livecg.algorithms.voronoi.fortune.events.CirclePoint;
 import de.topobyte.livecg.algorithms.voronoi.fortune.events.EventPoint;
 import de.topobyte.livecg.algorithms.voronoi.fortune.events.EventQueueModification;
-import de.topobyte.livecg.algorithms.voronoi.fortune.events.EventQueueModification.Type;
 import de.topobyte.livecg.algorithms.voronoi.fortune.events.HistoryEventQueue;
 import de.topobyte.livecg.algorithms.voronoi.fortune.events.SitePoint;
 import de.topobyte.livecg.algorithms.voronoi.fortune.geometry.Edge;
@@ -92,13 +91,11 @@ public class Algorithm
 
 	public void addSite(Point point, boolean checkDegenerate)
 	{
-		boolean inserted = events.insertEvent(new SitePoint(point));
-		if (inserted) {
-			sites.add(point);
-			voronoi.addSite(point);
-			if (checkDegenerate) {
-				voronoi.checkDegenerate();
-			}
+		events.insert(new SitePoint(point));
+		sites.add(point);
+		voronoi.addSite(point);
+		if (checkDegenerate) {
+			voronoi.checkDegenerate();
 		}
 	}
 
@@ -206,10 +203,8 @@ public class Algorithm
 		voronoi.clear();
 		delaunay = new Delaunay();
 		for (Point point : sites) {
-			boolean inserted = events.insertEvent(new SitePoint(point));
-			if (inserted) {
-				voronoi.addSite(point);
-			}
+			events.insert(new SitePoint(point));
+			voronoi.addSite(point);
 		}
 	}
 
@@ -260,8 +255,6 @@ public class Algorithm
 		sweepX -= amount;
 		currentEvent = null;
 
-		restoreEventQueue(xPosBefore);
-
 		/*
 		 * Go through executed events and revert everything within the interval
 		 */
@@ -270,6 +263,8 @@ public class Algorithm
 			if (!(lastEvent.getX() >= sweepX && lastEvent.getX() <= xPosBefore)) {
 				break;
 			}
+			events.insert(lastEvent);
+			restoreEventQueue(lastEvent);
 			executedEvents.pop();
 			if (lastEvent instanceof SitePoint) {
 				SitePoint sitePoint = (SitePoint) lastEvent;
@@ -286,30 +281,15 @@ public class Algorithm
 		return sweepX > 0;
 	}
 
-	private void restoreEventQueue(double xPosBefore)
+	private void restoreEventQueue(EventPoint eventPoint)
 	{
-		/*
-		 * Restore event queue
-		 */
-		while (events.hasModification()) {
-			EventQueueModification mod = events.getLatestModification();
-			EventPoint event = events.getLatestModification().getEventPoint();
-			if (event instanceof SitePoint) {
-				if (!(mod.getX() >= sweepX && mod.getX() <= xPosBefore)) {
-					break;
-				}
-			} else if (event instanceof CirclePoint) {
-				if (mod.getType() == Type.REMOVE) {
-					if (!(mod.getX() >= sweepX && mod.getX() <= xPosBefore)) {
-						break;
-					}
-				} else if (mod.getType() == Type.ADD) {
-					if (!(mod.getX() >= sweepX && mod.getX() <= xPosBefore)) {
-						break;
-					}
-				}
-			}
-			events.revertModification();
+		List<EventQueueModification> modifications = events
+				.getModifications(eventPoint);
+		if (modifications == null) {
+			return;
+		}
+		for (EventQueueModification modification : modifications) {
+			events.revertModification(modification);
 		}
 	}
 
@@ -356,49 +336,35 @@ public class Algorithm
 			return;
 		}
 
-		double xPosBefore = sweepX;
-
-		EventPoint point = executedEvents.pop();
+		// Examine the last executed event
+		EventPoint point = executedEvents.top();
 		if (sweepX > point.getX()) {
-			// If we are beyond some event
+			// If we are beyond some event, move the sweepline to that event and
+			// pretend that event had just happened
 			sweepX = point.getX();
-			restoreEventQueue(xPosBefore);
-		} else if (sweepX == point.getX()) {
-			// If we are exactly at some event
-			restoreEventQueue(xPosBefore);
-
-			if (point instanceof SitePoint) {
-				SitePoint sitePoint = (SitePoint) point;
-				revert(sitePoint);
-			} else if (point instanceof CirclePoint) {
-				CirclePoint circlePoint = (CirclePoint) point;
-				revert(circlePoint);
-			}
-			if (executedEvents.isEmpty()) {
-				point = null;
-			} else {
-				point = executedEvents.pop();
-				sweepX = point.getX();
-				restoreEventQueue(xPosBefore);
-			}
-		}
-		if (point == null) {
-			// If no executed events are left, we go to 0
-			sweepX = 0;
-			currentEvent = null;
-		} else {
-			// Revert the event that we just arrived at
-			if (point instanceof SitePoint) {
-				SitePoint sitePoint = (SitePoint) point;
-				revert(sitePoint);
-			} else if (point instanceof CirclePoint) {
-				CirclePoint circlePoint = (CirclePoint) point;
-				revert(circlePoint);
-			}
-			// Replay the event that we just arrived at
-			events.pop();
-			process(point);
 			currentEvent = point;
+		} else if (sweepX == point.getX()) {
+			// If we are exactly at some event, revert that event
+			executedEvents.pop();
+			if (point instanceof SitePoint) {
+				SitePoint sitePoint = (SitePoint) point;
+				revert(sitePoint);
+			} else if (point instanceof CirclePoint) {
+				CirclePoint circlePoint = (CirclePoint) point;
+				revert(circlePoint);
+			}
+			events.insert(point);
+			restoreEventQueue(point);
+			// And go to the previous event
+			if (executedEvents.isEmpty()) {
+				// If no executed events are left, we go to 0
+				sweepX = 0;
+				currentEvent = null;
+			} else {
+				point = executedEvents.top();
+				sweepX = point.getX();
+				currentEvent = point;
+			}
 		}
 
 		initArcs(arcs, sweepX);
@@ -463,7 +429,7 @@ public class Algorithm
 			// node that created the last node has the same x-coordinate as this
 			// node)
 			if (next == null) {
-				insert(current, parabolaPoint);
+				insert(sitePoint, current, parabolaPoint);
 				break;
 			}
 			// We first check two cases with points that are not in general
@@ -515,12 +481,13 @@ public class Algorithm
 			}
 
 			// Continue with the subroutine
-			insert(current, parabolaPoint);
+			insert(sitePoint, current, parabolaPoint);
 			break;
 		}
 	}
 
-	private void insert(ArcNode splitArc, ParabolaPoint parabolaPoint)
+	private void insert(SitePoint site, ArcNode splitArc,
+			ParabolaPoint parabolaPoint)
 	{
 		// Behavior is different when the node that created the split arc has
 		// the same x-coordinate as the new site. This only happens if there
@@ -539,7 +506,7 @@ public class Algorithm
 			splitArc.setStartOfTrace(start);
 		} else {
 			// Delete now invalid circle-event
-			splitArc.removeCircle(events);
+			splitArc.removeCircle(site, events);
 
 			// Insert new arc and update pointers
 			ArcNode newArc = new ArcNode(parabolaPoint);
@@ -553,8 +520,8 @@ public class Algorithm
 			splitArc.setNext(newArc);
 
 			// Check for new circle events
-			splitArc.checkCircle(events);
-			splitArc.getNext().getNext().checkCircle(events);
+			splitArc.checkCircle(site, events);
+			splitArc.getNext().getNext().checkCircle(site, events);
 
 			// Create traces for voronoi edges
 			splitArc.getNext().getNext()
@@ -692,16 +659,16 @@ public class Algorithm
 		next.setPrevious(prev);
 		// Dismiss now invalid circle events
 		if (prev.getCirclePoint() != null) {
-			getEventQueue().remove(prev.getCirclePoint());
+			getEventQueue().remove(circlePoint, prev.getCirclePoint());
 			prev.setCirclePoint(null);
 		}
 		if (next.getCirclePoint() != null) {
-			getEventQueue().remove(next.getCirclePoint());
+			getEventQueue().remove(circlePoint, next.getCirclePoint());
 			next.setCirclePoint(null);
 		}
 		// Check for new circle events
-		prev.checkCircle(getEventQueue());
-		next.checkCircle(getEventQueue());
+		prev.checkCircle(circlePoint, getEventQueue());
+		next.checkCircle(circlePoint, getEventQueue());
 
 		ArcNodeWalker.walk(new AbstractArcNodeVisitor() {
 
