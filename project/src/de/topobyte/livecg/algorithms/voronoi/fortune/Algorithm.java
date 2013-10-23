@@ -605,7 +605,8 @@ public class Algorithm
 		}
 
 		// Update DCEL
-		synchronized (voronoi.getDcel()) {
+		DCEL dcel = voronoi.getDcel();
+		synchronized (dcel) {
 			HalfEdge a = prev.getHalfedge();
 			HalfEdge b = iter.getHalfedge();
 			logger.debug("remove");
@@ -613,17 +614,17 @@ public class Algorithm
 			logger.debug("b: " + b);
 			if (degenerate) {
 				prev.setHalfedge(null);
-				voronoi.getDcel().getHalfedges().remove(a);
-				voronoi.getDcel().getHalfedges().remove(a.getTwin());
-				voronoi.getDcel().getVertices().remove(a.getOrigin());
-				voronoi.getDcel().getVertices().remove(a.getTwin().getOrigin());
+				dcel.getHalfedges().remove(a);
+				dcel.getHalfedges().remove(a.getTwin());
+				dcel.getVertices().remove(a.getOrigin());
+				dcel.getVertices().remove(a.getTwin().getOrigin());
 			} else {
 				iter.setHalfedge(null);
 				prev.setHalfedge(null);
-				voronoi.getDcel().getHalfedges().remove(a);
-				voronoi.getDcel().getVertices().remove(a.getOrigin());
-				voronoi.getDcel().getHalfedges().remove(b);
-				voronoi.getDcel().getVertices().remove(b.getOrigin());
+				dcel.getHalfedges().remove(a);
+				dcel.getVertices().remove(a.getOrigin());
+				dcel.getHalfedges().remove(b);
+				dcel.getVertices().remove(b.getOrigin());
 				prev.setHalfedge(next.getHalfedge());
 			}
 		}
@@ -690,21 +691,22 @@ public class Algorithm
 					+ e2.getTwin().getOrigin().getCoordinate());
 		}
 
-		synchronized (voronoi.getDcel()) {
+		DCEL dcel = voronoi.getDcel();
+		synchronized (dcel) {
 			// Create a new vertex for the new trace
 			Vertex v = new Vertex(new Coordinate(point.getX(), point.getY()),
 					null);
-			voronoi.getDcel().getVertices().add(v);
+			dcel.getVertices().add(v);
 			// Create two new halfedges that connect v with the voronoi vertex
 			HalfEdge a = new HalfEdge(v, null, null, null, null);
 			HalfEdge b = new HalfEdge(e1.getOrigin(), null, null, null, null);
 			a.setTwin(b);
 			b.setTwin(a);
-			voronoi.getDcel().getHalfedges().add(a);
-			voronoi.getDcel().getHalfedges().add(b);
+			dcel.getHalfedges().add(a);
+			dcel.getHalfedges().add(b);
 
 			// Replace one of the old edges vertex with the other's vertex
-			voronoi.getDcel().getVertices().remove(e2.getOrigin());
+			dcel.getVertices().remove(e2.getOrigin());
 			e2.setOrigin(e1.getOrigin());
 
 			// Connect new halfedges
@@ -749,7 +751,8 @@ public class Algorithm
 		delaunay.remove(new Edge(arc.getNext(), arc));
 
 		// Update DCEL
-		synchronized (voronoi.getDcel()) {
+		DCEL dcel = voronoi.getDcel();
+		synchronized (dcel) {
 			HalfEdge edge = arc.getPrevious().getHalfedge();
 			HalfEdge e1 = edge.getTwin().getPrev().getTwin();
 			HalfEdge e2 = edge.getNext();
@@ -762,11 +765,11 @@ public class Algorithm
 			Vertex v = new Vertex(new Coordinate(origin.getX(), origin.getY()),
 					null);
 			e2.setOrigin(v);
-			voronoi.getDcel().getVertices().add(v);
+			dcel.getVertices().add(v);
 
-			voronoi.getDcel().getVertices().remove(edge.getOrigin());
-			voronoi.getDcel().getHalfedges().remove(edge);
-			voronoi.getDcel().getHalfedges().remove(edge.getTwin());
+			dcel.getVertices().remove(edge.getOrigin());
+			dcel.getHalfedges().remove(edge);
+			dcel.getHalfedges().remove(edge.getTwin());
 
 			arc.getPrevious().setHalfedge(e1);
 			arc.setHalfedge(e2);
