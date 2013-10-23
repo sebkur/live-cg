@@ -19,6 +19,7 @@ package de.topobyte.livecg.algorithms.dcel;
 
 import java.awt.geom.GeneralPath;
 
+import de.topobyte.livecg.core.config.LiveConfig;
 import de.topobyte.livecg.core.geometry.dcel.DCEL;
 import de.topobyte.livecg.core.geometry.dcel.HalfEdge;
 import de.topobyte.livecg.core.geometry.dcel.Vertex;
@@ -31,6 +32,17 @@ import de.topobyte.livecg.core.painting.Painter;
 public abstract class DcelPainter extends BasicAlgorithmPainter
 {
 
+	private String q(String property)
+	{
+		return "datastructures.dcel.colors." + property;
+	}
+
+	private Color COLOR_BG = LiveConfig.getColor(q("background"));
+	private Color COLOR_NODES = LiveConfig.getColor(q("nodes"));
+	private Color COLOR_EDGES = LiveConfig.getColor(q("edges"));
+	private Color COLOR_ARROWS = LiveConfig.getColor(q("arrows"));
+	private Color COLOR_CONNECTORS = LiveConfig.getColor(q("connectors"));
+	
 	private DcelConfig config;
 
 	public DcelPainter(DcelConfig config, Painter painter)
@@ -51,16 +63,16 @@ public abstract class DcelPainter extends BasicAlgorithmPainter
 			double alpha = Math.PI / 8;
 			double minArrowLen = 4;
 
-			painter.setColor(new Color(255, 255, 255));
+			painter.setColor(COLOR_BG);
 			painter.fillRect(0, 0, getWidth(), getHeight());
 
-			painter.setColor(new Color(0, 0, 0));
+			painter.setColor(COLOR_NODES);
 			for (Vertex vertex : getDcel().getVertices()) {
 				Coordinate c = vertex.getCoordinate();
 				painter.fillCircle(c.getX(), c.getY(), 4);
 			}
 
-			painter.setColor(new Color(0, 0, 255));
+			painter.setColor(COLOR_EDGES);
 			for (HalfEdge halfedge : getDcel().getHalfedges()) {
 				HalfEdge twin = halfedge.getTwin();
 				Vertex origin = halfedge.getOrigin();
@@ -77,7 +89,7 @@ public abstract class DcelPainter extends BasicAlgorithmPainter
 					continue;
 				}
 				painter.setStrokeWidth(1.0);
-				painter.setColor(new Color(255, 0, 255));
+				painter.setColor(COLOR_ARROWS);
 				drawLine(arrow.getOrigin(), arrow.getDestination());
 				if (arrow.getLength() >= minArrowLen) {
 					drawLine(arrow.getDestination(), arrow.getMarker());
@@ -85,7 +97,7 @@ public abstract class DcelPainter extends BasicAlgorithmPainter
 
 				if (config.isDrawConnectors()) {
 					painter.setStrokeWidth(1.0);
-					painter.setColor(new Color(0, 255, 0));
+					painter.setColor(COLOR_CONNECTORS);
 					HalfEdge next = halfedge.getNext();
 					if (next == null) {
 						continue;

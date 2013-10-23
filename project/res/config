@@ -17,6 +17,13 @@ geometryeditor.colors {
 	selection.rectangle = #000000
 	polygon.interior = #33ff0000
 }
+datastructures.dcel.colors {
+	background = #ffffff
+	edges = #0000ff
+	nodes = #000000
+	arrows = #ff00ff
+	connectors = #00ff00
+}
 algorithm.voronoi.fortune.colors {
 	background = #ffffff
 	sweepline = #ff0000
