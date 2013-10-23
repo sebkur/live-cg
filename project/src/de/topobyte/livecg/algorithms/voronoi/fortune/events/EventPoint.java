@@ -14,7 +14,7 @@ public class EventPoint extends Point
 	{
 		super(x, y);
 	}
-	
+
 	@Override
 	public String toString()
 	{

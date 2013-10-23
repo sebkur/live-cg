@@ -392,6 +392,8 @@ public class Algorithm
 
 	private void process(EventPoint eventPoint)
 	{
+		logger.debug("processing: " + eventPoint);
+
 		// Remember that this event has been executed
 		executedEvents.push(eventPoint);
 

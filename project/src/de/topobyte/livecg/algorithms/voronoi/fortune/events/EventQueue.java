@@ -34,7 +34,7 @@ public class EventQueue
 				}
 				// e1.getY() == e2.getY()
 				boolean c1 = e1 instanceof CirclePoint;
-				boolean c2 = e1 instanceof CirclePoint;
+				boolean c2 = e2 instanceof CirclePoint;
 				if (c1 && !c2) {
 					return -1;
 				}
