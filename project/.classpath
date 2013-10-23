@@ -38,5 +38,6 @@
 	<classpathentry kind="lib" path="lib/color-util.jar"/>
 	<classpathentry kind="lib" path="lib/cli-helper.jar"/>
 	<classpathentry kind="lib" path="lib/commons-cli-1.2.jar"/>
+	<classpathentry kind="lib" path="lib/avl-tree.jar"/>
 	<classpathentry kind="output" path="bin/main"/>
 </classpath>

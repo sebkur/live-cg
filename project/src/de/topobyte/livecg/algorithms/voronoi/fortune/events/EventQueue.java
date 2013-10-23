@@ -4,17 +4,17 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
-import java.util.SortedSet;
-import java.util.TreeSet;
+
+import de.topobyte.adt.avltree.AvlTree;
 
 public class EventQueue
 {
 
-	private SortedSet<EventPoint> points;
+	private AvlTree<EventPoint> points;
 
 	public EventQueue()
 	{
-		points = new TreeSet<EventPoint>(new Comparator<EventPoint>() {
+		points = new AvlTree<EventPoint>(new Comparator<EventPoint>() {
 
 			@Override
 			public int compare(EventPoint e1, EventPoint e2)
@@ -96,17 +96,7 @@ public class EventQueue
 
 	public synchronized EventPoint get(int index)
 	{
-		// TODO: this is inefficient
-		Iterator<EventPoint> iterator = iterator();
-		EventPoint point = null;
-		for (int i = 0; i <= index; i++) {
-			if (iterator.hasNext()) {
-				point = iterator.next();
-			} else {
-				return null;
-			}
-		}
-		return point;
+		return points.get(index);
 	}
 
 	private List<EventQueueListener> listeners = new ArrayList<EventQueueListener>();
