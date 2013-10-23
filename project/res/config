@@ -30,7 +30,7 @@ algorithm.voronoi.fortune.colors {
 	spikes = #000000
 	spike.intersections = #ff0000
 	voronoi.segments = #0000ff
-	voronoi.traces = #ff0000
+	voronoi.traces = #0000ff
 	arcs = #000000
 	circles = #000000
 	delaunay = #999999
