@@ -15,26 +15,20 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.topobyte.livecg.algorithms.dcel;
+package de.topobyte.livecg.datastructures.dcel;
 
-import de.topobyte.livecg.core.geometry.dcel.DCEL;
-import de.topobyte.livecg.core.painting.Painter;
-
-public class InstanceDcelPainter extends DcelPainter
+public class DcelConfig
 {
+	private boolean drawConnectors = true;
 
-	private DCEL dcel;
-
-	public InstanceDcelPainter(DCEL dcel, DcelConfig config, Painter painter)
+	public boolean isDrawConnectors()
 	{
-		super(config, painter);
-		this.dcel = dcel;
+		return drawConnectors;
 	}
 
-	@Override
-	public DCEL getDcel()
+	public void setDrawConnectors(boolean draw)
 	{
-		return dcel;
+		this.drawConnectors = draw;
 	}
 
 }

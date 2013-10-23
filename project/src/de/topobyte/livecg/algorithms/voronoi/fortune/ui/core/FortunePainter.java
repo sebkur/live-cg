@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import de.topobyte.livecg.algorithms.dcel.DcelConfig;
-import de.topobyte.livecg.algorithms.dcel.DcelPainter;
 import de.topobyte.livecg.algorithms.voronoi.fortune.Algorithm;
 import de.topobyte.livecg.algorithms.voronoi.fortune.Delaunay;
 import de.topobyte.livecg.algorithms.voronoi.fortune.Voronoi;
@@ -23,6 +21,8 @@ import de.topobyte.livecg.core.geometry.geom.Coordinate;
 import de.topobyte.livecg.core.painting.BasicAlgorithmPainter;
 import de.topobyte.livecg.core.painting.Color;
 import de.topobyte.livecg.core.painting.Painter;
+import de.topobyte.livecg.datastructures.dcel.DcelConfig;
+import de.topobyte.livecg.datastructures.dcel.DcelPainter;
 
 public class FortunePainter extends BasicAlgorithmPainter
 {

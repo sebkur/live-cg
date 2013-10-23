@@ -25,8 +25,8 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
-import de.topobyte.livecg.algorithms.dcel.DcelDialog;
 import de.topobyte.livecg.core.geometry.io.ContentReader;
+import de.topobyte.livecg.datastructures.dcel.DcelDialog;
 import de.topobyte.livecg.geometryeditor.geometryeditor.Content;
 
 public class TestBuildDCEL

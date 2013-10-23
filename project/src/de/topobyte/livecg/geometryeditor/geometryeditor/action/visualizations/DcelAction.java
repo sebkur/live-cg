@@ -19,7 +19,7 @@ package de.topobyte.livecg.geometryeditor.geometryeditor.action.visualizations;
 
 import java.awt.event.ActionEvent;
 
-import de.topobyte.livecg.algorithms.dcel.DcelDialog;
+import de.topobyte.livecg.datastructures.dcel.DcelDialog;
 import de.topobyte.livecg.geometryeditor.action.BasicAction;
 import de.topobyte.livecg.geometryeditor.geometryeditor.Content;
 import de.topobyte.livecg.geometryeditor.geometryeditor.GeometryEditPane;
