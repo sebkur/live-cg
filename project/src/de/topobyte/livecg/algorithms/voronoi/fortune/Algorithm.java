@@ -20,6 +20,7 @@ import de.topobyte.livecg.algorithms.voronoi.fortune.events.SitePoint;
 import de.topobyte.livecg.algorithms.voronoi.fortune.geometry.Edge;
 import de.topobyte.livecg.algorithms.voronoi.fortune.geometry.Point;
 import de.topobyte.livecg.core.geometry.dcel.DCEL;
+import de.topobyte.livecg.core.geometry.dcel.DcelUtil;
 import de.topobyte.livecg.core.geometry.dcel.HalfEdge;
 import de.topobyte.livecg.core.geometry.dcel.Vertex;
 import de.topobyte.livecg.core.geometry.geom.Coordinate;
@@ -542,18 +543,8 @@ public class Algorithm
 					null);
 			Vertex v2 = new Vertex(new Coordinate(start.getX(), start.getY()),
 					null);
-			HalfEdge a = new HalfEdge(v1, null, null, null, null);
-			HalfEdge b = new HalfEdge(v2, null, null, null, null);
-			a.setTwin(b);
-			b.setTwin(a);
-			a.setNext(b);
-			a.setPrev(b);
-			b.setNext(a);
-			b.setPrev(a);
-			dcel.getVertices().add(v1);
-			dcel.getVertices().add(v2);
-			dcel.getHalfedges().add(a);
-			dcel.getHalfedges().add(b);
+			HalfEdge a = DcelUtil.createEdge(dcel, v1, v2);
+			HalfEdge b = a.getTwin();
 
 			logger.debug("create");
 			logger.debug("a: " + a);
