@@ -545,7 +545,7 @@ public class Algorithm
 					null);
 			Vertex v2 = new Vertex(new Coordinate(start.getX(), start.getY()),
 					null);
-			HalfEdge a = DcelUtil.createEdge(dcel, v1, v2);
+			HalfEdge a = DcelUtil.createEdge(dcel, v1, v2, true, true);
 			HalfEdge b = a.getTwin();
 
 			logger.debug("create");
@@ -698,12 +698,9 @@ public class Algorithm
 					null);
 			dcel.getVertices().add(v);
 			// Create two new halfedges that connect v with the voronoi vertex
-			HalfEdge a = new HalfEdge(v, null, null, null, null);
-			HalfEdge b = new HalfEdge(e1.getOrigin(), null, null, null, null);
-			a.setTwin(b);
-			b.setTwin(a);
-			dcel.getHalfedges().add(a);
-			dcel.getHalfedges().add(b);
+			HalfEdge a = DcelUtil.createEdge(dcel, v, e1.getOrigin(), false,
+					false);
+			HalfEdge b = a.getTwin();
 
 			// Replace one of the old edges vertex with the other's vertex
 			dcel.getVertices().remove(e2.getOrigin());

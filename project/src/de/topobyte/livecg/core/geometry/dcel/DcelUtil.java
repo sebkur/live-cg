@@ -19,20 +19,24 @@ package de.topobyte.livecg.core.geometry.dcel;
 
 public class DcelUtil
 {
-	public static HalfEdge createEdge(DCEL dcel, Vertex v1, Vertex v2)
+	public static HalfEdge createEdge(DCEL dcel, Vertex v1, Vertex v2,
+			boolean connectNextPrev, boolean addVerticesToDcel)
 	{
 		HalfEdge a = new HalfEdge(v1, null, null, null, null);
 		HalfEdge b = new HalfEdge(v2, null, null, null, null);
 
 		a.setTwin(b);
 		b.setTwin(a);
-		a.setNext(b);
-		a.setPrev(b);
-		b.setNext(a);
-		b.setPrev(a);
-
-		dcel.getVertices().add(v1);
-		dcel.getVertices().add(v2);
+		if (connectNextPrev) {
+			a.setNext(b);
+			a.setPrev(b);
+			b.setNext(a);
+			b.setPrev(a);
+		}
+		if (addVerticesToDcel) {
+			dcel.getVertices().add(v1);
+			dcel.getVertices().add(v2);
+		}
 		dcel.getHalfedges().add(a);
 		dcel.getHalfedges().add(b);
 
