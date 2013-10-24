@@ -3,9 +3,11 @@ package de.topobyte.livecg.core.painting;
 import java.awt.BasicStroke;
 import java.awt.Graphics2D;
 import java.awt.Shape;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Arc2D;
 import java.awt.geom.Area;
 import java.awt.geom.GeneralPath;
+import java.awt.geom.Rectangle2D;
 import java.util.List;
 
 import de.topobyte.livecg.core.geometry.geom.AwtHelper;
@@ -128,6 +130,42 @@ public class AwtPainter implements Painter
 	public void drawString(String text, double x, double y)
 	{
 		g.drawString(text, (float) x, (float) y);
+	}
+
+	@Override
+	public Object getClip()
+	{
+		return g.getClip();
+	}
+
+	@Override
+	public void setClip(Object clip)
+	{
+		g.setClip((Shape) clip);
+	}
+
+	@Override
+	public void clipRect(double x, double y, double width, double height)
+	{
+		clipArea(new Rectangle2D.Double(x, y, width, height));
+	}
+
+	@Override
+	public void clipArea(Shape shape)
+	{
+		g.clip(shape);
+	}
+
+	@Override
+	public AffineTransform getTransform()
+	{
+		return g.getTransform();
+	}
+
+	@Override
+	public void setTransform(AffineTransform t)
+	{
+		g.setTransform(t);
 	}
 
 }

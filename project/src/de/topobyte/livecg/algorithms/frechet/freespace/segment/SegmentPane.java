@@ -19,17 +19,20 @@
 package de.topobyte.livecg.algorithms.frechet.freespace.segment;
 
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 
 import javax.swing.JPanel;
 
 import de.topobyte.livecg.algorithms.frechet.freespace.Config;
 import de.topobyte.livecg.algorithms.frechet.freespace.EpsilonSettable;
-import de.topobyte.livecg.algorithms.frechet.freespace.FreeSpacePainter;
+import de.topobyte.livecg.algorithms.frechet.freespace.FreeSpacePainterSegments;
 import de.topobyte.livecg.algorithms.frechet.freespace.calc.FreeSpaceUtil;
 import de.topobyte.livecg.algorithms.frechet.freespace.calc.Interval;
 import de.topobyte.livecg.algorithms.frechet.freespace.calc.LineSegment;
+import de.topobyte.livecg.core.painting.AwtPainter;
 import de.topobyte.livecg.geometryeditor.lineeditor.LineChangeListener;
 import de.topobyte.livecg.util.DoubleUtil;
+import de.topobyte.livecg.util.SwingUtil;
 
 public class SegmentPane extends JPanel implements LineChangeListener,
 		EpsilonSettable
@@ -37,7 +40,8 @@ public class SegmentPane extends JPanel implements LineChangeListener,
 
 	private static final long serialVersionUID = 8167797259833415618L;
 
-	private FreeSpacePainter painter;
+	private AwtPainter painter;
+	private FreeSpacePainterSegments algorithmPainter;
 
 	private int epsilon;
 	private LineSegment seg1;
@@ -46,14 +50,15 @@ public class SegmentPane extends JPanel implements LineChangeListener,
 	public SegmentPane(Config config, int epsilon)
 	{
 		this.epsilon = epsilon;
-		painter = new FreeSpacePainter(config, epsilon);
+		painter = new AwtPainter(null);
+		algorithmPainter = new FreeSpacePainterSegments(config, epsilon, painter);
 		updateReachableSpace();
 	}
 
 	public void setEpsilon(int epsilon)
 	{
 		this.epsilon = epsilon;
-		painter.setEpsilon(epsilon);
+		algorithmPainter.setEpsilon(epsilon);
 		updateReachableSpace();
 		repaint();
 	}
@@ -61,14 +66,14 @@ public class SegmentPane extends JPanel implements LineChangeListener,
 	public void setSegment1(LineSegment seg1)
 	{
 		this.seg1 = seg1;
-		painter.setSegment1(seg1);
+		algorithmPainter.setSegment1(seg1);
 		updateReachableSpace();
 	}
 
 	public void setSegment2(LineSegment seg2)
 	{
 		this.seg2 = seg2;
-		painter.setSegment2(seg2);
+		algorithmPainter.setSegment2(seg2);
 		updateReachableSpace();
 	}
 
@@ -82,8 +87,12 @@ public class SegmentPane extends JPanel implements LineChangeListener,
 	@Override
 	public void paint(Graphics graphics)
 	{
-		painter.setSize(getWidth(), getHeight());
-		painter.paint(graphics);
+		Graphics2D g = (Graphics2D) graphics;
+		SwingUtil.useAntialiasing(g, true);
+		
+		painter.setGraphics(g);
+		algorithmPainter.setSize(getWidth(), getHeight());
+		algorithmPainter.paint();
 	}
 
 	private void updateReachableSpace()
@@ -109,8 +118,8 @@ public class SegmentPane extends JPanel implements LineChangeListener,
 			BR1 = new Interval(BF1.getStart(), BF1.getEnd());
 		}
 
-		painter.setBR1(BR1);
-		painter.setLR1(LR1);
+		algorithmPainter.setBR1(BR1);
+		algorithmPainter.setLR1(LR1);
 	}
 
 }

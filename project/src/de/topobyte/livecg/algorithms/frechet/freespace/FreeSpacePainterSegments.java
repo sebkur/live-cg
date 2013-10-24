@@ -18,12 +18,7 @@
 
 package de.topobyte.livecg.algorithms.frechet.freespace;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.Shape;
-import java.awt.Stroke;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Arc2D;
 import java.awt.geom.Area;
@@ -35,13 +30,14 @@ import de.topobyte.livecg.algorithms.frechet.freespace.calc.FreeSpaceUtil;
 import de.topobyte.livecg.algorithms.frechet.freespace.calc.Interval;
 import de.topobyte.livecg.algorithms.frechet.freespace.calc.LineSegment;
 import de.topobyte.livecg.core.lina2.Vector;
+import de.topobyte.livecg.core.painting.BasicAlgorithmPainter;
+import de.topobyte.livecg.core.painting.Color;
+import de.topobyte.livecg.core.painting.Painter;
 import de.topobyte.livecg.util.DoubleUtil;
-import de.topobyte.livecg.util.SwingUtil;
 
-public class FreeSpacePainter implements EpsilonSettable
+public class FreeSpacePainterSegments extends BasicAlgorithmPainter implements
+		EpsilonSettable
 {
-
-	private static boolean DEBUG = false;
 
 	private LineSegment seg1 = null;
 	private LineSegment seg2 = null;
@@ -65,8 +61,9 @@ public class FreeSpacePainter implements EpsilonSettable
 	private float markerWidth = 2;
 	private int markerLength = 3;
 
-	public FreeSpacePainter(Config config, int epsilon)
+	public FreeSpacePainterSegments(Config config, int epsilon, Painter painter)
 	{
+		super(painter);
 		this.config = config;
 		this.epsilon = epsilon;
 	}
@@ -102,24 +99,16 @@ public class FreeSpacePainter implements EpsilonSettable
 		this.BR1 = BR1;
 	}
 
-	public void paint(Graphics graphics)
+	@Override
+	public void paint()
 	{
 		if (seg1 == null || seg2 == null) {
 			return;
 		}
 
-		Graphics2D g = (Graphics2D) graphics;
-		SwingUtil.useAntialiasing(g, true);
-		if (DEBUG) {
-			System.out.println("clip: " + g.getClip());
-		}
-
 		// Draw background
-		g.setColor(colorBackground);
-		g.fillRect(0, 0, width, height);
-
-		// Set clip bounds
-		g.clipRect(0, 0, width, height);
+		painter.setColor(colorBackground);
+		painter.fillRect(0, 0, width, height);
 
 		AffineTransform f = createMatrix();
 
@@ -134,8 +123,8 @@ public class FreeSpacePainter implements EpsilonSettable
 		Shape ellipse = tx.createTransformedShape(arc);
 
 		// Draw the ellipse -> free space
-		g.setColor(colorFreeSpace);
-		g.fill(ellipse);
+		painter.setColor(colorFreeSpace);
+		painter.fill(ellipse);
 
 		// Find the limits of the free space on the axes
 		Interval BF1 = FreeSpaceUtil // bottom
@@ -154,7 +143,7 @@ public class FreeSpacePainter implements EpsilonSettable
 		// Draw reachable space via clipping the ellipse
 		if (config.isDrawReachableSpace()) {
 			if (BR1 != null || LR1 != null) {
-				Shape oldClip = g.getClip();
+				Object oldClip = painter.getClip();
 				Area a = new Area();
 				if (BR1 != null) {
 					double s = BR1.getStart();
@@ -172,57 +161,55 @@ public class FreeSpacePainter implements EpsilonSettable
 					a.add(new Area(new Rectangle2D.Double(0, 0, width, height
 							- (int) Math.round(s * height))));
 				}
-				g.clip(a);
-				g.setColor(colorReachableSpace);
-				g.fill(ellipse);
-				g.setClip(oldClip);
+				painter.clipArea(a);
+				painter.setColor(colorReachableSpace);
+				painter.fill(ellipse);
+				painter.setClip(oldClip);
 			}
 		}
 
 		// Draw the ellipse outline -> free space border
-		g.setColor(colorFreeSpaceOutline);
-		g.draw(ellipse);
+		painter.setColor(colorFreeSpaceOutline);
+		painter.draw(ellipse);
 
 		if (config.isDrawReachableSpaceMarkers()) {
-			g.setColor(colorReachableSpaceMarkers);
-			Stroke old = g.getStroke();
-			g.setStroke(new BasicStroke(3));
+			painter.setColor(colorReachableSpaceMarkers);
+			painter.setStrokeWidth(3);
 			if (LR1 != null) {
-				drawVerticalReachable(g, LR1, 0);
+				drawVerticalReachable(LR1, 0);
 			}
 			if (BR1 != null) {
-				drawHorizontalReachable(g, BR1, height);
+				drawHorizontalReachable(BR1, height);
 			}
 			if (LR2 != null) {
-				drawVerticalReachable(g, LR2, width);
+				drawVerticalReachable(LR2, width);
 			}
 			if (BR2 != null) {
-				drawHorizontalReachable(g, BR2, 0);
+				drawHorizontalReachable(BR2, 0);
 			}
-			g.setStroke(old);
+			painter.setStrokeWidth(1);
 		}
 
 		if (config.isDrawFreeSpaceMarkers()) {
-			g.setColor(colorFreeSpaceMarkers);
-			Stroke old = g.getStroke();
-			g.setStroke(new BasicStroke(markerWidth));
-			drawHorizontalInterval(g, BF1, width, height);
-			drawVerticalInterval(g, LF1, height, 0);
-			drawHorizontalInterval(g, BF2, width, 0);
-			drawVerticalInterval(g, LF2, height, width);
-			g.setStroke(old);
+			painter.setColor(colorFreeSpaceMarkers);
+			painter.setStrokeWidth(markerWidth);
+			drawHorizontalInterval(BF1, width, height);
+			drawVerticalInterval(LF1, height, 0);
+			drawHorizontalInterval(BF2, width, 0);
+			drawVerticalInterval(LF2, height, width);
+			painter.setStrokeWidth(1);
 		}
 	}
 
-	private void drawVerticalReachable(Graphics2D g, Interval LR1, int x)
+	private void drawVerticalReachable(Interval LR1, int x)
 	{
-		g.drawLine(x, (int) Math.round(height - LR1.getStart() * height), x,
-				(int) Math.round(height - LR1.getEnd() * height));
+		painter.drawLine(x, (int) Math.round(height - LR1.getStart() * height),
+				x, (int) Math.round(height - LR1.getEnd() * height));
 	}
 
-	private void drawHorizontalReachable(Graphics2D g, Interval BR1, int y)
+	private void drawHorizontalReachable(Interval BR1, int y)
 	{
-		g.drawLine((int) Math.round(BR1.getStart() * width), y,
+		painter.drawLine((int) Math.round(BR1.getStart() * width), y,
 				(int) Math.round(BR1.getEnd() * width), y);
 	}
 
@@ -286,29 +273,27 @@ public class FreeSpacePainter implements EpsilonSettable
 		return f;
 	}
 
-	private void drawHorizontalInterval(Graphics2D g, Interval intervalP,
-			int width, int y)
+	private void drawHorizontalInterval(Interval intervalP, int width, int y)
 	{
 		if (DoubleUtil.isValid(intervalP.getStart())) {
 			int pos = (int) Math.round(intervalP.getStart() * width);
-			g.drawLine(pos, y - markerLength, pos, y + markerLength);
+			painter.drawLine(pos, y - markerLength, pos, y + markerLength);
 		}
 		if (DoubleUtil.isValid(intervalP.getEnd())) {
 			int pos = (int) Math.round(intervalP.getEnd() * width);
-			g.drawLine(pos, y - markerLength, pos, y + markerLength);
+			painter.drawLine(pos, y - markerLength, pos, y + markerLength);
 		}
 	}
 
-	private void drawVerticalInterval(Graphics2D g, Interval intervalQ,
-			int height, int x)
+	private void drawVerticalInterval(Interval intervalQ, int height, int x)
 	{
 		if (DoubleUtil.isValid(intervalQ.getStart())) {
 			int pos = height - (int) Math.round(intervalQ.getStart() * height);
-			g.drawLine(x - markerLength, pos, x + markerLength, pos);
+			painter.drawLine(x - markerLength, pos, x + markerLength, pos);
 		}
 		if (DoubleUtil.isValid(intervalQ.getEnd())) {
 			int pos = height - (int) Math.round(intervalQ.getEnd() * height);
-			g.drawLine(x - markerLength, pos, x + markerLength, pos);
+			painter.drawLine(x - markerLength, pos, x + markerLength, pos);
 		}
 	}
 

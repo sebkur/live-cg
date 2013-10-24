@@ -1,6 +1,7 @@
 package de.topobyte.livecg.core.painting;
 
 import java.awt.Shape;
+import java.awt.geom.AffineTransform;
 import java.util.List;
 
 import de.topobyte.livecg.core.geometry.geom.Coordinate;
@@ -36,4 +37,15 @@ public interface Painter
 
 	public void drawString(String text, double x, double y);
 
+	public Object getClip();
+
+	public void setClip(Object clip);
+
+	public void clipRect(double x, double y, double width, double height);
+
+	public void clipArea(Shape shape);
+
+	public AffineTransform getTransform();
+
+	public void setTransform(AffineTransform t);
 }

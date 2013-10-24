@@ -19,7 +19,7 @@ import de.topobyte.livecg.core.geometry.geom.Polygon;
 public class SvgPainter implements Painter
 {
 	final static Logger logger = LoggerFactory.getLogger(SvgPainter.class);
-	
+
 	private String svgNS = SVGDOMImplementation.SVG_NAMESPACE_URI;
 
 	private Document doc;
@@ -27,6 +27,8 @@ public class SvgPainter implements Painter
 
 	private Color color;
 	private double width = 1;
+
+	private AffineTransform transform = null;
 
 	public SvgPainter(Document doc, Element root)
 	{
@@ -320,8 +322,7 @@ public class SvgPainter implements Painter
 				pathCubicTo(strb, c1x, c1y, c2x, c2y, cx, cy);
 				break;
 			default:
-				logger.error("Not implemented! PathIterator type: "
-						+ type);
+				logger.error("Not implemented! PathIterator type: " + type);
 			}
 		}
 		return strb;
@@ -332,6 +333,49 @@ public class SvgPainter implements Painter
 	{
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public Object getClip()
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setClip(Object clip)
+	{
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void clipRect(double x, double y, double width, double height)
+	{
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void clipArea(Shape shape)
+	{
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public AffineTransform getTransform()
+	{
+		if (transform == null) {
+			return new AffineTransform();
+		}
+		return new AffineTransform(transform);
+	}
+
+	@Override
+	public void setTransform(AffineTransform t)
+	{
+		transform = t;
 	}
 
 }

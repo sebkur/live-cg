@@ -164,7 +164,6 @@ public class FrechetDialog2 implements ContentChangedListener
 	@Override
 	public void contentChanged()
 	{
-		diagram.update();
 		diagram.repaint();
 		lineView.repaint();
 	}
