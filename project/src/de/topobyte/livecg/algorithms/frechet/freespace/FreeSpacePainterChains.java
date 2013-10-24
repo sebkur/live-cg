@@ -90,7 +90,7 @@ public class FreeSpacePainterChains extends BasicAlgorithmPainter implements
 				int lx = x * w;
 				int ly = y * h;
 				painter.clipRect(lx, ly, w, h);
-				
+
 				AffineTransform t = new AffineTransform(transform);
 				t.translate(lx, ly);
 				painter.setTransform(t);

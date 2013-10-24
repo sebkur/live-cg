@@ -3,8 +3,12 @@ package de.topobyte.livecg.core.painting;
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.PathIterator;
+import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import org.apache.batik.dom.svg.SVGDOMImplementation;
 import org.slf4j.Logger;
@@ -24,6 +28,7 @@ public class SvgPainter implements Painter
 
 	private Document doc;
 	private Element root;
+	private Element defs;
 
 	private Color color;
 	private double width = 1;
@@ -34,6 +39,9 @@ public class SvgPainter implements Painter
 	{
 		this.doc = doc;
 		this.root = root;
+
+		defs = doc.createElementNS(svgNS, "defs");
+		root.appendChild(defs);
 	}
 
 	@Override
@@ -335,33 +343,77 @@ public class SvgPainter implements Painter
 
 	}
 
+	/*
+	 * Clipping
+	 */
+
+	private static final String CLIP_PATH_PREFIX = "clip";
+	private int clipId = 1;
+	private List<Integer> clipIds = null;
+	private Map<Integer, Shape> clipShapes = new HashMap<Integer, Shape>();
+
 	@Override
 	public Object getClip()
 	{
-		// TODO Auto-generated method stub
-		return null;
+		if (clipIds == null) {
+			return null;
+		}
+		List<Integer> copy = new ArrayList<Integer>();
+		for (int i : clipIds) {
+			copy.add(i);
+		}
+		return copy;
 	}
 
 	@Override
 	public void setClip(Object clip)
 	{
-		// TODO Auto-generated method stub
-
+		if (clip == null) {
+			clipIds = null;
+		} else {
+			clipIds = (List<Integer>) clip;
+		}
 	}
 
 	@Override
 	public void clipRect(double x, double y, double width, double height)
 	{
-		// TODO Auto-generated method stub
-
+		clipArea(new Rectangle2D.Double(x, y, width, height));
 	}
 
 	@Override
 	public void clipArea(Shape shape)
 	{
-		// TODO Auto-generated method stub
-
+		int index = clipId++;
+		if (clipIds == null) {
+			clipIds = new ArrayList<Integer>();
+		}
+		clipIds.add(index);
+		clipShapes.put(index, shape);
+		addToDefs(index, shape);
 	}
+
+	private void addToDefs(int index, Shape shape)
+	{
+		Element clipPath = doc.createElementNS(svgNS, "clipPath");
+		clipPath.setAttributeNS(null, "id", CLIP_PATH_PREFIX + index);
+
+		StringBuilder strb = buildPath(shape);
+
+		Element path = doc.createElementNS(svgNS, "path");
+		path.setAttributeNS(null, "d", strb.toString());
+
+		if (transform != null) {
+			path.setAttributeNS(null, "transform", transformValue());
+		}
+
+		clipPath.appendChild(path);
+		defs.appendChild(clipPath);
+	}
+
+	/*
+	 * Transformations
+	 */
 
 	@Override
 	public AffineTransform getTransform()
@@ -378,21 +430,6 @@ public class SvgPainter implements Painter
 		transform = t;
 	}
 
-	private void append(Element element)
-	{
-		// TODO: also check for identity matrix and append to root in that case
-		if (transform == null) {
-			root.appendChild(element);
-		} else {
-			transformValue();
-
-			Element g = doc.createElementNS(svgNS, "g");
-			g.setAttributeNS(null, "transform", transformValue());
-			root.appendChild(g);
-			g.appendChild(element);
-		}
-	}
-
 	private String transformValue()
 	{
 		double[] matrix = new double[6];
@@ -407,6 +444,31 @@ public class SvgPainter implements Painter
 		}
 		buffer.append(")");
 		return buffer.toString();
+	}
+
+	/*
+	 * Appending elements to the document
+	 */
+
+	private void append(Element element)
+	{
+		Element e = root;
+		if (clipIds != null) {
+			for (int id : clipIds) {
+				Element g = doc.createElementNS(svgNS, "g");
+				g.setAttributeNS(null, "clip-path", "url(#" + CLIP_PATH_PREFIX
+						+ id + ")");
+				e.appendChild(g);
+				e = g;
+			}
+		}
+		if (transform != null && !transform.isIdentity()) {
+			Element g = doc.createElementNS(svgNS, "g");
+			g.setAttributeNS(null, "transform", transformValue());
+			e.appendChild(g);
+			e = g;
+		}
+		e.appendChild(element);
 	}
 
 }
