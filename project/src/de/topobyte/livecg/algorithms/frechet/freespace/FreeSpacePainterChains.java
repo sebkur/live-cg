@@ -63,6 +63,7 @@ public class FreeSpacePainterChains extends BasicAlgorithmPainter implements
 	{
 		segmentPainter.setEpsilon(epsilon);
 		segmentPainter.setSize(getWidth(), getHeight());
+		segmentPainter.setPainter(painter);
 
 		int width = getWidth();
 		int height = getHeight();
@@ -80,7 +81,6 @@ public class FreeSpacePainterChains extends BasicAlgorithmPainter implements
 
 		AffineTransform transform = painter.getTransform();
 		Object clip = painter.getClip();
-		System.out.println(clip);
 		for (int x = 0; x < nSegmentsP; x++) {
 			for (int y = 0; y < nSegmentsQ; y++) {
 				int ry = nSegmentsQ - y - 1;

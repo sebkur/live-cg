@@ -26,11 +26,12 @@ import javax.swing.JPanel;
 import de.topobyte.livecg.algorithms.frechet.freespace.Config;
 import de.topobyte.livecg.algorithms.frechet.freespace.EpsilonSettable;
 import de.topobyte.livecg.algorithms.frechet.freespace.FreeSpacePainterChains;
+import de.topobyte.livecg.core.export.SizeProvider;
 import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.core.painting.AwtPainter;
 import de.topobyte.livecg.util.SwingUtil;
 
-public class FrechetDiagram extends JPanel implements EpsilonSettable
+public class FrechetDiagram extends JPanel implements EpsilonSettable, SizeProvider
 {
 	private static final long serialVersionUID = 5024820193840910054L;
 
