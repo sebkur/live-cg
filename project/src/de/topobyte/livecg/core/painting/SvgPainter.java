@@ -58,7 +58,7 @@ public class SvgPainter implements Painter
 		rectangle.setAttributeNS(null, "height", Integer.toString(height));
 		rectangle.setAttributeNS(null, "fill", getCurrentColor());
 
-		root.appendChild(rectangle);
+		append(rectangle);
 	}
 
 	@Override
@@ -71,7 +71,7 @@ public class SvgPainter implements Painter
 		rectangle.setAttributeNS(null, "height", Double.toString(height));
 		rectangle.setAttributeNS(null, "fill", getCurrentColor());
 
-		root.appendChild(rectangle);
+		append(rectangle);
 	}
 
 	@Override
@@ -95,7 +95,7 @@ public class SvgPainter implements Painter
 		path.setAttributeNS(null, "d",
 				String.format(Locale.US, "M %f,%f %f,%f", x1, y1, x2, y2));
 
-		root.appendChild(path);
+		append(path);
 	}
 
 	@Override
@@ -128,7 +128,7 @@ public class SvgPainter implements Painter
 		circle.setAttributeNS(null, "stroke", getCurrentColor());
 		circle.setAttributeNS(null, "stroke-width", width + "px");
 
-		root.appendChild(circle);
+		append(circle);
 	}
 
 	@Override
@@ -140,7 +140,7 @@ public class SvgPainter implements Painter
 		circle.setAttributeNS(null, "r", Double.toString(radius));
 		circle.setAttributeNS(null, "fill", getCurrentColor());
 
-		root.appendChild(circle);
+		append(circle);
 	}
 
 	private String getCurrentColor()
@@ -199,7 +199,7 @@ public class SvgPainter implements Painter
 						+ "px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1");
 		path.setAttributeNS(null, "d", strb.toString());
 
-		root.appendChild(path);
+		append(path);
 	}
 
 	private void fill(StringBuilder strb)
@@ -211,7 +211,7 @@ public class SvgPainter implements Painter
 						+ color.getAlpha());
 		path.setAttributeNS(null, "d", strb.toString());
 
-		root.appendChild(path);
+		append(path);
 	}
 
 	@Override
@@ -376,6 +376,37 @@ public class SvgPainter implements Painter
 	public void setTransform(AffineTransform t)
 	{
 		transform = t;
+	}
+
+	private void append(Element element)
+	{
+		// TODO: also check for identity matrix and append to root in that case
+		if (transform == null) {
+			root.appendChild(element);
+		} else {
+			transformValue();
+
+			Element g = doc.createElementNS(svgNS, "g");
+			g.setAttributeNS(null, "transform", transformValue());
+			root.appendChild(g);
+			g.appendChild(element);
+		}
+	}
+
+	private String transformValue()
+	{
+		double[] matrix = new double[6];
+		transform.getMatrix(matrix);
+		StringBuilder buffer = new StringBuilder();
+		buffer.append("matrix(");
+		for (int i = 0; i < matrix.length; i++) {
+			buffer.append(matrix[i]);
+			if (i < matrix.length - 1) {
+				buffer.append(" ");
+			}
+		}
+		buffer.append(")");
+		return buffer.toString();
 	}
 
 }
