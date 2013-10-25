@@ -26,10 +26,14 @@ import java.awt.event.WindowEvent;
 import java.util.List;
 
 import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
 import de.topobyte.livecg.algorithms.frechet.distanceterrain.DistanceTerrain;
+import de.topobyte.livecg.algorithms.frechet.distanceterrain.DistanceTerrainPainterChains;
+import de.topobyte.livecg.core.export.ExportUtil;
 import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.geometryeditor.geometryeditor.Content;
 import de.topobyte.livecg.geometryeditor.geometryeditor.ContentChangedListener;
@@ -72,6 +76,27 @@ public class DistanceTerrainDialog implements ContentChangedListener
 
 		frame = new JFrame("Fréchet distance");
 		frame.setContentPane(panel);
+
+		/*
+		 * Menus
+		 */
+
+		DistanceTerrainPainterChains painter = new DistanceTerrainPainterChains(
+				line1, line2, null);
+
+		JMenuBar menu = new JMenuBar();
+		frame.setJMenuBar(menu);
+
+		JMenu menuFile = new JMenu("File");
+		menu.add(menuFile);
+
+		ExportUtil.addExportPngItem(menuFile, frame, painter, diagram);
+		ExportUtil.addExportSvgItem(menuFile, frame, painter, diagram);
+
+		/*
+		 * Misc
+		 */
+
 		frame.setSize(500, 600);
 		frame.setVisible(true);
 

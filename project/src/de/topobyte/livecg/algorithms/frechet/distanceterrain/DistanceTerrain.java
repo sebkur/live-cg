@@ -23,11 +23,12 @@ import java.awt.Graphics2D;
 
 import javax.swing.JPanel;
 
+import de.topobyte.livecg.core.export.SizeProvider;
 import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.core.painting.AwtPainter;
 import de.topobyte.livecg.util.SwingUtil;
 
-public class DistanceTerrain extends JPanel
+public class DistanceTerrain extends JPanel implements SizeProvider
 {
 
 	private static final long serialVersionUID = -336337844015240678L;
