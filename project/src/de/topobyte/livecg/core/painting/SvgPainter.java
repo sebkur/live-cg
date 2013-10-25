@@ -4,6 +4,7 @@ import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.PathIterator;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -506,4 +507,8 @@ public class SvgPainter implements Painter
 		e.appendChild(element);
 	}
 
+	public void drawImage(BufferedImage image, int x, int y)
+	{
+		// TODO:
+	}
 }

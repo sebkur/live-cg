@@ -9,6 +9,7 @@ import java.awt.geom.Arc2D;
 import java.awt.geom.Area;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
 import java.util.List;
 
 import de.topobyte.livecg.core.geometry.geom.AwtHelper;
@@ -185,6 +186,12 @@ public class AwtPainter implements Painter
 	public void setTransform(AffineTransform t)
 	{
 		g.setTransform(t);
+	}
+
+	@Override
+	public void drawImage(BufferedImage image, int x, int y)
+	{
+		g.drawImage(image, x, y, null);
 	}
 
 }

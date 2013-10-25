@@ -2,6 +2,7 @@ package de.topobyte.livecg.core.painting;
 
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
 import java.util.List;
 
 import de.topobyte.livecg.core.geometry.geom.Coordinate;
@@ -52,4 +53,6 @@ public interface Painter
 	public AffineTransform getTransform();
 
 	public void setTransform(AffineTransform t);
+	
+	public void drawImage(BufferedImage image, int x, int y);
 }
