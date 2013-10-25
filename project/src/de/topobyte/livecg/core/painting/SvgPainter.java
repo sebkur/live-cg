@@ -5,13 +5,18 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.PathIterator;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import javax.imageio.ImageIO;
+
 import org.apache.batik.dom.svg.SVGDOMImplementation;
+import org.apache.commons.codec.binary.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
@@ -507,8 +512,56 @@ public class SvgPainter implements Painter
 		e.appendChild(element);
 	}
 
+	/*
+	 * Image embedding
+	 */
+
+	private static int LINE_WIDTH = 76;
+
+	private static String format(String text)
+	{
+		StringBuilder strb = new StringBuilder();
+		String newLine = System.getProperty("line.separator");
+		int length = text.length();
+		int size = LINE_WIDTH;
+		strb.append(newLine);
+		for (int i = 0; i < length; i += size) {
+			int end = i + size;
+			if (end >= length) {
+				end = length;
+			}
+			String line = text.substring(i, end);
+			strb.append(line);
+			strb.append(newLine);
+		}
+		return strb.toString();
+	}
+
 	public void drawImage(BufferedImage image, int x, int y)
 	{
-		// TODO:
+		ByteArrayOutputStream output = new ByteArrayOutputStream();
+		try {
+			boolean written = ImageIO.write(image, "png", output);
+			if (!written) {
+				logger.error("unable to draw image: no writer found");
+			}
+		} catch (IOException e) {
+			logger.error("unable to draw image: " + e.getMessage());
+			return;
+		}
+		byte[] bytes = output.toByteArray();
+		String base64 = Base64.encodeBase64String(bytes);
+
+		Element element = doc.createElementNS(svgNS, "image");
+		element.setAttributeNS(null, "x", Integer.toString(x));
+		element.setAttributeNS(null, "y", Integer.toString(y));
+		element.setAttributeNS(null, "width",
+				Integer.toString(image.getWidth()));
+		element.setAttributeNS(null, "height",
+				Integer.toString(image.getHeight()));
+		element.setAttributeNS(null, "xlink:href", "data:image/png;base64,"
+				+ base64);
+
+		append(element);
 	}
 }
