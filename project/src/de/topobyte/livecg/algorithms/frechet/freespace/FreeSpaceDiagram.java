@@ -16,16 +16,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.topobyte.livecg.algorithms.frechet.freespace.chains;
+package de.topobyte.livecg.algorithms.frechet.freespace;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
 import javax.swing.JPanel;
 
-import de.topobyte.livecg.algorithms.frechet.freespace.Config;
-import de.topobyte.livecg.algorithms.frechet.freespace.EpsilonSettable;
-import de.topobyte.livecg.algorithms.frechet.freespace.FreeSpacePainterChains;
 import de.topobyte.livecg.core.export.SizeProvider;
 import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.core.painting.AwtPainter;

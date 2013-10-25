@@ -29,7 +29,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
-import de.topobyte.livecg.algorithms.frechet.distanceterrain.chains.DistanceTerrain;
 import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.geometryeditor.geometryeditor.Content;
 import de.topobyte.livecg.geometryeditor.geometryeditor.ContentChangedListener;

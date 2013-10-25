@@ -39,9 +39,9 @@ import javax.swing.border.TitledBorder;
 
 import de.topobyte.livecg.algorithms.frechet.freespace.Config;
 import de.topobyte.livecg.algorithms.frechet.freespace.ConfigChangedListener;
+import de.topobyte.livecg.algorithms.frechet.freespace.FreeSpaceDiagram;
 import de.topobyte.livecg.algorithms.frechet.freespace.FreeSpacePainterChains;
 import de.topobyte.livecg.algorithms.frechet.freespace.Settings;
-import de.topobyte.livecg.algorithms.frechet.freespace.chains.FreeSpaceDiagram;
 import de.topobyte.livecg.core.export.ExportUtil;
 import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.geometryeditor.geometryeditor.Content;
