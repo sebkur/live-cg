@@ -23,35 +23,31 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
+import de.topobyte.livecg.core.export.SizeProvider;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
 import de.topobyte.livecg.core.painting.AwtPainter;
 import de.topobyte.livecg.util.SwingUtil;
 import de.topobyte.livecg.util.graph.Graph;
 
-public class TriangulationPanel extends JPanel implements PolygonPanel
+public class TriangulationPanel extends JPanel implements PolygonPanel,
+		SizeProvider
 {
 
 	private static final long serialVersionUID = 1265869392513220699L;
 
-	private TriangulationOperation triangulationOperation;
-	private List<Diagonal> diagonals;
-
-	private Config polygonConfig = new Config();
+	private Config config;
 
 	private AwtPainter painter;
 	private TriangulationPainter algorithmPainter;
 
-	public TriangulationPanel(Polygon polygon)
+	public TriangulationPanel(Polygon polygon, List<Diagonal> diagonals,
+			Graph<Polygon, Diagonal> graph, Config config)
 	{
-		triangulationOperation = new TriangulationOperation(polygon);
-		diagonals = triangulationOperation.getDiagonals();
-
-		SplitResult splitResult = DiagonalUtil.split(polygon, diagonals);
-		Graph<Polygon, Diagonal> graph = splitResult.getGraph();
+		this.config = config;
 
 		painter = new AwtPainter(null);
 		algorithmPainter = new TriangulationPainter(polygon, diagonals, graph,
-				polygonConfig, painter);
+				config, painter);
 	}
 
 	@Override
@@ -69,7 +65,7 @@ public class TriangulationPanel extends JPanel implements PolygonPanel
 	@Override
 	public Config getPolygonConfig()
 	{
-		return polygonConfig;
+		return config;
 	}
 
 	@Override

@@ -18,11 +18,16 @@
 package de.topobyte.livecg.algorithms.polygon.monotonepieces;
 
 import java.awt.BorderLayout;
+import java.util.List;
 
 import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 
+import de.topobyte.livecg.core.export.ExportUtil;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
+import de.topobyte.livecg.util.graph.Graph;
 
 public class TriangulationDialog
 {
@@ -37,12 +42,42 @@ public class TriangulationDialog
 		frame.setContentPane(main);
 		main.setLayout(new BorderLayout());
 
-		TriangulationPanel tp = new TriangulationPanel(polygon);
+		TriangulationOperation triangulationOperation = new TriangulationOperation(
+				polygon);
+		List<Diagonal> diagonals = triangulationOperation.getDiagonals();
+
+		SplitResult splitResult = DiagonalUtil.split(polygon, diagonals);
+		Graph<Polygon, Diagonal> graph = splitResult.getGraph();
+
+		Config config = new Config();
+		TriangulationPanel tp = new TriangulationPanel(polygon, diagonals,
+				graph, config);
 
 		Settings settings = new Settings(tp);
 
 		main.add(settings, BorderLayout.NORTH);
 		main.add(tp, BorderLayout.CENTER);
+
+		/*
+		 * Menu
+		 */
+
+		TriangulationPainter painter = new TriangulationPainter(polygon,
+				diagonals, graph, config, null);
+
+		JMenuBar menu = new JMenuBar();
+
+		JMenu menuFile = new JMenu("File");
+		menu.add(menuFile);
+
+		ExportUtil.addExportPngItem(menuFile, frame, painter, tp);
+		ExportUtil.addExportSvgItem(menuFile, frame, painter, tp);
+
+		frame.setJMenuBar(menu);
+
+		/*
+		 * Show dialog
+		 */
 
 		frame.setLocationByPlatform(true);
 		frame.setSize(800, 500);
