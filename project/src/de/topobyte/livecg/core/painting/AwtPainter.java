@@ -1,6 +1,7 @@
 package de.topobyte.livecg.core.painting;
 
 import java.awt.BasicStroke;
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
@@ -129,6 +130,8 @@ public class AwtPainter implements Painter
 	@Override
 	public void drawString(String text, double x, double y)
 	{
+		Font font = new Font("Sans", Font.PLAIN, 12);
+		g.setFont(font);
 		g.drawString(text, (float) x, (float) y);
 	}
 

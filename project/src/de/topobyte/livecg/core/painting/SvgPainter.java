@@ -339,8 +339,16 @@ public class SvgPainter implements Painter
 	@Override
 	public void drawString(String text, double x, double y)
 	{
-		// TODO Auto-generated method stub
+		Element element = doc.createElementNS(svgNS, "text");
+		element.setAttributeNS(null, "style",
+				"fill:" + getCurrentColor()
+						+ ";stroke:none;fill-opacity:"
+						+ color.getAlpha()+";font-family:Sans;font-size:12px");
+		element.setAttributeNS(null, "x", Double.toString(x));
+		element.setAttributeNS(null, "y", Double.toString(y));
+		element.setTextContent(text);
 
+		append(element);
 	}
 
 	/*
