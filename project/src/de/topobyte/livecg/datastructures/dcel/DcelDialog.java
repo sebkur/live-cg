@@ -20,8 +20,11 @@ package de.topobyte.livecg.datastructures.dcel;
 import java.awt.BorderLayout;
 
 import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 
+import de.topobyte.livecg.core.export.ExportUtil;
 import de.topobyte.livecg.core.geometry.dcel.DCEL;
 import de.topobyte.livecg.core.geometry.dcel.DcelConverter;
 import de.topobyte.livecg.geometryeditor.geometryeditor.Content;
@@ -46,6 +49,27 @@ public class DcelDialog
 
 		main.add(settings, BorderLayout.NORTH);
 		main.add(dcelPanel, BorderLayout.CENTER);
+
+		/*
+		 * Menu
+		 */
+
+		DcelConfig config = dcelPanel.getConfig();
+		DcelPainter painter = new InstanceDcelPainter(dcel, config, null);
+
+		JMenuBar menu = new JMenuBar();
+
+		JMenu menuFile = new JMenu("File");
+		menu.add(menuFile);
+
+		ExportUtil.addExportPngItem(menuFile, frame, painter, dcelPanel);
+		ExportUtil.addExportSvgItem(menuFile, frame, painter, dcelPanel);
+
+		frame.setJMenuBar(menu);
+
+		/*
+		 * Show dialog
+		 */
 
 		frame.setLocationByPlatform(true);
 		frame.setSize(800, 500);
