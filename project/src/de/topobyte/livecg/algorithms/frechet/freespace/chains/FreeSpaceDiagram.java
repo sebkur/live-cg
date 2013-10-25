@@ -31,7 +31,7 @@ import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.core.painting.AwtPainter;
 import de.topobyte.livecg.util.SwingUtil;
 
-public class FrechetDiagram extends JPanel implements EpsilonSettable, SizeProvider
+public class FreeSpaceDiagram extends JPanel implements EpsilonSettable, SizeProvider
 {
 	private static final long serialVersionUID = 5024820193840910054L;
 
@@ -40,7 +40,7 @@ public class FrechetDiagram extends JPanel implements EpsilonSettable, SizeProvi
 
 	private int epsilon;
 
-	public FrechetDiagram(Config config, int epsilon, Chain line1, Chain line2)
+	public FreeSpaceDiagram(Config config, int epsilon, Chain line1, Chain line2)
 	{
 		this.epsilon = epsilon;
 		painter = new AwtPainter(null);

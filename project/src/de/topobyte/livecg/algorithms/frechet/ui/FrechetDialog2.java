@@ -41,7 +41,7 @@ import de.topobyte.livecg.algorithms.frechet.freespace.Config;
 import de.topobyte.livecg.algorithms.frechet.freespace.ConfigChangedListener;
 import de.topobyte.livecg.algorithms.frechet.freespace.FreeSpacePainterChains;
 import de.topobyte.livecg.algorithms.frechet.freespace.Settings;
-import de.topobyte.livecg.algorithms.frechet.freespace.chains.FrechetDiagram;
+import de.topobyte.livecg.algorithms.frechet.freespace.chains.FreeSpaceDiagram;
 import de.topobyte.livecg.algorithms.frechet.ui.lineview.ControlledLineView;
 import de.topobyte.livecg.algorithms.frechet.ui.lineview.LineView;
 import de.topobyte.livecg.core.export.ExportUtil;
@@ -57,7 +57,7 @@ public class FrechetDialog2 implements ContentChangedListener
 	final static int STEP_SIZE = 1;
 	final static int STEP_SIZE_BIG = 10;
 
-	private FrechetDiagram diagram = null;
+	private FreeSpaceDiagram diagram = null;
 	private LineView lineView = null;
 
 	private int epsilon = 100;
@@ -96,7 +96,7 @@ public class FrechetDialog2 implements ContentChangedListener
 			}
 		});
 
-		diagram = new FrechetDiagram(config, epsilon, line1, line2);
+		diagram = new FreeSpaceDiagram(config, epsilon, line1, line2);
 		JPanel diagramPanel = new JPanel(new BorderLayout());
 		diagramPanel.add(settings, BorderLayout.NORTH);
 		diagramPanel.add(diagram, BorderLayout.CENTER);
