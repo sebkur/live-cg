@@ -44,6 +44,22 @@ public class AwtPainter implements Painter
 	}
 
 	@Override
+	public void drawRect(int x, int y, int width, int height)
+	{
+		g.drawRect(x, y, width, height);
+	}
+
+	@Override
+	public void drawRect(double x, double y, double width, double height)
+	{
+		int ix = (int) Math.round(x);
+		int iy = (int) Math.round(x);
+		int w = (int) Math.round(x + width - ix);
+		int h = (int) Math.round(y + height - iy);
+		g.drawRect(ix, iy, w, h);
+	}
+
+	@Override
 	public void fillRect(int x, int y, int width, int height)
 	{
 		g.fillRect(x, y, width, height);

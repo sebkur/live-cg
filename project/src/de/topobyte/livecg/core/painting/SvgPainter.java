@@ -57,6 +57,34 @@ public class SvgPainter implements Painter
 	}
 
 	@Override
+	public void drawRect(int x, int y, int width, int height)
+	{
+		Element rectangle = doc.createElementNS(svgNS, "rect");
+		rectangle.setAttributeNS(null, "x", Integer.toString(x));
+		rectangle.setAttributeNS(null, "y", Integer.toString(y));
+		rectangle.setAttributeNS(null, "width", Integer.toString(width));
+		rectangle.setAttributeNS(null, "height", Integer.toString(height));
+		rectangle.setAttributeNS(null, "stroke", getCurrentColor());
+		rectangle.setAttributeNS(null, "stroke-width", this.width + "px");
+
+		append(rectangle);
+	}
+
+	@Override
+	public void drawRect(double x, double y, double width, double height)
+	{
+		Element rectangle = doc.createElementNS(svgNS, "rect");
+		rectangle.setAttributeNS(null, "x", Double.toString(x));
+		rectangle.setAttributeNS(null, "y", Double.toString(y));
+		rectangle.setAttributeNS(null, "width", Double.toString(width));
+		rectangle.setAttributeNS(null, "height", Double.toString(height));
+		rectangle.setAttributeNS(null, "stroke", getCurrentColor());
+		rectangle.setAttributeNS(null, "stroke-width", this.width + "px");
+
+		append(rectangle);
+	}
+
+	@Override
 	public void fillRect(int x, int y, int width, int height)
 	{
 		Element rectangle = doc.createElementNS(svgNS, "rect");
@@ -340,10 +368,9 @@ public class SvgPainter implements Painter
 	public void drawString(String text, double x, double y)
 	{
 		Element element = doc.createElementNS(svgNS, "text");
-		element.setAttributeNS(null, "style",
-				"fill:" + getCurrentColor()
-						+ ";stroke:none;fill-opacity:"
-						+ color.getAlpha()+";font-family:Sans;font-size:12px");
+		element.setAttributeNS(null, "style", "fill:" + getCurrentColor()
+				+ ";stroke:none;fill-opacity:" + color.getAlpha()
+				+ ";font-family:Sans;font-size:12px");
 		element.setAttributeNS(null, "x", Double.toString(x));
 		element.setAttributeNS(null, "y", Double.toString(y));
 		element.setTextContent(text);

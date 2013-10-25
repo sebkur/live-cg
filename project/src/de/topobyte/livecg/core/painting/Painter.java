@@ -13,6 +13,10 @@ public interface Painter
 
 	public void setStrokeWidth(double width);
 
+	public void drawRect(int x, int y, int width, int height);
+
+	public void drawRect(double x, double y, double width, double height);
+	
 	public void fillRect(int x, int y, int width, int height);
 
 	public void fillRect(double x, double y, double width, double height);
