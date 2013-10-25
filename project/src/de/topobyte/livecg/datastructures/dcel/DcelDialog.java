@@ -44,7 +44,8 @@ public class DcelDialog
 		frame.setContentPane(main);
 		main.setLayout(new BorderLayout());
 
-		DcelPanel dcelPanel = new DcelPanel(dcel);
+		DcelConfig config = new DcelConfig();
+		DcelPanel dcelPanel = new DcelPanel(dcel, config);
 		Settings settings = new Settings(dcelPanel);
 
 		main.add(settings, BorderLayout.NORTH);
@@ -54,7 +55,6 @@ public class DcelDialog
 		 * Menu
 		 */
 
-		DcelConfig config = dcelPanel.getConfig();
 		DcelPainter painter = new InstanceDcelPainter(dcel, config, null);
 
 		JMenuBar menu = new JMenuBar();

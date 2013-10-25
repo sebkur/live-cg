@@ -36,9 +36,9 @@ public class DcelPanel extends JPanel implements SizeProvider
 	private AwtPainter painter;
 	private DcelPainter algorithmPainter;
 
-	public DcelPanel(DCEL dcel)
+	public DcelPanel(DCEL dcel, DcelConfig config)
 	{
-		config = new DcelConfig();
+		this.config = config;
 		painter = new AwtPainter(null);
 		algorithmPainter = new InstanceDcelPainter(dcel, config, painter);
 	}
