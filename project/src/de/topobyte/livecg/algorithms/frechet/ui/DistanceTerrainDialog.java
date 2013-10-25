@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.topobyte.livecg.algorithms.frechet.distanceterrain;
+package de.topobyte.livecg.algorithms.frechet.ui;
 
 import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
@@ -29,6 +29,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
+import de.topobyte.livecg.algorithms.frechet.distanceterrain.DistanceTerrain;
 import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.geometryeditor.geometryeditor.Content;
 import de.topobyte.livecg.geometryeditor.geometryeditor.ContentChangedListener;
