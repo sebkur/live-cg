@@ -18,97 +18,45 @@
 
 package de.topobyte.livecg.algorithms.frechet.distanceterrain.chains;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Shape;
-import java.awt.geom.AffineTransform;
 
 import javax.swing.JPanel;
 
-import de.topobyte.livecg.algorithms.frechet.distanceterrain.segment.DistanceTerrainPainter;
-import de.topobyte.livecg.algorithms.frechet.freespace.calc.LineSegment;
+import de.topobyte.livecg.algorithms.frechet.distanceterrain.DistanceTerrainPainterChains;
 import de.topobyte.livecg.core.geometry.geom.Chain;
-import de.topobyte.livecg.core.geometry.geom.Coordinate;
+import de.topobyte.livecg.core.painting.AwtPainter;
+import de.topobyte.livecg.util.SwingUtil;
 
 public class DistanceTerrain extends JPanel
 {
 
 	private static final long serialVersionUID = -336337844015240678L;
 
-	private Color colorCellBoundaries = new Color(0x000000);
-
-	private final Chain line1;
-	private final Chain line2;
+	private AwtPainter painter;
+	private DistanceTerrainPainterChains terrainPainter;
 
 	public DistanceTerrain(Chain line1, Chain line2)
 	{
-		this.line1 = line1;
-		this.line2 = line2;
-	}
-
-	private LineSegment getSegment(Chain line, int n)
-	{
-		Coordinate c1 = line.getCoordinate(n);
-		Coordinate c2 = line.getCoordinate(n + 1);
-		return new LineSegment(c1, c2);
+		painter = new AwtPainter(null);
+		terrainPainter = new DistanceTerrainPainterChains(line1, line2, painter);
 	}
 
 	public void update()
 	{
-		// called when chains have changed
+		repaint();
 	}
 
 	@Override
 	public void paint(Graphics graphics)
 	{
+		super.paint(graphics);
 		Graphics2D g = (Graphics2D) graphics;
+		SwingUtil.useAntialiasing(g, true);
 
-		int width = getWidth();
-		int height = getHeight();
-
-		int nSegmentsP = line1.getNumberOfNodes() - 1;
-		int nSegmentsQ = line2.getNumberOfNodes() - 1;
-
-		int w = width / nSegmentsP;
-		int h = height / nSegmentsQ;
-		int usedWidth = w * nSegmentsP;
-		int usedHeight = h * nSegmentsQ;
-
-		DistanceTerrainPainter painter = new DistanceTerrainPainter(true);
-
-		AffineTransform transform = g.getTransform();
-		Shape clip = g.getClip();
-		for (int x = 0; x < nSegmentsP; x++) {
-			for (int y = 0; y < nSegmentsQ; y++) {
-				LineSegment segP = getSegment(line1, x);
-				LineSegment segQ = getSegment(line2, nSegmentsQ - y - 1);
-
-				int lx = x * w;
-				int ly = y * h;
-				AffineTransform t = new AffineTransform(transform);
-				t.translate(lx, ly);
-				g.setTransform(t);
-				g.setClip(0, 0, w, h);
-
-				painter.setSegment1(segP);
-				painter.setSegment2(segQ);
-				painter.setSize(w, h);
-				painter.paint(g);
-			}
-		}
-		g.setTransform(transform);
-		g.setClip(clip);
-
-		// Draw grid
-		g.setColor(colorCellBoundaries);
-		for (int x = 0; x <= nSegmentsP; x++) {
-			int lx = x * w;
-			g.drawLine(lx, 0, lx, usedHeight);
-		}
-		for (int y = 0; y <= nSegmentsQ; y++) {
-			int ly = y * h;
-			g.drawLine(0, ly, usedWidth, ly);
-		}
+		painter.setGraphics(g);
+		terrainPainter.setWidth(getWidth());
+		terrainPainter.setHeight(getHeight());
+		terrainPainter.paint();
 	}
 }

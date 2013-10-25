@@ -1,6 +1,6 @@
-/* This file is part of Frechet tools. 
+/* This file is part of LiveCG. 
  * 
- * Copyright (C) 2012  Sebastian Kuerten
+ * Copyright (C) 2013  Sebastian Kuerten
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,60 +15,42 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package de.topobyte.livecg.algorithms.frechet.distanceterrain;
 
-package de.topobyte.livecg.algorithms.frechet.distanceterrain.segment;
-
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
 import de.topobyte.color.util.HSLColor;
 import de.topobyte.livecg.algorithms.frechet.freespace.calc.LineSegment;
 import de.topobyte.livecg.core.lina2.Vector;
-import de.topobyte.livecg.util.SwingUtil;
+import de.topobyte.livecg.core.painting.Color;
 
-public class DistanceTerrainPainter
+public class DistanceTerrainImagePainter
 {
+	private BufferedImage image;
+	private int ox;
+	private int oy;
+	private int width;
+	private int height;
 	private LineSegment seg1 = null;
 	private LineSegment seg2 = null;
 
-	private int width;
-	private int height;
-
-	private boolean drawBorder;
-
-	public DistanceTerrainPainter(boolean drawBorder)
+	public DistanceTerrainImagePainter(BufferedImage image, int x, int y,
+			int width, int height, LineSegment seg1, LineSegment seg2)
 	{
-		this.drawBorder = drawBorder;
-	}
-
-	public void setSize(int width, int height)
-	{
+		this.image = image;
+		this.ox = x;
+		this.oy = y;
 		this.width = width;
 		this.height = height;
-	}
-
-	public void setSegment1(LineSegment seg1)
-	{
 		this.seg1 = seg1;
-	}
-
-	public void setSegment2(LineSegment seg2)
-	{
 		this.seg2 = seg2;
 	}
 
-	public void paint(Graphics graphics)
+	public void paint()
 	{
 		if (seg1 == null || seg2 == null) {
 			return;
 		}
-
-		Graphics2D g = (Graphics2D) graphics;
-
-		BufferedImage image = new BufferedImage(width, height,
-				BufferedImage.TYPE_INT_RGB);
 
 		for (int y = 0; y < height; y++) {
 			double t = y / (double) height;
@@ -82,18 +64,8 @@ public class DistanceTerrainPainter
 
 				double d = Math.sqrt(dx * dx + dy * dy);
 				Color c = getColor(d);
-				image.setRGB(x, height - y - 1, c.getRGB());
+				image.setRGB(ox + x, oy + height - y - 1, c.getRGB());
 			}
-		}
-
-		SwingUtil.useAntialiasing(g, false);
-		g.drawImage(image, null, 0, 0);
-
-		SwingUtil.useAntialiasing(g, true);
-		if (drawBorder) {
-			// Draw the boundaries again
-			g.setColor(Color.BLACK);
-			g.drawRect(0, 0, width, height);
 		}
 	}
 
@@ -102,10 +74,10 @@ public class DistanceTerrainPainter
 		return seg.getStart().add(seg.getDirection().mult(s));
 	}
 
-	public Color getColor(double distance)
+	private Color getColor(double distance)
 	{
 		float hue = ((float) distance / 600 * 360) % 360;
 		HSLColor hsl = new HSLColor(hue, 100, 50);
-		return hsl.getRGB();
+		return new Color(hsl.getRGB().getRGB());
 	}
 }
