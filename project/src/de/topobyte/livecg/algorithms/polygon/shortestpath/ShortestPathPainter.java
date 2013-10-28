@@ -74,10 +74,11 @@ public class ShortestPathPainter extends BasicAlgorithmPainter
 
 	private Color COLOR_NODE_IDS = LiveConfig.getColor(q("node.ids"));
 
-	private double SIZE_FIRST_NODE = 4;
-	private double SIZE_APEX = 4;
-	private double SIZE_FINAL_NODES = 4;
-	private double SIZE_INTERMEDIATE_NODES = 3;
+	private double SIZE_FIRST_NODE = LiveConfig.getNumber(q("node.size.first"));
+	private double SIZE_APEX = LiveConfig.getNumber(q("node.size.apex"));
+	private double SIZE_FINAL_NODES = LiveConfig.getNumber(q("node.size.final"));
+	private double SIZE_INTERMEDIATE_NODES = LiveConfig
+			.getNumber(q("node.size.intermediate"));
 
 	private ShortestPathAlgorithm algorithm;
 	private Config config;
