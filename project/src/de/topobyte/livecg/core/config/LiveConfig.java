@@ -49,6 +49,17 @@ public class LiveConfig
 		return new Color(0x000000);
 	}
 
+	public static double getNumber(String key)
+	{
+		initialize();
+		Double number = config.getNumber(key);
+		if (number != null) {
+			return number;
+		}
+		logger.warn("number not found: " + key);
+		return 0.0;
+	}
+
 	private static void initialize()
 	{
 		if (config == null) {

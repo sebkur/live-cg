@@ -88,6 +88,21 @@ public class ConfigParser
 		if (value.startsWith("#")) {
 			Color color = parseColor(value, null);
 			config.colors.put(fullName, color);
+		} else {
+			Double number = parseDouble(value);
+			if (number != null) {
+				config.numbers.put(fullName, number);
+			}
+		}
+	}
+
+	private Double parseDouble(String value)
+	{
+		try {
+			double number = Double.parseDouble(value);
+			return number;
+		} catch (NumberFormatException e) {
+			return null;
 		}
 	}
 
