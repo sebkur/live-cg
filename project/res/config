@@ -75,4 +75,14 @@ algorithm.polygon.shortestpath.colors {
 		apex = #b200b2
 		common = #b200b2
 	}
+	size.start_target {
+		radius = 6
+		width = 4
+	}
+	width {
+		polygon = 2.0
+		diagonals = 1.0
+		dual_graph = 1.5
+		path = 2.5
+	}
 }

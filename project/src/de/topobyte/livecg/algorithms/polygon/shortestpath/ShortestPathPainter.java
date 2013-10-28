@@ -81,6 +81,19 @@ public class ShortestPathPainter extends BasicAlgorithmPainter
 	private double SIZE_INTERMEDIATE_NODES = LiveConfig
 			.getNumber(q("node.size.intermediate"));
 
+	private double SIZE_ST_RADIUS = LiveConfig
+			.getNumber(q("size.start_target.radius"));
+	private double SIZE_ST_WIDTH = LiveConfig
+			.getNumber(q("size.start_target.width"));
+
+	private double LINE_WIDTH_POLYGON = LiveConfig
+			.getNumber(q("width.polygon"));
+	private double LINE_WIDTH_DIAGONALS = LiveConfig
+			.getNumber(q("width.diagonals"));
+	private double LINE_WIDTH_DUAL_GRAPH = LiveConfig
+			.getNumber(q("width.dual_graph"));
+	private double LINE_WIDTH_PATH = LiveConfig.getNumber(q("width.path"));
+
 	private ShortestPathAlgorithm algorithm;
 	private Config config;
 
@@ -147,8 +160,7 @@ public class ShortestPathPainter extends BasicAlgorithmPainter
 			painter.fillPolygon(triangle);
 		}
 
-		painter.setStrokeWidth(1.0);
-
+		painter.setStrokeWidth(LINE_WIDTH_POLYGON);
 		painter.setColor(COLOR_POLYGON_EDGES);
 		Chain shell = algorithm.getPolygon().getShell();
 		IntRing ring = new IntRing(shell.getNumberOfNodes());
@@ -161,6 +173,7 @@ public class ShortestPathPainter extends BasicAlgorithmPainter
 					(int) Math.round(c2.getY()));
 		}
 
+		painter.setStrokeWidth(LINE_WIDTH_DIAGONALS);
 		for (Diagonal diagonal : algorithm.getTriangulationDiagonals()) {
 			painter.setColor(COLOR_DIAGONALS_NONSLEEVE);
 			if (algorithm.getSleeve().getDiagonals().contains(diagonal)) {
@@ -173,6 +186,7 @@ public class ShortestPathPainter extends BasicAlgorithmPainter
 					(int) Math.round(c2.getY()));
 		}
 
+		painter.setStrokeWidth(LINE_WIDTH_DUAL_GRAPH);
 		if (config.isDrawDualGraph()) {
 			painter.setColor(COLOR_DUAL_GRAPH);
 			Collection<Polygon> nodes = algorithm.getGraph().getNodes();
@@ -191,7 +205,7 @@ public class ShortestPathPainter extends BasicAlgorithmPainter
 			}
 		}
 
-		painter.setStrokeWidth(2.0);
+		painter.setStrokeWidth(LINE_WIDTH_PATH);
 
 		Data data = algorithm.getData();
 		if (data != null) {
@@ -218,8 +232,8 @@ public class ShortestPathPainter extends BasicAlgorithmPainter
 		Coordinate cStart = algorithm.getNodeStart().getCoordinate();
 		Coordinate cTarget = algorithm.getNodeTarget().getCoordinate();
 
-		double r = 6;
-		double w = 4;
+		double r = SIZE_ST_RADIUS;
+		double w = SIZE_ST_WIDTH;
 
 		if (dragStart != null) {
 			cStart = dragStart;
