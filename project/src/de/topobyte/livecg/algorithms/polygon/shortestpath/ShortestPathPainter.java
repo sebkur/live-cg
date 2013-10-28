@@ -74,6 +74,11 @@ public class ShortestPathPainter extends BasicAlgorithmPainter
 
 	private Color COLOR_NODE_IDS = LiveConfig.getColor(q("node.ids"));
 
+	private double SIZE_FIRST_NODE = 4;
+	private double SIZE_APEX = 4;
+	private double SIZE_FINAL_NODES = 4;
+	private double SIZE_INTERMEDIATE_NODES = 3;
+
 	private ShortestPathAlgorithm algorithm;
 	private Config config;
 
@@ -195,7 +200,7 @@ public class ShortestPathPainter extends BasicAlgorithmPainter
 			painter.setColor(COLOR_APEX);
 
 			Coordinate c = data.getApex().getCoordinate();
-			painter.fill(ShapeUtil.createArc(c.getX(), c.getY(), 4));
+			painter.fill(ShapeUtil.createArc(c.getX(), c.getY(), SIZE_APEX));
 		}
 
 		Coordinate cStart = algorithm.getNodeStart().getCoordinate();
@@ -281,6 +286,11 @@ public class ShortestPathPainter extends BasicAlgorithmPainter
 					(int) Math.round(cm.getY()), (int) Math.round(cn.getX()),
 					(int) Math.round(cn.getY()));
 		}
+		for (int i = 0; i < data.getCommonLength() - 1; i++) {
+			Coordinate c = data.getCommon(i).getCoordinate();
+			painter.fill(ShapeUtil.createArc(c.getX(), c.getY(),
+					i == 0 ? SIZE_FIRST_NODE : SIZE_INTERMEDIATE_NODES));
+		}
 	}
 
 	private void paintPath(Side side)
@@ -301,6 +311,13 @@ public class ShortestPathPainter extends BasicAlgorithmPainter
 					(int) Math.round(cn.getY()));
 			m = n;
 		}
+
+		for (int i = 0; i < data.getFunnelLength(side); i++) {
+			Coordinate c = data.get(side, i).getCoordinate();
+			painter.fill(ShapeUtil.createArc(c.getX(), c.getY(),
+					SIZE_INTERMEDIATE_NODES));
+		}
+
 		Node last = data.getLast(side);
 		Coordinate c = last.getCoordinate();
 		if (side == Side.LEFT) {
@@ -308,7 +325,7 @@ public class ShortestPathPainter extends BasicAlgorithmPainter
 		} else {
 			painter.setColor(COLOR_RIGHT_TOP);
 		}
-		painter.fill(ShapeUtil.createArc(c.getX(), c.getY(), 4));
+		painter.fill(ShapeUtil.createArc(c.getX(), c.getY(), SIZE_FINAL_NODES));
 	}
 
 }
