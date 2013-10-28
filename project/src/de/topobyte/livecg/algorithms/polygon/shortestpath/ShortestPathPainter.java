@@ -222,6 +222,10 @@ public class ShortestPathPainter extends BasicAlgorithmPainter
 					|| data.getFunnelLength(Side.RIGHT) == 0) {
 				apexVisible = false;
 			}
+			if (data.getFunnelLength(Side.LEFT) == 0
+					&& data.getFunnelLength(Side.RIGHT) == 0) {
+				apexVisible = true;
+			}
 			Coordinate c = data.getApex().getCoordinate();
 			if (apexVisible) {
 				painter.setColor(COLOR_APEX);
