@@ -42,37 +42,42 @@ public class ShortestPathPainter extends BasicAlgorithmPainter
 
 	private String q(String property)
 	{
-		return "algorithm.polygon.shortestpath.colors." + property;
+		return "algorithm.polygon.shortestpath." + property;
 	}
 
-	private Color COLOR_BG = LiveConfig.getColor(q("background"));
+	private String qc(String property)
+	{
+		return q("colors." + property);
+	}
 
-	private Color COLOR_POLYGON_BG = LiveConfig.getColor(q("polygon"));
-	private Color COLOR_TRIANGLE_SLEEVE = LiveConfig.getColor(q("sleeve"));
+	private Color COLOR_BG = LiveConfig.getColor(qc("background"));
+
+	private Color COLOR_POLYGON_BG = LiveConfig.getColor(qc("polygon"));
+	private Color COLOR_TRIANGLE_SLEEVE = LiveConfig.getColor(qc("sleeve"));
 	private Color COLOR_TRIANGLE_SLEEVE_DONE = LiveConfig
-			.getColor(q("sleeve.done"));
+			.getColor(qc("sleeve.done"));
 
-	private Color COLOR_POLYGON_EDGES = LiveConfig.getColor(q("boundary"));
+	private Color COLOR_POLYGON_EDGES = LiveConfig.getColor(qc("boundary"));
 	private Color COLOR_DIAGONALS_NONSLEEVE = LiveConfig
-			.getColor(q("diagonals"));
-	private Color COLOR_DIAGONALS_SLEEVE = LiveConfig.getColor(q("diagonals"));
-	private Color COLOR_DUAL_GRAPH = LiveConfig.getColor(q("dualgraph"));
+			.getColor(qc("diagonals"));
+	private Color COLOR_DIAGONALS_SLEEVE = LiveConfig.getColor(qc("diagonals"));
+	private Color COLOR_DUAL_GRAPH = LiveConfig.getColor(qc("dualgraph"));
 
-	private Color COLOR_NODE_START = LiveConfig.getColor(q("node.start"));
-	private Color COLOR_NODE_TARGET = LiveConfig.getColor(q("node.target"));
+	private Color COLOR_NODE_START = LiveConfig.getColor(qc("node.start"));
+	private Color COLOR_NODE_TARGET = LiveConfig.getColor(qc("node.target"));
 	private Color COLOR_NODE_START_OUTLINE = LiveConfig
-			.getColor(q("node.start.outline"));
+			.getColor(qc("node.start.outline"));
 	private Color COLOR_NODE_TARGET_OUTLINE = LiveConfig
-			.getColor(q("node.target.outline"));
+			.getColor(qc("node.target.outline"));
 
-	private Color COLOR_APEX = LiveConfig.getColor(q("path.apex"));
-	private Color COLOR_LEFT_TOP = LiveConfig.getColor(q("path.left.top"));
-	private Color COLOR_RIGHT_TOP = LiveConfig.getColor(q("path.right.top"));
-	private Color COLOR_COMMON_PATH = LiveConfig.getColor(q("path.common"));
-	private Color COLOR_LEFT_PATH = LiveConfig.getColor(q("path.left"));
-	private Color COLOR_RIGHT_PATH = LiveConfig.getColor(q("path.right"));
+	private Color COLOR_APEX = LiveConfig.getColor(qc("path.apex"));
+	private Color COLOR_LEFT_TOP = LiveConfig.getColor(qc("path.left.top"));
+	private Color COLOR_RIGHT_TOP = LiveConfig.getColor(qc("path.right.top"));
+	private Color COLOR_COMMON_PATH = LiveConfig.getColor(qc("path.common"));
+	private Color COLOR_LEFT_PATH = LiveConfig.getColor(qc("path.left"));
+	private Color COLOR_RIGHT_PATH = LiveConfig.getColor(qc("path.right"));
 
-	private Color COLOR_NODE_IDS = LiveConfig.getColor(q("node.ids"));
+	private Color COLOR_NODE_IDS = LiveConfig.getColor(qc("node.ids"));
 
 	private double SIZE_FIRST_NODE = LiveConfig.getNumber(q("node.size.first"));
 	private double SIZE_APEX = LiveConfig.getNumber(q("node.size.apex"));
