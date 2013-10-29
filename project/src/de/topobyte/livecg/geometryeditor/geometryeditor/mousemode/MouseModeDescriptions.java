@@ -31,6 +31,10 @@ public class MouseModeDescriptions
 			return "add nodes";
 		case DELETE:
 			return "delete nodes";
+		case ROTATE:
+			return "rotate";
+		case SCALE:
+			return "scale";
 		default:
 			return null;
 		}
@@ -47,6 +51,10 @@ public class MouseModeDescriptions
 			return "add nodes";
 		case DELETE:
 			return "delete nodes";
+		case ROTATE:
+			return "rotate objects";
+		case SCALE:
+			return "scale objects";
 		default:
 			return null;
 		}

@@ -20,6 +20,6 @@ package de.topobyte.livecg.geometryeditor.geometryeditor.mousemode;
 
 public enum MouseMode {
 
-	SELECT_MOVE, EDIT, DELETE, SELECT_RECTANGULAR
+	SELECT_MOVE, EDIT, DELETE, SELECT_RECTANGULAR, ROTATE, SCALE
 
 }

@@ -69,6 +69,10 @@ public class MouseAction extends BasicAction implements MouseModeListener
 			return "res/images/24x24/move.png";
 		case SELECT_RECTANGULAR:
 			return "res/images/24x24/select.png";
+		case ROTATE:
+			return "res/images/24x24/rotate.png";
+		case SCALE:
+			return "res/images/24x24/scale.png";
 		default:
 			return null;
 		}

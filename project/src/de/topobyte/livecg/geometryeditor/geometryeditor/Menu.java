@@ -19,6 +19,8 @@
 package de.topobyte.livecg.geometryeditor.geometryeditor;
 
 import java.awt.event.KeyEvent;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.Icon;
 import javax.swing.JMenu;
@@ -113,7 +115,16 @@ public class Menu extends JMenuBar
 		 * Tools
 		 */
 
+		Map<MouseMode, Integer> mouseModeAccelerators = new HashMap<MouseMode, Integer>();
+		mouseModeAccelerators.put(MouseMode.SELECT_MOVE, KeyEvent.VK_A);
+		mouseModeAccelerators.put(MouseMode.SELECT_RECTANGULAR, KeyEvent.VK_S);
+		mouseModeAccelerators.put(MouseMode.EDIT, KeyEvent.VK_D);
+		mouseModeAccelerators.put(MouseMode.DELETE, KeyEvent.VK_F);
+		mouseModeAccelerators.put(MouseMode.ROTATE, KeyEvent.VK_Q);
+		mouseModeAccelerators.put(MouseMode.SCALE, KeyEvent.VK_W);
+
 		for (MouseMode mode : new MouseMode[] { MouseMode.SELECT_MOVE,
+				MouseMode.ROTATE, MouseMode.SCALE,
 				MouseMode.SELECT_RECTANGULAR, MouseMode.EDIT, MouseMode.DELETE }) {
 			MouseAction mouseAction = new MouseAction(
 					MouseModeDescriptions.getShort(mode),
@@ -122,23 +133,9 @@ public class Menu extends JMenuBar
 			JMenuItem mouseItem = new JMenuItem(mouseAction);
 			tools.add(mouseItem);
 
-			switch (mode) {
-			case SELECT_MOVE:
-				mouseItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A,
-						0));
-				break;
-			case SELECT_RECTANGULAR:
-				mouseItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,
-						0));
-				break;
-			case EDIT:
-				mouseItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D,
-						0));
-				break;
-			case DELETE:
-				mouseItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F,
-						0));
-				break;
+			if (mouseModeAccelerators.get(mode) != null) {
+				mouseItem.setAccelerator((KeyStroke.getKeyStroke(
+						mouseModeAccelerators.get(mode), 0)));
 			}
 		}
 
