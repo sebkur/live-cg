@@ -21,7 +21,6 @@ package de.topobyte.livecg.geometryeditor.geometryeditor;
 import java.awt.BasicStroke;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.RenderingHints;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.geom.Area;
@@ -48,6 +47,7 @@ import de.topobyte.livecg.geometryeditor.geometryeditor.action.OpenCloseRingActi
 import de.topobyte.livecg.geometryeditor.geometryeditor.mousemode.MouseMode;
 import de.topobyte.livecg.geometryeditor.geometryeditor.mousemode.MouseModeListener;
 import de.topobyte.livecg.geometryeditor.geometryeditor.mousemode.MouseModeProvider;
+import de.topobyte.livecg.util.SwingUtil;
 
 public class GeometryEditPane extends JPanel implements MouseModeProvider,
 		ContentChangedListener
@@ -303,14 +303,13 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 	{
 		super.paint(graphics);
 		Graphics2D g = (Graphics2D) graphics;
+		SwingUtil.useAntialiasing(g, true);
 
-		useAntialiasing(g, true);
 		List<Polygon> polygons = content.getPolygons();
 		for (int i = 0; i < polygons.size(); i++) {
 			Polygon polygon = polygons.get(i);
 			drawInterior(g, polygon);
 		}
-		useAntialiasing(g, false);
 
 		if (mouseHighlightChain != null) {
 			drawHighlight(g, mouseHighlightChain,
@@ -331,7 +330,6 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 			draw(g, chain, colorChainLines, colorChainPoints, getName(i));
 		}
 
-		useAntialiasing(g, true);
 		for (int i = 0; i < polygons.size(); i++) {
 			Polygon polygon = polygons.get(i);
 			if (currentPolygons.contains(polygon)) {
@@ -339,7 +337,6 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 			}
 			drawExterior(g, polygon, colorChainLines, colorChainPoints);
 		}
-		useAntialiasing(g, false);
 
 		if (currentChains.size() > 0) {
 			for (Chain chain : currentChains) {
@@ -391,14 +388,12 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 		}
 
 		if (prospectLine != null) {
-			useAntialiasing(g, true);
 			g.setColor(color(colorProspectLine));
 			Coordinate c1 = prospectLine.getC1();
 			Coordinate c2 = prospectLine.getC2();
 			g.drawLine((int) Math.round(c1.getX()),
 					(int) Math.round(c1.getY()), (int) Math.round(c2.getX()),
 					(int) Math.round(c2.getY()));
-			useAntialiasing(g, false);
 		}
 
 		if (prospectNode != null) {
@@ -449,7 +444,6 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 		}
 
 		// line segments
-		useAntialiasing(g, true);
 		g.setColor(color(colorLines));
 		g.setStroke(new BasicStroke(1.0f));
 		Coordinate last = chain.getCoordinate(0);
@@ -470,7 +464,6 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 			int y2 = (int) Math.round(first.getY());
 			g.drawLine(x1, y1, x2, y2);
 		}
-		useAntialiasing(g, false);
 		// points
 		g.setColor(color(colorPoints));
 		g.setStroke(new BasicStroke(1.0f));
@@ -496,7 +489,6 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 		}
 
 		// line segments
-		useAntialiasing(g, true);
 		g.setColor(color);
 		g.setStroke(new BasicStroke(3.0f));
 		Coordinate last = chain.getCoordinate(0);
@@ -535,17 +527,6 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 		draw(g, polygon.getShell(), colorLines, colorPoints, null);
 		for (Chain hole : polygon.getHoles()) {
 			draw(g, hole, colorLines, colorPoints, null);
-		}
-	}
-
-	private void useAntialiasing(Graphics2D g, boolean b)
-	{
-		if (b) {
-			g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-					RenderingHints.VALUE_ANTIALIAS_ON);
-		} else {
-			g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-					RenderingHints.VALUE_ANTIALIAS_OFF);
 		}
 	}
 
