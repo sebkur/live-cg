@@ -18,7 +18,6 @@
 
 package de.topobyte.livecg.geometryeditor.geometryeditor;
 
-import java.awt.BasicStroke;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.InputEvent;
@@ -42,7 +41,9 @@ import de.topobyte.livecg.core.geometry.geom.Line;
 import de.topobyte.livecg.core.geometry.geom.Node;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
 import de.topobyte.livecg.core.geometry.geom.Rectangle;
+import de.topobyte.livecg.core.painting.AwtPainter;
 import de.topobyte.livecg.core.painting.Color;
+import de.topobyte.livecg.core.painting.Painter;
 import de.topobyte.livecg.geometryeditor.geometryeditor.action.OpenCloseRingAction;
 import de.topobyte.livecg.geometryeditor.geometryeditor.mousemode.MouseMode;
 import de.topobyte.livecg.geometryeditor.geometryeditor.mousemode.MouseModeListener;
@@ -58,11 +59,6 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 	private String q(String property)
 	{
 		return "geometryeditor.colors." + property;
-	}
-
-	private java.awt.Color color(Color c)
-	{
-		return new java.awt.Color(c.getARGB(), true);
 	}
 
 	private Color COLOR_BG = LiveConfig.getColor(q("background"));
@@ -305,20 +301,25 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 		Graphics2D g = (Graphics2D) graphics;
 		SwingUtil.useAntialiasing(g, true);
 
+		AwtPainter painter = new AwtPainter(g);
+		paint(painter);
+	}
+
+	public void paint(Painter p)
+	{
 		List<Polygon> polygons = content.getPolygons();
 		for (int i = 0; i < polygons.size(); i++) {
 			Polygon polygon = polygons.get(i);
-			drawInterior(g, polygon);
+			drawInterior(p, polygon);
 		}
 
 		if (mouseHighlightChain != null) {
-			drawHighlight(g, mouseHighlightChain,
-					color(colorMouseHighlightChain));
+			drawHighlight(p, mouseHighlightChain, colorMouseHighlightChain);
 		}
 
 		if (mouseHighlightPolygon != null) {
-			drawHighlight(g, mouseHighlightPolygon.getShell(),
-					color(colorMouseHighlightChain));
+			drawHighlight(p, mouseHighlightPolygon.getShell(),
+					colorMouseHighlightChain);
 		}
 
 		List<Chain> chains = content.getChains();
@@ -327,7 +328,7 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 			if (currentChains.contains(chain)) {
 				continue;
 			}
-			draw(g, chain, colorChainLines, colorChainPoints, getName(i));
+			draw(p, chain, colorChainLines, colorChainPoints, getName(i));
 		}
 
 		for (int i = 0; i < polygons.size(); i++) {
@@ -335,23 +336,23 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 			if (currentPolygons.contains(polygon)) {
 				continue;
 			}
-			drawExterior(g, polygon, colorChainLines, colorChainPoints);
+			drawExterior(p, polygon, colorChainLines, colorChainPoints);
 		}
 
 		if (currentChains.size() > 0) {
 			for (Chain chain : currentChains) {
-				draw(g, chain, colorEditingChainLines, colorEditingChainPoints,
+				draw(p, chain, colorEditingChainLines, colorEditingChainPoints,
 						null);
 
-				g.setColor(color(colorLastEditingLinePoints));
+				p.setColor(colorLastEditingLinePoints);
 				Coordinate c = chain.getLastCoordinate();
-				g.drawRect((int) Math.round(c.getX() - 3),
+				p.drawRect((int) Math.round(c.getX() - 3),
 						(int) Math.round(c.getY() - 3), 6, 6);
 
 				if (chain.getNumberOfNodes() > 1) {
-					g.setColor(color(colorFirstEditingLinePoints));
+					p.setColor(colorFirstEditingLinePoints);
 					c = chain.getFirstCoordinate();
-					g.drawRect((int) Math.round(c.getX() - 3),
+					p.drawRect((int) Math.round(c.getX() - 3),
 							(int) Math.round(c.getY() - 3), 6, 6);
 				}
 			}
@@ -359,49 +360,49 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 
 		if (currentPolygons.size() > 0) {
 			for (Polygon polygon : currentPolygons) {
-				drawExterior(g, polygon, colorEditingChainLines,
+				drawExterior(p, polygon, colorEditingChainLines,
 						colorEditingChainPoints);
 			}
 		}
 
 		if (snapHighlightNode != null) {
-			g.setColor(color(colorSnapHighlightNode));
+			p.setColor(colorSnapHighlightNode);
 			Coordinate c = snapHighlightNode.getCoordinate();
-			g.fillRect((int) Math.round(c.getX() - 5),
+			p.fillRect((int) Math.round(c.getX() - 5),
 					(int) Math.round(c.getY() - 5), 10, 10);
 		}
 
 		if (mouseHighlightNode != null) {
-			g.setColor(color(colorMouseHighightNode));
+			p.setColor(colorMouseHighightNode);
 			Coordinate c = mouseHighlightNode.getCoordinate();
-			g.drawRect((int) Math.round(c.getX() - 3),
+			p.drawRect((int) Math.round(c.getX() - 3),
 					(int) Math.round(c.getY() - 3), 6, 6);
 		}
 
 		if (currentNodes.size() > 0) {
 			for (Node node : currentNodes) {
-				g.setColor(color(colorSelectedNodes));
+				p.setColor(colorSelectedNodes);
 				Coordinate c = node.getCoordinate();
-				g.fillRect((int) Math.round(c.getX() - 2),
+				p.fillRect((int) Math.round(c.getX() - 2),
 						(int) Math.round(c.getY() - 2), 4 + 1, 4 + 1);
 			}
 		}
 
 		if (prospectLine != null) {
-			g.setColor(color(colorProspectLine));
+			p.setColor(colorProspectLine);
 			Coordinate c1 = prospectLine.getC1();
 			Coordinate c2 = prospectLine.getC2();
-			g.drawLine((int) Math.round(c1.getX()),
+			p.drawLine((int) Math.round(c1.getX()),
 					(int) Math.round(c1.getY()), (int) Math.round(c2.getX()),
 					(int) Math.round(c2.getY()));
 		}
 
 		if (prospectNode != null) {
-			g.setColor(color(colorProspectNode));
+			p.setColor(colorProspectNode);
 			Coordinate c = prospectNode.getCoordinate();
 			int x = (int) Math.round(c.getX());
 			int y = (int) Math.round(c.getY());
-			g.drawRect(x - 2, y - 2, 4, 4);
+			p.drawRect(x - 2, y - 2, 4, 4);
 		}
 
 		if (selectionRectangle != null) {
@@ -413,8 +414,8 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 					- selectionRectangle.getX1());
 			double height = Math.abs(selectionRectangle.getY2()
 					- selectionRectangle.getY1());
-			g.setColor(color(colorSelectionRectangle));
-			g.drawRect((int) Math.round(x), (int) Math.round(y),
+			p.setColor(colorSelectionRectangle);
+			p.drawRect((int) Math.round(x), (int) Math.round(y),
 					(int) Math.round(width), (int) Math.round(height));
 		}
 
@@ -422,8 +423,8 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 			Rectangle objects = getSelectedObjectsRectangle();
 			double width = objects.getX2() - objects.getX1();
 			double height = objects.getY2() - objects.getY1();
-			g.setColor(new java.awt.Color(colorRotationRectangle.getARGB()));
-			g.drawRect((int) Math.round(objects.getX1()),
+			p.setColor(colorRotationRectangle);
+			p.drawRect((int) Math.round(objects.getX1()),
 					(int) Math.round(objects.getY1()), (int) Math.round(width),
 					(int) Math.round(height));
 			// TODO: draw handles
@@ -435,7 +436,7 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 		return new Character((char) ('A' + i)).toString();
 	}
 
-	private void draw(Graphics2D g, Chain chain, Color colorLines,
+	private void draw(Painter p, Chain chain, Color colorLines,
 			Color colorPoints, String name)
 	{
 		int n = chain.getNumberOfNodes();
@@ -444,8 +445,8 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 		}
 
 		// line segments
-		g.setColor(color(colorLines));
-		g.setStroke(new BasicStroke(1.0f));
+		p.setColor(colorLines);
+		p.setStrokeWidth(1.0);
 		Coordinate last = chain.getCoordinate(0);
 		for (int i = 1; i < n; i++) {
 			Coordinate current = chain.getCoordinate(i);
@@ -453,7 +454,7 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 			int y1 = (int) Math.round(last.getY());
 			int x2 = (int) Math.round(current.getX());
 			int y2 = (int) Math.round(current.getY());
-			g.drawLine(x1, y1, x2, y2);
+			p.drawLine(x1, y1, x2, y2);
 			last = current;
 		}
 		if (chain.isClosed()) {
@@ -462,26 +463,26 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 			int y1 = (int) Math.round(last.getY());
 			int x2 = (int) Math.round(first.getX());
 			int y2 = (int) Math.round(first.getY());
-			g.drawLine(x1, y1, x2, y2);
+			p.drawLine(x1, y1, x2, y2);
 		}
 		// points
-		g.setColor(color(colorPoints));
-		g.setStroke(new BasicStroke(1.0f));
+		p.setColor(colorPoints);
+		p.setStrokeWidth(1.0);
 		for (int i = 0; i < n; i++) {
 			Coordinate current = chain.getCoordinate(i);
 			int x = (int) Math.round(current.getX());
 			int y = (int) Math.round(current.getY());
-			g.drawRect(x - 2, y - 2, 4, 4);
+			p.drawRect(x - 2, y - 2, 4, 4);
 		}
 		// label
 		if (name != null) {
 			Coordinate first = chain.getFirstCoordinate();
-			g.drawString(name, (int) Math.round(first.getX()) - 2,
+			p.drawString(name, (int) Math.round(first.getX()) - 2,
 					(int) Math.round(first.getY()) - 4);
 		}
 	}
 
-	private void drawHighlight(Graphics2D g, Chain chain, java.awt.Color color)
+	private void drawHighlight(Painter p, Chain chain, Color color)
 	{
 		int n = chain.getNumberOfNodes();
 		if (n == 0) {
@@ -489,8 +490,8 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 		}
 
 		// line segments
-		g.setColor(color);
-		g.setStroke(new BasicStroke(3.0f));
+		p.setColor(color);
+		p.setStrokeWidth(3.0);
 		Coordinate last = chain.getCoordinate(0);
 		for (int i = 1; i < n; i++) {
 			Coordinate current = chain.getCoordinate(i);
@@ -498,7 +499,7 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 			int y1 = (int) Math.round(last.getY());
 			int x2 = (int) Math.round(current.getX());
 			int y2 = (int) Math.round(current.getY());
-			g.drawLine(x1, y1, x2, y2);
+			p.drawLine(x1, y1, x2, y2);
 			last = current;
 		}
 		if (chain.isClosed()) {
@@ -507,26 +508,26 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 			int y1 = (int) Math.round(last.getY());
 			int x2 = (int) Math.round(first.getX());
 			int y2 = (int) Math.round(first.getY());
-			g.drawLine(x1, y1, x2, y2);
+			p.drawLine(x1, y1, x2, y2);
 		}
 	}
 
-	private void drawInterior(Graphics2D g, Polygon polygon)
+	private void drawInterior(Painter p, Polygon polygon)
 	{
 		Area area = AwtHelper.toShape(polygon);
-		g.setColor(color(colorPolygonInterior));
-		g.fill(area);
+		p.setColor(colorPolygonInterior);
+		p.fill(area);
 	}
 
-	private void drawExterior(Graphics2D g, Polygon polygon, Color colorLines,
+	private void drawExterior(Painter p, Polygon polygon, Color colorLines,
 			Color colorPoints)
 	{
 		if (currentChains.contains(polygon.getShell())) {
 			return;
 		}
-		draw(g, polygon.getShell(), colorLines, colorPoints, null);
+		draw(p, polygon.getShell(), colorLines, colorPoints, null);
 		for (Chain hole : polygon.getHoles()) {
-			draw(g, hole, colorLines, colorPoints, null);
+			draw(p, hole, colorLines, colorPoints, null);
 		}
 	}
 
