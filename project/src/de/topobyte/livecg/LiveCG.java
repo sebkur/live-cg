@@ -32,7 +32,6 @@ import org.apache.commons.cli.GnuParser;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
-import org.apache.log4j.BasicConfigurator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -106,8 +105,6 @@ public class LiveCG
 
 	public LiveCG()
 	{
-		BasicConfigurator.configure();
-
 		frame = new JFrame();
 	}
 
