@@ -63,10 +63,10 @@ public class GeomMath
 
 	public static boolean contains(Rectangle rectangle, Coordinate c)
 	{
-		int x1 = Math.min(rectangle.getX1(), rectangle.getX2());
-		int x2 = Math.max(rectangle.getX1(), rectangle.getX2());
-		int y1 = Math.min(rectangle.getY1(), rectangle.getY2());
-		int y2 = Math.max(rectangle.getY1(), rectangle.getY2());
+		double x1 = Math.min(rectangle.getX1(), rectangle.getX2());
+		double x2 = Math.max(rectangle.getX1(), rectangle.getX2());
+		double y1 = Math.min(rectangle.getY1(), rectangle.getY2());
+		double y2 = Math.max(rectangle.getY1(), rectangle.getY2());
 		return c.getX() >= x1 && c.getX() <= x2 && c.getY() >= y1
 				&& c.getY() <= y2;
 	}

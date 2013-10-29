@@ -405,16 +405,17 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 		}
 
 		if (selectionRectangle != null) {
-			int x = Math.min(selectionRectangle.getX1(),
+			double x = Math.min(selectionRectangle.getX1(),
 					selectionRectangle.getX2());
-			int y = Math.min(selectionRectangle.getY1(),
+			double y = Math.min(selectionRectangle.getY1(),
 					selectionRectangle.getY2());
-			int width = Math.abs(selectionRectangle.getX2()
+			double width = Math.abs(selectionRectangle.getX2()
 					- selectionRectangle.getX1());
-			int height = Math.abs(selectionRectangle.getY2()
+			double height = Math.abs(selectionRectangle.getY2()
 					- selectionRectangle.getY1());
 			g.setColor(color(colorSelectionRectangle));
-			g.drawRect(x, y, width, height);
+			g.drawRect((int) Math.round(x), (int) Math.round(y),
+					(int) Math.round(width), (int) Math.round(height));
 		}
 	}
 
