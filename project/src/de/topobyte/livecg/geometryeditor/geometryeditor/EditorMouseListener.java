@@ -18,9 +18,12 @@
 
 package de.topobyte.livecg.geometryeditor.geometryeditor;
 
+import java.awt.Cursor;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.slf4j.Logger;
@@ -36,6 +39,8 @@ import de.topobyte.livecg.core.geometry.geom.Polygon;
 import de.topobyte.livecg.core.geometry.geom.Rectangle;
 import de.topobyte.livecg.core.lina2.Vector;
 import de.topobyte.livecg.geometryeditor.geometryeditor.mousemode.MouseMode;
+import de.topobyte.livecg.geometryeditor.geometryeditor.rectangle.EightHandles;
+import de.topobyte.livecg.geometryeditor.geometryeditor.rectangle.Position;
 import de.topobyte.livecg.util.ListUtil;
 
 public class EditorMouseListener extends MouseAdapter
@@ -511,6 +516,9 @@ public class EditorMouseListener extends MouseAdapter
 
 	private DragInfo dragInfo = null;
 	private RotateInfo rotateInfo = null;
+	private ScaleInfo scaleInfo = null;
+
+	private Map<Node, Coordinate> originalPositions = new HashMap<Node, Coordinate>();
 
 	@Override
 	public void mousePressed(MouseEvent e)
@@ -547,6 +555,20 @@ public class EditorMouseListener extends MouseAdapter
 				rotateInfo = new RotateInfo(e.getX(), e.getY(), center.getX(),
 						center.getY());
 			}
+		} else if (editPane.getMouseMode() == MouseMode.SCALE) {
+			if (e.getButton() == MouseEvent.BUTTON1) {
+
+				Rectangle r = editPane.getSelectedObjectsRectangle();
+				EightHandles eightHandles = new EightHandles(r);
+				Position position = eightHandles
+						.get(coord.getX(), coord.getY());
+				if (position != null) {
+					scaleInfo = new ScaleInfo(e.getX(), e.getY(), position, r);
+					for (Node node : editPane.getSelectedNodes()) {
+						originalPositions.put(node, node.getCoordinate());
+					}
+				}
+			}
 		}
 	}
 
@@ -575,6 +597,9 @@ public class EditorMouseListener extends MouseAdapter
 				editPane.setSelectionRectangle(null);
 				editPane.repaint();
 			}
+		} else if (editPane.getMouseMode() == MouseMode.SCALE) {
+			scaleInfo = null;
+			originalPositions.clear();
 		}
 	}
 
@@ -610,6 +635,18 @@ public class EditorMouseListener extends MouseAdapter
 			}
 		}
 		editPane.getContent().fireContentChanged();
+	}
+
+	private static Map<Position, Integer> resizeCursors = new HashMap<Position, Integer>();
+	static {
+		resizeCursors.put(Position.N, Cursor.N_RESIZE_CURSOR);
+		resizeCursors.put(Position.NE, Cursor.NE_RESIZE_CURSOR);
+		resizeCursors.put(Position.E, Cursor.E_RESIZE_CURSOR);
+		resizeCursors.put(Position.SE, Cursor.SE_RESIZE_CURSOR);
+		resizeCursors.put(Position.S, Cursor.S_RESIZE_CURSOR);
+		resizeCursors.put(Position.SW, Cursor.SW_RESIZE_CURSOR);
+		resizeCursors.put(Position.W, Cursor.W_RESIZE_CURSOR);
+		resizeCursors.put(Position.NW, Cursor.NW_RESIZE_CURSOR);
 	}
 
 	@Override
@@ -683,6 +720,18 @@ public class EditorMouseListener extends MouseAdapter
 			if (changed) {
 				editPane.repaint();
 			}
+		} else if (editPane.getMouseMode() == MouseMode.SCALE) {
+			Rectangle r = editPane.getSelectedObjectsRectangle();
+			EightHandles eightHandles = new EightHandles(r);
+			Position position = eightHandles.get(coord.getX(), coord.getY());
+			Cursor cursor = null;
+			if (position == null) {
+				cursor = Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR);
+			} else {
+				cursor = Cursor
+						.getPredefinedCursor(resizeCursors.get(position));
+			}
+			editPane.setCursor(cursor);
 		}
 	}
 
@@ -737,6 +786,13 @@ public class EditorMouseListener extends MouseAdapter
 				rotateSelectedObjects(rotateInfo.getCenter(), alpha);
 				editPane.getContent().fireContentChanged();
 			}
+		} else if (editPane.getMouseMode() == MouseMode.SCALE) {
+			if (scaleInfo != null) {
+				scaleInfo.update(e.getX(), e.getY());
+				Coordinate delta = scaleInfo.getDeltaToStart();
+				scaleSelectedObjects(delta, scaleInfo.getPosition());
+				editPane.getContent().fireContentChanged();
+			}
 		}
 	}
 
@@ -769,6 +825,64 @@ public class EditorMouseListener extends MouseAdapter
 			Vector rotated = new Vector(x, y);
 			Vector r = rotated.add(vc);
 			node.setCoordinate(new Coordinate(r.getX(), r.getY()));
+		}
+	}
+
+	private void scaleSelectedObjects(Coordinate delta, Position position)
+	{
+		Set<Node> nodes = editPane.getSelectedNodes();
+		Rectangle rect = scaleInfo.getRectangle();
+		double top = rect.getY1();
+		double btm = rect.getY2();
+		double lft = rect.getX1();
+		double rgt = rect.getX2();
+		for (Node node : nodes) {
+			Coordinate old = originalPositions.get(node);
+			Vector v = new Vector(old);
+			Vector r = new Vector(old);
+			switch (position) {
+			default:
+				break;
+			case N:
+			case NW:
+			case NE: {
+				double scaleY = (top + delta.getY() - btm) / (top - btm);
+				double ry = btm + (v.getY() - btm) * scaleY;
+				r = new Vector(r.getX(), ry);
+				break;
+			}
+			case S:
+			case SW:
+			case SE: {
+				double scaleY = (btm + delta.getY() - top) / (btm - top);
+				double ry = top + (v.getY() - top) * scaleY;
+				r = new Vector(r.getX(), ry);
+				break;
+			}
+			}
+			switch (position) {
+			default:
+				break;
+			case W:
+			case NW:
+			case SW: {
+				double scaleX = (lft + delta.getX() - rgt) / (lft - rgt);
+				double rx = rgt + (v.getX() - rgt) * scaleX;
+				r = new Vector(rx, r.getY());
+				break;
+			}
+			case E:
+			case NE:
+			case SE: {
+				double scaleX = (rgt + delta.getX() - lft) / (rgt - lft);
+				double rx = lft + (v.getX() - lft) * scaleX;
+				r = new Vector(rx, r.getY());
+				break;
+			}
+			}
+			if (r != null) {
+				node.setCoordinate(new Coordinate(r.getX(), r.getY()));
+			}
 		}
 	}
 
