@@ -427,7 +427,22 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 			p.drawRect((int) Math.round(objects.getX1()),
 					(int) Math.round(objects.getY1()), (int) Math.round(width),
 					(int) Math.round(height));
-			// TODO: draw handles
+
+			double s = 6;
+			// Corners
+			p.drawRect(objects.getX1() - s / 2, objects.getY1() - s / 2, s, s);
+			p.drawRect(objects.getX1() - s / 2, objects.getY2() - s / 2, s, s);
+			p.drawRect(objects.getX2() - s / 2, objects.getY1() - s / 2, s, s);
+			p.drawRect(objects.getX2() - s / 2, objects.getY2() - s / 2, s, s);
+			// Sides
+			p.drawRect(objects.getX1() - s / 2 + width / 2, objects.getY1() - s
+					/ 2, s, s);
+			p.drawRect(objects.getX1() - s / 2 + width / 2, objects.getY2() - s
+					/ 2, s, s);
+			p.drawRect(objects.getX1() - s / 2, objects.getY1() - s / 2
+					+ height / 2, s, s);
+			p.drawRect(objects.getX2() - s / 2, objects.getY1() - s / 2
+					+ height / 2, s, s);
 		}
 	}
 
