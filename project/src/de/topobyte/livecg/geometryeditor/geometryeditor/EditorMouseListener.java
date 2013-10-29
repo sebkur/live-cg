@@ -24,6 +24,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.core.geometry.geom.CloseabilityException;
 import de.topobyte.livecg.core.geometry.geom.Coordinate;
@@ -32,11 +35,15 @@ import de.topobyte.livecg.core.geometry.geom.Line;
 import de.topobyte.livecg.core.geometry.geom.Node;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
 import de.topobyte.livecg.core.geometry.geom.Rectangle;
+import de.topobyte.livecg.core.lina2.Vector;
 import de.topobyte.livecg.geometryeditor.geometryeditor.mousemode.MouseMode;
 import de.topobyte.livecg.util.ListUtil;
 
 public class EditorMouseListener extends MouseAdapter
 {
+	final static Logger logger = LoggerFactory
+			.getLogger(EditorMouseListener.class);
+
 	private final GeometryEditPane editPane;
 
 	public EditorMouseListener(GeometryEditPane editPane)
@@ -504,6 +511,7 @@ public class EditorMouseListener extends MouseAdapter
 	}
 
 	private DragInfo dragInfo = null;
+	private RotateInfo rotateInfo = null;
 
 	@Override
 	public void mousePressed(MouseEvent e)
@@ -533,6 +541,12 @@ public class EditorMouseListener extends MouseAdapter
 				Rectangle rectangle = new Rectangle(e.getX(), e.getY(),
 						e.getX(), e.getY());
 				editPane.setSelectionRectangle(rectangle);
+			}
+		} else if (editPane.getMouseMode() == MouseMode.ROTATE) {
+			if (e.getButton() == MouseEvent.BUTTON1) {
+				Coordinate center = centerOfSelectedObjects();
+				rotateInfo = new RotateInfo(e.getX(), e.getY(), center.getX(),
+						center.getY());
 			}
 		}
 	}
@@ -715,7 +729,25 @@ public class EditorMouseListener extends MouseAdapter
 				editPane.getSelectionRectangle().setY2(e.getY());
 				editPane.repaint();
 			}
+		} else if (editPane.getMouseMode() == MouseMode.ROTATE) {
+			if (somethingSelected()) {
+				rotateInfo.update(e.getX(), e.getY());
+				double alpha = rotateInfo.getAngleToLast();
+				logger.debug("rotate by : " + alpha);
+				logger.debug("rotate around  : " + rotateInfo.getCenter());
+				rotateSelectedObjects(rotateInfo.getCenter(), alpha);
+				editPane.getContent().fireContentChanged();
+			}
 		}
+	}
+
+	private boolean somethingSelected()
+	{
+		List<Node> nodes = editPane.getCurrentNodes();
+		List<Chain> chains = editPane.getCurrentChains();
+		List<Polygon> polygons = editPane.getCurrentPolygons();
+
+		return chains.size() != 0 || polygons.size() != 0 || nodes.size() != 0;
 	}
 
 	private boolean onlyOneNodeSelected()
@@ -727,28 +759,34 @@ public class EditorMouseListener extends MouseAdapter
 		return chains.size() == 0 && polygons.size() == 0 && nodes.size() == 1;
 	}
 
-	private void translateSelectedObjects(Coordinate delta)
+	private Set<Node> getSelectedNodes()
 	{
-		Set<Node> toTranslate = new HashSet<Node>();
+		Set<Node> nodes = new HashSet<Node>();
 		for (Node node : editPane.getCurrentNodes()) {
-			toTranslate.add(node);
+			nodes.add(node);
 		}
 		for (Chain chain : editPane.getCurrentChains()) {
 			for (int i = 0; i < chain.getNumberOfNodes(); i++) {
-				toTranslate.add(chain.getNode(i));
+				nodes.add(chain.getNode(i));
 			}
 		}
 		for (Polygon polygon : editPane.getCurrentPolygons()) {
 			Chain shell = polygon.getShell();
 			for (int i = 0; i < shell.getNumberOfNodes(); i++) {
-				toTranslate.add(shell.getNode(i));
+				nodes.add(shell.getNode(i));
 			}
 			for (Chain hole : polygon.getHoles()) {
 				for (int i = 0; i < hole.getNumberOfNodes(); i++) {
-					toTranslate.add(hole.getNode(i));
+					nodes.add(hole.getNode(i));
 				}
 			}
 		}
+		return nodes;
+	}
+
+	private void translateSelectedObjects(Coordinate delta)
+	{
+		Set<Node> toTranslate = getSelectedNodes();
 
 		for (Node node : toTranslate) {
 			Coordinate old = node.getCoordinate();
@@ -756,6 +794,41 @@ public class EditorMouseListener extends MouseAdapter
 					+ delta.getY());
 			node.setCoordinate(c);
 		}
+	}
+
+	private void rotateSelectedObjects(Coordinate center, double alpha)
+	{
+		Set<Node> toRotate = getSelectedNodes();
+
+		double sin = Math.sin(alpha);
+		double cos = Math.cos(alpha);
+
+		Vector vc = new Vector(center);
+		for (Node node : toRotate) {
+			Coordinate old = node.getCoordinate();
+			Vector v = new Vector(old);
+			Vector t = v.sub(vc);
+			double x = cos * t.getX() - sin * t.getY();
+			double y = sin * t.getX() + cos * t.getY();
+			Vector rotated = new Vector(x, y);
+			Vector r = rotated.add(vc);
+			node.setCoordinate(new Coordinate(r.getX(), r.getY()));
+		}
+	}
+
+	private Coordinate centerOfSelectedObjects()
+	{
+		Set<Node> nodes = getSelectedNodes();
+
+		double x = 0, y = 0;
+		for (Node node : nodes) {
+			Coordinate c = node.getCoordinate();
+			x += c.getX();
+			y += c.getY();
+		}
+		x /= nodes.size();
+		y /= nodes.size();
+		return new Coordinate(x, y);
 	}
 
 	@Override
