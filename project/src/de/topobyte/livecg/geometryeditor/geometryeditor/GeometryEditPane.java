@@ -26,7 +26,9 @@ import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.geom.Area;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.swing.ActionMap;
 import javax.swing.InputMap;
@@ -712,5 +714,42 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 	public void setSelectionRectangle(Rectangle rectangle)
 	{
 		this.selectionRectangle = rectangle;
+	}
+
+	boolean somethingSelected()
+	{
+		return currentChains.size() != 0 || currentPolygons.size() != 0
+				|| currentNodes.size() != 0;
+	}
+
+	boolean onlyOneNodeSelected()
+	{
+		return currentChains.size() == 0 && currentPolygons.size() == 0
+				&& currentNodes.size() == 1;
+	}
+
+	Set<Node> getSelectedNodes()
+	{
+		Set<Node> nodes = new HashSet<Node>();
+		for (Node node : currentNodes) {
+			nodes.add(node);
+		}
+		for (Chain chain : currentChains) {
+			for (int i = 0; i < chain.getNumberOfNodes(); i++) {
+				nodes.add(chain.getNode(i));
+			}
+		}
+		for (Polygon polygon : currentPolygons) {
+			Chain shell = polygon.getShell();
+			for (int i = 0; i < shell.getNumberOfNodes(); i++) {
+				nodes.add(shell.getNode(i));
+			}
+			for (Chain hole : polygon.getHoles()) {
+				for (int i = 0; i < hole.getNumberOfNodes(); i++) {
+					nodes.add(hole.getNode(i));
+				}
+			}
+		}
+		return nodes;
 	}
 }

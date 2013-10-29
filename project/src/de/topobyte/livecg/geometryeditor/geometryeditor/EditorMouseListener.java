@@ -20,7 +20,6 @@ package de.topobyte.livecg.geometryeditor.geometryeditor;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -695,7 +694,7 @@ public class EditorMouseListener extends MouseAdapter
 		Coordinate coord = new Coordinate(e.getX(), e.getY());
 
 		if (editPane.getMouseMode() == MouseMode.SELECT_MOVE) {
-			if (onlyOneNodeSelected() && currentMoveNode != null) {
+			if (editPane.onlyOneNodeSelected() && currentMoveNode != null) {
 				currentMoveNode.setCoordinate(coord);
 				editPane.getContent().fireContentChanged();
 
@@ -730,7 +729,7 @@ public class EditorMouseListener extends MouseAdapter
 				editPane.repaint();
 			}
 		} else if (editPane.getMouseMode() == MouseMode.ROTATE) {
-			if (somethingSelected()) {
+			if (editPane.somethingSelected()) {
 				rotateInfo.update(e.getX(), e.getY());
 				double alpha = rotateInfo.getAngleToLast();
 				logger.debug("rotate by : " + alpha);
@@ -741,52 +740,9 @@ public class EditorMouseListener extends MouseAdapter
 		}
 	}
 
-	private boolean somethingSelected()
-	{
-		List<Node> nodes = editPane.getCurrentNodes();
-		List<Chain> chains = editPane.getCurrentChains();
-		List<Polygon> polygons = editPane.getCurrentPolygons();
-
-		return chains.size() != 0 || polygons.size() != 0 || nodes.size() != 0;
-	}
-
-	private boolean onlyOneNodeSelected()
-	{
-		List<Node> nodes = editPane.getCurrentNodes();
-		List<Chain> chains = editPane.getCurrentChains();
-		List<Polygon> polygons = editPane.getCurrentPolygons();
-
-		return chains.size() == 0 && polygons.size() == 0 && nodes.size() == 1;
-	}
-
-	private Set<Node> getSelectedNodes()
-	{
-		Set<Node> nodes = new HashSet<Node>();
-		for (Node node : editPane.getCurrentNodes()) {
-			nodes.add(node);
-		}
-		for (Chain chain : editPane.getCurrentChains()) {
-			for (int i = 0; i < chain.getNumberOfNodes(); i++) {
-				nodes.add(chain.getNode(i));
-			}
-		}
-		for (Polygon polygon : editPane.getCurrentPolygons()) {
-			Chain shell = polygon.getShell();
-			for (int i = 0; i < shell.getNumberOfNodes(); i++) {
-				nodes.add(shell.getNode(i));
-			}
-			for (Chain hole : polygon.getHoles()) {
-				for (int i = 0; i < hole.getNumberOfNodes(); i++) {
-					nodes.add(hole.getNode(i));
-				}
-			}
-		}
-		return nodes;
-	}
-
 	private void translateSelectedObjects(Coordinate delta)
 	{
-		Set<Node> toTranslate = getSelectedNodes();
+		Set<Node> toTranslate = editPane.getSelectedNodes();
 
 		for (Node node : toTranslate) {
 			Coordinate old = node.getCoordinate();
@@ -798,7 +754,7 @@ public class EditorMouseListener extends MouseAdapter
 
 	private void rotateSelectedObjects(Coordinate center, double alpha)
 	{
-		Set<Node> toRotate = getSelectedNodes();
+		Set<Node> toRotate = editPane.getSelectedNodes();
 
 		double sin = Math.sin(alpha);
 		double cos = Math.cos(alpha);
@@ -818,7 +774,7 @@ public class EditorMouseListener extends MouseAdapter
 
 	private Coordinate centerOfSelectedObjects()
 	{
-		Set<Node> nodes = getSelectedNodes();
+		Set<Node> nodes = editPane.getSelectedNodes();
 
 		double x = 0, y = 0;
 		for (Node node : nodes) {
