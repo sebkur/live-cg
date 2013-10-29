@@ -119,6 +119,9 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 	@Override
 	public void setMouseMode(MouseMode mouseMode)
 	{
+		if (this.mouseMode == mouseMode) {
+			return;
+		}
 		MouseMode old = this.mouseMode;
 		this.mouseMode = mouseMode;
 		for (MouseModeListener listener : listeners) {
@@ -127,13 +130,12 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 		if (mouseMode != MouseMode.SELECT_MOVE) {
 			setMouseHighlight((Node) null);
 			setMouseHighlight((Chain) null);
-			repaint();
 		}
 		if (old == MouseMode.EDIT) {
 			setProspectNode(null);
 			setProspectLine(null);
-			repaint();
 		}
+		repaint();
 	}
 
 	private List<MouseModeListener> listeners = new ArrayList<MouseModeListener>();
@@ -294,6 +296,9 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 	private Color colorPolygonInterior = LiveConfig
 			.getColor(q("polygon.interior"));
 
+	private Color colorRotationRectangle = LiveConfig
+			.getColor(q("rotation.rectangle"));
+
 	public void paint(Graphics graphics)
 	{
 		super.paint(graphics);
@@ -416,6 +421,17 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 			g.setColor(color(colorSelectionRectangle));
 			g.drawRect((int) Math.round(x), (int) Math.round(y),
 					(int) Math.round(width), (int) Math.round(height));
+		}
+
+		if (mouseMode == MouseMode.SCALE) {
+			Rectangle objects = getSelectedObjectsRectangle();
+			double width = objects.getX2() - objects.getX1();
+			double height = objects.getY2() - objects.getY1();
+			g.setColor(new java.awt.Color(colorRotationRectangle.getARGB()));
+			g.drawRect((int) Math.round(objects.getX1()),
+					(int) Math.round(objects.getY1()), (int) Math.round(width),
+					(int) Math.round(height));
+			// TODO: draw handles
 		}
 	}
 
@@ -752,5 +768,30 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 			}
 		}
 		return nodes;
+	}
+
+	Rectangle getSelectedObjectsRectangle()
+	{
+		double xmin = Double.POSITIVE_INFINITY;
+		double xmax = Double.NEGATIVE_INFINITY;
+		double ymin = Double.POSITIVE_INFINITY;
+		double ymax = Double.NEGATIVE_INFINITY;
+		Set<Node> nodes = getSelectedNodes();
+		for (Node node : nodes) {
+			Coordinate c = node.getCoordinate();
+			if (c.getX() < xmin) {
+				xmin = c.getX();
+			}
+			if (c.getX() > xmax) {
+				xmax = c.getX();
+			}
+			if (c.getY() < ymin) {
+				ymin = c.getY();
+			}
+			if (c.getY() > ymax) {
+				ymax = c.getY();
+			}
+		}
+		return new Rectangle(xmin, ymin, xmax, ymax);
 	}
 }
