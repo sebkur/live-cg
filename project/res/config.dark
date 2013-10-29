@@ -46,6 +46,24 @@ algorithm.voronoi.fortune.colors {
 	sweep.control.handle = #ff0000
 	sweep.control.border = #ffffff
 }
+algorithm.polygon.shortestpath {
+	node.size {
+		first = 4.0
+		apex = 4.0
+		final = 4.0
+		intermediate = 3.0
+	}
+	size.start_target {
+		radius = 6
+		width = 4
+	}
+	width {
+		polygon = 2.0
+		diagonals = 1.0
+		dual_graph = 1.5
+		path = 2.5
+	}
+}
 algorithm.polygon.shortestpath.colors {
 	background = #000000
 	node {
