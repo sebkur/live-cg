@@ -85,28 +85,63 @@ This document shows some images exported with LiveCG.
 
 \begin{figure}[ht]
 	\centering
-	\includegraphics[width=0.8\textwidth]{frechet.pdf}
-	\caption{Free Space diagram}
-	\label{figFreeSpace}
+	\includegraphics[width=0.8\textwidth]{dcel1.pdf}
+	\caption{An arrangement}
+	\label{figArrangement1}
 \end{figure}
 
 \begin{figure}[ht]
 	\centering
-	\includegraphics[width=0.8\textwidth]{triangulation.pdf}
+	\includegraphics[width=0.8\textwidth]{dcel2.pdf}
+	\caption{Another arrangement}
+	\label{figArrangement2}
+\end{figure}
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.8\textwidth]{freespace1.pdf}
+	\caption{Free Space diagram}
+	\label{figFreeSpace1}
+\end{figure}
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.8\textwidth]{terrain1.pdf}
+	\caption{Distance Terrain}
+	\label{figDistanceTerrain1}
+\end{figure}
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.8\textwidth]{freespace2.pdf}
+	\caption{Free Space diagram}
+	\label{figFreeSpace2}
+\end{figure}
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.8\textwidth]{terrain1.pdf}
+	\caption{Distance Terrain}
+	\label{figDistanceTerrain2}
+\end{figure}
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=1.0\textwidth]{triangulation.pdf}
 	\caption{Polygon triangulation}
 	\label{figPolygonTriangulation}
 \end{figure}
 
 \begin{figure}[ht]
 	\centering
-	\includegraphics[width=0.8\textwidth]{spip.pdf}
+	\includegraphics[width=1.0\textwidth]{spip.pdf}
 	\caption{Shortest Paths in polygons}
 	\label{figSPIP}
 \end{figure}
 
 \begin{figure}[ht]
 	\centering
-	\includegraphics[width=0.8\textwidth]{vorodcel.pdf}
+	\includegraphics[width=1.0\textwidth]{vorodcel.pdf}
 	\caption{Voronoi Diagram with DCEL}
 	\label{figVoroDcel}
 \end{figure}
