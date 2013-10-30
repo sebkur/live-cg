@@ -81,7 +81,11 @@ public class SceneBoundedRangeModel implements BoundedRangeModel
 	public int getValue()
 	{
 		// logger.debug("getValue()");
-		return (int) Math.round(-editPane.getPositionX());
+		if (horizontal) {
+			return (int) Math.round(-editPane.getPositionX());
+		} else {
+			return (int) Math.round(-editPane.getPositionY());
+		}
 	}
 
 	@Override

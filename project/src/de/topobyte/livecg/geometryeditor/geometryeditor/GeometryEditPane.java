@@ -153,7 +153,6 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 			logger.debug("Scrolled too much to the top");
 			positionY = MARGIN;
 			update = true;
-			update = true;
 		}
 		if (update) {
 			repaint();
