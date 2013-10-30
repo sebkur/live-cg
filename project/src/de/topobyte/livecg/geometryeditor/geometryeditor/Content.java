@@ -27,12 +27,24 @@ import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.core.geometry.geom.Coordinate;
 import de.topobyte.livecg.core.geometry.geom.Node;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
+import de.topobyte.livecg.core.geometry.geom.Rectangle;
 
 public class Content
 {
 
+	private Rectangle scene = new Rectangle(0, 0, 700, 400);
 	private List<Chain> chains = new ArrayList<Chain>();
 	private List<Polygon> polygons = new ArrayList<Polygon>();
+
+	public Rectangle getScene()
+	{
+		return scene;
+	}
+
+	public void setScene(Rectangle scene)
+	{
+		this.scene = scene;
+	}
 
 	public List<Chain> getChains()
 	{

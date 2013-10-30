@@ -61,7 +61,8 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 		return "geometryeditor.colors." + property;
 	}
 
-	private Color COLOR_BG = LiveConfig.getColor(q("background"));
+	private Color COLOR_BG1 = LiveConfig.getColor(q("background.scene"));
+	private Color COLOR_BG2 = LiveConfig.getColor(q("background.nothing"));
 
 	private MouseMode mouseMode = MouseMode.EDIT;
 
@@ -75,7 +76,7 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 	{
 		content = new Content();
 
-		setBackground(new java.awt.Color(COLOR_BG.getRGB()));
+		setBackground(new java.awt.Color(COLOR_BG2.getRGB()));
 
 		EditorMouseListener mouseListener = new EditorMouseListener(this);
 		addMouseListener(mouseListener);
@@ -307,6 +308,11 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 
 	public void paint(Painter p)
 	{
+		p.setColor(COLOR_BG1);
+		Rectangle scene = content.getScene();
+		p.fillRect(scene.getX1(), scene.getY1(), scene.getWidth(),
+				scene.getHeight());
+
 		List<Polygon> polygons = content.getPolygons();
 		for (int i = 0; i < polygons.size(); i++) {
 			Polygon polygon = polygons.get(i);
