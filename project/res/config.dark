@@ -17,6 +17,13 @@ geometryeditor.colors {
 	selection.rectangle = #ff00ff
 	polygon.interior = #33ffff00
 	rotation.rectangle = #ff00ff
+	scale {
+		background = #333333
+		baseline = #ffffff
+		lines = #ff0000
+		font = #ffffff
+		marker = #ffffff
+	}
 }
 datastructures.dcel.colors {
 	background = #000000

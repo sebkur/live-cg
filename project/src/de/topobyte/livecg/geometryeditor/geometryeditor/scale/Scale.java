@@ -18,8 +18,6 @@
 
 package de.topobyte.livecg.geometryeditor.geometryeditor.scale;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
@@ -27,6 +25,10 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 
 import javax.swing.JPanel;
+
+import de.topobyte.livecg.core.config.LiveConfig;
+import de.topobyte.livecg.core.painting.AwtPainter;
+import de.topobyte.livecg.core.painting.Color;
 
 public abstract class Scale extends JPanel
 {
@@ -37,9 +39,16 @@ public abstract class Scale extends JPanel
 
 	public abstract boolean isHorizontal();
 
+	private String q = "geometryeditor.colors.scale.";
+
+	private Color colorBackground = LiveConfig.getColor(q + "background");
+	private Color colorBaseline = LiveConfig.getColor(q + "baseline");
+	private Color colorLines = LiveConfig.getColor(q + "lines");
+	private Color colorFont = LiveConfig.getColor(q + "font");
+	private Color colorMarker = LiveConfig.getColor(q + "marker");
+
 	public Scale()
 	{
-		setBackground(Color.WHITE);
 		setPreferredSize(getPreferredSize());
 	}
 
@@ -70,10 +79,10 @@ public abstract class Scale extends JPanel
 		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 				RenderingHints.VALUE_ANTIALIAS_ON);
 
-		Color colorBaseline = Color.BLACK;
-		Color colorLines = Color.RED;
-		Color colorFont = Color.BLACK;
-		Color colorMarker = Color.BLACK;
+		AwtPainter p = new AwtPainter(g);
+
+		p.setColor(colorBackground);
+		p.fillRect(0, 0, getWidth(), getHeight());
 
 		// font metrics for font alignment for vertical bars
 		FontMetrics fm = getFontMetrics(getFont());
@@ -81,13 +90,13 @@ public abstract class Scale extends JPanel
 		int width = getWidth();
 		int height = getHeight();
 
-		g.setColor(colorBaseline);
-		g.setStroke(new BasicStroke(2.0f));
+		p.setColor(colorBaseline);
+		p.setStrokeWidth(2.0);
 		// baseline
 		if (horizontal) {
-			g.drawLine(0, height, width, height);
+			p.drawLine(0, height, width, height);
 		} else {
-			g.drawLine(width, 0, width, height);
+			p.drawLine(width, 0, width, height);
 		}
 		// scale line definitions
 		ScaleLine[] lines = new ScaleLine[] {
@@ -98,46 +107,46 @@ public abstract class Scale extends JPanel
 		for (int i = 0; i < lines.length; i++) {
 			ScaleLine line = lines[i];
 			int limit = horizontal ? width : height;
-			positions: for (int p = 0; p < limit; p += line.getStep()) {
+			positions: for (int j = 0; j < limit; j += line.getStep()) {
 				for (int k = 0; k < i; k++) {
-					if (lines[k].occupies(p)) {
+					if (lines[k].occupies(j)) {
 						continue positions;
 					}
 				}
 				float lineSize = line.getHeight();
 				float strokeWidth = line.getStrokeWidth();
-				g.setStroke(new BasicStroke(strokeWidth));
+				p.setStrokeWidth(strokeWidth);
 				int base = horizontal ? height : width;
 				int start = Math.round(base - lineSize);
 
-				g.setColor(colorLines);
+				p.setColor(colorLines);
 				if (horizontal) {
-					g.drawLine(p, start, p, base);
+					p.drawLine(j, start, j, base);
 				} else {
-					g.drawLine(start, p, base, p);
+					p.drawLine(start, j, base, j);
 				}
 
 				if (line.hasLabel()) {
-					g.setColor(colorFont);
-					String label = String.format("%d", p);
+					p.setColor(colorFont);
+					String label = String.format("%d", j);
 					if (horizontal) {
-						g.drawString(label, p, start);
+						p.drawString(label, j, start);
 					} else {
 						int labelWidth = fm.stringWidth(label);
 						int x = width - labelWidth - 5;
-						g.drawString(label, x, p);
+						p.drawString(label, x, j);
 					}
 				}
 			}
 		}
 		// marker
-		g.setStroke(new BasicStroke(1.0f));
-		g.setColor(colorMarker);
+		p.setStrokeWidth(1.0);
+		p.setColor(colorMarker);
 		if (marker != null) {
 			if (horizontal) {
-				g.drawLine(marker, 0, marker, height);
+				p.drawLine(marker, 0, marker, height);
 			} else {
-				g.drawLine(0, marker, width, marker);
+				p.drawLine(0, marker, width, marker);
 			}
 		}
 	}
