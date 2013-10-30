@@ -39,10 +39,13 @@ public class GeometryEditor extends JPanel
 	public GeometryEditor()
 	{
 		editPane = new GeometryEditPane();
-		Scale scaleX = new ScaleX();
-		Scale scaleY = new ScaleY();
+		Scale scaleX = new ScaleX(editPane);
+		Scale scaleY = new ScaleY(editPane);
 		JScrollBar scrollerH = new JScrollBar(JScrollBar.HORIZONTAL);
 		JScrollBar scrollerV = new JScrollBar(JScrollBar.VERTICAL);
+		
+		editPane.addViewportListener(scaleX);
+		editPane.addViewportListener(scaleY);
 
 		SceneBoundedRangeModel rangeH = new SceneBoundedRangeModel(editPane,
 				true);

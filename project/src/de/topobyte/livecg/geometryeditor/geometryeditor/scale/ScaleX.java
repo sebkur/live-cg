@@ -20,10 +20,17 @@ package de.topobyte.livecg.geometryeditor.geometryeditor.scale;
 
 import java.awt.Dimension;
 
+import de.topobyte.livecg.geometryeditor.geometryeditor.Viewport;
+
 public class ScaleX extends Scale
 {
 
 	private static final long serialVersionUID = 4410434098439170114L;
+
+	public ScaleX(Viewport viewport)
+	{
+		super(viewport);
+	}
 
 	@Override
 	public Dimension getPreferredSize()

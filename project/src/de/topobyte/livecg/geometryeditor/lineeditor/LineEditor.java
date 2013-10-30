@@ -39,8 +39,8 @@ public class LineEditor extends JPanel
 	public LineEditor(int width, int height, Chain line)
 	{
 		editPane = new LineEditPane(width, height, line);
-		Scale scaleX = new ScaleX();
-		Scale scaleY = new ScaleY();
+		Scale scaleX = new ScaleX(null); // TODO: not null here
+		Scale scaleY = new ScaleY(null);
 
 		ScaleMouseListener scaleMouseListener = new ScaleMouseListener(scaleX,
 				scaleY);

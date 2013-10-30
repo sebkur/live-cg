@@ -29,8 +29,10 @@ import javax.swing.JPanel;
 import de.topobyte.livecg.core.config.LiveConfig;
 import de.topobyte.livecg.core.painting.AwtPainter;
 import de.topobyte.livecg.core.painting.Color;
+import de.topobyte.livecg.geometryeditor.geometryeditor.Viewport;
+import de.topobyte.livecg.geometryeditor.geometryeditor.ViewportListener;
 
-public abstract class Scale extends JPanel
+public abstract class Scale extends JPanel implements ViewportListener
 {
 
 	private static final long serialVersionUID = 8572548898229307068L;
@@ -47,8 +49,11 @@ public abstract class Scale extends JPanel
 	private Color colorFont = LiveConfig.getColor(q + "font");
 	private Color colorMarker = LiveConfig.getColor(q + "marker");
 
-	public Scale()
+	private Viewport viewport;
+
+	public Scale(Viewport viewport)
 	{
+		this.viewport = viewport;
 		setPreferredSize(getPreferredSize());
 	}
 
@@ -106,8 +111,17 @@ public abstract class Scale extends JPanel
 		// scale line drawing
 		for (int i = 0; i < lines.length; i++) {
 			ScaleLine line = lines[i];
-			int limit = horizontal ? width : height;
-			positions: for (int j = 0; j < limit; j += line.getStep()) {
+			int limit = horizontal ? (int) (width - viewport.getPositionX())
+					: (int) (height - viewport.getPositionY());
+			int s = horizontal ? (int) -viewport.getPositionX()
+					: (int) -viewport.getPositionY();
+			int sv = 0;
+			if (s < 0) {
+				while (sv > s) {
+					sv -= line.getStep();
+				}
+			}
+			positions: for (int j = sv; j < limit; j += line.getStep()) {
 				for (int k = 0; k < i; k++) {
 					if (lines[k].occupies(j)) {
 						continue positions;
@@ -121,20 +135,24 @@ public abstract class Scale extends JPanel
 
 				p.setColor(colorLines);
 				if (horizontal) {
-					p.drawLine(j, start, j, base);
+					double x = j + viewport.getPositionX();
+					p.drawLine(x, start, x, base);
 				} else {
-					p.drawLine(start, j, base, j);
+					double y = j + viewport.getPositionY();
+					p.drawLine(start, y, base, y);
 				}
 
 				if (line.hasLabel()) {
 					p.setColor(colorFont);
 					String label = String.format("%d", j);
 					if (horizontal) {
-						p.drawString(label, j, start);
+						double x = j + viewport.getPositionX();
+						p.drawString(label, x, start);
 					} else {
+						double y = j + viewport.getPositionY();
 						int labelWidth = fm.stringWidth(label);
 						int x = width - labelWidth - 5;
-						p.drawString(label, x, j);
+						p.drawString(label, x, y);
 					}
 				}
 			}
@@ -156,6 +174,12 @@ public abstract class Scale extends JPanel
 	public void setMarker(Integer position)
 	{
 		marker = position;
+	}
+
+	@Override
+	public void viewportChanged()
+	{
+		repaint();
 	}
 
 }

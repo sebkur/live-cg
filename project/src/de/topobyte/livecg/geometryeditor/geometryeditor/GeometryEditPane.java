@@ -57,7 +57,7 @@ import de.topobyte.livecg.geometryeditor.geometryeditor.mousemode.MouseModeProvi
 import de.topobyte.livecg.util.SwingUtil;
 
 public class GeometryEditPane extends JPanel implements MouseModeProvider,
-		ContentChangedListener
+		ContentChangedListener, Viewport
 {
 
 	private static final long serialVersionUID = -8078013859398953550L;
@@ -99,11 +99,32 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 	public void setPositionX(double x)
 	{
 		positionX = x;
+		fireViewportListeners();
 	}
 
 	public void setPositionY(double y)
 	{
 		positionY = y;
+		fireViewportListeners();
+	}
+
+	private List<ViewportListener> viewportListeners = new ArrayList<ViewportListener>();
+
+	public void addViewportListener(ViewportListener listener)
+	{
+		viewportListeners.add(listener);
+	}
+
+	public void removeViewportListener(ViewportListener listener)
+	{
+		viewportListeners.remove(listener);
+	}
+
+	private void fireViewportListeners()
+	{
+		for (ViewportListener listener : viewportListeners) {
+			listener.viewportChanged();
+		}
 	}
 
 	public GeometryEditPane()
@@ -157,6 +178,7 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 		if (update) {
 			repaint();
 		}
+		fireViewportListeners();
 	}
 
 	private void initForContent()
