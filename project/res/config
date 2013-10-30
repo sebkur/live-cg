@@ -1,5 +1,6 @@
 geometryeditor.colors {
-	background = #ffffff
+	background.scene = #ffffff
+	background.nothing = #aaaaaa
 	chains.points = #000000
 	chains.lines = #000000
 	editing {
