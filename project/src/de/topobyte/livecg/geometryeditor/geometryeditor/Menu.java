@@ -116,12 +116,12 @@ public class Menu extends JMenuBar
 		 */
 
 		Map<MouseMode, Integer> mouseModeAccelerators = new HashMap<MouseMode, Integer>();
-		mouseModeAccelerators.put(MouseMode.SELECT_MOVE, KeyEvent.VK_A);
-		mouseModeAccelerators.put(MouseMode.SELECT_RECTANGULAR, KeyEvent.VK_S);
-		mouseModeAccelerators.put(MouseMode.EDIT, KeyEvent.VK_D);
-		mouseModeAccelerators.put(MouseMode.DELETE, KeyEvent.VK_F);
-		mouseModeAccelerators.put(MouseMode.ROTATE, KeyEvent.VK_Q);
-		mouseModeAccelerators.put(MouseMode.SCALE, KeyEvent.VK_W);
+		mouseModeAccelerators.put(MouseMode.SELECT_MOVE, KeyEvent.VK_Q);
+		mouseModeAccelerators.put(MouseMode.ROTATE, KeyEvent.VK_W);
+		mouseModeAccelerators.put(MouseMode.SCALE, KeyEvent.VK_E);
+		mouseModeAccelerators.put(MouseMode.SELECT_RECTANGULAR, KeyEvent.VK_A);
+		mouseModeAccelerators.put(MouseMode.EDIT, KeyEvent.VK_S);
+		mouseModeAccelerators.put(MouseMode.DELETE, KeyEvent.VK_D);
 
 		for (MouseMode mode : new MouseMode[] { MouseMode.SELECT_MOVE,
 				MouseMode.ROTATE, MouseMode.SCALE,
