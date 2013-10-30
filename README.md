@@ -33,10 +33,12 @@ File:
 
 Tools:  
 
-* `a`: select/move mode
-* `s`: rectangular selection mode
-* `d`: add mode
-* `f`: delete mode
+* `q`: select/move mode
+* `w`: rotate mode
+* `e`: scale mode
+* `a`: rectangular selection mode
+* `s`: add mode
+* `d`: delete mode
 
 Edit:
   
