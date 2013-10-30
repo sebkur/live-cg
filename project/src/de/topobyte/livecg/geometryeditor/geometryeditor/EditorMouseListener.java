@@ -55,12 +55,29 @@ public class EditorMouseListener extends MouseAdapter
 		this.editPane = editPane;
 	}
 
+	private Coordinate getCoordinate(MouseEvent e)
+	{
+		double posX = editPane.getPositionX();
+		double posY = editPane.getPositionY();
+		return new Coordinate(e.getX() - posX, e.getY() - posY);
+	}
+
+	private double getX(MouseEvent e)
+	{
+		return e.getX() - editPane.getPositionX();
+	}
+
+	private double getY(MouseEvent e)
+	{
+		return e.getY() - editPane.getPositionY();
+	}
+
 	@Override
 	public void mouseClicked(MouseEvent e)
 	{
 		super.mouseClicked(e);
 
-		Coordinate coord = new Coordinate(e.getX(), e.getY());
+		Coordinate coord = getCoordinate(e);
 
 		if (editPane.getMouseMode() == MouseMode.EDIT) {
 			if (e.getButton() == MouseEvent.BUTTON1) {
@@ -525,14 +542,14 @@ public class EditorMouseListener extends MouseAdapter
 	{
 		super.mousePressed(e);
 
-		Coordinate coord = new Coordinate(e.getX(), e.getY());
+		Coordinate coord = getCoordinate(e);
 
 		if (editPane.getMouseMode() == MouseMode.SELECT_MOVE) {
 			if (e.getButton() == MouseEvent.BUTTON1) {
 				boolean shift = e.isShiftDown();
 				selectObject(coord, shift);
 				activateNodeForMove(coord);
-				dragInfo = new DragInfo(e.getX(), e.getY());
+				dragInfo = new DragInfo(getX(e), getY(e));
 			} else if (e.getButton() == MouseEvent.BUTTON3) {
 				selectNothing();
 				editPane.repaint();
@@ -545,14 +562,14 @@ public class EditorMouseListener extends MouseAdapter
 			}
 		} else if (editPane.getMouseMode() == MouseMode.SELECT_RECTANGULAR) {
 			if (e.getButton() == MouseEvent.BUTTON1) {
-				Rectangle rectangle = new Rectangle(e.getX(), e.getY(),
-						e.getX(), e.getY());
+				Rectangle rectangle = new Rectangle(getX(e), getY(e), getX(e),
+						getY(e));
 				editPane.setSelectionRectangle(rectangle);
 			}
 		} else if (editPane.getMouseMode() == MouseMode.ROTATE) {
 			if (e.getButton() == MouseEvent.BUTTON1) {
 				Coordinate center = centerOfSelectedObjects();
-				rotateInfo = new RotateInfo(e.getX(), e.getY(), center.getX(),
+				rotateInfo = new RotateInfo(getX(e), getY(e), center.getX(),
 						center.getY());
 			}
 		} else if (editPane.getMouseMode() == MouseMode.SCALE) {
@@ -563,7 +580,7 @@ public class EditorMouseListener extends MouseAdapter
 				Position position = eightHandles
 						.get(coord.getX(), coord.getY());
 				if (position != null) {
-					scaleInfo = new ScaleInfo(e.getX(), e.getY(), position, r);
+					scaleInfo = new ScaleInfo(getX(e), getY(e), position, r);
 					for (Node node : editPane.getSelectedNodes()) {
 						originalPositions.put(node, node.getCoordinate());
 					}
@@ -652,7 +669,7 @@ public class EditorMouseListener extends MouseAdapter
 	@Override
 	public void mouseMoved(MouseEvent e)
 	{
-		Coordinate coord = new Coordinate(e.getX(), e.getY());
+		Coordinate coord = getCoordinate(e);
 
 		if (editPane.getMouseMode() == MouseMode.SELECT_MOVE
 				|| editPane.getMouseMode() == MouseMode.DELETE) {
@@ -740,7 +757,7 @@ public class EditorMouseListener extends MouseAdapter
 	@Override
 	public void mouseDragged(MouseEvent e)
 	{
-		Coordinate coord = new Coordinate(e.getX(), e.getY());
+		Coordinate coord = getCoordinate(e);
 
 		if (editPane.getMouseMode() == MouseMode.SELECT_MOVE) {
 			if (editPane.onlyOneNodeSelected() && currentMoveNode != null) {
@@ -766,20 +783,20 @@ public class EditorMouseListener extends MouseAdapter
 					editPane.getContent().fireContentChanged();
 				}
 			} else {
-				dragInfo.update(e.getX(), e.getY());
+				dragInfo.update(getX(e), getY(e));
 				Coordinate delta = dragInfo.getDeltaToLast();
 				translateSelectedObjects(delta);
 				editPane.getContent().fireContentChanged();
 			}
 		} else if (editPane.getMouseMode() == MouseMode.SELECT_RECTANGULAR) {
 			if (editPane.getSelectionRectangle() != null) {
-				editPane.getSelectionRectangle().setX2(e.getX());
-				editPane.getSelectionRectangle().setY2(e.getY());
+				editPane.getSelectionRectangle().setX2(getX(e));
+				editPane.getSelectionRectangle().setY2(getY(e));
 				editPane.repaint();
 			}
 		} else if (editPane.getMouseMode() == MouseMode.ROTATE) {
 			if (editPane.somethingSelected()) {
-				rotateInfo.update(e.getX(), e.getY());
+				rotateInfo.update(getX(e), getY(e));
 				double alpha = rotateInfo.getAngleToLast();
 				logger.debug("rotate by : " + alpha);
 				logger.debug("rotate around  : " + rotateInfo.getCenter());
@@ -788,7 +805,7 @@ public class EditorMouseListener extends MouseAdapter
 			}
 		} else if (editPane.getMouseMode() == MouseMode.SCALE) {
 			if (scaleInfo != null) {
-				scaleInfo.update(e.getX(), e.getY());
+				scaleInfo.update(getX(e), getY(e));
 				Coordinate delta = scaleInfo.getDeltaToStart();
 				scaleSelectedObjects(delta, scaleInfo.getPosition());
 				editPane.getContent().fireContentChanged();

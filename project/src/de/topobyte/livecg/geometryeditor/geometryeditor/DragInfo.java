@@ -25,14 +25,14 @@ public class DragInfo
 	private Coordinate last;
 	private Coordinate current;
 
-	public DragInfo(int x, int y)
+	public DragInfo(double x, double y)
 	{
 		start = new Coordinate(x, y);
 		last = start;
 		current = start;
 	}
 
-	public void update(int x, int y)
+	public void update(double x, double y)
 	{
 		last = current;
 		current = new Coordinate(x, y);

@@ -28,7 +28,7 @@ public class ScaleInfo
 	private Coordinate start;
 	private Coordinate current;
 
-	public ScaleInfo(int x, int y, Position position, Rectangle rectangle)
+	public ScaleInfo(double x, double y, Position position, Rectangle rectangle)
 	{
 		this.position = position;
 		this.rectangle = rectangle;
@@ -36,7 +36,7 @@ public class ScaleInfo
 		current = start;
 	}
 
-	public void update(int x, int y)
+	public void update(double x, double y)
 	{
 		current = new Coordinate(x, y);
 	}
