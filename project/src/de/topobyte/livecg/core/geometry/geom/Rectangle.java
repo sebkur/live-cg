@@ -73,4 +73,14 @@ public class Rectangle
 		this.y2 = y2;
 	}
 
+	public double getWidth()
+	{
+		return x2 - x1;
+	}
+
+	public double getHeight()
+	{
+		return y2 - y1;
+	}
+
 }
