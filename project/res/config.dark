@@ -16,6 +16,7 @@ geometryeditor.colors {
 	prospect.line = #00ff00
 	selection.rectangle = #ff00ff
 	polygon.interior = #33ffff00
+	rotation.rectangle = #ff00ff
 }
 datastructures.dcel.colors {
 	background = #000000
