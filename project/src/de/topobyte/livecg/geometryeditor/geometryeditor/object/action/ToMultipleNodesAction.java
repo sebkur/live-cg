@@ -38,7 +38,7 @@ public class ToMultipleNodesAction extends BasicAction
 	public ToMultipleNodesAction(GeometryEditPane editPane, Node node)
 	{
 		super("to multiple nodes", "Convert to multiple nodes",
-				"res/images/24x24/node.png");
+				"res/images/24x24/unglue.png");
 		this.editPane = editPane;
 		this.node = node;
 	}
