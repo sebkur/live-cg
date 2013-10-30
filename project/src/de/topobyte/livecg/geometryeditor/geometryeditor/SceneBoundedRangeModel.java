@@ -17,6 +17,8 @@
  */
 package de.topobyte.livecg.geometryeditor.geometryeditor;
 
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,6 +47,20 @@ public class SceneBoundedRangeModel implements BoundedRangeModel
 		this.editPane = editPane;
 		this.horizontal = horizontal;
 		this.scene = editPane.getContent().getScene();
+		editPane.addComponentListener(new ComponentAdapter() {
+
+			@Override
+			public void componentResized(ComponentEvent e)
+			{
+				editPaneResized();
+			}
+
+		});
+	}
+
+	protected void editPaneResized()
+	{
+		fireListeners();
 	}
 
 	@Override
