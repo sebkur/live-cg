@@ -22,10 +22,12 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
 import javax.swing.JPanel;
+import javax.swing.JScrollBar;
 
 import de.topobyte.livecg.geometryeditor.geometryeditor.scale.Scale;
 import de.topobyte.livecg.geometryeditor.geometryeditor.scale.ScaleX;
 import de.topobyte.livecg.geometryeditor.geometryeditor.scale.ScaleY;
+import de.topobyte.swing.layout.GridBagHelper;
 
 public class GeometryEditor extends JPanel
 {
@@ -39,6 +41,16 @@ public class GeometryEditor extends JPanel
 		editPane = new GeometryEditPane();
 		Scale scaleX = new ScaleX();
 		Scale scaleY = new ScaleY();
+		JScrollBar scrollerH = new JScrollBar(JScrollBar.HORIZONTAL);
+		JScrollBar scrollerV = new JScrollBar(JScrollBar.VERTICAL);
+
+		SceneBoundedRangeModel rangeH = new SceneBoundedRangeModel(editPane,
+				true);
+		scrollerH.setModel(rangeH);
+
+		SceneBoundedRangeModel rangeV = new SceneBoundedRangeModel(editPane,
+				false);
+		scrollerV.setModel(rangeV);
 
 		ScaleMouseListener scaleMouseListener = new ScaleMouseListener(scaleX,
 				scaleY);
@@ -47,26 +59,25 @@ public class GeometryEditor extends JPanel
 		setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
 
-		c.gridx = 1;
-		c.gridy = 1;
-		c.fill = GridBagConstraints.BOTH;
-		c.weightx = 1.0;
-		c.weighty = 1.0;
+		GridBagHelper.setGxGy(c, 1, 1);
+		GridBagHelper.setWxWyF(c, 1.0, 1.0, GridBagConstraints.BOTH);
 		add(editPane, c);
 
-		c.gridx = 1;
-		c.gridy = 0;
-		c.fill = GridBagConstraints.BOTH;
-		c.weightx = 1.0;
-		c.weighty = 0.0;
+		GridBagHelper.setGxGy(c, 1, 0);
+		GridBagHelper.setWxWyF(c, 1.0, 0.0, GridBagConstraints.BOTH);
 		add(scaleX, c);
 
-		c.gridx = 0;
-		c.gridy = 1;
-		c.fill = GridBagConstraints.BOTH;
-		c.weightx = 0.0;
-		c.weighty = 1.0;
+		GridBagHelper.setGxGy(c, 0, 1);
+		GridBagHelper.setWxWyF(c, 0.0, 1.0, GridBagConstraints.BOTH);
 		add(scaleY, c);
+
+		GridBagHelper.setGxGy(c, 1, 2);
+		GridBagHelper.setWxWyF(c, 1.0, 0.0, GridBagConstraints.BOTH);
+		add(scrollerH, c);
+
+		GridBagHelper.setGxGy(c, 2, 1);
+		GridBagHelper.setWxWyF(c, 0.0, 1.0, GridBagConstraints.BOTH);
+		add(scrollerV, c);
 	}
 
 	public GeometryEditPane getEditPane()

@@ -20,8 +20,11 @@ package de.topobyte.livecg.geometryeditor.geometryeditor;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -32,6 +35,9 @@ import javax.swing.ActionMap;
 import javax.swing.InputMap;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import de.topobyte.livecg.core.config.LiveConfig;
 import de.topobyte.livecg.core.geometry.geom.AwtHelper;
@@ -56,6 +62,11 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 
 	private static final long serialVersionUID = -8078013859398953550L;
 
+	final static Logger logger = LoggerFactory
+			.getLogger(GeometryEditPane.class);
+
+	public static final int MARGIN = 200;
+
 	private String q(String property)
 	{
 		return "geometryeditor.colors." + property;
@@ -72,6 +83,29 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 	private List<Chain> currentChains = new ArrayList<Chain>();
 	private List<Polygon> currentPolygons = new ArrayList<Polygon>();
 
+	private double positionX = 0;
+	private double positionY = 0;
+
+	public double getPositionX()
+	{
+		return positionX;
+	}
+
+	public double getPositionY()
+	{
+		return positionY;
+	}
+
+	public void setPositionX(double x)
+	{
+		positionX = x;
+	}
+
+	public void setPositionY(double y)
+	{
+		positionY = y;
+	}
+
 	public GeometryEditPane()
 	{
 		content = new Content();
@@ -85,6 +119,36 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 		setupKeys();
 
 		initForContent();
+
+		addComponentListener(new ComponentAdapter() {
+
+			@Override
+			public void componentResized(ComponentEvent e)
+			{
+				sizeChanged();
+			}
+
+		});
+	}
+
+	private void sizeChanged()
+	{
+		if (-positionX + getWidth() > content.getScene().getWidth() + MARGIN) {
+			logger.debug("Moved out of viewport at right");
+			positionX = getWidth() - content.getScene().getWidth() - MARGIN;
+		}
+		if (positionX > MARGIN) {
+			logger.debug("Scrolled too much to the left");
+			positionX = MARGIN;
+		}
+		if (-positionY + getHeight() > content.getScene().getHeight() + MARGIN) {
+			logger.debug("Moved out of viewport at bottom");
+			positionY = getHeight() - content.getScene().getHeight() - MARGIN;
+		}
+		if (positionY > MARGIN) {
+			logger.debug("Scrolled too much to the top");
+			positionY = MARGIN;
+		}
 	}
 
 	private void initForContent()
@@ -301,6 +365,10 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 		super.paint(graphics);
 		Graphics2D g = (Graphics2D) graphics;
 		SwingUtil.useAntialiasing(g, true);
+
+		AffineTransform transform = new AffineTransform();
+		transform.translate(positionX, positionY);
+		g.transform(transform);
 
 		AwtPainter painter = new AwtPainter(g);
 		paint(painter);
