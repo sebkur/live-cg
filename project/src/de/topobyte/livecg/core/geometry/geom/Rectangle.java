@@ -83,4 +83,10 @@ public class Rectangle
 		return y2 - y1;
 	}
 
+	@Override
+	public String toString()
+	{
+		return x1 + ", " + y1 + "; " + x2 + ", " + y2;
+	}
+
 }
