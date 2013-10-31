@@ -87,6 +87,7 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 
 	private double positionX = 0;
 	private double positionY = 0;
+	private double zoom = 1;
 
 	public double getPositionX()
 	{
@@ -101,13 +102,25 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 	public void setPositionX(double x)
 	{
 		positionX = x;
-		fireViewportListeners();
+		fireViewportListenersViewportChanged();
 	}
 
 	public void setPositionY(double y)
 	{
 		positionY = y;
-		fireViewportListeners();
+		fireViewportListenersViewportChanged();
+	}
+
+	public void setZoom(double zoom)
+	{
+		this.zoom = zoom;
+		checkBounds();
+		fireViewportListenersZoomChanged();
+	}
+
+	public double getZoom()
+	{
+		return zoom;
 	}
 
 	private List<ViewportListener> viewportListeners = new ArrayList<ViewportListener>();
@@ -122,10 +135,17 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 		viewportListeners.remove(listener);
 	}
 
-	private void fireViewportListeners()
+	private void fireViewportListenersViewportChanged()
 	{
 		for (ViewportListener listener : viewportListeners) {
 			listener.viewportChanged();
+		}
+	}
+
+	private void fireViewportListenersZoomChanged()
+	{
+		for (ViewportListener listener : viewportListeners) {
+			listener.zoomChanged();
 		}
 	}
 
@@ -148,39 +168,43 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 			@Override
 			public void componentResized(ComponentEvent e)
 			{
-				sizeChanged();
+				checkBounds();
 			}
 
 		});
 	}
 
-	private void sizeChanged()
+	private void checkBounds()
 	{
 		boolean update = false;
-		if (-positionX + getWidth() > content.getScene().getWidth() + MARGIN) {
+		if (-positionX + getWidth() > (content.getScene().getWidth() + MARGIN)
+				* zoom) {
 			logger.debug("Moved out of viewport at right");
-			positionX = getWidth() - content.getScene().getWidth() - MARGIN;
+			positionX = getWidth() - (content.getScene().getWidth() + MARGIN)
+					* zoom;
 			update = true;
 		}
-		if (positionX > MARGIN) {
+		if (positionX > MARGIN * zoom) {
 			logger.debug("Scrolled too much to the left");
-			positionX = MARGIN;
+			positionX = MARGIN * zoom;
 			update = true;
 		}
-		if (-positionY + getHeight() > content.getScene().getHeight() + MARGIN) {
+		if (-positionY + getHeight() > (content.getScene().getHeight() + MARGIN)
+				* zoom) {
 			logger.debug("Moved out of viewport at bottom");
-			positionY = getHeight() - content.getScene().getHeight() - MARGIN;
+			positionY = getHeight() - (content.getScene().getHeight() + MARGIN)
+					* zoom;
 			update = true;
 		}
-		if (positionY > MARGIN) {
+		if (positionY > MARGIN * zoom) {
 			logger.debug("Scrolled too much to the top");
-			positionY = MARGIN;
+			positionY = MARGIN * zoom;
 			update = true;
 		}
 		if (update) {
 			repaint();
 		}
-		fireViewportListeners();
+		fireViewportListenersViewportChanged();
 	}
 
 	private void initForContent()
@@ -405,7 +429,9 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 	public void paint(Painter p)
 	{
 		Matrix translate = AffineTransformUtil.translate(positionX, positionY);
-		GeometryTransformer transformer = new GeometryTransformer(translate);
+		Matrix scale = AffineTransformUtil.scale(zoom, zoom);
+		Matrix matrix = scale.multiplyFromRight(translate);
+		GeometryTransformer transformer = new GeometryTransformer(matrix);
 
 		p.setColor(COLOR_BG2);
 		p.fillRect(0, 0, getWidth(), getHeight());
@@ -918,4 +944,5 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 		}
 		return new Rectangle(xmin, ymin, xmax, ymax);
 	}
+
 }

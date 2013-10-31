@@ -22,4 +22,6 @@ public interface ViewportListener
 
 	public void viewportChanged();
 
+	public void zoomChanged();
+
 }

@@ -18,6 +18,10 @@
 
 package de.topobyte.livecg.geometryeditor.geometryeditor;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JTextField;
 import javax.swing.JToggleButton;
 import javax.swing.JToolBar;
 
@@ -34,9 +38,13 @@ public class Toolbar extends JToolBar
 
 	private static final long serialVersionUID = 8604389649262908523L;
 
+	private GeometryEditPane editPane;
+	private JTextField zoom;
+
 	public Toolbar(GeometryEditPane editPane,
 			MouseModeProvider mouseModeProvider)
 	{
+		this.editPane = editPane;
 		NewAction newAction = new NewAction(editPane);
 		OpenAction openAction = new OpenAction(this, editPane);
 		SaveAction saveAction = new SaveAction(this, editPane);
@@ -55,5 +63,53 @@ public class Toolbar extends JToolBar
 			JToggleButton button = new JToggleButton(mouseAction);
 			add(button);
 		}
+
+		zoom = new JTextField("100%");
+		addSeparator();
+		add(zoom);
+
+		zoom.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				tryUpdateZoom();
+			}
+		});
+	}
+
+	protected void tryUpdateZoom()
+	{
+		String text = zoom.getText();
+		String trimmed = text.trim();
+		if (!trimmed.endsWith("%")) {
+			revertZoom();
+			return;
+		}
+		String number = trimmed.substring(0, trimmed.length() - 1);
+		try {
+			double value = Double.parseDouble(number);
+			updateZoom(value);
+		} catch (NumberFormatException e) {
+			revertZoom();
+		}
+	}
+
+	private void revertZoom()
+	{
+		double percent = editPane.getZoom() * 100;
+		String text;
+		if (Math.abs(percent - (int) percent) < 0.0001) {
+			text = String.format("%d%%", (int) percent);
+		} else {
+			text = String.format("%.2f%%", percent);
+		}
+		zoom.setText(text);
+	}
+
+	private void updateZoom(double value)
+	{
+		editPane.setZoom(value / 100.0);
+		editPane.repaint();
 	}
 }

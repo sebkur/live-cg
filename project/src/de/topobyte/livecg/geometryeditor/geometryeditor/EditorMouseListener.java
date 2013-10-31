@@ -59,17 +59,18 @@ public class EditorMouseListener extends MouseAdapter
 	{
 		double posX = editPane.getPositionX();
 		double posY = editPane.getPositionY();
-		return new Coordinate(e.getX() - posX, e.getY() - posY);
+		return new Coordinate(e.getX() / editPane.getZoom() - posX, e.getY()
+				/ editPane.getZoom() - posY);
 	}
 
 	private double getX(MouseEvent e)
 	{
-		return e.getX() - editPane.getPositionX();
+		return e.getX() / editPane.getZoom() - editPane.getPositionX();
 	}
 
 	private double getY(MouseEvent e)
 	{
-		return e.getY() - editPane.getPositionY();
+		return e.getY() / editPane.getZoom() - editPane.getPositionY();
 	}
 
 	@Override

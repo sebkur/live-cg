@@ -182,4 +182,10 @@ public abstract class Scale extends JPanel implements ViewportListener
 		repaint();
 	}
 
+	@Override
+	public void zoomChanged()
+	{
+		repaint();
+	}
+
 }

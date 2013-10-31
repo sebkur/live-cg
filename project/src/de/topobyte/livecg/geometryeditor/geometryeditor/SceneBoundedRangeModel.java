@@ -56,9 +56,28 @@ public class SceneBoundedRangeModel implements BoundedRangeModel
 			}
 
 		});
+		editPane.addViewportListener(new ViewportListener() {
+
+			@Override
+			public void zoomChanged()
+			{
+				editPaneZoomChanged();
+			}
+
+			@Override
+			public void viewportChanged()
+			{
+				// ignore
+			}
+		});
 	}
 
 	protected void editPaneResized()
+	{
+		fireListeners();
+	}
+
+	protected void editPaneZoomChanged()
 	{
 		fireListeners();
 	}
@@ -67,7 +86,8 @@ public class SceneBoundedRangeModel implements BoundedRangeModel
 	public int getMinimum()
 	{
 		// logger.debug("getMinimum()");
-		return 0 - GeometryEditPane.MARGIN;
+		return (int) Math.round(0 - GeometryEditPane.MARGIN
+				* editPane.getZoom());
 	}
 
 	@Override
@@ -75,10 +95,13 @@ public class SceneBoundedRangeModel implements BoundedRangeModel
 	{
 		// logger.debug("getMaximum()");
 		if (horizontal) {
-			return (int) Math.round(scene.getWidth()) + GeometryEditPane.MARGIN;
+			return (int) Math
+					.round((scene.getWidth() + GeometryEditPane.MARGIN)
+							* editPane.getZoom());
 		} else {
-			return (int) Math.round(scene.getHeight())
-					+ GeometryEditPane.MARGIN;
+			return (int) Math
+					.round((scene.getHeight() + GeometryEditPane.MARGIN)
+							* editPane.getZoom());
 		}
 	}
 
@@ -87,9 +110,9 @@ public class SceneBoundedRangeModel implements BoundedRangeModel
 	{
 		// logger.debug("getExtent()");
 		if (horizontal) {
-			return editPane.getWidth();
+			return (int) Math.round(editPane.getWidth());
 		} else {
-			return editPane.getHeight();
+			return (int) Math.round(editPane.getHeight());
 		}
 	}
 
@@ -98,9 +121,11 @@ public class SceneBoundedRangeModel implements BoundedRangeModel
 	{
 		// logger.debug("getValue()");
 		if (horizontal) {
-			return (int) Math.round(-editPane.getPositionX());
+			return (int) Math.round(-editPane.getPositionX()
+					* editPane.getZoom());
 		} else {
-			return (int) Math.round(-editPane.getPositionY());
+			return (int) Math.round(-editPane.getPositionY()
+					* editPane.getZoom());
 		}
 	}
 
@@ -109,9 +134,9 @@ public class SceneBoundedRangeModel implements BoundedRangeModel
 	{
 		logger.debug("setValue(" + newValue + ")");
 		if (horizontal) {
-			editPane.setPositionX(-newValue);
+			editPane.setPositionX(-newValue / editPane.getZoom());
 		} else {
-			editPane.setPositionY(-newValue);
+			editPane.setPositionY(-newValue / editPane.getZoom());
 		}
 		editPane.repaint();
 		fireListeners();
