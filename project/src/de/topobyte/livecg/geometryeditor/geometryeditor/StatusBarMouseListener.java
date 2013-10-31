@@ -60,12 +60,12 @@ public class StatusBarMouseListener extends MouseInputAdapter
 
 	private double getX(MouseEvent e)
 	{
-		return e.getX() - viewport.getPositionX();
+		return e.getX() / viewport.getZoom() - viewport.getPositionX();
 	}
 
 	private double getY(MouseEvent e)
 	{
-		return e.getY() - viewport.getPositionY();
+		return e.getY() / viewport.getZoom() - viewport.getPositionY();
 	}
 
 	private String createText(MouseEvent e)

@@ -23,4 +23,6 @@ public interface Viewport
 
 	public double getPositionY();
 
+	public double getZoom();
+
 }
