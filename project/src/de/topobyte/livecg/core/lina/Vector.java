@@ -99,4 +99,15 @@ public class Vector extends Matrix
 	{
 		return this.multiply(1.0 / this.norm()).toVector();
 	}
+
+	@Override
+	public Vector transponate()
+	{
+		Vector v = new Vector(getSize(),
+				type == VectorType.Column ? VectorType.Row : VectorType.Column);
+		for (int i = 0; i < getSize(); i++) {
+			v.setValue(i, getValue(i));
+		}
+		return v;
+	}
 }
