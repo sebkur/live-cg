@@ -127,7 +127,7 @@ public class LiveCG
 
 		StatusBar statusBar = new StatusBar();
 		StatusBarMouseListener statusBarMouseListener = new StatusBarMouseListener(
-				statusBar);
+				lineEditor.getEditPane(), statusBar);
 		lineEditor.getEditPane().addMouseListener(statusBarMouseListener);
 		lineEditor.getEditPane().addMouseMotionListener(statusBarMouseListener);
 

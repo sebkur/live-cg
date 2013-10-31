@@ -24,10 +24,12 @@ import javax.swing.event.MouseInputAdapter;
 public class StatusBarMouseListener extends MouseInputAdapter
 {
 
+	private Viewport viewport;
 	private StatusBar statusBar;
 
-	public StatusBarMouseListener(StatusBar statusBar)
+	public StatusBarMouseListener(Viewport viewport, StatusBar statusBar)
 	{
+		this.viewport = viewport;
 		this.statusBar = statusBar;
 		statusBar.setText(createText(null));
 	}
@@ -56,13 +58,22 @@ public class StatusBarMouseListener extends MouseInputAdapter
 		statusBar.setText(createText(e));
 	}
 
+	private double getX(MouseEvent e)
+	{
+		return e.getX() - viewport.getPositionX();
+	}
+
+	private double getY(MouseEvent e)
+	{
+		return e.getY() - viewport.getPositionY();
+	}
+
 	private String createText(MouseEvent e)
 	{
 		if (e == null) {
 			return "Mouse: -";
 		}
-		return String.format("Mouse: %.2f, %.2f", (double) e.getX(),
-				(double) e.getY());
+		return String.format("Mouse: %.2f, %.2f", getX(e), getY(e));
 	}
 
 }
