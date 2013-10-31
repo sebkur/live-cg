@@ -19,7 +19,6 @@
 package de.topobyte.livecg.geometryeditor.geometryeditor;
 
 import java.awt.Cursor;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.HashMap;
 import java.util.List;
@@ -43,7 +42,7 @@ import de.topobyte.livecg.geometryeditor.geometryeditor.rectangle.EightHandles;
 import de.topobyte.livecg.geometryeditor.geometryeditor.rectangle.Position;
 import de.topobyte.livecg.util.ListUtil;
 
-public class EditorMouseListener extends MouseAdapter
+public class EditorMouseListener extends ViewportMouseListener
 {
 	final static Logger logger = LoggerFactory
 			.getLogger(EditorMouseListener.class);
@@ -52,25 +51,8 @@ public class EditorMouseListener extends MouseAdapter
 
 	public EditorMouseListener(GeometryEditPane editPane)
 	{
+		super(editPane);
 		this.editPane = editPane;
-	}
-
-	private Coordinate getCoordinate(MouseEvent e)
-	{
-		double posX = editPane.getPositionX();
-		double posY = editPane.getPositionY();
-		return new Coordinate(e.getX() / editPane.getZoom() - posX, e.getY()
-				/ editPane.getZoom() - posY);
-	}
-
-	private double getX(MouseEvent e)
-	{
-		return e.getX() / editPane.getZoom() - editPane.getPositionX();
-	}
-
-	private double getY(MouseEvent e)
-	{
-		return e.getY() / editPane.getZoom() - editPane.getPositionY();
 	}
 
 	@Override

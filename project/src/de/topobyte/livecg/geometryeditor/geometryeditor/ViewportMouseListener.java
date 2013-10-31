@@ -17,50 +17,37 @@
  */
 package de.topobyte.livecg.geometryeditor.geometryeditor;
 
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class StatusBarMouseListener extends ViewportMouseListener
+import de.topobyte.livecg.core.geometry.geom.Coordinate;
+
+public class ViewportMouseListener extends MouseAdapter
 {
 
-	private StatusBar statusBar;
+	private Viewport viewport;
 
-	public StatusBarMouseListener(Viewport viewport, StatusBar statusBar)
+	public ViewportMouseListener(Viewport viewport)
 	{
-		super(viewport);
-		this.statusBar = statusBar;
-		statusBar.setText(createText(null));
+		this.viewport = viewport;
 	}
 
-	@Override
-	public void mouseEntered(MouseEvent e)
+	protected double getX(MouseEvent e)
 	{
-		statusBar.setText(createText(e));
+		return e.getX() / viewport.getZoom() - viewport.getPositionX();
 	}
 
-	@Override
-	public void mouseExited(MouseEvent e)
+	protected double getY(MouseEvent e)
 	{
-		statusBar.setText(createText(null));
+		return e.getY() / viewport.getZoom() - viewport.getPositionY();
 	}
 
-	@Override
-	public void mouseDragged(MouseEvent e)
+	protected Coordinate getCoordinate(MouseEvent e)
 	{
-		statusBar.setText(createText(e));
-	}
-
-	@Override
-	public void mouseMoved(MouseEvent e)
-	{
-		statusBar.setText(createText(e));
-	}
-
-	private String createText(MouseEvent e)
-	{
-		if (e == null) {
-			return "Mouse: -";
-		}
-		return String.format("Mouse: %.2f, %.2f", getX(e), getY(e));
+		double posX = viewport.getPositionX();
+		double posY = viewport.getPositionY();
+		return new Coordinate(e.getX() / viewport.getZoom() - posX, e.getY()
+				/ viewport.getZoom() - posY);
 	}
 
 }
