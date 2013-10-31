@@ -25,6 +25,8 @@ public class AffineTransformUtil
 		Matrix matrix = new Matrix(3, 3);
 		matrix.setValue(2, 0, x);
 		matrix.setValue(2, 1, y);
+		matrix.setValue(0, 0, 1);
+		matrix.setValue(1, 1, 1);
 		matrix.setValue(2, 2, 1);
 		return matrix;
 	}
