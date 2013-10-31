@@ -1,5 +1,7 @@
 DONE Export menu for Triangulation with dual graph
 DONE Export menu for DCEL view
 DONE Move to Painter interface with free space diagram
-Invent new Painter-like interface for distance terrain
+DONE Invent new Painter-like interface for distance terrain
 Make SvgPainter create more readable files
+Let Scale adapt to zoom
+Zoom in / out and window resize should keep the center of the view in the center
