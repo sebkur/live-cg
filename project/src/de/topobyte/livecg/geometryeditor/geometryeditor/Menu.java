@@ -37,6 +37,7 @@ import de.topobyte.livecg.geometryeditor.geometryeditor.action.SelectAllAction;
 import de.topobyte.livecg.geometryeditor.geometryeditor.action.SelectNothingAction;
 import de.topobyte.livecg.geometryeditor.geometryeditor.action.ShowContentDialogAction;
 import de.topobyte.livecg.geometryeditor.geometryeditor.action.ShowObjectDialogAction;
+import de.topobyte.livecg.geometryeditor.geometryeditor.action.ZoomAction;
 import de.topobyte.livecg.geometryeditor.geometryeditor.action.visualizations.DcelAction;
 import de.topobyte.livecg.geometryeditor.geometryeditor.action.visualizations.DistanceTerrainChainsAction;
 import de.topobyte.livecg.geometryeditor.geometryeditor.action.visualizations.DistanceTerrainLinesAction;
@@ -69,6 +70,7 @@ public class Menu extends JMenuBar
 		JMenu edit = new JMenu("Edit");
 		JMenu presets = new JMenu("Presets");
 		JMenu visualizations = new JMenu("Visualizations");
+		JMenu view = new JMenu("View");
 		JMenu window = new JMenu("Window");
 		JMenu help = new JMenu("Help");
 		add(file);
@@ -76,6 +78,7 @@ public class Menu extends JMenuBar
 		add(edit);
 		add(presets);
 		add(visualizations);
+		add(view);
 		add(window);
 		add(help);
 
@@ -84,6 +87,7 @@ public class Menu extends JMenuBar
 		edit.setMnemonic('E');
 		presets.setMnemonic('P');
 		visualizations.setMnemonic('V');
+		view.setMnemonic('I');
 		window.setMnemonic('W');
 		help.setMnemonic('H');
 
@@ -213,6 +217,26 @@ public class Menu extends JMenuBar
 		polygons.add(triangulation);
 		polygons.add(triangulationWithDualGraph);
 		polygons.add(shortestPathInPolygon);
+
+		/*
+		 * View
+		 */
+
+		JMenuItem itemZoomIn = new JMenuItem(new ZoomAction(editPane,
+				ZoomAction.Type.IN));
+		JMenuItem itemZoomOut = new JMenuItem(new ZoomAction(editPane,
+				ZoomAction.Type.OUT));
+		JMenuItem itemZoom100 = new JMenuItem(new ZoomAction(editPane,
+				ZoomAction.Type.IDENTITY));
+		view.add(itemZoomIn);
+		view.add(itemZoomOut);
+		view.add(itemZoom100);
+		itemZoomIn.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_PLUS,
+				KeyEvent.CTRL_DOWN_MASK));
+		itemZoomOut.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_MINUS,
+				KeyEvent.CTRL_DOWN_MASK));
+		itemZoom100.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_1,
+				KeyEvent.CTRL_DOWN_MASK));
 
 		/*
 		 * Window

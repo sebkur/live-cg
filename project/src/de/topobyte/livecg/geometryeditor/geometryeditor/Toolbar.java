@@ -76,6 +76,21 @@ public class Toolbar extends JToolBar
 				tryUpdateZoom();
 			}
 		});
+		
+		editPane.addViewportListener(new ViewportListener() {
+			
+			@Override
+			public void zoomChanged()
+			{
+				revertZoom();
+			}
+			
+			@Override
+			public void viewportChanged()
+			{
+				// ignore	
+			}
+		});
 	}
 
 	protected void tryUpdateZoom()
