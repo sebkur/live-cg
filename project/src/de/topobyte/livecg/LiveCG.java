@@ -117,19 +117,20 @@ public class LiveCG
 
 		frame.setTitle("Live CG");
 
-		GeometryEditor lineEditor = new GeometryEditor();
-		Menu menu = new Menu(this, lineEditor.getEditPane(),
-				lineEditor.getEditPane());
-		Toolbar toolbar = new Toolbar(lineEditor.getEditPane(),
-				lineEditor.getEditPane());
+		GeometryEditor geometryEditor = new GeometryEditor();
+		Menu menu = new Menu(this, geometryEditor.getEditPane(),
+				geometryEditor.getEditPane());
+		Toolbar toolbar = new Toolbar(geometryEditor.getEditPane(),
+				geometryEditor.getEditPane());
 
 		toolbar.setFloatable(false);
 
 		StatusBar statusBar = new StatusBar();
 		StatusBarMouseListener statusBarMouseListener = new StatusBarMouseListener(
-				lineEditor.getEditPane(), statusBar);
-		lineEditor.getEditPane().addMouseListener(statusBarMouseListener);
-		lineEditor.getEditPane().addMouseMotionListener(statusBarMouseListener);
+				geometryEditor.getEditPane(), statusBar);
+		geometryEditor.getEditPane().addMouseListener(statusBarMouseListener);
+		geometryEditor.getEditPane().addMouseMotionListener(
+				statusBarMouseListener);
 
 		GridBagConstraints c = new GridBagConstraints();
 
@@ -146,7 +147,7 @@ public class LiveCG
 
 		c.gridy = 1;
 		c.weighty = 1.0;
-		mainPanel.add(lineEditor, c);
+		mainPanel.add(geometryEditor, c);
 
 		c.gridy = 2;
 		c.weighty = 0.0;
@@ -155,12 +156,12 @@ public class LiveCG
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 
-		objectDialog = new ObjectDialog(frame, lineEditor.getEditPane());
+		objectDialog = new ObjectDialog(frame, geometryEditor.getEditPane());
 		objectDialog.setSize(300, 300);
 		objectDialog.setLocation(frame.getX() + frame.getWidth(), frame.getY());
 		objectDialog.setVisible(true);
 
-		contentDialog = new ContentDialog(frame, lineEditor.getEditPane());
+		contentDialog = new ContentDialog(frame, geometryEditor.getEditPane());
 		contentDialog.setSize(300, 300);
 		contentDialog
 				.setLocation(frame.getX() + frame.getWidth(), frame.getY());
@@ -171,7 +172,7 @@ public class LiveCG
 				.getResourceAsStream(filename);
 		try {
 			Content content = reader.read(input);
-			lineEditor.getEditPane().setContent(content);
+			geometryEditor.getEditPane().setContent(content);
 		} catch (Exception e) {
 			logger.debug("unable to load startup geometry file", e);
 			logger.debug("Exception: " + e.getClass().getSimpleName());
