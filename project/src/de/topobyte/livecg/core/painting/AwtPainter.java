@@ -70,7 +70,7 @@ public class AwtPainter implements Painter
 	public void fillRect(double x, double y, double width, double height)
 	{
 		int ix = (int) Math.round(x);
-		int iy = (int) Math.round(x);
+		int iy = (int) Math.round(y);
 		int w = (int) Math.round(x + width - ix);
 		int h = (int) Math.round(y + height - iy);
 		g.fillRect(ix, iy, w, h);
