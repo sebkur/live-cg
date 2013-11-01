@@ -5,3 +5,4 @@ DONE Invent new Painter-like interface for distance terrain
 Make SvgPainter create more readable files
 Let Scale adapt to zoom
 Zoom in / out and window resize should keep the center of the view in the center
+Reorganize EditorMouseListener: split into multiple classes for mouse-modes
