@@ -18,8 +18,11 @@
 
 package de.topobyte.livecg.geometryeditor.geometryeditor;
 
+import java.awt.KeyboardFocusManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 import javax.swing.JTextField;
 import javax.swing.JToggleButton;
@@ -74,21 +77,26 @@ public class Toolbar extends JToolBar
 			public void actionPerformed(ActionEvent e)
 			{
 				tryUpdateZoom();
+				KeyboardFocusManager manager = KeyboardFocusManager
+						.getCurrentKeyboardFocusManager();
+				manager.focusNextComponent();
 			}
 		});
-		
+
+		zoom.addKeyListener(new ZoomKeyAdapter());
+
 		editPane.addViewportListener(new ViewportListener() {
-			
+
 			@Override
 			public void zoomChanged()
 			{
 				revertZoom();
 			}
-			
+
 			@Override
 			public void viewportChanged()
 			{
-				// ignore	
+				// ignore
 			}
 		});
 	}
@@ -126,5 +134,52 @@ public class Toolbar extends JToolBar
 	{
 		editPane.setZoom(value / 100.0);
 		editPane.repaint();
+	}
+
+	private class ZoomKeyAdapter extends KeyAdapter
+	{
+		@Override
+		public void keyTyped(KeyEvent e)
+		{
+			// consume(e);
+		}
+
+		@Override
+		public void keyPressed(KeyEvent e)
+		{
+			consume(e);
+		}
+
+		@Override
+		public void keyReleased(KeyEvent e)
+		{
+			// consume(e);
+		}
+
+		private void consume(KeyEvent e)
+		{
+			if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
+				return;
+			}
+			if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+				return;
+			}
+			if (e.getKeyCode() == KeyEvent.VK_DELETE) {
+				return;
+			}
+			if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+				return;
+			}
+			if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+				return;
+			}
+			if (e.getKeyCode() == KeyEvent.VK_UP) {
+				return;
+			}
+			if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+				return;
+			}
+			e.consume();
+		}
 	}
 }
