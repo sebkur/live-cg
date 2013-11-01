@@ -132,6 +132,8 @@ public class SceneBoundedRangeModel implements BoundedRangeModel
 	@Override
 	public void setValue(int newValue)
 	{
+		newValue = Math.min(newValue, getMaximum() - getExtent());
+		newValue = Math.max(newValue, getMinimum());
 		logger.debug("setValue(" + newValue + ")");
 		if (horizontal) {
 			editPane.setPositionX(-newValue / editPane.getZoom());
