@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.topobyte.livecg.geometryeditor.geometryeditor;
+package de.topobyte.livecg.geometryeditor.geometryeditor.mouse;
 
 import java.awt.Cursor;
 import java.awt.event.MouseEvent;
@@ -37,6 +37,8 @@ import de.topobyte.livecg.core.geometry.geom.Node;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
 import de.topobyte.livecg.core.geometry.geom.Rectangle;
 import de.topobyte.livecg.core.lina2.Vector;
+import de.topobyte.livecg.geometryeditor.geometryeditor.Content;
+import de.topobyte.livecg.geometryeditor.geometryeditor.GeometryEditPane;
 import de.topobyte.livecg.geometryeditor.geometryeditor.mousemode.MouseMode;
 import de.topobyte.livecg.geometryeditor.geometryeditor.rectangle.EightHandles;
 import de.topobyte.livecg.geometryeditor.geometryeditor.rectangle.Position;

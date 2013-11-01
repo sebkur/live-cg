@@ -15,52 +15,65 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.topobyte.livecg.geometryeditor.geometryeditor;
 
+package de.topobyte.livecg.geometryeditor.geometryeditor.mouse;
+
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class StatusBarMouseListener extends ViewportMouseListener
+import de.topobyte.livecg.geometryeditor.geometryeditor.scale.Scale;
+
+public class ScaleMouseListener extends MouseAdapter
 {
 
-	private StatusBar statusBar;
+	private final Scale scaleX;
+	private final Scale scaleY;
 
-	public StatusBarMouseListener(Viewport viewport, StatusBar statusBar)
+	public ScaleMouseListener(Scale scaleX, Scale scaleY)
 	{
-		super(viewport);
-		this.statusBar = statusBar;
-		statusBar.setText(createText(null));
+		this.scaleX = scaleX;
+		this.scaleY = scaleY;
 	}
+
+	/*
+	 * enter / exit / move
+	 */
 
 	@Override
 	public void mouseEntered(MouseEvent e)
 	{
-		statusBar.setText(createText(e));
+		super.mouseEntered(e);
+		updateScale(e);
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e)
 	{
-		statusBar.setText(createText(null));
-	}
-
-	@Override
-	public void mouseDragged(MouseEvent e)
-	{
-		statusBar.setText(createText(e));
+		super.mouseExited(e);
+		updateScale(e);
 	}
 
 	@Override
 	public void mouseMoved(MouseEvent e)
 	{
-		statusBar.setText(createText(e));
+		super.mouseMoved(e);
+		updateScale(e);
 	}
 
-	private String createText(MouseEvent e)
+	@Override
+	public void mouseDragged(MouseEvent e)
 	{
-		if (e == null) {
-			return "Mouse: -";
-		}
-		return String.format("Mouse: %.2f, %.2f", getX(e), getY(e));
+		super.mouseMoved(e);
+		updateScale(e);
+	}
+
+	private void updateScale(MouseEvent e)
+	{
+		scaleX.setMarker(e.getX());
+		scaleY.setMarker(e.getY());
+
+		scaleX.repaint();
+		scaleY.repaint();
 	}
 
 }

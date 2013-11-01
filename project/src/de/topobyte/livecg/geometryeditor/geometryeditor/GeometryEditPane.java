@@ -53,6 +53,7 @@ import de.topobyte.livecg.core.painting.AwtPainter;
 import de.topobyte.livecg.core.painting.Color;
 import de.topobyte.livecg.core.painting.Painter;
 import de.topobyte.livecg.geometryeditor.geometryeditor.action.OpenCloseRingAction;
+import de.topobyte.livecg.geometryeditor.geometryeditor.mouse.EditorMouseListener;
 import de.topobyte.livecg.geometryeditor.geometryeditor.mousemode.MouseMode;
 import de.topobyte.livecg.geometryeditor.geometryeditor.mousemode.MouseModeListener;
 import de.topobyte.livecg.geometryeditor.geometryeditor.mousemode.MouseModeProvider;
@@ -883,19 +884,19 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 		this.selectionRectangle = rectangle;
 	}
 
-	boolean somethingSelected()
+	public boolean somethingSelected()
 	{
 		return currentChains.size() != 0 || currentPolygons.size() != 0
 				|| currentNodes.size() != 0;
 	}
 
-	boolean onlyOneNodeSelected()
+	public boolean onlyOneNodeSelected()
 	{
 		return currentChains.size() == 0 && currentPolygons.size() == 0
 				&& currentNodes.size() == 1;
 	}
 
-	Set<Node> getSelectedNodes()
+	public Set<Node> getSelectedNodes()
 	{
 		Set<Node> nodes = new HashSet<Node>();
 		for (Node node : currentNodes) {
@@ -920,7 +921,7 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 		return nodes;
 	}
 
-	Rectangle getSelectedObjectsRectangle()
+	public Rectangle getSelectedObjectsRectangle()
 	{
 		double xmin = Double.POSITIVE_INFINITY;
 		double xmax = Double.NEGATIVE_INFINITY;

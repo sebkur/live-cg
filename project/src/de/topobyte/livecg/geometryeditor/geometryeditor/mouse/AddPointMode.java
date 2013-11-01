@@ -15,8 +15,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.topobyte.livecg.geometryeditor.geometryeditor;
+package de.topobyte.livecg.geometryeditor.geometryeditor.mouse;
 
-public enum SelectMode {
-	NONE, NODE, CHAIN, POLYGON
+public enum AddPointMode {
+	NONE, NEW, APPEND, PREPEND, NEW_WITH_SELECTED
 }

@@ -15,39 +15,43 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.topobyte.livecg.geometryeditor.geometryeditor;
-
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+package de.topobyte.livecg.geometryeditor.geometryeditor.mouse;
 
 import de.topobyte.livecg.core.geometry.geom.Coordinate;
 
-public class ViewportMouseListener extends MouseAdapter
+public class DragInfo
 {
+	private Coordinate start;
+	private Coordinate last;
+	private Coordinate current;
 
-	private Viewport viewport;
-
-	public ViewportMouseListener(Viewport viewport)
+	public DragInfo(double x, double y)
 	{
-		this.viewport = viewport;
+		start = new Coordinate(x, y);
+		last = start;
+		current = start;
 	}
 
-	protected double getX(MouseEvent e)
+	public void update(double x, double y)
 	{
-		return e.getX() / viewport.getZoom() - viewport.getPositionX();
+		last = current;
+		current = new Coordinate(x, y);
 	}
 
-	protected double getY(MouseEvent e)
+	public Coordinate getDeltaToLast()
 	{
-		return e.getY() / viewport.getZoom() - viewport.getPositionY();
+		return getDeltaTo(last);
 	}
 
-	protected Coordinate getCoordinate(MouseEvent e)
+	public Coordinate getDeltaToStart()
 	{
-		double posX = viewport.getPositionX();
-		double posY = viewport.getPositionY();
-		return new Coordinate(e.getX() / viewport.getZoom() - posX, e.getY()
-				/ viewport.getZoom() - posY);
+		return getDeltaTo(start);
 	}
 
+	private Coordinate getDeltaTo(Coordinate other)
+	{
+		double dx = current.getX() - other.getX();
+		double dy = current.getY() - other.getY();
+		return new Coordinate(dx, dy);
+	}
 }

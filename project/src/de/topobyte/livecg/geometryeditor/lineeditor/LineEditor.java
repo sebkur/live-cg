@@ -24,7 +24,7 @@ import java.awt.GridBagLayout;
 import javax.swing.JPanel;
 
 import de.topobyte.livecg.core.geometry.geom.Chain;
-import de.topobyte.livecg.geometryeditor.geometryeditor.ScaleMouseListener;
+import de.topobyte.livecg.geometryeditor.geometryeditor.mouse.ScaleMouseListener;
 import de.topobyte.livecg.geometryeditor.geometryeditor.scale.Scale;
 import de.topobyte.livecg.geometryeditor.geometryeditor.scale.ScaleX;
 import de.topobyte.livecg.geometryeditor.geometryeditor.scale.ScaleY;

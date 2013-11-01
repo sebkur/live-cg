@@ -24,6 +24,7 @@ import java.awt.GridBagLayout;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 
+import de.topobyte.livecg.geometryeditor.geometryeditor.mouse.ScaleMouseListener;
 import de.topobyte.livecg.geometryeditor.geometryeditor.scale.Scale;
 import de.topobyte.livecg.geometryeditor.geometryeditor.scale.ScaleX;
 import de.topobyte.livecg.geometryeditor.geometryeditor.scale.ScaleY;

@@ -15,51 +15,49 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.topobyte.livecg.geometryeditor.geometryeditor;
+package de.topobyte.livecg.geometryeditor.geometryeditor.mouse;
 
 import de.topobyte.livecg.core.geometry.geom.Coordinate;
-import de.topobyte.livecg.core.geometry.geom.Rectangle;
-import de.topobyte.livecg.geometryeditor.geometryeditor.rectangle.Position;
+import de.topobyte.livecg.core.geometry.geom.GeomMath;
 
-public class ScaleInfo
+public class RotateInfo
 {
-	private Position position;
-	private Rectangle rectangle;
+	private Coordinate center;
 	private Coordinate start;
+	private Coordinate last;
 	private Coordinate current;
 
-	public ScaleInfo(double x, double y, Position position, Rectangle rectangle)
+	public RotateInfo(double x, double y, double cx, double cy)
 	{
-		this.position = position;
-		this.rectangle = rectangle;
 		start = new Coordinate(x, y);
+		center = new Coordinate(cx, cy);
+		last = start;
 		current = start;
 	}
 
 	public void update(double x, double y)
 	{
+		last = current;
 		current = new Coordinate(x, y);
 	}
 
-	public Position getPosition()
+	public double getAngleToLast()
 	{
-		return position;
+		return getAngleTo(last);
 	}
 
-	public Rectangle getRectangle()
+	public double getAngleToStart()
 	{
-		return rectangle;
+		return getAngleTo(start);
 	}
 
-	public Coordinate getDeltaToStart()
+	private double getAngleTo(Coordinate other)
 	{
-		return getDeltaTo(start);
+		return GeomMath.angle(center, other, current);
 	}
 
-	private Coordinate getDeltaTo(Coordinate other)
+	public Coordinate getCenter()
 	{
-		double dx = current.getX() - other.getX();
-		double dy = current.getY() - other.getY();
-		return new Coordinate(dx, dy);
+		return center;
 	}
 }

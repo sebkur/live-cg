@@ -15,66 +15,55 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-package de.topobyte.livecg.geometryeditor.geometryeditor;
+package de.topobyte.livecg.geometryeditor.geometryeditor.mouse;
 
 import java.awt.event.MouseEvent;
 
-import javax.swing.event.MouseInputAdapter;
+import de.topobyte.livecg.geometryeditor.geometryeditor.StatusBar;
+import de.topobyte.livecg.geometryeditor.geometryeditor.Viewport;
 
-import de.topobyte.livecg.geometryeditor.geometryeditor.scale.Scale;
-
-public class ScaleMouseListener extends MouseInputAdapter
+public class StatusBarMouseListener extends ViewportMouseListener
 {
 
-	private final Scale scaleX;
-	private final Scale scaleY;
+	private StatusBar statusBar;
 
-	public ScaleMouseListener(Scale scaleX, Scale scaleY)
+	public StatusBarMouseListener(Viewport viewport, StatusBar statusBar)
 	{
-		this.scaleX = scaleX;
-		this.scaleY = scaleY;
+		super(viewport);
+		this.statusBar = statusBar;
+		statusBar.setText(createText(null));
 	}
-
-	/*
-	 * enter / exit / move
-	 */
 
 	@Override
 	public void mouseEntered(MouseEvent e)
 	{
-		super.mouseEntered(e);
-		updateScale(e);
+		statusBar.setText(createText(e));
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e)
 	{
-		super.mouseExited(e);
-		updateScale(e);
-	}
-
-	@Override
-	public void mouseMoved(MouseEvent e)
-	{
-		super.mouseMoved(e);
-		updateScale(e);
+		statusBar.setText(createText(null));
 	}
 
 	@Override
 	public void mouseDragged(MouseEvent e)
 	{
-		super.mouseMoved(e);
-		updateScale(e);
+		statusBar.setText(createText(e));
 	}
 
-	private void updateScale(MouseEvent e)
+	@Override
+	public void mouseMoved(MouseEvent e)
 	{
-		scaleX.setMarker(e.getX());
-		scaleY.setMarker(e.getY());
+		statusBar.setText(createText(e));
+	}
 
-		scaleX.repaint();
-		scaleY.repaint();
+	private String createText(MouseEvent e)
+	{
+		if (e == null) {
+			return "Mouse: -";
+		}
+		return String.format("Mouse: %.2f, %.2f", getX(e), getY(e));
 	}
 
 }
