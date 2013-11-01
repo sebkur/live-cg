@@ -6,3 +6,6 @@ Make SvgPainter create more readable files
 DONE Let Scale adapt to zoom
 Zoom in / out and window resize should keep the center of the view in the center
 Reorganize EditorMouseListener: split into multiple classes for mouse-modes
+Check that visualizations do not manipulate input geometries
+	-> At least monotone pieces operation leads to strange behaviour concerning
+	   the number of chains a node is registered with
