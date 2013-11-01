@@ -111,14 +111,19 @@ public abstract class Scale extends JPanel implements ViewportListener
 		// scale line drawing
 		for (int i = 0; i < lines.length; i++) {
 			ScaleLine line = lines[i];
-			int limit = horizontal ? (int) (width - viewport.getPositionX())
-					: (int) (height - viewport.getPositionY());
-			int s = horizontal ? (int) -viewport.getPositionX()
-					: (int) -viewport.getPositionY();
+			double s = horizontal ? -viewport.getPositionX() : -viewport
+					.getPositionY();
+			double limit = horizontal ? width / viewport.getZoom()
+					- viewport.getPositionX() : height / viewport.getZoom()
+					- viewport.getPositionY();
 			int sv = 0;
 			if (s < 0) {
 				while (sv > s) {
 					sv -= line.getStep();
+				}
+			} else {
+				while (sv + line.getStep() < s) {
+					sv += line.getStep();
 				}
 			}
 			positions: for (int j = sv; j < limit; j += line.getStep()) {
@@ -135,10 +140,12 @@ public abstract class Scale extends JPanel implements ViewportListener
 
 				p.setColor(colorLines);
 				if (horizontal) {
-					double x = j + viewport.getPositionX();
+					double x = (j + viewport.getPositionX())
+							* viewport.getZoom();
 					p.drawLine(x, start, x, base);
 				} else {
-					double y = j + viewport.getPositionY();
+					double y = (j + viewport.getPositionY())
+							* viewport.getZoom();
 					p.drawLine(start, y, base, y);
 				}
 
@@ -146,10 +153,12 @@ public abstract class Scale extends JPanel implements ViewportListener
 					p.setColor(colorFont);
 					String label = String.format("%d", j);
 					if (horizontal) {
-						double x = j + viewport.getPositionX();
+						double x = (j + viewport.getPositionX())
+								* viewport.getZoom();
 						p.drawString(label, x, start);
 					} else {
-						double y = j + viewport.getPositionY();
+						double y = (j + viewport.getPositionY())
+								* viewport.getZoom();
 						int labelWidth = fm.stringWidth(label);
 						int x = width - labelWidth - 5;
 						p.drawString(label, x, y);
