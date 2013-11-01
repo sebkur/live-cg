@@ -22,10 +22,11 @@ public class ScaleLine
 {
 	private final float height;
 	private final float strokeWidth;
-	private final int step;
+	private final double step;
 	private final boolean hasLabel;
 
-	public ScaleLine(float height, float strokeWidth, int step, boolean hasLabel)
+	public ScaleLine(float height, float strokeWidth, double step,
+			boolean hasLabel)
 	{
 		this.height = height;
 		this.strokeWidth = strokeWidth;
@@ -43,7 +44,7 @@ public class ScaleLine
 		return strokeWidth;
 	}
 
-	public int getStep()
+	public double getStep()
 	{
 		return step;
 	}
@@ -53,9 +54,10 @@ public class ScaleLine
 		return hasLabel;
 	}
 
-	public boolean occupies(int position)
+	public boolean occupies(double position)
 	{
-		return (position % step) == 0;
+		double s = (position / step);
+		return Math.abs(Math.round(s) - s) < 0.0001;
 	}
 
 }

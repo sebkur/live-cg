@@ -103,11 +103,53 @@ public abstract class Scale extends JPanel implements ViewportListener
 		} else {
 			p.drawLine(width, 0, width, height);
 		}
+
+		// Find best smallest step value, by alternatingly multiplying with 2 or
+		// 5, respectively alternatingly divide by 2 or 5.
+		double sstep = 10;
+		if (sstep * viewport.getZoom() > 20) {
+			boolean odd = true;
+			while (true) {
+				if (odd) {
+					if (sstep * viewport.getZoom() > 20) {
+						sstep /= 2;
+					} else {
+						break;
+					}
+				} else {
+					if (sstep * viewport.getZoom() > 50) {
+						sstep /= 5;
+					} else {
+						break;
+					}
+				}
+				odd = !odd;
+			}
+		} else {
+			boolean odd = false;
+			while (true) {
+				if (odd) {
+					if (sstep * 2 * viewport.getZoom() < 20) {
+						sstep *= 2;
+					} else {
+						break;
+					}
+				} else {
+					if (sstep * 5 * viewport.getZoom() < 50) {
+						sstep *= 5;
+					} else {
+						break;
+					}
+				}
+				odd = !odd;
+			}
+		}
+
 		// scale line definitions
 		ScaleLine[] lines = new ScaleLine[] {
-				new ScaleLine(30, 4.0f, 100, true),
-				new ScaleLine(20, 3.0f, 50, true),
-				new ScaleLine(10, 1.0f, 10, false) };
+				new ScaleLine(30, 4.0f, sstep * 10, true),
+				new ScaleLine(20, 3.0f, sstep * 5, true),
+				new ScaleLine(10, 1.0f, sstep, false) };
 		// scale line drawing
 		for (int i = 0; i < lines.length; i++) {
 			ScaleLine line = lines[i];
@@ -116,7 +158,7 @@ public abstract class Scale extends JPanel implements ViewportListener
 			double limit = horizontal ? width / viewport.getZoom()
 					- viewport.getPositionX() : height / viewport.getZoom()
 					- viewport.getPositionY();
-			int sv = 0;
+			double sv = 0;
 			if (s < 0) {
 				while (sv > s) {
 					sv -= line.getStep();
@@ -126,7 +168,18 @@ public abstract class Scale extends JPanel implements ViewportListener
 					sv += line.getStep();
 				}
 			}
-			positions: for (int j = sv; j < limit; j += line.getStep()) {
+			// Define number of decimal digits to display
+			double step = line.getStep();
+			int digits = 0;
+			if (Math.abs(Math.round(step) - step) < 0.0001) {
+				digits = 0;
+			} else if (Math.abs(Math.round(step * 10) - step * 10) < 0.0001) {
+				digits = 1;
+			} else {
+				digits = 2;
+			}
+			// Loop over positions
+			positions: for (double j = sv; j < limit; j += step) {
 				for (int k = 0; k < i; k++) {
 					if (lines[k].occupies(j)) {
 						continue positions;
@@ -151,7 +204,7 @@ public abstract class Scale extends JPanel implements ViewportListener
 
 				if (line.hasLabel()) {
 					p.setColor(colorFont);
-					String label = String.format("%d", j);
+					String label = String.format("%." + digits + "f", j);
 					if (horizontal) {
 						double x = (j + viewport.getPositionX())
 								* viewport.getZoom();
