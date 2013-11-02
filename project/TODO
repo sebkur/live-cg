@@ -2,10 +2,10 @@ DONE Export menu for Triangulation with dual graph
 DONE Export menu for DCEL view
 DONE Move to Painter interface with free space diagram
 DONE Invent new Painter-like interface for distance terrain
-Make SvgPainter create more readable files
 DONE Let Scale adapt to zoom
-Zoom in / out and window resize should keep the center of the view in the center
 DONE Reorganize EditorMouseListener: split into multiple classes for mouse-modes
+Make SvgPainter create more readable files
+Zoom in / out and window resize should keep the center of the view in the center
 Check that visualizations do not manipulate input geometries
 	-> At least monotone pieces operation leads to strange behaviour concerning
 	   the number of chains a node is registered with
