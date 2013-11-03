@@ -36,6 +36,8 @@ public class TestFortunesSweep
 	{
 		Logger.getLogger(Algorithm.class.getPackage().getName()).setLevel(
 				Level.DEBUG);
+		// Logger.getLogger(Algorithm.class).setLevel(Level.DEBUG);
+		// Logger.getLogger(HistoryEventQueue.class).setLevel(Level.DEBUG);
 
 		FortuneDialog dialog = new FortuneDialog();
 		Algorithm algorithm = dialog.getAlgorithm();
