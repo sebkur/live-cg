@@ -1,6 +1,6 @@
-/* This file is part of Frechet tools. 
+/* This file is part of LiveCG. 
  * 
- * Copyright (C) 2012  Sebastian Kuerten
+ * Copyright (C) 2013  Sebastian Kuerten
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,7 +15,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package de.topobyte.livecg.algorithms.frechet.freespace.calc;
 
 public class Interval
