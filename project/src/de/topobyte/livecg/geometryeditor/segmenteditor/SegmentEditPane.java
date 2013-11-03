@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.topobyte.livecg.geometryeditor.lineeditor;
+package de.topobyte.livecg.geometryeditor.segmenteditor;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -32,7 +32,7 @@ import de.topobyte.livecg.core.geometry.geom.Coordinate;
 import de.topobyte.livecg.geometryeditor.geometryeditor.Viewport;
 import de.topobyte.livecg.util.SwingUtil;
 
-public class LineEditPane extends JPanel implements Viewport
+public class SegmentEditPane extends JPanel implements Viewport
 {
 
 	private static final long serialVersionUID = 7921493627117424315L;
@@ -40,15 +40,15 @@ public class LineEditPane extends JPanel implements Viewport
 	private int maxWidth;
 	private int maxHeight;
 
-	public LineEditPane(int width, int height, Chain line)
+	public SegmentEditPane(int width, int height, Chain segment)
 	{
 		this.maxWidth = width;
 		this.maxHeight = height;
-		this.line = line;
+		this.segment = segment;
 
 		setBackground(new Color(0xFAFAFA));
 
-		LineEditMouseListener mouseListener = new LineEditMouseListener(this);
+		SegmentEditMouseListener mouseListener = new SegmentEditMouseListener(this);
 		addMouseListener(mouseListener);
 		addMouseMotionListener(mouseListener);
 	}
@@ -67,11 +67,11 @@ public class LineEditPane extends JPanel implements Viewport
 	 * content
 	 */
 
-	private Chain line = new Chain();
+	private Chain segment = new Chain();
 
-	public Chain getLine()
+	public Chain getSegment()
 	{
-		return line;
+		return segment;
 	}
 
 	/*
@@ -91,7 +91,8 @@ public class LineEditPane extends JPanel implements Viewport
 		g.setColor(colorValidArea);
 		g.fillRect(0, 0, maxWidth, maxHeight);
 
-		draw(g, line, colorEditLines, colorEditLinePoints, colorEditLinePoint0);
+		draw(g, segment, colorEditLines, colorEditLinePoints,
+				colorEditLinePoint0);
 	}
 
 	private void draw(Graphics2D g, Chain editable, Color colorLine,
@@ -129,22 +130,22 @@ public class LineEditPane extends JPanel implements Viewport
 		}
 	}
 
-	private List<LineChangeListener> listeners = new ArrayList<LineChangeListener>();
+	private List<SegmentChangeListener> listeners = new ArrayList<SegmentChangeListener>();
 
-	public void addLineChangeListener(LineChangeListener listener)
+	public void addLineChangeListener(SegmentChangeListener listener)
 	{
 		listeners.add(listener);
 	}
 
-	public void removeLineChangeListener(LineChangeListener listener)
+	public void removeLineChangeListener(SegmentChangeListener listener)
 	{
 		listeners.remove(listener);
 	}
 
 	public void triggerChange()
 	{
-		for (LineChangeListener listener : listeners) {
-			listener.lineChanged();
+		for (SegmentChangeListener listener : listeners) {
+			listener.segmentChanged();
 		}
 	}
 

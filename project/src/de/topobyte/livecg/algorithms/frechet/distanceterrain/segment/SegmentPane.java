@@ -26,10 +26,10 @@ import javax.swing.JPanel;
 import de.topobyte.livecg.algorithms.frechet.distanceterrain.DistanceTerrainPainterSegments;
 import de.topobyte.livecg.algorithms.frechet.freespace.calc.LineSegment;
 import de.topobyte.livecg.core.painting.AwtPainter;
-import de.topobyte.livecg.geometryeditor.lineeditor.LineChangeListener;
+import de.topobyte.livecg.geometryeditor.segmenteditor.SegmentChangeListener;
 import de.topobyte.livecg.util.SwingUtil;
 
-public class SegmentPane extends JPanel implements LineChangeListener
+public class SegmentPane extends JPanel implements SegmentChangeListener
 {
 
 	private static final long serialVersionUID = 8705743202734597623L;
@@ -55,7 +55,7 @@ public class SegmentPane extends JPanel implements LineChangeListener
 	}
 
 	@Override
-	public void lineChanged()
+	public void segmentChanged()
 	{
 		repaint();
 	}

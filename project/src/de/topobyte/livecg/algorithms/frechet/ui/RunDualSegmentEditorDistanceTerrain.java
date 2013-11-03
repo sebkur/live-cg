@@ -18,13 +18,8 @@
 
 package de.topobyte.livecg.algorithms.frechet.ui;
 
-import java.awt.AWTEvent;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Toolkit;
-import java.awt.event.AWTEventListener;
-import java.awt.event.InputEvent;
-import java.awt.event.MouseWheelEvent;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -34,7 +29,7 @@ import org.apache.log4j.BasicConfigurator;
 import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.core.geometry.geom.Coordinate;
 
-public class RunDualLineEditorFreespace
+public class RunDualSegmentEditorDistanceTerrain
 {
 
 	final static int STEP_SIZE = 1;
@@ -50,12 +45,12 @@ public class RunDualLineEditorFreespace
 			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		}
 
-		frame.setTitle("Line Editor. red - start, blue - end");
+		frame.setTitle("Segment Editor. red - start, blue - end");
 
 		int size = 200;
 
-		Chain line1 = new Chain();
-		Chain line2 = new Chain();
+		Chain segment1 = new Chain();
+		Chain segment2 = new Chain();
 
 		// line1.addPoint(new Coordinate(20, 50));
 		// line1.addPoint(new Coordinate(170, 150));
@@ -71,19 +66,17 @@ public class RunDualLineEditorFreespace
 		// line2.addPoint(new Coordinate(0, 50));
 		// line2.addPoint(new Coordinate(100, 50));
 
-		int epsilon = 100;
+		segment1.appendPoint(new Coordinate(0, 200));
+		segment1.appendPoint(new Coordinate(200, 0));
 
-		line1.appendPoint(new Coordinate(0, 200));
-		line1.appendPoint(new Coordinate(200, 0));
-
-		line2.appendPoint(new Coordinate(0, 100));
-		line2.appendPoint(new Coordinate(200, 100));
+		segment2.appendPoint(new Coordinate(0, 100));
+		segment2.appendPoint(new Coordinate(200, 100));
 
 		// line2.addPoint(new Coordinate(0, 200));
 		// line2.addPoint(new Coordinate(200, 0));
 
-		final DualLineEditorFreespace lineEditor = new DualLineEditorFreespace(
-				size, size, line1, line2, epsilon);
+		final DualSegmentEditorDistanceTerrain segmentEditor = new DualSegmentEditorDistanceTerrain(
+				size, size, segment1, segment2);
 
 		GridBagConstraints c = new GridBagConstraints();
 
@@ -95,31 +88,8 @@ public class RunDualLineEditorFreespace
 
 		c.gridy = 1;
 		c.weighty = 1.0;
-		mainPanel.add(lineEditor, c);
+		mainPanel.add(segmentEditor, c);
 
 		frame.setVisible(true);
-
-		Toolkit.getDefaultToolkit().addAWTEventListener(new AWTEventListener() {
-
-			@Override
-			public void eventDispatched(AWTEvent e)
-			{
-				if (e.getSource() != frame) {
-					System.out.println(e.getSource());
-					return;
-				}
-				;
-				MouseWheelEvent event = (MouseWheelEvent) e;
-
-				int modifiers = event.getModifiers();
-				boolean big = (modifiers & InputEvent.CTRL_MASK) != 0;
-
-				int rotation = event.getWheelRotation();
-				int value = lineEditor.getSlider().getValue();
-				int newValue = value + rotation
-						* (big ? STEP_SIZE_BIG : STEP_SIZE);
-				lineEditor.getSlider().setValue(newValue);
-			}
-		}, AWTEvent.MOUSE_WHEEL_EVENT_MASK);
 	}
 }

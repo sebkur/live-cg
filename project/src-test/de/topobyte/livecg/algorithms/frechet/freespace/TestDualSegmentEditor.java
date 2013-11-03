@@ -18,14 +18,14 @@
 
 package de.topobyte.livecg.algorithms.frechet.freespace;
 
-import de.topobyte.livecg.algorithms.frechet.ui.RunDualLineEditorFreespace;
+import de.topobyte.livecg.algorithms.frechet.ui.RunDualSegmentEditorFreespace;
 
-public class TestDualLineEditor
+public class TestDualSegmentEditor
 {
 
 	public static void main(String[] args)
 	{
-		RunDualLineEditorFreespace.runProgrammatically(true);
+		RunDualSegmentEditorFreespace.runProgrammatically(true);
 	}
 
 }

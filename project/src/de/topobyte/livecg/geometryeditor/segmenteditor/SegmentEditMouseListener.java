@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.topobyte.livecg.geometryeditor.lineeditor;
+package de.topobyte.livecg.geometryeditor.segmenteditor;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -24,13 +24,13 @@ import java.awt.event.MouseEvent;
 import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.core.geometry.geom.Coordinate;
 
-public class LineEditMouseListener extends MouseAdapter
+public class SegmentEditMouseListener extends MouseAdapter
 {
-	private final LineEditPane editPane;
+	private final SegmentEditPane editPane;
 
 	private Integer end = null;
 
-	public LineEditMouseListener(LineEditPane editPane)
+	public SegmentEditMouseListener(SegmentEditPane editPane)
 	{
 		this.editPane = editPane;
 	}
@@ -43,9 +43,9 @@ public class LineEditMouseListener extends MouseAdapter
 
 	private Integer selectEnd(Coordinate coord)
 	{
-		Chain line = editPane.getLine();
-		Coordinate c1 = line.getCoordinate(0);
-		Coordinate c2 = line.getCoordinate(1);
+		Chain segment = editPane.getSegment();
+		Coordinate c1 = segment.getCoordinate(0);
+		Coordinate c2 = segment.getCoordinate(1);
 		if (c1.distance(coord) < 10) {
 			return 0;
 		}
@@ -95,7 +95,7 @@ public class LineEditMouseListener extends MouseAdapter
 			return;
 		}
 		Coordinate coord = createCoordinate(e);
-		editPane.getLine().setCoordinate(end, coord);
+		editPane.getSegment().setCoordinate(end, coord);
 		editPane.repaint();
 
 		editPane.triggerChange();

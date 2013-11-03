@@ -22,32 +22,26 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
 import javax.swing.JPanel;
-import javax.swing.JSlider;
 import javax.swing.border.TitledBorder;
 
-import de.topobyte.livecg.algorithms.frechet.freespace.Config;
-import de.topobyte.livecg.algorithms.frechet.freespace.segment.LineEditorSegmentPane;
+import de.topobyte.livecg.algorithms.frechet.distanceterrain.segment.SegmentEditorSegmentPane;
 import de.topobyte.livecg.core.geometry.geom.Chain;
-import de.topobyte.livecg.geometryeditor.lineeditor.LineEditor;
+import de.topobyte.livecg.geometryeditor.segmenteditor.SegmentEditor;
 
-public class DualLineEditorFreespace extends JPanel
+public class DualSegmentEditorDistanceTerrain extends JPanel
 {
 	private static final long serialVersionUID = 3583790726202326121L;
 
-	private LineEditor editor1;
-	private LineEditor editor2;
-	private LineEditorSegmentPane segmentPane;
+	private SegmentEditor editor1;
+	private SegmentEditor editor2;
+	private SegmentEditorSegmentPane segmentPane;
 
-	private JSlider slider;
-
-	public DualLineEditorFreespace(int width, int height, Chain line1,
-			Chain line2, int epsilon)
+	public DualSegmentEditorDistanceTerrain(int width, int height, Chain line1,
+			Chain line2)
 	{
-		Config config = new Config();
-		editor1 = new LineEditor(width, height, line1);
-		editor2 = new LineEditor(width, height, line2);
-		segmentPane = new LineEditorSegmentPane(config, editor1, editor2,
-				epsilon);
+		editor1 = new SegmentEditor(width, height, line1);
+		editor2 = new SegmentEditor(width, height, line2);
+		segmentPane = new SegmentEditorSegmentPane(editor1, editor2);
 
 		segmentPane.update();
 
@@ -59,28 +53,13 @@ public class DualLineEditorFreespace extends JPanel
 		c.fill = GridBagConstraints.BOTH;
 		c.weightx = c.weighty = 1.0;
 		segmentPaneContainer.add(segmentPane, c);
-		segmentPaneContainer.setBorder(new TitledBorder("Free space"));
-
-		int maxEpsilon = (int) (width * 1.5);
-		slider = new JSlider(0, maxEpsilon);
-		slider.setPaintLabels(true);
-		slider.setPaintTicks(true);
-		slider.setMajorTickSpacing(10);
-		slider.setValue(epsilon);
-		slider.setBorder(new TitledBorder("epsilon"));
-
-		slider.addChangeListener(new EpsilonChangedListener(segmentPane));
+		segmentPaneContainer.setBorder(new TitledBorder("Distance terrain"));
 
 		setLayout(new GridBagLayout());
 
 		c = new GridBagConstraints();
 
 		c.fill = GridBagConstraints.BOTH;
-
-		c.gridwidth = 3;
-		c.gridx = 0;
-		c.gridy = 0;
-		add(slider, c);
 
 		c.gridwidth = 1;
 		c.weightx = 1.0;
@@ -97,8 +76,4 @@ public class DualLineEditorFreespace extends JPanel
 		add(segmentPaneContainer, c);
 	}
 
-	public JSlider getSlider()
-	{
-		return slider;
-	}
 }

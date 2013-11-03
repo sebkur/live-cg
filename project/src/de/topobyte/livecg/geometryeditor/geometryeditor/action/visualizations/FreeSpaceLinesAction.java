@@ -19,7 +19,7 @@ package de.topobyte.livecg.geometryeditor.geometryeditor.action.visualizations;
 
 import java.awt.event.ActionEvent;
 
-import de.topobyte.livecg.algorithms.frechet.ui.RunDualLineEditorFreespace;
+import de.topobyte.livecg.algorithms.frechet.ui.RunDualSegmentEditorFreespace;
 import de.topobyte.livecg.geometryeditor.action.BasicAction;
 
 public class FreeSpaceLinesAction extends BasicAction
@@ -38,7 +38,7 @@ public class FreeSpaceLinesAction extends BasicAction
 	@Override
 	public void actionPerformed(ActionEvent event)
 	{
-		RunDualLineEditorFreespace.runProgrammatically(false);
+		RunDualSegmentEditorFreespace.runProgrammatically(false);
 	}
 
 }

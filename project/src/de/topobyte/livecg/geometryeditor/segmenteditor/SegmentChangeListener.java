@@ -16,16 +16,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.topobyte.livecg.algorithms.frechet.distanceterrain;
+package de.topobyte.livecg.geometryeditor.segmenteditor;
 
-import de.topobyte.livecg.algorithms.frechet.ui.RunDualLineEditorDistanceTerrain;
-
-public class TestDualLineEditor
+public interface SegmentChangeListener
 {
 
-	public static void main(String[] args)
-	{
-		RunDualLineEditorDistanceTerrain.runProgrammatically(true);
-	}
+	public void segmentChanged();
 
 }

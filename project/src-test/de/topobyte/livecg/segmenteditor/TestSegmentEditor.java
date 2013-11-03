@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.topobyte.livecg.algorithms.frechet.freespace;
+package de.topobyte.livecg.segmenteditor;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -28,9 +28,9 @@ import org.apache.log4j.BasicConfigurator;
 
 import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.core.geometry.geom.Coordinate;
-import de.topobyte.livecg.geometryeditor.lineeditor.LineEditor;
+import de.topobyte.livecg.geometryeditor.segmenteditor.SegmentEditor;
 
-public class TestLineEditor
+public class TestSegmentEditor
 {
 
 	public static void main(String[] args)
@@ -48,16 +48,16 @@ public class TestLineEditor
 			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		}
 
-		frame.setTitle("Line Editor");
+		frame.setTitle("Segment Editor");
 
 		int size = 200;
 
-		Chain line = new Chain();
+		Chain segment = new Chain();
 
-		line.appendPoint(new Coordinate(20, 50));
-		line.appendPoint(new Coordinate(180, 150));
+		segment.appendPoint(new Coordinate(20, 50));
+		segment.appendPoint(new Coordinate(180, 150));
 
-		LineEditor lineEditor = new LineEditor(size, size, line);
+		SegmentEditor segmentEditor = new SegmentEditor(size, size, segment);
 
 		// toolbar.setFloatable(false);
 
@@ -75,7 +75,7 @@ public class TestLineEditor
 
 		c.gridy = 1;
 		c.weighty = 1.0;
-		mainPanel.add(lineEditor, c);
+		mainPanel.add(segmentEditor, c);
 
 		frame.setVisible(true);
 	}

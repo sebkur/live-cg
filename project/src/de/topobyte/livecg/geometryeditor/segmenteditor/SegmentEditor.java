@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.topobyte.livecg.geometryeditor.lineeditor;
+package de.topobyte.livecg.geometryeditor.segmenteditor;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -29,16 +29,16 @@ import de.topobyte.livecg.geometryeditor.geometryeditor.scale.Scale;
 import de.topobyte.livecg.geometryeditor.geometryeditor.scale.ScaleX;
 import de.topobyte.livecg.geometryeditor.geometryeditor.scale.ScaleY;
 
-public class LineEditor extends JPanel
+public class SegmentEditor extends JPanel
 {
 
 	private static final long serialVersionUID = 6938632987085713657L;
 
-	private LineEditPane editPane;
+	private SegmentEditPane editPane;
 
-	public LineEditor(int width, int height, Chain line)
+	public SegmentEditor(int width, int height, Chain line)
 	{
-		editPane = new LineEditPane(width, height, line);
+		editPane = new SegmentEditPane(width, height, line);
 		Scale scaleX = new ScaleX(editPane);
 		Scale scaleY = new ScaleY(editPane);
 
@@ -71,7 +71,7 @@ public class LineEditor extends JPanel
 		add(scaleY, c);
 	}
 
-	public LineEditPane getEditPane()
+	public SegmentEditPane getEditPane()
 	{
 		return editPane;
 	}

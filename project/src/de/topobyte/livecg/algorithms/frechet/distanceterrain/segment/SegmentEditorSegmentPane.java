@@ -16,26 +16,24 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.topobyte.livecg.algorithms.frechet.freespace.segment;
+package de.topobyte.livecg.algorithms.frechet.distanceterrain.segment;
 
-import de.topobyte.livecg.algorithms.frechet.freespace.Config;
 import de.topobyte.livecg.algorithms.frechet.freespace.calc.LineSegment;
 import de.topobyte.livecg.core.geometry.geom.Chain;
-import de.topobyte.livecg.geometryeditor.lineeditor.LineChangeListener;
-import de.topobyte.livecg.geometryeditor.lineeditor.LineEditor;
+import de.topobyte.livecg.geometryeditor.segmenteditor.SegmentChangeListener;
+import de.topobyte.livecg.geometryeditor.segmenteditor.SegmentEditor;
 
-public class LineEditorSegmentPane extends SegmentPane implements
-		LineChangeListener
+public class SegmentEditorSegmentPane extends SegmentPane implements
+		SegmentChangeListener
 {
-	private static final long serialVersionUID = -1841371095191802602L;
 
-	private LineEditor editor1;
-	private LineEditor editor2;
+	private static final long serialVersionUID = 5084896077938502642L;
 
-	public LineEditorSegmentPane(Config config, LineEditor editor1,
-			LineEditor editor2, int epsilon)
+	private SegmentEditor editor1;
+	private SegmentEditor editor2;
+
+	public SegmentEditorSegmentPane(SegmentEditor editor1, SegmentEditor editor2)
 	{
-		super(config, epsilon);
 		this.editor1 = editor1;
 		this.editor2 = editor2;
 		editor1.getEditPane().addLineChangeListener(this);
@@ -43,15 +41,15 @@ public class LineEditorSegmentPane extends SegmentPane implements
 	}
 
 	@Override
-	public void lineChanged()
+	public void segmentChanged()
 	{
 		update();
 	}
 
 	public void update()
 	{
-		Chain line1 = editor1.getEditPane().getLine();
-		Chain line2 = editor2.getEditPane().getLine();
+		Chain line1 = editor1.getEditPane().getSegment();
+		Chain line2 = editor2.getEditPane().getSegment();
 
 		LineSegment seg1 = new LineSegment(line1.getFirstCoordinate(),
 				line1.getLastCoordinate());
