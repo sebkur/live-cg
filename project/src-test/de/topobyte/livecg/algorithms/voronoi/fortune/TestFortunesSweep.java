@@ -55,8 +55,8 @@ public class TestFortunesSweep
 		algorithm.addSite(new Point(300, 100), false);
 		algorithm.addSite(new Point(300, 200), false);
 		algorithm.addSite(new Point(300, 300), false);
-		algorithm.addSite(new Point(300, 350), false);
-		algorithm.addSite(new Point(450, 240), false);
+		algorithm.addSite(new Point(300, 400), false);
+		algorithm.addSite(new Point(450, 250), false);
 
 		algorithm.restart();
 	}
