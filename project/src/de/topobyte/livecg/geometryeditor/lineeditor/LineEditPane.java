@@ -29,9 +29,10 @@ import javax.swing.JPanel;
 
 import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.core.geometry.geom.Coordinate;
+import de.topobyte.livecg.geometryeditor.geometryeditor.Viewport;
 import de.topobyte.livecg.util.SwingUtil;
 
-public class LineEditPane extends JPanel
+public class LineEditPane extends JPanel implements Viewport
 {
 
 	private static final long serialVersionUID = 7921493627117424315L;
@@ -145,6 +146,24 @@ public class LineEditPane extends JPanel
 		for (LineChangeListener listener : listeners) {
 			listener.lineChanged();
 		}
+	}
+
+	@Override
+	public double getPositionX()
+	{
+		return 0;
+	}
+
+	@Override
+	public double getPositionY()
+	{
+		return 0;
+	}
+
+	@Override
+	public double getZoom()
+	{
+		return 1;
 	}
 
 }
