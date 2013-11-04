@@ -29,12 +29,10 @@ import de.topobyte.livecg.core.geometry.geom.Node;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
 import de.topobyte.livecg.core.geometry.geom.Rectangle;
 
-public class Content
+public class Content extends SetOfGeometries
 {
 
 	private Rectangle scene = new Rectangle(0, 0, 700, 400);
-	private List<Chain> chains = new ArrayList<Chain>();
-	private List<Polygon> polygons = new ArrayList<Polygon>();
 
 	public Rectangle getScene()
 	{
@@ -44,36 +42,6 @@ public class Content
 	public void setScene(Rectangle scene)
 	{
 		this.scene = scene;
-	}
-
-	public List<Chain> getChains()
-	{
-		return chains;
-	}
-
-	public void addChain(Chain chain)
-	{
-		chains.add(chain);
-	}
-
-	public void removeChain(Chain chain)
-	{
-		chains.remove(chain);
-	}
-
-	public List<Polygon> getPolygons()
-	{
-		return polygons;
-	}
-
-	public void addPolygon(Polygon polygon)
-	{
-		polygons.add(polygon);
-	}
-
-	public void removePolygon(Polygon polygon)
-	{
-		polygons.remove(polygon);
 	}
 
 	public Set<Chain> getChainsNear(Coordinate coordinate)
