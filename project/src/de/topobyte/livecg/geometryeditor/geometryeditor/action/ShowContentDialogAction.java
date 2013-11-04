@@ -32,7 +32,7 @@ public class ShowContentDialogAction extends BasicAction
 	public ShowContentDialogAction(LiveCG liveCG)
 	{
 		super("Content dialog", "Show the content dialog",
-				"res/images/24x24/empty.png");
+				"res/images/24x24/window-new.png");
 		this.liveCG = liveCG;
 	}
 

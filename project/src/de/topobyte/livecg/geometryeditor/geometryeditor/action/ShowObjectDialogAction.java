@@ -32,7 +32,7 @@ public class ShowObjectDialogAction extends BasicAction
 	public ShowObjectDialogAction(LiveCG liveCG)
 	{
 		super("Object dialog", "Show the object dialog",
-				"res/images/24x24/empty.png");
+				"res/images/24x24/window-new.png");
 		this.liveCG = liveCG;
 	}
 

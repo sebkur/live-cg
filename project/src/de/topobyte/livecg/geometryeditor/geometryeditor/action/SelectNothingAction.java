@@ -33,7 +33,7 @@ public class SelectNothingAction extends BasicAction
 	public SelectNothingAction(GeometryEditPane editPane)
 	{
 		super("Select nothing", "Select nothing on the scene",
-				"res/images/24x24/empty.png");
+				"res/images/24x24/clear.png");
 		this.editPane = editPane;
 	}
 
