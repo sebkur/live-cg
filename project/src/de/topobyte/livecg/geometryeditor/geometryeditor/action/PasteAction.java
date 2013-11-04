@@ -60,43 +60,55 @@ public class PasteAction extends BasicAction
 	{
 		Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
 		Transferable transferData = clipboard.getContents(null);
-		boolean supported = true;
-		try {
-			Object data = transferData
-					.getTransferData(GeometryTransferable.flavorGeometries);
-			SetOfGeometries geometries = (SetOfGeometries) data;
-			GeometryTransfer.transfer(geometries, editPane.getContent());
-		} catch (UnsupportedFlavorException e) {
-			logger.debug("Unsupported Data Flavor");
-			supported = false;
-		} catch (IOException e) {
-			logger.error("IOException");
+
+		boolean success = false;
+
+		if (transferData
+				.isDataFlavorSupported(GeometryTransferable.flavorGeometries)) {
+			try {
+				Object data = transferData
+						.getTransferData(GeometryTransferable.flavorGeometries);
+				SetOfGeometries geometries = (SetOfGeometries) data;
+				GeometryTransfer.transfer(geometries, editPane.getContent());
+				editPane.repaint();
+				success = true;
+			} catch (UnsupportedFlavorException e) {
+				logger.debug("Unsupported Data Flavor");
+			} catch (IOException e) {
+				logger.error("IOException");
+			}
 		}
 
-		editPane.repaint();
-
-		if (supported) {
+		if (success) {
 			return;
 		}
 
-		try {
-			Object data = transferData
-					.getTransferData(GeometryTransferable.flavorPlainText);
-			InputStream input = (InputStream) data;
-			SetOfGeometryReader reader = new SetOfGeometryReader();
-			SetOfGeometries geometries = reader.read(input);
-			GeometryTransfer.transfer(geometries, editPane.getContent());
-		} catch (UnsupportedFlavorException e) {
-			logger.debug("Unsupported Data Flavor");
-		} catch (IOException e) {
-			logger.error("IOException");
-		} catch (ParserConfigurationException e) {
-			logger.error("ParserConfigurationException");
-		} catch (SAXException e) {
-			logger.error("SAXException");
+		if (transferData
+				.isDataFlavorSupported(GeometryTransferable.flavorPlainText)) {
+			try {
+				Object data = transferData
+						.getTransferData(GeometryTransferable.flavorPlainText);
+				InputStream input = (InputStream) data;
+				SetOfGeometryReader reader = new SetOfGeometryReader();
+				SetOfGeometries geometries = reader.read(input);
+				GeometryTransfer.transfer(geometries, editPane.getContent());
+				editPane.repaint();
+				success = true;
+			} catch (UnsupportedFlavorException e) {
+				logger.debug("Unsupported Data Flavor");
+			} catch (IOException e) {
+				logger.error("IOException");
+			} catch (ParserConfigurationException e) {
+				logger.error("ParserConfigurationException");
+			} catch (SAXException e) {
+				logger.error("SAXException");
+			}
+		}
+
+		if (success) {
+			return;
 		}
 
 		logger.error("unable to paste data");
 	}
-
 }
