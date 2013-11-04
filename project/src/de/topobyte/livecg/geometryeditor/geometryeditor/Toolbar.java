@@ -132,7 +132,7 @@ public class Toolbar extends JToolBar
 
 	private void updateZoom(double value)
 	{
-		editPane.setZoom(value / 100.0);
+		editPane.setZoomCentered(value / 100.0);
 		editPane.repaint();
 	}
 

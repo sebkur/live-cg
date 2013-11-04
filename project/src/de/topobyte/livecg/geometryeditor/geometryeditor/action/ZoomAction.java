@@ -84,7 +84,7 @@ public class ZoomAction extends BasicAction
 			zoom /= 1.2;
 			break;
 		}
-		editPane.setZoom(zoom);
+		editPane.setZoomCentered(zoom);
 		editPane.repaint();
 	}
 

@@ -119,6 +119,17 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 		fireViewportListenersZoomChanged();
 	}
 
+	public void setZoomCentered(double zoom)
+	{
+		double mx = -positionX + getWidth() / this.zoom / 2.0;
+		double my = -positionY + getHeight() / this.zoom / 2.0;
+		this.zoom = zoom;
+		positionX = getWidth() / zoom / 2.0 - mx;
+		positionY = getHeight() / zoom / 2.0 - my;
+		checkBounds();
+		fireViewportListenersZoomChanged();
+	}
+
 	public double getZoom()
 	{
 		return zoom;
