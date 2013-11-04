@@ -18,15 +18,20 @@
 
 package de.topobyte.livecg.geometryeditor.geometryeditor.action;
 
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
 import java.awt.event.ActionEvent;
-
-import javax.swing.JComponent;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.topobyte.livecg.core.geometry.geom.Chain;
+import de.topobyte.livecg.core.geometry.geom.Node;
+import de.topobyte.livecg.core.geometry.geom.Polygon;
 import de.topobyte.livecg.geometryeditor.action.BasicAction;
 import de.topobyte.livecg.geometryeditor.geometryeditor.GeometryEditPane;
+import de.topobyte.livecg.geometryeditor.geometryeditor.SetOfGeometries;
+import de.topobyte.livecg.geometryeditor.geometryeditor.clipboard.GeometryTransferable;
 
 public class CopyAction extends BasicAction
 {
@@ -36,20 +41,36 @@ public class CopyAction extends BasicAction
 	static final Logger logger = LoggerFactory.getLogger(CopyAction.class);
 
 	private final GeometryEditPane editPane;
-	private final JComponent component;
 
-	public CopyAction(JComponent component, GeometryEditPane editPane)
+	public CopyAction(GeometryEditPane editPane)
 	{
 		super("Copy", "Copy to clipboard",
 				"org/freedesktop/tango/22x22/actions/edit-copy.png");
-		this.component = component;
 		this.editPane = editPane;
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent event)
 	{
-		// TODO
+		Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+
+		SetOfGeometries geometries = new SetOfGeometries();
+		for (Node node : editPane.getCurrentNodes()) {
+			for (Chain chain : node.getEndpointChains()) {
+				if (chain.getNumberOfNodes() == 1) {
+					geometries.addChain(chain);
+				}
+			}
+		}
+		for (Chain chain : editPane.getCurrentChains()) {
+			geometries.addChain(chain);
+		}
+		for (Polygon polygon : editPane.getCurrentPolygons()) {
+			geometries.addPolygon(polygon);
+		}
+
+		GeometryTransferable transferable = new GeometryTransferable(geometries);
+		clipboard.setContents(transferable, null);
 	}
 
 }

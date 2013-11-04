@@ -149,8 +149,8 @@ public class Menu extends JMenuBar
 		 * Edit
 		 */
 
-		JMenuItem copy = new JMenuItem(new CopyAction(this, editPane));
-		JMenuItem paste = new JMenuItem(new PasteAction(this, editPane));
+		JMenuItem copy = new JMenuItem(new CopyAction(editPane));
+		JMenuItem paste = new JMenuItem(new PasteAction(editPane));
 		JMenuItem selectNothing = new JMenuItem(new SelectNothingAction(
 				editPane));
 		JMenuItem selectEverything = new JMenuItem(

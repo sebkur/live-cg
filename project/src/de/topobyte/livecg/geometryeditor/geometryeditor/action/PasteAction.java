@@ -18,15 +18,21 @@
 
 package de.topobyte.livecg.geometryeditor.geometryeditor.action;
 
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.Transferable;
+import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.event.ActionEvent;
-
-import javax.swing.JComponent;
+import java.io.IOException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.topobyte.livecg.geometryeditor.action.BasicAction;
 import de.topobyte.livecg.geometryeditor.geometryeditor.GeometryEditPane;
+import de.topobyte.livecg.geometryeditor.geometryeditor.SetOfGeometries;
+import de.topobyte.livecg.geometryeditor.geometryeditor.clipboard.GeometryTransfer;
+import de.topobyte.livecg.geometryeditor.geometryeditor.clipboard.GeometryTransferable;
 
 public class PasteAction extends BasicAction
 {
@@ -36,20 +42,47 @@ public class PasteAction extends BasicAction
 	static final Logger logger = LoggerFactory.getLogger(PasteAction.class);
 
 	private final GeometryEditPane editPane;
-	private final JComponent component;
 
-	public PasteAction(JComponent component, GeometryEditPane editPane)
+	public PasteAction(GeometryEditPane editPane)
 	{
 		super("Paste", "Paste from clipboard",
 				"org/freedesktop/tango/22x22/actions/edit-paste.png");
-		this.component = component;
 		this.editPane = editPane;
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent event)
 	{
-		// TODO
+		Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+		Transferable transferData = clipboard.getContents(null);
+		boolean supported = true;
+		try {
+			Object data = transferData
+					.getTransferData(GeometryTransferable.flavorGeometries);
+			SetOfGeometries geometries = (SetOfGeometries) data;
+			GeometryTransfer.transfer(geometries, editPane.getContent());
+		} catch (UnsupportedFlavorException e) {
+			logger.error("Unsupported Data Flavor");
+			supported = false;
+		} catch (IOException e) {
+			logger.error("IOException");
+		}
+
+		editPane.repaint();
+
+		if (supported) {
+			return;
+		}
+
+		try {
+			Object data = transferData
+					.getTransferData(GeometryTransferable.flavorPlainText);
+			// TODO: do something with data
+		} catch (UnsupportedFlavorException e) {
+			logger.error("Unsupported Data Flavor");
+		} catch (IOException e) {
+			logger.error("IOException");
+		}
 	}
 
 }
