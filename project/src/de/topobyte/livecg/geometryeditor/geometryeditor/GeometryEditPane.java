@@ -18,6 +18,7 @@
 
 package de.topobyte.livecg.geometryeditor.geometryeditor;
 
+import java.awt.Cursor;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ComponentAdapter;
@@ -251,6 +252,9 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 		if (this.mouseMode == mouseMode) {
 			return;
 		}
+		Cursor cursor = Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR);
+		setCursor(cursor);
+
 		MouseMode old = this.mouseMode;
 		this.mouseMode = mouseMode;
 		for (MouseModeListener listener : listeners) {
