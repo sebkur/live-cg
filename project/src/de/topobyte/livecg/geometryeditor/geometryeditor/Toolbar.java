@@ -179,6 +179,12 @@ public class Toolbar extends JToolBar
 			if (e.getKeyCode() == KeyEvent.VK_DOWN) {
 				return;
 			}
+			if (e.getKeyCode() == KeyEvent.VK_HOME) {
+				return;
+			}
+			if (e.getKeyCode() == KeyEvent.VK_END) {
+				return;
+			}
 			e.consume();
 		}
 	}
