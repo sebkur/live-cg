@@ -24,10 +24,15 @@ import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
+import java.io.InputStream;
+
+import javax.xml.parsers.ParserConfigurationException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.xml.sax.SAXException;
 
+import de.topobyte.livecg.core.geometry.io.SetOfGeometryReader;
 import de.topobyte.livecg.geometryeditor.action.BasicAction;
 import de.topobyte.livecg.geometryeditor.geometryeditor.GeometryEditPane;
 import de.topobyte.livecg.geometryeditor.geometryeditor.SetOfGeometries;
@@ -62,7 +67,7 @@ public class PasteAction extends BasicAction
 			SetOfGeometries geometries = (SetOfGeometries) data;
 			GeometryTransfer.transfer(geometries, editPane.getContent());
 		} catch (UnsupportedFlavorException e) {
-			logger.error("Unsupported Data Flavor");
+			logger.debug("Unsupported Data Flavor");
 			supported = false;
 		} catch (IOException e) {
 			logger.error("IOException");
@@ -77,12 +82,21 @@ public class PasteAction extends BasicAction
 		try {
 			Object data = transferData
 					.getTransferData(GeometryTransferable.flavorPlainText);
-			// TODO: do something with data
+			InputStream input = (InputStream) data;
+			SetOfGeometryReader reader = new SetOfGeometryReader();
+			SetOfGeometries geometries = reader.read(input);
+			GeometryTransfer.transfer(geometries, editPane.getContent());
 		} catch (UnsupportedFlavorException e) {
-			logger.error("Unsupported Data Flavor");
+			logger.debug("Unsupported Data Flavor");
 		} catch (IOException e) {
 			logger.error("IOException");
+		} catch (ParserConfigurationException e) {
+			logger.error("ParserConfigurationException");
+		} catch (SAXException e) {
+			logger.error("SAXException");
 		}
+
+		logger.error("unable to paste data");
 	}
 
 }

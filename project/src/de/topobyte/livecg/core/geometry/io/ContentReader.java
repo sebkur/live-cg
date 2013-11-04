@@ -22,11 +22,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Stack;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
@@ -34,16 +29,10 @@ import javax.xml.parsers.SAXParserFactory;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
-import org.xml.sax.helpers.DefaultHandler;
 
-import de.topobyte.livecg.core.geometry.geom.Chain;
-import de.topobyte.livecg.core.geometry.geom.CloseabilityException;
-import de.topobyte.livecg.core.geometry.geom.Coordinate;
-import de.topobyte.livecg.core.geometry.geom.Node;
-import de.topobyte.livecg.core.geometry.geom.Polygon;
 import de.topobyte.livecg.geometryeditor.geometryeditor.Content;
 
-public class ContentReader extends DefaultHandler
+public class ContentReader extends SetOfGeometryReader
 {
 
 	private Content content;
@@ -62,6 +51,7 @@ public class ContentReader extends DefaultHandler
 			ParserConfigurationException, SAXException
 	{
 		content = new Content();
+		super.content = content;
 
 		SAXParser parser = SAXParserFactory.newInstance().newSAXParser();
 		parser.parse(input, this);
@@ -69,167 +59,16 @@ public class ContentReader extends DefaultHandler
 		return content;
 	}
 
-	private enum Element {
-		Data, Node, Chain, Polygon, Shell, Hole
-	}
-
-	// Store the path within the XML document int this Stack
-	private Stack<Element> position = new Stack<Element>();
-	// Collect text received via 'characters()' in this buffer
-	private StringBuffer buffer = new StringBuffer();
-	// Map ids of nodes to node instances
-	private Map<Integer, Node> idToNode = new HashMap<Integer, Node>();
-	// A temporary storage for a chain's node references
-	private List<Integer> ids = new ArrayList<Integer>();
-	// A temporary storage for chain's closed attribute
-	private boolean closed = false;
-	// Store polygon's shell here
-	private Chain shell = null;
-	// Store polygon's holes here;
-	private List<Chain> holes = null;
-
-	/*
-	 * SAX callbacks
-	 */
-
-	@Override
-	public void endDocument() throws SAXException
-	{
-		// Nothing to do at the moment
-	}
-
 	@Override
 	public void startElement(String uri, String localName, String qName,
 			Attributes attributes) throws SAXException
 	{
-		buffer.setLength(0);
 		if (position.isEmpty()) {
 			if (qName.equals("data")) {
 				position.push(Element.Data);
 			}
-		} else if (position.size() == 1 && position.peek() == Element.Data) {
-			if (qName.equals("node")) {
-				position.push(Element.Node);
-				String sid = attributes.getValue("id");
-				String sx = attributes.getValue("x");
-				String sy = attributes.getValue("y");
-				int id = Integer.valueOf(sid);
-				double x = Double.valueOf(sx);
-				double y = Double.valueOf(sy);
-				addNode(id, x, y);
-			} else if (qName.equals("chain")) {
-				position.push(Element.Chain);
-				parseChain(attributes);
-			} else if (qName.equals("polygon")) {
-				position.push(Element.Polygon);
-				shell = null;
-				holes = new ArrayList<Chain>();
-			}
-		} else if (position.peek() == Element.Polygon) {
-			if (qName.equals("shell")) {
-				position.push(Element.Shell);
-				parseChain(attributes);
-			} else if (qName.equals("hole")) {
-				position.push(Element.Hole);
-				parseChain(attributes);
-			}
+		} else {
+			super.startElement(uri, localName, qName, attributes);
 		}
-	}
-
-	@Override
-	public void endElement(String uri, String localName, String qName)
-			throws SAXException
-	{
-		Element element = position.pop();
-		switch (element) {
-		default:
-		case Data:
-		case Node:
-			// Nothing to do for these
-			break;
-		case Chain:
-		case Shell:
-		case Hole:
-			parseChainText();
-			Chain chain;
-			try {
-				chain = buildChain();
-			} catch (CloseabilityException e) {
-				throw new SAXException(
-						"A chain marked as closed was not closeable", e);
-			}
-			if (position.peek() == Element.Data) {
-				content.addChain(chain);
-			} else if (position.peek() == Element.Polygon) {
-				try {
-					chain.setClosed(true);
-				} catch (CloseabilityException e) {
-					throw new SAXException(
-							"A ring of a polygon was not closeable", e);
-				}
-				if (element == Element.Shell) {
-					shell = chain;
-				} else if (element == Element.Hole) {
-					holes.add(chain);
-				}
-			}
-			break;
-		case Polygon:
-			Polygon polygon = new Polygon(shell, holes);
-			content.addPolygon(polygon);
-			break;
-		}
-	}
-
-	@Override
-	public void characters(char[] ch, int start, int length)
-			throws SAXException
-	{
-		buffer.append(ch, start, length);
-	}
-
-	/*
-	 * Helper methods
-	 */
-
-	private void addNode(int id, double x, double y)
-	{
-		Coordinate coordinate = new Coordinate(x, y);
-		Node node = new Node(coordinate);
-		idToNode.put(id, node);
-	}
-
-	private void parseChain(Attributes attributes)
-	{
-		closed = false;
-		String sClosed = attributes.getValue("closed");
-		if (sClosed != null) {
-			String lower = sClosed.toLowerCase();
-			closed = lower.equals("true") || lower.equals("yes");
-		}
-	}
-
-	private void parseChainText()
-	{
-		ids.clear();
-		String text = buffer.toString();
-		String[] parts = text.split(" ");
-		for (String part : parts) {
-			int n = Integer.valueOf(part);
-			ids.add(n);
-		}
-	}
-
-	private Chain buildChain() throws CloseabilityException
-	{
-		Chain chain = new Chain();
-		for (int id : ids) {
-			Node node = idToNode.get(id);
-			chain.appendNode(node);
-		}
-		if (closed) {
-			chain.setClosed(closed);
-		}
-		return chain;
 	}
 }

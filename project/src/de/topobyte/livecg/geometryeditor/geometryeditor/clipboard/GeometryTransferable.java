@@ -21,6 +21,7 @@ import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
@@ -28,6 +29,7 @@ import java.io.UnsupportedEncodingException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.topobyte.livecg.core.geometry.io.SetOfGeometryWriter;
 import de.topobyte.livecg.geometryeditor.geometryeditor.SetOfGeometries;
 
 public class GeometryTransferable implements Transferable
@@ -45,20 +47,17 @@ public class GeometryTransferable implements Transferable
 	public GeometryTransferable(SetOfGeometries geometries)
 	{
 		this.geometries = geometries;
-		System.out.println("Create GeometryTransferable");
 	}
 
 	@Override
 	public DataFlavor[] getTransferDataFlavors()
 	{
-		System.out.println("Get Flavors");
 		return new DataFlavor[] { flavorGeometries, flavorPlainText };
 	}
 
 	@Override
 	public boolean isDataFlavorSupported(DataFlavor flavor)
 	{
-		System.out.println("isDataFlavorSupported");
 		return flavor.equals(flavorPlainText)
 				|| flavor.equals(flavorGeometries);
 	}
@@ -67,7 +66,6 @@ public class GeometryTransferable implements Transferable
 	public Object getTransferData(DataFlavor flavor)
 			throws UnsupportedFlavorException, IOException
 	{
-		System.out.println("Get data: " + flavor);
 		if (flavor.equals(flavorPlainText)) {
 			return buildStringInputStream();
 		}
@@ -79,19 +77,28 @@ public class GeometryTransferable implements Transferable
 
 	private InputStream buildStringInputStream()
 	{
-		String text = buildText();
+		String text = null;
+		try {
+			text = buildText();
+		} catch (IOException e1) {
+			logger.error("unable to build text");
+			return null;
+		}
 		ByteArrayInputStream bais = null;
 		try {
 			bais = new ByteArrayInputStream(text.getBytes("unicode"));
 		} catch (UnsupportedEncodingException e) {
-			logger.debug("unable to create string: " + e.getMessage());
+			logger.error("unable to create string: " + e.getMessage());
 		}
 		return bais;
 	}
 
-	private String buildText()
+	private String buildText() throws IOException
 	{
-		// TODO Auto-generated method stub
-		return "";
+		SetOfGeometryWriter writer = new SetOfGeometryWriter();
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		writer.write(geometries, baos);
+		baos.close();
+		return new String(baos.toByteArray());
 	}
 }
