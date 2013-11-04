@@ -36,10 +36,22 @@ public class ZoomAction extends BasicAction
 
 	public ZoomAction(GeometryEditPane editPane, Type type)
 	{
-		super(title(type), description(type),
-				"org/freedesktop/tango/22x22/actions/document-new.png");
+		super(title(type), description(type), icon(type));
 		this.editPane = editPane;
 		this.type = type;
+	}
+
+	private static String icon(Type type)
+	{
+		switch (type) {
+		default:
+		case IDENTITY:
+			return "res/images/24x24/zoom-original.png";
+		case IN:
+			return "res/images/24x24/zoom-in.png";
+		case OUT:
+			return "res/images/24x24/zoom-out.png";
+		}
 	}
 
 	private static String title(Type type)
