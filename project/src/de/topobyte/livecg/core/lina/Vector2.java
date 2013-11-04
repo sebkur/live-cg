@@ -15,28 +15,28 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.topobyte.livecg.core.lina2;
+package de.topobyte.livecg.core.lina;
 
 import de.topobyte.livecg.core.geometry.geom.Coordinate;
 
-public class Vector
+public class Vector2
 {
 
 	private final double x;
 	private final double y;
 
-	public Vector(double x, double y)
+	public Vector2(double x, double y)
 	{
 		this.x = x;
 		this.y = y;
 	}
 
-	public Vector(Coordinate c)
+	public Vector2(Coordinate c)
 	{
 		this(c.getX(), c.getY());
 	}
 
-	public Vector(Coordinate from, Coordinate to)
+	public Vector2(Coordinate from, Coordinate to)
 	{
 		this(to.getX() - from.getX(), to.getY() - from.getY());
 	}
@@ -56,22 +56,22 @@ public class Vector
 		return String.format("%f,%f", x, y);
 	}
 
-	public Vector add(Vector other)
+	public Vector2 add(Vector2 other)
 	{
-		return new Vector(x + other.x, y + other.y);
+		return new Vector2(x + other.x, y + other.y);
 	}
 
-	public Vector sub(Vector other)
+	public Vector2 sub(Vector2 other)
 	{
-		return new Vector(x - other.x, y - other.y);
+		return new Vector2(x - other.x, y - other.y);
 	}
 
-	public Vector mult(double lambda)
+	public Vector2 mult(double lambda)
 	{
-		return new Vector(x * lambda, y * lambda);
+		return new Vector2(x * lambda, y * lambda);
 	}
 
-	public double dotProduct(Vector other)
+	public double dotProduct(Vector2 other)
 	{
 		return x * other.x + y * other.y;
 	}
@@ -81,19 +81,19 @@ public class Vector
 		return Math.sqrt(x * x + y * y);
 	}
 
-	public Vector normalized()
+	public Vector2 normalized()
 	{
 		return mult(1.0 / this.norm());
 	}
 
-	public Vector perpendicularLeft()
+	public Vector2 perpendicularLeft()
 	{
-		return new Vector(-y, x);
+		return new Vector2(-y, x);
 	}
 
-	public Vector perpendicularRight()
+	public Vector2 perpendicularRight()
 	{
-		return new Vector(y, -x);
+		return new Vector2(y, -x);
 	}
 
 }

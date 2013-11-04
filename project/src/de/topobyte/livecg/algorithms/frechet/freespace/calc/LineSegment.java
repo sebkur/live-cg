@@ -18,7 +18,7 @@
 package de.topobyte.livecg.algorithms.frechet.freespace.calc;
 
 import de.topobyte.livecg.core.geometry.geom.Coordinate;
-import de.topobyte.livecg.core.lina2.Vector;
+import de.topobyte.livecg.core.lina.Vector2;
 
 public class LineSegment
 {
@@ -42,13 +42,13 @@ public class LineSegment
 		return c2;
 	}
 
-	public Vector getStart()
+	public Vector2 getStart()
 	{
-		return new Vector(c1.getX(), c1.getY());
+		return new Vector2(c1.getX(), c1.getY());
 	}
 
-	public Vector getDirection()
+	public Vector2 getDirection()
 	{
-		return new Vector(c2.getX() - c1.getX(), c2.getY() - c1.getY());
+		return new Vector2(c2.getX() - c1.getX(), c2.getY() - c1.getY());
 	}
 }

@@ -26,7 +26,7 @@ import java.util.Set;
 import de.topobyte.livecg.core.geometry.geom.Coordinate;
 import de.topobyte.livecg.core.geometry.geom.Node;
 import de.topobyte.livecg.core.geometry.geom.Rectangle;
-import de.topobyte.livecg.core.lina2.Vector;
+import de.topobyte.livecg.core.lina.Vector2;
 import de.topobyte.livecg.geometryeditor.geometryeditor.GeometryEditPane;
 import de.topobyte.livecg.geometryeditor.geometryeditor.rectangle.EightHandles;
 import de.topobyte.livecg.geometryeditor.geometryeditor.rectangle.Position;
@@ -116,8 +116,8 @@ public class MouseListenerScale extends EditPaneMouseListener
 		double rgt = rect.getX2();
 		for (Node node : nodes) {
 			Coordinate old = originalPositions.get(node);
-			Vector v = new Vector(old);
-			Vector r = new Vector(old);
+			Vector2 v = new Vector2(old);
+			Vector2 r = new Vector2(old);
 			switch (position) {
 			default:
 				break;
@@ -126,7 +126,7 @@ public class MouseListenerScale extends EditPaneMouseListener
 			case NE: {
 				double scaleY = (top + delta.getY() - btm) / (top - btm);
 				double ry = btm + (v.getY() - btm) * scaleY;
-				r = new Vector(r.getX(), ry);
+				r = new Vector2(r.getX(), ry);
 				break;
 			}
 			case S:
@@ -134,7 +134,7 @@ public class MouseListenerScale extends EditPaneMouseListener
 			case SE: {
 				double scaleY = (btm + delta.getY() - top) / (btm - top);
 				double ry = top + (v.getY() - top) * scaleY;
-				r = new Vector(r.getX(), ry);
+				r = new Vector2(r.getX(), ry);
 				break;
 			}
 			}
@@ -146,7 +146,7 @@ public class MouseListenerScale extends EditPaneMouseListener
 			case SW: {
 				double scaleX = (lft + delta.getX() - rgt) / (lft - rgt);
 				double rx = rgt + (v.getX() - rgt) * scaleX;
-				r = new Vector(rx, r.getY());
+				r = new Vector2(rx, r.getY());
 				break;
 			}
 			case E:
@@ -154,7 +154,7 @@ public class MouseListenerScale extends EditPaneMouseListener
 			case SE: {
 				double scaleX = (rgt + delta.getX() - lft) / (rgt - lft);
 				double rx = lft + (v.getX() - lft) * scaleX;
-				r = new Vector(rx, r.getY());
+				r = new Vector2(rx, r.getY());
 				break;
 			}
 			}

@@ -17,7 +17,7 @@
  */
 package de.topobyte.livecg.algorithms.frechet.freespace.calc;
 
-import de.topobyte.livecg.core.lina2.Vector;
+import de.topobyte.livecg.core.lina.Vector2;
 import de.topobyte.livecg.util.DoubleUtil;
 
 public class FreeSpaceUtil
@@ -31,14 +31,14 @@ public class FreeSpaceUtil
 	public static Interval freeSpace(LineSegment segP, LineSegment segQ,
 			double f, double epsilon)
 	{
-		Vector a = segP.getStart();
-		Vector b = segP.getDirection();
-		Vector c = segQ.getStart();
-		Vector d = segQ.getDirection();
+		Vector2 a = segP.getStart();
+		Vector2 b = segP.getDirection();
+		Vector2 c = segQ.getStart();
+		Vector2 d = segQ.getDirection();
 		return freeSpace(a, b, c, d, f, epsilon);
 	}
 
-	private static Interval freeSpace(Vector a, Vector b, Vector c, Vector d,
+	private static Interval freeSpace(Vector2 a, Vector2 b, Vector2 c, Vector2 d,
 			double f, double epsilon)
 	{
 		// P(x) = a + x * b, Q(y) = c + y * d
@@ -48,7 +48,7 @@ public class FreeSpaceUtil
 		// || a + f * b - c + y * d || <= epsilon
 		// || a - c + f * b + y * d || <= epsilon
 		// We solve this for y and get y1 and y2
-		Vector m = a.sub(c).add(b.mult(f));
+		Vector2 m = a.sub(c).add(b.mult(f));
 		double mxdx = m.getX() * d.getX();
 		double mydy = m.getY() * d.getY();
 		double dx2 = d.getX() * d.getX();

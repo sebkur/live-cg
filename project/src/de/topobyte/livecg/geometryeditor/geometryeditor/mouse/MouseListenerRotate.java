@@ -25,7 +25,7 @@ import org.slf4j.LoggerFactory;
 
 import de.topobyte.livecg.core.geometry.geom.Coordinate;
 import de.topobyte.livecg.core.geometry.geom.Node;
-import de.topobyte.livecg.core.lina2.Vector;
+import de.topobyte.livecg.core.lina.Vector2;
 import de.topobyte.livecg.geometryeditor.geometryeditor.GeometryEditPane;
 
 public class MouseListenerRotate extends EditPaneMouseListener
@@ -71,15 +71,15 @@ public class MouseListenerRotate extends EditPaneMouseListener
 		double sin = Math.sin(alpha);
 		double cos = Math.cos(alpha);
 
-		Vector vc = new Vector(center);
+		Vector2 vc = new Vector2(center);
 		for (Node node : toRotate) {
 			Coordinate old = node.getCoordinate();
-			Vector v = new Vector(old);
-			Vector t = v.sub(vc);
+			Vector2 v = new Vector2(old);
+			Vector2 t = v.sub(vc);
 			double x = cos * t.getX() - sin * t.getY();
 			double y = sin * t.getX() + cos * t.getY();
-			Vector rotated = new Vector(x, y);
-			Vector r = rotated.add(vc);
+			Vector2 rotated = new Vector2(x, y);
+			Vector2 r = rotated.add(vc);
 			node.setCoordinate(new Coordinate(r.getX(), r.getY()));
 		}
 	}

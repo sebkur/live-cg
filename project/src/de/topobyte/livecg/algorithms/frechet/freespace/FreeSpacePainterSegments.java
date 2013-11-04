@@ -28,7 +28,7 @@ import java.util.Random;
 import de.topobyte.livecg.algorithms.frechet.freespace.calc.FreeSpaceUtil;
 import de.topobyte.livecg.algorithms.frechet.freespace.calc.Interval;
 import de.topobyte.livecg.algorithms.frechet.freespace.calc.LineSegment;
-import de.topobyte.livecg.core.lina2.Vector;
+import de.topobyte.livecg.core.lina.Vector2;
 import de.topobyte.livecg.core.painting.BasicAlgorithmPainter;
 import de.topobyte.livecg.core.painting.Color;
 import de.topobyte.livecg.core.painting.Painter;
@@ -214,20 +214,20 @@ public class FreeSpacePainterSegments extends BasicAlgorithmPainter implements
 
 	private AffineTransform createMatrix()
 	{
-		Vector a = seg1.getStart();
-		Vector b = seg1.getDirection();
-		Vector c = seg2.getStart();
-		Vector d = seg2.getDirection();
+		Vector2 a = seg1.getStart();
+		Vector2 b = seg1.getDirection();
+		Vector2 c = seg2.getStart();
+		Vector2 d = seg2.getDirection();
 
 		// System.out.println(String.format("line1: %s + s . %s", a.toString(),
 		// b.toString()));
 		// System.out.println(String.format("line2: %s + s . %s", c.toString(),
 		// d.toString()));
 
-		Vector xa = a.add(new Vector(0, 0));
-		Vector xb = b.add(new Vector(0, 0));
-		Vector xc = c.add(new Vector(0, 0));
-		Vector xd = d.add(new Vector(0, 0));
+		Vector2 xa = a.add(new Vector2(0, 0));
+		Vector2 xb = b.add(new Vector2(0, 0));
+		Vector2 xc = c.add(new Vector2(0, 0));
+		Vector2 xd = d.add(new Vector2(0, 0));
 
 		while (true) {
 			try {
@@ -249,7 +249,7 @@ public class FreeSpacePainterSegments extends BasicAlgorithmPainter implements
 				double x = iax * s;
 				double y = iay * s;
 
-				xb = b.add(new Vector(x, y));
+				xb = b.add(new Vector2(x, y));
 			}
 		}
 	}
@@ -261,7 +261,7 @@ public class FreeSpacePainterSegments extends BasicAlgorithmPainter implements
 		return min + diff * g;
 	}
 
-	private AffineTransform createMatrix(Vector a, Vector b, Vector c, Vector d)
+	private AffineTransform createMatrix(Vector2 a, Vector2 b, Vector2 c, Vector2 d)
 			throws NoninvertibleTransformException
 	{
 		double tlX = a.getX() - c.getX();

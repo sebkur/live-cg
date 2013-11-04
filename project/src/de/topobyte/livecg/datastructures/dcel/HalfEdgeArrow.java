@@ -21,14 +21,14 @@ import de.topobyte.livecg.core.geometry.dcel.HalfEdge;
 import de.topobyte.livecg.core.geometry.dcel.Vertex;
 import de.topobyte.livecg.core.geometry.geom.Coordinate;
 import de.topobyte.livecg.core.geometry.geom.GeomMath;
-import de.topobyte.livecg.core.lina2.Vector;
+import de.topobyte.livecg.core.lina.Vector2;
 
 public class HalfEdgeArrow
 {
 	private double gap;
 
 	private boolean valid;
-	private Vector ao, ad, am;
+	private Vector2 ao, ad, am;
 	private double length;
 
 	public HalfEdgeArrow(HalfEdge halfedge, double gap, double shorten,
@@ -54,9 +54,9 @@ public class HalfEdgeArrow
 		ao = findPoint(cpo, co, cd, co, cd, true);
 		ad = findPoint(co, cd, cnd, co, cd, false);
 
-		Vector e = new Vector(co, cd).normalized();
+		Vector2 e = new Vector2(co, cd).normalized();
 
-		Vector arrow = ad.sub(ao);
+		Vector2 arrow = ad.sub(ao);
 		length = arrow.norm();
 		valid = length >= shorten * 2;
 
@@ -66,7 +66,7 @@ public class HalfEdgeArrow
 			length -= shorten * 2;
 		}
 
-		Vector ppd = e.perpendicularRight().normalized();
+		Vector2 ppd = e.perpendicularRight().normalized();
 		am = ad.add(ppd.mult(lsa)).sub(e.mult(lca));
 	}
 
@@ -78,18 +78,18 @@ public class HalfEdgeArrow
 	 * 
 	 * @param origin
 	 */
-	private Vector findPoint(Coordinate c1, Coordinate c2, Coordinate c3,
+	private Vector2 findPoint(Coordinate c1, Coordinate c2, Coordinate c3,
 			Coordinate co, Coordinate cd, boolean origin)
 	{
-		Vector v2 = new Vector(c2);
-		Vector e1 = new Vector(c1, c2).normalized();
-		Vector e2 = new Vector(c2, c3).normalized();
-		Vector e = new Vector(co, cd).normalized();
+		Vector2 v2 = new Vector2(c2);
+		Vector2 e1 = new Vector2(c1, c2).normalized();
+		Vector2 e2 = new Vector2(c2, c3).normalized();
+		Vector2 e = new Vector2(co, cd).normalized();
 
 		double angle = GeomMath.angle(c2, c1, c3);
 		if (Math.abs(angle) <= 0.00001) {
-			Vector d = e1.perpendicularRight().normalized();
-			Vector p;
+			Vector2 d = e1.perpendicularRight().normalized();
+			Vector2 p;
 			if (origin) {
 				p = v2.sub(d.mult(gap));
 			} else {
@@ -98,7 +98,7 @@ public class HalfEdgeArrow
 			return p;
 		} else if (angle <= Math.PI - 0.00001) { // Acute angle
 			// d is the direction in which to shift the point from v2
-			Vector d = e1.mult(-1).add(e2).normalized();
+			Vector2 d = e1.mult(-1).add(e2).normalized();
 			// Find lambda such that lambda * d shifts the target point p from
 			// v2 with the property that p has distance 'gap' to e1 and e2
 			double dx2 = d.getX() * d.getX();
@@ -108,13 +108,13 @@ public class HalfEdgeArrow
 			double dxexdyey = 2 * d.getX() * e2.getX() * d.getY() * e2.getY();
 			double sub = (dx2 * ex2 + dy2 * ey2 + dxexdyey);
 			double lambda = gap / Math.sqrt(1 - sub);
-			Vector p = v2.add(d.mult(lambda));
+			Vector2 p = v2.add(d.mult(lambda));
 			return p;
 		} else { // Obtuse angle
 			// Just move the target point p an amount 'gap' in the direction
 			// perpendicular to the edge
-			Vector ppd = e.perpendicularRight().normalized();
-			Vector p = v2.add(ppd.mult(gap));
+			Vector2 ppd = e.perpendicularRight().normalized();
+			Vector2 p = v2.add(ppd.mult(gap));
 			return p;
 		}
 	}
@@ -124,17 +124,17 @@ public class HalfEdgeArrow
 		return valid;
 	}
 
-	public Vector getOrigin()
+	public Vector2 getOrigin()
 	{
 		return ao;
 	}
 
-	public Vector getDestination()
+	public Vector2 getDestination()
 	{
 		return ad;
 	}
 
-	public Vector getMarker()
+	public Vector2 getMarker()
 	{
 		return am;
 	}

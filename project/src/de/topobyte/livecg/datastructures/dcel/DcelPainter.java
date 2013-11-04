@@ -24,7 +24,7 @@ import de.topobyte.livecg.core.geometry.dcel.DCEL;
 import de.topobyte.livecg.core.geometry.dcel.HalfEdge;
 import de.topobyte.livecg.core.geometry.dcel.Vertex;
 import de.topobyte.livecg.core.geometry.geom.Coordinate;
-import de.topobyte.livecg.core.lina2.Vector;
+import de.topobyte.livecg.core.lina.Vector2;
 import de.topobyte.livecg.core.painting.BasicAlgorithmPainter;
 import de.topobyte.livecg.core.painting.Color;
 import de.topobyte.livecg.core.painting.Painter;
@@ -118,11 +118,11 @@ public abstract class DcelPainter extends BasicAlgorithmPainter
 					Vertex nextDestination = next.getTwin().getOrigin();
 					Coordinate cnd = nextDestination.getCoordinate();
 
-					Vector e1 = new Vector(co, cd).normalized();
-					Vector e2 = new Vector(cd, cnd).normalized();
+					Vector2 e1 = new Vector2(co, cd).normalized();
+					Vector2 e2 = new Vector2(cd, cnd).normalized();
 
-					Vector c1 = arrow.getDestination().add(e1.mult(shorten));
-					Vector c2 = nextArrow.getOrigin().sub(e2.mult(shorten));
+					Vector2 c1 = arrow.getDestination().add(e1.mult(shorten));
+					Vector2 c2 = nextArrow.getOrigin().sub(e2.mult(shorten));
 
 					GeneralPath path = new GeneralPath();
 					path.moveTo(arrow.getDestination().getX(), arrow
@@ -137,7 +137,7 @@ public abstract class DcelPainter extends BasicAlgorithmPainter
 		}
 	}
 
-	private void drawLine(Vector v1, Vector v2)
+	private void drawLine(Vector2 v1, Vector2 v2)
 	{
 		painter.drawLine(v1.getX(), v1.getY(), v2.getX(), v2.getY());
 	}

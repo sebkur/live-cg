@@ -17,7 +17,7 @@
  */
 package de.topobyte.livecg.core.geometry.geom;
 
-import de.topobyte.livecg.core.lina2.Vector;
+import de.topobyte.livecg.core.lina.Vector2;
 
 public class GeomMath
 {
@@ -74,8 +74,8 @@ public class GeomMath
 	// return the angle formed by coordinate sequence (cPre, c, cSuc)
 	public static double angle(Coordinate c, Coordinate cPre, Coordinate cSuc)
 	{
-		Vector v1 = new Vector(cPre.getX() - c.getX(), cPre.getY() - c.getY());
-		Vector v2 = new Vector(cSuc.getX() - c.getX(), cSuc.getY() - c.getY());
+		Vector2 v1 = new Vector2(cPre.getX() - c.getX(), cPre.getY() - c.getY());
+		Vector2 v2 = new Vector2(cSuc.getX() - c.getX(), cSuc.getY() - c.getY());
 		double dotProduct = v1.dotProduct(v2);
 		double cosAngle = dotProduct / (v1.norm() * v2.norm());
 		double angle = Math.acos(cosAngle);

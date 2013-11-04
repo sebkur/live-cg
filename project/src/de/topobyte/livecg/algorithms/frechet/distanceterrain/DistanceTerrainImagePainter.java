@@ -21,7 +21,7 @@ import java.awt.image.BufferedImage;
 
 import de.topobyte.color.util.HSLColor;
 import de.topobyte.livecg.algorithms.frechet.freespace.calc.LineSegment;
-import de.topobyte.livecg.core.lina2.Vector;
+import de.topobyte.livecg.core.lina.Vector2;
 import de.topobyte.livecg.core.painting.Color;
 
 public class DistanceTerrainImagePainter
@@ -54,10 +54,10 @@ public class DistanceTerrainImagePainter
 
 		for (int y = 0; y < height; y++) {
 			double t = y / (double) height;
-			Vector Qt = get(seg2, t);
+			Vector2 Qt = get(seg2, t);
 			for (int x = 0; x < width; x++) {
 				double s = x / (double) width;
-				Vector Ps = get(seg1, s);
+				Vector2 Ps = get(seg1, s);
 
 				double dx = Qt.getX() - Ps.getX();
 				double dy = Qt.getY() - Ps.getY();
@@ -69,7 +69,7 @@ public class DistanceTerrainImagePainter
 		}
 	}
 
-	private Vector get(LineSegment seg, double s)
+	private Vector2 get(LineSegment seg, double s)
 	{
 		return seg.getStart().add(seg.getDirection().mult(s));
 	}
