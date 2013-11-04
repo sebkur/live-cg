@@ -189,28 +189,28 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 	private void checkBounds()
 	{
 		boolean update = false;
-		if (-positionX + getWidth() > (content.getScene().getWidth() + MARGIN)
-				* zoom) {
+		if (-positionX + getWidth() / zoom > content.getScene().getWidth()
+				+ MARGIN) {
 			logger.debug("Moved out of viewport at right");
-			positionX = getWidth() - (content.getScene().getWidth() + MARGIN)
-					* zoom;
+			positionX = getWidth() / zoom - content.getScene().getWidth()
+					- MARGIN;
 			update = true;
 		}
-		if (positionX > MARGIN * zoom) {
+		if (positionX > MARGIN) {
 			logger.debug("Scrolled too much to the left");
-			positionX = MARGIN * zoom;
+			positionX = MARGIN;
 			update = true;
 		}
-		if (-positionY + getHeight() > (content.getScene().getHeight() + MARGIN)
-				* zoom) {
+		if (-positionY + getHeight() / zoom > content.getScene().getHeight()
+				+ MARGIN) {
 			logger.debug("Moved out of viewport at bottom");
-			positionY = getHeight() - (content.getScene().getHeight() + MARGIN)
-					* zoom;
+			positionY = getHeight() / zoom - content.getScene().getHeight()
+					- MARGIN;
 			update = true;
 		}
-		if (positionY > MARGIN * zoom) {
+		if (positionY > MARGIN) {
 			logger.debug("Scrolled too much to the top");
-			positionY = MARGIN * zoom;
+			positionY = MARGIN;
 			update = true;
 		}
 		if (update) {
