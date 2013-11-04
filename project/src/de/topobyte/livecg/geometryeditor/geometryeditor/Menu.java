@@ -29,9 +29,11 @@ import javax.swing.JMenuItem;
 import javax.swing.KeyStroke;
 
 import de.topobyte.livecg.LiveCG;
+import de.topobyte.livecg.geometryeditor.geometryeditor.action.CopyAction;
 import de.topobyte.livecg.geometryeditor.geometryeditor.action.MouseAction;
 import de.topobyte.livecg.geometryeditor.geometryeditor.action.NewAction;
 import de.topobyte.livecg.geometryeditor.geometryeditor.action.OpenAction;
+import de.topobyte.livecg.geometryeditor.geometryeditor.action.PasteAction;
 import de.topobyte.livecg.geometryeditor.geometryeditor.action.SaveAction;
 import de.topobyte.livecg.geometryeditor.geometryeditor.action.SelectAllAction;
 import de.topobyte.livecg.geometryeditor.geometryeditor.action.SelectNothingAction;
@@ -147,13 +149,22 @@ public class Menu extends JMenuBar
 		 * Edit
 		 */
 
+		JMenuItem copy = new JMenuItem(new CopyAction(this, editPane));
+		JMenuItem paste = new JMenuItem(new PasteAction(this, editPane));
 		JMenuItem selectNothing = new JMenuItem(new SelectNothingAction(
 				editPane));
 		JMenuItem selectEverything = new JMenuItem(
 				new SelectAllAction(editPane));
+
+		edit.add(copy);
+		edit.add(paste);
 		edit.add(selectNothing);
 		edit.add(selectEverything);
 
+		copy.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C,
+				KeyEvent.CTRL_DOWN_MASK));
+		paste.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_V,
+				KeyEvent.CTRL_DOWN_MASK));
 		selectEverything.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A,
 				KeyEvent.CTRL_DOWN_MASK));
 		selectNothing.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A,
