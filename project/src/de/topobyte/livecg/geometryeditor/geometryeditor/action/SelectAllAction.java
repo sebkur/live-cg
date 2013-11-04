@@ -38,7 +38,7 @@ public class SelectAllAction extends BasicAction
 	public SelectAllAction(GeometryEditPane editPane)
 	{
 		super("Select everything", "Select all object on the scene",
-				"res/images/24x24/empty.png");
+				"org/freedesktop/tango/22x22/actions/edit-select-all.png");
 		this.editPane = editPane;
 	}
 
