@@ -68,7 +68,8 @@ public class Toolbar extends JToolBar
 			add(button);
 		}
 
-		String[] values = { "50%", "80%", "100%", "120%", "200%", "400%" };
+		String[] values = { "50%", "80%", "100%", "120%", "150%", "200%",
+				"400%" };
 
 		zoom = new JComboBox(values);
 		zoom.setEditable(true);
