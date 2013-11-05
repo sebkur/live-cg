@@ -112,7 +112,7 @@ public class FrechetDialog1 implements ContentChangedListener
 
 		frame = new JFrame("Fréchet distance");
 		frame.setContentPane(panel);
-		
+
 		/*
 		 * Menus
 		 */
@@ -176,6 +176,12 @@ public class FrechetDialog1 implements ContentChangedListener
 	public void contentChanged()
 	{
 		diagram.repaint();
+	}
+
+	@Override
+	public void dimensionChanged()
+	{
+		// ignore
 	}
 
 	public JFrame getFrame()

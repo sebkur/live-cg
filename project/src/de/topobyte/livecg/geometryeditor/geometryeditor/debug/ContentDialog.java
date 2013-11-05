@@ -64,6 +64,13 @@ public class ContentDialog extends JDialog
 					{
 						update();
 					}
+
+					@Override
+					public void dimensionChanged()
+					{
+						// ignore
+					}
+
 				});
 	}
 

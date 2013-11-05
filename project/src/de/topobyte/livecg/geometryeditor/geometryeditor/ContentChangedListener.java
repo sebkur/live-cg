@@ -21,6 +21,8 @@ package de.topobyte.livecg.geometryeditor.geometryeditor;
 public interface ContentChangedListener
 {
 
+	public void dimensionChanged();
+
 	public void contentChanged();
 
 }

@@ -36,7 +36,7 @@ import de.topobyte.livecg.core.geometry.geom.Rectangle;
 import de.topobyte.swing.ButtonPane;
 import de.topobyte.swing.layout.GridBagHelper;
 
-public abstract class FilePropertiesDialog extends JDialog
+public class FilePropertiesDialog extends JDialog
 {
 
 	private static final long serialVersionUID = 8139227323570997844L;
@@ -156,7 +156,7 @@ public abstract class FilePropertiesDialog extends JDialog
 
 				FilePropertiesDialog.this.dispose();
 				content.setScene(new Rectangle(0, 0, width, height));
-				afterSetScene();
+				content.fireDimensionChanged();
 			}
 		});
 	}
@@ -170,5 +170,4 @@ public abstract class FilePropertiesDialog extends JDialog
 		return String.format("%." + digits + "f", value);
 	}
 
-	public abstract void afterSetScene();
 }

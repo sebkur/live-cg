@@ -84,6 +84,13 @@ public class Content extends SetOfGeometries
 		}
 	}
 
+	public void fireDimensionChanged()
+	{
+		for (ContentChangedListener l : contentListenerns) {
+			l.dimensionChanged();
+		}
+	}
+
 	public Node getNearestNode(Coordinate coordinate)
 	{
 		double distance = Double.MAX_VALUE;

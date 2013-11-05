@@ -79,6 +79,12 @@ public class ObjectDialog extends JDialog
 					{
 						update();
 					}
+
+					@Override
+					public void dimensionChanged()
+					{
+						// ignore
+					}
 				});
 	}
 

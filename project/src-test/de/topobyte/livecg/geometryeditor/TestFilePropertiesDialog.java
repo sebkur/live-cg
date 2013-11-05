@@ -29,17 +29,7 @@ public class TestFilePropertiesDialog
 	public static void main(String[] args)
 	{
 		Content content = new Content(500.3, 300);
-		FilePropertiesDialog dialog = new FilePropertiesDialog(null, content) {
-
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void afterSetScene()
-			{
-				// ignore
-			}
-
-		};
+		FilePropertiesDialog dialog = new FilePropertiesDialog(null, content);
 
 		dialog.setLocationByPlatform(true);
 		dialog.pack();

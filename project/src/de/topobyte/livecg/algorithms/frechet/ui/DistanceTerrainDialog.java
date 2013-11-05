@@ -123,4 +123,10 @@ public class DistanceTerrainDialog implements ContentChangedListener
 		return frame;
 	}
 
+	@Override
+	public void dimensionChanged()
+	{
+		// ignore
+	}
+
 }

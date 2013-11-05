@@ -167,6 +167,13 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 		}
 	}
 
+	private void fireViewportListenersComplexChange()
+	{
+		for (ViewportListener listener : viewportListeners) {
+			listener.complexChange();
+		}
+	}
+
 	public GeometryEditPane()
 	{
 		content = new Content();
@@ -725,6 +732,14 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 	public void contentChanged()
 	{
 		repaint();
+	}
+
+	@Override
+	public void dimensionChanged()
+	{
+		checkBounds();
+		repaint();
+		fireViewportListenersComplexChange();
 	}
 
 	private Node prospectNode = null;

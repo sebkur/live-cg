@@ -194,6 +194,12 @@ public class FrechetDialog2 implements ContentChangedListener
 		lineView.repaint();
 	}
 
+	@Override
+	public void dimensionChanged()
+	{
+		// ignore
+	}
+
 	public JFrame getFrame()
 	{
 		return frame;

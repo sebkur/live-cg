@@ -56,17 +56,7 @@ public class FilePropertiesAction extends BasicAction
 	{
 		JFrame frame = SwingUtil.getContainingFrame(component);
 		Content content = editPane.getContent();
-		FilePropertiesDialog dialog = new FilePropertiesDialog(frame, content) {
-
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void afterSetScene()
-			{
-				editPane.repaint();
-			}
-
-		};
+		FilePropertiesDialog dialog = new FilePropertiesDialog(frame, content);
 
 		dialog.setModal(true);
 		dialog.setLocationRelativeTo(frame);

@@ -29,8 +29,6 @@ import javax.swing.event.ChangeListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.topobyte.livecg.core.geometry.geom.Rectangle;
-
 public class SceneBoundedRangeModel implements BoundedRangeModel
 {
 
@@ -38,7 +36,6 @@ public class SceneBoundedRangeModel implements BoundedRangeModel
 			.getLogger(SceneBoundedRangeModel.class);
 
 	private GeometryEditPane editPane;
-	private Rectangle scene;
 
 	private boolean horizontal;
 
@@ -46,7 +43,6 @@ public class SceneBoundedRangeModel implements BoundedRangeModel
 	{
 		this.editPane = editPane;
 		this.horizontal = horizontal;
-		this.scene = editPane.getContent().getScene();
 		editPane.addComponentListener(new ComponentAdapter() {
 
 			@Override
@@ -69,6 +65,12 @@ public class SceneBoundedRangeModel implements BoundedRangeModel
 			{
 				// ignore
 			}
+
+			@Override
+			public void complexChange()
+			{
+				SceneBoundedRangeModel.this.complexChange();
+			}
 		});
 	}
 
@@ -78,6 +80,11 @@ public class SceneBoundedRangeModel implements BoundedRangeModel
 	}
 
 	protected void editPaneZoomChanged()
+	{
+		fireListeners();
+	}
+
+	protected void complexChange()
 	{
 		fireListeners();
 	}
@@ -95,13 +102,13 @@ public class SceneBoundedRangeModel implements BoundedRangeModel
 	{
 		// logger.debug("getMaximum()");
 		if (horizontal) {
-			return (int) Math
-					.round((scene.getWidth() + GeometryEditPane.MARGIN)
-							* editPane.getZoom());
+			return (int) Math.round((editPane.getContent().getScene()
+					.getWidth() + GeometryEditPane.MARGIN)
+					* editPane.getZoom());
 		} else {
-			return (int) Math
-					.round((scene.getHeight() + GeometryEditPane.MARGIN)
-							* editPane.getZoom());
+			return (int) Math.round((editPane.getContent().getScene()
+					.getHeight() + GeometryEditPane.MARGIN)
+					* editPane.getZoom());
 		}
 	}
 

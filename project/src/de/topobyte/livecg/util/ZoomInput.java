@@ -78,6 +78,12 @@ public abstract class ZoomInput extends JComboBox
 			{
 				// ignore
 			}
+
+			@Override
+			public void complexChange()
+			{
+				// ignore
+			}
 		});
 	}
 
