@@ -32,7 +32,17 @@ import de.topobyte.livecg.core.geometry.geom.Rectangle;
 public class Content extends SetOfGeometries
 {
 
-	private Rectangle scene = new Rectangle(0, 0, 700, 400);
+	private Rectangle scene;
+
+	public Content()
+	{
+		this(600, 400);
+	}
+
+	public Content(double w, double h)
+	{
+		scene = new Rectangle(0, 0, w, h);
+	}
 
 	public Rectangle getScene()
 	{

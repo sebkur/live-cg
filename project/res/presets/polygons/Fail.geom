@@ -1,4 +1,4 @@
-<data>
+<scene width="700" height="400">
   <node id="1" x="211.000000" y="55.000000" />
   <node id="2" x="127.000000" y="58.000000" />
   <node id="3" x="134.000000" y="111.000000" />
@@ -8,4 +8,4 @@
   <polygon>
     <shell>1 2 3 4 5 6</shell>
   </polygon>
-</data>
+</scene>

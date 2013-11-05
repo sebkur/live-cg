@@ -23,6 +23,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
+import de.topobyte.livecg.core.geometry.geom.Rectangle;
 import de.topobyte.livecg.geometryeditor.geometryeditor.Content;
 
 public class ContentWriter extends SetOfGeometryWriter
@@ -41,11 +42,13 @@ public class ContentWriter extends SetOfGeometryWriter
 		this.output = output;
 		chains = content.getChains();
 		polygons = content.getPolygons();
+		Rectangle scene = content.getScene();
 
-		output.write("<data>".getBytes());
+		output.write(("<scene width=\"" + scene.getWidth() + "\" height=\""
+				+ scene.getHeight() + "\">").getBytes());
 		writeNodes();
 		writeChains();
 		writePolygons();
-		output.write("\n</data>\n".getBytes());
+		output.write("\n</scene>\n".getBytes());
 	}
 }

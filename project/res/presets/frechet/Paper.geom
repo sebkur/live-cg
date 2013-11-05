@@ -1,4 +1,4 @@
-<data>
+<scene width="450" height="300">
   <node id="1" x="74.000000" y="206.000000" />
   <node id="2" x="144.000000" y="126.000000" />
   <node id="3" x="238.000000" y="127.000000" />
@@ -13,4 +13,4 @@
   <node id="12" x="390.000000" y="65.000000" />
   <chain closed="false">1 2 3 4 5 6 7</chain>
   <chain closed="false">8 9 10 11 12</chain>
-</data>
+</scene>

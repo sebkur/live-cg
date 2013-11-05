@@ -41,7 +41,6 @@ import de.topobyte.livecg.core.geometry.geom.CloseabilityException;
 import de.topobyte.livecg.core.geometry.geom.Coordinate;
 import de.topobyte.livecg.core.geometry.geom.Node;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
-import de.topobyte.livecg.geometryeditor.geometryeditor.Content;
 import de.topobyte.livecg.geometryeditor.geometryeditor.SetOfGeometries;
 
 public class SetOfGeometryReader extends DefaultHandler
@@ -62,7 +61,7 @@ public class SetOfGeometryReader extends DefaultHandler
 	public SetOfGeometries read(InputStream input) throws IOException,
 			ParserConfigurationException, SAXException
 	{
-		content = new Content();
+		content = new SetOfGeometries();
 
 		SAXParser parser = SAXParserFactory.newInstance().newSAXParser();
 		parser.parse(input, this);

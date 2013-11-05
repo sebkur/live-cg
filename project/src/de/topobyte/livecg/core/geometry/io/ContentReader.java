@@ -52,9 +52,6 @@ public class ContentReader extends SetOfGeometryReader
 	public Content read(InputStream input) throws IOException,
 			ParserConfigurationException, SAXException
 	{
-		content = new Content();
-		super.content = content;
-
 		SAXParser parser = SAXParserFactory.newInstance().newSAXParser();
 		parser.parse(input, this);
 
@@ -66,8 +63,15 @@ public class ContentReader extends SetOfGeometryReader
 			Attributes attributes) throws SAXException
 	{
 		if (position.isEmpty()) {
-			if (qName.equals("data")) {
+			if (qName.equals("scene")) {
 				position.push(Element.Data);
+				String sw = attributes.getValue("width");
+				String sh = attributes.getValue("height");
+				double w = Double.valueOf(sw);
+				double h = Double.valueOf(sh);
+
+				content = new Content(w, h);
+				super.content = content;
 			}
 		} else {
 			super.startElement(uri, localName, qName, attributes);
