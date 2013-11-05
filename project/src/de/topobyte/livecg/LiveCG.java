@@ -86,12 +86,14 @@ public class LiveCG
 		final LiveCG runner = new LiveCG();
 
 		SwingUtilities.invokeLater(new Runnable() {
+			@Override
 			public void run()
 			{
 				runner.setup(true);
 			}
 		});
 		SwingUtilities.invokeLater(new Runnable() {
+			@Override
 			public void run()
 			{
 				runner.frame.requestFocus();

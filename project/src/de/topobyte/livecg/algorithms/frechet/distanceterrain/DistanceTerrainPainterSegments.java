@@ -47,6 +47,7 @@ public class DistanceTerrainPainterSegments extends BasicAlgorithmPainter
 		this.seg2 = seg2;
 	}
 
+	@Override
 	public void paint()
 	{
 		if (seg1 == null || seg2 == null) {

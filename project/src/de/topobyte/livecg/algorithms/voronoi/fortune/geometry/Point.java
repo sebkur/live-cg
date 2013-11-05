@@ -61,6 +61,7 @@ public class Point
 		return Math.sqrt(dx * dx + dy * dy);
 	}
 
+	@Override
 	public boolean equals(Object other)
 	{
 		if (!(other instanceof Point)) {

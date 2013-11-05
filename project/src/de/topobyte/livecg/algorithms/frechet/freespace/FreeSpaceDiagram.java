@@ -51,6 +51,7 @@ public class FreeSpaceDiagram extends JPanel implements EpsilonSettable, SizePro
 		repaint();
 	}
 
+	@Override
 	public void paint(Graphics graphics)
 	{
 		super.paint(graphics);

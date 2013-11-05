@@ -206,6 +206,7 @@ public class Matrix
 		return new Dimension(width, height);
 	}
 
+	@Override
 	public String toString()
 	{
 		StringBuilder strb = new StringBuilder();

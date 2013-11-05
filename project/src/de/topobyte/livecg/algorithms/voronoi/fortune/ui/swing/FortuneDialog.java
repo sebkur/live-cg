@@ -191,6 +191,7 @@ public class FortuneDialog extends JFrame implements Runnable
 		running = false;
 	}
 
+	@Override
 	public void run()
 	{
 		while (true) {

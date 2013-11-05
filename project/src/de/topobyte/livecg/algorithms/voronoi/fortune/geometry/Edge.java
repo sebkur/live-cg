@@ -38,6 +38,7 @@ public class Edge
 		return p2;
 	}
 
+	@Override
 	public boolean equals(Object other)
 	{
 		if (!(other instanceof Edge)) {

@@ -33,6 +33,7 @@ public class SitePoint extends EventPoint
 		super(x, y);
 	}
 
+	@Override
 	public boolean equals(Object other)
 	{
 		if (!(other instanceof SitePoint)) {

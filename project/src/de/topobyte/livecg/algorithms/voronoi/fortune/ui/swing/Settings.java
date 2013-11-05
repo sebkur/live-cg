@@ -82,6 +82,7 @@ public class Settings extends JToolBar implements ItemListener
 		});
 	}
 
+	@Override
 	public void itemStateChanged(ItemEvent e)
 	{
 		JToggleButton button = (JToggleButton) e.getItem();

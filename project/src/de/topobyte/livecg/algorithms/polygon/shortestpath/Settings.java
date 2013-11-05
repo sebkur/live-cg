@@ -54,6 +54,7 @@ public class Settings extends JToolBar implements ItemListener
 		buttons[0].setSelected(config.isDrawDualGraph());
 	}
 
+	@Override
 	public void itemStateChanged(ItemEvent e)
 	{
 		JToggleButton button = (JToggleButton) e.getItem();

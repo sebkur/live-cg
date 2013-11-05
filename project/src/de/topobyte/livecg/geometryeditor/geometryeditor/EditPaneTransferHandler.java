@@ -73,11 +73,13 @@ public class EditPaneTransferHandler extends TransferHandler
 		content.fireContentChanged();
 	}
 
+	@Override
 	public boolean canImport(TransferSupport support)
 	{
 		return true;
 	}
 
+	@Override
 	public boolean importData(TransferSupport ts)
 	{
 		System.out.println("import");

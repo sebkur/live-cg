@@ -37,6 +37,7 @@ public class ContentReader extends SetOfGeometryReader
 
 	private Content content;
 
+	@Override
 	public Content read(File file) throws IOException,
 			ParserConfigurationException, SAXException
 	{
@@ -47,6 +48,7 @@ public class ContentReader extends SetOfGeometryReader
 		return content;
 	}
 
+	@Override
 	public Content read(InputStream input) throws IOException,
 			ParserConfigurationException, SAXException
 	{

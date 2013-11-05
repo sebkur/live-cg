@@ -55,6 +55,7 @@ public class Vector extends Matrix
 		}
 	}
 
+	@Override
 	public String toString()
 	{
 		StringBuilder strb = new StringBuilder();

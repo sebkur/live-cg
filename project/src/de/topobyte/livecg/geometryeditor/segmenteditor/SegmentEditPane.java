@@ -84,6 +84,7 @@ public class SegmentEditPane extends JPanel implements Viewport
 	private Color colorEditLinePoints = Color.BLUE;
 	private Color colorEditLinePoint0 = Color.RED;
 
+	@Override
 	public void paint(Graphics graphics)
 	{
 		super.paint(graphics);

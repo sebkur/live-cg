@@ -102,6 +102,7 @@ public class DistanceTerrainDialog implements ContentChangedListener
 		content.addContentChangedListener(this);
 
 		frame.addWindowListener(new WindowAdapter() {
+			@Override
 			public void windowClosing(WindowEvent e)
 			{
 				content.removeContentChangedListener(DistanceTerrainDialog.this);

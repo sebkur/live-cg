@@ -44,6 +44,7 @@ public class CirclePoint extends EventPoint
 		return arc;
 	}
 
+	@Override
 	public boolean equals(Object other)
 	{
 		if (!(other instanceof CirclePoint)) {

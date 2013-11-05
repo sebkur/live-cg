@@ -118,12 +118,14 @@ public class NodePanel extends JPanel
 				});
 
 		inputX.getTextField().addFocusListener(new FocusAdapter() {
+			@Override
 			public void focusLost(FocusEvent e)
 			{
 				lostFocus(inputX);
 			}
 		});
 		inputY.getTextField().addFocusListener(new FocusAdapter() {
+			@Override
 			public void focusLost(FocusEvent e)
 			{
 				lostFocus(inputY);

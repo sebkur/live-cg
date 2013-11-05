@@ -63,6 +63,7 @@ public class LineView extends JPanel implements EpsilonSettable
 		this.drawPointBufferQ = qPointBuffers;
 	}
 
+	@Override
 	public void paint(Graphics graphics)
 	{
 		super.paint(graphics);

@@ -58,6 +58,7 @@ public class FreeSpacePainterChains extends BasicAlgorithmPainter implements
 		this.epsilon = epsilon;
 	}
 
+	@Override
 	public void paint()
 	{
 		segmentPainter.setEpsilon(epsilon);

@@ -554,6 +554,7 @@ public class SvgPainter implements Painter
 		return strb.toString();
 	}
 
+	@Override
 	public void drawImage(BufferedImage image, int x, int y)
 	{
 		ByteArrayOutputStream output = new ByteArrayOutputStream();

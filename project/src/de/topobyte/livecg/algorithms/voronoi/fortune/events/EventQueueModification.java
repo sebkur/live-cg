@@ -50,6 +50,7 @@ public class EventQueueModification
 		return eventPoint;
 	}
 
+	@Override
 	public String toString()
 	{
 		return String.format("sweep: %f, type: %s, %s, point: %f,%f", x,

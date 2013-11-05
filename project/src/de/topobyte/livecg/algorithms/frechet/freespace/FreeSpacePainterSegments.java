@@ -73,6 +73,7 @@ public class FreeSpacePainterSegments extends BasicAlgorithmPainter implements
 		this.height = height;
 	}
 
+	@Override
 	public void setEpsilon(int eps)
 	{
 		this.epsilon = eps;

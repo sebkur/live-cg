@@ -91,11 +91,13 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 	private double positionY = 0;
 	private double zoom = 1;
 
+	@Override
 	public double getPositionX()
 	{
 		return positionX;
 	}
 
+	@Override
 	public double getPositionY()
 	{
 		return positionY;
@@ -131,6 +133,7 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 		fireViewportListenersZoomChanged();
 	}
 
+	@Override
 	public double getZoom()
 	{
 		return zoom;
@@ -138,11 +141,13 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 
 	private List<ViewportListener> viewportListeners = new ArrayList<ViewportListener>();
 
+	@Override
 	public void addViewportListener(ViewportListener listener)
 	{
 		viewportListeners.add(listener);
 	}
 
+	@Override
 	public void removeViewportListener(ViewportListener listener)
 	{
 		viewportListeners.remove(listener);
@@ -432,6 +437,7 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 	private Color colorRotationRectangle = LiveConfig
 			.getColor(q("rotation.rectangle"));
 
+	@Override
 	public void paint(Graphics graphics)
 	{
 		super.paint(graphics);

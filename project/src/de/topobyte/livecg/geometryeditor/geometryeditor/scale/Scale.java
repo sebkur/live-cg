@@ -37,6 +37,7 @@ public abstract class Scale extends JPanel implements ViewportListener
 
 	private static final long serialVersionUID = 8572548898229307068L;
 
+	@Override
 	public abstract Dimension getPreferredSize();
 
 	public abstract boolean isHorizontal();
@@ -57,6 +58,7 @@ public abstract class Scale extends JPanel implements ViewportListener
 		setPreferredSize(getPreferredSize());
 	}
 
+	@Override
 	public void paint(Graphics graphics)
 	{
 		super.paint(graphics);

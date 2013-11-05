@@ -80,6 +80,7 @@ public class HistoryEventQueue extends EventQueue
 		return remove;
 	}
 
+	@Override
 	public void clear()
 	{
 		super.clear();

@@ -146,6 +146,7 @@ public class ShortestPathPainter extends BasicAlgorithmPainter
 		return true;
 	}
 
+	@Override
 	public void paint()
 	{
 		painter.setColor(COLOR_BG);

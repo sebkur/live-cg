@@ -59,6 +59,7 @@ public class Settings extends JToolBar implements ItemListener
 		buttons[3].setSelected(config.isDrawReachableSpaceMarkers());
 	}
 
+	@Override
 	public void itemStateChanged(ItemEvent e)
 	{
 		JToggleButton button = (JToggleButton) e.getItem();

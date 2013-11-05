@@ -107,6 +107,7 @@ public class Controls extends Panel implements ActionListener
 		threadRunning(false);
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e)
 	{
 		int i = 0;

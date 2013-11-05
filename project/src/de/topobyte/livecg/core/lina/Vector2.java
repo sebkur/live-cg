@@ -51,6 +51,7 @@ public class Vector2
 		return y;
 	}
 
+	@Override
 	public String toString()
 	{
 		return String.format("%f,%f", x, y);

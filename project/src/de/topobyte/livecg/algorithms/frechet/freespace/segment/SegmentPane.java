@@ -54,6 +54,7 @@ public class SegmentPane extends JPanel implements SegmentChangeListener,
 		updateReachableSpace();
 	}
 
+	@Override
 	public void setEpsilon(int epsilon)
 	{
 		this.epsilon = epsilon;

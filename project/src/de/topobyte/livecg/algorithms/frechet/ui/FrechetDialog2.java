@@ -157,6 +157,7 @@ public class FrechetDialog2 implements ContentChangedListener
 		content.addContentChangedListener(this);
 
 		frame.addWindowListener(new WindowAdapter() {
+			@Override
 			public void windowClosing(WindowEvent e)
 			{
 				content.removeContentChangedListener(FrechetDialog2.this);
