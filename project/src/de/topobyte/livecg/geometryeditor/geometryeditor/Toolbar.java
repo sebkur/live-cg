@@ -24,7 +24,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
-import javax.swing.JTextField;
+import javax.swing.JComboBox;
 import javax.swing.JToggleButton;
 import javax.swing.JToolBar;
 
@@ -42,7 +42,7 @@ public class Toolbar extends JToolBar
 	private static final long serialVersionUID = 8604389649262908523L;
 
 	private GeometryEditPane editPane;
-	private JTextField zoom;
+	private JComboBox zoom;
 
 	public Toolbar(GeometryEditPane editPane,
 			MouseModeProvider mouseModeProvider)
@@ -67,7 +67,11 @@ public class Toolbar extends JToolBar
 			add(button);
 		}
 
-		zoom = new JTextField("100%");
+		String[] values = { "50%", "80%", "100%", "120%", "200%", "400%" };
+
+		zoom = new JComboBox(values);
+		zoom.setEditable(true);
+		zoom.setSelectedIndex(2);
 		addSeparator();
 		add(zoom);
 
@@ -83,7 +87,8 @@ public class Toolbar extends JToolBar
 			}
 		});
 
-		zoom.addKeyListener(new ZoomKeyAdapter());
+		zoom.getEditor().getEditorComponent()
+				.addKeyListener(new ZoomKeyAdapter());
 
 		editPane.addViewportListener(new ViewportListener() {
 
@@ -103,7 +108,7 @@ public class Toolbar extends JToolBar
 
 	protected void tryUpdateZoom()
 	{
-		String text = zoom.getText();
+		String text = (String) zoom.getSelectedItem();
 		String trimmed = text.trim();
 		if (!trimmed.endsWith("%")) {
 			revertZoom();
@@ -127,7 +132,7 @@ public class Toolbar extends JToolBar
 		} else {
 			text = String.format("%.2f%%", percent);
 		}
-		zoom.setText(text);
+		zoom.setSelectedItem(text);
 	}
 
 	private void updateZoom(double value)
