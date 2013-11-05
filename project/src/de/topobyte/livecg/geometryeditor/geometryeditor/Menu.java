@@ -30,6 +30,7 @@ import javax.swing.KeyStroke;
 
 import de.topobyte.livecg.LiveCG;
 import de.topobyte.livecg.geometryeditor.geometryeditor.action.CopyAction;
+import de.topobyte.livecg.geometryeditor.geometryeditor.action.FilePropertiesAction;
 import de.topobyte.livecg.geometryeditor.geometryeditor.action.MouseAction;
 import de.topobyte.livecg.geometryeditor.geometryeditor.action.NewAction;
 import de.topobyte.livecg.geometryeditor.geometryeditor.action.OpenAction;
@@ -103,9 +104,12 @@ public class Menu extends JMenuBar
 		JMenuItem newDocuemnt = new JMenuItem(new NewAction(editPane));
 		JMenuItem openDocuemnt = new JMenuItem(new OpenAction(this, editPane));
 		JMenuItem saveDocuemnt = new JMenuItem(new SaveAction(this, editPane));
+		JMenuItem properties = new JMenuItem(new FilePropertiesAction(this,
+				editPane));
 		file.add(newDocuemnt);
 		file.add(openDocuemnt);
 		file.add(saveDocuemnt);
+		file.add(properties);
 		file.add(exit);
 
 		newDocuemnt.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N,
