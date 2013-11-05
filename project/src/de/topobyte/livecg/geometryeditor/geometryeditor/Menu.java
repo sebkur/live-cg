@@ -118,6 +118,8 @@ public class Menu extends JMenuBar
 				KeyEvent.CTRL_DOWN_MASK));
 		saveDocuemnt.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,
 				KeyEvent.CTRL_DOWN_MASK));
+		properties.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER,
+				KeyEvent.ALT_DOWN_MASK));
 		exit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q,
 				KeyEvent.CTRL_DOWN_MASK));
 
