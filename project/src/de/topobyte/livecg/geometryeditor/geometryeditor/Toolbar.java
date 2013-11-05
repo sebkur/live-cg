@@ -18,6 +18,7 @@
 
 package de.topobyte.livecg.geometryeditor.geometryeditor;
 
+import java.awt.Dimension;
 import java.awt.KeyboardFocusManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -89,6 +90,9 @@ public class Toolbar extends JToolBar
 
 		zoom.getEditor().getEditorComponent()
 				.addKeyListener(new ZoomKeyAdapter());
+
+		zoom.setMaximumSize(new Dimension(zoom.getPreferredSize().width, zoom
+				.getMaximumSize().height));
 
 		editPane.addViewportListener(new ViewportListener() {
 
