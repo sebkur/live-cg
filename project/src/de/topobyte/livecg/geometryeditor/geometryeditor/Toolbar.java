@@ -18,14 +18,6 @@
 
 package de.topobyte.livecg.geometryeditor.geometryeditor;
 
-import java.awt.Dimension;
-import java.awt.KeyboardFocusManager;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-
-import javax.swing.JComboBox;
 import javax.swing.JToggleButton;
 import javax.swing.JToolBar;
 
@@ -36,6 +28,7 @@ import de.topobyte.livecg.geometryeditor.geometryeditor.action.SaveAction;
 import de.topobyte.livecg.geometryeditor.geometryeditor.mousemode.MouseMode;
 import de.topobyte.livecg.geometryeditor.geometryeditor.mousemode.MouseModeDescriptions;
 import de.topobyte.livecg.geometryeditor.geometryeditor.mousemode.MouseModeProvider;
+import de.topobyte.livecg.util.ZoomInput;
 
 public class Toolbar extends JToolBar
 {
@@ -43,7 +36,7 @@ public class Toolbar extends JToolBar
 	private static final long serialVersionUID = 8604389649262908523L;
 
 	private GeometryEditPane editPane;
-	private JComboBox zoom;
+	private ZoomInput zoom;
 
 	public Toolbar(GeometryEditPane editPane,
 			MouseModeProvider mouseModeProvider)
@@ -68,134 +61,27 @@ public class Toolbar extends JToolBar
 			add(button);
 		}
 
-		String[] values = { "50%", "80%", "100%", "120%", "150%", "200%",
-				"400%" };
+		zoom = new ZoomInput(editPane) {
 
-		zoom = new JComboBox(values);
-		zoom.setEditable(true);
-		zoom.setSelectedIndex(2);
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public double getZoomPercent()
+			{
+				return Toolbar.this.editPane.getZoom() * 100;
+			}
+
+			@Override
+			public void setZoomPercent(double value)
+			{
+				Toolbar.this.editPane.setZoomCentered(value / 100.0);
+				Toolbar.this.editPane.repaint();
+			}
+
+		};
+
 		addSeparator();
 		add(zoom);
-
-		zoom.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e)
-			{
-				tryUpdateZoom();
-				KeyboardFocusManager manager = KeyboardFocusManager
-						.getCurrentKeyboardFocusManager();
-				manager.focusNextComponent();
-			}
-		});
-
-		zoom.getEditor().getEditorComponent()
-				.addKeyListener(new ZoomKeyAdapter());
-
-		zoom.setMaximumSize(new Dimension(zoom.getPreferredSize().width, zoom
-				.getMaximumSize().height));
-
-		editPane.addViewportListener(new ViewportListener() {
-
-			@Override
-			public void zoomChanged()
-			{
-				revertZoom();
-			}
-
-			@Override
-			public void viewportChanged()
-			{
-				// ignore
-			}
-		});
 	}
 
-	protected void tryUpdateZoom()
-	{
-		String text = (String) zoom.getSelectedItem();
-		String trimmed = text.trim();
-		if (!trimmed.endsWith("%")) {
-			revertZoom();
-			return;
-		}
-		String number = trimmed.substring(0, trimmed.length() - 1);
-		try {
-			double value = Double.parseDouble(number);
-			updateZoom(value);
-		} catch (NumberFormatException e) {
-			revertZoom();
-		}
-	}
-
-	private void revertZoom()
-	{
-		double percent = editPane.getZoom() * 100;
-		String text;
-		if (Math.abs(percent - (int) percent) < 0.0001) {
-			text = String.format("%d%%", (int) percent);
-		} else {
-			text = String.format("%.2f%%", percent);
-		}
-		zoom.setSelectedItem(text);
-	}
-
-	private void updateZoom(double value)
-	{
-		editPane.setZoomCentered(value / 100.0);
-		editPane.repaint();
-	}
-
-	private class ZoomKeyAdapter extends KeyAdapter
-	{
-		@Override
-		public void keyTyped(KeyEvent e)
-		{
-			// consume(e);
-		}
-
-		@Override
-		public void keyPressed(KeyEvent e)
-		{
-			consume(e);
-		}
-
-		@Override
-		public void keyReleased(KeyEvent e)
-		{
-			// consume(e);
-		}
-
-		private void consume(KeyEvent e)
-		{
-			if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
-				return;
-			}
-			if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-				return;
-			}
-			if (e.getKeyCode() == KeyEvent.VK_DELETE) {
-				return;
-			}
-			if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-				return;
-			}
-			if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-				return;
-			}
-			if (e.getKeyCode() == KeyEvent.VK_UP) {
-				return;
-			}
-			if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-				return;
-			}
-			if (e.getKeyCode() == KeyEvent.VK_HOME) {
-				return;
-			}
-			if (e.getKeyCode() == KeyEvent.VK_END) {
-				return;
-			}
-			e.consume();
-		}
-	}
 }

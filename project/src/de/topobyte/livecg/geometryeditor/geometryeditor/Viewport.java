@@ -25,4 +25,8 @@ public interface Viewport
 
 	public double getZoom();
 
+	public void addViewportListener(ViewportListener listener);
+
+	public void removeViewportListener(ViewportListener listener);
+
 }

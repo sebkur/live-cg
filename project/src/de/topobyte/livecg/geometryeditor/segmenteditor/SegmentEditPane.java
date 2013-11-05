@@ -29,6 +29,7 @@ import javax.swing.JPanel;
 import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.core.geometry.geom.Coordinate;
 import de.topobyte.livecg.geometryeditor.geometryeditor.Viewport;
+import de.topobyte.livecg.geometryeditor.geometryeditor.ViewportListener;
 import de.topobyte.livecg.util.SwingUtil;
 
 public class SegmentEditPane extends JPanel implements Viewport
@@ -47,7 +48,8 @@ public class SegmentEditPane extends JPanel implements Viewport
 
 		setBackground(new Color(0xFAFAFA));
 
-		SegmentEditMouseListener mouseListener = new SegmentEditMouseListener(this);
+		SegmentEditMouseListener mouseListener = new SegmentEditMouseListener(
+				this);
 		addMouseListener(mouseListener);
 		addMouseMotionListener(mouseListener);
 	}
@@ -166,4 +168,24 @@ public class SegmentEditPane extends JPanel implements Viewport
 		return 1;
 	}
 
+	private List<ViewportListener> viewportListeners = new ArrayList<ViewportListener>();
+
+	@Override
+	public void addViewportListener(ViewportListener listener)
+	{
+		viewportListeners.add(listener);
+	}
+
+	@Override
+	public void removeViewportListener(ViewportListener listener)
+	{
+		viewportListeners.remove(listener);
+	}
+
+	private void fireViewportListenersViewportChanged()
+	{
+		for (ViewportListener listener : viewportListeners) {
+			listener.viewportChanged();
+		}
+	}
 }
