@@ -34,7 +34,7 @@ import de.topobyte.livecg.geometryeditor.geometryeditor.rectangle.Position;
 public class MouseListenerScale extends EditPaneMouseListener
 {
 
-	private static final double MOUSE_TOLERANCE = 12;
+	private static final double MOUSE_TOLERANCE_HANDLES = 12;
 
 	private static Map<Position, Integer> resizeCursors = new HashMap<Position, Integer>();
 	static {
@@ -63,8 +63,8 @@ public class MouseListenerScale extends EditPaneMouseListener
 		Coordinate coord = getCoordinate(e);
 		if (e.getButton() == MouseEvent.BUTTON1) {
 			Rectangle r = editPane.getSelectedObjectsRectangle();
-			EightHandles eightHandles = new EightHandles(r, MOUSE_TOLERANCE
-					/ editPane.getZoom());
+			EightHandles eightHandles = new EightHandles(r,
+					MOUSE_TOLERANCE_HANDLES / editPane.getZoom());
 			Position position = eightHandles.get(coord.getX(), coord.getY());
 			if (position != null) {
 				scaleInfo = new ScaleInfo(getX(e), getY(e), position, r);
@@ -87,7 +87,7 @@ public class MouseListenerScale extends EditPaneMouseListener
 	{
 		Coordinate coord = getCoordinate(e);
 		Rectangle r = editPane.getSelectedObjectsRectangle();
-		EightHandles eightHandles = new EightHandles(r, MOUSE_TOLERANCE
+		EightHandles eightHandles = new EightHandles(r, MOUSE_TOLERANCE_HANDLES
 				/ editPane.getZoom());
 		Position position = eightHandles.get(coord.getX(), coord.getY());
 		Cursor cursor = null;

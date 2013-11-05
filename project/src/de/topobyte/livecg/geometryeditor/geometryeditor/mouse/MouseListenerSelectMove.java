@@ -30,6 +30,8 @@ import de.topobyte.livecg.geometryeditor.geometryeditor.GeometryEditPane;
 public class MouseListenerSelectMove extends EditPaneMouseListener
 {
 
+	private static final double SNAP_TOLERANCE = 4;
+
 	private DragInfo dragInfo = null;
 	private Node snapNode = null;
 
@@ -91,7 +93,8 @@ public class MouseListenerSelectMove extends EditPaneMouseListener
 			if (e.isControlDown()) {
 				Node nearest = editPane.getContent().getNearestDifferentNode(
 						coord, currentMoveNode);
-				if (nearest.getCoordinate().distance(coord) < 4) {
+				if (nearest.getCoordinate().distance(coord) < SNAP_TOLERANCE
+						/ editPane.getZoom()) {
 					update |= editPane.setSnapHighlight(nearest);
 					snapNode = nearest;
 				} else {
@@ -208,7 +211,8 @@ public class MouseListenerSelectMove extends EditPaneMouseListener
 	{
 		Node node = editPane.getContent().getNearestNode(coord);
 		if (node != null) {
-			if (node.getCoordinate().distance(coord) < 5) {
+			if (node.getCoordinate().distance(coord) < MOUSE_TOLERANCE_SELECT
+					/ editPane.getZoom()) {
 				currentMoveNode = node;
 			}
 		}

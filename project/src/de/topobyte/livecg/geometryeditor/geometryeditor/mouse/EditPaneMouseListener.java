@@ -26,6 +26,8 @@ import de.topobyte.livecg.geometryeditor.geometryeditor.GeometryEditPane;
 public class EditPaneMouseListener extends ViewportMouseListener
 {
 
+	protected static final double MOUSE_TOLERANCE_SELECT = 5;
+
 	protected GeometryEditPane editPane;
 
 	public EditPaneMouseListener(GeometryEditPane editPane)
@@ -53,11 +55,11 @@ public class EditPaneMouseListener extends ViewportMouseListener
 		selectResult.node = node;
 		selectResult.chain = chain;
 		selectResult.polygon = polygon;
-		if (dNode < 5) {
+		if (dNode < MOUSE_TOLERANCE_SELECT / editPane.getZoom()) {
 			selectResult.mode = SelectMode.NODE;
-		} else if (dChain < 5) {
+		} else if (dChain < MOUSE_TOLERANCE_SELECT / editPane.getZoom()) {
 			selectResult.mode = SelectMode.CHAIN;
-		} else if (dPolygon < 5) {
+		} else if (dPolygon < MOUSE_TOLERANCE_SELECT / editPane.getZoom()) {
 			selectResult.mode = SelectMode.POLYGON;
 		} else {
 			selectResult.mode = SelectMode.NONE;
@@ -91,11 +93,11 @@ public class EditPaneMouseListener extends ViewportMouseListener
 			dPolygon = polygon.getShell().distance(coord);
 		}
 		boolean changed = false;
-		if (dNode < 5) {
+		if (dNode < MOUSE_TOLERANCE_SELECT / editPane.getZoom()) {
 			changed = editPane.setMouseHighlight(node);
-		} else if (dChain < 5) {
+		} else if (dChain < MOUSE_TOLERANCE_SELECT / editPane.getZoom()) {
 			changed = editPane.setMouseHighlight(chain);
-		} else if (dPolygon < 5) {
+		} else if (dPolygon < MOUSE_TOLERANCE_SELECT / editPane.getZoom()) {
 			changed = editPane.setMouseHighlight(polygon);
 		} else {
 			changed |= editPane.setMouseHighlight((Node) null);
