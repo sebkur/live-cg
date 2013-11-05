@@ -35,13 +35,11 @@ public class Toolbar extends JToolBar
 
 	private static final long serialVersionUID = 8604389649262908523L;
 
-	private GeometryEditPane editPane;
 	private ZoomInput zoom;
 
 	public Toolbar(GeometryEditPane editPane,
 			MouseModeProvider mouseModeProvider)
 	{
-		this.editPane = editPane;
 		NewAction newAction = new NewAction(editPane);
 		OpenAction openAction = new OpenAction(this, editPane);
 		SaveAction saveAction = new SaveAction(this, editPane);
@@ -61,25 +59,7 @@ public class Toolbar extends JToolBar
 			add(button);
 		}
 
-		zoom = new ZoomInput(editPane) {
-
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public double getZoomPercent()
-			{
-				return Toolbar.this.editPane.getZoom() * 100;
-			}
-
-			@Override
-			public void setZoomPercent(double value)
-			{
-				Toolbar.this.editPane.setZoomCentered(value / 100.0);
-				Toolbar.this.editPane.repaint();
-			}
-
-		};
-
+		zoom = new ZoomInput(editPane);
 		addSeparator();
 		add(zoom);
 	}

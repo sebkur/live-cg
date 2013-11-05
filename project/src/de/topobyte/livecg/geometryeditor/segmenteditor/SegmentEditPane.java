@@ -169,6 +169,12 @@ public class SegmentEditPane extends JPanel implements Viewport
 		return 1;
 	}
 
+	@Override
+	public void setZoom(double value)
+	{
+		// ignore
+	}
+
 	private List<ViewportListener> viewportListeners = new ArrayList<ViewportListener>();
 
 	@Override

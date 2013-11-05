@@ -29,10 +29,12 @@ import javax.swing.JComboBox;
 import de.topobyte.livecg.geometryeditor.geometryeditor.Viewport;
 import de.topobyte.livecg.geometryeditor.geometryeditor.ViewportListener;
 
-public abstract class ZoomInput extends JComboBox
+public class ZoomInput extends JComboBox
 {
 
 	private static final long serialVersionUID = 6856865390726849784L;
+
+	private Viewport viewport;
 
 	public ZoomInput(Viewport viewport)
 	{
@@ -43,6 +45,9 @@ public abstract class ZoomInput extends JComboBox
 	public ZoomInput(Viewport viewport, String[] values, int selectedIndex)
 	{
 		super(values);
+
+		this.viewport = viewport;
+
 		setEditable(true);
 		setSelectedIndex(selectedIndex);
 
@@ -98,7 +103,7 @@ public abstract class ZoomInput extends JComboBox
 		String number = trimmed.substring(0, trimmed.length() - 1);
 		try {
 			double value = Double.parseDouble(number);
-			setZoomPercent(value);
+			viewport.setZoom(value / 100);
 		} catch (NumberFormatException e) {
 			revertZoom();
 		}
@@ -106,7 +111,7 @@ public abstract class ZoomInput extends JComboBox
 
 	private void revertZoom()
 	{
-		double percent = getZoomPercent();
+		double percent = viewport.getZoom() * 100;
 		String text;
 		if (Math.abs(percent - (int) percent) < 0.0001) {
 			text = String.format("%d%%", (int) percent);
@@ -115,10 +120,6 @@ public abstract class ZoomInput extends JComboBox
 		}
 		setSelectedItem(text);
 	}
-
-	public abstract double getZoomPercent();
-
-	public abstract void setZoomPercent(double value);
 
 	private class ZoomKeyAdapter extends KeyAdapter
 	{
