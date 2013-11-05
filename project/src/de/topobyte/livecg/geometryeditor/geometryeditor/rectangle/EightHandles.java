@@ -22,17 +22,18 @@ import de.topobyte.livecg.core.geometry.geom.Rectangle;
 public class EightHandles
 {
 	private Rectangle r;
+	private double d;
 
-	public EightHandles(Rectangle rectangle)
+	public EightHandles(Rectangle rectangle, double d)
 	{
 		this.r = rectangle;
+		this.d = d;
 	}
 
 	public Position get(double x, double y)
 	{
 		double w = r.getX2() - r.getX1();
 		double h = r.getY2() - r.getY1();
-		double d = 12;
 		if (d(x, y, r.getX1(), r.getY1()) < d) {
 			return Position.NW;
 		} else if (d(x, y, r.getX2(), r.getY1()) < d) {
