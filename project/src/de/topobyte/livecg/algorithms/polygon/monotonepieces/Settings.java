@@ -23,18 +23,22 @@ import java.awt.event.ItemListener;
 import javax.swing.JToggleButton;
 import javax.swing.JToolBar;
 
-public class Settings extends JToolBar implements ItemListener
+import de.topobyte.livecg.core.scrolling.Viewport;
+import de.topobyte.livecg.util.ZoomInput;
+
+public class Settings<T extends PolygonPanel & Viewport> extends JToolBar
+		implements ItemListener
 {
 
 	private static final long serialVersionUID = -3267409782350331277L;
 
-	private PolygonPanel pp;
+	private T pp;
 
 	private JToggleButton[] buttons;
 
 	private static final String TEXT_DRAW_NODE_NUMBERS = "Node Numbers";
 
-	public Settings(PolygonPanel pp)
+	public Settings(T pp)
 	{
 		this.pp = pp;
 
@@ -50,6 +54,9 @@ public class Settings extends JToolBar implements ItemListener
 		}
 
 		buttons[0].setSelected(pp.getPolygonConfig().isDrawNodeNumbers());
+
+		ZoomInput zoom = new ZoomInput(pp);
+		add(zoom);
 	}
 
 	@Override

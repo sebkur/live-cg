@@ -28,8 +28,8 @@ import javax.swing.JPanel;
 
 import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.core.geometry.geom.Coordinate;
-import de.topobyte.livecg.geometryeditor.geometryeditor.Viewport;
-import de.topobyte.livecg.geometryeditor.geometryeditor.ViewportListener;
+import de.topobyte.livecg.core.scrolling.Viewport;
+import de.topobyte.livecg.core.scrolling.ViewportListener;
 import de.topobyte.livecg.util.SwingUtil;
 
 public class SegmentEditPane extends JPanel implements Viewport
@@ -194,5 +194,19 @@ public class SegmentEditPane extends JPanel implements Viewport
 		for (ViewportListener listener : viewportListeners) {
 			listener.viewportChanged();
 		}
+	}
+
+	@Override
+	public void setPositionX(double value)
+	{
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void setPositionY(double value)
+	{
+		// TODO Auto-generated method stub
+
 	}
 }

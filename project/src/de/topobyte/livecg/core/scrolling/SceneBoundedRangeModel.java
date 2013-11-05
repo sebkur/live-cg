@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.topobyte.livecg.geometryeditor.geometryeditor;
+package de.topobyte.livecg.core.scrolling;
 
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
@@ -23,29 +23,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.BoundedRangeModel;
+import javax.swing.JComponent;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.topobyte.livecg.core.scrolling.ViewportListener;
-
-public class SceneBoundedRangeModel implements BoundedRangeModel
+public class SceneBoundedRangeModel<T extends JComponent & Viewport & HasScene & HasMargin>
+		implements BoundedRangeModel
 {
 
 	final static Logger logger = LoggerFactory
 			.getLogger(SceneBoundedRangeModel.class);
 
-	private GeometryEditPane editPane;
-
+	private T view;
 	private boolean horizontal;
 
-	public SceneBoundedRangeModel(GeometryEditPane editPane, boolean horizontal)
+	public SceneBoundedRangeModel(T view, boolean horizontal)
 	{
-		this.editPane = editPane;
+		this.view = view;
 		this.horizontal = horizontal;
-		editPane.addComponentListener(new ComponentAdapter() {
+		view.addComponentListener(new ComponentAdapter() {
 
 			@Override
 			public void componentResized(ComponentEvent e)
@@ -54,12 +53,12 @@ public class SceneBoundedRangeModel implements BoundedRangeModel
 			}
 
 		});
-		editPane.addViewportListener(new ViewportListener() {
+		view.addViewportListener(new ViewportListener() {
 
 			@Override
 			public void zoomChanged()
 			{
-				SceneBoundedRangeModel.this.zoomChanged();
+				editPaneZoomChanged();
 			}
 
 			@Override
@@ -81,7 +80,7 @@ public class SceneBoundedRangeModel implements BoundedRangeModel
 		fireListeners();
 	}
 
-	protected void zoomChanged()
+	protected void editPaneZoomChanged()
 	{
 		fireListeners();
 	}
@@ -95,8 +94,7 @@ public class SceneBoundedRangeModel implements BoundedRangeModel
 	public int getMinimum()
 	{
 		// logger.debug("getMinimum()");
-		return (int) Math.round(0 - GeometryEditPane.MARGIN
-				* editPane.getZoom());
+		return (int) Math.round(0 - view.getMargin() * view.getZoom());
 	}
 
 	@Override
@@ -104,13 +102,11 @@ public class SceneBoundedRangeModel implements BoundedRangeModel
 	{
 		// logger.debug("getMaximum()");
 		if (horizontal) {
-			return (int) Math.round((editPane.getContent().getScene()
-					.getWidth() + GeometryEditPane.MARGIN)
-					* editPane.getZoom());
+			return (int) Math.round((view.getScene().getWidth() + view
+					.getMargin()) * view.getZoom());
 		} else {
-			return (int) Math.round((editPane.getContent().getScene()
-					.getHeight() + GeometryEditPane.MARGIN)
-					* editPane.getZoom());
+			return (int) Math.round((view.getScene().getHeight() + view
+					.getMargin()) * view.getZoom());
 		}
 	}
 
@@ -119,9 +115,9 @@ public class SceneBoundedRangeModel implements BoundedRangeModel
 	{
 		// logger.debug("getExtent()");
 		if (horizontal) {
-			return (int) Math.round(editPane.getWidth());
+			return (int) Math.round(view.getWidth());
 		} else {
-			return (int) Math.round(editPane.getHeight());
+			return (int) Math.round(view.getHeight());
 		}
 	}
 
@@ -130,11 +126,9 @@ public class SceneBoundedRangeModel implements BoundedRangeModel
 	{
 		// logger.debug("getValue()");
 		if (horizontal) {
-			return (int) Math.round(-editPane.getPositionX()
-					* editPane.getZoom());
+			return (int) Math.round(-view.getPositionX() * view.getZoom());
 		} else {
-			return (int) Math.round(-editPane.getPositionY()
-					* editPane.getZoom());
+			return (int) Math.round(-view.getPositionY() * view.getZoom());
 		}
 	}
 
@@ -145,11 +139,11 @@ public class SceneBoundedRangeModel implements BoundedRangeModel
 		newValue = Math.max(newValue, getMinimum());
 		logger.debug("setValue(" + newValue + ")");
 		if (horizontal) {
-			editPane.setPositionX(-newValue / editPane.getZoom());
+			view.setPositionX(-newValue / view.getZoom());
 		} else {
-			editPane.setPositionY(-newValue / editPane.getZoom());
+			view.setPositionY(-newValue / view.getZoom());
 		}
-		editPane.repaint();
+		view.repaint();
 		fireListeners();
 	}
 

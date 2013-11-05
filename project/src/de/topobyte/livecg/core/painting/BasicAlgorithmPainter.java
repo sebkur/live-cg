@@ -23,6 +23,10 @@ public abstract class BasicAlgorithmPainter implements AlgorithmPainter
 	protected Painter painter;
 	protected int width, height;
 
+	protected double zoom = 1;
+	protected double positionX = 0;
+	protected double positionY = 0;
+
 	public BasicAlgorithmPainter(Painter painter)
 	{
 		this.painter = painter;
@@ -56,5 +60,23 @@ public abstract class BasicAlgorithmPainter implements AlgorithmPainter
 	public void setPainter(Painter painter)
 	{
 		this.painter = painter;
+	}
+
+	@Override
+	public void setZoom(double zoom)
+	{
+		this.zoom = zoom;
+	}
+
+	@Override
+	public void setPositionX(double x)
+	{
+		this.positionX = x;
+	}
+
+	@Override
+	public void setPositionY(double y)
+	{
+		this.positionY = y;
 	}
 }

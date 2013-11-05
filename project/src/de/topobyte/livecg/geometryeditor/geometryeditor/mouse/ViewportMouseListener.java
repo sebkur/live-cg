@@ -21,7 +21,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import de.topobyte.livecg.core.geometry.geom.Coordinate;
-import de.topobyte.livecg.geometryeditor.geometryeditor.Viewport;
+import de.topobyte.livecg.core.scrolling.Viewport;
 
 public class ViewportMouseListener extends MouseAdapter
 {

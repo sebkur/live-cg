@@ -15,27 +15,24 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.topobyte.livecg.core.painting;
+package de.topobyte.livecg.core.scrolling;
 
-public interface AlgorithmPainter
+public interface Viewport
 {
+	public double getPositionX();
 
-	public int getWidth();
+	public double getPositionY();
 
-	public void setWidth(int width);
+	public double getZoom();
 
-	public int getHeight();
+	public void setPositionX(double value);
 
-	public void setHeight(int height);
+	public void setPositionY(double value);
 
-	public void setPainter(Painter painter);
+	public void setZoom(double value);
 
-	public void setZoom(double zoom);
-	
-	public void setPositionX(double x);
-	
-	public void setPositionY(double y);
-	
-	public void paint();
+	public void addViewportListener(ViewportListener listener);
+
+	public void removeViewportListener(ViewportListener listener);
 
 }

@@ -27,8 +27,12 @@ import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 
 import de.topobyte.livecg.core.export.ExportUtil;
+import de.topobyte.livecg.core.geometry.geom.BoundingBoxes;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
+import de.topobyte.livecg.core.geometry.geom.Rectangle;
+import de.topobyte.livecg.core.geometry.geom.Rectangles;
 import de.topobyte.livecg.core.painting.AlgorithmPainter;
+import de.topobyte.livecg.core.scrolling.ScrollableView;
 import de.topobyte.livecg.util.coloring.ColorMapBuilder;
 
 public class MonotonePiecesDialog
@@ -46,11 +50,14 @@ public class MonotonePiecesDialog
 
 		Config polygonConfig = new Config();
 		MonotonePiecesPanel mpp = new MonotonePiecesPanel(algorithm);
+		ScrollableView<MonotonePiecesPanel> scrollableView = new ScrollableView<MonotonePiecesPanel>(
+				mpp);
 
-		Settings settings = new Settings(mpp);
+		Settings<MonotonePiecesPanel> settings = new Settings<MonotonePiecesPanel>(
+				mpp);
 
 		main.add(settings, BorderLayout.NORTH);
-		main.add(mpp, BorderLayout.CENTER);
+		main.add(scrollableView, BorderLayout.CENTER);
 
 		/*
 		 * Menu
@@ -59,7 +66,10 @@ public class MonotonePiecesDialog
 		Map<Polygon, Color> colorMap = ColorMapBuilder.buildColorMap(algorithm
 				.getExtendedGraph());
 
-		AlgorithmPainter painter = new MonotonePiecesPainter(algorithm,
+		Rectangle bbox = BoundingBoxes.get(algorithm.getPolygon());
+		Rectangle scene = Rectangles.extend(bbox, 15);
+
+		AlgorithmPainter painter = new MonotonePiecesPainter(scene, algorithm,
 				polygonConfig, colorMap, null);
 
 		JMenuBar menu = new JMenuBar();

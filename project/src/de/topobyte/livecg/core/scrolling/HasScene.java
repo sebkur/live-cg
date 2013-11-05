@@ -15,15 +15,13 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.topobyte.livecg.geometryeditor.geometryeditor;
+package de.topobyte.livecg.core.scrolling;
 
-public interface ViewportListener
+import de.topobyte.livecg.core.geometry.geom.Rectangle;
+
+public interface HasScene
 {
 
-	public void viewportChanged();
-
-	public void zoomChanged();
-	
-	public void complexChange();
+	public Rectangle getScene();
 
 }

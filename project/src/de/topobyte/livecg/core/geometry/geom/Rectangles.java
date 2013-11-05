@@ -15,27 +15,20 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.topobyte.livecg.core.painting;
+package de.topobyte.livecg.core.geometry.geom;
 
-public interface AlgorithmPainter
+public class Rectangles
 {
-
-	public int getWidth();
-
-	public void setWidth(int width);
-
-	public int getHeight();
-
-	public void setHeight(int height);
-
-	public void setPainter(Painter painter);
-
-	public void setZoom(double zoom);
-	
-	public void setPositionX(double x);
-	
-	public void setPositionY(double y);
-	
-	public void paint();
-
+	public static Rectangle extend(Rectangle r, double extent)
+	{
+		double xmin = r.getX1();
+		double xmax = r.getX2();
+		double ymin = r.getY1();
+		double ymax = r.getY2();
+		xmin -= extent;
+		xmax += extent;
+		ymin -= extent;
+		ymax += extent;
+		return new Rectangle(xmin, ymin, xmax, ymax);
+	}
 }

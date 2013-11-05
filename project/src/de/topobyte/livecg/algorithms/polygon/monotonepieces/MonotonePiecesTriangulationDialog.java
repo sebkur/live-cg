@@ -27,7 +27,10 @@ import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 
 import de.topobyte.livecg.core.export.ExportUtil;
+import de.topobyte.livecg.core.geometry.geom.BoundingBoxes;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
+import de.topobyte.livecg.core.geometry.geom.Rectangle;
+import de.topobyte.livecg.core.geometry.geom.Rectangles;
 import de.topobyte.livecg.core.painting.AlgorithmPainter;
 import de.topobyte.livecg.util.coloring.ColorMapBuilder;
 
@@ -49,7 +52,8 @@ public class MonotonePiecesTriangulationDialog
 		MonotonePiecesTriangulationPanel mptp = new MonotonePiecesTriangulationPanel(
 				algorithm);
 
-		Settings settings = new Settings(mptp);
+		Settings<MonotonePiecesTriangulationPanel> settings = new Settings<MonotonePiecesTriangulationPanel>(
+				mptp);
 
 		main.add(settings, BorderLayout.NORTH);
 		main.add(mptp, BorderLayout.CENTER);
@@ -61,8 +65,11 @@ public class MonotonePiecesTriangulationDialog
 		Map<Polygon, Color> colorMap = ColorMapBuilder.buildColorMap(algorithm
 				.getExtendedGraph());
 
+		Rectangle bbox = BoundingBoxes.get(algorithm.getPolygon());
+		Rectangle scene = Rectangles.extend(bbox, 15);
+
 		AlgorithmPainter painter = new MonotonePiecesTriangulationPainter(
-				algorithm, polygonConfig, colorMap, null);
+				scene, algorithm, polygonConfig, colorMap, null);
 
 		JMenuBar menu = new JMenuBar();
 

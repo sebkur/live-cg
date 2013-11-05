@@ -15,20 +15,15 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.topobyte.livecg.geometryeditor.geometryeditor;
+package de.topobyte.livecg.core.scrolling;
 
-public interface Viewport
+public interface ViewportListener
 {
-	public double getPositionX();
 
-	public double getPositionY();
+	public void viewportChanged();
 
-	public double getZoom();
-
-	public void setZoom(double value);
-
-	public void addViewportListener(ViewportListener listener);
-
-	public void removeViewportListener(ViewportListener listener);
+	public void zoomChanged();
+	
+	public void complexChange();
 
 }

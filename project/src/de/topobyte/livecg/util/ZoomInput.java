@@ -26,8 +26,8 @@ import java.awt.event.KeyEvent;
 
 import javax.swing.JComboBox;
 
-import de.topobyte.livecg.geometryeditor.geometryeditor.Viewport;
-import de.topobyte.livecg.geometryeditor.geometryeditor.ViewportListener;
+import de.topobyte.livecg.core.scrolling.Viewport;
+import de.topobyte.livecg.core.scrolling.ViewportListener;
 
 public class ZoomInput extends JComboBox
 {

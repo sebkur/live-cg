@@ -53,6 +53,8 @@ import de.topobyte.livecg.core.lina.Matrix;
 import de.topobyte.livecg.core.painting.AwtPainter;
 import de.topobyte.livecg.core.painting.Color;
 import de.topobyte.livecg.core.painting.Painter;
+import de.topobyte.livecg.core.scrolling.Viewport;
+import de.topobyte.livecg.core.scrolling.ViewportListener;
 import de.topobyte.livecg.geometryeditor.geometryeditor.action.OpenCloseRingAction;
 import de.topobyte.livecg.geometryeditor.geometryeditor.mouse.EditorMouseListener;
 import de.topobyte.livecg.geometryeditor.geometryeditor.mousemode.MouseMode;
@@ -103,12 +105,14 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 		return positionY;
 	}
 
+	@Override
 	public void setPositionX(double x)
 	{
 		positionX = x;
 		fireViewportListenersViewportChanged();
 	}
 
+	@Override
 	public void setPositionY(double y)
 	{
 		positionY = y;

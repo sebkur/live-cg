@@ -25,21 +25,29 @@ import java.util.Map;
 import javax.swing.JPanel;
 
 import de.topobyte.livecg.core.export.SizeProvider;
+import de.topobyte.livecg.core.geometry.geom.BoundingBoxes;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
+import de.topobyte.livecg.core.geometry.geom.Rectangle;
+import de.topobyte.livecg.core.geometry.geom.Rectangles;
 import de.topobyte.livecg.core.painting.AwtPainter;
+import de.topobyte.livecg.core.scrolling.Viewport;
+import de.topobyte.livecg.core.scrolling.ViewportListener;
 import de.topobyte.livecg.util.SwingUtil;
 import de.topobyte.livecg.util.coloring.ColorMapBuilder;
 
 public class MonotonePiecesTriangulationPanel extends JPanel implements
-		PolygonPanel, SizeProvider
+		PolygonPanel, SizeProvider, Viewport
 {
 
 	private static final long serialVersionUID = 2129465700417909129L;
+
+	private int margin = 15;
 
 	private Map<Polygon, Color> colorMap;
 
 	private Config polygonConfig = new Config();
 
+	private Rectangle scene;
 	private AwtPainter painter;
 	private MonotonePiecesTriangulationPainter algorithmPainter;
 
@@ -48,9 +56,12 @@ public class MonotonePiecesTriangulationPanel extends JPanel implements
 	{
 		colorMap = ColorMapBuilder.buildColorMap(algorithm.getExtendedGraph());
 
+		Rectangle bbox = BoundingBoxes.get(algorithm.getPolygon());
+		scene = Rectangles.extend(bbox, margin);
+
 		painter = new AwtPainter(null);
-		algorithmPainter = new MonotonePiecesTriangulationPainter(algorithm,
-				polygonConfig, colorMap, painter);
+		algorithmPainter = new MonotonePiecesTriangulationPainter(scene,
+				algorithm, polygonConfig, colorMap, painter);
 	}
 
 	@Override
@@ -75,5 +86,61 @@ public class MonotonePiecesTriangulationPanel extends JPanel implements
 	public void settingsUpdated()
 	{
 		repaint();
+	}
+
+	@Override
+	public double getPositionX()
+	{
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public double getPositionY()
+	{
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public double getZoom()
+	{
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void setZoom(double value)
+	{
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void addViewportListener(ViewportListener listener)
+	{
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void removeViewportListener(ViewportListener listener)
+	{
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void setPositionX(double value)
+	{
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void setPositionY(double value)
+	{
+		// TODO Auto-generated method stub
+
 	}
 }

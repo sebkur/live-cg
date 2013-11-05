@@ -25,8 +25,12 @@ import java.util.Map;
 
 import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.core.geometry.geom.Coordinate;
+import de.topobyte.livecg.core.geometry.geom.GeometryTransformer;
 import de.topobyte.livecg.core.geometry.geom.Node;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
+import de.topobyte.livecg.core.geometry.geom.Rectangle;
+import de.topobyte.livecg.core.lina.AffineTransformUtil;
+import de.topobyte.livecg.core.lina.Matrix;
 import de.topobyte.livecg.core.painting.BasicAlgorithmPainter;
 import de.topobyte.livecg.core.painting.Color;
 import de.topobyte.livecg.core.painting.Painter;
@@ -40,11 +44,14 @@ public class MonotonePiecesPainter extends BasicAlgorithmPainter
 	private Config polygonConfig;
 	private Map<Polygon, java.awt.Color> colorMap;
 
-	public MonotonePiecesPainter(MonotonePiecesAlgorithm algorithm,
-			Config polygonConfig, Map<Polygon, java.awt.Color> colorMap,
-			Painter painter)
+	private Rectangle scene;
+
+	public MonotonePiecesPainter(Rectangle scene,
+			MonotonePiecesAlgorithm algorithm, Config polygonConfig,
+			Map<Polygon, java.awt.Color> colorMap, Painter painter)
 	{
 		super(painter);
+		this.scene = scene;
 		this.polygon = algorithm.getPolygon();
 		this.monotonePiecesOperation = algorithm.getMonotonePiecesOperation();
 		this.monotonePieces = algorithm.getMonotonePieces();
@@ -52,9 +59,20 @@ public class MonotonePiecesPainter extends BasicAlgorithmPainter
 		this.colorMap = colorMap;
 	}
 
+	private GeometryTransformer transformer;
+
 	@Override
 	public void paint()
 	{
+		Matrix shift = AffineTransformUtil.translate(-scene.getX1(),
+				-scene.getY1());
+		Matrix translate = AffineTransformUtil.translate(positionX, positionY);
+		Matrix scale = AffineTransformUtil.scale(zoom, zoom);
+
+		Matrix matrix = scale.multiplyFromRight(translate).multiplyFromRight(
+				shift);
+		transformer = new GeometryTransformer(matrix);
+
 		fillBackground();
 
 		fillPolygon();
@@ -73,13 +91,19 @@ public class MonotonePiecesPainter extends BasicAlgorithmPainter
 	protected void fillBackground()
 	{
 		painter.setColor(new Color(java.awt.Color.WHITE.getRGB()));
-		painter.fillRect(0, 0, width, height);
+		Coordinate t1 = transformer.transform(new Coordinate(scene.getX1(),
+				scene.getY1()));
+		Coordinate t2 = transformer.transform(new Coordinate(scene.getX2(),
+				scene.getY2()));
+		painter.fillRect(t1.getX(), t1.getY(), t2.getX() - t1.getX(), t2.getY()
+				- t1.getY());
 	}
 
 	protected void fillPolygon()
 	{
 		painter.setColor(new Color(0x66ff0000, true));
-		painter.fillPolygon(polygon);
+		Polygon tpolygon = transformer.transform(polygon);
+		painter.fillPolygon(tpolygon);
 	}
 
 	protected void fillMonotonePieces()
@@ -88,7 +112,8 @@ public class MonotonePiecesPainter extends BasicAlgorithmPainter
 			Polygon piece = monotonePieces.get(i);
 			java.awt.Color color = colorMap.get(piece);
 			painter.setColor(new Color(color.getRGB()));
-			painter.fillPolygon(piece);
+			Polygon tpiece = transformer.transform(piece);
+			painter.fillPolygon(tpiece);
 		}
 	}
 
@@ -100,14 +125,17 @@ public class MonotonePiecesPainter extends BasicAlgorithmPainter
 		for (Diagonal diagonal : diagonals) {
 			Coordinate c1 = diagonal.getA().getCoordinate();
 			Coordinate c2 = diagonal.getB().getCoordinate();
-			painter.drawLine(c1.getX(), c1.getY(), c2.getX(), c2.getY());
+			Coordinate t1 = transformer.transform(c1);
+			Coordinate t2 = transformer.transform(c2);
+			painter.drawLine(t1.getX(), t1.getY(), t2.getX(), t2.getY());
 		}
 	}
 
 	protected void drawPolygon()
 	{
 		painter.setColor(new Color(java.awt.Color.BLACK.getRGB()));
-		painter.drawPolygon(polygon);
+		Polygon tpolygon = transformer.transform(polygon);
+		painter.drawPolygon(tpolygon);
 	}
 
 	protected void drawNodes()
@@ -119,15 +147,16 @@ public class MonotonePiecesPainter extends BasicAlgorithmPainter
 			Node node = shell.getNode(i);
 			VertexType type = monotonePiecesOperation.getType(node);
 			Coordinate c = node.getCoordinate();
+			Coordinate t = transformer.transform(c);
 
 			double arcSize = 6;
 			double rectSize = 6;
 			double triangleSize = 8;
 
-			Arc2D arc = new Arc2D.Double(c.getX() - arcSize / 2, c.getY()
+			Arc2D arc = new Arc2D.Double(t.getX() - arcSize / 2, t.getY()
 					- arcSize / 2, arcSize, arcSize, 0, 360, Arc2D.CHORD);
-			Rectangle2D rect = new Rectangle2D.Double(c.getX() - rectSize / 2,
-					c.getY() - rectSize / 2, rectSize, rectSize);
+			Rectangle2D rect = new Rectangle2D.Double(t.getX() - rectSize / 2,
+					t.getY() - rectSize / 2, rectSize, rectSize);
 			Path2D triangle = new Path2D.Double();
 
 			switch (type) {
@@ -141,19 +170,19 @@ public class MonotonePiecesPainter extends BasicAlgorithmPainter
 				painter.fill(rect);
 				break;
 			case SPLIT:
-				triangle.moveTo(c.getX(), c.getY() - triangleSize / 2);
-				triangle.lineTo(c.getX() - triangleSize / 2, c.getY()
+				triangle.moveTo(t.getX(), t.getY() - triangleSize / 2);
+				triangle.lineTo(t.getX() - triangleSize / 2, t.getY()
 						+ triangleSize / 2);
-				triangle.lineTo(c.getX() + triangleSize / 2, c.getY()
+				triangle.lineTo(t.getX() + triangleSize / 2, t.getY()
 						+ triangleSize / 2);
 				triangle.closePath();
 				painter.fill(triangle);
 				break;
 			case MERGE:
-				triangle.moveTo(c.getX(), c.getY() + arcSize / 2);
-				triangle.lineTo(c.getX() - triangleSize / 2, c.getY()
+				triangle.moveTo(t.getX(), t.getY() + arcSize / 2);
+				triangle.lineTo(t.getX() - triangleSize / 2, t.getY()
 						- triangleSize / 2);
-				triangle.lineTo(c.getX() + triangleSize / 2, c.getY()
+				triangle.lineTo(t.getX() + triangleSize / 2, t.getY()
 						- triangleSize / 2);
 				triangle.closePath();
 				painter.fill(triangle);
@@ -173,8 +202,9 @@ public class MonotonePiecesPainter extends BasicAlgorithmPainter
 			for (int i = 0; i < shell.getNumberOfNodes(); i++) {
 				Node node = shell.getNode(i);
 				Coordinate c = node.getCoordinate();
-				painter.drawString(String.format("%d", i + 1), c.getX() + 10,
-						c.getY());
+				Coordinate t = transformer.transform(c);
+				painter.drawString(String.format("%d", i + 1), t.getX() + 10,
+						t.getY());
 			}
 		}
 	}
