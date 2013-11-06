@@ -66,6 +66,9 @@ public class ConfigParser
 	private void parseLine(String line)
 	{
 		String trimmedLine = line.trim();
+		if (trimmedLine.isEmpty() || trimmedLine.startsWith("#")) {
+			return;
+		}
 		if (trimmedLine.endsWith("{")) {
 			String prefix = trimmedLine.substring(0, trimmedLine.length() - 1);
 			prefix = prefix.trim();

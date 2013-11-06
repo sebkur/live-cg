@@ -1,3 +1,6 @@
+################################################################################
+# GeometryEditor
+################################################################################
 geometryeditor.colors {
 	background.scene = #ffffff
 	background.nothing = #aaaaaa
@@ -26,6 +29,10 @@ geometryeditor.colors {
 		marker = #000000
 	}
 }
+
+################################################################################
+# DCEL
+################################################################################
 datastructures.dcel.colors {
 	background = #ffffff
 	edges = #0000ff
@@ -33,6 +40,10 @@ datastructures.dcel.colors {
 	arrows = #ff00ff
 	connectors = #00ff00
 }
+
+################################################################################
+# Fortune' Sweep
+################################################################################
 algorithm.voronoi.fortune.colors {
 	background = #ffffff
 	sweepline = #ff0000
@@ -55,6 +66,10 @@ algorithm.voronoi.fortune.colors {
 	sweep.control.handle = #ff0000
 	sweep.control.border = #000000
 }
+
+################################################################################
+# Shortest Path in Polygon
+################################################################################
 algorithm.polygon.shortestpath {
 	node.size {
 		first = 4.0
