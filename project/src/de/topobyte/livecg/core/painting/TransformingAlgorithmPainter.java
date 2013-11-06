@@ -17,6 +17,7 @@
  */
 package de.topobyte.livecg.core.painting;
 
+import de.topobyte.livecg.core.geometry.geom.Coordinate;
 import de.topobyte.livecg.core.geometry.geom.GeometryTransformer;
 import de.topobyte.livecg.core.geometry.geom.Rectangle;
 import de.topobyte.livecg.core.lina.AffineTransformUtil;
@@ -47,4 +48,14 @@ public abstract class TransformingAlgorithmPainter extends
 		transformer = new GeometryTransformer(matrix);
 	}
 
+	protected void fillBackground()
+	{
+		painter.setColor(new Color(java.awt.Color.WHITE.getRGB()));
+		Coordinate t1 = transformer.transform(new Coordinate(scene.getX1(),
+				scene.getY1()));
+		Coordinate t2 = transformer.transform(new Coordinate(scene.getX2(),
+				scene.getY2()));
+		painter.fillRect(t1.getX(), t1.getY(), t2.getX() - t1.getX(), t2.getY()
+				- t1.getY());
+	}
 }

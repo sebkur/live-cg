@@ -21,15 +21,17 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.List;
 
-import javax.swing.JPanel;
-
 import de.topobyte.livecg.core.export.SizeProvider;
+import de.topobyte.livecg.core.geometry.geom.BoundingBoxes;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
+import de.topobyte.livecg.core.geometry.geom.Rectangle;
+import de.topobyte.livecg.core.geometry.geom.Rectangles;
 import de.topobyte.livecg.core.painting.AwtPainter;
+import de.topobyte.livecg.core.scrolling.ScenePanel;
 import de.topobyte.livecg.util.SwingUtil;
 import de.topobyte.livecg.util.graph.Graph;
 
-public class TriangulationPanel extends JPanel implements PolygonPanel,
+public class TriangulationPanel extends ScenePanel implements PolygonPanel,
 		SizeProvider
 {
 
@@ -43,16 +45,26 @@ public class TriangulationPanel extends JPanel implements PolygonPanel,
 	public TriangulationPanel(Polygon polygon, List<Diagonal> diagonals,
 			Graph<Polygon, Diagonal> graph, Config config)
 	{
+		super(scene(polygon, 15));
 		this.config = config;
 
 		painter = new AwtPainter(null);
-		algorithmPainter = new TriangulationPainter(polygon, diagonals, graph,
-				config, painter);
+		algorithmPainter = new TriangulationPainter(scene, polygon, diagonals,
+				graph, config, painter);
+		super.algorithmPainter = algorithmPainter;
+	}
+
+	private static Rectangle scene(Polygon polygon, double margin)
+	{
+		Rectangle bbox = BoundingBoxes.get(polygon);
+		Rectangle scene = Rectangles.extend(bbox, margin);
+		return scene;
 	}
 
 	@Override
 	public void paint(Graphics graphics)
 	{
+		super.paint(graphics);
 		Graphics2D g = (Graphics2D) graphics;
 		SwingUtil.useAntialiasing(g, true);
 

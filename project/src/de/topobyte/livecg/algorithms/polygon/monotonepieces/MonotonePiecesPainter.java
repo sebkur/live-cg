@@ -73,17 +73,6 @@ public class MonotonePiecesPainter extends TransformingAlgorithmPainter
 		drawLabels();
 	}
 
-	protected void fillBackground()
-	{
-		painter.setColor(new Color(java.awt.Color.WHITE.getRGB()));
-		Coordinate t1 = transformer.transform(new Coordinate(scene.getX1(),
-				scene.getY1()));
-		Coordinate t2 = transformer.transform(new Coordinate(scene.getX2(),
-				scene.getY2()));
-		painter.fillRect(t1.getX(), t1.getY(), t2.getX() - t1.getX(), t2.getY()
-				- t1.getY());
-	}
-
 	protected void fillPolygon()
 	{
 		painter.setColor(new Color(0x66ff0000, true));

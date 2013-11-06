@@ -25,14 +25,15 @@ import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.core.geometry.geom.Coordinate;
 import de.topobyte.livecg.core.geometry.geom.Node;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
-import de.topobyte.livecg.core.painting.BasicAlgorithmPainter;
+import de.topobyte.livecg.core.geometry.geom.Rectangle;
 import de.topobyte.livecg.core.painting.Color;
 import de.topobyte.livecg.core.painting.Painter;
+import de.topobyte.livecg.core.painting.TransformingAlgorithmPainter;
 import de.topobyte.livecg.util.circular.IntRing;
 import de.topobyte.livecg.util.graph.Edge;
 import de.topobyte.livecg.util.graph.Graph;
 
-public class TriangulationPainter extends BasicAlgorithmPainter
+public class TriangulationPainter extends TransformingAlgorithmPainter
 {
 
 	private Polygon polygon;
@@ -40,11 +41,11 @@ public class TriangulationPainter extends BasicAlgorithmPainter
 	private Graph<Polygon, Diagonal> graph;
 	private Config polygonConfig;
 
-	public TriangulationPainter(Polygon polygon, List<Diagonal> diagonals,
-			Graph<Polygon, Diagonal> graph, Config polygonConfig,
-			Painter painter)
+	public TriangulationPainter(Rectangle scene, Polygon polygon,
+			List<Diagonal> diagonals, Graph<Polygon, Diagonal> graph,
+			Config polygonConfig, Painter painter)
 	{
-		super(painter);
+		super(scene, painter);
 		this.polygon = polygon;
 		this.diagonals = diagonals;
 		this.graph = graph;
@@ -54,15 +55,20 @@ public class TriangulationPainter extends BasicAlgorithmPainter
 	@Override
 	public void paint()
 	{
+		preparePaint();
+
+		fillBackground();
 
 		painter.setColor(new Color(java.awt.Color.WHITE.getRGB()));
 		painter.fillRect(0, 0, width, height);
 
 		painter.setColor(new Color(0x66ff0000, true));
-		painter.fillPolygon(polygon);
+
+		Polygon tpolygon = transformer.transform(polygon);
+		painter.fillPolygon(tpolygon);
 
 		painter.setColor(new Color(java.awt.Color.BLACK.getRGB()));
-		Chain shell = polygon.getShell();
+		Chain shell = tpolygon.getShell();
 		IntRing ring = new IntRing(shell.getNumberOfNodes());
 		for (int i = 0; i < shell.getNumberOfNodes(); i++) {
 			int j = ring.next().value();
@@ -75,18 +81,22 @@ public class TriangulationPainter extends BasicAlgorithmPainter
 		for (Diagonal diagonal : diagonals) {
 			Coordinate c1 = diagonal.getA().getCoordinate();
 			Coordinate c2 = diagonal.getB().getCoordinate();
-			painter.drawLine(c1.getX(), c1.getY(), c2.getX(), c2.getY());
+			Coordinate t1 = transformer.transform(c1);
+			Coordinate t2 = transformer.transform(c2);
+			painter.drawLine(t1.getX(), t1.getY(), t2.getX(), t2.getY());
 		}
 
 		painter.setColor(new Color(java.awt.Color.GREEN.getRGB()));
 		Collection<Polygon> nodes = graph.getNodes();
 		for (Polygon p : nodes) {
 			Coordinate cp = center(p);
+			Coordinate tp = transformer.transform(cp);
 			Set<Edge<Polygon, Diagonal>> edges = graph.getEdgesOut(p);
 			for (Edge<Polygon, Diagonal> edge : edges) {
 				Polygon q = edge.getTarget();
 				Coordinate cq = center(q);
-				painter.drawLine(cp.getX(), cp.getY(), cq.getX(), cq.getY());
+				Coordinate tq = transformer.transform(cq);
+				painter.drawLine(tp.getX(), tp.getY(), tq.getX(), tq.getY());
 			}
 		}
 

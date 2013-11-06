@@ -26,7 +26,11 @@ import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 
 import de.topobyte.livecg.core.export.ExportUtil;
+import de.topobyte.livecg.core.geometry.geom.BoundingBoxes;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
+import de.topobyte.livecg.core.geometry.geom.Rectangle;
+import de.topobyte.livecg.core.geometry.geom.Rectangles;
+import de.topobyte.livecg.core.scrolling.ScrollableView;
 import de.topobyte.livecg.util.graph.Graph;
 
 public class TriangulationDialog
@@ -52,17 +56,23 @@ public class TriangulationDialog
 		Config config = new Config();
 		TriangulationPanel tp = new TriangulationPanel(polygon, diagonals,
 				graph, config);
+		ScrollableView<TriangulationPanel> scrollableView = new ScrollableView<TriangulationPanel>(
+				tp);
 
-		Settings settings = new Settings(tp);
+		Settings<TriangulationPanel> settings = new Settings<TriangulationPanel>(
+				tp);
 
 		main.add(settings, BorderLayout.NORTH);
-		main.add(tp, BorderLayout.CENTER);
+		main.add(scrollableView, BorderLayout.CENTER);
 
 		/*
 		 * Menu
 		 */
 
-		TriangulationPainter painter = new TriangulationPainter(polygon,
+		Rectangle bbox = BoundingBoxes.get(polygon);
+		Rectangle scene = Rectangles.extend(bbox, 15);
+
+		TriangulationPainter painter = new TriangulationPainter(scene, polygon,
 				diagonals, graph, config, null);
 
 		JMenuBar menu = new JMenuBar();
