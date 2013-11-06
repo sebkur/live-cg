@@ -20,8 +20,8 @@ package de.topobyte.livecg.core.painting;
 import de.topobyte.livecg.core.geometry.geom.Coordinate;
 import de.topobyte.livecg.core.geometry.geom.GeometryTransformer;
 import de.topobyte.livecg.core.geometry.geom.Rectangle;
-import de.topobyte.livecg.core.lina.AffineTransformUtil;
 import de.topobyte.livecg.core.lina.Matrix;
+import de.topobyte.livecg.core.scrolling.TransformHelper;
 
 public abstract class TransformingAlgorithmPainter extends
 		BasicAlgorithmPainter
@@ -36,26 +36,9 @@ public abstract class TransformingAlgorithmPainter extends
 		this.scene = scene;
 	}
 
-	public Matrix getMatrix()
-	{
-		Matrix shift = AffineTransformUtil.translate(-scene.getX1(),
-				-scene.getY1());
-		Matrix translate = AffineTransformUtil.translate(positionX, positionY);
-		Matrix scale = AffineTransformUtil.scale(zoom, zoom);
-
-		Matrix matrix = scale.multiplyFromRight(translate).multiplyFromRight(
-				shift);
-		return matrix;
-	}
-
-	public Matrix getInverseMatrix()
-	{
-		return getMatrix().invert();
-	}
-
 	public void preparePaint()
 	{
-		Matrix matrix = getMatrix();
+		Matrix matrix = TransformHelper.createMatrix(scene, this);
 		transformer = new GeometryTransformer(matrix);
 	}
 

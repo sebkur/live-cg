@@ -26,7 +26,7 @@ import java.awt.event.KeyEvent;
 
 import javax.swing.JComboBox;
 
-import de.topobyte.livecg.core.scrolling.Viewport;
+import de.topobyte.livecg.core.scrolling.ViewportWithSignals;
 import de.topobyte.livecg.core.scrolling.ViewportListener;
 
 public class ZoomInput extends JComboBox
@@ -34,15 +34,15 @@ public class ZoomInput extends JComboBox
 
 	private static final long serialVersionUID = 6856865390726849784L;
 
-	private Viewport viewport;
+	private ViewportWithSignals viewport;
 
-	public ZoomInput(Viewport viewport)
+	public ZoomInput(ViewportWithSignals viewport)
 	{
 		this(viewport, new String[] { "50%", "80%", "100%", "120%", "150%",
 				"200%", "400%" }, 2);
 	}
 
-	public ZoomInput(Viewport viewport, String[] values, int selectedIndex)
+	public ZoomInput(ViewportWithSignals viewport, String[] values, int selectedIndex)
 	{
 		super(values);
 

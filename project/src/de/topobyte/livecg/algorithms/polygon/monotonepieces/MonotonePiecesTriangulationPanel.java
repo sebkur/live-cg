@@ -29,12 +29,12 @@ import de.topobyte.livecg.core.geometry.geom.Rectangle;
 import de.topobyte.livecg.core.geometry.geom.Rectangles;
 import de.topobyte.livecg.core.painting.AwtPainter;
 import de.topobyte.livecg.core.scrolling.ScenePanel;
-import de.topobyte.livecg.core.scrolling.Viewport;
+import de.topobyte.livecg.core.scrolling.ViewportWithSignals;
 import de.topobyte.livecg.util.SwingUtil;
 import de.topobyte.livecg.util.coloring.ColorMapBuilder;
 
 public class MonotonePiecesTriangulationPanel extends ScenePanel implements
-		PolygonPanel, SizeProvider, Viewport
+		PolygonPanel, SizeProvider, ViewportWithSignals
 {
 
 	private static final long serialVersionUID = 2129465700417909129L;

@@ -28,11 +28,11 @@ import javax.swing.JPanel;
 
 import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.core.geometry.geom.Coordinate;
-import de.topobyte.livecg.core.scrolling.Viewport;
+import de.topobyte.livecg.core.scrolling.ViewportWithSignals;
 import de.topobyte.livecg.core.scrolling.ViewportListener;
 import de.topobyte.livecg.util.SwingUtil;
 
-public class SegmentEditPane extends JPanel implements Viewport
+public class SegmentEditPane extends JPanel implements ViewportWithSignals
 {
 
 	private static final long serialVersionUID = 7921493627117424315L;

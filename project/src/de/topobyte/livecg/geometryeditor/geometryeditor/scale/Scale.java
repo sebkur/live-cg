@@ -29,7 +29,7 @@ import javax.swing.JPanel;
 import de.topobyte.livecg.core.config.LiveConfig;
 import de.topobyte.livecg.core.painting.AwtPainter;
 import de.topobyte.livecg.core.painting.Color;
-import de.topobyte.livecg.core.scrolling.Viewport;
+import de.topobyte.livecg.core.scrolling.ViewportWithSignals;
 import de.topobyte.livecg.core.scrolling.ViewportListener;
 
 public abstract class Scale extends JPanel implements ViewportListener
@@ -50,9 +50,9 @@ public abstract class Scale extends JPanel implements ViewportListener
 	private Color colorFont = LiveConfig.getColor(q + "font");
 	private Color colorMarker = LiveConfig.getColor(q + "marker");
 
-	private Viewport viewport;
+	private ViewportWithSignals viewport;
 
-	public Scale(Viewport viewport)
+	public Scale(ViewportWithSignals viewport)
 	{
 		this.viewport = viewport;
 		setPreferredSize(getPreferredSize());

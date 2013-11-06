@@ -23,10 +23,10 @@ import java.awt.event.ItemListener;
 import javax.swing.JToggleButton;
 import javax.swing.JToolBar;
 
-import de.topobyte.livecg.core.scrolling.Viewport;
+import de.topobyte.livecg.core.scrolling.ViewportWithSignals;
 import de.topobyte.livecg.util.ZoomInput;
 
-public class Settings<T extends PolygonPanel & Viewport> extends JToolBar
+public class Settings<T extends PolygonPanel & ViewportWithSignals> extends JToolBar
 		implements ItemListener
 {
 

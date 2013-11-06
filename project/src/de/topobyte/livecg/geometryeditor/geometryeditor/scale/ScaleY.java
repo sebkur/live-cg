@@ -20,14 +20,14 @@ package de.topobyte.livecg.geometryeditor.geometryeditor.scale;
 
 import java.awt.Dimension;
 
-import de.topobyte.livecg.core.scrolling.Viewport;
+import de.topobyte.livecg.core.scrolling.ViewportWithSignals;
 
 public class ScaleY extends Scale
 {
 
 	private static final long serialVersionUID = -7665177848187638297L;
 
-	public ScaleY(Viewport viewport)
+	public ScaleY(ViewportWithSignals viewport)
 	{
 		super(viewport);
 	}

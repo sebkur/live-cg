@@ -19,7 +19,7 @@ package de.topobyte.livecg.geometryeditor.geometryeditor.mouse;
 
 import java.awt.event.MouseEvent;
 
-import de.topobyte.livecg.core.scrolling.Viewport;
+import de.topobyte.livecg.core.scrolling.ViewportWithSignals;
 import de.topobyte.livecg.geometryeditor.geometryeditor.StatusBar;
 
 public class StatusBarMouseListener extends ViewportMouseListener
@@ -27,7 +27,7 @@ public class StatusBarMouseListener extends ViewportMouseListener
 
 	private StatusBar statusBar;
 
-	public StatusBarMouseListener(Viewport viewport, StatusBar statusBar)
+	public StatusBarMouseListener(ViewportWithSignals viewport, StatusBar statusBar)
 	{
 		super(viewport);
 		this.statusBar = statusBar;

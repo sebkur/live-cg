@@ -63,6 +63,24 @@ public abstract class BasicAlgorithmPainter implements AlgorithmPainter
 	}
 
 	@Override
+	public double getPositionX()
+	{
+		return positionX;
+	}
+
+	@Override
+	public double getPositionY()
+	{
+		return positionY;
+	}
+
+	@Override
+	public double getZoom()
+	{
+		return zoom;
+	}
+
+	@Override
 	public void setZoom(double zoom)
 	{
 		this.zoom = zoom;

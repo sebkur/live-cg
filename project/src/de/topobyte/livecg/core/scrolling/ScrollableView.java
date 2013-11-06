@@ -26,7 +26,7 @@ import javax.swing.JScrollBar;
 
 import de.topobyte.swing.layout.GridBagHelper;
 
-public class ScrollableView<T extends JComponent & Viewport & HasScene & HasMargin>
+public class ScrollableView<T extends JComponent & ViewportWithSignals & HasScene & HasMargin>
 		extends JPanel
 {
 

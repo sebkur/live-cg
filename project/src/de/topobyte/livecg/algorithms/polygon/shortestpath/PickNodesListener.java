@@ -17,21 +17,17 @@
  */
 package de.topobyte.livecg.algorithms.polygon.shortestpath;
 
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import de.topobyte.livecg.core.geometry.geom.Coordinate;
 import de.topobyte.livecg.core.geometry.geom.CrossingsTest;
-import de.topobyte.livecg.core.geometry.geom.GeometryTransformer;
 import de.topobyte.livecg.core.geometry.geom.Node;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
-import de.topobyte.livecg.core.lina.Matrix;
+import de.topobyte.livecg.core.scrolling.ViewportMouseAdapter;
 import de.topobyte.livecg.util.MouseOver;
 
-public class PickNodesListener extends MouseAdapter
+public class PickNodesListener extends ViewportMouseAdapter<ShortestPathPanel>
 {
-	// TODO: improved this class. Extract a superclass that handles
-	// transformation of coordinates.
 
 	private static final int SELECTION_THRESHOLD = 10;
 
@@ -44,6 +40,7 @@ public class PickNodesListener extends MouseAdapter
 	public PickNodesListener(ShortestPathPanel spp,
 			AlgorithmMonitor algorithmMonitor)
 	{
+		super(spp);
 		this.spp = spp;
 		this.algorithmMonitor = algorithmMonitor;
 	}
@@ -106,16 +103,11 @@ public class PickNodesListener extends MouseAdapter
 		Node start = null;
 		Node target = null;
 
-		Matrix matrix = spp.getPainter().getInverseMatrix();
-		GeometryTransformer transformer = new GeometryTransformer(matrix);
-		Coordinate c = transformer
-				.transform(new Coordinate(e.getX(), e.getY()));
-
 		if (pressedStart) {
-			start = new Node(c);
+			start = new Node(getSceneCoordinate(e));
 		}
 		if (pressedTarget) {
-			target = new Node(c);
+			target = new Node(getSceneCoordinate(e));
 		}
 		if (pressedStart || pressedTarget) {
 			pressedStart = false;
@@ -154,27 +146,19 @@ public class PickNodesListener extends MouseAdapter
 		if (!active()) {
 			return;
 		}
-		Matrix matrix = spp.getPainter().getInverseMatrix();
-		GeometryTransformer transformer = new GeometryTransformer(matrix);
-		Coordinate c = transformer
-				.transform(new Coordinate(e.getX(), e.getY()));
 		if (pressedStart) {
-			spp.getPainter().setDragStart(c);
+			spp.getPainter().setDragStart(getSceneCoordinate(e));
 		} else if (pressedTarget) {
-			spp.getPainter().setDragTarget(c);
+			spp.getPainter().setDragTarget(getSceneCoordinate(e));
 		}
 		spp.repaint();
 	}
 
 	private boolean isOn(MouseEvent e, Node node)
 	{
-		Matrix matrix = spp.getPainter().getInverseMatrix();
-		GeometryTransformer transformer = new GeometryTransformer(matrix);
-
 		Coordinate c = node.getCoordinate();
-		Coordinate cM = new Coordinate(e.getX(), e.getY());
-		Coordinate tM = transformer.transform(cM);
-		return tM.distance(c) < SELECTION_THRESHOLD;
+		Coordinate cM = getSceneCoordinate(e);
+		return cM.distance(c) < SELECTION_THRESHOLD;
 	}
 
 	private void checkOverAndRepaint(MouseEvent e)

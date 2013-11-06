@@ -17,7 +17,9 @@
  */
 package de.topobyte.livecg.core.painting;
 
-public interface AlgorithmPainter
+import de.topobyte.livecg.core.scrolling.Viewport;
+
+public interface AlgorithmPainter extends Viewport
 {
 
 	public int getWidth();
@@ -30,12 +32,6 @@ public interface AlgorithmPainter
 
 	public void setPainter(Painter painter);
 
-	public void setZoom(double zoom);
-	
-	public void setPositionX(double x);
-	
-	public void setPositionY(double y);
-	
 	public void paint();
 
 }

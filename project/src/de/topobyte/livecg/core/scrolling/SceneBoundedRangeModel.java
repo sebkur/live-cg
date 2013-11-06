@@ -30,7 +30,7 @@ import javax.swing.event.ChangeListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class SceneBoundedRangeModel<T extends JComponent & Viewport & HasScene & HasMargin>
+public class SceneBoundedRangeModel<T extends JComponent & ViewportWithSignals & HasScene & HasMargin>
 		implements BoundedRangeModel
 {
 

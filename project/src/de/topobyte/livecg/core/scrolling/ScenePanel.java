@@ -30,7 +30,7 @@ import org.slf4j.LoggerFactory;
 import de.topobyte.livecg.core.geometry.geom.Rectangle;
 import de.topobyte.livecg.core.painting.AlgorithmPainter;
 
-public class ScenePanel extends JPanel implements Viewport, HasScene, HasMargin
+public class ScenePanel extends JPanel implements ViewportWithSignals, HasScene, HasMargin
 {
 
 	private static final long serialVersionUID = 7575070738666558877L;

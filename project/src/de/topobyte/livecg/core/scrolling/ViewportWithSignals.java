@@ -17,18 +17,11 @@
  */
 package de.topobyte.livecg.core.scrolling;
 
-public interface Viewport
+public interface ViewportWithSignals extends Viewport
 {
-	public double getPositionX();
 
-	public double getPositionY();
+	public void addViewportListener(ViewportListener listener);
 
-	public double getZoom();
-
-	public void setPositionX(double value);
-
-	public void setPositionY(double value);
-
-	public void setZoom(double value);
+	public void removeViewportListener(ViewportListener listener);
 
 }
