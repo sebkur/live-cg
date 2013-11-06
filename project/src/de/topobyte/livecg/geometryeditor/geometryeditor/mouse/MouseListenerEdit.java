@@ -23,7 +23,7 @@ import java.util.List;
 import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.core.geometry.geom.CloseabilityException;
 import de.topobyte.livecg.core.geometry.geom.Coordinate;
-import de.topobyte.livecg.core.geometry.geom.Line;
+import de.topobyte.livecg.core.geometry.geom.LineSegment;
 import de.topobyte.livecg.core.geometry.geom.Node;
 import de.topobyte.livecg.geometryeditor.geometryeditor.GeometryEditPane;
 
@@ -159,7 +159,7 @@ public class MouseListenerEdit extends EditPaneMouseListener
 	public void mousePressed(MouseEvent e)
 	{
 		boolean changed = editPane.setProspectNode(null);
-		changed |= editPane.setProspectLine(null);
+		changed |= editPane.setProspectSegment(null);
 		if (changed) {
 			editPane.repaint();
 		}
@@ -169,7 +169,7 @@ public class MouseListenerEdit extends EditPaneMouseListener
 	public void mouseExited(MouseEvent e)
 	{
 		boolean changed = editPane.setProspectNode(null);
-		changed |= editPane.setProspectLine(null);
+		changed |= editPane.setProspectSegment(null);
 		if (changed) {
 			editPane.repaint();
 		}
@@ -186,7 +186,7 @@ public class MouseListenerEdit extends EditPaneMouseListener
 		default:
 		case NONE:
 			changed |= editPane.setProspectNode(null);
-			changed |= editPane.setProspectLine(null);
+			changed |= editPane.setProspectSegment(null);
 			break;
 		case NEW:
 			editPane.setProspectNode(new Node(coord));
@@ -196,19 +196,19 @@ public class MouseListenerEdit extends EditPaneMouseListener
 			Coordinate start = addPointResult.chain.getFirstNode()
 					.getCoordinate();
 			editPane.setProspectNode(new Node(coord));
-			editPane.setProspectLine(new Line(start, coord));
+			editPane.setProspectSegment(new LineSegment(start, coord));
 			changed = true;
 			break;
 		case APPEND:
 			start = addPointResult.chain.getLastNode().getCoordinate();
 			editPane.setProspectNode(new Node(coord));
-			editPane.setProspectLine(new Line(start, coord));
+			editPane.setProspectSegment(new LineSegment(start, coord));
 			changed = true;
 			break;
 		case NEW_WITH_SELECTED:
 			editPane.setProspectNode(new Node(coord));
 			start = addPointResult.node.getCoordinate();
-			editPane.setProspectLine(new Line(start, coord));
+			editPane.setProspectSegment(new LineSegment(start, coord));
 			changed = true;
 			break;
 		}

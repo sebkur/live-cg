@@ -201,10 +201,11 @@ public class Menu extends JMenuBar
 
 		JMenuItem dcel = new JMenuItem(new DcelAction(editPane));
 
-		JMenuItem freeSpaceLines = new JMenuItem(new FreeSpaceSegmentsAction());
+		JMenuItem freeSpaceSegments = new JMenuItem(
+				new FreeSpaceSegmentsAction());
 		JMenuItem freeSpaceChains = new JMenuItem(new FreeSpaceChainsAction(
 				editPane));
-		JMenuItem distanceTerrainLines = new JMenuItem(
+		JMenuItem distanceTerrainSegments = new JMenuItem(
 				new DistanceTerrainSegmentsAction());
 		JMenuItem distanceTerrainChains = new JMenuItem(
 				new DistanceTerrainChainsAction(editPane));
@@ -225,9 +226,9 @@ public class Menu extends JMenuBar
 
 		arrangements.add(dcel);
 
-		frechet.add(freeSpaceLines);
+		frechet.add(freeSpaceSegments);
 		frechet.add(freeSpaceChains);
-		frechet.add(distanceTerrainLines);
+		frechet.add(distanceTerrainSegments);
 		frechet.add(distanceTerrainChains);
 
 		polygons.add(monotonePieces);

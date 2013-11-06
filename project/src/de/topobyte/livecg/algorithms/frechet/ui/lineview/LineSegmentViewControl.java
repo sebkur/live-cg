@@ -24,12 +24,12 @@ import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
-public class LineViewControl extends JPanel
+public class LineSegmentViewControl extends JPanel
 {
 
 	private static final long serialVersionUID = 8617637401144584172L;
 
-	public LineViewControl(final LineView lineView)
+	public LineSegmentViewControl(final LineSegmentView lineView)
 	{
 		setBorder(new TitledBorder("Buffers"));
 		final JCheckBox checkPointP = new JCheckBox("points p");

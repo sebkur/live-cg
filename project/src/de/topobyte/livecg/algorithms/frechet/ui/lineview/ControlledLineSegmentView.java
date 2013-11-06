@@ -22,16 +22,16 @@ import java.awt.GridBagLayout;
 
 import javax.swing.JPanel;
 
-public class ControlledLineView extends JPanel
+public class ControlledLineSegmentView extends JPanel
 {
 
 	private static final long serialVersionUID = 6013079669477474258L;
 
-	public ControlledLineView(LineView lineView)
+	public ControlledLineSegmentView(LineSegmentView lineView)
 	{
 		super(new GridBagLayout());
 
-		LineViewControl controls = new LineViewControl(lineView);
+		LineSegmentViewControl controls = new LineSegmentViewControl(lineView);
 
 		GridBagConstraints c = new GridBagConstraints();
 		c.fill = GridBagConstraints.BOTH;

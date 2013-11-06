@@ -17,13 +17,13 @@
  */
 package de.topobyte.livecg.core.geometry.geom;
 
-public class Line
+public class LineSegment
 {
 
 	private Coordinate c1;
 	private Coordinate c2;
 
-	public Line(Coordinate c1, Coordinate c2)
+	public LineSegment(Coordinate c1, Coordinate c2)
 	{
 		this.c1 = c1;
 		this.c2 = c2;

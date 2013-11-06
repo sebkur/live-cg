@@ -37,7 +37,7 @@ import de.topobyte.livecg.algorithms.frechet.freespace.EpsilonSettable;
 import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.core.geometry.geom.Coordinate;
 
-public class LineView extends JPanel implements EpsilonSettable
+public class LineSegmentView extends JPanel implements EpsilonSettable
 {
 
 	private static final long serialVersionUID = 9050114560510657609L;
@@ -50,7 +50,7 @@ public class LineView extends JPanel implements EpsilonSettable
 	private boolean drawSegmentBufferP, drawSegmentBufferQ, drawPointBufferP,
 			drawPointBufferQ, drawEpsilon = true;
 
-	public LineView(int epsilon, Chain line1, Chain line2,
+	public LineSegmentView(int epsilon, Chain line1, Chain line2,
 			boolean pSegmentBuffers, boolean qSegmentBuffers,
 			boolean pPointBuffers, boolean qPointBuffers)
 	{

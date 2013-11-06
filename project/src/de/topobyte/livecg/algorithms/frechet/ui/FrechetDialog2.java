@@ -41,8 +41,8 @@ import de.topobyte.livecg.algorithms.frechet.freespace.ConfigChangedListener;
 import de.topobyte.livecg.algorithms.frechet.freespace.FreeSpaceDiagram;
 import de.topobyte.livecg.algorithms.frechet.freespace.FreeSpacePainterChains;
 import de.topobyte.livecg.algorithms.frechet.freespace.Settings;
-import de.topobyte.livecg.algorithms.frechet.ui.lineview.ControlledLineView;
-import de.topobyte.livecg.algorithms.frechet.ui.lineview.LineView;
+import de.topobyte.livecg.algorithms.frechet.ui.lineview.ControlledLineSegmentView;
+import de.topobyte.livecg.algorithms.frechet.ui.lineview.LineSegmentView;
 import de.topobyte.livecg.core.export.ExportUtil;
 import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.geometryeditor.geometryeditor.Content;
@@ -57,7 +57,7 @@ public class FrechetDialog2 implements ContentChangedListener
 	final static int STEP_SIZE_BIG = 10;
 
 	private FreeSpaceDiagram diagram = null;
-	private LineView lineView = null;
+	private LineSegmentView segmentView = null;
 
 	private int epsilon = 100;
 	private Chain line1 = null;
@@ -101,9 +101,11 @@ public class FrechetDialog2 implements ContentChangedListener
 		diagramPanel.add(diagram, BorderLayout.CENTER);
 		diagramPanel.setBorder(new TitledBorder("Free space"));
 
-		lineView = new LineView(epsilon, line1, line2, true, false, true, false);
-		ControlledLineView controlledLineView = new ControlledLineView(lineView);
-		controlledLineView.setBorder(new TitledBorder("Curves"));
+		segmentView = new LineSegmentView(epsilon, line1, line2, true, false,
+				true, false);
+		ControlledLineSegmentView controlledView = new ControlledLineSegmentView(
+				segmentView);
+		controlledView.setBorder(new TitledBorder("Curves"));
 
 		GridBagConstraints c = new GridBagConstraints();
 		c.fill = GridBagConstraints.BOTH;
@@ -122,7 +124,7 @@ public class FrechetDialog2 implements ContentChangedListener
 		panel.add(diagramPanel, c);
 		c.weightx = 0.0;
 		c.gridx = 1;
-		panel.add(controlledLineView, c);
+		panel.add(controlledView, c);
 
 		frame = new JFrame("Fréchet distance");
 		frame.setContentPane(panel);
@@ -151,7 +153,7 @@ public class FrechetDialog2 implements ContentChangedListener
 		frame.setVisible(true);
 
 		slider.addChangeListener(new EpsilonChangedListener(diagram));
-		slider.addChangeListener(new EpsilonChangedListener(lineView));
+		slider.addChangeListener(new EpsilonChangedListener(segmentView));
 		slider.addChangeListener(new EpsilonChangedListener(painter));
 
 		content.addContentChangedListener(this);
@@ -191,7 +193,7 @@ public class FrechetDialog2 implements ContentChangedListener
 	public void contentChanged()
 	{
 		diagram.repaint();
-		lineView.repaint();
+		segmentView.repaint();
 	}
 
 	@Override

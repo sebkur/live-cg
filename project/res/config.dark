@@ -17,7 +17,7 @@ geometryeditor.colors {
 	nodes.selected = #00ffff
 	nodes.snaphighlight = #00aaaa
 	prospect.node = #00ff00
-	prospect.line = #00ff00
+	prospect.segment = #00ff00
 	selection.rectangle = #ff00ff
 	polygon.interior = #33ffff00
 	rotation.rectangle = #ff00ff

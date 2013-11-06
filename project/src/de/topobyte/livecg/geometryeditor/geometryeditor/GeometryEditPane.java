@@ -44,7 +44,7 @@ import de.topobyte.livecg.core.geometry.geom.AwtHelper;
 import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.core.geometry.geom.Coordinate;
 import de.topobyte.livecg.core.geometry.geom.GeometryTransformer;
-import de.topobyte.livecg.core.geometry.geom.Line;
+import de.topobyte.livecg.core.geometry.geom.LineSegment;
 import de.topobyte.livecg.core.geometry.geom.Node;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
 import de.topobyte.livecg.core.geometry.geom.Rectangle;
@@ -281,7 +281,7 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 		}
 		if (old == MouseMode.EDIT) {
 			setProspectNode(null);
-			setProspectLine(null);
+			setProspectSegment(null);
 		}
 		repaint();
 	}
@@ -438,7 +438,8 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 			.getColor(q("nodes.snaphighlight"));
 	private Color colorSelectedNodes = LiveConfig.getColor(q("nodes.selected"));
 	private Color colorProspectNode = LiveConfig.getColor(q("prospect.node"));
-	private Color colorProspectLine = LiveConfig.getColor(q("prospect.line"));
+	private Color colorProspectSegment = LiveConfig
+			.getColor(q("prospect.segment"));
 	private Color colorSelectionRectangle = LiveConfig
 			.getColor(q("selection.rectangle"));
 	private Color colorPolygonInterior = LiveConfig
@@ -568,7 +569,7 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 		}
 
 		if (prospectLine != null) {
-			p.setColor(colorProspectLine);
+			p.setColor(colorProspectSegment);
 			Coordinate c1 = prospectLine.getC1();
 			Coordinate c2 = prospectLine.getC2();
 			Coordinate tc1 = transformer.transform(c1);
@@ -754,9 +755,9 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 		return changed;
 	}
 
-	private Line prospectLine = null;
+	private LineSegment prospectLine = null;
 
-	public boolean setProspectLine(Line prospectLine)
+	public boolean setProspectSegment(LineSegment prospectLine)
 	{
 		boolean changed = this.prospectLine != prospectLine;
 		this.prospectLine = prospectLine;
