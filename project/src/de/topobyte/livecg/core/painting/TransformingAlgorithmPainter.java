@@ -42,10 +42,9 @@ public abstract class TransformingAlgorithmPainter extends
 		transformer = new GeometryTransformer(matrix);
 	}
 
-	protected void fillBackground()
+	protected void fillBackground(Color color)
 	{
-		// TODO: make color an argument to this method
-		painter.setColor(new Color(java.awt.Color.WHITE.getRGB()));
+		painter.setColor(color);
 		Coordinate t1 = transformer.transform(new Coordinate(scene.getX1(),
 				scene.getY1()));
 		Coordinate t2 = transformer.transform(new Coordinate(scene.getX2(),

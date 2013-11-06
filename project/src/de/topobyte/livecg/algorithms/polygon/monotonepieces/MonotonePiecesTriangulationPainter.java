@@ -49,7 +49,7 @@ public class MonotonePiecesTriangulationPainter extends MonotonePiecesPainter
 	{
 		preparePaint();
 
-		fillBackground();
+		fillBackground(new Color(0xffffff));
 
 		fillPolygon();
 

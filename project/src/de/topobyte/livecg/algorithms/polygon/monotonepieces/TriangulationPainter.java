@@ -57,7 +57,7 @@ public class TriangulationPainter extends TransformingAlgorithmPainter
 	{
 		preparePaint();
 
-		fillBackground();
+		fillBackground(new Color(0xffffff));
 
 		painter.setColor(new Color(0x66ff0000, true));
 

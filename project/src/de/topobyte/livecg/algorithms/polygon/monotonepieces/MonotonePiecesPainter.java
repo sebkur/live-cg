@@ -58,7 +58,7 @@ public class MonotonePiecesPainter extends TransformingAlgorithmPainter
 	{
 		preparePaint();
 
-		fillBackground();
+		fillBackground(new Color(0xffffff));
 
 		fillPolygon();
 
