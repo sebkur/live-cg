@@ -30,7 +30,7 @@ public class FreeSpaceLinesAction extends BasicAction
 	public FreeSpaceLinesAction()
 	{
 		super(
-				"Free Space (lines)",
+				"Free Space (segments)",
 				"Visualize the Free Space Diagram used to compute the Fréchet Distance",
 				"res/images/24x24/way.png");
 	}

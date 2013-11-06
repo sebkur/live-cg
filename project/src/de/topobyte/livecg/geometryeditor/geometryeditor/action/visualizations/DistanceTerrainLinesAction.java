@@ -30,7 +30,7 @@ public class DistanceTerrainLinesAction extends BasicAction
 	public DistanceTerrainLinesAction()
 	{
 		super(
-				"Distance Terrain (lines)",
+				"Distance Terrain (segments)",
 				"Visualize the Distance Terrain used to compute the Fréchet Distance",
 				"res/images/24x24/way.png");
 	}
