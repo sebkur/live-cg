@@ -22,12 +22,17 @@ import java.awt.event.MouseEvent;
 
 import de.topobyte.livecg.core.geometry.geom.Coordinate;
 import de.topobyte.livecg.core.geometry.geom.CrossingsTest;
+import de.topobyte.livecg.core.geometry.geom.GeometryTransformer;
 import de.topobyte.livecg.core.geometry.geom.Node;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
+import de.topobyte.livecg.core.lina.Matrix;
 import de.topobyte.livecg.util.MouseOver;
 
 public class PickNodesListener extends MouseAdapter
 {
+	// TODO: improved this class. Extract a superclass that handles
+	// transformation of coordinates.
+
 	private static final int SELECTION_THRESHOLD = 10;
 
 	private ShortestPathPanel spp;
@@ -100,7 +105,12 @@ public class PickNodesListener extends MouseAdapter
 		boolean update = false;
 		Node start = null;
 		Node target = null;
-		Coordinate c = new Coordinate(e.getX(), e.getY());
+
+		Matrix matrix = spp.getPainter().getInverseMatrix();
+		GeometryTransformer transformer = new GeometryTransformer(matrix);
+		Coordinate c = transformer
+				.transform(new Coordinate(e.getX(), e.getY()));
+
 		if (pressedStart) {
 			start = new Node(c);
 		}
@@ -144,19 +154,27 @@ public class PickNodesListener extends MouseAdapter
 		if (!active()) {
 			return;
 		}
+		Matrix matrix = spp.getPainter().getInverseMatrix();
+		GeometryTransformer transformer = new GeometryTransformer(matrix);
+		Coordinate c = transformer
+				.transform(new Coordinate(e.getX(), e.getY()));
 		if (pressedStart) {
-			spp.getPainter().setDragStart(new Coordinate(e.getX(), e.getY()));
+			spp.getPainter().setDragStart(c);
 		} else if (pressedTarget) {
-			spp.getPainter().setDragTarget(new Coordinate(e.getX(), e.getY()));
+			spp.getPainter().setDragTarget(c);
 		}
 		spp.repaint();
 	}
 
 	private boolean isOn(MouseEvent e, Node node)
 	{
+		Matrix matrix = spp.getPainter().getInverseMatrix();
+		GeometryTransformer transformer = new GeometryTransformer(matrix);
+
 		Coordinate c = node.getCoordinate();
 		Coordinate cM = new Coordinate(e.getX(), e.getY());
-		return cM.distance(c) < SELECTION_THRESHOLD;
+		Coordinate tM = transformer.transform(cM);
+		return tM.distance(c) < SELECTION_THRESHOLD;
 	}
 
 	private void checkOverAndRepaint(MouseEvent e)

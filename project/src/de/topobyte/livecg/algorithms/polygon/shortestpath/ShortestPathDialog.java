@@ -32,6 +32,10 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import de.topobyte.livecg.core.export.ExportUtil;
+import de.topobyte.livecg.core.geometry.geom.BoundingBoxes;
+import de.topobyte.livecg.core.geometry.geom.Rectangle;
+import de.topobyte.livecg.core.geometry.geom.Rectangles;
+import de.topobyte.livecg.core.scrolling.ScrollableView;
 
 public class ShortestPathDialog implements AlgorithmChangedListener
 {
@@ -66,6 +70,9 @@ public class ShortestPathDialog implements AlgorithmChangedListener
 		spp.addMouseListener(pickNodesListener);
 		spp.addMouseMotionListener(pickNodesListener);
 
+		ScrollableView<ShortestPathPanel> scrollableView = new ScrollableView<ShortestPathPanel>(
+				spp);
+
 		Settings settings = new Settings(spp, config);
 
 		int max = algorithm.getNumberOfSteps();
@@ -83,14 +90,17 @@ public class ShortestPathDialog implements AlgorithmChangedListener
 		north.add(slider);
 
 		main.add(north, BorderLayout.NORTH);
-		main.add(spp, BorderLayout.CENTER);
+		main.add(scrollableView, BorderLayout.CENTER);
 		// main.add(south, BorderLayout.SOUTH);
 
 		/*
 		 * Menu
 		 */
 
-		ShortestPathPainter painter = new ShortestPathPainter(algorithm,
+		Rectangle bbox = BoundingBoxes.get(algorithm.getPolygon());
+		Rectangle scene = Rectangles.extend(bbox, 15);
+
+		ShortestPathPainter painter = new ShortestPathPainter(scene, algorithm,
 				config, null);
 
 		JMenuBar menu = new JMenuBar();

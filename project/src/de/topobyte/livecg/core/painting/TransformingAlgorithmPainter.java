@@ -36,7 +36,7 @@ public abstract class TransformingAlgorithmPainter extends
 		this.scene = scene;
 	}
 
-	public void preparePaint()
+	public Matrix getMatrix()
 	{
 		Matrix shift = AffineTransformUtil.translate(-scene.getX1(),
 				-scene.getY1());
@@ -45,6 +45,17 @@ public abstract class TransformingAlgorithmPainter extends
 
 		Matrix matrix = scale.multiplyFromRight(translate).multiplyFromRight(
 				shift);
+		return matrix;
+	}
+
+	public Matrix getInverseMatrix()
+	{
+		return getMatrix().invert();
+	}
+
+	public void preparePaint()
+	{
+		Matrix matrix = getMatrix();
 		transformer = new GeometryTransformer(matrix);
 	}
 

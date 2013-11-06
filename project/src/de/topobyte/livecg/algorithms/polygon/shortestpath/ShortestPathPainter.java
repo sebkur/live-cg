@@ -29,15 +29,16 @@ import de.topobyte.livecg.core.geometry.geom.Coordinate;
 import de.topobyte.livecg.core.geometry.geom.Node;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
 import de.topobyte.livecg.core.geometry.geom.PolygonHelper;
-import de.topobyte.livecg.core.painting.BasicAlgorithmPainter;
+import de.topobyte.livecg.core.geometry.geom.Rectangle;
 import de.topobyte.livecg.core.painting.Color;
 import de.topobyte.livecg.core.painting.Painter;
+import de.topobyte.livecg.core.painting.TransformingAlgorithmPainter;
 import de.topobyte.livecg.util.MouseOver;
 import de.topobyte.livecg.util.ShapeUtil;
 import de.topobyte.livecg.util.circular.IntRing;
 import de.topobyte.livecg.util.graph.Edge;
 
-public class ShortestPathPainter extends BasicAlgorithmPainter
+public class ShortestPathPainter extends TransformingAlgorithmPainter
 {
 
 	private String q(String property)
@@ -110,10 +111,10 @@ public class ShortestPathPainter extends BasicAlgorithmPainter
 	private MouseOver mouseOverStart = MouseOver.NONE;
 	private MouseOver mouseOverTarget = MouseOver.NONE;
 
-	public ShortestPathPainter(ShortestPathAlgorithm algorithm, Config config,
-			Painter painter)
+	public ShortestPathPainter(Rectangle scene,
+			ShortestPathAlgorithm algorithm, Config config, Painter painter)
 	{
-		super(painter);
+		super(scene, painter);
 		this.algorithm = algorithm;
 		this.config = config;
 	}
@@ -149,11 +150,15 @@ public class ShortestPathPainter extends BasicAlgorithmPainter
 	@Override
 	public void paint()
 	{
+		preparePaint();
+
 		painter.setColor(COLOR_BG);
 		painter.fillRect(0, 0, getWidth(), getHeight());
 
+		Polygon tpolygon = transformer.transform(algorithm.getPolygon());
+
 		painter.setColor(COLOR_POLYGON_BG);
-		painter.fillPolygon(algorithm.getPolygon());
+		painter.fillPolygon(tpolygon);
 
 		List<Polygon> triangles = algorithm.getSleeve().getPolygons();
 		for (int i = 0; i < triangles.size(); i++) {
@@ -163,12 +168,13 @@ public class ShortestPathPainter extends BasicAlgorithmPainter
 				painter.setColor(COLOR_TRIANGLE_SLEEVE);
 			}
 			Polygon triangle = triangles.get(i);
-			painter.fillPolygon(triangle);
+			Polygon ttriangle = transformer.transform(triangle);
+			painter.fillPolygon(ttriangle);
 		}
 
 		painter.setStrokeWidth(LINE_WIDTH_POLYGON);
 		painter.setColor(COLOR_POLYGON_EDGES);
-		Chain shell = algorithm.getPolygon().getShell();
+		Chain shell = tpolygon.getShell();
 		IntRing ring = new IntRing(shell.getNumberOfNodes());
 		for (int i = 0; i < shell.getNumberOfNodes(); i++) {
 			int j = ring.next().value();
@@ -187,9 +193,11 @@ public class ShortestPathPainter extends BasicAlgorithmPainter
 			}
 			Coordinate c1 = diagonal.getA().getCoordinate();
 			Coordinate c2 = diagonal.getB().getCoordinate();
-			painter.drawLine((int) Math.round(c1.getX()),
-					(int) Math.round(c1.getY()), (int) Math.round(c2.getX()),
-					(int) Math.round(c2.getY()));
+			Coordinate t1 = transformer.transform(c1);
+			Coordinate t2 = transformer.transform(c2);
+			painter.drawLine((int) Math.round(t1.getX()),
+					(int) Math.round(t1.getY()), (int) Math.round(t2.getX()),
+					(int) Math.round(t2.getY()));
 		}
 
 		painter.setStrokeWidth(LINE_WIDTH_DUAL_GRAPH);
@@ -198,15 +206,17 @@ public class ShortestPathPainter extends BasicAlgorithmPainter
 			Collection<Polygon> nodes = algorithm.getGraph().getNodes();
 			for (Polygon p : nodes) {
 				Coordinate cp = PolygonHelper.center(p);
+				Coordinate tp = transformer.transform(cp);
 				Set<Edge<Polygon, Diagonal>> edges = algorithm.getGraph()
 						.getEdgesOut(p);
 				for (Edge<Polygon, Diagonal> edge : edges) {
 					Polygon q = edge.getTarget();
 					Coordinate cq = PolygonHelper.center(q);
-					painter.drawLine((int) Math.round(cp.getX()),
-							(int) Math.round(cp.getY()),
-							(int) Math.round(cq.getX()),
-							(int) Math.round(cq.getY()));
+					Coordinate tq = transformer.transform(cq);
+					painter.drawLine((int) Math.round(tp.getX()),
+							(int) Math.round(tp.getY()),
+							(int) Math.round(tq.getX()),
+							(int) Math.round(tq.getY()));
 				}
 			}
 		}
@@ -233,9 +243,10 @@ public class ShortestPathPainter extends BasicAlgorithmPainter
 				apexVisible = true;
 			}
 			Coordinate c = data.getApex().getCoordinate();
+			Coordinate t = transformer.transform(c);
 			if (apexVisible) {
 				painter.setColor(COLOR_APEX);
-				painter.fill(ShapeUtil.createArc(c.getX(), c.getY(), SIZE_APEX));
+				painter.fill(ShapeUtil.createArc(t.getX(), t.getY(), SIZE_APEX));
 			}
 		}
 
@@ -252,17 +263,20 @@ public class ShortestPathPainter extends BasicAlgorithmPainter
 			cTarget = dragTarget;
 		}
 
-		Shape arcStart = ShapeUtil.createArc(cStart.getX(), cStart.getY(), r);
+		Coordinate tStart = transformer.transform(cStart);
+		Coordinate tTarget = transformer.transform(cTarget);
+
+		Shape arcStart = ShapeUtil.createArc(tStart.getX(), tStart.getY(), r);
 		Shape arcTarget = ShapeUtil
-				.createArc(cTarget.getX(), cTarget.getY(), r);
-		Shape arcStartIn = ShapeUtil.createArc(cStart.getX(), cStart.getY(), r
+				.createArc(tTarget.getX(), tTarget.getY(), r);
+		Shape arcStartIn = ShapeUtil.createArc(tStart.getX(), tStart.getY(), r
 				- w / 2);
-		Shape arcTargetIn = ShapeUtil.createArc(cTarget.getX(), cTarget.getY(),
+		Shape arcTargetIn = ShapeUtil.createArc(tTarget.getX(), tTarget.getY(),
 				r - w / 2);
-		Shape arcStartOut = ShapeUtil.createArc(cStart.getX(), cStart.getY(), r
+		Shape arcStartOut = ShapeUtil.createArc(tStart.getX(), tStart.getY(), r
 				+ w / 2);
-		Shape arcTargetOut = ShapeUtil.createArc(cTarget.getX(),
-				cTarget.getY(), r + w / 2);
+		Shape arcTargetOut = ShapeUtil.createArc(tTarget.getX(),
+				tTarget.getY(), r + w / 2);
 
 		painter.setStrokeWidth(w);
 		painter.setColor(COLOR_NODE_START);
@@ -316,15 +330,16 @@ public class ShortestPathPainter extends BasicAlgorithmPainter
 		for (int i = 0; i < data.getCommonLength() - 1; i++) {
 			Node m = data.getCommon(i);
 			Node n = data.getCommon(i + 1);
-			Coordinate cm = m.getCoordinate();
-			Coordinate cn = n.getCoordinate();
+			Coordinate cm = transformer.transform(m.getCoordinate());
+			Coordinate cn = transformer.transform(n.getCoordinate());
 			painter.drawLine((int) Math.round(cm.getX()),
 					(int) Math.round(cm.getY()), (int) Math.round(cn.getX()),
 					(int) Math.round(cn.getY()));
 		}
 		for (int i = 0; i < data.getCommonLength() - 1; i++) {
 			Coordinate c = data.getCommon(i).getCoordinate();
-			painter.fill(ShapeUtil.createArc(c.getX(), c.getY(),
+			Coordinate t = transformer.transform(c);
+			painter.fill(ShapeUtil.createArc(t.getX(), t.getY(),
 					i == 0 ? SIZE_FIRST_NODE : SIZE_INTERMEDIATE_NODES));
 		}
 	}
@@ -340,8 +355,8 @@ public class ShortestPathPainter extends BasicAlgorithmPainter
 		Node m = data.getApex();
 		for (int i = 0; i < data.getFunnelLength(side); i++) {
 			Node n = data.get(side, i);
-			Coordinate cm = m.getCoordinate();
-			Coordinate cn = n.getCoordinate();
+			Coordinate cm = transformer.transform(m.getCoordinate());
+			Coordinate cn = transformer.transform(n.getCoordinate());
 			painter.drawLine((int) Math.round(cm.getX()),
 					(int) Math.round(cm.getY()), (int) Math.round(cn.getX()),
 					(int) Math.round(cn.getY()));
@@ -359,13 +374,14 @@ public class ShortestPathPainter extends BasicAlgorithmPainter
 		}
 
 		for (int i = 0; i < data.getFunnelLength(side); i++) {
-			Coordinate c = data.get(side, i).getCoordinate();
+			Coordinate c = transformer.transform(data.get(side, i)
+					.getCoordinate());
 			painter.fill(ShapeUtil.createArc(c.getX(), c.getY(),
 					SIZE_INTERMEDIATE_NODES));
 		}
 
 		Node last = data.getLast(side);
-		Coordinate c = last.getCoordinate();
+		Coordinate c = transformer.transform(last.getCoordinate());
 		if (side == Side.LEFT) {
 			painter.setColor(COLOR_LEFT_TOP);
 		} else {
