@@ -59,9 +59,6 @@ public class TriangulationPainter extends TransformingAlgorithmPainter
 
 		fillBackground();
 
-		painter.setColor(new Color(java.awt.Color.WHITE.getRGB()));
-		painter.fillRect(0, 0, width, height);
-
 		painter.setColor(new Color(0x66ff0000, true));
 
 		Polygon tpolygon = transformer.transform(polygon);
