@@ -43,10 +43,10 @@ import de.topobyte.livecg.geometryeditor.geometryeditor.action.ShowObjectDialogA
 import de.topobyte.livecg.geometryeditor.geometryeditor.action.ZoomAction;
 import de.topobyte.livecg.geometryeditor.geometryeditor.action.visualizations.DcelAction;
 import de.topobyte.livecg.geometryeditor.geometryeditor.action.visualizations.DistanceTerrainChainsAction;
-import de.topobyte.livecg.geometryeditor.geometryeditor.action.visualizations.DistanceTerrainLinesAction;
+import de.topobyte.livecg.geometryeditor.geometryeditor.action.visualizations.DistanceTerrainSegmentsAction;
 import de.topobyte.livecg.geometryeditor.geometryeditor.action.visualizations.FortunesSweepAction;
 import de.topobyte.livecg.geometryeditor.geometryeditor.action.visualizations.FreeSpaceChainsAction;
-import de.topobyte.livecg.geometryeditor.geometryeditor.action.visualizations.FreeSpaceLinesAction;
+import de.topobyte.livecg.geometryeditor.geometryeditor.action.visualizations.FreeSpaceSegmentsAction;
 import de.topobyte.livecg.geometryeditor.geometryeditor.action.visualizations.MonotonePiecesAction;
 import de.topobyte.livecg.geometryeditor.geometryeditor.action.visualizations.ShortestPathInPolygonAction;
 import de.topobyte.livecg.geometryeditor.geometryeditor.action.visualizations.TriangulationAction;
@@ -201,11 +201,11 @@ public class Menu extends JMenuBar
 
 		JMenuItem dcel = new JMenuItem(new DcelAction(editPane));
 
-		JMenuItem freeSpaceLines = new JMenuItem(new FreeSpaceLinesAction());
+		JMenuItem freeSpaceLines = new JMenuItem(new FreeSpaceSegmentsAction());
 		JMenuItem freeSpaceChains = new JMenuItem(new FreeSpaceChainsAction(
 				editPane));
 		JMenuItem distanceTerrainLines = new JMenuItem(
-				new DistanceTerrainLinesAction());
+				new DistanceTerrainSegmentsAction());
 		JMenuItem distanceTerrainChains = new JMenuItem(
 				new DistanceTerrainChainsAction(editPane));
 
