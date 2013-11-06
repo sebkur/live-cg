@@ -17,6 +17,15 @@
  */
 package de.topobyte.livecg.core.geometry.dcel;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import de.topobyte.livecg.core.geometry.geom.Coordinate;
+import de.topobyte.livecg.core.geometry.geom.GeometryTransformer;
+import de.topobyte.livecg.core.geometry.geom.Rectangle;
+import de.topobyte.livecg.core.lina.Matrix;
+
 public class DcelUtil
 {
 	public static HalfEdge createEdge(DCEL dcel, Vertex v1, Vertex v2,
@@ -41,5 +50,104 @@ public class DcelUtil
 		dcel.getHalfedges().add(b);
 
 		return a;
+	}
+
+	public static Rectangle getBoundingBox(DCEL dcel)
+	{
+		double xmin = Double.POSITIVE_INFINITY;
+		double xmax = Double.NEGATIVE_INFINITY;
+		double ymin = Double.POSITIVE_INFINITY;
+		double ymax = Double.NEGATIVE_INFINITY;
+		List<Vertex> vertices = dcel.getVertices();
+		for (Vertex v : vertices) {
+			Coordinate c = v.getCoordinate();
+			if (c.getX() < xmin) {
+				xmin = c.getX();
+			}
+			if (c.getX() > xmax) {
+				xmax = c.getX();
+			}
+			if (c.getY() < ymin) {
+				ymin = c.getY();
+			}
+			if (c.getY() > ymax) {
+				ymax = c.getY();
+			}
+		}
+		return new Rectangle(xmin, ymin, xmax, ymax);
+	}
+
+	public static DCEL clone(DCEL dcel)
+	{
+		DCEL clone = new DCEL();
+
+		Map<Vertex, Vertex> vs = new HashMap<Vertex, Vertex>();
+		Map<HalfEdge, HalfEdge> es = new HashMap<HalfEdge, HalfEdge>();
+		Map<Face, Face> fs = new HashMap<Face, Face>();
+
+		// Copy vertices
+		for (Vertex v : dcel.getVertices()) {
+			Vertex copy = new Vertex(new Coordinate(v.getCoordinate()), null);
+			clone.getVertices().add(copy);
+			vs.put(v, copy);
+		}
+
+		// Copy halfedges
+		for (HalfEdge e : dcel.getHalfedges()) {
+			HalfEdge copy = new HalfEdge(vs.get(e.getOrigin()), null, null,
+					null, null);
+			clone.getHalfedges().add(copy);
+			es.put(e, copy);
+		}
+
+		// Update vertices' incidentEdge pointers
+		for (Vertex v : dcel.getVertices()) {
+			if (v.getIncidentEdge() != null) {
+				vs.get(v).setIncidentEdge(es.get(v.getIncidentEdge()));
+			}
+		}
+
+		// Copy faces
+		for (Face f : dcel.getFaces()) {
+			HalfEdge outer = null;
+			if (f.getOuterComponent() != null) {
+				outer = es.get(f.getOuterComponent());
+			}
+			Face copy = new Face(outer);
+			List<HalfEdge> inner = f.getInnerComponents();
+			for (HalfEdge e : inner) {
+				copy.getInnerComponents().add(es.get(e));
+			}
+			clone.getFaces().add(copy);
+			fs.put(f, copy);
+		}
+
+		// Update halfedges' twin/next/prev/face pointers
+		for (HalfEdge e : dcel.getHalfedges()) {
+			HalfEdge copy = es.get(e);
+			if (e.getTwin() != null) {
+				copy.setTwin(es.get(e.getTwin()));
+			}
+			if (e.getPrev() != null) {
+				copy.setPrev(es.get(e.getPrev()));
+			}
+			if (e.getNext() != null) {
+				copy.setNext(es.get(e.getNext()));
+			}
+			if (e.getFace() != null) {
+				copy.setFace(fs.get(e.getFace()));
+			}
+		}
+
+		return clone;
+	}
+
+	public static void transform(DCEL dcel, Matrix matrix)
+	{
+		GeometryTransformer transformer = new GeometryTransformer(matrix);
+		List<Vertex> vertices = dcel.getVertices();
+		for (Vertex v : vertices) {
+			v.setCoordinate(transformer.transform(v.getCoordinate()));
+		}
 	}
 }

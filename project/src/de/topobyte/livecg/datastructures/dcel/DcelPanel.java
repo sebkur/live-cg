@@ -22,6 +22,7 @@ import java.awt.Graphics2D;
 
 import de.topobyte.livecg.core.export.SizeProvider;
 import de.topobyte.livecg.core.geometry.dcel.DCEL;
+import de.topobyte.livecg.core.geometry.dcel.DcelUtil;
 import de.topobyte.livecg.core.geometry.geom.Rectangle;
 import de.topobyte.livecg.core.geometry.geom.Rectangles;
 import de.topobyte.livecg.core.painting.AwtPainter;

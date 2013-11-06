@@ -27,6 +27,7 @@ import javax.swing.JPanel;
 import de.topobyte.livecg.core.export.ExportUtil;
 import de.topobyte.livecg.core.geometry.dcel.DCEL;
 import de.topobyte.livecg.core.geometry.dcel.DcelConverter;
+import de.topobyte.livecg.core.geometry.dcel.DcelUtil;
 import de.topobyte.livecg.core.geometry.geom.Rectangle;
 import de.topobyte.livecg.core.geometry.geom.Rectangles;
 import de.topobyte.livecg.core.scrolling.ScrollableView;

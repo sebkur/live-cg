@@ -21,6 +21,7 @@ import java.awt.geom.GeneralPath;
 
 import de.topobyte.livecg.core.config.LiveConfig;
 import de.topobyte.livecg.core.geometry.dcel.DCEL;
+import de.topobyte.livecg.core.geometry.dcel.DcelUtil;
 import de.topobyte.livecg.core.geometry.dcel.HalfEdge;
 import de.topobyte.livecg.core.geometry.dcel.Vertex;
 import de.topobyte.livecg.core.geometry.geom.Coordinate;
