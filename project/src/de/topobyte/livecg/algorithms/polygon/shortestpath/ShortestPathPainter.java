@@ -152,8 +152,7 @@ public class ShortestPathPainter extends TransformingAlgorithmPainter
 	{
 		preparePaint();
 
-		painter.setColor(COLOR_BG);
-		painter.fillRect(0, 0, getWidth(), getHeight());
+		super.fillBackground();
 
 		Polygon tpolygon = transformer.transform(algorithm.getPolygon());
 

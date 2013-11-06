@@ -61,6 +61,7 @@ public abstract class TransformingAlgorithmPainter extends
 
 	protected void fillBackground()
 	{
+		// TODO: make color an argument to this method
 		painter.setColor(new Color(java.awt.Color.WHITE.getRGB()));
 		Coordinate t1 = transformer.transform(new Coordinate(scene.getX1(),
 				scene.getY1()));
