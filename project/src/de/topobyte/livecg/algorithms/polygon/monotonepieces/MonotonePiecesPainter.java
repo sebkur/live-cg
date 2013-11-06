@@ -25,17 +25,14 @@ import java.util.Map;
 
 import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.core.geometry.geom.Coordinate;
-import de.topobyte.livecg.core.geometry.geom.GeometryTransformer;
 import de.topobyte.livecg.core.geometry.geom.Node;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
 import de.topobyte.livecg.core.geometry.geom.Rectangle;
-import de.topobyte.livecg.core.lina.AffineTransformUtil;
-import de.topobyte.livecg.core.lina.Matrix;
-import de.topobyte.livecg.core.painting.BasicAlgorithmPainter;
 import de.topobyte.livecg.core.painting.Color;
 import de.topobyte.livecg.core.painting.Painter;
+import de.topobyte.livecg.core.painting.TransformingAlgorithmPainter;
 
-public class MonotonePiecesPainter extends BasicAlgorithmPainter
+public class MonotonePiecesPainter extends TransformingAlgorithmPainter
 {
 
 	private Polygon polygon;
@@ -44,14 +41,11 @@ public class MonotonePiecesPainter extends BasicAlgorithmPainter
 	private Config polygonConfig;
 	private Map<Polygon, java.awt.Color> colorMap;
 
-	private Rectangle scene;
-
 	public MonotonePiecesPainter(Rectangle scene,
 			MonotonePiecesAlgorithm algorithm, Config polygonConfig,
 			Map<Polygon, java.awt.Color> colorMap, Painter painter)
 	{
-		super(painter);
-		this.scene = scene;
+		super(scene, painter);
 		this.polygon = algorithm.getPolygon();
 		this.monotonePiecesOperation = algorithm.getMonotonePiecesOperation();
 		this.monotonePieces = algorithm.getMonotonePieces();
@@ -59,19 +53,10 @@ public class MonotonePiecesPainter extends BasicAlgorithmPainter
 		this.colorMap = colorMap;
 	}
 
-	private GeometryTransformer transformer;
-
 	@Override
 	public void paint()
 	{
-		Matrix shift = AffineTransformUtil.translate(-scene.getX1(),
-				-scene.getY1());
-		Matrix translate = AffineTransformUtil.translate(positionX, positionY);
-		Matrix scale = AffineTransformUtil.scale(zoom, zoom);
-
-		Matrix matrix = scale.multiplyFromRight(translate).multiplyFromRight(
-				shift);
-		transformer = new GeometryTransformer(matrix);
+		super.paint();
 
 		fillBackground();
 
