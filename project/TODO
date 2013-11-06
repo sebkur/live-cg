@@ -5,9 +5,10 @@ DONE Invent new Painter-like interface for distance terrain
 DONE Let Scale adapt to zoom
 DONE Reorganize EditorMouseListener: split into multiple classes for mouse-modes
 DONE Zoom in / out and window resize should keep the center of the view in the center
+DONE Use display distance (instead of scene distance) for selection highlighting,
+	selection, snapping, etc.
+
 Make SvgPainter create more readable files
 Check that visualizations do not manipulate input geometries
 	-> At least monotone pieces operation leads to strange behaviour concerning
 	   the number of chains a node is registered with
-Use display distance (instead of scene distance) for selection highlighting,
-	selection, snapping, etc.
