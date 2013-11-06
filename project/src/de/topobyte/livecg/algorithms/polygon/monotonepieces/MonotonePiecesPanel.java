@@ -20,13 +20,7 @@ package de.topobyte.livecg.algorithms.polygon.monotonepieces;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
-
-import javax.swing.JPanel;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,12 +33,12 @@ import de.topobyte.livecg.core.geometry.geom.Rectangles;
 import de.topobyte.livecg.core.painting.AwtPainter;
 import de.topobyte.livecg.core.scrolling.HasMargin;
 import de.topobyte.livecg.core.scrolling.HasScene;
+import de.topobyte.livecg.core.scrolling.ScenePanel;
 import de.topobyte.livecg.core.scrolling.Viewport;
-import de.topobyte.livecg.core.scrolling.ViewportListener;
 import de.topobyte.livecg.util.SwingUtil;
 import de.topobyte.livecg.util.coloring.ColorMapBuilder;
 
-public class MonotonePiecesPanel extends JPanel implements PolygonPanel,
+public class MonotonePiecesPanel extends ScenePanel implements PolygonPanel,
 		SizeProvider, Viewport, HasScene, HasMargin
 {
 
@@ -53,40 +47,30 @@ public class MonotonePiecesPanel extends JPanel implements PolygonPanel,
 	final static Logger logger = LoggerFactory
 			.getLogger(MonotonePiecesPanel.class);
 
-	private int margin = 15;
-
-	private double positionX = 0;
-	private double positionY = 0;
-	private double zoom = 1;
-
 	private Map<Polygon, Color> colorMap;
 
 	private Config polygonConfig = new Config();
 
-	private Rectangle scene;
 	private AwtPainter painter;
 	private MonotonePiecesPainter algorithmPainter;
 
 	public MonotonePiecesPanel(MonotonePiecesAlgorithm algorithm)
 	{
+		super(scene(algorithm, 15));
 		colorMap = ColorMapBuilder.buildColorMap(algorithm.getExtendedGraph());
-
-		Rectangle bbox = BoundingBoxes.get(algorithm.getPolygon());
-		scene = Rectangles.extend(bbox, margin);
 
 		painter = new AwtPainter(null);
 		algorithmPainter = new MonotonePiecesPainter(scene, algorithm,
 				polygonConfig, colorMap, painter);
+		super.algorithmPainter = algorithmPainter;
+	}
 
-		addComponentListener(new ComponentAdapter() {
-
-			@Override
-			public void componentResized(ComponentEvent e)
-			{
-				checkBounds();
-			}
-
-		});
+	private static Rectangle scene(MonotonePiecesAlgorithm algorithm,
+			double margin)
+	{
+		Rectangle bbox = BoundingBoxes.get(algorithm.getPolygon());
+		Rectangle scene = Rectangles.extend(bbox, margin);
+		return scene;
 	}
 
 	@Override
@@ -114,128 +98,4 @@ public class MonotonePiecesPanel extends JPanel implements PolygonPanel,
 		repaint();
 	}
 
-	@Override
-	public Rectangle getScene()
-	{
-		return scene;
-	}
-
-	@Override
-	public double getMargin()
-	{
-		return margin;
-	}
-
-	@Override
-	public double getPositionX()
-	{
-		return positionX;
-	}
-
-	@Override
-	public double getPositionY()
-	{
-		return positionY;
-	}
-
-	@Override
-	public double getZoom()
-	{
-		return zoom;
-	}
-
-	private void internalSetPositionX(double value)
-	{
-		positionX = value;
-		algorithmPainter.setPositionX(value);
-	}
-
-	private void internalSetPositionY(double value)
-	{
-		positionY = value;
-		algorithmPainter.setPositionY(value);
-	}
-
-	@Override
-	public void setPositionX(double value)
-	{
-		internalSetPositionX(value);
-		fireViewportListenersViewportChanged();
-	}
-
-	@Override
-	public void setPositionY(double value)
-	{
-		internalSetPositionY(value);
-		fireViewportListenersViewportChanged();
-	}
-
-	@Override
-	public void setZoom(double zoom)
-	{
-		this.zoom = zoom;
-		algorithmPainter.setZoom(zoom);
-		checkBounds();
-		fireViewportListenersZoomChanged();
-		repaint();
-	}
-
-	private List<ViewportListener> viewportListeners = new ArrayList<ViewportListener>();
-
-	@Override
-	public void addViewportListener(ViewportListener listener)
-	{
-		viewportListeners.add(listener);
-	}
-
-	@Override
-	public void removeViewportListener(ViewportListener listener)
-	{
-		viewportListeners.remove(listener);
-	}
-
-	private void fireViewportListenersViewportChanged()
-	{
-		for (ViewportListener listener : viewportListeners) {
-			listener.viewportChanged();
-		}
-	}
-
-	private void fireViewportListenersZoomChanged()
-	{
-		for (ViewportListener listener : viewportListeners) {
-			listener.zoomChanged();
-		}
-	}
-
-	private void checkBounds()
-	{
-		boolean update = false;
-		if (-positionX + getWidth() / zoom > getScene().getWidth() + margin) {
-			logger.debug("Moved out of viewport at right");
-			internalSetPositionX(getWidth() / zoom - getScene().getWidth()
-					- margin);
-			update = true;
-		}
-		if (positionX > margin) {
-			logger.debug("Scrolled too much to the left");
-			internalSetPositionX(margin);
-			update = true;
-		}
-		if (-positionY + getHeight() / zoom > getScene().getHeight() + margin) {
-			logger.debug("Moved out of viewport at bottom");
-			internalSetPositionY(getHeight() / zoom - getScene().getHeight()
-					- margin);
-			update = true;
-		}
-		if (positionY > margin) {
-			logger.debug("Scrolled too much to the top");
-			internalSetPositionY(margin);
-			update = true;
-		}
-		if (update) {
-			repaint();
-		}
-		fireViewportListenersViewportChanged();
-	}
 }

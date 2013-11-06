@@ -56,7 +56,7 @@ public class MonotonePiecesPainter extends TransformingAlgorithmPainter
 	@Override
 	public void paint()
 	{
-		super.paint();
+		preparePaint();
 
 		fillBackground();
 

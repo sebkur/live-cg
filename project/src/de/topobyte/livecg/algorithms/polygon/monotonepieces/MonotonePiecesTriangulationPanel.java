@@ -22,20 +22,18 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.Map;
 
-import javax.swing.JPanel;
-
 import de.topobyte.livecg.core.export.SizeProvider;
 import de.topobyte.livecg.core.geometry.geom.BoundingBoxes;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
 import de.topobyte.livecg.core.geometry.geom.Rectangle;
 import de.topobyte.livecg.core.geometry.geom.Rectangles;
 import de.topobyte.livecg.core.painting.AwtPainter;
+import de.topobyte.livecg.core.scrolling.ScenePanel;
 import de.topobyte.livecg.core.scrolling.Viewport;
-import de.topobyte.livecg.core.scrolling.ViewportListener;
 import de.topobyte.livecg.util.SwingUtil;
 import de.topobyte.livecg.util.coloring.ColorMapBuilder;
 
-public class MonotonePiecesTriangulationPanel extends JPanel implements
+public class MonotonePiecesTriangulationPanel extends ScenePanel implements
 		PolygonPanel, SizeProvider, Viewport
 {
 
@@ -54,6 +52,7 @@ public class MonotonePiecesTriangulationPanel extends JPanel implements
 	public MonotonePiecesTriangulationPanel(
 			MonotonePiecesTriangulationAlgorithm algorithm)
 	{
+		super(scene(algorithm, 15));
 		colorMap = ColorMapBuilder.buildColorMap(algorithm.getExtendedGraph());
 
 		Rectangle bbox = BoundingBoxes.get(algorithm.getPolygon());
@@ -62,11 +61,21 @@ public class MonotonePiecesTriangulationPanel extends JPanel implements
 		painter = new AwtPainter(null);
 		algorithmPainter = new MonotonePiecesTriangulationPainter(scene,
 				algorithm, polygonConfig, colorMap, painter);
+		super.algorithmPainter = algorithmPainter;
+	}
+
+	private static Rectangle scene(MonotonePiecesAlgorithm algorithm,
+			double margin)
+	{
+		Rectangle bbox = BoundingBoxes.get(algorithm.getPolygon());
+		Rectangle scene = Rectangles.extend(bbox, margin);
+		return scene;
 	}
 
 	@Override
 	public void paint(Graphics graphics)
 	{
+		super.paint(graphics);
 		Graphics2D g = (Graphics2D) graphics;
 		SwingUtil.useAntialiasing(g, true);
 
@@ -88,59 +97,4 @@ public class MonotonePiecesTriangulationPanel extends JPanel implements
 		repaint();
 	}
 
-	@Override
-	public double getPositionX()
-	{
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public double getPositionY()
-	{
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public double getZoom()
-	{
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public void setZoom(double value)
-	{
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void addViewportListener(ViewportListener listener)
-	{
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void removeViewportListener(ViewportListener listener)
-	{
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void setPositionX(double value)
-	{
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void setPositionY(double value)
-	{
-		// TODO Auto-generated method stub
-
-	}
 }

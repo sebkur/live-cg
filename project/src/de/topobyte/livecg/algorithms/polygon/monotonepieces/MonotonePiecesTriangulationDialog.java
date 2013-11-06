@@ -32,6 +32,7 @@ import de.topobyte.livecg.core.geometry.geom.Polygon;
 import de.topobyte.livecg.core.geometry.geom.Rectangle;
 import de.topobyte.livecg.core.geometry.geom.Rectangles;
 import de.topobyte.livecg.core.painting.AlgorithmPainter;
+import de.topobyte.livecg.core.scrolling.ScrollableView;
 import de.topobyte.livecg.util.coloring.ColorMapBuilder;
 
 public class MonotonePiecesTriangulationDialog
@@ -51,12 +52,14 @@ public class MonotonePiecesTriangulationDialog
 		Config polygonConfig = new Config();
 		MonotonePiecesTriangulationPanel mptp = new MonotonePiecesTriangulationPanel(
 				algorithm);
+		ScrollableView<MonotonePiecesTriangulationPanel> scrollableView = new ScrollableView<MonotonePiecesTriangulationPanel>(
+				mptp);
 
 		Settings<MonotonePiecesTriangulationPanel> settings = new Settings<MonotonePiecesTriangulationPanel>(
 				mptp);
 
 		main.add(settings, BorderLayout.NORTH);
-		main.add(mptp, BorderLayout.CENTER);
+		main.add(scrollableView, BorderLayout.CENTER);
 
 		/*
 		 * Menu

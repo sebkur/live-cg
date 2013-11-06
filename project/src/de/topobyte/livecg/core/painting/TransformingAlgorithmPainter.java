@@ -35,8 +35,7 @@ public abstract class TransformingAlgorithmPainter extends
 		this.scene = scene;
 	}
 
-	@Override
-	public void paint()
+	public void preparePaint()
 	{
 		Matrix shift = AffineTransformUtil.translate(-scene.getX1(),
 				-scene.getY1());

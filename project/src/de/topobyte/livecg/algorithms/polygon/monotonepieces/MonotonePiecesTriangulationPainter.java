@@ -47,6 +47,8 @@ public class MonotonePiecesTriangulationPainter extends MonotonePiecesPainter
 	@Override
 	public void paint()
 	{
+		preparePaint();
+
 		fillBackground();
 
 		fillPolygon();
@@ -81,7 +83,8 @@ public class MonotonePiecesTriangulationPainter extends MonotonePiecesPainter
 				java.awt.Color color = colorMap.get(triangle);
 				if (color != null)
 					painter.setColor(new Color(color.getRGB(), true));
-				painter.fillPolygon(triangle);
+				Polygon ttriangle = transformer.transform(triangle);
+				painter.fillPolygon(ttriangle);
 			}
 		}
 	}
@@ -93,7 +96,9 @@ public class MonotonePiecesTriangulationPainter extends MonotonePiecesPainter
 			for (Diagonal diagonal : diagonalsT) {
 				Coordinate c1 = diagonal.getA().getCoordinate();
 				Coordinate c2 = diagonal.getB().getCoordinate();
-				painter.drawLine(c1.getX(), c1.getY(), c2.getX(), c2.getY());
+				Coordinate t1 = transformer.transform(c1);
+				Coordinate t2 = transformer.transform(c2);
+				painter.drawLine(t1.getX(), t1.getY(), t2.getX(), t2.getY());
 			}
 		}
 	}
