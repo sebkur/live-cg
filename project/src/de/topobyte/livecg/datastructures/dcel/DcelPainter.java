@@ -24,12 +24,15 @@ import de.topobyte.livecg.core.geometry.dcel.DCEL;
 import de.topobyte.livecg.core.geometry.dcel.HalfEdge;
 import de.topobyte.livecg.core.geometry.dcel.Vertex;
 import de.topobyte.livecg.core.geometry.geom.Coordinate;
+import de.topobyte.livecg.core.geometry.geom.Rectangle;
+import de.topobyte.livecg.core.lina.Matrix;
 import de.topobyte.livecg.core.lina.Vector2;
-import de.topobyte.livecg.core.painting.BasicAlgorithmPainter;
 import de.topobyte.livecg.core.painting.Color;
 import de.topobyte.livecg.core.painting.Painter;
+import de.topobyte.livecg.core.painting.TransformingAlgorithmPainter;
+import de.topobyte.livecg.core.scrolling.TransformHelper;
 
-public abstract class DcelPainter extends BasicAlgorithmPainter
+public abstract class DcelPainter extends TransformingAlgorithmPainter
 {
 
 	private String q(String property)
@@ -42,12 +45,12 @@ public abstract class DcelPainter extends BasicAlgorithmPainter
 	private Color COLOR_EDGES = LiveConfig.getColor(q("edges"));
 	private Color COLOR_ARROWS = LiveConfig.getColor(q("arrows"));
 	private Color COLOR_CONNECTORS = LiveConfig.getColor(q("connectors"));
-	
+
 	private DcelConfig config;
 
-	public DcelPainter(DcelConfig config, Painter painter)
+	public DcelPainter(Rectangle scene, DcelConfig config, Painter painter)
 	{
-		super(painter);
+		super(scene, painter);
 		this.config = config;
 	}
 
@@ -56,6 +59,8 @@ public abstract class DcelPainter extends BasicAlgorithmPainter
 	@Override
 	public void paint()
 	{
+		preparePaint();
+
 		synchronized (getDcel()) {
 			double gap = 5;
 			double shorten = 6;
@@ -63,12 +68,11 @@ public abstract class DcelPainter extends BasicAlgorithmPainter
 			double alpha = Math.PI / 8;
 			double minArrowLen = 4;
 
-			painter.setColor(COLOR_BG);
-			painter.fillRect(0, 0, getWidth(), getHeight());
+			fillBackground(COLOR_BG);
 
 			painter.setColor(COLOR_NODES);
 			for (Vertex vertex : getDcel().getVertices()) {
-				Coordinate c = vertex.getCoordinate();
+				Coordinate c = transformer.transform(vertex.getCoordinate());
 				painter.fillCircle(c.getX(), c.getY(), 4);
 			}
 
@@ -77,11 +81,17 @@ public abstract class DcelPainter extends BasicAlgorithmPainter
 				HalfEdge twin = halfedge.getTwin();
 				Vertex origin = halfedge.getOrigin();
 				Vertex destination = twin.getOrigin();
-				Coordinate co = origin.getCoordinate();
-				Coordinate cd = destination.getCoordinate();
+				Coordinate co = transformer.transform(origin.getCoordinate());
+				Coordinate cd = transformer.transform(destination
+						.getCoordinate());
 				painter.drawLine(co.getX(), co.getY(), cd.getX(), cd.getY());
 			}
-			for (HalfEdge halfedge : getDcel().getHalfedges()) {
+
+			DCEL dcel = DcelUtil.clone(getDcel());
+			Matrix matrix = TransformHelper.createMatrix(scene, this);
+			DcelUtil.transform(dcel, matrix);
+
+			for (HalfEdge halfedge : dcel.getHalfedges()) {
 				HalfEdgeArrow arrow = new HalfEdgeArrow(halfedge, gap, shorten,
 						markerLen, alpha);
 
@@ -125,16 +135,23 @@ public abstract class DcelPainter extends BasicAlgorithmPainter
 					Vector2 c2 = nextArrow.getOrigin().sub(e2.mult(shorten));
 
 					GeneralPath path = new GeneralPath();
-					path.moveTo(arrow.getDestination().getX(), arrow
-							.getDestination().getY());
 
+					Coordinate orig = coordinate(arrow.getDestination());
+					path.moveTo(orig.getX(), orig.getY());
+
+					Coordinate dest = coordinate(nextArrow.getOrigin());
 					path.curveTo(c1.getX(), c1.getY(), c2.getX(), c2.getY(),
-							nextArrow.getOrigin().getX(), nextArrow.getOrigin()
-									.getY());
+							dest.getX(), dest.getY());
+
 					painter.draw(path);
 				}
 			}
 		}
+	}
+
+	private Coordinate coordinate(Vector2 v)
+	{
+		return new Coordinate(v.getX(), v.getY());
 	}
 
 	private void drawLine(Vector2 v1, Vector2 v2)

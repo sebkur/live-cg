@@ -36,6 +36,7 @@ import de.topobyte.livecg.algorithms.voronoi.fortune.geometry.Point;
 import de.topobyte.livecg.core.config.LiveConfig;
 import de.topobyte.livecg.core.geometry.dcel.DCEL;
 import de.topobyte.livecg.core.geometry.geom.Coordinate;
+import de.topobyte.livecg.core.geometry.geom.Rectangle;
 import de.topobyte.livecg.core.painting.BasicAlgorithmPainter;
 import de.topobyte.livecg.core.painting.Color;
 import de.topobyte.livecg.core.painting.Painter;
@@ -55,7 +56,11 @@ public class FortunePainter extends BasicAlgorithmPainter
 		this.algorithm = algorithm;
 		this.config = config;
 		DcelConfig dcelConfig = new DcelConfig();
-		dcelPainter = new DcelPainter(dcelConfig, painter) {
+
+		// TODO: use some supplied scene here
+		Rectangle scene = new Rectangle(0, 0, 800, 500);
+
+		dcelPainter = new DcelPainter(scene, dcelConfig, painter) {
 
 			@Override
 			public DCEL getDcel()

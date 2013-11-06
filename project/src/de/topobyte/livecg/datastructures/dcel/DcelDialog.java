@@ -27,6 +27,9 @@ import javax.swing.JPanel;
 import de.topobyte.livecg.core.export.ExportUtil;
 import de.topobyte.livecg.core.geometry.dcel.DCEL;
 import de.topobyte.livecg.core.geometry.dcel.DcelConverter;
+import de.topobyte.livecg.core.geometry.geom.Rectangle;
+import de.topobyte.livecg.core.geometry.geom.Rectangles;
+import de.topobyte.livecg.core.scrolling.ScrollableView;
 import de.topobyte.livecg.geometryeditor.geometryeditor.Content;
 
 public class DcelDialog
@@ -48,14 +51,20 @@ public class DcelDialog
 		DcelPanel dcelPanel = new DcelPanel(dcel, config);
 		Settings settings = new Settings(dcelPanel);
 
+		ScrollableView<DcelPanel> scrollableView = new ScrollableView<DcelPanel>(
+				dcelPanel);
+
 		main.add(settings, BorderLayout.NORTH);
-		main.add(dcelPanel, BorderLayout.CENTER);
+		main.add(scrollableView, BorderLayout.CENTER);
 
 		/*
 		 * Menu
 		 */
 
-		DcelPainter painter = new InstanceDcelPainter(dcel, config, null);
+		Rectangle bbox = DcelUtil.getBoundingBox(dcel);
+		Rectangle scene = Rectangles.extend(bbox, 15);
+
+		DcelPainter painter = new InstanceDcelPainter(scene, dcel, config, null);
 
 		JMenuBar menu = new JMenuBar();
 

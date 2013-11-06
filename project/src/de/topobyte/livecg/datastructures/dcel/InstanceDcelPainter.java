@@ -18,6 +18,7 @@
 package de.topobyte.livecg.datastructures.dcel;
 
 import de.topobyte.livecg.core.geometry.dcel.DCEL;
+import de.topobyte.livecg.core.geometry.geom.Rectangle;
 import de.topobyte.livecg.core.painting.Painter;
 
 public class InstanceDcelPainter extends DcelPainter
@@ -25,9 +26,10 @@ public class InstanceDcelPainter extends DcelPainter
 
 	private DCEL dcel;
 
-	public InstanceDcelPainter(DCEL dcel, DcelConfig config, Painter painter)
+	public InstanceDcelPainter(Rectangle scene, DCEL dcel, DcelConfig config,
+			Painter painter)
 	{
-		super(config, painter);
+		super(scene, config, painter);
 		this.dcel = dcel;
 	}
 

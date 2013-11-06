@@ -23,6 +23,8 @@ import java.awt.event.ItemListener;
 import javax.swing.JToggleButton;
 import javax.swing.JToolBar;
 
+import de.topobyte.livecg.util.ZoomInput;
+
 public class Settings extends JToolBar implements ItemListener
 {
 
@@ -50,6 +52,9 @@ public class Settings extends JToolBar implements ItemListener
 		}
 
 		buttons[0].setSelected(dp.getConfig().isDrawConnectors());
+
+		ZoomInput zoom = new ZoomInput(dp);
+		add(zoom);
 	}
 
 	@Override
