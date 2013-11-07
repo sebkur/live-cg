@@ -96,6 +96,7 @@ public class DistanceTerrainDialog implements ContentChangedListener
 		 * Misc
 		 */
 
+		frame.setLocationByPlatform(true);
 		frame.setSize(500, 600);
 		frame.setVisible(true);
 

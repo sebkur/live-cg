@@ -133,6 +133,7 @@ public class FrechetDialog1 implements ContentChangedListener
 		 * Misc
 		 */
 
+		frame.setLocationByPlatform(true);
 		frame.setSize(500, 600);
 		frame.setVisible(true);
 
