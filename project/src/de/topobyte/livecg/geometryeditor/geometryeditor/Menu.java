@@ -29,6 +29,7 @@ import javax.swing.JMenuItem;
 import javax.swing.KeyStroke;
 
 import de.topobyte.livecg.LiveCG;
+import de.topobyte.livecg.core.scrolling.ZoomAction;
 import de.topobyte.livecg.geometryeditor.geometryeditor.action.CopyAction;
 import de.topobyte.livecg.geometryeditor.geometryeditor.action.FilePropertiesAction;
 import de.topobyte.livecg.geometryeditor.geometryeditor.action.MouseAction;
@@ -40,7 +41,6 @@ import de.topobyte.livecg.geometryeditor.geometryeditor.action.SelectAllAction;
 import de.topobyte.livecg.geometryeditor.geometryeditor.action.SelectNothingAction;
 import de.topobyte.livecg.geometryeditor.geometryeditor.action.ShowContentDialogAction;
 import de.topobyte.livecg.geometryeditor.geometryeditor.action.ShowObjectDialogAction;
-import de.topobyte.livecg.geometryeditor.geometryeditor.action.ZoomAction;
 import de.topobyte.livecg.geometryeditor.geometryeditor.action.visualizations.DcelAction;
 import de.topobyte.livecg.geometryeditor.geometryeditor.action.visualizations.DistanceTerrainChainsAction;
 import de.topobyte.livecg.geometryeditor.geometryeditor.action.visualizations.DistanceTerrainSegmentsAction;
@@ -240,12 +240,12 @@ public class Menu extends JMenuBar
 		 * View
 		 */
 
-		JMenuItem itemZoomIn = new JMenuItem(new ZoomAction(editPane,
-				ZoomAction.Type.IN));
-		JMenuItem itemZoomOut = new JMenuItem(new ZoomAction(editPane,
-				ZoomAction.Type.OUT));
-		JMenuItem itemZoom100 = new JMenuItem(new ZoomAction(editPane,
-				ZoomAction.Type.IDENTITY));
+		JMenuItem itemZoomIn = new JMenuItem(new ZoomAction<GeometryEditPane>(
+				editPane, ZoomAction.Type.IN));
+		JMenuItem itemZoomOut = new JMenuItem(new ZoomAction<GeometryEditPane>(
+				editPane, ZoomAction.Type.OUT));
+		JMenuItem itemZoom100 = new JMenuItem(new ZoomAction<GeometryEditPane>(
+				editPane, ZoomAction.Type.IDENTITY));
 		view.add(itemZoomIn);
 		view.add(itemZoomOut);
 		view.add(itemZoom100);

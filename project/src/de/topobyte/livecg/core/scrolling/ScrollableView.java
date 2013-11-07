@@ -19,10 +19,15 @@ package de.topobyte.livecg.core.scrolling;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
 
+import javax.swing.ActionMap;
+import javax.swing.InputMap;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
+import javax.swing.KeyStroke;
 
 import de.topobyte.swing.layout.GridBagHelper;
 
@@ -37,6 +42,20 @@ public class ScrollableView<T extends JComponent & ViewportWithSignals & HasScen
 		super(new GridBagLayout());
 
 		GridBagConstraints c = new GridBagConstraints();
+
+		InputMap inputMap = getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+		inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_PLUS,
+				InputEvent.CTRL_DOWN_MASK), "Ctrl++");
+		inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_MINUS,
+				InputEvent.CTRL_DOWN_MASK), "Ctrl+-");
+		inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_1,
+				InputEvent.CTRL_DOWN_MASK), "Ctrl+1");
+
+		ActionMap actionMap = getActionMap();
+		actionMap.put("Ctrl++", new ZoomAction<T>(view, ZoomAction.Type.IN));
+		actionMap.put("Ctrl+-", new ZoomAction<T>(view, ZoomAction.Type.OUT));
+		actionMap.put("Ctrl+1", new ZoomAction<T>(view,
+				ZoomAction.Type.IDENTITY));
 
 		JScrollBar scrollerH = new JScrollBar(JScrollBar.HORIZONTAL);
 		JScrollBar scrollerV = new JScrollBar(JScrollBar.VERTICAL);
@@ -61,5 +80,4 @@ public class ScrollableView<T extends JComponent & ViewportWithSignals & HasScen
 		GridBagHelper.setWxWyF(c, 0.0, 1.0, GridBagConstraints.BOTH);
 		add(scrollerV, c);
 	}
-
 }

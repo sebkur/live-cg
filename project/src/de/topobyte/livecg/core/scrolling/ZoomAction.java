@@ -15,14 +15,15 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.topobyte.livecg.geometryeditor.geometryeditor.action;
+package de.topobyte.livecg.core.scrolling;
 
 import java.awt.event.ActionEvent;
 
-import de.topobyte.livecg.geometryeditor.action.BasicAction;
-import de.topobyte.livecg.geometryeditor.geometryeditor.GeometryEditPane;
+import javax.swing.JComponent;
 
-public class ZoomAction extends BasicAction
+import de.topobyte.livecg.geometryeditor.action.BasicAction;
+
+public class ZoomAction<T extends JComponent & Viewport> extends BasicAction
 {
 
 	public enum Type {
@@ -31,13 +32,13 @@ public class ZoomAction extends BasicAction
 
 	private static final long serialVersionUID = -3260994363917453585L;
 
-	private GeometryEditPane editPane;
+	private T component;
 	private Type type;
 
-	public ZoomAction(GeometryEditPane editPane, Type type)
+	public ZoomAction(T component, Type type)
 	{
 		super(title(type), description(type), icon(type));
-		this.editPane = editPane;
+		this.component = component;
 		this.type = type;
 	}
 
@@ -83,7 +84,7 @@ public class ZoomAction extends BasicAction
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
-		double zoom = editPane.getZoom();
+		double zoom = component.getZoom();
 		switch (type) {
 		default:
 		case IDENTITY:
@@ -96,8 +97,8 @@ public class ZoomAction extends BasicAction
 			zoom /= 1.2;
 			break;
 		}
-		editPane.setZoomCentered(zoom);
-		editPane.repaint();
+		component.setZoom(zoom);
+		component.repaint();
 	}
 
 }
