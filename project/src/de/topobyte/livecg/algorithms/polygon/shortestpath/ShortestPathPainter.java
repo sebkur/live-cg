@@ -35,7 +35,6 @@ import de.topobyte.livecg.core.painting.Painter;
 import de.topobyte.livecg.core.painting.TransformingAlgorithmPainter;
 import de.topobyte.livecg.util.MouseOver;
 import de.topobyte.livecg.util.ShapeUtil;
-import de.topobyte.livecg.util.circular.IntRing;
 import de.topobyte.livecg.util.graph.Edge;
 
 public class ShortestPathPainter extends TransformingAlgorithmPainter
@@ -174,15 +173,7 @@ public class ShortestPathPainter extends TransformingAlgorithmPainter
 		painter.setStrokeWidth(LINE_WIDTH_POLYGON);
 		painter.setColor(COLOR_POLYGON_EDGES);
 		Chain shell = tpolygon.getShell();
-		IntRing ring = new IntRing(shell.getNumberOfNodes());
-		for (int i = 0; i < shell.getNumberOfNodes(); i++) {
-			int j = ring.next().value();
-			Coordinate c1 = shell.getCoordinate(i);
-			Coordinate c2 = shell.getCoordinate(j);
-			painter.drawLine((int) Math.round(c1.getX()),
-					(int) Math.round(c1.getY()), (int) Math.round(c2.getX()),
-					(int) Math.round(c2.getY()));
-		}
+		painter.drawChain(shell);
 
 		painter.setStrokeWidth(LINE_WIDTH_DIAGONALS);
 		for (Diagonal diagonal : algorithm.getTriangulationDiagonals()) {
