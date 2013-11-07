@@ -283,7 +283,8 @@ public class SvgPainter implements Painter
 		}
 	}
 
-	private void drawChain(Chain chain)
+	@Override
+	public void drawChain(Chain chain)
 	{
 		if (chain.getNumberOfNodes() < 2) {
 			return;

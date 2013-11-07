@@ -22,6 +22,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.util.List;
 
+import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.core.geometry.geom.Coordinate;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
 
@@ -48,6 +49,8 @@ public interface Painter
 	public void drawCircle(double x, double y, double radius);
 
 	public void fillCircle(double x, double y, double radius);
+
+	public void drawChain(Chain chain);
 
 	public void drawPolygon(Polygon polygon);
 

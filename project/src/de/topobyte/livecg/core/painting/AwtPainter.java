@@ -30,6 +30,7 @@ import java.awt.image.BufferedImage;
 import java.util.List;
 
 import de.topobyte.livecg.core.geometry.geom.AwtHelper;
+import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.core.geometry.geom.Coordinate;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
 import de.topobyte.livecg.util.ShapeUtil;
@@ -114,11 +115,34 @@ public class AwtPainter implements Painter
 		if (points.size() < 2) {
 			return;
 		}
-		for (int i = 0; i < points.size() - 1; i++) {
-			Coordinate c1 = points.get(i);
-			Coordinate c2 = points.get(i + 1);
-			drawLine(c1.getX(), c1.getY(), c2.getX(), c2.getY());
+
+		GeneralPath p = new GeneralPath();
+		p.moveTo(points.get(0).getX(), points.get(0).getY());
+		for (int i = 1; i < points.size(); i++) {
+			Coordinate c = points.get(i);
+			p.lineTo(c.getX(), c.getY());
 		}
+		g.draw(p);
+	}
+
+	@Override
+	public void drawChain(Chain chain)
+	{
+		if (chain.getNumberOfNodes() < 2) {
+			return;
+		}
+
+		GeneralPath p = new GeneralPath();
+		Coordinate c0 = chain.getCoordinate(0);
+		p.moveTo(c0.getX(), c0.getY());
+		for (int i = 1; i < chain.getNumberOfNodes(); i++) {
+			Coordinate c = chain.getCoordinate(i);
+			p.lineTo(c.getX(), c.getY());
+		}
+		if (chain.isClosed()) {
+			p.closePath();
+		}
+		g.draw(p);
 	}
 
 	@Override
