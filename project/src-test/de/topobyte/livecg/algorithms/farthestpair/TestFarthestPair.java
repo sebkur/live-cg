@@ -47,7 +47,7 @@ public class TestFarthestPair
 		ContentReader contentReader = new ContentReader();
 		Content content = contentReader.read(new File(path));
 		List<Polygon> polygons = content.getPolygons();
-		
+
 		Polygon polygon = ConvexHullOperation.compute(null, null, polygons);
 
 		Chain shell = polygon.getShell();

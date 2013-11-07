@@ -79,7 +79,7 @@ public class DistanceTerrainPainterChains extends BasicAlgorithmPainter
 				imagePainter.paint();
 			}
 		}
-		
+
 		painter.drawImage(image, 0, 0);
 
 		// Draw grid

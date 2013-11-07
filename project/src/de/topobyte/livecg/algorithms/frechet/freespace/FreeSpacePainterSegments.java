@@ -262,8 +262,8 @@ public class FreeSpacePainterSegments extends BasicAlgorithmPainter implements
 		return min + diff * g;
 	}
 
-	private AffineTransform createMatrix(Vector2 a, Vector2 b, Vector2 c, Vector2 d)
-			throws NoninvertibleTransformException
+	private AffineTransform createMatrix(Vector2 a, Vector2 b, Vector2 c,
+			Vector2 d) throws NoninvertibleTransformException
 	{
 		double tlX = a.getX() - c.getX();
 		double tlY = a.getY() - c.getY();

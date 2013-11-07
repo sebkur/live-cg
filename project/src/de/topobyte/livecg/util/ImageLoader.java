@@ -29,7 +29,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * @author Sebastian Kuerten (sebastian.kuerten@fu-berlin.de)
- *
+ * 
  */
 public class ImageLoader
 {
@@ -40,7 +40,7 @@ public class ImageLoader
 	 * Load an image from the given filename. The file-resource will be resolved
 	 * by using the classloader. ImageIO will be tried first, then SVG via
 	 * batik.
-	 *
+	 * 
 	 * @param filename
 	 *            the resource to load.
 	 * @return the Icon loaded or null.

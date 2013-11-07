@@ -29,7 +29,7 @@ import de.topobyte.livecg.util.ImageLoader;
 
 /**
  * @author Sebastian Kuerten (sebastian.kuerten@fu-berlin.de)
- *
+ * 
  */
 public abstract class SimpleAction extends AbstractAction
 {
@@ -55,7 +55,7 @@ public abstract class SimpleAction extends AbstractAction
 
 	/**
 	 * Create a SimpleAction that provides name and description
-	 *
+	 * 
 	 * @param name
 	 *            the name of the action.
 	 * @param description
@@ -82,7 +82,7 @@ public abstract class SimpleAction extends AbstractAction
 
 	/**
 	 * Set this action's icon from the denoted filename.
-	 *
+	 * 
 	 * @param filename
 	 *            the icon to use.
 	 */
@@ -95,7 +95,7 @@ public abstract class SimpleAction extends AbstractAction
 
 	/**
 	 * Set the name of this action.
-	 *
+	 * 
 	 * @param name
 	 *            the new name.
 	 */
@@ -106,7 +106,7 @@ public abstract class SimpleAction extends AbstractAction
 
 	/**
 	 * Set the description of this action.
-	 *
+	 * 
 	 * @param description
 	 *            the new description.
 	 */

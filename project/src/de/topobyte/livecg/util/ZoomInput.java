@@ -42,7 +42,8 @@ public class ZoomInput extends JComboBox
 				"200%", "400%" }, 2);
 	}
 
-	public ZoomInput(ViewportWithSignals viewport, String[] values, int selectedIndex)
+	public ZoomInput(ViewportWithSignals viewport, String[] values,
+			int selectedIndex)
 	{
 		super(values);
 

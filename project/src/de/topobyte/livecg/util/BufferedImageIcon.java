@@ -26,7 +26,7 @@ import javax.swing.Icon;
 
 /**
  * @author Sebastian Kuerten (sebastian.kuerten@fu-berlin.de)
- *
+ * 
  */
 public class BufferedImageIcon implements Icon
 {
@@ -35,7 +35,7 @@ public class BufferedImageIcon implements Icon
 
 	/**
 	 * Create a new icon from this buffered image.
-	 *
+	 * 
 	 * @param bi
 	 *            the image to wrap.
 	 */

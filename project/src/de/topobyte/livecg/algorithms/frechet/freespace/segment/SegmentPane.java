@@ -50,7 +50,8 @@ public class SegmentPane extends JPanel implements SegmentChangeListener,
 	{
 		this.epsilon = epsilon;
 		painter = new AwtPainter(null);
-		algorithmPainter = new FreeSpacePainterSegments(config, epsilon, painter);
+		algorithmPainter = new FreeSpacePainterSegments(config, epsilon,
+				painter);
 		updateReachableSpace();
 	}
 
@@ -89,7 +90,7 @@ public class SegmentPane extends JPanel implements SegmentChangeListener,
 	{
 		Graphics2D g = (Graphics2D) graphics;
 		SwingUtil.useAntialiasing(g, true);
-		
+
 		painter.setGraphics(g);
 		algorithmPainter.setSize(getWidth(), getHeight());
 		algorithmPainter.paint();

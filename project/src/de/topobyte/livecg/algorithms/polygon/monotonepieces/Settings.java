@@ -26,8 +26,8 @@ import javax.swing.JToolBar;
 import de.topobyte.livecg.core.scrolling.ViewportWithSignals;
 import de.topobyte.livecg.util.ZoomInput;
 
-public class Settings<T extends PolygonPanel & ViewportWithSignals> extends JToolBar
-		implements ItemListener
+public class Settings<T extends PolygonPanel & ViewportWithSignals> extends
+		JToolBar implements ItemListener
 {
 
 	private static final long serialVersionUID = -3267409782350331277L;

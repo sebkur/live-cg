@@ -33,7 +33,7 @@ import de.topobyte.livecg.core.geometry.dcel.DCEL;
 public class Voronoi
 {
 	final static Logger logger = LoggerFactory.getLogger(Voronoi.class);
-	
+
 	private List<Point> sites = new ArrayList<Point>();
 	private List<Edge> edges = new ArrayList<Edge>();
 	private Map<Point, List<Edge>> pointToEdges = new HashMap<Point, List<Edge>>();

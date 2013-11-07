@@ -44,7 +44,7 @@ public class GeometryEditor extends JPanel
 		Scale scaleY = new ScaleY(editPane);
 		JScrollBar scrollerH = new JScrollBar(JScrollBar.HORIZONTAL);
 		JScrollBar scrollerV = new JScrollBar(JScrollBar.VERTICAL);
-		
+
 		editPane.addViewportListener(scaleX);
 		editPane.addViewportListener(scaleY);
 

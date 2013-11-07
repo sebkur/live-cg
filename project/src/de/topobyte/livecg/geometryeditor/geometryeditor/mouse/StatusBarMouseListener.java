@@ -27,7 +27,8 @@ public class StatusBarMouseListener extends ViewportMouseListener
 
 	private StatusBar statusBar;
 
-	public StatusBarMouseListener(ViewportWithSignals viewport, StatusBar statusBar)
+	public StatusBarMouseListener(ViewportWithSignals viewport,
+			StatusBar statusBar)
 	{
 		super(viewport);
 		this.statusBar = statusBar;

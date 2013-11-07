@@ -37,7 +37,7 @@ public class TestFrechet2
 		String path = "res/presets/frechet/Paper.geom";
 		ContentReader contentReader = new ContentReader();
 		Content content = contentReader.read(new File(path));
-		
+
 		FrechetDialog2 dialog = new FrechetDialog2(content);
 		dialog.getFrame().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}

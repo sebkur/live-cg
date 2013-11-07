@@ -34,7 +34,7 @@ public interface Painter
 	public void drawRect(int x, int y, int width, int height);
 
 	public void drawRect(double x, double y, double width, double height);
-	
+
 	public void fillRect(int x, int y, int width, int height);
 
 	public void fillRect(double x, double y, double width, double height);
@@ -70,6 +70,6 @@ public interface Painter
 	public AffineTransform getTransform();
 
 	public void setTransform(AffineTransform t);
-	
+
 	public void drawImage(BufferedImage image, int x, int y);
 }

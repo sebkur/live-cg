@@ -27,7 +27,8 @@ import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.core.painting.AwtPainter;
 import de.topobyte.livecg.util.SwingUtil;
 
-public class FreeSpaceDiagram extends JPanel implements EpsilonSettable, SizeProvider
+public class FreeSpaceDiagram extends JPanel implements EpsilonSettable,
+		SizeProvider
 {
 	private static final long serialVersionUID = 5024820193840910054L;
 

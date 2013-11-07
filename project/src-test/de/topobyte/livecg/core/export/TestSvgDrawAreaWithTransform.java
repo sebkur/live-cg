@@ -69,7 +69,7 @@ public class TestSvgDrawAreaWithTransform
 		Document doc = impl.createDocument(svgNS, "svg", null);
 
 		Element svgRoot = doc.getDocumentElement();
-		
+
 		svgRoot.setAttributeNS(null, "width", Integer.toString(width));
 		svgRoot.setAttributeNS(null, "height", Integer.toString(height));
 		SvgPainter painter = new SvgPainter(doc, svgRoot);
@@ -77,17 +77,17 @@ public class TestSvgDrawAreaWithTransform
 		/*
 		 * Transform start
 		 */
-		
+
 		AffineTransform t = new AffineTransform();
 		t.translate(-100, -100);
 		t.rotate(Math.PI / 8);
 		t.translate(200, 100);
 		painter.setTransform(t);
-		
+
 		/*
 		 * Transform end
 		 */
-		
+
 		paint(painter, area);
 
 		Arc2D arc = ShapeUtil.createArc(200, 200, 100);

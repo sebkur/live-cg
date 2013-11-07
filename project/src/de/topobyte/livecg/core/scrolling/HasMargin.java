@@ -17,7 +17,6 @@
  */
 package de.topobyte.livecg.core.scrolling;
 
-
 public interface HasMargin
 {
 

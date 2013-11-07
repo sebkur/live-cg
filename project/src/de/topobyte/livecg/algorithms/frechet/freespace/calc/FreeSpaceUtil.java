@@ -38,8 +38,8 @@ public class FreeSpaceUtil
 		return freeSpace(a, b, c, d, f, epsilon);
 	}
 
-	private static Interval freeSpace(Vector2 a, Vector2 b, Vector2 c, Vector2 d,
-			double f, double epsilon)
+	private static Interval freeSpace(Vector2 a, Vector2 b, Vector2 c,
+			Vector2 d, double f, double epsilon)
 	{
 		// P(x) = a + x * b, Q(y) = c + y * d
 		// || P(x) - Q(y) || <= epsilon

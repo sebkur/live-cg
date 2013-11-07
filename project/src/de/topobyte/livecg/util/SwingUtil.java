@@ -41,7 +41,7 @@ public class SwingUtil
 
 	/**
 	 * Get the containing frame of the given component.
-	 *
+	 * 
 	 * @param component
 	 *            the component to find the frame for.
 	 * @return the containing JFrame

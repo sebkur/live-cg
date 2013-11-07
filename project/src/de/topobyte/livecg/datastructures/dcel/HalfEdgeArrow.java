@@ -72,10 +72,10 @@ public class HalfEdgeArrow
 
 	/**
 	 * Coordinates c1, c2, c3 form the chain to find a point for.
-	 *
+	 * 
 	 * Coordinates co, cd are the coordinates of the segment that the current
 	 * arrow is parallel to.
-	 *
+	 * 
 	 * @param origin
 	 */
 	private Vector2 findPoint(Coordinate c1, Coordinate c2, Coordinate c3,
