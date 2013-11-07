@@ -72,8 +72,8 @@ public class DcelDialog
 		JMenu menuFile = new JMenu("File");
 		menu.add(menuFile);
 
-		ExportUtil.addExportPngItem(menuFile, frame, painter, dcelPanel);
-		ExportUtil.addExportSvgItem(menuFile, frame, painter, dcelPanel);
+		ExportUtil.addExportPngZoomedItem(menuFile, frame, painter, dcelPanel);
+		ExportUtil.addExportSvgZoomedItem(menuFile, frame, painter, dcelPanel);
 
 		frame.setJMenuBar(menu);
 

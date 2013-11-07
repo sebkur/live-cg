@@ -23,32 +23,38 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.swing.JFileChooser;
-import javax.xml.transform.TransformerException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.topobyte.livecg.core.geometry.geom.Rectangle;
 import de.topobyte.livecg.core.painting.AlgorithmPainter;
+import de.topobyte.livecg.core.scrolling.HasScene;
+import de.topobyte.livecg.core.scrolling.Viewport;
 import de.topobyte.livecg.geometryeditor.action.BasicAction;
-import de.topobyte.livecg.geometryeditor.filefilters.FileFilterSvg;
+import de.topobyte.livecg.geometryeditor.filefilters.FileFilterBitmap;
 
-public class ExportSvgAction extends BasicAction
+public class ExportBitmapActionZoomed<T extends Viewport & HasScene> extends
+		BasicAction
 {
+
 	private static final long serialVersionUID = 1L;
 
-	final static Logger logger = LoggerFactory.getLogger(ExportSvgAction.class);
+	final static Logger logger = LoggerFactory
+			.getLogger(ExportBitmapActionZoomed.class);
 
 	private Component component;
 	private AlgorithmPainter algorithmPainter;
-	private SizeProvider sizeProvider;
 
-	public ExportSvgAction(Component component,
-			AlgorithmPainter algorithmPainter, SizeProvider sizeProvider)
+	private T dimensionProvider;
+
+	public ExportBitmapActionZoomed(Component component,
+			AlgorithmPainter algorithmPainter, T dimensionProvider)
 	{
-		super("Export SVG", "Export the current view to a SVG image", null);
+		super("Export Bitmap", "Export the current view to a bitmap", null);
 		this.component = component;
 		this.algorithmPainter = algorithmPainter;
-		this.sizeProvider = sizeProvider;
+		this.dimensionProvider = dimensionProvider;
 	}
 
 	@Override
@@ -59,7 +65,7 @@ public class ExportSvgAction extends BasicAction
 		final JFileChooser fc = new JFileChooser();
 		fc.setCurrentDirectory(lastDirectoryService.getLastActiveDirectory());
 		fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
-		fc.setFileFilter(new FileFilterSvg());
+		fc.setFileFilter(new FileFilterBitmap());
 		int returnVal = fc.showSaveDialog(component);
 
 		if (returnVal != JFileChooser.APPROVE_OPTION) {
@@ -69,15 +75,18 @@ public class ExportSvgAction extends BasicAction
 		File file = fc.getSelectedFile();
 		lastDirectoryService.setLastActiveDirectory(file.getParentFile());
 
+		Rectangle scene = dimensionProvider.getScene();
+		double width = scene.getWidth() * dimensionProvider.getZoom();
+		double height = scene.getHeight() * dimensionProvider.getZoom();
+
+		int iwidth = (int) Math.ceil(width);
+		int iheight = (int) Math.ceil(height);
+		algorithmPainter.setZoom(dimensionProvider.getZoom());
+
 		try {
-			SvgExporter.exportSVG(file, algorithmPainter,
-					sizeProvider.getWidth(), sizeProvider.getHeight());
+			GraphicsExporter.exportPNG(file, algorithmPainter, iwidth, iheight);
 		} catch (IOException ex) {
-			logger.error("unable to export image (IOException): "
-					+ ex.getMessage());
-		} catch (TransformerException ex) {
-			logger.error("unable to export image (TransfomerException): "
-					+ ex.getMessage());
+			logger.error("unable to export image: " + ex.getMessage());
 		}
 	}
 

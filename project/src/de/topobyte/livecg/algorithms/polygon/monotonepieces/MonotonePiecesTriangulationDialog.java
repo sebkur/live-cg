@@ -79,8 +79,8 @@ public class MonotonePiecesTriangulationDialog
 		JMenu menuFile = new JMenu("File");
 		menu.add(menuFile);
 
-		ExportUtil.addExportPngItem(menuFile, frame, painter, mptp);
-		ExportUtil.addExportSvgItem(menuFile, frame, painter, mptp);
+		ExportUtil.addExportPngZoomedItem(menuFile, frame, painter, mptp);
+		ExportUtil.addExportSvgZoomedItem(menuFile, frame, painter, mptp);
 
 		frame.setJMenuBar(menu);
 

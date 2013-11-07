@@ -77,8 +77,8 @@ public class MonotonePiecesDialog
 		JMenu menuFile = new JMenu("File");
 		menu.add(menuFile);
 
-		ExportUtil.addExportPngItem(menuFile, frame, painter, mpp);
-		ExportUtil.addExportSvgItem(menuFile, frame, painter, mpp);
+		ExportUtil.addExportPngZoomedItem(menuFile, frame, painter, mpp);
+		ExportUtil.addExportSvgZoomedItem(menuFile, frame, painter, mpp);
 
 		frame.setJMenuBar(menu);
 
