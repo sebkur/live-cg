@@ -109,10 +109,12 @@ public class MouseListenerSelectMove extends EditPaneMouseListener
 				editPane.getContent().fireContentChanged();
 			}
 		} else {
-			dragInfo.update(getX(e), getY(e));
-			Coordinate delta = dragInfo.getDeltaToLast();
-			translateSelectedObjects(delta);
-			editPane.getContent().fireContentChanged();
+			if (dragInfo != null) {
+				dragInfo.update(getX(e), getY(e));
+				Coordinate delta = dragInfo.getDeltaToLast();
+				translateSelectedObjects(delta);
+				editPane.getContent().fireContentChanged();
+			}
 		}
 	}
 
