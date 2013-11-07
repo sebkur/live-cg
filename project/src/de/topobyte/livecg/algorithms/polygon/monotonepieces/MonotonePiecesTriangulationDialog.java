@@ -51,7 +51,7 @@ public class MonotonePiecesTriangulationDialog
 
 		Config polygonConfig = new Config();
 		MonotonePiecesTriangulationPanel mptp = new MonotonePiecesTriangulationPanel(
-				algorithm);
+				algorithm, polygonConfig);
 		ScrollableView<MonotonePiecesTriangulationPanel> scrollableView = new ScrollableView<MonotonePiecesTriangulationPanel>(
 				mptp);
 

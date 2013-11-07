@@ -43,16 +43,18 @@ public class MonotonePiecesTriangulationPanel extends ScenePanel implements
 
 	private Map<Polygon, Color> colorMap;
 
-	private Config polygonConfig = new Config();
+	private Config polygonConfig;
 
 	private Rectangle scene;
 	private AwtPainter painter;
 	private MonotonePiecesTriangulationPainter algorithmPainter;
 
 	public MonotonePiecesTriangulationPanel(
-			MonotonePiecesTriangulationAlgorithm algorithm)
+			MonotonePiecesTriangulationAlgorithm algorithm, Config polygonConfig)
 	{
 		super(scene(algorithm, 15));
+		this.polygonConfig = polygonConfig;
+
 		colorMap = ColorMapBuilder.buildColorMap(algorithm.getExtendedGraph());
 
 		Rectangle bbox = BoundingBoxes.get(algorithm.getPolygon());

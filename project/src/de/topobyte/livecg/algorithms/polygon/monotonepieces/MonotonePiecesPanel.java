@@ -48,14 +48,17 @@ public class MonotonePiecesPanel extends ScenePanel implements PolygonPanel,
 
 	private Map<Polygon, Color> colorMap;
 
-	private Config polygonConfig = new Config();
+	private Config polygonConfig;
 
 	private AwtPainter painter;
 	private MonotonePiecesPainter algorithmPainter;
 
-	public MonotonePiecesPanel(MonotonePiecesAlgorithm algorithm)
+	public MonotonePiecesPanel(MonotonePiecesAlgorithm algorithm,
+			Config polygonConfig)
 	{
 		super(scene(algorithm, 15));
+		this.polygonConfig = polygonConfig;
+
 		colorMap = ColorMapBuilder.buildColorMap(algorithm.getExtendedGraph());
 
 		painter = new AwtPainter(null);
