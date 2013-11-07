@@ -31,13 +31,16 @@ public class DistanceTerrainPainterChains extends BasicAlgorithmPainter
 
 	private Color colorCellBoundaries = new Color(0x000000);
 
+	private Config config;
+
 	private final Chain line1;
 	private final Chain line2;
 
-	public DistanceTerrainPainterChains(Chain line1, Chain line2,
-			Painter painter)
+	public DistanceTerrainPainterChains(Config config, Chain line1,
+			Chain line2, Painter painter)
 	{
 		super(painter);
+		this.config = config;
 		this.line1 = line1;
 		this.line2 = line2;
 	}
@@ -82,15 +85,17 @@ public class DistanceTerrainPainterChains extends BasicAlgorithmPainter
 
 		painter.drawImage(image, 0, 0);
 
-		// Draw grid
-		painter.setColor(colorCellBoundaries);
-		for (int x = 0; x <= nSegmentsP; x++) {
-			int lx = x * w;
-			painter.drawLine(lx, 0, lx, usedHeight);
-		}
-		for (int y = 0; y <= nSegmentsQ; y++) {
-			int ly = y * h;
-			painter.drawLine(0, ly, usedWidth, ly);
+		if (config.isDrawGrid()) {
+			// Draw grid
+			painter.setColor(colorCellBoundaries);
+			for (int x = 0; x <= nSegmentsP; x++) {
+				int lx = x * w;
+				painter.drawLine(lx, 0, lx, usedHeight);
+			}
+			for (int y = 0; y <= nSegmentsQ; y++) {
+				int ly = y * h;
+				painter.drawLine(0, ly, usedWidth, ly);
+			}
 		}
 	}
 }

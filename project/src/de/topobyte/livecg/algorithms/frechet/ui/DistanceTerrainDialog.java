@@ -30,8 +30,11 @@ import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
+import de.topobyte.livecg.algorithms.frechet.distanceterrain.Config;
+import de.topobyte.livecg.algorithms.frechet.distanceterrain.ConfigChangedListener;
 import de.topobyte.livecg.algorithms.frechet.distanceterrain.DistanceTerrain;
 import de.topobyte.livecg.algorithms.frechet.distanceterrain.DistanceTerrainPainterChains;
+import de.topobyte.livecg.algorithms.frechet.distanceterrain.Settings;
 import de.topobyte.livecg.core.export.ExportUtil;
 import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.geometryeditor.geometryeditor.Content;
@@ -59,8 +62,21 @@ public class DistanceTerrainDialog implements ContentChangedListener
 		line1 = lines.get(0);
 		line2 = lines.get(1);
 
-		diagram = new DistanceTerrain(line1, line2);
+		Config config = new Config();
+		Settings settings = new Settings(config);
+
+		config.addConfigChangedListener(new ConfigChangedListener() {
+
+			@Override
+			public void configChanged()
+			{
+				diagram.repaint();
+			}
+		});
+
+		diagram = new DistanceTerrain(config, line1, line2);
 		JPanel diagramPanel = new JPanel(new BorderLayout());
+		diagramPanel.add(settings, BorderLayout.NORTH);
 		diagramPanel.add(diagram, BorderLayout.CENTER);
 		diagramPanel.setBorder(new TitledBorder("Distance terrain"));
 
@@ -81,7 +97,7 @@ public class DistanceTerrainDialog implements ContentChangedListener
 		 */
 
 		DistanceTerrainPainterChains painter = new DistanceTerrainPainterChains(
-				line1, line2, null);
+				config, line1, line2, null);
 
 		JMenuBar menu = new JMenuBar();
 		frame.setJMenuBar(menu);
