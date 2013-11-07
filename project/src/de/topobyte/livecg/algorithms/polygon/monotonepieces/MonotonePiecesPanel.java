@@ -32,14 +32,13 @@ import de.topobyte.livecg.core.geometry.geom.Rectangle;
 import de.topobyte.livecg.core.geometry.geom.Rectangles;
 import de.topobyte.livecg.core.painting.AwtPainter;
 import de.topobyte.livecg.core.scrolling.HasMargin;
-import de.topobyte.livecg.core.scrolling.HasScene;
 import de.topobyte.livecg.core.scrolling.ScenePanel;
 import de.topobyte.livecg.core.scrolling.ViewportWithSignals;
 import de.topobyte.livecg.util.SwingUtil;
 import de.topobyte.livecg.util.coloring.ColorMapBuilder;
 
 public class MonotonePiecesPanel extends ScenePanel implements PolygonPanel,
-		SizeProvider, ViewportWithSignals, HasScene, HasMargin
+		SizeProvider, ViewportWithSignals, HasMargin
 {
 
 	private static final long serialVersionUID = 2129465700417909129L;
