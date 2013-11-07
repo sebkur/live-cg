@@ -20,7 +20,7 @@ package de.topobyte.livecg.geometryeditor.geometryeditor.action.visualizations;
 import java.awt.event.ActionEvent;
 import java.util.List;
 
-import de.topobyte.livecg.algorithms.frechet.ui.FrechetDialog2;
+import de.topobyte.livecg.algorithms.frechet.ui.FrechetDialog1;
 import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.geometryeditor.action.BasicAction;
 import de.topobyte.livecg.geometryeditor.geometryeditor.Content;
@@ -51,7 +51,7 @@ public class FreeSpaceChainsAction extends BasicAction
 			System.out.println("not enough lines");
 			return;
 		}
-		new FrechetDialog2(content);
+		new FrechetDialog1(content);
 	}
 
 }
