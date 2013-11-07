@@ -22,6 +22,8 @@ import java.util.List;
 
 import de.topobyte.livecg.algorithms.polygon.monotonepieces.MonotonePiecesAlgorithm;
 import de.topobyte.livecg.algorithms.polygon.monotonepieces.MonotonePiecesDialog;
+import de.topobyte.livecg.core.geometry.geom.CopyUtil;
+import de.topobyte.livecg.core.geometry.geom.CopyUtil.PolygonMode;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
 import de.topobyte.livecg.geometryeditor.action.BasicAction;
 import de.topobyte.livecg.geometryeditor.geometryeditor.Content;
@@ -51,6 +53,7 @@ public class MonotonePiecesAction extends BasicAction
 			return;
 		}
 		Polygon polygon = polygons.get(0);
+		polygon = CopyUtil.copy(polygon, PolygonMode.REUSE_NOTHING);
 
 		MonotonePiecesAlgorithm algorithm = new MonotonePiecesAlgorithm(polygon);
 		new MonotonePiecesDialog(algorithm);

@@ -28,6 +28,8 @@ import de.topobyte.livecg.algorithms.polygon.shortestpath.ShortestPathHelper;
 import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.core.geometry.geom.ChainHelper;
 import de.topobyte.livecg.core.geometry.geom.CloseabilityException;
+import de.topobyte.livecg.core.geometry.geom.CopyUtil;
+import de.topobyte.livecg.core.geometry.geom.CopyUtil.PolygonMode;
 import de.topobyte.livecg.core.geometry.geom.Node;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
 import de.topobyte.livecg.core.geometry.geom.PolygonHelper;
@@ -66,6 +68,7 @@ public class ShortestPathInPolygonAction extends BasicAction
 			return;
 		}
 		Polygon polygon = viable.get(0);
+		polygon = CopyUtil.copy(polygon, PolygonMode.REUSE_NOTHING);
 		if (!PolygonHelper.isCounterClockwiseOriented(polygon)) {
 			Chain shell = polygon.getShell();
 			try {
