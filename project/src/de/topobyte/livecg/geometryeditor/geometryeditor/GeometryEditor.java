@@ -20,6 +20,8 @@ package de.topobyte.livecg.geometryeditor.geometryeditor;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
@@ -39,6 +41,8 @@ public class GeometryEditor extends JPanel
 
 	public GeometryEditor()
 	{
+		setFocusable(true);
+
 		editPane = new GeometryEditPane();
 		Scale scaleX = new ScaleX(editPane);
 		Scale scaleY = new ScaleY(editPane);
@@ -47,6 +51,15 @@ public class GeometryEditor extends JPanel
 
 		editPane.addViewportListener(scaleX);
 		editPane.addViewportListener(scaleY);
+
+		editPane.addMouseListener(new MouseAdapter() {
+
+			@Override
+			public void mousePressed(MouseEvent e)
+			{
+				requestFocus();
+			}
+		});
 
 		SceneBoundedRangeModel rangeH = new SceneBoundedRangeModel(editPane,
 				true);
