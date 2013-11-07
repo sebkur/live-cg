@@ -19,7 +19,7 @@ package de.topobyte.livecg.algorithms.frechet.freespace;
 
 import java.awt.geom.AffineTransform;
 
-import de.topobyte.livecg.algorithms.frechet.freespace.calc.FrechetUtil;
+import de.topobyte.livecg.algorithms.frechet.FrechetUtil;
 import de.topobyte.livecg.algorithms.frechet.freespace.calc.LineSegment;
 import de.topobyte.livecg.algorithms.frechet.freespace.calc.ReachableSpace;
 import de.topobyte.livecg.core.geometry.geom.Chain;

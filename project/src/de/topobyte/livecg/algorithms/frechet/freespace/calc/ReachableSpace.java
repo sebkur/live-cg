@@ -17,6 +17,7 @@
  */
 package de.topobyte.livecg.algorithms.frechet.freespace.calc;
 
+import de.topobyte.livecg.algorithms.frechet.FrechetUtil;
 import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.util.DoubleUtil;
 

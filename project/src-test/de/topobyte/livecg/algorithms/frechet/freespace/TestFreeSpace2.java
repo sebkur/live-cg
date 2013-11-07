@@ -25,11 +25,11 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
-import de.topobyte.livecg.algorithms.frechet.ui.FrechetDialog2;
+import de.topobyte.livecg.algorithms.frechet.ui.FreeSpaceDialog2;
 import de.topobyte.livecg.core.geometry.io.ContentReader;
 import de.topobyte.livecg.geometryeditor.geometryeditor.Content;
 
-public class TestFrechet2
+public class TestFreeSpace2
 {
 	public static void main(String[] args) throws IOException,
 			ParserConfigurationException, SAXException
@@ -38,7 +38,7 @@ public class TestFrechet2
 		ContentReader contentReader = new ContentReader();
 		Content content = contentReader.read(new File(path));
 
-		FrechetDialog2 dialog = new FrechetDialog2(content);
+		FreeSpaceDialog2 dialog = new FreeSpaceDialog2(content);
 		dialog.getFrame().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 }
