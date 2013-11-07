@@ -12,3 +12,7 @@ DONE Check that visualizations do not manipulate input geometries
 	   the number of chains a node is registered with
 
 Make SvgPainter create more readable files
+Add keyboard bindings: Ctrl + Arrow keys for panning the scene
+Let right mouse button + drag pan the scene
+Use current configuration for exporting at MonotonePieces and MontonePiecesTriangulation
+Draw polygon as path in SPIP
