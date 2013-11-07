@@ -93,6 +93,12 @@ public class ScenePanel extends JPanel implements ViewportWithSignals,
 		return zoom;
 	}
 
+	private void internalSetZoom(double value)
+	{
+		zoom = value;
+		algorithmPainter.setZoom(value);
+	}
+
 	private void internalSetPositionX(double value)
 	{
 		positionX = value;
@@ -122,8 +128,18 @@ public class ScenePanel extends JPanel implements ViewportWithSignals,
 	@Override
 	public void setZoom(double zoom)
 	{
-		this.zoom = zoom;
-		algorithmPainter.setZoom(zoom);
+		setZoomCentered(zoom);
+	}
+
+	public void setZoomCentered(double zoom)
+	{
+		double mx = -positionX + getWidth() / this.zoom / 2.0;
+		double my = -positionY + getHeight() / this.zoom / 2.0;
+
+		internalSetZoom(zoom);
+		internalSetPositionX(getWidth() / zoom / 2.0 - mx);
+		internalSetPositionY(getHeight() / zoom / 2.0 - my);
+
 		checkBounds();
 		fireViewportListenersZoomChanged();
 		repaint();
