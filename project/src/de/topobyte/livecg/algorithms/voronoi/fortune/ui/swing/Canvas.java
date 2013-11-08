@@ -27,10 +27,10 @@ import java.util.Random;
 import javax.swing.JPanel;
 
 import de.topobyte.livecg.algorithms.voronoi.fortune.FortunesSweep;
-import de.topobyte.livecg.algorithms.voronoi.fortune.AlgorithmWatcher;
 import de.topobyte.livecg.algorithms.voronoi.fortune.geometry.Point;
 import de.topobyte.livecg.algorithms.voronoi.fortune.ui.core.Config;
 import de.topobyte.livecg.algorithms.voronoi.fortune.ui.core.FortunePainter;
+import de.topobyte.livecg.core.AlgorithmWatcher;
 import de.topobyte.livecg.core.export.SizeProvider;
 import de.topobyte.livecg.core.painting.AwtPainter;
 

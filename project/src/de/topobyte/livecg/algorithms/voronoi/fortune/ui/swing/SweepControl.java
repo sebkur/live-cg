@@ -27,7 +27,7 @@ import java.awt.event.MouseEvent;
 import javax.swing.JComponent;
 
 import de.topobyte.livecg.algorithms.voronoi.fortune.FortunesSweep;
-import de.topobyte.livecg.algorithms.voronoi.fortune.AlgorithmWatcher;
+import de.topobyte.livecg.core.AlgorithmWatcher;
 import de.topobyte.livecg.core.config.LiveConfig;
 import de.topobyte.livecg.core.painting.Color;
 
