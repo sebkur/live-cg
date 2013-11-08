@@ -26,6 +26,7 @@ import java.awt.event.MouseEvent;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 
+import de.topobyte.livecg.core.scrolling.PanMouseAdapter;
 import de.topobyte.livecg.core.scrolling.SceneBoundedRangeModel;
 import de.topobyte.livecg.geometryeditor.geometryeditor.mouse.ScaleMouseListener;
 import de.topobyte.livecg.geometryeditor.geometryeditor.scale.Scale;
@@ -69,6 +70,11 @@ public class GeometryEditor extends JPanel
 		SceneBoundedRangeModel<GeometryEditPane> rangeV = new SceneBoundedRangeModel<GeometryEditPane>(
 				editPane, false);
 		scrollerV.setModel(rangeV);
+
+		PanMouseAdapter<GeometryEditPane> panAdapter = new PanMouseAdapter<GeometryEditPane>(
+				editPane);
+		editPane.addMouseListener(panAdapter);
+		editPane.addMouseMotionListener(panAdapter);
 
 		ScaleMouseListener scaleMouseListener = new ScaleMouseListener(scaleX,
 				scaleY);
