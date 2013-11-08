@@ -387,7 +387,6 @@ public class ShortestPathAlgorithm
 		}
 		if (!found) {
 			logger.debug("case4: moving apex to last node of path2");
-			data.clear(on);
 			data.append(on, notOnChain);
 			for (int k = 0; k < data.getFunnelLength(other);) {
 				data.appendCommon(data.removeFirst(other));
