@@ -21,16 +21,20 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JToggleButton;
 import javax.swing.JToolBar;
 
+import de.topobyte.livecg.core.AlgorithmWatcher;
 import de.topobyte.livecg.util.ImageLoader;
 import de.topobyte.livecg.util.ZoomInput;
 
-public class Settings extends JToolBar implements ItemListener
+public class Settings extends JToolBar implements ItemListener,
+		AlgorithmWatcher
 {
 
 	private static final long serialVersionUID = -6537449209660520005L;
@@ -41,6 +45,7 @@ public class Settings extends JToolBar implements ItemListener
 
 	private JToggleButton[] buttons;
 	private JButton[] control;
+	private Map<String, JButton> controlMap = new HashMap<String, JButton>();
 
 	private static final String TEXT_DRAW_DUAL_GRAPH = "Dual Graph";
 
@@ -83,8 +88,9 @@ public class Settings extends JToolBar implements ItemListener
 			Icon icon = ImageLoader.load(images[i]);
 			control[i] = new JButton(icon);
 			control[i].setToolTipText(names[i]);
-			add(control[i]);
 			final String name = names[i];
+			controlMap.put(name, control[i]);
+			add(control[i]);
 			control[i].addActionListener(new ActionListener() {
 
 				@Override
@@ -94,6 +100,9 @@ public class Settings extends JToolBar implements ItemListener
 				}
 			});
 		}
+
+		algorithm.addWatcher(this);
+		setButtonStatesDependingOnAlgorithmStatus();
 	}
 
 	@Override
@@ -123,5 +132,19 @@ public class Settings extends JToolBar implements ItemListener
 				spp.repaint();
 			}
 		}
+	}
+
+	@Override
+	public void updateAlgorithmStatus()
+	{
+		setButtonStatesDependingOnAlgorithmStatus();
+	}
+
+	private void setButtonStatesDependingOnAlgorithmStatus()
+	{
+		boolean prev = algorithm.getStatus() != 0;
+		controlMap.get(TEXT_PREVIOUS).setEnabled(prev);
+		boolean next = algorithm.getStatus() != algorithm.getNumberOfSteps();
+		controlMap.get(TEXT_NEXT).setEnabled(next);
 	}
 }
