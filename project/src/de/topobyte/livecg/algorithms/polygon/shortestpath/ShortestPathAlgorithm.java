@@ -375,7 +375,6 @@ public class ShortestPathAlgorithm
 					if (k == -1) {
 						data.append(on, notOnChain);
 					} else {
-						data.clear(on);
 						data.append(on, notOnChain);
 						for (int l = 0; l <= k; l++) {
 							data.appendCommon(data.removeFirst(other));
