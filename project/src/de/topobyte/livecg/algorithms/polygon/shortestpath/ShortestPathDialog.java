@@ -74,7 +74,7 @@ public class ShortestPathDialog implements AlgorithmChangedListener
 		scrollableView.addMouseListener(pickNodesListener);
 		scrollableView.addMouseMotionListener(pickNodesListener);
 
-		Settings settings = new Settings(spp, config);
+		Settings settings = new Settings(algorithm, spp, config);
 
 		int max = algorithm.getNumberOfSteps();
 		slider = new JSlider(0, max);

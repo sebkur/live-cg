@@ -17,12 +17,17 @@
  */
 package de.topobyte.livecg.algorithms.polygon.shortestpath;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
+import javax.swing.Icon;
+import javax.swing.JButton;
 import javax.swing.JToggleButton;
 import javax.swing.JToolBar;
 
+import de.topobyte.livecg.util.ImageLoader;
 import de.topobyte.livecg.util.ZoomInput;
 
 public class Settings extends JToolBar implements ItemListener
@@ -30,15 +35,27 @@ public class Settings extends JToolBar implements ItemListener
 
 	private static final long serialVersionUID = -6537449209660520005L;
 
+	private ShortestPathAlgorithm algorithm;
 	private ShortestPathPanel spp;
 	private Config config;
 
 	private JToggleButton[] buttons;
+	private JButton[] control;
 
 	private static final String TEXT_DRAW_DUAL_GRAPH = "Dual Graph";
 
-	public Settings(ShortestPathPanel spp, Config config)
+	private static final String TEXT_PREVIOUS = "Previous step";
+	private static final String TEXT_NEXT = "Next step";
+
+	private static final String[] names = { TEXT_PREVIOUS, TEXT_NEXT };
+	private static final String[] images = {
+			"res/images/24x24/media-skip-backward.png",
+			"res/images/24x24/media-skip-forward.png" };
+
+	public Settings(ShortestPathAlgorithm algorithm, ShortestPathPanel spp,
+			Config config)
 	{
+		this.algorithm = algorithm;
 		this.spp = spp;
 		this.config = config;
 
@@ -51,12 +68,32 @@ public class Settings extends JToolBar implements ItemListener
 			buttons[i] = new JToggleButton(as[i]);
 			buttons[i].addItemListener(this);
 			add(buttons[i]);
+			// Dimension max = buttons[i].getMaximumSize();
+			// buttons[i].setMaximumSize(new Dimension(max.height, 12));
 		}
 
 		buttons[0].setSelected(config.isDrawDualGraph());
 
 		ZoomInput zoom = new ZoomInput(spp);
 		add(zoom);
+		System.out.println(zoom.getMaximumSize());
+
+		control = new JButton[names.length];
+		for (int i = 0; i < names.length; i++) {
+			Icon icon = ImageLoader.load(images[i]);
+			control[i] = new JButton(icon);
+			control[i].setToolTipText(names[i]);
+			add(control[i]);
+			final String name = names[i];
+			control[i].addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent e)
+				{
+					control(name);
+				}
+			});
+		}
 	}
 
 	@Override
@@ -71,4 +108,20 @@ public class Settings extends JToolBar implements ItemListener
 		spp.repaint();
 	}
 
+	protected void control(String name)
+	{
+		if (name.equals(TEXT_PREVIOUS)) {
+			int status = algorithm.getStatus();
+			if (status > 0) {
+				algorithm.setStatus(status - 1);
+				spp.repaint();
+			}
+		} else if (name.equals(TEXT_NEXT)) {
+			int status = algorithm.getStatus();
+			if (status < algorithm.getNumberOfSteps()) {
+				algorithm.setStatus(status + 1);
+				spp.repaint();
+			}
+		}
+	}
 }
