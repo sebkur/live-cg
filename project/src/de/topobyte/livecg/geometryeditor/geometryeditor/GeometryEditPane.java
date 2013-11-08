@@ -53,6 +53,8 @@ import de.topobyte.livecg.core.lina.Matrix;
 import de.topobyte.livecg.core.painting.AwtPainter;
 import de.topobyte.livecg.core.painting.Color;
 import de.topobyte.livecg.core.painting.Painter;
+import de.topobyte.livecg.core.scrolling.HasMargin;
+import de.topobyte.livecg.core.scrolling.HasScene;
 import de.topobyte.livecg.core.scrolling.ViewportWithSignals;
 import de.topobyte.livecg.core.scrolling.ViewportListener;
 import de.topobyte.livecg.geometryeditor.geometryeditor.action.OpenCloseRingAction;
@@ -63,7 +65,7 @@ import de.topobyte.livecg.geometryeditor.geometryeditor.mousemode.MouseModeProvi
 import de.topobyte.livecg.util.SwingUtil;
 
 public class GeometryEditPane extends JPanel implements MouseModeProvider,
-		ContentChangedListener, ViewportWithSignals
+		ContentChangedListener, ViewportWithSignals, HasScene, HasMargin
 {
 
 	private static final long serialVersionUID = -8078013859398953550L;
@@ -71,7 +73,7 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 	final static Logger logger = LoggerFactory
 			.getLogger(GeometryEditPane.class);
 
-	public static final int MARGIN = 200;
+	private static final int MARGIN = 200;
 
 	private String q(String property)
 	{
@@ -984,6 +986,18 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 			}
 		}
 		return new Rectangle(xmin, ymin, xmax, ymax);
+	}
+
+	@Override
+	public Rectangle getScene()
+	{
+		return content.getScene();
+	}
+
+	@Override
+	public double getMargin()
+	{
+		return MARGIN;
 	}
 
 }
