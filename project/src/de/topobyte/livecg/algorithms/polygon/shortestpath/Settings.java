@@ -17,6 +17,7 @@
  */
 package de.topobyte.livecg.algorithms.polygon.shortestpath;
 
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -73,15 +74,14 @@ public class Settings extends JToolBar implements ItemListener,
 			buttons[i] = new JToggleButton(as[i]);
 			buttons[i].addItemListener(this);
 			add(buttons[i]);
-			// Dimension max = buttons[i].getMaximumSize();
-			// buttons[i].setMaximumSize(new Dimension(max.height, 12));
+			buttons[i].setMaximumSize(new Dimension(
+					buttons[i].getMaximumSize().width, 32767));
 		}
 
 		buttons[0].setSelected(config.isDrawDualGraph());
 
 		ZoomInput zoom = new ZoomInput(spp);
 		add(zoom);
-		System.out.println(zoom.getMaximumSize());
 
 		control = new JButton[names.length];
 		for (int i = 0; i < names.length; i++) {
