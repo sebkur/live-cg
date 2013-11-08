@@ -39,17 +39,21 @@ public class SceneBoundedRangeModel<T extends JComponent & ViewportWithSignals &
 
 	private T view;
 	private boolean horizontal;
+	private ViewportMath<T> calculator;
 
 	public SceneBoundedRangeModel(T view, boolean horizontal)
 	{
 		this.view = view;
 		this.horizontal = horizontal;
+
+		calculator = new ViewportMath<T>(view);
+
 		view.addComponentListener(new ComponentAdapter() {
 
 			@Override
 			public void componentResized(ComponentEvent e)
 			{
-				editPaneResized();
+				viewResized();
 			}
 
 		});
@@ -58,13 +62,13 @@ public class SceneBoundedRangeModel<T extends JComponent & ViewportWithSignals &
 			@Override
 			public void zoomChanged()
 			{
-				editPaneZoomChanged();
+				viewZoomChanged();
 			}
 
 			@Override
 			public void viewportChanged()
 			{
-				// ignore
+				viewViewportChanged();
 			}
 
 			@Override
@@ -75,12 +79,17 @@ public class SceneBoundedRangeModel<T extends JComponent & ViewportWithSignals &
 		});
 	}
 
-	protected void editPaneResized()
+	protected void viewResized()
 	{
 		fireListeners();
 	}
 
-	protected void editPaneZoomChanged()
+	protected void viewViewportChanged()
+	{
+		fireListeners();
+	}
+
+	protected void viewZoomChanged()
 	{
 		fireListeners();
 	}
@@ -94,54 +103,40 @@ public class SceneBoundedRangeModel<T extends JComponent & ViewportWithSignals &
 	public int getMinimum()
 	{
 		// logger.debug("getMinimum()");
-		return (int) Math.round(0 - view.getMargin() * view.getZoom());
+		return calculator.getRangeMinimum();
 	}
 
 	@Override
 	public int getMaximum()
 	{
 		// logger.debug("getMaximum()");
-		if (horizontal) {
-			return (int) Math.round((view.getScene().getWidth() + view
-					.getMargin()) * view.getZoom());
-		} else {
-			return (int) Math.round((view.getScene().getHeight() + view
-					.getMargin()) * view.getZoom());
-		}
+		return calculator.getRangeMaximum(horizontal);
 	}
 
 	@Override
 	public int getExtent()
 	{
 		// logger.debug("getExtent()");
-		if (horizontal) {
-			return (int) Math.round(view.getWidth());
-		} else {
-			return (int) Math.round(view.getHeight());
-		}
+		return calculator.getRangeExtent(horizontal);
 	}
 
 	@Override
 	public int getValue()
 	{
 		// logger.debug("getValue()");
-		if (horizontal) {
-			return (int) Math.round(-view.getPositionX() * view.getZoom());
-		} else {
-			return (int) Math.round(-view.getPositionY() * view.getZoom());
-		}
+		return calculator.getRangeValue(horizontal);
 	}
 
 	@Override
 	public void setValue(int newValue)
 	{
-		newValue = Math.min(newValue, getMaximum() - getExtent());
-		newValue = Math.max(newValue, getMinimum());
 		logger.debug("setValue(" + newValue + ")");
+		double viewportOffset = calculator
+				.getViewportOffset(newValue, horizontal);
 		if (horizontal) {
-			view.setPositionX(-newValue / view.getZoom());
+			view.setPositionX(viewportOffset);
 		} else {
-			view.setPositionY(-newValue / view.getZoom());
+			view.setPositionY(viewportOffset);
 		}
 		view.repaint();
 		fireListeners();

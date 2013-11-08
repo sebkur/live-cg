@@ -79,5 +79,9 @@ public class ScrollableView<T extends JComponent & ViewportWithSignals & HasScen
 		GridBagHelper.setGxGy(c, 1, 0);
 		GridBagHelper.setWxWyF(c, 0.0, 1.0, GridBagConstraints.BOTH);
 		add(scrollerV, c);
+
+		PanMouseAdapter<T> panAdapter = new PanMouseAdapter<T>(view);
+		addMouseListener(panAdapter);
+		addMouseMotionListener(panAdapter);
 	}
 }
