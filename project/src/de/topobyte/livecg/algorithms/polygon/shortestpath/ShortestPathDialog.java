@@ -152,7 +152,7 @@ public class ShortestPathDialog implements AlgorithmChangedListener,
 	}
 
 	@Override
-	public void update()
+	public void updateAlgorithmStatus()
 	{
 		slider.setValue(algorithm.getStatus());
 	}

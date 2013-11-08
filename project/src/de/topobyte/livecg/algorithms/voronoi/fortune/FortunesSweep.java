@@ -209,7 +209,7 @@ public class FortunesSweep
 	private void notifyWatchers()
 	{
 		for (AlgorithmWatcher watcher : watchers) {
-			watcher.update();
+			watcher.updateAlgorithmStatus();
 		}
 	}
 

@@ -20,6 +20,6 @@ package de.topobyte.livecg.core;
 public interface AlgorithmWatcher
 {
 
-	public void update();
+	public void updateAlgorithmStatus();
 
 }

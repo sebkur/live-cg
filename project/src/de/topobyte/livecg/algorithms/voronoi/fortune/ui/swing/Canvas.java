@@ -66,7 +66,7 @@ public class Canvas extends JPanel implements AlgorithmWatcher, SizeProvider
 	}
 
 	@Override
-	public void update()
+	public void updateAlgorithmStatus()
 	{
 		repaint();
 	}
@@ -108,7 +108,7 @@ public class Canvas extends JPanel implements AlgorithmWatcher, SizeProvider
 			int y = random.nextInt(getHeight() - marginY * 2) + marginY;
 			algorithm.addSite(new Point(x, y), true);
 		}
-		update();
+		updateAlgorithmStatus();
 	}
 
 }

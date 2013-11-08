@@ -71,7 +71,7 @@ public class SweepControl extends JComponent implements AlgorithmWatcher
 	}
 
 	@Override
-	public void update()
+	public void updateAlgorithmStatus()
 	{
 		repaint();
 	}

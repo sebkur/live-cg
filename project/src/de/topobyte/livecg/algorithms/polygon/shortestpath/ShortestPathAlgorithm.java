@@ -95,7 +95,7 @@ public class ShortestPathAlgorithm
 	private void notifyWatchers()
 	{
 		for (AlgorithmWatcher watcher : watchers) {
-			watcher.update();
+			watcher.updateAlgorithmStatus();
 		}
 	}
 
