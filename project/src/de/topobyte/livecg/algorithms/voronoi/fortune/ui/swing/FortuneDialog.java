@@ -32,7 +32,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
-import de.topobyte.livecg.algorithms.voronoi.fortune.Algorithm;
+import de.topobyte.livecg.algorithms.voronoi.fortune.FortunesSweep;
 import de.topobyte.livecg.algorithms.voronoi.fortune.ui.core.Config;
 import de.topobyte.livecg.algorithms.voronoi.fortune.ui.core.FortunePainter;
 import de.topobyte.livecg.algorithms.voronoi.fortune.ui.swing.action.OpenAction;
@@ -51,7 +51,7 @@ public class FortuneDialog extends JFrame implements Runnable
 	private Color COLOR_SWEEP_CONTROL_BORDER = LiveConfig
 			.getColor("algorithm.voronoi.fortune.colors.sweep.control.border");
 
-	private Algorithm algorithm;
+	private FortunesSweep algorithm;
 	private Canvas canvas;
 	private Controls controls;
 	private Config config;
@@ -85,7 +85,7 @@ public class FortuneDialog extends JFrame implements Runnable
 		setContentPane(main);
 		main.setLayout(new BorderLayout());
 
-		algorithm = new Algorithm();
+		algorithm = new FortunesSweep();
 		config = new Config();
 
 		config.setDrawCircles(true);
@@ -253,7 +253,7 @@ public class FortuneDialog extends JFrame implements Runnable
 	 * Various
 	 */
 
-	public Algorithm getAlgorithm()
+	public FortunesSweep getAlgorithm()
 	{
 		return algorithm;
 	}

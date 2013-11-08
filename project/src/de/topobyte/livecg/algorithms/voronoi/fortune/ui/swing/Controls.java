@@ -27,7 +27,7 @@ import java.util.Map;
 import javax.swing.Icon;
 import javax.swing.JButton;
 
-import de.topobyte.livecg.algorithms.voronoi.fortune.Algorithm;
+import de.topobyte.livecg.algorithms.voronoi.fortune.FortunesSweep;
 import de.topobyte.livecg.util.ImageLoader;
 
 public class Controls extends Panel implements ActionListener
@@ -37,7 +37,7 @@ public class Controls extends Panel implements ActionListener
 
 	private FortuneDialog fortune;
 
-	private Algorithm algorithm;
+	private FortunesSweep algorithm;
 
 	private JButton buttons[];
 
@@ -82,7 +82,7 @@ public class Controls extends Panel implements ActionListener
 
 	private Map<String, Icon> icons = new HashMap<String, Icon>();
 
-	public Controls(FortuneDialog fortune, Algorithm algorithm)
+	public Controls(FortuneDialog fortune, FortunesSweep algorithm)
 	{
 		this.fortune = fortune;
 		this.algorithm = algorithm;

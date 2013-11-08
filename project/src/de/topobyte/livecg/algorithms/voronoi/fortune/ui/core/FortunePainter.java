@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import de.topobyte.livecg.algorithms.voronoi.fortune.Algorithm;
+import de.topobyte.livecg.algorithms.voronoi.fortune.FortunesSweep;
 import de.topobyte.livecg.algorithms.voronoi.fortune.Delaunay;
 import de.topobyte.livecg.algorithms.voronoi.fortune.Voronoi;
 import de.topobyte.livecg.algorithms.voronoi.fortune.arc.AbstractArcNodeVisitor;
@@ -46,11 +46,11 @@ import de.topobyte.livecg.datastructures.dcel.DcelPainter;
 public class FortunePainter extends BasicAlgorithmPainter
 {
 
-	private Algorithm algorithm;
+	private FortunesSweep algorithm;
 	private Config config;
 	private DcelPainter dcelPainter;
 
-	public FortunePainter(Algorithm algorithm, Config config, Painter painter)
+	public FortunePainter(FortunesSweep algorithm, Config config, Painter painter)
 	{
 		super(painter);
 		this.algorithm = algorithm;

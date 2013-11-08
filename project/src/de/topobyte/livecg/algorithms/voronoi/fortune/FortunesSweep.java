@@ -44,9 +44,9 @@ import de.topobyte.livecg.core.geometry.dcel.Vertex;
 import de.topobyte.livecg.core.geometry.geom.Coordinate;
 import de.topobyte.livecg.util.Stack;
 
-public class Algorithm
+public class FortunesSweep
 {
-	private Logger logger = LoggerFactory.getLogger(Algorithm.class);
+	private Logger logger = LoggerFactory.getLogger(FortunesSweep.class);
 
 	private static final int PLAY_N_PIXELS_BEYOND_SCREEN = 1000;
 
@@ -97,7 +97,7 @@ public class Algorithm
 	 */
 	private List<AlgorithmWatcher> watchers = new ArrayList<AlgorithmWatcher>();
 
-	public Algorithm()
+	public FortunesSweep()
 	{
 		sites = new ArrayList<Point>();
 		voronoi = new Voronoi();

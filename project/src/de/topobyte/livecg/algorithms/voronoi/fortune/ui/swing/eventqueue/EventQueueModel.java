@@ -19,7 +19,7 @@ package de.topobyte.livecg.algorithms.voronoi.fortune.ui.swing.eventqueue;
 
 import javax.swing.AbstractListModel;
 
-import de.topobyte.livecg.algorithms.voronoi.fortune.Algorithm;
+import de.topobyte.livecg.algorithms.voronoi.fortune.FortunesSweep;
 import de.topobyte.livecg.algorithms.voronoi.fortune.events.CirclePoint;
 import de.topobyte.livecg.algorithms.voronoi.fortune.events.EventPoint;
 import de.topobyte.livecg.algorithms.voronoi.fortune.events.EventQueue;
@@ -57,10 +57,10 @@ public class EventQueueModel extends AbstractListModel implements
 
 	}
 
-	private Algorithm algorithm;
+	private FortunesSweep algorithm;
 	private EventQueue copy = null;
 
-	public EventQueueModel(Algorithm algorithm)
+	public EventQueueModel(FortunesSweep algorithm)
 	{
 		this.algorithm = algorithm;
 		algorithm.getEventQueue().addEventQueueListener(this);

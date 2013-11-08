@@ -34,13 +34,13 @@ public class TestFortunesSweep
 	public static void main(String[] args) throws IOException,
 			ParserConfigurationException, SAXException
 	{
-		Logger.getLogger(Algorithm.class.getPackage().getName()).setLevel(
+		Logger.getLogger(FortunesSweep.class.getPackage().getName()).setLevel(
 				Level.DEBUG);
 		// Logger.getLogger(Algorithm.class).setLevel(Level.DEBUG);
 		// Logger.getLogger(HistoryEventQueue.class).setLevel(Level.DEBUG);
 
 		FortuneDialog dialog = new FortuneDialog();
-		Algorithm algorithm = dialog.getAlgorithm();
+		FortunesSweep algorithm = dialog.getAlgorithm();
 
 		// String path = "res/presets/voronoi/Points1.geom";
 		// ContentReader contentReader = new ContentReader();

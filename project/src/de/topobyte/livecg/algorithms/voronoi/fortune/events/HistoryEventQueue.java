@@ -25,7 +25,7 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.topobyte.livecg.algorithms.voronoi.fortune.Algorithm;
+import de.topobyte.livecg.algorithms.voronoi.fortune.FortunesSweep;
 import de.topobyte.livecg.algorithms.voronoi.fortune.events.EventQueueModification.Type;
 
 public class HistoryEventQueue extends EventQueue
@@ -35,9 +35,9 @@ public class HistoryEventQueue extends EventQueue
 
 	private Map<EventPoint, List<EventQueueModification>> modifications = new HashMap<EventPoint, List<EventQueueModification>>();
 
-	private Algorithm algorithm;
+	private FortunesSweep algorithm;
 
-	public HistoryEventQueue(Algorithm algorithm)
+	public HistoryEventQueue(FortunesSweep algorithm)
 	{
 		this.algorithm = algorithm;
 	}

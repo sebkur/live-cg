@@ -25,14 +25,14 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import de.topobyte.livecg.algorithms.voronoi.fortune.Algorithm;
+import de.topobyte.livecg.algorithms.voronoi.fortune.FortunesSweep;
 
 public class EventQueueDialog extends JDialog
 {
 
 	private static final long serialVersionUID = 1L;
 
-	public EventQueueDialog(Window parent, Algorithm algorithm)
+	public EventQueueDialog(Window parent, FortunesSweep algorithm)
 	{
 		super(parent, "Event Queue");
 

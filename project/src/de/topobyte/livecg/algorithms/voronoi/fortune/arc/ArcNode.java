@@ -21,7 +21,7 @@ package de.topobyte.livecg.algorithms.voronoi.fortune.arc;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.topobyte.livecg.algorithms.voronoi.fortune.Algorithm;
+import de.topobyte.livecg.algorithms.voronoi.fortune.FortunesSweep;
 import de.topobyte.livecg.algorithms.voronoi.fortune.events.CirclePoint;
 import de.topobyte.livecg.algorithms.voronoi.fortune.events.EventPoint;
 import de.topobyte.livecg.algorithms.voronoi.fortune.events.HistoryEventQueue;
@@ -115,7 +115,7 @@ public class ArcNode extends ParabolaPoint
 		}
 	}
 
-	public void completeTrace(Algorithm algorithm, Point point,
+	public void completeTrace(FortunesSweep algorithm, Point point,
 			CirclePoint circlePoint)
 	{
 		if (startOfTrace != null) {

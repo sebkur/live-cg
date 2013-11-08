@@ -26,7 +26,7 @@ import java.util.Random;
 
 import javax.swing.JPanel;
 
-import de.topobyte.livecg.algorithms.voronoi.fortune.Algorithm;
+import de.topobyte.livecg.algorithms.voronoi.fortune.FortunesSweep;
 import de.topobyte.livecg.algorithms.voronoi.fortune.AlgorithmWatcher;
 import de.topobyte.livecg.algorithms.voronoi.fortune.geometry.Point;
 import de.topobyte.livecg.algorithms.voronoi.fortune.ui.core.Config;
@@ -39,11 +39,11 @@ public class Canvas extends JPanel implements AlgorithmWatcher, SizeProvider
 
 	private static final long serialVersionUID = 461591430129084653L;
 
-	private Algorithm algorithm;
+	private FortunesSweep algorithm;
 	private FortunePainter algorithmPainter;
 	private AwtPainter painter;
 
-	public Canvas(Algorithm algorithm, Config config, int width, int height)
+	public Canvas(FortunesSweep algorithm, Config config, int width, int height)
 	{
 		this.algorithm = algorithm;
 

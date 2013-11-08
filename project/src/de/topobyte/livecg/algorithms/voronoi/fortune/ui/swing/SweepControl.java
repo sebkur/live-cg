@@ -26,7 +26,7 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.JComponent;
 
-import de.topobyte.livecg.algorithms.voronoi.fortune.Algorithm;
+import de.topobyte.livecg.algorithms.voronoi.fortune.FortunesSweep;
 import de.topobyte.livecg.algorithms.voronoi.fortune.AlgorithmWatcher;
 import de.topobyte.livecg.core.config.LiveConfig;
 import de.topobyte.livecg.core.painting.Color;
@@ -41,13 +41,13 @@ public class SweepControl extends JComponent implements AlgorithmWatcher
 	private Color COLOR_SWEEP_CONTROL_HANDLE = LiveConfig
 			.getColor("algorithm.voronoi.fortune.colors.sweep.control.handle");
 
-	private Algorithm algorithm;
+	private FortunesSweep algorithm;
 
 	private int height = 30;
 	private int ch = 20;
 	private int cw = 20;
 
-	public SweepControl(Algorithm algorithm)
+	public SweepControl(FortunesSweep algorithm)
 	{
 		this.algorithm = algorithm;
 		setPreferredSize(new Dimension(getPreferredSize().width, height));
