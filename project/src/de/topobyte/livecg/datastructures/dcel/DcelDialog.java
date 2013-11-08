@@ -40,7 +40,7 @@ public class DcelDialog
 
 	public DcelDialog(Content content)
 	{
-		frame = new JFrame();
+		frame = new JFrame("DCEL");
 
 		DCEL dcel = DcelConverter.convert(content);
 
