@@ -17,6 +17,7 @@
  */
 package de.topobyte.livecg.algorithms.polygon.shortestpath;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -26,6 +27,7 @@ import de.topobyte.livecg.algorithms.polygon.monotonepieces.Diagonal;
 import de.topobyte.livecg.algorithms.polygon.monotonepieces.DiagonalUtil;
 import de.topobyte.livecg.algorithms.polygon.monotonepieces.SplitResult;
 import de.topobyte.livecg.algorithms.polygon.monotonepieces.TriangulationOperation;
+import de.topobyte.livecg.core.AlgorithmWatcher;
 import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.core.geometry.geom.CrossingsTest;
 import de.topobyte.livecg.core.geometry.geom.GeomMath;
@@ -60,6 +62,12 @@ public class ShortestPathAlgorithm
 	private Node left;
 	private Node right;
 
+	/*
+	 * Watchers that need to be notified once the algorithm moved to a new
+	 * state.
+	 */
+	private List<AlgorithmWatcher> watchers = new ArrayList<AlgorithmWatcher>();
+
 	public ShortestPathAlgorithm(Polygon polygon, Node start, Node target)
 	{
 		this.polygon = polygon;
@@ -72,6 +80,23 @@ public class ShortestPathAlgorithm
 		graph = splitResult.getGraph();
 
 		setup();
+	}
+
+	public void addWatcher(AlgorithmWatcher watcher)
+	{
+		watchers.add(watcher);
+	}
+
+	public void removeWatcher(AlgorithmWatcher watcher)
+	{
+		watchers.remove(watcher);
+	}
+
+	private void notifyWatchers()
+	{
+		for (AlgorithmWatcher watcher : watchers) {
+			watcher.update();
+		}
 	}
 
 	public void setStart(Node start)
@@ -259,6 +284,7 @@ public class ShortestPathAlgorithm
 			this.status = status;
 			computeUpTo(status);
 		}
+		notifyWatchers();
 	}
 
 	private Data data;

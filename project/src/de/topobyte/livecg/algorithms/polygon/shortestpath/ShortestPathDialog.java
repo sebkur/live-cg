@@ -31,13 +31,15 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import de.topobyte.livecg.core.AlgorithmWatcher;
 import de.topobyte.livecg.core.export.ExportUtil;
 import de.topobyte.livecg.core.geometry.geom.BoundingBoxes;
 import de.topobyte.livecg.core.geometry.geom.Rectangle;
 import de.topobyte.livecg.core.geometry.geom.Rectangles;
 import de.topobyte.livecg.core.scrolling.ScrollableView;
 
-public class ShortestPathDialog implements AlgorithmChangedListener
+public class ShortestPathDialog implements AlgorithmChangedListener,
+		AlgorithmWatcher
 {
 
 	private JFrame frame;
@@ -70,7 +72,7 @@ public class ShortestPathDialog implements AlgorithmChangedListener
 
 		ScrollableView<ShortestPathPanel> scrollableView = new ScrollableView<ShortestPathPanel>(
 				spp);
-		
+
 		scrollableView.addMouseListener(pickNodesListener);
 		scrollableView.addMouseMotionListener(pickNodesListener);
 
@@ -83,6 +85,8 @@ public class ShortestPathDialog implements AlgorithmChangedListener
 		slider.setMajorTickSpacing(1);
 		slider.setValue(0);
 		slider.setBorder(new TitledBorder("Diagonals"));
+
+		algorithm.addWatcher(this);
 
 		Box north = new Box(BoxLayout.Y_AXIS);
 		settings.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -144,6 +148,12 @@ public class ShortestPathDialog implements AlgorithmChangedListener
 	public void algorithmChanged()
 	{
 		slider.setMaximum(algorithm.getNumberOfSteps());
+	}
+
+	@Override
+	public void update()
+	{
+		slider.setValue(algorithm.getStatus());
 	}
 
 }
