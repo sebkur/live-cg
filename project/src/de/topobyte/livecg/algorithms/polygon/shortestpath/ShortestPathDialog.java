@@ -31,6 +31,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import de.topobyte.livecg.core.AlgorithmChangedListener;
 import de.topobyte.livecg.core.AlgorithmWatcher;
 import de.topobyte.livecg.core.export.ExportUtil;
 import de.topobyte.livecg.core.geometry.geom.BoundingBoxes;
