@@ -67,11 +67,12 @@ public class ShortestPathDialog implements AlgorithmChangedListener
 		spp = new ShortestPathPanel(algorithm, config);
 		PickNodesListener pickNodesListener = new PickNodesListener(spp,
 				algorithmMonitor);
-		spp.addMouseListener(pickNodesListener);
-		spp.addMouseMotionListener(pickNodesListener);
 
 		ScrollableView<ShortestPathPanel> scrollableView = new ScrollableView<ShortestPathPanel>(
 				spp);
+		
+		scrollableView.addMouseListener(pickNodesListener);
+		scrollableView.addMouseMotionListener(pickNodesListener);
 
 		Settings settings = new Settings(spp, config);
 
