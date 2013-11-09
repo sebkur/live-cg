@@ -20,7 +20,7 @@ package de.topobyte.livecg.algorithms.polygon.shortestpath;
 public class Config
 {
 
-	private boolean drawDualGraph = true;
+	private boolean drawDualGraph = false;
 	private boolean drawNodeNumbers = false;
 
 	public boolean isDrawDualGraph()

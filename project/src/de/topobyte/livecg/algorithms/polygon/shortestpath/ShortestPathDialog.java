@@ -62,7 +62,7 @@ public class ShortestPathDialog implements AlgorithmChangedListener,
 		main.setLayout(new BorderLayout());
 
 		config = new Config();
-		config.setDrawDualGraph(true);
+		config.setDrawDualGraph(false);
 
 		AlgorithmMonitor algorithmMonitor = new AlgorithmMonitor();
 		algorithmMonitor.addAlgorithmChangedListener(this);
