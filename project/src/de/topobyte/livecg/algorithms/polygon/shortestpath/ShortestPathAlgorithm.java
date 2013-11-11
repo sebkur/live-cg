@@ -574,4 +574,24 @@ public class ShortestPathAlgorithm
 					notOnChain.getCoordinate());
 		}
 	}
+
+	public Node getNextNode()
+	{
+		Diagonal next = nextDiagonal();
+		return notYetOnChain(next);
+	}
+
+	public Node getNthNodeOfFunnelTraversal(int s)
+	{
+		Diagonal next = nextDiagonal();
+		Side on = sideOfNextNode(next);
+		int lengthOfFirstPath = data.getFunnelLength(on);
+		if (s <= lengthOfFirstPath) {
+			return data.get(on, lengthOfFirstPath - s);
+		}
+		if (s == lengthOfFirstPath + 1) {
+			return data.getApex();
+		}
+		return data.get(other(on), s - lengthOfFirstPath - 2);
+	}
 }

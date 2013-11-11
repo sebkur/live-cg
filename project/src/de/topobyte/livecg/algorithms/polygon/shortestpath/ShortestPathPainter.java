@@ -99,6 +99,11 @@ public class ShortestPathPainter extends TransformingAlgorithmPainter
 			.getNumber(q("width.dual_graph"));
 	private double LINE_WIDTH_PATH = LiveConfig.getNumber(q("width.path"));
 
+	private Color COLOR_NODE_HIGHLIGHT = LiveConfig
+			.getColor(qc("node_highlight"));
+	private double LINE_WIDTH_NODE_HIGHLIGHT = LiveConfig
+			.getNumber(q("width.node_highlight"));
+
 	private ShortestPathAlgorithm algorithm;
 	private Config config;
 
@@ -253,6 +258,27 @@ public class ShortestPathPainter extends TransformingAlgorithmPainter
 			if (apexVisible) {
 				painter.setColor(COLOR_APEX);
 				painter.fill(ShapeUtil.createArc(t.getX(), t.getY(), SIZE_APEX));
+			}
+		}
+
+		/*
+		 * Substatus
+		 */
+
+		painter.setStrokeWidth(LINE_WIDTH_NODE_HIGHLIGHT);
+		if (data != null) {
+			int status = algorithm.getStatus();
+			int steps = algorithm.getNumberOfSteps();
+			int subStatus = algorithm.getSubStatus();
+			if (status != steps - 1 && subStatus != 0) {
+				Node next = algorithm.getNextNode();
+				Node candiate = algorithm
+						.getNthNodeOfFunnelTraversal(subStatus);
+				Coordinate tn = transformer.transform(next.getCoordinate());
+				Coordinate tc = transformer.transform(candiate.getCoordinate());
+				painter.setColor(COLOR_NODE_HIGHLIGHT);
+				painter.drawCircle(tn.getX(), tn.getY(), 8);
+				painter.drawCircle(tc.getX(), tc.getY(), 8);
 			}
 		}
 
