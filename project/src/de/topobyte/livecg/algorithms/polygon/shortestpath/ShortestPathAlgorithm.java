@@ -62,6 +62,9 @@ public class ShortestPathAlgorithm
 	private Node left;
 	private Node right;
 
+	private Data data;
+	private Side currentChain;
+
 	/*
 	 * Watchers that need to be notified once the algorithm moved to a new
 	 * state.
@@ -278,86 +281,64 @@ public class ShortestPathAlgorithm
 		return status;
 	}
 
-	public void setStatus(int status)
-	{
-		if (this.status != status) {
-			this.status = status;
-			computeUpTo(status);
-		}
-		notifyWatchers();
-	}
-
-	private Data data;
-	private Side currentChain;
-
 	public Data getData()
 	{
 		return data;
 	}
 
-	private void computeUpTo(int diagonal)
+	public void setStatus(int status)
 	{
-		if (diagonal == 0) {
-			data = null;
+		if (status == this.status) {
 			return;
 		}
+		if (status == 0) {
+			data = null;
+			this.status = 0;
+		} else if (status > this.status) {
+			computeUpTo(status);
+		} else if (status < this.status) {
+			data = null;
+			this.status = 0;
+			computeUpTo(status);
+		}
+		notifyWatchers();
+	}
 
-		// Initialize data structures
-		data = new Data(start, left, right);
+	private void computeUpTo(int diagonal)
+	{
+		if (status == 0) {
+			// Initialize data structures
+			data = new Data(start, left, right);
+			status = 1;
 
-		// Handle the case with start and target lying in the same triangle
-		if (triangleStart == triangleTarget) {
-			data.appendCommon(target);
-			data.clear(Side.LEFT);
-			data.clear(Side.RIGHT);
-			return;
+			// Handle the case with start and target lying in the same triangle
+			if (triangleStart == triangleTarget) {
+				data.appendCommon(target);
+				data.clear(Side.LEFT);
+				data.clear(Side.RIGHT);
+				return;
+			}
 		}
 
 		// Main algorithm loop
 		List<Diagonal> diagonals = sleeve.getDiagonals();
-		for (int i = 2; i <= diagonals.size() + 1 && i <= diagonal; i++) {
-			logger.debug("Diagonal " + i);
-			Diagonal d;
-			if (i <= diagonals.size()) {
-				d = diagonals.get(i - 1);
-			} else {
-				Diagonal last = diagonals.get(diagonals.size() - 1);
-				// Add a final diagonal that extends the right chain
-				if (last.getA() == data.getLast(Side.LEFT)) {
-					d = new Diagonal(last.getA(), target);
-				} else {
-					d = new Diagonal(last.getB(), target);
-				}
-			}
+		while (status <= diagonals.size() && status < diagonal) {
+			logger.debug("Diagonal " + status);
+			Diagonal next = nextDiagonal();
+			currentChain = sideOfNextNode(next);
+			logger.debug("next node is on " + currentChain + " chain");
 			// Find node of diagonal that is not node of d_(i-1)
-			Node left = data.getLast(Side.LEFT);
-			Node right = data.getLast(Side.RIGHT);
-			Node notOnChain = d.getA();
-			Node alreadyOnChain = d.getB();
-			if (d.getA() == left || d.getA() == right) {
-				notOnChain = d.getB();
-				alreadyOnChain = d.getA();
-			}
-			if (alreadyOnChain == left) {
-				// Next node is on right chain
-				logger.debug("next node is on right chain");
-				currentChain = Side.RIGHT;
-				updateFunnel(notOnChain, Side.RIGHT, Side.LEFT);
-			} else if (alreadyOnChain == right) {
-				// Next node is on left chain
-				logger.debug("next node is on left chain");
-				currentChain = Side.LEFT;
-				updateFunnel(notOnChain, Side.LEFT, Side.RIGHT);
-			} else {
-				logger.error("next node could not be found on any chain");
-			}
+			Node notYetOnChain = notYetOnChain(next);
+			updateFunnel(notYetOnChain, currentChain);
 			logger.debug("left path length: " + data.getFunnelLength(Side.LEFT));
 			logger.debug("right path length: "
 					+ data.getFunnelLength(Side.RIGHT));
+			status += 1;
 		}
 
 		// Make the current path the overall shortest path
 		if (diagonal >= diagonals.size() + 2) {
+			status = diagonal;
 			for (int i = 0; i < data.getFunnelLength(currentChain);) {
 				data.appendCommon(data.removeFirst(currentChain));
 			}
@@ -365,8 +346,58 @@ public class ShortestPathAlgorithm
 		}
 	}
 
-	private void updateFunnel(Node notOnChain, Side on, Side other)
+	private Diagonal nextDiagonal()
 	{
+		List<Diagonal> diagonals = sleeve.getDiagonals();
+		if (status < diagonals.size()) {
+			return diagonals.get(status);
+		} else {
+			Diagonal last = diagonals.get(diagonals.size() - 1);
+			// Add a final diagonal that extends the right chain
+			if (last.getA() == data.getLast(Side.LEFT)) {
+				return new Diagonal(last.getA(), target);
+			} else {
+				return new Diagonal(last.getB(), target);
+			}
+		}
+	}
+
+	private Side other(Side side)
+	{
+		if (side == Side.LEFT) {
+			return Side.RIGHT;
+		}
+		return Side.LEFT;
+	}
+
+	private Side sideOfNextNode(Diagonal d)
+	{
+		Node left = data.getLast(Side.LEFT);
+		Node right = data.getLast(Side.RIGHT);
+		if (d.getA() == left || d.getB() == left) {
+			return Side.RIGHT;
+		} else if (d.getA() == right || d.getB() == right) {
+			return Side.LEFT;
+		} else {
+			return null;
+		}
+	}
+
+	// Find node of diagonal that is not node of d_(i-1)
+	private Node notYetOnChain(Diagonal diagonal)
+	{
+		Node endOfLeftPath = data.getLast(Side.LEFT);
+		Node endOfRightPath = data.getLast(Side.RIGHT);
+		if (diagonal.getA() == endOfLeftPath
+				|| diagonal.getA() == endOfRightPath) {
+			return diagonal.getB();
+		}
+		return diagonal.getA();
+	}
+
+	private void updateFunnel(Node notOnChain, Side on)
+	{
+		Side other = other(on);
 		boolean found = false;
 		if (data.getFunnelLength(on) == 0) {
 			logger.debug("case1: path1 has length 1");
@@ -417,6 +448,62 @@ public class ShortestPathAlgorithm
 			for (int k = 0; k < data.getFunnelLength(other);) {
 				data.appendCommon(data.removeFirst(other));
 			}
+		}
+	}
+
+	private void numberOfStepsToUpdateFunnel(Node notOnChain, Side on)
+	{
+		Side other = other(on);
+		boolean found = false;
+		if (data.getFunnelLength(on) == 0) {
+			logger.debug("case1: path1 has length 1");
+			// data.append(on, notOnChain);
+			found = true;
+		}
+		if (!found) {
+			logger.debug("case2: walking backwards on path1");
+			for (int k = data.getFunnelLength(on) - 1; k >= 0; k--) {
+				Node pn1 = k == 0 ? data.getApex() : data.get(on, k - 1);
+				Node pn2 = data.get(on, k);
+				boolean turnOk = turnOk(pn1, pn2, notOnChain, on);
+				if (!turnOk) {
+					// data.removeLast(on);
+				} else {
+					found = true;
+					// data.append(on, notOnChain);
+					break;
+				}
+			}
+		}
+		if (!found) {
+			logger.debug("case3: walking forward on path2");
+			for (int k = -1; k < data.getFunnelLength(other) - 1; k++) {
+				Node pn1 = k == -1 ? data.getApex() : data.get(other, k);
+				Node pn2 = data.get(other, k + 1);
+				boolean turnOk = turnOk(pn1, pn2, notOnChain, on);
+				if (turnOk) {
+					logger.debug("turn is ok with k=" + k);
+					found = true;
+					// Node w = pn1;
+					if (k == -1) {
+						// data.append(on, notOnChain);
+					} else {
+						// data.append(on, notOnChain);
+						// for (int l = 0; l <= k; l++) {
+						// data.appendCommon(data.removeFirst(other));
+						// }
+						// data.appendCommon(w);
+					}
+					break;
+				}
+			}
+		}
+		if (!found) {
+			logger.debug("case4: moving apex to last node of path2");
+			// data.append(on, notOnChain);
+			// for (int k = 0; k < data.getFunnelLength(other);) {
+			// data.appendCommon(data.removeFirst(other));
+			// }
 		}
 	}
 

@@ -158,5 +158,4 @@ public class ShortestPathDialog implements AlgorithmChangedListener,
 	{
 		slider.setValue(algorithm.getStatus());
 	}
-
 }
