@@ -32,6 +32,11 @@ public class Data
 	private List<Node> rightPath = new ArrayList<Node>();
 	private Map<Side, List<Node>> funnelChains = new HashMap<Side, List<Node>>();
 
+	private Data()
+	{
+		// intentionally empty
+	}
+
 	public Data(Node start, Node left, Node right)
 	{
 		commonPath.add(start);
@@ -39,6 +44,27 @@ public class Data
 		rightPath.add(right);
 		funnelChains.put(Side.LEFT, leftPath);
 		funnelChains.put(Side.RIGHT, rightPath);
+	}
+
+	@Override
+	public Data clone()
+	{
+		Data copy = new Data();
+		copy.commonPath = clone(commonPath);
+		copy.leftPath = clone(leftPath);
+		copy.rightPath = clone(rightPath);
+		copy.funnelChains.put(Side.LEFT, copy.leftPath);
+		copy.funnelChains.put(Side.RIGHT, copy.rightPath);
+		return copy;
+	}
+
+	private List<Node> clone(List<Node> list)
+	{
+		List<Node> copy = new ArrayList<Node>();
+		for (Node n : list) {
+			copy.add(n);
+		}
+		return copy;
 	}
 
 	public Node getApex()

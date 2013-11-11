@@ -56,14 +56,16 @@ public class ShortestPathAlgorithm
 	private boolean nodeHitTarget = false;
 
 	private Sleeve sleeve;
-	private int status;
 	private int numberOfSteps;
 
+	// First diagonal
 	private Node left;
 	private Node right;
 
+	private int status;
 	private Data data;
-	private Side currentChain;
+
+	private List<Data> history = new ArrayList<Data>();
 
 	/*
 	 * Watchers that need to be notified once the algorithm moved to a new
@@ -294,12 +296,15 @@ public class ShortestPathAlgorithm
 		if (status == 0) {
 			data = null;
 			this.status = 0;
+			history.clear();
 		} else if (status > this.status) {
 			computeUpTo(status);
 		} else if (status < this.status) {
-			data = null;
-			this.status = 0;
-			computeUpTo(status);
+			data = history.get(status - 1).clone();
+			while (history.size() > status) {
+				history.remove(history.size() - 1);
+			}
+			this.status = status;
 		}
 		notifyWatchers();
 	}
@@ -309,6 +314,7 @@ public class ShortestPathAlgorithm
 		if (status == 0) {
 			// Initialize data structures
 			data = new Data(start, left, right);
+			history.add(data.clone());
 			status = 1;
 
 			// Handle the case with start and target lying in the same triangle
@@ -325,7 +331,7 @@ public class ShortestPathAlgorithm
 		while (status <= diagonals.size() && status < diagonal) {
 			logger.debug("Diagonal " + status);
 			Diagonal next = nextDiagonal();
-			currentChain = sideOfNextNode(next);
+			Side currentChain = sideOfNextNode(next);
 			logger.debug("next node is on " + currentChain + " chain");
 			// Find node of diagonal that is not node of d_(i-1)
 			Node notYetOnChain = notYetOnChain(next);
@@ -333,16 +339,22 @@ public class ShortestPathAlgorithm
 			logger.debug("left path length: " + data.getFunnelLength(Side.LEFT));
 			logger.debug("right path length: "
 					+ data.getFunnelLength(Side.RIGHT));
+			history.add(data.clone());
 			status += 1;
 		}
 
 		// Make the current path the overall shortest path
 		if (diagonal >= diagonals.size() + 2) {
-			status = diagonal;
+			Side currentChain = Side.LEFT;
+			if (data.getLast(Side.RIGHT) == target) {
+				currentChain = Side.RIGHT;
+			}
 			for (int i = 0; i < data.getFunnelLength(currentChain);) {
 				data.appendCommon(data.removeFirst(currentChain));
 			}
 			data.clear(Side.other(currentChain));
+			history.add(data.clone());
+			status = diagonal;
 		}
 	}
 
