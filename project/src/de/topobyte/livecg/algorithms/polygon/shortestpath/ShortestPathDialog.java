@@ -51,7 +51,8 @@ public class ShortestPathDialog implements AlgorithmChangedListener,
 	private Config config;
 	private ShortestPathAlgorithm algorithm;
 
-	private JSlider slider;
+	private JSlider sliderDiagonals;
+	private JSlider sliderFunnel;
 	private ShortestPathPanel spp;
 
 	public ShortestPathDialog(ShortestPathAlgorithm algorithm)
@@ -83,19 +84,27 @@ public class ShortestPathDialog implements AlgorithmChangedListener,
 		Settings settings = new Settings(algorithm, spp, config);
 
 		int max = algorithm.getNumberOfSteps();
-		slider = new JSlider(0, max);
-		slider.setPaintTicks(true);
-		slider.setMajorTickSpacing(1);
-		slider.setValue(0);
-		slider.setBorder(new TitledBorder("Diagonals"));
+		sliderDiagonals = new JSlider(0, max);
+		sliderDiagonals.setPaintTicks(true);
+		sliderDiagonals.setMajorTickSpacing(1);
+		sliderDiagonals.setValue(0);
+		sliderDiagonals.setBorder(new TitledBorder("Diagonals"));
+
+		sliderFunnel = new JSlider(0, 1);
+		sliderFunnel.setPaintTicks(true);
+		sliderFunnel.setMajorTickSpacing(1);
+		sliderFunnel.setValue(0);
+		sliderFunnel.setBorder(new TitledBorder("Funnel"));
 
 		algorithm.addWatcher(this);
 
 		Box north = new Box(BoxLayout.Y_AXIS);
 		settings.setAlignmentX(Component.LEFT_ALIGNMENT);
-		slider.setAlignmentX(Component.LEFT_ALIGNMENT);
+		sliderDiagonals.setAlignmentX(Component.LEFT_ALIGNMENT);
+		sliderFunnel.setAlignmentX(Component.LEFT_ALIGNMENT);
 		north.add(settings);
-		north.add(slider);
+		north.add(sliderDiagonals);
+		north.add(sliderFunnel);
 
 		main.add(north, BorderLayout.NORTH);
 		main.add(scrollableView, BorderLayout.CENTER);
@@ -122,10 +131,10 @@ public class ShortestPathDialog implements AlgorithmChangedListener,
 		frame.setJMenuBar(menu);
 
 		frame.setLocationByPlatform(true);
-		frame.setSize(800, 500);
+		frame.setSize(800, 700);
 		frame.setVisible(true);
 
-		slider.addChangeListener(new ChangeListener() {
+		sliderDiagonals.addChangeListener(new ChangeListener() {
 
 			@Override
 			public void stateChanged(ChangeEvent e)
@@ -144,7 +153,7 @@ public class ShortestPathDialog implements AlgorithmChangedListener,
 
 	protected void setDiagonal()
 	{
-		int value = slider.getValue();
+		int value = sliderDiagonals.getValue();
 		if (value != algorithm.getStatus()) {
 			algorithm.setStatus(value);
 			spp.repaint();
@@ -154,16 +163,21 @@ public class ShortestPathDialog implements AlgorithmChangedListener,
 	@Override
 	public void algorithmChanged()
 	{
-		slider.setMaximum(algorithm.getNumberOfSteps());
+		sliderDiagonals.setMaximum(algorithm.getNumberOfSteps());
 	}
 
 	@Override
 	public void updateAlgorithmStatus()
 	{
-		slider.setValue(algorithm.getStatus());
+		sliderDiagonals.setValue(algorithm.getStatus());
 		System.out.println("Diagonal: " + algorithm.getStatus());
-		System.out.println("Steps to update funnel: "
-				+ algorithm.numberOfStepsToUpdateFunnel());
+
+		int nSteps = algorithm.numberOfStepsToUpdateFunnel();
+		System.out.println("Steps to update funnel: " + nSteps);
+
+		sliderFunnel.setValue(0);
+		sliderFunnel.setMaximum(nSteps);
+
 		List<Step> steps = algorithm.stepsToUpdateFunnel();
 		for (Step step : steps) {
 			if (step instanceof RepeatedStep) {
