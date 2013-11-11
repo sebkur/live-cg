@@ -50,13 +50,18 @@ public class Settings extends JToolBar implements ItemListener,
 
 	private static final String TEXT_DRAW_DUAL_GRAPH = "Dual Graph";
 
+	private static final String TEXT_PREVIOUS_DIAG = "Previous diagonal";
+	private static final String TEXT_NEXT_DIAG = "Next diagonal";
 	private static final String TEXT_PREVIOUS = "Previous step";
 	private static final String TEXT_NEXT = "Next step";
 
-	private static final String[] names = { TEXT_PREVIOUS, TEXT_NEXT };
+	private static final String[] names = { TEXT_PREVIOUS_DIAG, TEXT_NEXT_DIAG,
+			TEXT_PREVIOUS, TEXT_NEXT };
 	private static final String[] images = {
 			"res/images/24x24/media-skip-backward.png",
-			"res/images/24x24/media-skip-forward.png" };
+			"res/images/24x24/media-skip-forward.png",
+			"res/images/24x24/media-seek-backward.png",
+			"res/images/24x24/media-seek-forward.png" };
 
 	public Settings(ShortestPathAlgorithm algorithm, ShortestPathPanel spp,
 			Config config)
@@ -119,20 +124,49 @@ public class Settings extends JToolBar implements ItemListener,
 
 	protected void control(String name)
 	{
-		if (name.equals(TEXT_PREVIOUS)) {
-			int status = algorithm.getStatus();
-			if (status > 0) {
-				algorithm.setSubStatus(0);
-				algorithm.setStatus(status - 1);
+		if (name.equals(TEXT_PREVIOUS_DIAG)) {
+			tryPreviousDiagonal();
+		} else if (name.equals(TEXT_NEXT_DIAG)) {
+			tryNextDiagonal();
+		} else if (name.equals(TEXT_PREVIOUS)) {
+			int subStatus = algorithm.getSubStatus();
+			if (subStatus > 0) {
+				algorithm.setSubStatus(subStatus - 1);
 				spp.repaint();
+			} else if (subStatus == 0) {
+				tryPreviousDiagonal();
+				int nostuf = algorithm.numberOfStepsToUpdateFunnel();
+				algorithm.setSubStatus(nostuf);
 			}
 		} else if (name.equals(TEXT_NEXT)) {
-			int status = algorithm.getStatus();
-			if (status < algorithm.getNumberOfSteps()) {
-				algorithm.setSubStatus(0);
-				algorithm.setStatus(status + 1);
+			int subStatus = algorithm.getSubStatus();
+			int nostuf = algorithm.numberOfStepsToUpdateFunnel();
+			if (subStatus < nostuf) {
+				algorithm.setSubStatus(subStatus + 1);
 				spp.repaint();
+			} else if (subStatus == nostuf) {
+				tryNextDiagonal();
 			}
+		}
+	}
+
+	private void tryPreviousDiagonal()
+	{
+		int status = algorithm.getStatus();
+		if (status > 0) {
+			algorithm.setSubStatus(0);
+			algorithm.setStatus(status - 1);
+			spp.repaint();
+		}
+	}
+
+	private void tryNextDiagonal()
+	{
+		int status = algorithm.getStatus();
+		if (status < algorithm.getNumberOfSteps()) {
+			algorithm.setSubStatus(0);
+			algorithm.setStatus(status + 1);
+			spp.repaint();
 		}
 	}
 
@@ -144,9 +178,13 @@ public class Settings extends JToolBar implements ItemListener,
 
 	private void setButtonStatesDependingOnAlgorithmStatus()
 	{
-		boolean prev = algorithm.getStatus() != 0;
-		controlMap.get(TEXT_PREVIOUS).setEnabled(prev);
 		boolean next = algorithm.getStatus() != algorithm.getNumberOfSteps();
+		boolean prevDiagonal = algorithm.getStatus() != 0;
+		boolean prevStep = algorithm.getStatus() != 0
+				|| algorithm.getSubStatus() != 0;
+		controlMap.get(TEXT_PREVIOUS_DIAG).setEnabled(prevDiagonal);
+		controlMap.get(TEXT_NEXT_DIAG).setEnabled(next);
+		controlMap.get(TEXT_PREVIOUS).setEnabled(prevStep);
 		controlMap.get(TEXT_NEXT).setEnabled(next);
 	}
 }
