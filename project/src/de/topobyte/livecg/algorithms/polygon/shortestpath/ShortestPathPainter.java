@@ -155,6 +155,10 @@ public class ShortestPathPainter extends TransformingAlgorithmPainter
 
 		Polygon tpolygon = transformer.transform(algorithm.getPolygon());
 
+		/*
+		 * Polygon
+		 */
+
 		painter.setColor(COLOR_POLYGON_BG);
 		painter.fillPolygon(tpolygon);
 
@@ -175,6 +179,10 @@ public class ShortestPathPainter extends TransformingAlgorithmPainter
 		Chain shell = tpolygon.getShell();
 		painter.drawChain(shell);
 
+		/*
+		 * Diagonals
+		 */
+
 		painter.setStrokeWidth(LINE_WIDTH_DIAGONALS);
 		for (Diagonal diagonal : algorithm.getTriangulationDiagonals()) {
 			painter.setColor(COLOR_DIAGONALS_NONSLEEVE);
@@ -189,6 +197,10 @@ public class ShortestPathPainter extends TransformingAlgorithmPainter
 					(int) Math.round(t1.getY()), (int) Math.round(t2.getX()),
 					(int) Math.round(t2.getY()));
 		}
+
+		/*
+		 * Dual graph
+		 */
 
 		painter.setStrokeWidth(LINE_WIDTH_DUAL_GRAPH);
 		if (config.isDrawDualGraph()) {
@@ -210,6 +222,10 @@ public class ShortestPathPainter extends TransformingAlgorithmPainter
 				}
 			}
 		}
+
+		/*
+		 * Funnel
+		 */
 
 		painter.setStrokeWidth(LINE_WIDTH_PATH);
 
@@ -239,6 +255,10 @@ public class ShortestPathPainter extends TransformingAlgorithmPainter
 				painter.fill(ShapeUtil.createArc(t.getX(), t.getY(), SIZE_APEX));
 			}
 		}
+
+		/*
+		 * Start / target nodes
+		 */
 
 		Coordinate cStart = algorithm.getNodeStart().getCoordinate();
 		Coordinate cTarget = algorithm.getNodeTarget().getCoordinate();
@@ -302,6 +322,10 @@ public class ShortestPathPainter extends TransformingAlgorithmPainter
 			painter.draw(arcTargetOut);
 			painter.draw(arcTargetIn);
 		}
+
+		/*
+		 * Node ids
+		 */
 
 		if (config.isDrawNodeNumbers()) {
 			painter.setColor(COLOR_NODE_IDS);
