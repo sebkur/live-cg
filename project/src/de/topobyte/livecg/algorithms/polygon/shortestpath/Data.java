@@ -97,6 +97,14 @@ public class Data
 		return commonPath.get(i);
 	}
 
+	public Node getSafe(Side side, int i)
+	{
+		if (i == -1) {
+			return getApex();
+		}
+		return funnelChains.get(side).get(i);
+	}
+
 	public Node get(Side side, int i)
 	{
 		return funnelChains.get(side).get(i);

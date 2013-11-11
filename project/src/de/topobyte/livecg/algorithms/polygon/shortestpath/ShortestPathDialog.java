@@ -19,6 +19,7 @@ package de.topobyte.livecg.algorithms.polygon.shortestpath;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.util.List;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -31,6 +32,8 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import de.topobyte.livecg.algorithms.polygon.shortestpath.funnel.RepeatedStep;
+import de.topobyte.livecg.algorithms.polygon.shortestpath.funnel.Step;
 import de.topobyte.livecg.core.AlgorithmChangedListener;
 import de.topobyte.livecg.core.AlgorithmWatcher;
 import de.topobyte.livecg.core.export.ExportUtil;
@@ -131,6 +134,8 @@ public class ShortestPathDialog implements AlgorithmChangedListener,
 				setDiagonal();
 			}
 		});
+
+		updateAlgorithmStatus();
 	}
 
 	public JFrame getFrame()
@@ -160,5 +165,15 @@ public class ShortestPathDialog implements AlgorithmChangedListener,
 		System.out.println("Diagonal: " + algorithm.getStatus());
 		System.out.println("Steps to update funnel: "
 				+ algorithm.numberOfStepsToUpdateFunnel());
+		List<Step> steps = algorithm.stepsToUpdateFunnel();
+		for (Step step : steps) {
+			if (step instanceof RepeatedStep) {
+				RepeatedStep repeated = (RepeatedStep) step;
+				System.out.println(step.getClass().getSimpleName() + ": "
+						+ repeated.howOften());
+			} else {
+				System.out.println(step.getClass().getSimpleName());
+			}
+		}
 	}
 }

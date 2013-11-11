@@ -27,6 +27,14 @@ import de.topobyte.livecg.algorithms.polygon.monotonepieces.Diagonal;
 import de.topobyte.livecg.algorithms.polygon.monotonepieces.DiagonalUtil;
 import de.topobyte.livecg.algorithms.polygon.monotonepieces.SplitResult;
 import de.topobyte.livecg.algorithms.polygon.monotonepieces.TriangulationOperation;
+import de.topobyte.livecg.algorithms.polygon.shortestpath.funnel.RepeatedStep;
+import de.topobyte.livecg.algorithms.polygon.shortestpath.funnel.Step;
+import de.topobyte.livecg.algorithms.polygon.shortestpath.funnel.StepFinishAlgorithm;
+import de.topobyte.livecg.algorithms.polygon.shortestpath.funnel.StepFunnelPathEmpty;
+import de.topobyte.livecg.algorithms.polygon.shortestpath.funnel.StepInitializeAlgorithm;
+import de.topobyte.livecg.algorithms.polygon.shortestpath.funnel.StepMoveApexToLastNode;
+import de.topobyte.livecg.algorithms.polygon.shortestpath.funnel.StepWalkBackward;
+import de.topobyte.livecg.algorithms.polygon.shortestpath.funnel.StepWalkForward;
 import de.topobyte.livecg.core.AlgorithmWatcher;
 import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.core.geometry.geom.CrossingsTest;
@@ -322,8 +330,8 @@ public class ShortestPathAlgorithm
 				data.appendCommon(target);
 				data.clear(Side.LEFT);
 				data.clear(Side.RIGHT);
-				return;
 			}
+			return;
 		}
 
 		// Main algorithm loop
@@ -417,7 +425,7 @@ public class ShortestPathAlgorithm
 
 		logger.debug("case2: walking backward on path1");
 		for (int k = data.getFunnelLength(on) - 1; k >= 0; k--) {
-			Node pn1 = k == 0 ? data.getApex() : data.get(on, k - 1);
+			Node pn1 = data.getSafe(on, k - 1);
 			Node pn2 = data.get(on, k);
 			boolean turnOk = turnOk(pn1, pn2, notYetOnChain, on);
 			if (!turnOk) {
@@ -428,29 +436,34 @@ public class ShortestPathAlgorithm
 			}
 		}
 
-		logger.debug("case3: walking forward on path2");
 		Side other = other(on);
-		for (int k = -1; k < data.getFunnelLength(other) - 1; k++) {
-			Node pn1 = k == -1 ? data.getApex() : data.get(other, k);
+
+		logger.debug("case3: reached apex");
+		Node p1 = data.getApex();
+		Node p2 = data.get(other, 0);
+		if (turnOk(p1, p2, notYetOnChain, on)) {
+			data.append(on, notYetOnChain);
+			return;
+		}
+
+		logger.debug("case4: walking forward on path2");
+		for (int k = 0; k < data.getFunnelLength(other) - 1; k++) {
+			Node pn1 = data.get(other, k);
 			Node pn2 = data.get(other, k + 1);
 			boolean turnOk = turnOk(pn1, pn2, notYetOnChain, on);
 			if (turnOk) {
 				logger.debug("turn is ok with k=" + k);
 				Node w = pn1;
-				if (k == -1) {
-					data.append(on, notYetOnChain);
-				} else {
-					data.append(on, notYetOnChain);
-					for (int l = 0; l <= k; l++) {
-						data.appendCommon(data.removeFirst(other));
-					}
-					data.appendCommon(w);
+				data.append(on, notYetOnChain);
+				for (int l = 0; l <= k; l++) {
+					data.appendCommon(data.removeFirst(other));
 				}
+				data.appendCommon(w);
 				return;
 			}
 		}
 
-		logger.debug("case4: moving apex to last node of path2");
+		logger.debug("case5: moving apex to last node of path2");
 		data.append(on, notYetOnChain);
 		for (int k = 0; k < data.getFunnelLength(other);) {
 			data.appendCommon(data.removeFirst(other));
@@ -459,48 +472,84 @@ public class ShortestPathAlgorithm
 
 	public int numberOfStepsToUpdateFunnel()
 	{
-		if (status == 0) {
-			return 1;
+		int s = 0;
+		List<Step> steps = stepsToUpdateFunnel();
+		for (Step step : steps) {
+			if (step instanceof RepeatedStep) {
+				RepeatedStep repeated = (RepeatedStep) step;
+				s += repeated.howOften();
+			} else {
+				s += 1;
+			}
 		}
-		Diagonal next = nextDiagonal();
-		Side currentChain = sideOfNextNode(next);
-		Node notYetOnChain = notYetOnChain(next);
-		return numberOfStepsToUpdateFunnel(notYetOnChain, currentChain);
+		return s;
 	}
 
-	private int numberOfStepsToUpdateFunnel(Node notYetOnChain, Side on)
+	public List<Step> stepsToUpdateFunnel()
 	{
-		if (data.getFunnelLength(on) == 0) {
-			logger.debug("case1: path1 has length 1");
-			return 1;
+		List<Step> steps = new ArrayList<Step>();
+
+		if (status == 0) {
+			steps.add(new StepInitializeAlgorithm());
+			return steps;
 		}
 
-		int steps = 0;
-		logger.debug("case2: walking backward on path1");
+		if (status == sleeve.getDiagonals().size() + 1) {
+			steps.add(new StepFinishAlgorithm());
+			return steps;
+		}
+
+		if (status == sleeve.getDiagonals().size() + 2) {
+			return steps;
+		}
+
+		Diagonal next = nextDiagonal();
+		Side on = sideOfNextNode(next);
+		Node notYetOnChain = notYetOnChain(next);
+
+		if (data.getFunnelLength(on) == 0) {
+			steps.add(new StepFunnelPathEmpty());
+			return steps;
+		}
+
+		int counterBackward = 0;
 		for (int k = data.getFunnelLength(on) - 1; k >= 0; k--) {
-			steps++;
-			Node pn1 = k == 0 ? data.getApex() : data.get(on, k - 1);
+			counterBackward++;
+			Node pn1 = data.getSafe(on, k - 1);
 			Node pn2 = data.get(on, k);
 			boolean turnOk = turnOk(pn1, pn2, notYetOnChain, on);
 			if (turnOk) {
+				steps.add(new StepWalkBackward(counterBackward));
 				return steps;
 			}
 		}
 
-		logger.debug("case3: walking forward on path2");
 		Side other = other(on);
-		for (int k = -1; k < data.getFunnelLength(other) - 1; k++) {
-			steps++;
-			Node pn1 = k == -1 ? data.getApex() : data.get(other, k);
+
+		if (data.getFunnelLength(other) > 0) {
+			steps.add(new StepWalkBackward(++counterBackward));
+			Node p1 = data.getApex();
+			Node p2 = data.get(other, 0);
+			if (turnOk(p1, p2, notYetOnChain, on)) {
+				return steps;
+			}
+		}
+
+		int counterForward = 0;
+		for (int k = 0; k < data.getFunnelLength(other) - 1; k++) {
+			counterForward++;
+			Node pn1 = data.get(other, k);
 			Node pn2 = data.get(other, k + 1);
 			boolean turnOk = turnOk(pn1, pn2, notYetOnChain, on);
 			if (turnOk) {
+				steps.add(new StepWalkForward(counterForward));
 				return steps;
 			}
 		}
+		steps.add(new StepWalkForward(counterForward));
 
-		logger.debug("case4: moving apex to last node of path2");
-		return steps + 1;
+		steps.add(new StepMoveApexToLastNode());
+		return steps;
 	}
 
 	private boolean turnOk(Node pn1, Node pn2, Node notOnChain, Side side)
