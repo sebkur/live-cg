@@ -155,6 +155,7 @@ public class ShortestPathDialog implements AlgorithmChangedListener,
 	{
 		int value = sliderDiagonals.getValue();
 		if (value != algorithm.getStatus()) {
+			algorithm.setSubStatus(0);
 			algorithm.setStatus(value);
 			spp.repaint();
 		}

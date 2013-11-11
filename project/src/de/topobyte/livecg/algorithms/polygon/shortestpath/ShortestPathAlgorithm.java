@@ -71,6 +71,7 @@ public class ShortestPathAlgorithm
 	private Node right;
 
 	private int status;
+	private int subStatus;
 	private Data data;
 
 	private List<Data> history = new ArrayList<Data>();
@@ -291,6 +292,11 @@ public class ShortestPathAlgorithm
 		return status;
 	}
 
+	public int getSubStatus()
+	{
+		return subStatus;
+	}
+
 	public Data getData()
 	{
 		return data;
@@ -314,6 +320,12 @@ public class ShortestPathAlgorithm
 			}
 			this.status = status;
 		}
+		notifyWatchers();
+	}
+
+	public void setSubStatus(int subStatus)
+	{
+		this.subStatus = subStatus;
 		notifyWatchers();
 	}
 
