@@ -157,5 +157,8 @@ public class ShortestPathDialog implements AlgorithmChangedListener,
 	public void updateAlgorithmStatus()
 	{
 		slider.setValue(algorithm.getStatus());
+		System.out.println("Diagonal: " + algorithm.getStatus());
+		System.out.println("Steps to update funnel: "
+				+ algorithm.numberOfStepsToUpdateFunnel());
 	}
 }

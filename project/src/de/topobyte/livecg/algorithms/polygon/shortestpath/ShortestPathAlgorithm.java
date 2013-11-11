@@ -407,116 +407,100 @@ public class ShortestPathAlgorithm
 		return diagonal.getA();
 	}
 
-	private void updateFunnel(Node notOnChain, Side on)
+	private void updateFunnel(Node notYetOnChain, Side on)
 	{
-		Side other = other(on);
-		boolean found = false;
 		if (data.getFunnelLength(on) == 0) {
 			logger.debug("case1: path1 has length 1");
-			data.append(on, notOnChain);
-			found = true;
+			data.append(on, notYetOnChain);
+			return;
 		}
-		if (!found) {
-			logger.debug("case2: walking backwards on path1");
-			for (int k = data.getFunnelLength(on) - 1; k >= 0; k--) {
-				Node pn1 = k == 0 ? data.getApex() : data.get(on, k - 1);
-				Node pn2 = data.get(on, k);
-				boolean turnOk = turnOk(pn1, pn2, notOnChain, on);
-				if (!turnOk) {
-					data.removeLast(on);
+
+		logger.debug("case2: walking backward on path1");
+		for (int k = data.getFunnelLength(on) - 1; k >= 0; k--) {
+			Node pn1 = k == 0 ? data.getApex() : data.get(on, k - 1);
+			Node pn2 = data.get(on, k);
+			boolean turnOk = turnOk(pn1, pn2, notYetOnChain, on);
+			if (!turnOk) {
+				data.removeLast(on);
+			} else {
+				data.append(on, notYetOnChain);
+				return;
+			}
+		}
+
+		logger.debug("case3: walking forward on path2");
+		Side other = other(on);
+		for (int k = -1; k < data.getFunnelLength(other) - 1; k++) {
+			Node pn1 = k == -1 ? data.getApex() : data.get(other, k);
+			Node pn2 = data.get(other, k + 1);
+			boolean turnOk = turnOk(pn1, pn2, notYetOnChain, on);
+			if (turnOk) {
+				logger.debug("turn is ok with k=" + k);
+				Node w = pn1;
+				if (k == -1) {
+					data.append(on, notYetOnChain);
 				} else {
-					found = true;
-					data.append(on, notOnChain);
-					break;
-				}
-			}
-		}
-		if (!found) {
-			logger.debug("case3: walking forward on path2");
-			for (int k = -1; k < data.getFunnelLength(other) - 1; k++) {
-				Node pn1 = k == -1 ? data.getApex() : data.get(other, k);
-				Node pn2 = data.get(other, k + 1);
-				boolean turnOk = turnOk(pn1, pn2, notOnChain, on);
-				if (turnOk) {
-					logger.debug("turn is ok with k=" + k);
-					found = true;
-					Node w = pn1;
-					if (k == -1) {
-						data.append(on, notOnChain);
-					} else {
-						data.append(on, notOnChain);
-						for (int l = 0; l <= k; l++) {
-							data.appendCommon(data.removeFirst(other));
-						}
-						data.appendCommon(w);
+					data.append(on, notYetOnChain);
+					for (int l = 0; l <= k; l++) {
+						data.appendCommon(data.removeFirst(other));
 					}
-					break;
+					data.appendCommon(w);
 				}
+				return;
 			}
 		}
-		if (!found) {
-			logger.debug("case4: moving apex to last node of path2");
-			data.append(on, notOnChain);
-			for (int k = 0; k < data.getFunnelLength(other);) {
-				data.appendCommon(data.removeFirst(other));
-			}
+
+		logger.debug("case4: moving apex to last node of path2");
+		data.append(on, notYetOnChain);
+		for (int k = 0; k < data.getFunnelLength(other);) {
+			data.appendCommon(data.removeFirst(other));
 		}
 	}
 
-	private void numberOfStepsToUpdateFunnel(Node notOnChain, Side on)
+	public int numberOfStepsToUpdateFunnel()
 	{
-		Side other = other(on);
-		boolean found = false;
+		if (status == 0) {
+			return 1;
+		}
+		Diagonal next = nextDiagonal();
+		Side currentChain = sideOfNextNode(next);
+		Node notYetOnChain = notYetOnChain(next);
+		return numberOfStepsToUpdateFunnel(notYetOnChain, currentChain);
+	}
+
+	private int numberOfStepsToUpdateFunnel(Node notYetOnChain, Side on)
+	{
 		if (data.getFunnelLength(on) == 0) {
 			logger.debug("case1: path1 has length 1");
-			// data.append(on, notOnChain);
-			found = true;
+			return 1;
 		}
-		if (!found) {
-			logger.debug("case2: walking backwards on path1");
-			for (int k = data.getFunnelLength(on) - 1; k >= 0; k--) {
-				Node pn1 = k == 0 ? data.getApex() : data.get(on, k - 1);
-				Node pn2 = data.get(on, k);
-				boolean turnOk = turnOk(pn1, pn2, notOnChain, on);
-				if (!turnOk) {
-					// data.removeLast(on);
-				} else {
-					found = true;
-					// data.append(on, notOnChain);
-					break;
-				}
+
+		int steps = 0;
+		logger.debug("case2: walking backward on path1");
+		for (int k = data.getFunnelLength(on) - 1; k >= 0; k--) {
+			steps++;
+			Node pn1 = k == 0 ? data.getApex() : data.get(on, k - 1);
+			Node pn2 = data.get(on, k);
+			boolean turnOk = turnOk(pn1, pn2, notYetOnChain, on);
+			if (turnOk) {
+				return steps;
 			}
 		}
-		if (!found) {
-			logger.debug("case3: walking forward on path2");
-			for (int k = -1; k < data.getFunnelLength(other) - 1; k++) {
-				Node pn1 = k == -1 ? data.getApex() : data.get(other, k);
-				Node pn2 = data.get(other, k + 1);
-				boolean turnOk = turnOk(pn1, pn2, notOnChain, on);
-				if (turnOk) {
-					logger.debug("turn is ok with k=" + k);
-					found = true;
-					// Node w = pn1;
-					if (k == -1) {
-						// data.append(on, notOnChain);
-					} else {
-						// data.append(on, notOnChain);
-						// for (int l = 0; l <= k; l++) {
-						// data.appendCommon(data.removeFirst(other));
-						// }
-						// data.appendCommon(w);
-					}
-					break;
-				}
+
+		logger.debug("case3: walking forward on path2");
+		Side other = other(on);
+		for (int k = -1; k < data.getFunnelLength(other) - 1; k++) {
+			steps++;
+			Node pn1 = k == -1 ? data.getApex() : data.get(other, k);
+			Node pn2 = data.get(other, k + 1);
+			boolean turnOk = turnOk(pn1, pn2, notYetOnChain, on);
+			if (turnOk) {
+				return steps;
 			}
 		}
-		if (!found) {
-			logger.debug("case4: moving apex to last node of path2");
-			// data.append(on, notOnChain);
-			// for (int k = 0; k < data.getFunnelLength(other);) {
-			// data.appendCommon(data.removeFirst(other));
-			// }
-		}
+
+		logger.debug("case4: moving apex to last node of path2");
+		return steps + 1;
 	}
 
 	private boolean turnOk(Node pn1, Node pn2, Node notOnChain, Side side)
