@@ -84,7 +84,6 @@ public class ShortestPathDialog implements AlgorithmChangedListener,
 
 		int max = algorithm.getNumberOfSteps();
 		slider = new JSlider(0, max);
-		slider.setPaintLabels(true);
 		slider.setPaintTicks(true);
 		slider.setMajorTickSpacing(1);
 		slider.setValue(0);
