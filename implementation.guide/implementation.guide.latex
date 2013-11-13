@@ -1,0 +1,150 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage[a4paper,vmargin={20mm,20mm},hmargin={30mm,25mm}]{geometry}
+
+\usepackage{graphicx}
+\usepackage[utf8]{inputenc}
+\usepackage[english,ngerman]{babel}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{verbatim}
+%\usepackage{color}
+\usepackage{amssymb,amsmath}
+
+\usepackage{caption}
+\usepackage{subcaption}
+
+\usepackage{todonotes}
+\usepackage{wasysym}
+
+% this makes < > work
+\usepackage[T1]{fontenc}
+
+% styles: numeric, alpha
+\usepackage[backend=biber,citestyle=alphabetic,bibstyle=alphabetic,url=false,doi=false,isbn=false,maxcitenames=1]{biblatex}
+\usepackage[autostyle]{csquotes}
+\usepackage{ellipsis}
+
+%\PrerenderUnicode{ü}
+
+\usepackage[pdftex,
+            bookmarks,
+            pdfauthor={Sebastian Kürten},
+            pdftitle={Creating new visualizations with LiveCG},
+            pdfsubject={Creating new visualizations with LiveCG},
+            pdfcreator={pdflatex}]{hyperref}
+
+\hypersetup{
+	%linkcolor=[rgb]{0 0 0.5},
+	linkcolor=[rgb]{0.1 0.1 0.1},
+        colorlinks=true,
+        %linktocpage=true,
+        linkbordercolor=blue,
+        citecolor=[rgb]{0.1 0.1 0.1},
+	urlcolor=blue,
+        menucolor=red
+}
+
+\parindent 0pt
+%\parskip 12pt
+
+\widowpenalty=10000
+
+\makeatletter
+\renewcommand\paragraph{\@startsection{paragraph}{4}{\z@}%
+                                     {-0.5\baselineskip}%
+                                     {0.2\baselineskip}%
+                                     {\normalfont\normalsize\bfseries}}
+\makeatother
+
+\bibliography{literature}
+\begin{document}
+
+\selectlanguage{english}
+
+\lstset{
+basicstyle=\footnotesize
+}
+
+%%% CONTENT
+
+\title{Creating new visualizations using LiveCG}
+\author{Sebastian Kürten}
+\maketitle
+
+%\tableofcontents
+
+%%% REAL CONTENT
+
+This document aims for describing the steps involved when creating new algorithm
+visualizations using LiveCG.
+The process is described for the example of Chan's Algorithm.
+
+Every algorithm visualization has four major components. Therefore you
+should create four respective classes in your package:
+\begin{itemize}
+\item ChansAlgorithm.java
+\item ChansAlgorithmPainter.java
+\item ChansAlgorithmPanel.java
+\item ChansAlgorithmDialog.java
+\end{itemize}
+
+\section{Algorithm}
+Implement the algorithm logic in ChansAlgorithm.java.
+Internally it should encapsulate the different states of the algorithm and
+those states should be accessible for drawing operations by the visualization
+classes.
+The algorithm class should have a constructor that takes as arguments the geometric
+input data that the algorithm shall operate on.
+Also it should provide some facility for the UI to set the status of the algorithm.
+
+\section{Painter}
+Implement the visualization in ChansAlgorithmPainter.java.
+ChansAlgorithmPainter should extend TransformingAlgorithmPainter that provides zooming
+and panning abstraction.
+The constructor of ChansAlgorithmPainter gets as arguments a Rectangle instance 
+scene and a Painter instance painter that are provided to the superclass constructor.
+Main thing to implement here is the paint() method that is in charge of
+displaying the state of the algorithm.
+First call in the paint() method should be a call to the superclass method
+preparePaint() which sets up an internal transformation instance, which should
+then be used to transform objects involved with drawing operations appropriately.
+Also useful at the top of this method is a call to fillBackground() 
+which will render the scene's bounding rectangle to the painter.
+The remainder of this method is responsible for rendering the algorithm
+to the scene in its current state.
+All drawing operations must be directed to the painter object which ensures
+that the visualization may be used for various purposes.
+
+\section{Panel}
+Implement a swing component ChansAlgorithmPanel.java by extending ScenePanel.java.
+By extending ScenePanel your class will be usable as a view for the 
+ScrollableView and automatically take care about sane scrolling bounds.
+You need to supply a scene to the superclass constructor so that it knows
+what the boundaries of the algorithm are and can setup the scroll bounds
+correctly. This scene rectangle should be derived from the algorithm instance.
+
+Further some boilerplate code is needed for the paint() method of component
+that mainly delegates all drawing to the AlgorithmPainter. (TODO: this should
+be moved to a convenience class)
+
+\section{Dialog}
+Implement a dialog in ChansAlgorithmDialog.java.
+The dialog's constructor should accept an instance of ChansAlgorithm that
+shall be displayed by the dialog.
+The dialog creates an instance of ChansAlgorithmPanel that displays the algorithm instance.
+This class is responsible for creating a JFrame and arranging the components within
+it, including the ChansAlgorithmPanel.
+To provide zooming and panning, the ChansAlgorithmPanel should not be added to a container
+directly, but rather by creating a holding ScrollableView instance which should
+in turn be added to the display hierarchy.
+If necessary, mouse listeners can be attached to this ScrollableView. When doing this,
+it is useful to let your MouseListener implementation extend the ViewportMouseAdapter 
+to abstract from screen coordinates to scene coordinates.
+
+\section{Miscellaneous}
+Apart from that you may want to implement an action that will launch the Dialog
+and picks its input data from the Content
+instance of the GeometryEditor. By doing this, your visualization is able to be started
+from the main UI of LiveCG and can get its input geometries from the editor's scene.
+
+\end{document}
