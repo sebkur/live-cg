@@ -23,9 +23,9 @@ public class BoundingBoxes
 	public static Rectangle get(Rectangle a, Rectangle b)
 	{
 		double xmin = Math.min(a.getX1(), b.getX1());
-		double xmax = Math.min(a.getX2(), b.getX2());
+		double xmax = Math.max(a.getX2(), b.getX2());
 		double ymin = Math.min(a.getY1(), b.getY1());
-		double ymax = Math.min(a.getY2(), b.getY2());
+		double ymax = Math.max(a.getY2(), b.getY2());
 		return new Rectangle(xmin, ymin, xmax, ymax);
 	}
 
