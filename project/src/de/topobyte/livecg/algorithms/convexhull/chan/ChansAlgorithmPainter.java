@@ -17,6 +17,10 @@
  */
 package de.topobyte.livecg.algorithms.convexhull.chan;
 
+import java.util.Map;
+
+import de.topobyte.livecg.core.geometry.geom.Coordinate;
+import de.topobyte.livecg.core.geometry.geom.Node;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
 import de.topobyte.livecg.core.geometry.geom.Rectangle;
 import de.topobyte.livecg.core.painting.Color;
@@ -47,6 +51,19 @@ public class ChansAlgorithmPainter extends TransformingAlgorithmPainter
 			Polygon tpolygon = transformer.transform(polygon);
 			painter.drawPolygon(tpolygon);
 		}
+
+		painter.setColor(new Color(0x000000));
+		Map<Polygon, Node> leftMostNodes = algorithm.getLeftMostNodes();
+		for (Polygon polygon : algorithm.getPolygons()) {
+			Node node = leftMostNodes.get(polygon);
+			Coordinate c = transformer.transform(node.getCoordinate());
+			painter.fillCircle(c.getX(), c.getY(), 4);
+		}
+
+		painter.setColor(new Color(0x000000));
+		Node leftMostNode = algorithm.getLeftMostNode();
+		Coordinate c = transformer.transform(leftMostNode.getCoordinate());
+		painter.drawCircle(c.getX(), c.getY(), 7);
 	}
 
 }
