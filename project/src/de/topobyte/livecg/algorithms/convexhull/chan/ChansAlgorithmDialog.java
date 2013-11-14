@@ -45,9 +45,11 @@ public class ChansAlgorithmDialog
 
 		cap = new ChansAlgorithmPanel(algorithm);
 
+		Toolbar toolbar = new Toolbar();
 		ScrollableView<ChansAlgorithmPanel> scrollableView = new ScrollableView<ChansAlgorithmPanel>(
 				cap);
 
+		main.add(toolbar, BorderLayout.NORTH);
 		main.add(scrollableView, BorderLayout.CENTER);
 
 		frame.setLocationByPlatform(true);
