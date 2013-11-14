@@ -21,6 +21,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.List;
 
+import de.topobyte.livecg.core.AlgorithmWatcher;
 import de.topobyte.livecg.core.export.SizeProvider;
 import de.topobyte.livecg.core.geometry.geom.BoundingBoxes;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
@@ -30,7 +31,8 @@ import de.topobyte.livecg.core.painting.AwtPainter;
 import de.topobyte.livecg.core.scrolling.ScenePanel;
 import de.topobyte.livecg.util.SwingUtil;
 
-public class ChansAlgorithmPanel extends ScenePanel implements SizeProvider
+public class ChansAlgorithmPanel extends ScenePanel implements SizeProvider,
+		AlgorithmWatcher
 {
 	private static final long serialVersionUID = -788826737883369137L;
 
@@ -44,6 +46,8 @@ public class ChansAlgorithmPanel extends ScenePanel implements SizeProvider
 		painter = new AwtPainter(null);
 		algorithmPainter = new ChansAlgorithmPainter(scene, algorithm, painter);
 		super.algorithmPainter = algorithmPainter;
+
+		algorithm.addWatcher(this);
 	}
 
 	private static Rectangle scene(ChansAlgorithm algorithm)
@@ -68,6 +72,12 @@ public class ChansAlgorithmPanel extends ScenePanel implements SizeProvider
 		algorithmPainter.setWidth(getWidth());
 		algorithmPainter.setHeight(getHeight());
 		algorithmPainter.paint();
+	}
+
+	@Override
+	public void updateAlgorithmStatus()
+	{
+		repaint();
 	}
 
 }

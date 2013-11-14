@@ -45,7 +45,7 @@ public class ChansAlgorithmDialog
 
 		cap = new ChansAlgorithmPanel(algorithm);
 
-		Toolbar toolbar = new Toolbar();
+		Toolbar toolbar = new Toolbar(algorithm);
 		ScrollableView<ChansAlgorithmPanel> scrollableView = new ScrollableView<ChansAlgorithmPanel>(
 				cap);
 

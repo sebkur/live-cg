@@ -17,6 +17,9 @@
  */
 package de.topobyte.livecg.algorithms.convexhull.chan;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JToolBar;
@@ -28,18 +31,45 @@ public class Toolbar extends JToolBar
 
 	private static final long serialVersionUID = 1L;
 
+	private ChansAlgorithm algorithm;
+
 	private String[] icons = { "res/images/24x24/media-skip-backward.png",
 			"res/images/24x24/media-skip-forward.png", };
 	private String[] texts = { "Prev", "Next" };
 
-	public Toolbar()
+	public Toolbar(ChansAlgorithm algorithm)
 	{
+		this.algorithm = algorithm;
 		setFloatable(false);
 		for (int i = 0; i < icons.length; i++) {
 			Icon icon = ImageLoader.load(icons[i]);
 			JButton button = new JButton(icon);
 			button.setToolTipText(texts[i]);
 			add(button);
+			final int id = i;
+			button.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent e)
+				{
+					if (id == 0) {
+						previous();
+					} else if (id == 1) {
+						next();
+					}
+				}
+			});
 		}
 	}
+
+	protected void previous()
+	{
+		algorithm.previousStep();
+	}
+
+	protected void next()
+	{
+		algorithm.nextStep();
+	}
+
 }

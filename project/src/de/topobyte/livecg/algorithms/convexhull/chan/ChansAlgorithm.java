@@ -17,11 +17,13 @@
  */
 package de.topobyte.livecg.algorithms.convexhull.chan;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import de.topobyte.livecg.core.AlgorithmWatcher;
 import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.core.geometry.geom.Node;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
@@ -29,8 +31,15 @@ import de.topobyte.livecg.core.geometry.geom.Polygon;
 public class ChansAlgorithm
 {
 
+	/*
+	 * Watchers that need to be notified once the algorithm moved to a new
+	 * state.
+	 */
+	private List<AlgorithmWatcher> watchers = new ArrayList<AlgorithmWatcher>();
+
 	private List<Polygon> polygons;
 	private Map<Polygon, Node> leftMostNodes = new HashMap<Polygon, Node>();
+	private Map<Polygon, Integer> leftMostNodesIndices = new HashMap<Polygon, Integer>();
 
 	private Polygon leftMostPolygon;
 	private Node leftMostNode;
@@ -56,7 +65,9 @@ public class ChansAlgorithm
 	private void computeLeftMostPoints()
 	{
 		for (Polygon polygon : polygons) {
-			Node node = computeLeftMostPoint(polygon);
+			int index = computeLeftMostPoint(polygon);
+			leftMostNodesIndices.put(polygon, index);
+			Node node = polygon.getShell().getNode(index);
 			leftMostNodes.put(polygon, node);
 		}
 	}
@@ -71,23 +82,69 @@ public class ChansAlgorithm
 		return leftMostNode;
 	}
 
+	public void addWatcher(AlgorithmWatcher watcher)
+	{
+		watchers.add(watcher);
+	}
+
+	public void removeWatcher(AlgorithmWatcher watcher)
+	{
+		watchers.remove(watcher);
+	}
+
+	/*
+	 * Algorithm status / steps
+	 */
+
+	private enum Phase {
+		LOOK_FOR_TANGENTS, TANGENT_FOUND
+	}
+
+	private Phase phase = Phase.LOOK_FOR_TANGENTS;
+	private int polygonId = 0;
+
+	public void nextStep()
+	{
+		if (phase == Phase.LOOK_FOR_TANGENTS) {
+			Polygon polygon = polygons.get(polygonId);
+			int index = leftMostNodesIndices.get(polygon);
+			System.out.println("leftmost: " + index);
+		} else if (phase == Phase.TANGENT_FOUND) {
+
+		}
+		notifyWatchers();
+	}
+
+	public void previousStep()
+	{
+		// TODO: implement
+		notifyWatchers();
+	}
+
 	/*
 	 * Internal
 	 */
 
-	private Node computeLeftMostPoint(Polygon polygon)
+	private void notifyWatchers()
 	{
-		Node leftMostNode = null;
+		for (AlgorithmWatcher watcher : watchers) {
+			watcher.updateAlgorithmStatus();
+		}
+	}
+
+	private int computeLeftMostPoint(Polygon polygon)
+	{
+		int leftMostNodeIndex = -1;
 		double x = Double.MAX_VALUE;
 		Chain shell = polygon.getShell();
 		for (int i = 0; i < shell.getNumberOfNodes(); i++) {
 			Node node = shell.getNode(i);
 			if (node.getCoordinate().getX() < x) {
-				leftMostNode = node;
+				leftMostNodeIndex = i;
 				x = node.getCoordinate().getX();
 			}
 		}
-		return leftMostNode;
+		return leftMostNodeIndex;
 	}
 
 	private Polygon computeOverallLeftMostPoint()
