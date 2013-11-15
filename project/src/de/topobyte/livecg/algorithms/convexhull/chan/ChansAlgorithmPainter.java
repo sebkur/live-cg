@@ -18,8 +18,10 @@
 package de.topobyte.livecg.algorithms.convexhull.chan;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.core.geometry.geom.Coordinate;
@@ -43,6 +45,18 @@ public class ChansAlgorithmPainter extends TransformingAlgorithmPainter
 		this.algorithm = algorithm;
 	}
 
+	/*
+	 * Helpers for filling all leftover polygons that are not marked with some
+	 * special color with a default color.
+	 */
+	private Set<Polygon> filled;
+
+	private void fill(Polygon polygon)
+	{
+		painter.fillPolygon(transformer.transform(polygon));
+		filled.add(polygon);
+	}
+
 	@Override
 	public void paint()
 	{
@@ -52,18 +66,37 @@ public class ChansAlgorithmPainter extends TransformingAlgorithmPainter
 
 		Phase phase = algorithm.getPhase();
 
+		painter.setColor(new Color(0x000000));
+		painter.drawString(phase.toString(), 20, 40);
+
+		filled = new HashSet<Polygon>();
+
+		/*
+		 * Polygon interior
+		 */
+
+		// Polygons we already found the tangent for
 		if (phase == Phase.LOOK_FOR_TANGENTS || phase == Phase.TANGENT_FOUND) {
-			// Current polygon
-			painter.setColor(new Color(0xffaaaa));
-			Polygon p = algorithm.getPolygons().get(algorithm.getPolygonId());
-			painter.fillPolygon(transformer.transform(p));
+			painter.setColor(new Color(0x6666ff));
+			for (int i = 0; i < algorithm.getPolygonId(); i++) {
+				fill(algorithm.getPolygons().get(i));
+			}
 		}
+		// Current polygon while looking for a tangent
+		if (phase == Phase.LOOK_FOR_TANGENTS || phase == Phase.TANGENT_FOUND) {
+			painter.setColor(new Color(0xffaaaa));
+			fill(algorithm.getPolygons().get(algorithm.getPolygonId()));
+		}
+		// Polygons we just now found the tangent for
+		if (phase == Phase.TANGENT_FOUND) {
+			painter.setColor(new Color(0x6666ff));
+			fill(algorithm.getPolygons().get(algorithm.getPolygonId()));
+		}
+		// All polygons after finding the tangents
 		if (phase == Phase.ALL_TANGENTS_FOUND) {
-			// All polygons
-			painter.setColor(new Color(0xff6666));
+			painter.setColor(new Color(0x3333ff));
 			for (Polygon polygon : algorithm.getPolygons()) {
-				Polygon tpolygon = transformer.transform(polygon);
-				painter.fillPolygon(tpolygon);
+				fill(polygon);
 			}
 		}
 		if (phase == Phase.BEST_TANGENT_FOUND) {
@@ -71,70 +104,100 @@ public class ChansAlgorithmPainter extends TransformingAlgorithmPainter
 			painter.setColor(new Color(0x99ff99));
 			Polygon best = algorithm.getPolygons().get(
 					algorithm.getBestPolygonId());
-			Polygon tbest = transformer.transform(best);
-			painter.fillPolygon(tbest);
+			fill(best);
 		}
 
-		// All polygons -> outline
+		// Fill all polygons that have not been filled yet
+		painter.setColor(new Color(0xDDDDDD));
+		for (Polygon polygon : algorithm.getPolygons()) {
+			if (!filled.contains(polygon)) {
+				fill(polygon);
+			}
+		}
+
+		/*
+		 * Polygon outline
+		 */
+
+		// Outline for all polygons
 		painter.setColor(new Color(0x000000));
 		for (Polygon polygon : algorithm.getPolygons()) {
 			Polygon tpolygon = transformer.transform(polygon);
 			painter.drawPolygon(tpolygon);
 		}
 
-		// Leftmost nodes of all polygons
-		painter.setColor(new Color(0x000000));
-		Map<Polygon, Node> leftMostNodes = algorithm.getLeftMostNodes();
-		for (Polygon polygon : algorithm.getPolygons()) {
-			Node node = leftMostNodes.get(polygon);
-			Coordinate c = transformer.transform(node.getCoordinate());
-			painter.fillCircle(c.getX(), c.getY(), 4);
+		/*
+		 * Nodes / tangents
+		 */
+
+		// Leftmost nodes that have already been found
+		if (phase.ordinal() >= Phase.FIND_LEFTMOST_NODES.ordinal()
+				&& phase.ordinal() < Phase.INITIALIZED_DATASTRUCTURES.ordinal()) {
+			painter.setColor(new Color(0x000000));
+			Map<Polygon, Node> leftMostNodes = algorithm.getLeftMostNodes();
+			for (Polygon polygon : algorithm.getPolygons()) {
+				Node node = leftMostNodes.get(polygon);
+				if (node == null) {
+					continue;
+				}
+				Coordinate c = transformer.transform(node.getCoordinate());
+				painter.fillRect(c.getX() - 4, c.getY() - 4, 8, 8);
+			}
 		}
 
-		// Overall leftmost
-		painter.setColor(new Color(0x000000));
-		Node leftMostNode = algorithm.getLeftMostNode();
-		Coordinate c = transformer.transform(leftMostNode.getCoordinate());
-		painter.drawCircle(c.getX(), c.getY(), 7);
-
 		// Already found tangent nodes
-		List<Integer> positions = algorithm.getPositions();
-		for (int i = 0; i < positions.size(); i++) {
-			int pos = positions.get(i);
-			Polygon polygon = algorithm.getPolygons().get(i);
-			Node node = polygon.getShell().getNode(pos);
-			c = transformer.transform(node.getCoordinate());
-			painter.drawCircle(c.getX(), c.getY(), 7);
+		if (phase.ordinal() >= Phase.INITIALIZED_DATASTRUCTURES.ordinal()) {
+			List<Integer> positions = algorithm.getPositions();
+			for (int i = 0; i < positions.size(); i++) {
+				int pos = positions.get(i);
+				Polygon polygon = algorithm.getPolygons().get(i);
+				Node node = polygon.getShell().getNode(pos);
+				Coordinate c = transformer.transform(node.getCoordinate());
+				painter.fillCircle(c.getX(), c.getY(), 4);
+			}
 		}
 
 		// Tangent search nodes
-		if (algorithm.getPosition() >= 0) {
-			Polygon p = algorithm.getPolygons().get(algorithm.getPolygonId());
-			Chain shell = p.getShell();
-			Node node = shell.getNode(algorithm.getPosition());
-			c = transformer.transform(node.getCoordinate());
+		if (phase == Phase.LOOK_FOR_TANGENTS) {
+			if (algorithm.getPosition() >= 0) {
+				Polygon p = algorithm.getPolygons().get(
+						algorithm.getPolygonId());
+				Chain shell = p.getShell();
+				Node node = shell.getNode(algorithm.getPosition());
+				Coordinate c = transformer.transform(node.getCoordinate());
+				painter.drawCircle(c.getX(), c.getY(), 7);
+			}
+		}
+
+		if (phase == Phase.FOUND_OVERALL_LEFTMOST_NODE
+				|| phase == Phase.INITIALIZE_DATASTRUCTURES) {
+			Node node = algorithm.getLeftMostNode();
+			Coordinate c = transformer.transform(node.getCoordinate());
 			painter.drawCircle(c.getX(), c.getY(), 7);
 		}
 
 		// Computed hull
-		List<Node> hull = algorithm.getHull();
-		List<Coordinate> hullCoordinates = new ArrayList<Coordinate>();
-		for (int i = 0; i < hull.size(); i++) {
-			Node node = hull.get(i);
-			hullCoordinates.add(transformer.transform(node.getCoordinate()));
-		}
-		painter.setStrokeWidth(2.0);
-		painter.drawPath(hullCoordinates, phase == Phase.DONE);
-		painter.setStrokeWidth(1.0);
-		for (Node node : hull) {
-			c = transformer.transform(node.getCoordinate());
-			painter.drawRect(c.getX() - 5, c.getY() - 5, 10, 10);
+		if (phase.ordinal() >= Phase.INITIALIZED_DATASTRUCTURES.ordinal()) {
+			List<Node> hull = algorithm.getHull();
+			List<Coordinate> hullCoordinates = new ArrayList<Coordinate>();
+			for (int i = 0; i < hull.size(); i++) {
+				Node node = hull.get(i);
+				hullCoordinates
+						.add(transformer.transform(node.getCoordinate()));
+			}
+			painter.setStrokeWidth(2.0);
+			painter.drawPath(hullCoordinates, phase == Phase.DONE);
+			painter.setStrokeWidth(1.0);
+			for (Node node : hull) {
+				Coordinate c = transformer.transform(node.getCoordinate());
+				painter.drawRect(c.getX() - 6, c.getY() - 6, 12, 12);
+			}
 		}
 
 		// Ids
 		for (int i = 0; i < algorithm.getPolygons().size(); i++) {
 			Polygon polygon = algorithm.getPolygons().get(i);
-			c = transformer.transform(PolygonHelper.center(polygon));
+			Coordinate c = transformer.transform(PolygonHelper.center(polygon));
 			painter.drawString(String.format("%d", i), c.getX(), c.getY());
 		}
 	}

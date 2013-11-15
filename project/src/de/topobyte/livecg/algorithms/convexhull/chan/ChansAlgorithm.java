@@ -53,15 +53,6 @@ public class ChansAlgorithm
 	public ChansAlgorithm(List<Polygon> polygons)
 	{
 		this.polygons = polygons;
-		computeLeftMostPoints();
-		leftMostPolygon = computeOverallLeftMostPoint();
-		leftMostNode = leftMostNodes.get(leftMostPolygon);
-		hull = new ArrayList<Node>();
-		hull.add(leftMostNode);
-		for (int i = 0; i < polygons.size(); i++) {
-			positions.add(leftMostNodesIndices.get(polygons.get(i)));
-		}
-		currentHeadPolygon = leftMostPolygon;
 	}
 
 	public List<Polygon> getPolygons()
@@ -72,16 +63,6 @@ public class ChansAlgorithm
 	public Map<Polygon, Node> getLeftMostNodes()
 	{
 		return leftMostNodes;
-	}
-
-	private void computeLeftMostPoints()
-	{
-		for (Polygon polygon : polygons) {
-			int index = computeLeftMostPoint(polygon);
-			leftMostNodesIndices.put(polygon, index);
-			Node node = polygon.getShell().getNode(index);
-			leftMostNodes.put(polygon, node);
-		}
 	}
 
 	public Polygon getLeftMostPolygon()
@@ -113,7 +94,7 @@ public class ChansAlgorithm
 	 * Algorithm status / steps
 	 */
 
-	private Phase phase = Phase.LOOK_FOR_TANGENTS;
+	private Phase phase = Phase.FIND_LEFTMOST_NODES;
 	private int polygonId = 0;
 	private int position = -1;
 	private List<Integer> positions = new ArrayList<Integer>();
@@ -121,10 +102,49 @@ public class ChansAlgorithm
 
 	public void nextStep()
 	{
-		if (phase == Phase.LOOK_FOR_TANGENTS) {
+		executeNextStep();
+		notifyWatchers();
+	}
+
+	public void executeNextStep()
+	{
+		if (phase == Phase.FIND_LEFTMOST_NODES) {
+			int done = leftMostNodes.size();
+			if (done < polygons.size()) {
+				Polygon polygon = polygons.get(done);
+				int index = computeLeftMostPoint(polygon);
+				leftMostNodesIndices.put(polygon, index);
+				Node node = polygon.getShell().getNode(index);
+				leftMostNodes.put(polygon, node);
+				if (done == polygons.size() - 1) {
+					phase = Phase.FOUND_LEFTMOST_NODES;
+				}
+			}
+		} else if (phase == Phase.FOUND_LEFTMOST_NODES) {
+			phase = Phase.FIND_OVERALL_LEFTMOST_NODE;
+		} else if (phase == Phase.FIND_OVERALL_LEFTMOST_NODE) {
+			leftMostPolygon = computeOverallLeftMostPoint();
+			leftMostNode = leftMostNodes.get(leftMostPolygon);
+
+			phase = Phase.FOUND_OVERALL_LEFTMOST_NODE;
+		} else if (phase == Phase.FOUND_OVERALL_LEFTMOST_NODE) {
+			phase = Phase.INITIALIZE_DATASTRUCTURES;
+		} else if (phase == Phase.INITIALIZE_DATASTRUCTURES) {
+			hull = new ArrayList<Node>();
+			hull.add(leftMostNode);
+			for (int i = 0; i < polygons.size(); i++) {
+				positions.add(leftMostNodesIndices.get(polygons.get(i)));
+			}
+			currentHeadPolygon = leftMostPolygon;
+
+			phase = Phase.INITIALIZED_DATASTRUCTURES;
+		} else if (phase == Phase.INITIALIZED_DATASTRUCTURES) {
+			phase = Phase.LOOK_FOR_TANGENTS;
+		} else if (phase == Phase.LOOK_FOR_TANGENTS) {
 			Polygon polygon = polygons.get(polygonId);
 			if (position == -1) {
 				position = positions.get(polygonId);
+				return;
 			}
 
 			Chain shell = polygon.getShell();
@@ -185,7 +205,6 @@ public class ChansAlgorithm
 				phase = Phase.DONE;
 			}
 		}
-		notifyWatchers();
 	}
 
 	public void previousStep()

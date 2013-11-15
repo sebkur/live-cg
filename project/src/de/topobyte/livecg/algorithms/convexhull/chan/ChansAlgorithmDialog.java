@@ -76,10 +76,6 @@ public class ChansAlgorithmDialog
 				ChansAlgorithmDialog.this.algorithm.nextStep();
 			}
 		});
-
-		for (int i = 0; i < 139; i++) {
-			// algorithm.nextStep();
-		}
 	}
 
 	public JFrame getFrame()
