@@ -18,9 +18,16 @@
 package de.topobyte.livecg.algorithms.convexhull.chan;
 
 import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 
+import javax.swing.AbstractAction;
+import javax.swing.ActionMap;
+import javax.swing.InputMap;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.KeyStroke;
 
 import de.topobyte.livecg.core.scrolling.ScrollableView;
 
@@ -55,6 +62,20 @@ public class ChansAlgorithmDialog
 		frame.setLocationByPlatform(true);
 		frame.setSize(700, 600);
 		frame.setVisible(true);
+
+		InputMap inputMap = main.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+		inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), "enter");
+		ActionMap actionMap = main.getActionMap();
+		actionMap.put("enter", new AbstractAction() {
+
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				ChansAlgorithmDialog.this.algorithm.nextStep();
+			}
+		});
 	}
 
 	public JFrame getFrame()
