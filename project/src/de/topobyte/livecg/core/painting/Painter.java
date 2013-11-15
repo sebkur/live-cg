@@ -44,7 +44,7 @@ public interface Painter
 
 	public void drawLine(double x1, double y1, double x2, double y2);
 
-	public void drawPath(List<Coordinate> points);
+	public void drawPath(List<Coordinate> points, boolean close);
 
 	public void drawCircle(double x, double y, double radius);
 

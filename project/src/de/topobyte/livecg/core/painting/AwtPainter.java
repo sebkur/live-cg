@@ -110,7 +110,7 @@ public class AwtPainter implements Painter
 	}
 
 	@Override
-	public void drawPath(List<Coordinate> points)
+	public void drawPath(List<Coordinate> points, boolean close)
 	{
 		if (points.size() < 2) {
 			return;
@@ -121,6 +121,9 @@ public class AwtPainter implements Painter
 		for (int i = 1; i < points.size(); i++) {
 			Coordinate c = points.get(i);
 			p.lineTo(c.getX(), c.getY());
+		}
+		if (close) {
+			p.closePath();
 		}
 		g.draw(p);
 	}

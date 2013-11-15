@@ -158,7 +158,7 @@ public class SvgPainter implements Painter
 	}
 
 	@Override
-	public void drawPath(List<Coordinate> points)
+	public void drawPath(List<Coordinate> points, boolean close)
 	{
 		if (points.size() < 2) {
 			return;
@@ -171,6 +171,10 @@ public class SvgPainter implements Painter
 		for (int i = 1; i < points.size(); i++) {
 			Coordinate c = points.get(i);
 			pathLineTo(strb, c);
+		}
+
+		if (close) {
+			pathClose(strb);
 		}
 
 		stroke(strb);

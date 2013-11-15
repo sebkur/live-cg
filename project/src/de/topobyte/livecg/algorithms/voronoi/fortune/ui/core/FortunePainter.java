@@ -22,8 +22,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import de.topobyte.livecg.algorithms.voronoi.fortune.FortunesSweep;
 import de.topobyte.livecg.algorithms.voronoi.fortune.Delaunay;
+import de.topobyte.livecg.algorithms.voronoi.fortune.FortunesSweep;
 import de.topobyte.livecg.algorithms.voronoi.fortune.Voronoi;
 import de.topobyte.livecg.algorithms.voronoi.fortune.arc.AbstractArcNodeVisitor;
 import de.topobyte.livecg.algorithms.voronoi.fortune.arc.ArcNode;
@@ -50,7 +50,8 @@ public class FortunePainter extends BasicAlgorithmPainter
 	private Config config;
 	private DcelPainter dcelPainter;
 
-	public FortunePainter(FortunesSweep algorithm, Config config, Painter painter)
+	public FortunePainter(FortunesSweep algorithm, Config config,
+			Painter painter)
 	{
 		super(painter);
 		this.algorithm = algorithm;
@@ -315,7 +316,7 @@ public class FortunePainter extends BasicAlgorithmPainter
 			x1 = x2;
 			y1 = y2;
 		}
-		painter.drawPath(coords);
+		painter.drawPath(coords, false);
 	}
 
 	private void paintTraces(double beachY, ArcNode current, double sweepX)
