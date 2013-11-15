@@ -71,11 +71,8 @@ public class AwtPainter implements Painter
 	@Override
 	public void drawRect(double x, double y, double width, double height)
 	{
-		int ix = (int) Math.round(x);
-		int iy = (int) Math.round(y);
-		int w = (int) Math.round(x + width - ix);
-		int h = (int) Math.round(y + height - iy);
-		g.drawRect(ix, iy, w, h);
+		Rectangle2D.Double rect = new Rectangle2D.Double(x, y, width, height);
+		g.draw(rect);
 	}
 
 	@Override
@@ -87,11 +84,8 @@ public class AwtPainter implements Painter
 	@Override
 	public void fillRect(double x, double y, double width, double height)
 	{
-		int ix = (int) Math.round(x);
-		int iy = (int) Math.round(y);
-		int w = (int) Math.round(x + width - ix);
-		int h = (int) Math.round(y + height - iy);
-		g.fillRect(ix, iy, w, h);
+		Rectangle2D.Double rect = new Rectangle2D.Double(x, y, width, height);
+		g.fill(rect);
 	}
 
 	@Override
