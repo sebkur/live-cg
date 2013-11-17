@@ -147,4 +147,8 @@ and picks its input data from the Content
 instance of the GeometryEditor. By doing this, your visualization is able to be started
 from the main UI of LiveCG and can get its input geometries from the editor's scene.
 
+Create an action ChansAlgorithmAction in the package
+de.\-topobyte.\-livecg.\-geometryeditor.\-geometryeditor.\-actions.\-visualizations.
+Add an instance of this class in an appropriate menu of the Menu class.
+
 \end{document}
