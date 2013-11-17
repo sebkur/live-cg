@@ -41,6 +41,7 @@ import de.topobyte.livecg.geometryeditor.geometryeditor.action.SelectAllAction;
 import de.topobyte.livecg.geometryeditor.geometryeditor.action.SelectNothingAction;
 import de.topobyte.livecg.geometryeditor.geometryeditor.action.ShowContentDialogAction;
 import de.topobyte.livecg.geometryeditor.geometryeditor.action.ShowObjectDialogAction;
+import de.topobyte.livecg.geometryeditor.geometryeditor.action.visualizations.ChansAlgorithmAction;
 import de.topobyte.livecg.geometryeditor.geometryeditor.action.visualizations.DcelAction;
 import de.topobyte.livecg.geometryeditor.geometryeditor.action.visualizations.DistanceTerrainChainsAction;
 import de.topobyte.livecg.geometryeditor.geometryeditor.action.visualizations.DistanceTerrainSegmentsAction;
@@ -218,6 +219,8 @@ public class Menu extends JMenuBar
 				new TriangulationDualGraphAction(editPane));
 		JMenuItem shortestPathInPolygon = new JMenuItem(
 				new ShortestPathInPolygonAction(editPane));
+		JMenuItem chansAlgorithm = new JMenuItem(new ChansAlgorithmAction(
+				editPane));
 
 		visualizations.add(fortunesSweep);
 		visualizations.add(arrangements);
@@ -235,6 +238,7 @@ public class Menu extends JMenuBar
 		polygons.add(triangulation);
 		polygons.add(triangulationWithDualGraph);
 		polygons.add(shortestPathInPolygon);
+		polygons.add(chansAlgorithm);
 
 		/*
 		 * View
