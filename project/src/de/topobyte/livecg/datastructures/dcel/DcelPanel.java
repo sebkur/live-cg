@@ -38,9 +38,9 @@ public class DcelPanel extends ScenePanel implements SizeProvider
 	private AwtPainter painter;
 	private DcelPainter algorithmPainter;
 
-	public DcelPanel(DCEL dcel, DcelConfig config)
+	public DcelPanel(DCEL dcel, DcelConfig config, int margin)
 	{
-		super(scene(dcel));
+		super(scene(dcel, margin));
 		this.config = config;
 
 		painter = new AwtPainter(null);
@@ -48,10 +48,10 @@ public class DcelPanel extends ScenePanel implements SizeProvider
 		super.algorithmPainter = algorithmPainter;
 	}
 
-	private static Rectangle scene(DCEL dcel)
+	private static Rectangle scene(DCEL dcel, int margin)
 	{
 		Rectangle bbox = DcelUtil.getBoundingBox(dcel);
-		Rectangle scene = Rectangles.extend(bbox, 15);
+		Rectangle scene = Rectangles.extend(bbox, margin);
 		return scene;
 	}
 

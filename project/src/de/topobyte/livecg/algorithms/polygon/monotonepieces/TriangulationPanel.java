@@ -43,9 +43,9 @@ public class TriangulationPanel extends ScenePanel implements PolygonPanel,
 	private TriangulationPainter algorithmPainter;
 
 	public TriangulationPanel(Polygon polygon, List<Diagonal> diagonals,
-			Graph<Polygon, Diagonal> graph, Config config)
+			Graph<Polygon, Diagonal> graph, Config config, int margin)
 	{
-		super(scene(polygon, 15));
+		super(scene(polygon, margin));
 		this.config = config;
 
 		painter = new AwtPainter(null);

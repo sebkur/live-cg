@@ -27,7 +27,6 @@ import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.core.geometry.geom.Coordinate;
 import de.topobyte.livecg.core.geometry.geom.Node;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
-import de.topobyte.livecg.core.geometry.geom.Rectangle;
 import de.topobyte.livecg.core.painting.Color;
 import de.topobyte.livecg.core.painting.Painter;
 import de.topobyte.livecg.core.painting.TransformingAlgorithmPainter;
@@ -41,11 +40,11 @@ public class MonotonePiecesPainter extends TransformingAlgorithmPainter
 	private Config polygonConfig;
 	private Map<Polygon, java.awt.Color> colorMap;
 
-	public MonotonePiecesPainter(Rectangle scene,
-			MonotonePiecesAlgorithm algorithm, Config polygonConfig,
-			Map<Polygon, java.awt.Color> colorMap, Painter painter)
+	public MonotonePiecesPainter(MonotonePiecesAlgorithm algorithm,
+			Config polygonConfig, Map<Polygon, java.awt.Color> colorMap,
+			Painter painter)
 	{
-		super(scene, painter);
+		super(algorithm.getScene(), painter);
 		this.polygon = algorithm.getPolygon();
 		this.monotonePiecesOperation = algorithm.getMonotonePiecesOperation();
 		this.monotonePieces = algorithm.getMonotonePieces();

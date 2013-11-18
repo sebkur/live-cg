@@ -23,10 +23,7 @@ import java.awt.Graphics2D;
 import java.util.Map;
 
 import de.topobyte.livecg.core.export.SizeProvider;
-import de.topobyte.livecg.core.geometry.geom.BoundingBoxes;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
-import de.topobyte.livecg.core.geometry.geom.Rectangle;
-import de.topobyte.livecg.core.geometry.geom.Rectangles;
 import de.topobyte.livecg.core.painting.AwtPainter;
 import de.topobyte.livecg.core.scrolling.ScenePanel;
 import de.topobyte.livecg.core.scrolling.ViewportWithSignals;
@@ -39,39 +36,25 @@ public class MonotonePiecesTriangulationPanel extends ScenePanel implements
 
 	private static final long serialVersionUID = 2129465700417909129L;
 
-	private int margin = 15;
-
 	private Map<Polygon, Color> colorMap;
 
 	private Config polygonConfig;
 
-	private Rectangle scene;
 	private AwtPainter painter;
 	private MonotonePiecesTriangulationPainter algorithmPainter;
 
 	public MonotonePiecesTriangulationPanel(
 			MonotonePiecesTriangulationAlgorithm algorithm, Config polygonConfig)
 	{
-		super(scene(algorithm, 15));
+		super(algorithm.getScene());
 		this.polygonConfig = polygonConfig;
 
 		colorMap = ColorMapBuilder.buildColorMap(algorithm.getExtendedGraph());
 
-		Rectangle bbox = BoundingBoxes.get(algorithm.getPolygon());
-		scene = Rectangles.extend(bbox, margin);
-
 		painter = new AwtPainter(null);
-		algorithmPainter = new MonotonePiecesTriangulationPainter(scene,
-				algorithm, polygonConfig, colorMap, painter);
+		algorithmPainter = new MonotonePiecesTriangulationPainter(algorithm,
+				polygonConfig, colorMap, painter);
 		super.algorithmPainter = algorithmPainter;
-	}
-
-	private static Rectangle scene(MonotonePiecesAlgorithm algorithm,
-			double margin)
-	{
-		Rectangle bbox = BoundingBoxes.get(algorithm.getPolygon());
-		Rectangle scene = Rectangles.extend(bbox, margin);
-		return scene;
 	}
 
 	@Override

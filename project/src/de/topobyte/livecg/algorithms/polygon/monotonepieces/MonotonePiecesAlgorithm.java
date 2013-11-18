@@ -19,10 +19,14 @@ package de.topobyte.livecg.algorithms.polygon.monotonepieces;
 
 import java.util.List;
 
+import de.topobyte.livecg.core.SceneAlgorithm;
+import de.topobyte.livecg.core.geometry.geom.BoundingBoxes;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
+import de.topobyte.livecg.core.geometry.geom.Rectangle;
+import de.topobyte.livecg.core.geometry.geom.Rectangles;
 import de.topobyte.livecg.util.graph.Graph;
 
-public class MonotonePiecesAlgorithm
+public class MonotonePiecesAlgorithm implements SceneAlgorithm
 {
 
 	private Polygon polygon;
@@ -40,6 +44,14 @@ public class MonotonePiecesAlgorithm
 	public Polygon getPolygon()
 	{
 		return polygon;
+	}
+
+	@Override
+	public Rectangle getScene()
+	{
+		Rectangle bbox = BoundingBoxes.get(polygon);
+		Rectangle scene = Rectangles.extend(bbox, 15);
+		return scene;
 	}
 
 	protected void execute()

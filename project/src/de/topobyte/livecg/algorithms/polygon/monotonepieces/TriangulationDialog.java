@@ -41,6 +41,7 @@ public class TriangulationDialog
 	public TriangulationDialog(Polygon polygon)
 	{
 		frame = new JFrame("Triangulation with dual graph");
+		int margin = 15;
 
 		JPanel main = new JPanel();
 		frame.setContentPane(main);
@@ -55,7 +56,7 @@ public class TriangulationDialog
 
 		Config config = new Config();
 		TriangulationPanel tp = new TriangulationPanel(polygon, diagonals,
-				graph, config);
+				graph, config, margin);
 		ScrollableView<TriangulationPanel> scrollableView = new ScrollableView<TriangulationPanel>(
 				tp);
 
@@ -70,7 +71,7 @@ public class TriangulationDialog
 		 */
 
 		Rectangle bbox = BoundingBoxes.get(polygon);
-		Rectangle scene = Rectangles.extend(bbox, 15);
+		Rectangle scene = Rectangles.extend(bbox, margin);
 
 		TriangulationPainter painter = new TriangulationPainter(scene, polygon,
 				diagonals, graph, config, null);

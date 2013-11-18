@@ -36,14 +36,18 @@ import de.topobyte.livecg.algorithms.polygon.shortestpath.funnel.StepMoveApexToL
 import de.topobyte.livecg.algorithms.polygon.shortestpath.funnel.StepWalkBackward;
 import de.topobyte.livecg.algorithms.polygon.shortestpath.funnel.StepWalkForward;
 import de.topobyte.livecg.core.AlgorithmWatcher;
+import de.topobyte.livecg.core.SceneAlgorithm;
+import de.topobyte.livecg.core.geometry.geom.BoundingBoxes;
 import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.core.geometry.geom.CrossingsTest;
 import de.topobyte.livecg.core.geometry.geom.GeomMath;
 import de.topobyte.livecg.core.geometry.geom.Node;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
+import de.topobyte.livecg.core.geometry.geom.Rectangle;
+import de.topobyte.livecg.core.geometry.geom.Rectangles;
 import de.topobyte.livecg.util.graph.Graph;
 
-public class ShortestPathAlgorithm
+public class ShortestPathAlgorithm implements SceneAlgorithm
 {
 	final static Logger logger = LoggerFactory
 			.getLogger(ShortestPathAlgorithm.class);
@@ -94,6 +98,14 @@ public class ShortestPathAlgorithm
 		graph = splitResult.getGraph();
 
 		setup();
+	}
+
+	@Override
+	public Rectangle getScene()
+	{
+		Rectangle bbox = BoundingBoxes.get(polygon);
+		Rectangle scene = Rectangles.extend(bbox, 15);
+		return scene;
 	}
 
 	public void addWatcher(AlgorithmWatcher watcher)
@@ -594,4 +606,5 @@ public class ShortestPathAlgorithm
 		}
 		return data.get(other(on), s - lengthOfFirstPath - 2);
 	}
+
 }

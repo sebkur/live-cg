@@ -41,6 +41,7 @@ public class DcelDialog
 	public DcelDialog(Content content)
 	{
 		frame = new JFrame("DCEL");
+		int margin = 15;
 
 		DCEL dcel = DcelConverter.convert(content);
 
@@ -49,7 +50,7 @@ public class DcelDialog
 		main.setLayout(new BorderLayout());
 
 		DcelConfig config = new DcelConfig();
-		DcelPanel dcelPanel = new DcelPanel(dcel, config);
+		DcelPanel dcelPanel = new DcelPanel(dcel, config, margin);
 		Settings settings = new Settings(dcelPanel);
 
 		ScrollableView<DcelPanel> scrollableView = new ScrollableView<DcelPanel>(
@@ -63,7 +64,7 @@ public class DcelDialog
 		 */
 
 		Rectangle bbox = DcelUtil.getBoundingBox(dcel);
-		Rectangle scene = Rectangles.extend(bbox, 15);
+		Rectangle scene = Rectangles.extend(bbox, margin);
 
 		DcelPainter painter = new InstanceDcelPainter(scene, dcel, config, null);
 

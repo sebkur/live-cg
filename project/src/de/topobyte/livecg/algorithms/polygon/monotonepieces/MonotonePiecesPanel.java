@@ -26,10 +26,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.topobyte.livecg.core.export.SizeProvider;
-import de.topobyte.livecg.core.geometry.geom.BoundingBoxes;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
-import de.topobyte.livecg.core.geometry.geom.Rectangle;
-import de.topobyte.livecg.core.geometry.geom.Rectangles;
 import de.topobyte.livecg.core.painting.AwtPainter;
 import de.topobyte.livecg.core.scrolling.HasMargin;
 import de.topobyte.livecg.core.scrolling.ScenePanel;
@@ -56,23 +53,15 @@ public class MonotonePiecesPanel extends ScenePanel implements PolygonPanel,
 	public MonotonePiecesPanel(MonotonePiecesAlgorithm algorithm,
 			Config polygonConfig)
 	{
-		super(scene(algorithm, 15));
+		super(algorithm.getScene());
 		this.polygonConfig = polygonConfig;
 
 		colorMap = ColorMapBuilder.buildColorMap(algorithm.getExtendedGraph());
 
 		painter = new AwtPainter(null);
-		algorithmPainter = new MonotonePiecesPainter(scene, algorithm,
-				polygonConfig, colorMap, painter);
+		algorithmPainter = new MonotonePiecesPainter(algorithm, polygonConfig,
+				colorMap, painter);
 		super.algorithmPainter = algorithmPainter;
-	}
-
-	private static Rectangle scene(MonotonePiecesAlgorithm algorithm,
-			double margin)
-	{
-		Rectangle bbox = BoundingBoxes.get(algorithm.getPolygon());
-		Rectangle scene = Rectangles.extend(bbox, margin);
-		return scene;
 	}
 
 	@Override

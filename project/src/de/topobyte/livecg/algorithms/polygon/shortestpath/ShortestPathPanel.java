@@ -21,10 +21,6 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 
 import de.topobyte.livecg.core.export.SizeProvider;
-import de.topobyte.livecg.core.geometry.geom.BoundingBoxes;
-import de.topobyte.livecg.core.geometry.geom.Polygon;
-import de.topobyte.livecg.core.geometry.geom.Rectangle;
-import de.topobyte.livecg.core.geometry.geom.Rectangles;
 import de.topobyte.livecg.core.painting.AwtPainter;
 import de.topobyte.livecg.core.scrolling.ScenePanel;
 import de.topobyte.livecg.util.SwingUtil;
@@ -41,20 +37,12 @@ public class ShortestPathPanel extends ScenePanel implements SizeProvider
 
 	public ShortestPathPanel(ShortestPathAlgorithm algorithm, Config config)
 	{
-		super(scene(algorithm.getPolygon(), 15));
+		super(algorithm.getScene());
 		this.algorithm = algorithm;
 
 		painter = new AwtPainter(null);
-		algorithmPainter = new ShortestPathPainter(scene, algorithm, config,
-				painter);
+		algorithmPainter = new ShortestPathPainter(algorithm, config, painter);
 		super.algorithmPainter = algorithmPainter;
-	}
-
-	private static Rectangle scene(Polygon polygon, double margin)
-	{
-		Rectangle bbox = BoundingBoxes.get(polygon);
-		Rectangle scene = Rectangles.extend(bbox, margin);
-		return scene;
 	}
 
 	public ShortestPathAlgorithm getAlgorithm()

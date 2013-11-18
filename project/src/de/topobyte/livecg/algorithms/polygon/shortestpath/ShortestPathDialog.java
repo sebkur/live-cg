@@ -37,9 +37,6 @@ import de.topobyte.livecg.algorithms.polygon.shortestpath.funnel.Step;
 import de.topobyte.livecg.core.AlgorithmChangedListener;
 import de.topobyte.livecg.core.AlgorithmWatcher;
 import de.topobyte.livecg.core.export.ExportUtil;
-import de.topobyte.livecg.core.geometry.geom.BoundingBoxes;
-import de.topobyte.livecg.core.geometry.geom.Rectangle;
-import de.topobyte.livecg.core.geometry.geom.Rectangles;
 import de.topobyte.livecg.core.scrolling.ScrollableView;
 
 public class ShortestPathDialog implements AlgorithmChangedListener,
@@ -114,10 +111,7 @@ public class ShortestPathDialog implements AlgorithmChangedListener,
 		 * Menu
 		 */
 
-		Rectangle bbox = BoundingBoxes.get(algorithm.getPolygon());
-		Rectangle scene = Rectangles.extend(bbox, 15);
-
-		ShortestPathPainter painter = new ShortestPathPainter(scene, algorithm,
+		ShortestPathPainter painter = new ShortestPathPainter(algorithm,
 				config, null);
 
 		JMenuBar menu = new JMenuBar();

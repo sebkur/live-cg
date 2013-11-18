@@ -22,7 +22,6 @@ import java.util.Map;
 
 import de.topobyte.livecg.core.geometry.geom.Coordinate;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
-import de.topobyte.livecg.core.geometry.geom.Rectangle;
 import de.topobyte.livecg.core.painting.Color;
 import de.topobyte.livecg.core.painting.Painter;
 import de.topobyte.livecg.util.coloring.AlternatingColorMapBuilder;
@@ -34,12 +33,12 @@ public class MonotonePiecesTriangulationPainter extends MonotonePiecesPainter
 	private MonotonePiecesTriangulationAlgorithm algorithm;
 	private List<List<Diagonal>> allDiagonals;
 
-	public MonotonePiecesTriangulationPainter(Rectangle scene,
+	public MonotonePiecesTriangulationPainter(
 			MonotonePiecesTriangulationAlgorithm algorithm,
 			Config polygonConfig, Map<Polygon, java.awt.Color> colorMap,
 			Painter painter)
 	{
-		super(scene, algorithm, polygonConfig, colorMap, painter);
+		super(algorithm, polygonConfig, colorMap, painter);
 		this.algorithm = algorithm;
 		this.allDiagonals = algorithm.getAllDiagonals();
 	}
