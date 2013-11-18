@@ -87,7 +87,7 @@ public class ChansAlgorithmPainter extends TransformingAlgorithmPainter
 
 		Color colorOulines = new Color(0x000000);
 		Color colorNodes = new Color(0x000000);
-		Color colorHull = new Color(0x000000);
+		Color colorHull = new Color(0x00ff00);
 		Color colorIds = new Color(0x000000);
 		Color colorTangents = new Color(0xff0000);
 		Color colorSearchTangent = new Color(0xff00ff);
@@ -271,9 +271,11 @@ public class ChansAlgorithmPainter extends TransformingAlgorithmPainter
 			painter.setStrokeWidth(2.0);
 			painter.drawPath(hullCoordinates, phase == Phase.DONE);
 			painter.setStrokeWidth(1.0);
+
+			painter.setColor(colorNodes);
 			for (Node node : hull) {
 				Coordinate c = transformer.transform(node.getCoordinate());
-				painter.drawRect(c.getX() - 6, c.getY() - 6, 12, 12);
+				painter.drawCircle(c.getX(), c.getY(), 4);
 			}
 		}
 
