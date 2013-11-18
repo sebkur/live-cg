@@ -67,7 +67,11 @@ public class ChansAlgorithmPainter extends TransformingAlgorithmPainter
 		Phase phase = algorithm.getPhase();
 
 		painter.setColor(new Color(0x000000));
-		painter.drawString(phase.toString(), 20, 40);
+
+		Coordinate text = transformer.transform(new Coordinate(
+				scene.getX1() + 10, scene.getY1() + 20));
+		System.out.println(text);
+		painter.drawString(phase.toString(), text.getX(), text.getY());
 
 		filled = new HashSet<Polygon>();
 
