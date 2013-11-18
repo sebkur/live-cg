@@ -89,6 +89,7 @@ public class SvgPainter implements Painter
 		rectangle.setAttributeNS(null, "height", Integer.toString(height));
 		rectangle.setAttributeNS(null, "stroke", getCurrentColor());
 		rectangle.setAttributeNS(null, "stroke-width", this.width + "px");
+		rectangle.setAttributeNS(null, "fill", "none");
 
 		append(rectangle);
 	}
@@ -103,6 +104,7 @@ public class SvgPainter implements Painter
 		rectangle.setAttributeNS(null, "height", Double.toString(height));
 		rectangle.setAttributeNS(null, "stroke", getCurrentColor());
 		rectangle.setAttributeNS(null, "stroke-width", this.width + "px");
+		rectangle.setAttributeNS(null, "fill", "none");
 
 		append(rectangle);
 	}
@@ -190,6 +192,7 @@ public class SvgPainter implements Painter
 		circle.setAttributeNS(null, "fill", "none");
 		circle.setAttributeNS(null, "stroke", getCurrentColor());
 		circle.setAttributeNS(null, "stroke-width", width + "px");
+		circle.setAttributeNS(null, "fill", "none");
 
 		append(circle);
 	}
