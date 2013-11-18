@@ -31,7 +31,7 @@ import de.topobyte.livecg.core.geometry.dcel.DcelUtil;
 import de.topobyte.livecg.core.geometry.geom.Rectangle;
 import de.topobyte.livecg.core.geometry.geom.Rectangles;
 import de.topobyte.livecg.core.scrolling.ScrollableView;
-import de.topobyte.livecg.geometryeditor.geometryeditor.Content;
+import de.topobyte.livecg.ui.geometryeditor.Content;
 
 public class DcelDialog
 {

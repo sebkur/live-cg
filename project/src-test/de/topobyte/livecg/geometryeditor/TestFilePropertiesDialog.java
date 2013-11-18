@@ -20,8 +20,8 @@ package de.topobyte.livecg.geometryeditor;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-import de.topobyte.livecg.geometryeditor.geometryeditor.Content;
-import de.topobyte.livecg.geometryeditor.geometryeditor.FilePropertiesDialog;
+import de.topobyte.livecg.ui.geometryeditor.Content;
+import de.topobyte.livecg.ui.geometryeditor.FilePropertiesDialog;
 
 public class TestFilePropertiesDialog
 {

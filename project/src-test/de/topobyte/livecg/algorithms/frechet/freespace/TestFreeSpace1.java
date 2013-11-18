@@ -27,7 +27,7 @@ import org.xml.sax.SAXException;
 
 import de.topobyte.livecg.algorithms.frechet.ui.FreeSpaceDialog1;
 import de.topobyte.livecg.core.geometry.io.ContentReader;
-import de.topobyte.livecg.geometryeditor.geometryeditor.Content;
+import de.topobyte.livecg.ui.geometryeditor.Content;
 
 public class TestFreeSpace1
 {

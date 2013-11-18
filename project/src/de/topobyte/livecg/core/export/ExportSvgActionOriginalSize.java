@@ -29,8 +29,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.topobyte.livecg.core.painting.AlgorithmPainter;
-import de.topobyte.livecg.geometryeditor.action.BasicAction;
-import de.topobyte.livecg.geometryeditor.filefilters.FileFilterSvg;
+import de.topobyte.livecg.ui.action.BasicAction;
+import de.topobyte.livecg.ui.filefilters.FileFilterSvg;
 
 public class ExportSvgActionOriginalSize extends BasicAction
 {

@@ -30,7 +30,7 @@ import javax.xml.parsers.SAXParserFactory;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
-import de.topobyte.livecg.geometryeditor.geometryeditor.Content;
+import de.topobyte.livecg.ui.geometryeditor.Content;
 
 public class ContentReader extends SetOfGeometryReader
 {

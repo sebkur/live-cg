@@ -31,8 +31,8 @@ import de.topobyte.livecg.core.geometry.geom.Rectangle;
 import de.topobyte.livecg.core.painting.AlgorithmPainter;
 import de.topobyte.livecg.core.scrolling.HasScene;
 import de.topobyte.livecg.core.scrolling.Viewport;
-import de.topobyte.livecg.geometryeditor.action.BasicAction;
-import de.topobyte.livecg.geometryeditor.filefilters.FileFilterBitmap;
+import de.topobyte.livecg.ui.action.BasicAction;
+import de.topobyte.livecg.ui.filefilters.FileFilterBitmap;
 
 public class ExportBitmapActionZoomed<T extends Viewport & HasScene> extends
 		BasicAction

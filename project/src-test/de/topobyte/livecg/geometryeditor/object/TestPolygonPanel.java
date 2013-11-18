@@ -21,8 +21,8 @@ import javax.swing.JFrame;
 
 import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
-import de.topobyte.livecg.geometryeditor.geometryeditor.GeometryEditPane;
-import de.topobyte.livecg.geometryeditor.geometryeditor.object.single.PolygonPanel;
+import de.topobyte.livecg.ui.geometryeditor.GeometryEditPane;
+import de.topobyte.livecg.ui.geometryeditor.object.single.PolygonPanel;
 
 public class TestPolygonPanel
 {

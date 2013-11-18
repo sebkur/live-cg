@@ -25,7 +25,7 @@ import javax.swing.JPanel;
 import de.topobyte.livecg.algorithms.frechet.distanceterrain.DistanceTerrainPainterSegments;
 import de.topobyte.livecg.algorithms.frechet.freespace.calc.LineSegment;
 import de.topobyte.livecg.core.painting.AwtPainter;
-import de.topobyte.livecg.geometryeditor.segmenteditor.SegmentChangeListener;
+import de.topobyte.livecg.ui.segmenteditor.SegmentChangeListener;
 import de.topobyte.livecg.util.SwingUtil;
 
 public class SegmentPane extends JPanel implements SegmentChangeListener

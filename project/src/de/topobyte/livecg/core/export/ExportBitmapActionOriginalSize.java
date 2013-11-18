@@ -28,8 +28,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.topobyte.livecg.core.painting.AlgorithmPainter;
-import de.topobyte.livecg.geometryeditor.action.BasicAction;
-import de.topobyte.livecg.geometryeditor.filefilters.FileFilterBitmap;
+import de.topobyte.livecg.ui.action.BasicAction;
+import de.topobyte.livecg.ui.filefilters.FileFilterBitmap;
 
 public class ExportBitmapActionOriginalSize extends BasicAction
 {

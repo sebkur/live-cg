@@ -27,7 +27,7 @@ import org.apache.log4j.BasicConfigurator;
 
 import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.core.geometry.geom.Coordinate;
-import de.topobyte.livecg.geometryeditor.segmenteditor.SegmentEditor;
+import de.topobyte.livecg.ui.segmenteditor.SegmentEditor;
 
 public class TestSegmentEditor
 {

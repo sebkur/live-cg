@@ -21,8 +21,8 @@ import javax.swing.JFrame;
 
 import de.topobyte.livecg.core.geometry.geom.Coordinate;
 import de.topobyte.livecg.core.geometry.geom.Node;
-import de.topobyte.livecg.geometryeditor.geometryeditor.GeometryEditPane;
-import de.topobyte.livecg.geometryeditor.geometryeditor.object.single.NodePanel;
+import de.topobyte.livecg.ui.geometryeditor.GeometryEditPane;
+import de.topobyte.livecg.ui.geometryeditor.object.single.NodePanel;
 
 public class TestNodePanel
 {

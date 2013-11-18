@@ -37,8 +37,8 @@ import de.topobyte.livecg.algorithms.frechet.distanceterrain.DistanceTerrainPain
 import de.topobyte.livecg.algorithms.frechet.distanceterrain.Settings;
 import de.topobyte.livecg.core.export.ExportUtil;
 import de.topobyte.livecg.core.geometry.geom.Chain;
-import de.topobyte.livecg.geometryeditor.geometryeditor.Content;
-import de.topobyte.livecg.geometryeditor.geometryeditor.ContentChangedListener;
+import de.topobyte.livecg.ui.geometryeditor.Content;
+import de.topobyte.livecg.ui.geometryeditor.ContentChangedListener;
 
 public class DistanceTerrainDialog implements ContentChangedListener
 {

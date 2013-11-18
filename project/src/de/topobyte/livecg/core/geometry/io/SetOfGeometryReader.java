@@ -41,7 +41,7 @@ import de.topobyte.livecg.core.geometry.geom.CloseabilityException;
 import de.topobyte.livecg.core.geometry.geom.Coordinate;
 import de.topobyte.livecg.core.geometry.geom.Node;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
-import de.topobyte.livecg.geometryeditor.geometryeditor.SetOfGeometries;
+import de.topobyte.livecg.ui.geometryeditor.SetOfGeometries;
 
 public class SetOfGeometryReader extends DefaultHandler
 {

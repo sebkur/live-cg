@@ -20,8 +20,8 @@ package de.topobyte.livecg.geometryeditor.presets;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
-import de.topobyte.livecg.geometryeditor.geometryeditor.GeometryEditPane;
-import de.topobyte.livecg.geometryeditor.geometryeditor.presets.PresetMenu;
+import de.topobyte.livecg.ui.geometryeditor.GeometryEditPane;
+import de.topobyte.livecg.ui.geometryeditor.presets.PresetMenu;
 
 public class TestPresetBuilder
 {

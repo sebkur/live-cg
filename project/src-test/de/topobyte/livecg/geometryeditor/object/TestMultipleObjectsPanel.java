@@ -23,8 +23,8 @@ import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.core.geometry.geom.CloseabilityException;
 import de.topobyte.livecg.core.geometry.geom.Coordinate;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
-import de.topobyte.livecg.geometryeditor.geometryeditor.GeometryEditPane;
-import de.topobyte.livecg.geometryeditor.geometryeditor.object.multiple.MultiplePanel;
+import de.topobyte.livecg.ui.geometryeditor.GeometryEditPane;
+import de.topobyte.livecg.ui.geometryeditor.object.multiple.MultiplePanel;
 
 public class TestMultipleObjectsPanel
 {

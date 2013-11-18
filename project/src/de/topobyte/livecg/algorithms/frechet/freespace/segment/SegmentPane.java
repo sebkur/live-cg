@@ -29,7 +29,7 @@ import de.topobyte.livecg.algorithms.frechet.freespace.calc.FreeSpaceUtil;
 import de.topobyte.livecg.algorithms.frechet.freespace.calc.Interval;
 import de.topobyte.livecg.algorithms.frechet.freespace.calc.LineSegment;
 import de.topobyte.livecg.core.painting.AwtPainter;
-import de.topobyte.livecg.geometryeditor.segmenteditor.SegmentChangeListener;
+import de.topobyte.livecg.ui.segmenteditor.SegmentChangeListener;
 import de.topobyte.livecg.util.DoubleUtil;
 import de.topobyte.livecg.util.SwingUtil;
 

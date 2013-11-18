@@ -30,7 +30,7 @@ import de.topobyte.livecg.core.geometry.geom.Node;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
 import de.topobyte.livecg.core.geometry.util.Segment;
 import de.topobyte.livecg.core.geometry.util.SegmentIterable;
-import de.topobyte.livecg.geometryeditor.geometryeditor.Content;
+import de.topobyte.livecg.ui.geometryeditor.Content;
 import de.topobyte.livecg.util.circular.IntRing;
 import de.topobyte.livecg.util.datasorting.ObjectWithDouble;
 

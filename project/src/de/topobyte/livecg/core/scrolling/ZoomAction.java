@@ -21,7 +21,7 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.JComponent;
 
-import de.topobyte.livecg.geometryeditor.action.BasicAction;
+import de.topobyte.livecg.ui.action.BasicAction;
 
 public class ZoomAction<T extends JComponent & Viewport> extends BasicAction
 {

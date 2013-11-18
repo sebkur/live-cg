@@ -45,8 +45,8 @@ import de.topobyte.livecg.algorithms.frechet.ui.lineview.ControlledLineSegmentVi
 import de.topobyte.livecg.algorithms.frechet.ui.lineview.LineSegmentView;
 import de.topobyte.livecg.core.export.ExportUtil;
 import de.topobyte.livecg.core.geometry.geom.Chain;
-import de.topobyte.livecg.geometryeditor.geometryeditor.Content;
-import de.topobyte.livecg.geometryeditor.geometryeditor.ContentChangedListener;
+import de.topobyte.livecg.ui.geometryeditor.Content;
+import de.topobyte.livecg.ui.geometryeditor.ContentChangedListener;
 
 public class FreeSpaceDialog2 implements ContentChangedListener
 {
