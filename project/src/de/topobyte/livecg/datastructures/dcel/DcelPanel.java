@@ -17,17 +17,12 @@
  */
 package de.topobyte.livecg.datastructures.dcel;
 
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-
 import de.topobyte.livecg.core.export.SizeProvider;
 import de.topobyte.livecg.core.geometry.dcel.DCEL;
 import de.topobyte.livecg.core.geometry.dcel.DcelUtil;
 import de.topobyte.livecg.core.geometry.geom.Rectangle;
 import de.topobyte.livecg.core.geometry.geom.Rectangles;
-import de.topobyte.livecg.core.painting.AwtPainter;
 import de.topobyte.livecg.core.scrolling.ScenePanel;
-import de.topobyte.livecg.util.SwingUtil;
 
 public class DcelPanel extends ScenePanel implements SizeProvider
 {
@@ -35,17 +30,13 @@ public class DcelPanel extends ScenePanel implements SizeProvider
 	private static final long serialVersionUID = 8978186265217218174L;
 
 	private DcelConfig config;
-	private AwtPainter painter;
-	private DcelPainter algorithmPainter;
 
 	public DcelPanel(DCEL dcel, DcelConfig config, int margin)
 	{
 		super(scene(dcel, margin));
 		this.config = config;
 
-		painter = new AwtPainter(null);
 		algorithmPainter = new InstanceDcelPainter(scene, dcel, config, painter);
-		super.algorithmPainter = algorithmPainter;
 	}
 
 	private static Rectangle scene(DCEL dcel, int margin)
@@ -58,19 +49,6 @@ public class DcelPanel extends ScenePanel implements SizeProvider
 	public DcelConfig getConfig()
 	{
 		return config;
-	}
-
-	@Override
-	public void paint(Graphics graphics)
-	{
-		super.paint(graphics);
-		Graphics2D g = (Graphics2D) graphics;
-		SwingUtil.useAntialiasing(g, true);
-
-		painter.setGraphics(g);
-		algorithmPainter.setWidth(getWidth());
-		algorithmPainter.setHeight(getHeight());
-		algorithmPainter.paint();
 	}
 
 	public void settingsUpdated()

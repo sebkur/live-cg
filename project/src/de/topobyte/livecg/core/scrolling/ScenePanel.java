@@ -17,6 +17,8 @@
  */
 package de.topobyte.livecg.core.scrolling;
 
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.util.ArrayList;
@@ -29,6 +31,8 @@ import org.slf4j.LoggerFactory;
 
 import de.topobyte.livecg.core.geometry.geom.Rectangle;
 import de.topobyte.livecg.core.painting.AlgorithmPainter;
+import de.topobyte.livecg.core.painting.AwtPainter;
+import de.topobyte.livecg.util.SwingUtil;
 
 public class ScenePanel extends JPanel implements ViewportWithSignals,
 		HasScene, HasMargin
@@ -46,11 +50,15 @@ public class ScenePanel extends JPanel implements ViewportWithSignals,
 	protected double positionY = 0;
 	protected double zoom = 1;
 
+	protected AwtPainter painter;
+
 	protected AlgorithmPainter algorithmPainter;
 
 	public ScenePanel(Rectangle scene)
 	{
 		this.scene = scene;
+
+		painter = new AwtPainter(null);
 
 		addComponentListener(new ComponentAdapter() {
 
@@ -61,6 +69,19 @@ public class ScenePanel extends JPanel implements ViewportWithSignals,
 			}
 
 		});
+	}
+
+	@Override
+	public void paint(Graphics graphics)
+	{
+		super.paint(graphics);
+		Graphics2D g = (Graphics2D) graphics;
+		SwingUtil.useAntialiasing(g, true);
+
+		painter.setGraphics(g);
+		algorithmPainter.setWidth(getWidth());
+		algorithmPainter.setHeight(getHeight());
+		algorithmPainter.paint();
 	}
 
 	@Override

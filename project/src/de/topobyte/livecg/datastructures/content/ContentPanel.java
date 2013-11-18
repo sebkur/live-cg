@@ -17,14 +17,9 @@
  */
 package de.topobyte.livecg.datastructures.content;
 
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-
 import de.topobyte.livecg.core.export.SizeProvider;
-import de.topobyte.livecg.core.painting.AwtPainter;
 import de.topobyte.livecg.core.scrolling.ScenePanel;
 import de.topobyte.livecg.ui.geometryeditor.Content;
-import de.topobyte.livecg.util.SwingUtil;
 
 public class ContentPanel extends ScenePanel implements SizeProvider
 {
@@ -32,35 +27,18 @@ public class ContentPanel extends ScenePanel implements SizeProvider
 	private static final long serialVersionUID = -5359677679398120484L;
 
 	private ContentConfig config;
-	private AwtPainter painter;
-	private ContentPainter algorithmPainter;
 
 	public ContentPanel(Content content, ContentConfig config, int margin)
 	{
 		super(content.getScene());
 		this.config = config;
 
-		painter = new AwtPainter(null);
 		algorithmPainter = new ContentPainter(scene, content, config, painter);
-		super.algorithmPainter = algorithmPainter;
 	}
 
 	public ContentConfig getConfig()
 	{
 		return config;
-	}
-
-	@Override
-	public void paint(Graphics graphics)
-	{
-		super.paint(graphics);
-		Graphics2D g = (Graphics2D) graphics;
-		SwingUtil.useAntialiasing(g, true);
-
-		painter.setGraphics(g);
-		algorithmPainter.setWidth(getWidth());
-		algorithmPainter.setHeight(getHeight());
-		algorithmPainter.paint();
 	}
 
 	public void settingsUpdated()

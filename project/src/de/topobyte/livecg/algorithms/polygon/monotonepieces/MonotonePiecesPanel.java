@@ -18,8 +18,6 @@
 package de.topobyte.livecg.algorithms.polygon.monotonepieces;
 
 import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -27,11 +25,9 @@ import org.slf4j.LoggerFactory;
 
 import de.topobyte.livecg.core.export.SizeProvider;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
-import de.topobyte.livecg.core.painting.AwtPainter;
 import de.topobyte.livecg.core.scrolling.HasMargin;
 import de.topobyte.livecg.core.scrolling.ScenePanel;
 import de.topobyte.livecg.core.scrolling.ViewportWithSignals;
-import de.topobyte.livecg.util.SwingUtil;
 import de.topobyte.livecg.util.coloring.ColorMapBuilder;
 
 public class MonotonePiecesPanel extends ScenePanel implements PolygonPanel,
@@ -47,9 +43,6 @@ public class MonotonePiecesPanel extends ScenePanel implements PolygonPanel,
 
 	private Config polygonConfig;
 
-	private AwtPainter painter;
-	private MonotonePiecesPainter algorithmPainter;
-
 	public MonotonePiecesPanel(MonotonePiecesAlgorithm algorithm,
 			Config polygonConfig)
 	{
@@ -58,23 +51,8 @@ public class MonotonePiecesPanel extends ScenePanel implements PolygonPanel,
 
 		colorMap = ColorMapBuilder.buildColorMap(algorithm.getExtendedGraph());
 
-		painter = new AwtPainter(null);
 		algorithmPainter = new MonotonePiecesPainter(algorithm, polygonConfig,
 				colorMap, painter);
-		super.algorithmPainter = algorithmPainter;
-	}
-
-	@Override
-	public void paint(Graphics graphics)
-	{
-		super.paint(graphics);
-		Graphics2D g = (Graphics2D) graphics;
-		SwingUtil.useAntialiasing(g, true);
-
-		painter.setGraphics(g);
-		algorithmPainter.setWidth(getWidth());
-		algorithmPainter.setHeight(getHeight());
-		algorithmPainter.paint();
 	}
 
 	@Override
