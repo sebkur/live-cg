@@ -86,6 +86,11 @@ public class ChansAlgorithmPainter extends TransformingAlgorithmPainter
 		Color colorFoundAll = new Color(0x3333ff);
 		Color colorBest = new Color(0x99ff99);
 
+		Color colorOulines = new Color(0x000000);
+		Color colorNodes = new Color(0x000000);
+		Color colorHull = new Color(0x000000);
+		Color colorIds = new Color(0x000000);
+
 		if (phase.ordinal() <= Phase.INITIALIZED_DATASTRUCTURES.ordinal()
 				|| phase == Phase.DONE) {
 			painter.setColor(colorOthers);
@@ -149,7 +154,7 @@ public class ChansAlgorithmPainter extends TransformingAlgorithmPainter
 		 */
 
 		// Outline for all polygons
-		painter.setColor(new Color(0x000000));
+		painter.setColor(colorOulines);
 		for (Polygon polygon : algorithm.getPolygons()) {
 			Polygon tpolygon = transformer.transform(polygon);
 			painter.drawPolygon(tpolygon);
@@ -162,7 +167,7 @@ public class ChansAlgorithmPainter extends TransformingAlgorithmPainter
 		// Leftmost nodes that have already been found
 		if (phase.ordinal() >= Phase.FIND_LEFTMOST_NODES.ordinal()
 				&& phase.ordinal() < Phase.INITIALIZED_DATASTRUCTURES.ordinal()) {
-			painter.setColor(new Color(0x000000));
+			painter.setColor(colorNodes);
 			Map<Polygon, Node> leftMostNodes = algorithm.getLeftMostNodes();
 			for (Polygon polygon : algorithm.getPolygons()) {
 				Node node = leftMostNodes.get(polygon);
@@ -176,6 +181,7 @@ public class ChansAlgorithmPainter extends TransformingAlgorithmPainter
 
 		// Already found tangent nodes
 		if (phase.ordinal() >= Phase.INITIALIZED_DATASTRUCTURES.ordinal()) {
+			painter.setColor(colorNodes);
 			List<Integer> positions = algorithm.getPositions();
 			for (int i = 0; i < positions.size(); i++) {
 				int pos = positions.get(i);
@@ -188,6 +194,7 @@ public class ChansAlgorithmPainter extends TransformingAlgorithmPainter
 
 		// Tangent search nodes
 		if (phase == Phase.LOOK_FOR_TANGENTS) {
+			painter.setColor(colorNodes);
 			if (algorithm.getPosition() >= 0) {
 				Polygon p = algorithm.getPolygons().get(
 						algorithm.getPolygonId());
@@ -200,6 +207,7 @@ public class ChansAlgorithmPainter extends TransformingAlgorithmPainter
 
 		if (phase == Phase.FOUND_OVERALL_LEFTMOST_NODE
 				|| phase == Phase.INITIALIZE_DATASTRUCTURES) {
+			painter.setColor(colorNodes);
 			Node node = algorithm.getLeftMostNode();
 			Coordinate c = transformer.transform(node.getCoordinate());
 			painter.drawCircle(c.getX(), c.getY(), 7);
@@ -207,6 +215,7 @@ public class ChansAlgorithmPainter extends TransformingAlgorithmPainter
 
 		// Computed hull
 		if (phase.ordinal() >= Phase.INITIALIZED_DATASTRUCTURES.ordinal()) {
+			painter.setColor(colorHull);
 			List<Node> hull = algorithm.getHull();
 			List<Coordinate> hullCoordinates = new ArrayList<Coordinate>();
 			for (int i = 0; i < hull.size(); i++) {
@@ -225,6 +234,7 @@ public class ChansAlgorithmPainter extends TransformingAlgorithmPainter
 
 		// Ids
 		for (int i = 0; i < algorithm.getPolygons().size(); i++) {
+			painter.setColor(colorIds);
 			Polygon polygon = algorithm.getPolygons().get(i);
 			Coordinate c = transformer.transform(PolygonHelper.center(polygon));
 			painter.drawString(String.format("%d", i), c.getX(), c.getY());
