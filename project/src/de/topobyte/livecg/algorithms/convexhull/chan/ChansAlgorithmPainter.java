@@ -183,73 +183,7 @@ public class ChansAlgorithmPainter extends TransformingAlgorithmPainter
 			}
 		}
 
-		// Tangents
-		if (phase.ordinal() >= Phase.INITIALIZED_DATASTRUCTURES.ordinal()
-				&& phase != Phase.BEST_TANGENT_FOUND && phase != Phase.DONE) {
-			painter.setColor(colorTangents);
-			painter.setStrokeWidth(widthTangents);
-			Coordinate current = transformer.transform(algorithm
-					.getCurrentNode().getCoordinate());
-
-			List<Integer> positions = algorithm.getPositions();
-			for (int i = 0; i < positions.size(); i++) {
-				int pos = positions.get(i);
-				Polygon polygon = algorithm.getPolygons().get(i);
-				Node node = polygon.getShell().getNode(pos);
-				Coordinate c = transformer.transform(node.getCoordinate());
-
-				painter.drawLine(current.getX(), current.getY(), c.getX(),
-						c.getY());
-			}
-			painter.setStrokeWidth(1.0);
-		}
-
-		// Already found tangent nodes
-		if (phase.ordinal() >= Phase.INITIALIZED_DATASTRUCTURES.ordinal()) {
-			painter.setColor(colorNodes);
-			List<Integer> positions = algorithm.getPositions();
-			for (int i = 0; i < positions.size(); i++) {
-				int pos = positions.get(i);
-				Polygon polygon = algorithm.getPolygons().get(i);
-				Node node = polygon.getShell().getNode(pos);
-				Coordinate c = transformer.transform(node.getCoordinate());
-				painter.fillCircle(c.getX(), c.getY(), 4);
-			}
-		}
-
-		// Search tangent
-		if (phase == Phase.LOOK_FOR_TANGENTS) {
-			painter.setColor(colorSearchTangent);
-			painter.setStrokeWidth(widthSearchTangent);
-			Coordinate current = transformer.transform(algorithm
-					.getCurrentNode().getCoordinate());
-
-			if (algorithm.getPosition() >= 0) {
-				Polygon p = algorithm.getPolygons().get(
-						algorithm.getPolygonId());
-				Chain shell = p.getShell();
-				Node node = shell.getNode(algorithm.getPosition());
-				Coordinate c = transformer.transform(node.getCoordinate());
-
-				painter.drawLine(current.getX(), current.getY(), c.getX(),
-						c.getY());
-			}
-			painter.setStrokeWidth(1.0);
-		}
-
-		// Tangent search nodes
-		if (phase == Phase.LOOK_FOR_TANGENTS) {
-			painter.setColor(colorNodes);
-			if (algorithm.getPosition() >= 0) {
-				Polygon p = algorithm.getPolygons().get(
-						algorithm.getPolygonId());
-				Chain shell = p.getShell();
-				Node node = shell.getNode(algorithm.getPosition());
-				Coordinate c = transformer.transform(node.getCoordinate());
-				painter.drawCircle(c.getX(), c.getY(), 7);
-			}
-		}
-
+		// Overall leftmost node
 		if (phase == Phase.FOUND_OVERALL_LEFTMOST_NODE
 				|| phase == Phase.INITIALIZE_DATASTRUCTURES) {
 			painter.setColor(colorNodes);
@@ -276,6 +210,73 @@ public class ChansAlgorithmPainter extends TransformingAlgorithmPainter
 			for (Node node : hull) {
 				Coordinate c = transformer.transform(node.getCoordinate());
 				painter.drawCircle(c.getX(), c.getY(), 4);
+			}
+		}
+
+		// Tangents
+		if (phase.ordinal() >= Phase.INITIALIZED_DATASTRUCTURES.ordinal()
+				&& phase != Phase.BEST_TANGENT_FOUND && phase != Phase.DONE) {
+			painter.setColor(colorTangents);
+			painter.setStrokeWidth(widthTangents);
+			Coordinate current = transformer.transform(algorithm
+					.getCurrentNode().getCoordinate());
+
+			List<Integer> positions = algorithm.getPositions();
+			for (int i = 0; i < positions.size(); i++) {
+				int pos = positions.get(i);
+				Polygon polygon = algorithm.getPolygons().get(i);
+				Node node = polygon.getShell().getNode(pos);
+				Coordinate c = transformer.transform(node.getCoordinate());
+
+				painter.drawLine(current.getX(), current.getY(), c.getX(),
+						c.getY());
+			}
+			painter.setStrokeWidth(1.0);
+		}
+
+		// Search tangent
+		if (phase == Phase.LOOK_FOR_TANGENTS) {
+			painter.setColor(colorSearchTangent);
+			painter.setStrokeWidth(widthSearchTangent);
+			Coordinate current = transformer.transform(algorithm
+					.getCurrentNode().getCoordinate());
+
+			if (algorithm.getPosition() >= 0) {
+				Polygon p = algorithm.getPolygons().get(
+						algorithm.getPolygonId());
+				Chain shell = p.getShell();
+				Node node = shell.getNode(algorithm.getPosition());
+				Coordinate c = transformer.transform(node.getCoordinate());
+
+				painter.drawLine(current.getX(), current.getY(), c.getX(),
+						c.getY());
+			}
+			painter.setStrokeWidth(1.0);
+		}
+
+		// Already found tangent nodes
+		if (phase.ordinal() >= Phase.INITIALIZED_DATASTRUCTURES.ordinal()) {
+			painter.setColor(colorNodes);
+			List<Integer> positions = algorithm.getPositions();
+			for (int i = 0; i < positions.size(); i++) {
+				int pos = positions.get(i);
+				Polygon polygon = algorithm.getPolygons().get(i);
+				Node node = polygon.getShell().getNode(pos);
+				Coordinate c = transformer.transform(node.getCoordinate());
+				painter.fillCircle(c.getX(), c.getY(), 4);
+			}
+		}
+
+		// Tangent search nodes
+		if (phase == Phase.LOOK_FOR_TANGENTS) {
+			painter.setColor(colorNodes);
+			if (algorithm.getPosition() >= 0) {
+				Polygon p = algorithm.getPolygons().get(
+						algorithm.getPolygonId());
+				Chain shell = p.getShell();
+				Node node = shell.getNode(algorithm.getPosition());
+				Coordinate c = transformer.transform(node.getCoordinate());
+				painter.drawCircle(c.getX(), c.getY(), 7);
 			}
 		}
 
