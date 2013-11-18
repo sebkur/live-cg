@@ -237,7 +237,7 @@ public class ChansAlgorithmPainter extends TransformingAlgorithmPainter
 			painter.setColor(colorIds);
 			Polygon polygon = algorithm.getPolygons().get(i);
 			Coordinate c = transformer.transform(PolygonHelper.center(polygon));
-			painter.drawString(String.format("%d", i), c.getX(), c.getY());
+			painter.drawString(String.format("%d", i + 1), c.getX(), c.getY());
 		}
 	}
 }
