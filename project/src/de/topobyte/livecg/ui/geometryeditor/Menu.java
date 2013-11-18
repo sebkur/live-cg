@@ -42,6 +42,7 @@ import de.topobyte.livecg.ui.geometryeditor.action.SelectNothingAction;
 import de.topobyte.livecg.ui.geometryeditor.action.ShowContentDialogAction;
 import de.topobyte.livecg.ui.geometryeditor.action.ShowObjectDialogAction;
 import de.topobyte.livecg.ui.geometryeditor.action.visualizations.ChansAlgorithmAction;
+import de.topobyte.livecg.ui.geometryeditor.action.visualizations.ContentAction;
 import de.topobyte.livecg.ui.geometryeditor.action.visualizations.DcelAction;
 import de.topobyte.livecg.ui.geometryeditor.action.visualizations.DistanceTerrainChainsAction;
 import de.topobyte.livecg.ui.geometryeditor.action.visualizations.DistanceTerrainSegmentsAction;
@@ -200,6 +201,7 @@ public class Menu extends JMenuBar
 		JMenu polygons = new JMenu("Polygons");
 		polygons.setIcon(folder);
 
+		JMenuItem content = new JMenuItem(new ContentAction(editPane));
 		JMenuItem dcel = new JMenuItem(new DcelAction(editPane));
 
 		JMenuItem freeSpaceSegments = new JMenuItem(
@@ -227,6 +229,7 @@ public class Menu extends JMenuBar
 		visualizations.add(frechet);
 		visualizations.add(polygons);
 
+		arrangements.add(content);
 		arrangements.add(dcel);
 
 		frechet.add(freeSpaceSegments);
