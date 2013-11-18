@@ -36,7 +36,7 @@ public class ContentDialog
 
 	public ContentDialog(Content content)
 	{
-		frame = new JFrame("DCEL");
+		frame = new JFrame("Content");
 		int margin = 15;
 
 		JPanel main = new JPanel();
