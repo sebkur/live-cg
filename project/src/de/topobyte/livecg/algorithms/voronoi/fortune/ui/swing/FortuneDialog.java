@@ -18,6 +18,7 @@
 package de.topobyte.livecg.algorithms.voronoi.fortune.ui.swing;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
@@ -102,13 +103,15 @@ public class FortuneDialog extends JFrame implements Runnable
 				.createLineBorder(new java.awt.Color(COLOR_SWEEP_CONTROL_BORDER
 						.getARGB(), true)));
 
-		Box south = new Box(BoxLayout.Y_AXIS);
-		south.add(sweepControl);
-		south.add(controls);
+		Box north = new Box(BoxLayout.Y_AXIS);
+		controls.setAlignmentX(Component.LEFT_ALIGNMENT);
+		settings.setAlignmentX(Component.LEFT_ALIGNMENT);
+		north.add(controls);
+		north.add(settings);
 
-		main.add(settings, BorderLayout.NORTH);
+		main.add(north, BorderLayout.NORTH);
 		main.add(canvas, BorderLayout.CENTER);
-		main.add(south, BorderLayout.SOUTH);
+		main.add(sweepControl, BorderLayout.SOUTH);
 
 		algorithm.addWatcher(canvas);
 		algorithm.addWatcher(sweepControl);

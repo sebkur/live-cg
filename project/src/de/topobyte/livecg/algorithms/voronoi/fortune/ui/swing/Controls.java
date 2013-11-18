@@ -18,7 +18,6 @@
 package de.topobyte.livecg.algorithms.voronoi.fortune.ui.swing;
 
 import java.awt.Insets;
-import java.awt.Panel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
@@ -26,11 +25,12 @@ import java.util.Map;
 
 import javax.swing.Icon;
 import javax.swing.JButton;
+import javax.swing.JToolBar;
 
 import de.topobyte.livecg.algorithms.voronoi.fortune.FortunesSweep;
 import de.topobyte.livecg.util.ImageLoader;
 
-public class Controls extends Panel implements ActionListener
+public class Controls extends JToolBar implements ActionListener
 {
 
 	private static final long serialVersionUID = -8452143409724541737L;
@@ -86,6 +86,8 @@ public class Controls extends Panel implements ActionListener
 	{
 		this.fortune = fortune;
 		this.algorithm = algorithm;
+
+		setFloatable(false);
 
 		for (String key : paths.keySet()) {
 			Icon icon = ImageLoader.load(paths.get(key));
