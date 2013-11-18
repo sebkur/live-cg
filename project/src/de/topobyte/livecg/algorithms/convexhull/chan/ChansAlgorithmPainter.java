@@ -75,45 +75,77 @@ public class ChansAlgorithmPainter extends TransformingAlgorithmPainter
 		 * Polygon interior
 		 */
 
-		// Polygons we already found the tangent for
-		if (phase == Phase.LOOK_FOR_TANGENTS || phase == Phase.TANGENT_FOUND) {
-			painter.setColor(new Color(0x6666ff));
-			for (int i = 0; i < algorithm.getPolygonId(); i++) {
+		Color colorOthers = new Color(0xDDDDDD);
+		Color colorCurrent = new Color(0xffaaaa);
+		Color colorFound = new Color(0x6666ff);
+		Color colorFoundNow = new Color(0x6666ff);
+		Color colorFoundAll = new Color(0x3333ff);
+		Color colorBest = new Color(0x99ff99);
+
+		if (phase.ordinal() <= Phase.INITIALIZED_DATASTRUCTURES.ordinal()
+				|| phase == Phase.DONE) {
+			painter.setColor(colorOthers);
+			for (int i = 0; i < algorithm.getPolygons().size(); i++) {
 				fill(algorithm.getPolygons().get(i));
 			}
 		}
-		// Current polygon while looking for a tangent
-		if (phase == Phase.LOOK_FOR_TANGENTS || phase == Phase.TANGENT_FOUND) {
-			painter.setColor(new Color(0xffaaaa));
+
+		if (phase == Phase.LOOK_FOR_TANGENTS) {
+			// Polygons we did not find a tangent for yet
+			painter.setColor(colorOthers);
+			for (int i = algorithm.getPolygonId(); i < algorithm.getPolygons()
+					.size(); i++) {
+				fill(algorithm.getPolygons().get(i));
+			}
+			// Polygons we already found the tangent for
+			painter.setColor(colorFound);
+			for (int i = 0; i < algorithm.getPolygonId(); i++) {
+				fill(algorithm.getPolygons().get(i));
+			}
+			// Current polygon
+			painter.setColor(colorCurrent);
 			fill(algorithm.getPolygons().get(algorithm.getPolygonId()));
 		}
-		// Polygons we just now found the tangent for
 		if (phase == Phase.TANGENT_FOUND) {
-			painter.setColor(new Color(0x6666ff));
+			// Other polygons
+			painter.setColor(colorOthers);
+			for (int i = 0; i < algorithm.getPolygons().size(); i++) {
+				if (i != algorithm.getPolygonId()) {
+					fill(algorithm.getPolygons().get(i));
+				}
+			}
+			// Polygon we just now found the tangent for
+			painter.setColor(colorFoundNow);
 			fill(algorithm.getPolygons().get(algorithm.getPolygonId()));
 		}
 		// All polygons after finding the tangents
 		if (phase == Phase.ALL_TANGENTS_FOUND) {
-			painter.setColor(new Color(0x3333ff));
+			painter.setColor(colorFoundAll);
 			for (Polygon polygon : algorithm.getPolygons()) {
 				fill(polygon);
 			}
 		}
 		if (phase == Phase.BEST_TANGENT_FOUND) {
+			// Other polygons
+			painter.setColor(colorOthers);
+			for (int i = 0; i < algorithm.getPolygons().size(); i++) {
+				if (i != algorithm.getBestPolygonId()) {
+					fill(algorithm.getPolygons().get(i));
+				}
+			}
 			// Best polygon
-			painter.setColor(new Color(0x99ff99));
+			painter.setColor(colorBest);
 			Polygon best = algorithm.getPolygons().get(
 					algorithm.getBestPolygonId());
 			fill(best);
 		}
 
-		// Fill all polygons that have not been filled yet
-		painter.setColor(new Color(0xDDDDDD));
-		for (Polygon polygon : algorithm.getPolygons()) {
-			if (!filled.contains(polygon)) {
-				fill(polygon);
-			}
-		}
+		/*
+		 * // Fill all polygons that have not been filled yet
+		 * painter.setColor(new Color(0xDDDDDD)); for (Polygon polygon :
+		 * algorithm.getPolygons()) { if (!filled.contains(polygon)) {
+		 * fill(polygon); } }
+		 */
 
 		/*
 		 * Polygon outline
