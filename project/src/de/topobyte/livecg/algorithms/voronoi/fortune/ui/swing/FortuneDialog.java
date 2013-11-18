@@ -276,6 +276,11 @@ public class FortuneDialog extends JFrame implements Runnable
 		return running;
 	}
 
+	public Canvas getCanvas()
+	{
+		return canvas;
+	}
+
 	public Dimension getCanvasSize()
 	{
 		return canvas.getSize();

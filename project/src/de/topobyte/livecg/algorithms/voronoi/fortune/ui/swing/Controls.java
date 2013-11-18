@@ -17,6 +17,7 @@
  */
 package de.topobyte.livecg.algorithms.voronoi.fortune.ui.swing;
 
+import java.awt.Dimension;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -51,6 +52,8 @@ public class Controls extends JToolBar implements ActionListener
 	private static String KEY_CLEAR = "clear";
 	private static String KEY_RESTART = "restart";
 
+	private static String KEY_ADD_RANDOM = "add-random";
+
 	private static Map<String, String> texts = new HashMap<String, String>();
 	static {
 		texts.put(KEY_PLAY, "Play");
@@ -62,6 +65,7 @@ public class Controls extends JToolBar implements ActionListener
 		texts.put(KEY_NEXT_PIXEL, "Next pixel");
 		texts.put(KEY_CLEAR, "Clear");
 		texts.put(KEY_RESTART, "Restart");
+		texts.put(KEY_ADD_RANDOM, "Add random points");
 	}
 
 	private static Map<String, String> paths = new HashMap<String, String>();
@@ -77,6 +81,7 @@ public class Controls extends JToolBar implements ActionListener
 		paths.put(KEY_NEXT_PIXEL, "res/images/24x24/media-seek-forward.png");
 		paths.put(KEY_CLEAR, "res/images/24x24/media-eject.png");
 		paths.put(KEY_RESTART, "res/images/24x24/media-playback-stop.png");
+		paths.put(KEY_ADD_RANDOM, null);
 	}
 
 	private Map<String, Icon> icons = new HashMap<String, Icon>();
@@ -93,9 +98,11 @@ public class Controls extends JToolBar implements ActionListener
 			icons.put(key, icon);
 		}
 
+		Map<String, JButton> buttonMap = new HashMap<String, JButton>();
+
 		String keys[] = { KEY_PLAY, KEY_PLAY_REVERSE, KEY_PREVIOUS_EVENT,
 				KEY_NEXT_EVENT, KEY_PREV_PIXEL, KEY_NEXT_PIXEL, KEY_RESTART,
-				KEY_CLEAR };
+				KEY_CLEAR, KEY_ADD_RANDOM };
 		buttons = new JButton[keys.length];
 		for (int i = 0; i < keys.length; i++) {
 			buttons[i] = new JButton(icons.get(keys[i]));
@@ -103,7 +110,23 @@ public class Controls extends JToolBar implements ActionListener
 			buttons[i].setMargin(new Insets(0, 0, 0, 0));
 			buttons[i].addActionListener(this);
 			add(buttons[i]);
+			buttonMap.put(keys[i], buttons[i]);
 		}
+
+		JButton buttonRandom = buttonMap.get(KEY_ADD_RANDOM);
+
+		buttonRandom.setText("add random");
+		buttonRandom.setMaximumSize(new Dimension(
+				buttonRandom.getMaximumSize().width, 32767));
+
+		buttonRandom.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				Controls.this.fortune.getCanvas().addRandomPoints();
+			}
+		});
 
 		threadRunning(false);
 	}
