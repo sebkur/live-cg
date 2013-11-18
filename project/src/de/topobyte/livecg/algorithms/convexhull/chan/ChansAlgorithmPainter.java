@@ -145,13 +145,6 @@ public class ChansAlgorithmPainter extends TransformingAlgorithmPainter
 		}
 
 		/*
-		 * // Fill all polygons that have not been filled yet
-		 * painter.setColor(new Color(0xDDDDDD)); for (Polygon polygon :
-		 * algorithm.getPolygons()) { if (!filled.contains(polygon)) {
-		 * fill(polygon); } }
-		 */
-
-		/*
 		 * Polygon outline
 		 */
 
