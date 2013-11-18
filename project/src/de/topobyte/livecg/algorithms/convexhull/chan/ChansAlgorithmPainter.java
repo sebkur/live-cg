@@ -28,7 +28,6 @@ import de.topobyte.livecg.core.geometry.geom.Coordinate;
 import de.topobyte.livecg.core.geometry.geom.Node;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
 import de.topobyte.livecg.core.geometry.geom.PolygonHelper;
-import de.topobyte.livecg.core.geometry.geom.Rectangle;
 import de.topobyte.livecg.core.painting.Color;
 import de.topobyte.livecg.core.painting.Painter;
 import de.topobyte.livecg.core.painting.TransformingAlgorithmPainter;
@@ -38,10 +37,9 @@ public class ChansAlgorithmPainter extends TransformingAlgorithmPainter
 
 	private ChansAlgorithm algorithm;
 
-	public ChansAlgorithmPainter(Rectangle scene, ChansAlgorithm algorithm,
-			Painter painter)
+	public ChansAlgorithmPainter(ChansAlgorithm algorithm, Painter painter)
 	{
-		super(scene, painter);
+		super(algorithm.getScene(), painter);
 		this.algorithm = algorithm;
 	}
 

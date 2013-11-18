@@ -26,9 +26,12 @@ import javax.swing.ActionMap;
 import javax.swing.InputMap;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 
+import de.topobyte.livecg.core.export.ExportUtil;
 import de.topobyte.livecg.core.scrolling.ScrollableView;
 
 public class ChansAlgorithmDialog
@@ -58,6 +61,23 @@ public class ChansAlgorithmDialog
 
 		main.add(toolbar, BorderLayout.NORTH);
 		main.add(scrollableView, BorderLayout.CENTER);
+
+		/*
+		 * Menu
+		 */
+
+		ChansAlgorithmPainter painter = new ChansAlgorithmPainter(algorithm,
+				null);
+
+		JMenuBar menu = new JMenuBar();
+
+		JMenu menuFile = new JMenu("File");
+		menu.add(menuFile);
+
+		ExportUtil.addExportPngZoomedItem(menuFile, frame, painter, cap);
+		ExportUtil.addExportSvgZoomedItem(menuFile, frame, painter, cap);
+
+		frame.setJMenuBar(menu);
 
 		frame.setLocationByPlatform(true);
 		frame.setSize(700, 600);

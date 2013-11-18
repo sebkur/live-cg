@@ -19,14 +19,9 @@ package de.topobyte.livecg.algorithms.convexhull.chan;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.util.List;
 
 import de.topobyte.livecg.core.AlgorithmWatcher;
 import de.topobyte.livecg.core.export.SizeProvider;
-import de.topobyte.livecg.core.geometry.geom.BoundingBoxes;
-import de.topobyte.livecg.core.geometry.geom.Polygon;
-import de.topobyte.livecg.core.geometry.geom.Rectangle;
-import de.topobyte.livecg.core.geometry.geom.Rectangles;
 import de.topobyte.livecg.core.painting.AwtPainter;
 import de.topobyte.livecg.core.scrolling.ScenePanel;
 import de.topobyte.livecg.util.SwingUtil;
@@ -41,24 +36,13 @@ public class ChansAlgorithmPanel extends ScenePanel implements SizeProvider,
 
 	public ChansAlgorithmPanel(ChansAlgorithm algorithm)
 	{
-		super(scene(algorithm));
+		super(algorithm.getScene());
 
 		painter = new AwtPainter(null);
-		algorithmPainter = new ChansAlgorithmPainter(scene, algorithm, painter);
+		algorithmPainter = new ChansAlgorithmPainter(algorithm, painter);
 		super.algorithmPainter = algorithmPainter;
 
 		algorithm.addWatcher(this);
-	}
-
-	private static Rectangle scene(ChansAlgorithm algorithm)
-	{
-		List<Polygon> polygons = algorithm.getPolygons();
-		Rectangle scene = BoundingBoxes.get(polygons.get(0));
-		for (Polygon p : polygons) {
-			scene = BoundingBoxes.get(scene, BoundingBoxes.get(p));
-		}
-		scene = Rectangles.extend(scene, 15);
-		return scene;
 	}
 
 	@Override

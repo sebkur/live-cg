@@ -24,14 +24,18 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import de.topobyte.livecg.core.AlgorithmWatcher;
+import de.topobyte.livecg.core.SceneAlgorithm;
+import de.topobyte.livecg.core.geometry.geom.BoundingBoxes;
 import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.core.geometry.geom.Coordinate;
 import de.topobyte.livecg.core.geometry.geom.GeomMath;
 import de.topobyte.livecg.core.geometry.geom.Node;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
+import de.topobyte.livecg.core.geometry.geom.Rectangle;
+import de.topobyte.livecg.core.geometry.geom.Rectangles;
 import de.topobyte.livecg.util.circular.IntRing;
 
-public class ChansAlgorithm
+public class ChansAlgorithm implements SceneAlgorithm
 {
 
 	/*
@@ -88,6 +92,17 @@ public class ChansAlgorithm
 	public void removeWatcher(AlgorithmWatcher watcher)
 	{
 		watchers.remove(watcher);
+	}
+
+	@Override
+	public Rectangle getScene()
+	{
+		Rectangle scene = BoundingBoxes.get(polygons.get(0));
+		for (Polygon p : polygons) {
+			scene = BoundingBoxes.get(scene, BoundingBoxes.get(p));
+		}
+		scene = Rectangles.extend(scene, 15);
+		return scene;
 	}
 
 	/*
