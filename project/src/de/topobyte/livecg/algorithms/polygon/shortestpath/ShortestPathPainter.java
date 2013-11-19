@@ -76,6 +76,9 @@ public class ShortestPathPainter extends TransformingAlgorithmPainter
 	private Color COLOR_LEFT_PATH = LiveConfig.getColor(qc("path.left"));
 	private Color COLOR_RIGHT_PATH = LiveConfig.getColor(qc("path.right"));
 
+	private Color COLOR_SUBSTATUS_BG = LiveConfig
+			.getColor(qc("substatus.background"));
+
 	private Color COLOR_NODE_IDS = LiveConfig.getColor(qc("node.ids"));
 
 	private double SIZE_FIRST_NODE = LiveConfig.getNumber(q("node.size.first"));
@@ -84,6 +87,8 @@ public class ShortestPathPainter extends TransformingAlgorithmPainter
 			.getNumber(q("node.size.final"));
 	private double SIZE_INTERMEDIATE_NODES = LiveConfig
 			.getNumber(q("node.size.intermediate"));
+	private double SIZE_SUBSTATUS_NODE = LiveConfig
+			.getNumber(q("node.size.substatus"));
 
 	private double SIZE_ST_RADIUS = LiveConfig
 			.getNumber(q("size.start_target.radius"));
@@ -97,11 +102,10 @@ public class ShortestPathPainter extends TransformingAlgorithmPainter
 	private double LINE_WIDTH_DUAL_GRAPH = LiveConfig
 			.getNumber(q("width.dual_graph"));
 	private double LINE_WIDTH_PATH = LiveConfig.getNumber(q("width.path"));
-
-	private Color COLOR_NODE_HIGHLIGHT = LiveConfig
-			.getColor(qc("node_highlight"));
-	private double LINE_WIDTH_NODE_HIGHLIGHT = LiveConfig
-			.getNumber(q("width.node_highlight"));
+	private double LINE_WIDTH_SUBSTATUS = LiveConfig
+			.getNumber(q("width.substatus"));
+	private double LINE_WIDTH_SUBSTATUS_BG = LiveConfig
+			.getNumber(q("width.substatus.bg"));
 
 	private ShortestPathAlgorithm algorithm;
 	private Config config;
@@ -246,7 +250,6 @@ public class ShortestPathPainter extends TransformingAlgorithmPainter
 		 * Substatus (lines)
 		 */
 
-		painter.setStrokeWidth(LINE_WIDTH_NODE_HIGHLIGHT);
 		if (data != null) {
 			int status = algorithm.getStatus();
 			int steps = algorithm.getNumberOfSteps();
@@ -258,13 +261,13 @@ public class ShortestPathPainter extends TransformingAlgorithmPainter
 				Coordinate tn = transformer.transform(next.getCoordinate());
 				Coordinate tc = transformer.transform(candiate.getCoordinate());
 
-				painter.setColor(new Color(0xffffff));
-				painter.setStrokeWidth(6.0);
+				painter.setColor(COLOR_SUBSTATUS_BG);
+				painter.setStrokeWidth(LINE_WIDTH_SUBSTATUS_BG);
 				painter.setStrokeDash(new float[] { 8.0f, 12.0f }, 0.0f);
 				painter.drawLine(tc.getX(), tc.getY(), tn.getX(), tn.getY());
 
 				painter.setColor(nextNodeColor());
-				painter.setStrokeWidth(2.0);
+				painter.setStrokeWidth(LINE_WIDTH_SUBSTATUS);
 				painter.setStrokeDash(new float[] { 8.0f, 12.0f }, 0.0f);
 				painter.drawLine(tc.getX(), tc.getY(), tn.getX(), tn.getY());
 				painter.setStrokeNormal();
@@ -300,25 +303,17 @@ public class ShortestPathPainter extends TransformingAlgorithmPainter
 		 * Substatus (node highlight)
 		 */
 
-		painter.setStrokeWidth(LINE_WIDTH_NODE_HIGHLIGHT);
 		if (data != null) {
 			int status = algorithm.getStatus();
 			int steps = algorithm.getNumberOfSteps();
 			int subStatus = algorithm.getSubStatus();
 			if (status != steps - 1 && subStatus != 0) {
 				Node next = algorithm.getNextNode();
-				// Node candiate = algorithm
-				// .getNthNodeOfFunnelTraversal(subStatus);
 				Coordinate tn = transformer.transform(next.getCoordinate());
-				// Coordinate tc =
-				// transformer.transform(candiate.getCoordinate());
-				// painter.setColor(COLOR_NODE_HIGHLIGHT);
-				// painter.drawCircle(tn.getX(), tn.getY(), 8);
-				// painter.drawCircle(tc.getX(), tc.getY(), 8);
 
 				painter.setColor(nextNodeColor());
 				painter.fill(ShapeUtil.createArc(tn.getX(), tn.getY(),
-						SIZE_APEX));
+						SIZE_SUBSTATUS_NODE));
 			}
 		}
 
