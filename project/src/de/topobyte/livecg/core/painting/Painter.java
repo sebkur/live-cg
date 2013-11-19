@@ -32,6 +32,10 @@ public interface Painter
 
 	public void setStrokeWidth(double width);
 
+	public void setStrokeNormal();
+
+	public void setStrokeDash(float[] dash, float phase);
+
 	public void drawRect(int x, int y, int width, int height);
 
 	public void drawRect(double x, double y, double width, double height);

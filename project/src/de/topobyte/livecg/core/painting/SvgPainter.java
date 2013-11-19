@@ -590,4 +590,18 @@ public class SvgPainter implements Painter
 
 		append(element);
 	}
+
+	@Override
+	public void setStrokeNormal()
+	{
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void setStrokeDash(float[] dash, float phase)
+	{
+		// TODO Auto-generated method stub
+
+	}
 }

@@ -57,12 +57,6 @@ public class AwtPainter implements Painter
 	}
 
 	@Override
-	public void setStrokeWidth(double width)
-	{
-		g.setStroke(new BasicStroke((float) width));
-	}
-
-	@Override
 	public void drawRect(int x, int y, int width, int height)
 	{
 		g.drawRect(x, y, width, height);
@@ -230,6 +224,47 @@ public class AwtPainter implements Painter
 	public void drawImage(BufferedImage image, int x, int y)
 	{
 		g.drawImage(image, x, y, null);
+	}
+
+	/*
+	 * Stroke
+	 */
+
+	private double width = 1.0;
+	private float[] dash = null;
+	private float phase = 0;
+
+	private void updateStroke()
+	{
+		if (dash == null) {
+			g.setStroke(new BasicStroke((float) width));
+		} else {
+			g.setStroke(new BasicStroke((float) width, BasicStroke.CAP_ROUND,
+					BasicStroke.JOIN_ROUND, 0, dash, phase));
+		}
+	}
+
+	@Override
+	public void setStrokeWidth(double width)
+	{
+		this.width = width;
+		updateStroke();
+	}
+
+	@Override
+	public void setStrokeNormal()
+	{
+		dash = null;
+		phase = 0;
+		updateStroke();
+	}
+
+	@Override
+	public void setStrokeDash(float[] dash, float phase)
+	{
+		this.dash = dash;
+		this.phase = phase;
+		updateStroke();
 	}
 
 }
