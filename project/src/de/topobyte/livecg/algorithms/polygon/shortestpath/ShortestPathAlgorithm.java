@@ -341,6 +341,13 @@ public class ShortestPathAlgorithm implements SceneAlgorithm
 		notifyWatchers();
 	}
 
+	public Side getSideOfNextNode()
+	{
+		Diagonal next = nextDiagonal();
+		Side currentChain = sideOfNextNode(next);
+		return currentChain;
+	}
+
 	private void computeUpTo(int diagonal)
 	{
 		if (status == 0) {

@@ -228,18 +228,54 @@ public class ShortestPathPainter extends TransformingAlgorithmPainter
 		}
 
 		/*
-		 * Funnel
+		 * Funnel (paths)
 		 */
+
+		Data data = algorithm.getData();
 
 		painter.setStrokeWidth(LINE_WIDTH_PATH);
 
-		Data data = algorithm.getData();
 		if (data != null) {
 			paintCommonPath();
 
 			paintPath(Side.LEFT);
 			paintPath(Side.RIGHT);
+		}
 
+		/*
+		 * Substatus (lines)
+		 */
+
+		painter.setStrokeWidth(LINE_WIDTH_NODE_HIGHLIGHT);
+		if (data != null) {
+			int status = algorithm.getStatus();
+			int steps = algorithm.getNumberOfSteps();
+			int subStatus = algorithm.getSubStatus();
+			if (status != steps - 1 && subStatus != 0) {
+				Node next = algorithm.getNextNode();
+				Node candiate = algorithm
+						.getNthNodeOfFunnelTraversal(subStatus);
+				Coordinate tn = transformer.transform(next.getCoordinate());
+				Coordinate tc = transformer.transform(candiate.getCoordinate());
+
+				painter.setColor(new Color(0xffffff));
+				painter.setStrokeWidth(6.0);
+				painter.setStrokeDash(new float[] { 8.0f, 12.0f }, 0.0f);
+				painter.drawLine(tc.getX(), tc.getY(), tn.getX(), tn.getY());
+
+				painter.setColor(nextNodeColor());
+				painter.setStrokeWidth(2.0);
+				painter.setStrokeDash(new float[] { 8.0f, 12.0f }, 0.0f);
+				painter.drawLine(tc.getX(), tc.getY(), tn.getX(), tn.getY());
+				painter.setStrokeNormal();
+			}
+		}
+
+		/*
+		 * Funnel (nodes)
+		 */
+
+		if (data != null) {
 			paintNodes(Side.LEFT);
 			paintNodes(Side.RIGHT);
 
@@ -261,7 +297,7 @@ public class ShortestPathPainter extends TransformingAlgorithmPainter
 		}
 
 		/*
-		 * Substatus
+		 * Substatus (node highlight)
 		 */
 
 		painter.setStrokeWidth(LINE_WIDTH_NODE_HIGHLIGHT);
@@ -271,13 +307,18 @@ public class ShortestPathPainter extends TransformingAlgorithmPainter
 			int subStatus = algorithm.getSubStatus();
 			if (status != steps - 1 && subStatus != 0) {
 				Node next = algorithm.getNextNode();
-				Node candiate = algorithm
-						.getNthNodeOfFunnelTraversal(subStatus);
+				// Node candiate = algorithm
+				// .getNthNodeOfFunnelTraversal(subStatus);
 				Coordinate tn = transformer.transform(next.getCoordinate());
-				Coordinate tc = transformer.transform(candiate.getCoordinate());
-				painter.setColor(COLOR_NODE_HIGHLIGHT);
-				painter.drawCircle(tn.getX(), tn.getY(), 8);
-				painter.drawCircle(tc.getX(), tc.getY(), 8);
+				// Coordinate tc =
+				// transformer.transform(candiate.getCoordinate());
+				// painter.setColor(COLOR_NODE_HIGHLIGHT);
+				// painter.drawCircle(tn.getX(), tn.getY(), 8);
+				// painter.drawCircle(tc.getX(), tc.getY(), 8);
+
+				painter.setColor(nextNodeColor());
+				painter.fill(ShapeUtil.createArc(tn.getX(), tn.getY(),
+						SIZE_APEX));
 			}
 		}
 
@@ -359,6 +400,15 @@ public class ShortestPathPainter extends TransformingAlgorithmPainter
 				painter.drawString(String.format("%d", i + 1),
 						(float) c.getX() + 10, (float) c.getY());
 			}
+		}
+	}
+
+	private Color nextNodeColor()
+	{
+		if (algorithm.getSideOfNextNode() == Side.LEFT) {
+			return COLOR_LEFT_PATH;
+		} else {
+			return COLOR_RIGHT_PATH;
 		}
 	}
 
