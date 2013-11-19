@@ -470,6 +470,10 @@ public class ShortestPathAlgorithm implements SceneAlgorithm
 		Side other = other(on);
 
 		logger.debug("case3: reached apex");
+		if (data.getFunnelLength(other) == 0) {
+			data.append(on, notYetOnChain);
+			return;
+		}
 		Node p1 = data.getApex();
 		Node p2 = data.get(other, 0);
 		if (turnOk(p1, p2, notYetOnChain, on)) {
