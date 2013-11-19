@@ -54,7 +54,6 @@ public class SvgPainter implements Painter
 	private Element defs;
 
 	private Color color;
-	private double width = 1;
 
 	private AffineTransform transform = null;
 
@@ -74,12 +73,6 @@ public class SvgPainter implements Painter
 	}
 
 	@Override
-	public void setStrokeWidth(double width)
-	{
-		this.width = width;
-	}
-
-	@Override
 	public void drawRect(int x, int y, int width, int height)
 	{
 		Element rectangle = doc.createElementNS(svgNS, "rect");
@@ -87,8 +80,7 @@ public class SvgPainter implements Painter
 		rectangle.setAttributeNS(null, "y", Integer.toString(y));
 		rectangle.setAttributeNS(null, "width", Integer.toString(width));
 		rectangle.setAttributeNS(null, "height", Integer.toString(height));
-		rectangle.setAttributeNS(null, "stroke", getCurrentColor());
-		rectangle.setAttributeNS(null, "stroke-width", this.width + "px");
+		addStrokeAttributes(rectangle);
 		rectangle.setAttributeNS(null, "fill", "none");
 
 		append(rectangle);
@@ -102,8 +94,7 @@ public class SvgPainter implements Painter
 		rectangle.setAttributeNS(null, "y", Double.toString(y));
 		rectangle.setAttributeNS(null, "width", Double.toString(width));
 		rectangle.setAttributeNS(null, "height", Double.toString(height));
-		rectangle.setAttributeNS(null, "stroke", getCurrentColor());
-		rectangle.setAttributeNS(null, "stroke-width", this.width + "px");
+		addStrokeAttributes(rectangle);
 		rectangle.setAttributeNS(null, "fill", "none");
 
 		append(rectangle);
@@ -145,14 +136,8 @@ public class SvgPainter implements Painter
 	public void drawLine(double x1, double y1, double x2, double y2)
 	{
 		Element path = doc.createElementNS(svgNS, "path");
-		path.setAttributeNS(
-				null,
-				"style",
-				"fill:none;stroke:"
-						+ getCurrentColor()
-						+ ";stroke-width:"
-						+ width
-						+ "px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1");
+		addStrokeAttributes(path);
+		path.setAttributeNS(null, "fill", "none");
 		path.setAttributeNS(null, "d",
 				String.format(Locale.US, "M %f,%f %f,%f", x1, y1, x2, y2));
 
@@ -190,8 +175,7 @@ public class SvgPainter implements Painter
 		circle.setAttributeNS(null, "cy", Double.toString(y));
 		circle.setAttributeNS(null, "r", Double.toString(radius));
 		circle.setAttributeNS(null, "fill", "none");
-		circle.setAttributeNS(null, "stroke", getCurrentColor());
-		circle.setAttributeNS(null, "stroke-width", width + "px");
+		addStrokeAttributes(circle);
 		circle.setAttributeNS(null, "fill", "none");
 
 		append(circle);
@@ -255,14 +239,8 @@ public class SvgPainter implements Painter
 	private void stroke(StringBuilder strb)
 	{
 		Element path = doc.createElementNS(svgNS, "path");
-		path.setAttributeNS(
-				null,
-				"style",
-				"fill:none;stroke:"
-						+ getCurrentColor()
-						+ ";stroke-width:"
-						+ width
-						+ "px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1");
+		addStrokeAttributes(path);
+		path.setAttributeNS(null, "fill", "none");
 		path.setAttributeNS(null, "d", strb.toString());
 
 		append(path);
@@ -591,17 +569,57 @@ public class SvgPainter implements Painter
 		append(element);
 	}
 
+	/*
+	 * Stroke
+	 */
+
+	private double width = 1.0;
+	private float[] dash = null;
+	private float phase = 0;
+
+	private void addStrokeAttributes(Element rectangle)
+	{
+		if (dash == null) {
+			rectangle.setAttributeNS(null, "stroke", getCurrentColor());
+			rectangle.setAttributeNS(null, "stroke-width", width + "px");
+			rectangle.setAttributeNS(null, "stroke-linecap", "round");
+		} else {
+			rectangle.setAttributeNS(null, "stroke", getCurrentColor());
+			rectangle.setAttributeNS(null, "stroke-width", width + "px");
+			rectangle.setAttributeNS(null, "stroke-linejoin", "round");
+			rectangle.setAttributeNS(null, "stroke-linecap", "round");
+			StringBuilder strb = new StringBuilder();
+			for (int i = 0; i < dash.length; i++) {
+				strb.append(dash[i]);
+				if (i < dash.length - 1) {
+					strb.append(",");
+				}
+			}
+			rectangle.setAttributeNS(null, "stroke-dasharray", strb.toString());
+			rectangle.setAttributeNS(null, "stroke-dashoffset", "" + phase);
+			rectangle.setAttributeNS(null, "stroke-opacity",
+					"" + color.getAlpha());
+		}
+
+	}
+
+	@Override
+	public void setStrokeWidth(double width)
+	{
+		this.width = width;
+	}
+
 	@Override
 	public void setStrokeNormal()
 	{
-		// TODO Auto-generated method stub
-
+		dash = null;
+		phase = 0;
 	}
 
 	@Override
 	public void setStrokeDash(float[] dash, float phase)
 	{
-		// TODO Auto-generated method stub
-
+		this.dash = dash;
+		this.phase = phase;
 	}
 }
