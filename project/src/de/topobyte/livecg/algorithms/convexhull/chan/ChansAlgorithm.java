@@ -44,15 +44,28 @@ public class ChansAlgorithm implements SceneAlgorithm
 	 */
 	private List<AlgorithmWatcher> watchers = new ArrayList<AlgorithmWatcher>();
 
+	public void addWatcher(AlgorithmWatcher watcher)
+	{
+		watchers.add(watcher);
+	}
+
+	public void removeWatcher(AlgorithmWatcher watcher)
+	{
+		watchers.remove(watcher);
+	}
+
+	private void notifyWatchers()
+	{
+		for (AlgorithmWatcher watcher : watchers) {
+			watcher.updateAlgorithmStatus();
+		}
+	}
+
+	/*
+	 * Input
+	 */
+
 	private List<Polygon> polygons;
-	private Map<Polygon, Node> leftMostNodes = new HashMap<Polygon, Node>();
-	private Map<Polygon, Integer> leftMostNodesIndices = new HashMap<Polygon, Integer>();
-
-	private Polygon leftMostPolygon;
-	private Polygon currentHeadPolygon;
-	private Node leftMostNode;
-
-	private List<Node> hull;
 
 	public ChansAlgorithm(List<Polygon> polygons)
 	{
@@ -64,35 +77,9 @@ public class ChansAlgorithm implements SceneAlgorithm
 		return polygons;
 	}
 
-	public Map<Polygon, Node> getLeftMostNodes()
-	{
-		return leftMostNodes;
-	}
-
-	public Polygon getLeftMostPolygon()
-	{
-		return leftMostPolygon;
-	}
-
-	public Node getLeftMostNode()
-	{
-		return leftMostNode;
-	}
-
-	public Node getCurrentNode()
-	{
-		return hull.get(hull.size() - 1);
-	}
-
-	public void addWatcher(AlgorithmWatcher watcher)
-	{
-		watchers.add(watcher);
-	}
-
-	public void removeWatcher(AlgorithmWatcher watcher)
-	{
-		watchers.remove(watcher);
-	}
+	/*
+	 * Scene
+	 */
 
 	@Override
 	public Rectangle getScene()
@@ -106,8 +93,16 @@ public class ChansAlgorithm implements SceneAlgorithm
 	}
 
 	/*
-	 * Algorithm status / steps
+	 * Algorithm status / steps / output
 	 */
+
+	private List<Node> hull;
+	private Map<Polygon, Node> leftMostNodes = new HashMap<Polygon, Node>();
+	private Map<Polygon, Integer> leftMostNodesIndices = new HashMap<Polygon, Integer>();
+
+	private Polygon leftMostPolygon;
+	private Polygon currentHeadPolygon;
+	private Node leftMostNode;
 
 	private Phase phase = Phase.FIND_LEFTMOST_NODES;
 	private int polygonId = 0;
@@ -159,24 +154,23 @@ public class ChansAlgorithm implements SceneAlgorithm
 			Polygon polygon = polygons.get(polygonId);
 			if (position == -1) {
 				position = positions.get(polygonId);
-				return;
-			}
-
-			Chain shell = polygon.getShell();
-			IntRing ring = new IntRing(shell.getNumberOfNodes(), position);
-			int prev = ring.prevValue();
-			Node a = getCurrentNode();
-			Node b = shell.getNode(position);
-			Node c = shell.getNode(prev);
-
-			if (polygon == currentHeadPolygon && a == b) {
-				position = prev;
-			} else if (GeomMath.isLeftOf(a.getCoordinate(), b.getCoordinate(),
-					c.getCoordinate())) {
-				position = prev;
 			} else {
-				phase = Phase.TANGENT_FOUND;
-				positions.set(polygonId, position);
+				Chain shell = polygon.getShell();
+				IntRing ring = new IntRing(shell.getNumberOfNodes(), position);
+				int prev = ring.prevValue();
+				Node a = getCurrentNode();
+				Node b = shell.getNode(position);
+				Node c = shell.getNode(prev);
+
+				if (polygon == currentHeadPolygon && a == b) {
+					position = prev;
+				} else if (GeomMath.isLeftOf(a.getCoordinate(),
+						b.getCoordinate(), c.getCoordinate())) {
+					position = prev;
+				} else {
+					phase = Phase.TANGENT_FOUND;
+					positions.set(polygonId, position);
+				}
 			}
 		} else if (phase == Phase.TANGENT_FOUND) {
 			if (polygonId < polygons.size() - 1) {
@@ -228,6 +222,30 @@ public class ChansAlgorithm implements SceneAlgorithm
 		notifyWatchers();
 	}
 
+	/*
+	 * Getters
+	 */
+
+	public Map<Polygon, Node> getLeftMostNodes()
+	{
+		return leftMostNodes;
+	}
+
+	public Polygon getLeftMostPolygon()
+	{
+		return leftMostPolygon;
+	}
+
+	public Node getLeftMostNode()
+	{
+		return leftMostNode;
+	}
+
+	public Node getCurrentNode()
+	{
+		return hull.get(hull.size() - 1);
+	}
+
 	public Phase getPhase()
 	{
 		return phase;
@@ -261,13 +279,6 @@ public class ChansAlgorithm implements SceneAlgorithm
 	/*
 	 * Internal
 	 */
-
-	private void notifyWatchers()
-	{
-		for (AlgorithmWatcher watcher : watchers) {
-			watcher.updateAlgorithmStatus();
-		}
-	}
 
 	private int computeLeftMostPoint(Polygon polygon)
 	{
