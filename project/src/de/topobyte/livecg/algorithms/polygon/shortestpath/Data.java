@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 import de.topobyte.livecg.core.geometry.geom.Node;
+import de.topobyte.livecg.util.CloneUtil;
 
 public class Data
 {
@@ -50,20 +51,11 @@ public class Data
 	public Data clone()
 	{
 		Data copy = new Data();
-		copy.commonPath = clone(commonPath);
-		copy.leftPath = clone(leftPath);
-		copy.rightPath = clone(rightPath);
+		copy.commonPath = CloneUtil.clone(commonPath);
+		copy.leftPath = CloneUtil.clone(leftPath);
+		copy.rightPath = CloneUtil.clone(rightPath);
 		copy.funnelChains.put(Side.LEFT, copy.leftPath);
 		copy.funnelChains.put(Side.RIGHT, copy.rightPath);
-		return copy;
-	}
-
-	private List<Node> clone(List<Node> list)
-	{
-		List<Node> copy = new ArrayList<Node>();
-		for (Node n : list) {
-			copy.add(n);
-		}
 		return copy;
 	}
 
