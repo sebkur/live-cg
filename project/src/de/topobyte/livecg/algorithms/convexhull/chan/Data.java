@@ -27,27 +27,46 @@ import de.topobyte.livecg.core.geometry.geom.Polygon;
 
 public class Data
 {
-	List<Node> hull;
-	Map<Polygon, Node> leftMostNodes = new HashMap<Polygon, Node>();
-	Map<Polygon, Integer> leftMostNodesIndices = new HashMap<Polygon, Integer>();
+	private Phase phase = Phase.FIND_LEFTMOST_NODES;
+	private List<Node> hull;
 
-	Polygon leftMostPolygon;
-	Polygon currentHeadPolygon;
-	Node leftMostNode;
+	private Map<Polygon, Integer> leftMostNodesIndices = new HashMap<Polygon, Integer>();
 
-	Phase phase = Phase.FIND_LEFTMOST_NODES;
-	int polygonId = 0;
-	int position = -1;
-	List<Integer> positions = new ArrayList<Integer>();
-	int bestPolygonId = -1;
+	private Polygon leftMostPolygon;
+	private Node overallLeftMostNode;
+	private Polygon currentHeadPolygon;
+
+	private int polygonId = 0;
+	private int position = -1;
+	private Map<Integer, Integer> positions = new HashMap<Integer, Integer>();
+	private int bestPolygonId = -1;
 
 	/*
 	 * Getters
 	 */
 
-	public Map<Polygon, Node> getLeftMostNodes()
+	public int getNumberOfLeftmostNodesFound()
 	{
-		return leftMostNodes;
+		return leftMostNodesIndices.size();
+	}
+
+	public int getLeftMostIndex(Polygon polygon)
+	{
+		return leftMostNodesIndices.get(polygon);
+	}
+
+	public Node getLeftMostNode(Polygon polygon)
+	{
+		Integer index = leftMostNodesIndices.get(polygon);
+		if (index == null) {
+			return null;
+		}
+		return polygon.getShell().getNode(index);
+	}
+
+	public Polygon getCurrentHeadPolygon()
+	{
+		return currentHeadPolygon;
 	}
 
 	public Polygon getLeftMostPolygon()
@@ -57,7 +76,12 @@ public class Data
 
 	public Node getLeftMostNode()
 	{
-		return leftMostNode;
+		return overallLeftMostNode;
+	}
+
+	public Node getOverallLeftMostNode()
+	{
+		return overallLeftMostNode;
 	}
 
 	public Node getCurrentNode()
@@ -80,9 +104,9 @@ public class Data
 		return position;
 	}
 
-	public List<Integer> getPositions()
+	public int getPosition(int polygonId)
 	{
-		return positions;
+		return positions.get(polygonId);
 	}
 
 	public int getBestPolygonId()
@@ -93,5 +117,64 @@ public class Data
 	public List<Node> getHull()
 	{
 		return hull;
+	}
+
+	/*
+	 * Modifiers
+	 */
+
+	public void setPhase(Phase phase)
+	{
+		this.phase = phase;
+	}
+
+	public void initializeHull()
+	{
+		hull = new ArrayList<Node>();
+	}
+
+	public void appendToHull(Node node)
+	{
+		hull.add(node);
+	}
+
+	public void setLeftMostNodesIndex(Polygon polygon, int index)
+	{
+		leftMostNodesIndices.put(polygon, index);
+	}
+
+	public void setCurrentHeadPolygon(Polygon currentHeadPolygon)
+	{
+		this.currentHeadPolygon = currentHeadPolygon;
+	}
+
+	public void setLeftMostPolygon(Polygon leftMostPolygon)
+	{
+		this.leftMostPolygon = leftMostPolygon;
+	}
+
+	public void setOverallLeftMostNode(Node overallLeftMostNode)
+	{
+		this.overallLeftMostNode = overallLeftMostNode;
+	}
+
+	public void setPolygonId(int polygonId)
+	{
+		this.polygonId = polygonId;
+	}
+
+	public void setPosition(int position)
+	{
+		this.position = position;
+	}
+
+	public void setBestPolygonId(int bestPolygonId)
+	{
+		this.bestPolygonId = bestPolygonId;
+	}
+
+	public void setPosition(int polygonId, int position)
+	{
+		positions.put(polygonId, position);
 	}
 }

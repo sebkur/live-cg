@@ -20,7 +20,6 @@ package de.topobyte.livecg.algorithms.convexhull.chan;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import de.topobyte.livecg.core.geometry.geom.Chain;
@@ -170,9 +169,8 @@ public class ChansAlgorithmPainter extends TransformingAlgorithmPainter
 		if (phase.ordinal() >= Phase.FIND_LEFTMOST_NODES.ordinal()
 				&& phase.ordinal() < Phase.INITIALIZED_DATASTRUCTURES.ordinal()) {
 			painter.setColor(colorNodes);
-			Map<Polygon, Node> leftMostNodes = data.getLeftMostNodes();
 			for (Polygon polygon : algorithm.getPolygons()) {
-				Node node = leftMostNodes.get(polygon);
+				Node node = data.getLeftMostNode(polygon);
 				if (node == null) {
 					continue;
 				}
@@ -219,9 +217,8 @@ public class ChansAlgorithmPainter extends TransformingAlgorithmPainter
 			Coordinate current = transformer.transform(data.getCurrentNode()
 					.getCoordinate());
 
-			List<Integer> positions = data.getPositions();
-			for (int i = 0; i < positions.size(); i++) {
-				int pos = positions.get(i);
+			for (int i = 0; i < algorithm.getPolygons().size(); i++) {
+				int pos = data.getPosition(i);
 				Polygon polygon = algorithm.getPolygons().get(i);
 				Node node = polygon.getShell().getNode(pos);
 				Coordinate c = transformer.transform(node.getCoordinate());
@@ -254,9 +251,8 @@ public class ChansAlgorithmPainter extends TransformingAlgorithmPainter
 		// Already found tangent nodes
 		if (phase.ordinal() >= Phase.INITIALIZED_DATASTRUCTURES.ordinal()) {
 			painter.setColor(colorNodes);
-			List<Integer> positions = data.getPositions();
-			for (int i = 0; i < positions.size(); i++) {
-				int pos = positions.get(i);
+			for (int i = 0; i < algorithm.getPolygons().size(); i++) {
+				int pos = data.getPosition(i);
 				Polygon polygon = algorithm.getPolygons().get(i);
 				Node node = polygon.getShell().getNode(pos);
 				Coordinate c = transformer.transform(node.getCoordinate());

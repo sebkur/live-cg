@@ -19,7 +19,6 @@ package de.topobyte.livecg.algorithms.convexhull.chan;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map.Entry;
 
 import de.topobyte.livecg.core.AlgorithmWatcher;
 import de.topobyte.livecg.core.SceneAlgorithm;
@@ -109,102 +108,102 @@ public class ChansAlgorithm implements SceneAlgorithm
 
 	public void executeNextStep()
 	{
-		if (data.phase == Phase.FIND_LEFTMOST_NODES) {
-			int done = data.leftMostNodes.size();
+		if (data.getPhase() == Phase.FIND_LEFTMOST_NODES) {
+			int done = data.getNumberOfLeftmostNodesFound();
 			if (done < polygons.size()) {
 				Polygon polygon = polygons.get(done);
 				int index = computeLeftMostPoint(polygon);
-				data.leftMostNodesIndices.put(polygon, index);
-				Node node = polygon.getShell().getNode(index);
-				data.leftMostNodes.put(polygon, node);
+				data.setLeftMostNodesIndex(polygon, index);
 				if (done == polygons.size() - 1) {
-					data.phase = Phase.FOUND_LEFTMOST_NODES;
+					data.setPhase(Phase.FOUND_LEFTMOST_NODES);
 				}
 			}
-		} else if (data.phase == Phase.FOUND_LEFTMOST_NODES) {
-			data.phase = Phase.FIND_OVERALL_LEFTMOST_NODE;
-		} else if (data.phase == Phase.FIND_OVERALL_LEFTMOST_NODE) {
-			data.leftMostPolygon = computeOverallLeftMostPoint();
-			data.leftMostNode = data.leftMostNodes.get(data.leftMostPolygon);
+		} else if (data.getPhase() == Phase.FOUND_LEFTMOST_NODES) {
+			data.setPhase(Phase.FIND_OVERALL_LEFTMOST_NODE);
+		} else if (data.getPhase() == Phase.FIND_OVERALL_LEFTMOST_NODE) {
+			data.setLeftMostPolygon(computeOverallLeftMostPoint());
+			data.setOverallLeftMostNode(data.getLeftMostNode(data
+					.getLeftMostPolygon()));
 
-			data.phase = Phase.FOUND_OVERALL_LEFTMOST_NODE;
-		} else if (data.phase == Phase.FOUND_OVERALL_LEFTMOST_NODE) {
-			data.phase = Phase.INITIALIZE_DATASTRUCTURES;
-		} else if (data.phase == Phase.INITIALIZE_DATASTRUCTURES) {
-			data.hull = new ArrayList<Node>();
-			data.hull.add(data.leftMostNode);
+			data.setPhase(Phase.FOUND_OVERALL_LEFTMOST_NODE);
+		} else if (data.getPhase() == Phase.FOUND_OVERALL_LEFTMOST_NODE) {
+			data.setPhase(Phase.INITIALIZE_DATASTRUCTURES);
+		} else if (data.getPhase() == Phase.INITIALIZE_DATASTRUCTURES) {
+			data.initializeHull();
+			data.appendToHull(data.getOverallLeftMostNode());
 			for (int i = 0; i < polygons.size(); i++) {
-				data.positions.add(data.leftMostNodesIndices.get(polygons
-						.get(i)));
+				data.setPosition(i, data.getLeftMostIndex(polygons.get(i)));
 			}
-			data.currentHeadPolygon = data.leftMostPolygon;
+			data.setCurrentHeadPolygon(data.getLeftMostPolygon());
 
-			data.phase = Phase.INITIALIZED_DATASTRUCTURES;
-		} else if (data.phase == Phase.INITIALIZED_DATASTRUCTURES) {
-			data.phase = Phase.LOOK_FOR_TANGENTS;
-		} else if (data.phase == Phase.LOOK_FOR_TANGENTS) {
-			Polygon polygon = polygons.get(data.polygonId);
-			if (data.position == -1) {
-				data.position = data.positions.get(data.polygonId);
+			data.setPhase(Phase.INITIALIZED_DATASTRUCTURES);
+		} else if (data.getPhase() == Phase.INITIALIZED_DATASTRUCTURES) {
+			data.setPhase(Phase.LOOK_FOR_TANGENTS);
+		} else if (data.getPhase() == Phase.LOOK_FOR_TANGENTS) {
+			Polygon polygon = polygons.get(data.getPolygonId());
+			if (data.getPosition() == -1) {
+				data.setPosition(data.getPosition(data.getPolygonId()));
 			} else {
 				Chain shell = polygon.getShell();
 				IntRing ring = new IntRing(shell.getNumberOfNodes(),
-						data.position);
+						data.getPosition());
 				int prev = ring.prevValue();
 				Node a = data.getCurrentNode();
-				Node b = shell.getNode(data.position);
+				Node b = shell.getNode(data.getPosition());
 				Node c = shell.getNode(prev);
 
-				if (polygon == data.currentHeadPolygon && a == b) {
-					data.position = prev;
+				if (polygon == data.getCurrentHeadPolygon() && a == b) {
+					data.setPosition(prev);
 				} else if (GeomMath.isLeftOf(a.getCoordinate(),
 						b.getCoordinate(), c.getCoordinate())) {
-					data.position = prev;
+					data.setPosition(prev);
 				} else {
-					data.phase = Phase.TANGENT_FOUND;
-					data.positions.set(data.polygonId, data.position);
+					data.setPhase(Phase.TANGENT_FOUND);
+					data.setPosition(data.getPolygonId(), data.getPosition());
 				}
 			}
-		} else if (data.phase == Phase.TANGENT_FOUND) {
-			if (data.polygonId < polygons.size() - 1) {
-				data.position = -1;
-				data.polygonId++;
-				data.phase = Phase.LOOK_FOR_TANGENTS;
+		} else if (data.getPhase() == Phase.TANGENT_FOUND) {
+			if (data.getPolygonId() < polygons.size() - 1) {
+				data.setPosition(-1);
+				data.setPolygonId(data.getPolygonId() + 1);
+				data.setPhase(Phase.LOOK_FOR_TANGENTS);
 			} else {
-				data.phase = Phase.ALL_TANGENTS_FOUND;
+				data.setPhase(Phase.ALL_TANGENTS_FOUND);
 			}
-		} else if (data.phase == Phase.ALL_TANGENTS_FOUND) {
+		} else if (data.getPhase() == Phase.ALL_TANGENTS_FOUND) {
 			Coordinate a;
-			if (data.hull.size() == 1) {
+			if (data.getHull().size() == 1) {
 				a = new Coordinate(data.getCurrentNode().getCoordinate());
 				a.setY(a.getY() - 100);
 			} else {
-				a = data.hull.get(data.hull.size() - 2).getCoordinate();
+				a = data.getHull().get(data.getHull().size() - 2)
+						.getCoordinate();
 			}
 			Coordinate b = data.getCurrentNode().getCoordinate();
 			double bestAngle = Double.MAX_VALUE;
 			Node bestNode = null;
 			for (int i = 0; i < polygons.size(); i++) {
-				int pos = data.positions.get(i);
+				int pos = data.getPosition(i);
 				Polygon polygon = polygons.get(i);
 				Node node = polygon.getShell().getNode(pos);
 				double angle = GeomMath.angle(b, a, node.getCoordinate());
 				if (angle < bestAngle) {
 					bestAngle = angle;
-					data.bestPolygonId = i;
+					data.setBestPolygonId(i);
 					bestNode = node;
-					data.currentHeadPolygon = polygon;
+					data.setCurrentHeadPolygon(polygon);
 				}
 			}
-			data.hull.add(bestNode);
-			data.phase = Phase.BEST_TANGENT_FOUND;
-		} else if (data.phase == Phase.BEST_TANGENT_FOUND) {
-			if (data.hull.get(0) != data.hull.get(data.hull.size() - 1)) {
-				data.phase = Phase.LOOK_FOR_TANGENTS;
-				data.polygonId = 0;
-				data.position = data.positions.get(0);
+			data.appendToHull(bestNode);
+			data.setPhase(Phase.BEST_TANGENT_FOUND);
+		} else if (data.getPhase() == Phase.BEST_TANGENT_FOUND) {
+			if (data.getHull().get(0) != data.getHull().get(
+					data.getHull().size() - 1)) {
+				data.setPhase(Phase.LOOK_FOR_TANGENTS);
+				data.setPolygonId(0);
+				data.setPosition(data.getPosition(0));
 			} else {
-				data.phase = Phase.DONE;
+				data.setPhase(Phase.DONE);
 			}
 		}
 	}
@@ -238,10 +237,10 @@ public class ChansAlgorithm implements SceneAlgorithm
 	{
 		Polygon leftMostPolygon = null;
 		double x = Double.MAX_VALUE;
-		for (Entry<Polygon, Node> entry : data.leftMostNodes.entrySet()) {
-			Node node = entry.getValue();
+		for (Polygon polygon : polygons) {
+			Node node = data.getLeftMostNode(polygon);
 			if (node.getCoordinate().getX() < x) {
-				leftMostPolygon = entry.getKey();
+				leftMostPolygon = polygon;
 				x = node.getCoordinate().getX();
 			}
 		}
