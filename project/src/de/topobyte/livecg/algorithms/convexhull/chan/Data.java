@@ -24,8 +24,9 @@ import java.util.Map;
 
 import de.topobyte.livecg.core.geometry.geom.Node;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
+import de.topobyte.livecg.util.CloneUtil;
 
-public class Data
+public class Data implements Cloneable
 {
 	private Phase phase = Phase.FIND_LEFTMOST_NODES;
 	private List<Node> hull;
@@ -40,6 +41,21 @@ public class Data
 	private int position = -1;
 	private Map<Integer, Integer> positions = new HashMap<Integer, Integer>();
 	private int bestPolygonId = -1;
+
+	@Override
+	public Data clone()
+	{
+		Data copy = null;
+		try {
+			copy = (Data) super.clone();
+		} catch (CloneNotSupportedException e) {
+			// impossible by design
+		}
+		copy.hull = CloneUtil.clone(hull);
+		copy.leftMostNodesIndices = CloneUtil.clone(leftMostNodesIndices);
+		copy.positions = CloneUtil.clone(positions);
+		return copy;
+	}
 
 	/*
 	 * Getters

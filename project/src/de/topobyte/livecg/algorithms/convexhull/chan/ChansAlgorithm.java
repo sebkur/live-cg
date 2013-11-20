@@ -95,6 +95,8 @@ public class ChansAlgorithm implements SceneAlgorithm
 
 	private Data data = new Data();
 
+	private List<Data> history = new ArrayList<Data>();
+
 	public Data getData()
 	{
 		return data;
@@ -102,8 +104,19 @@ public class ChansAlgorithm implements SceneAlgorithm
 
 	public void nextStep()
 	{
-		executeNextStep();
-		notifyWatchers();
+		if (data.getPhase() != Phase.DONE) {
+			history.add(data.clone());
+			executeNextStep();
+			notifyWatchers();
+		}
+	}
+
+	public void previousStep()
+	{
+		if (history.size() > 0) {
+			data = history.remove(history.size() - 1);
+			notifyWatchers();
+		}
 	}
 
 	public void executeNextStep()
@@ -206,12 +219,6 @@ public class ChansAlgorithm implements SceneAlgorithm
 				data.setPhase(Phase.DONE);
 			}
 		}
-	}
-
-	public void previousStep()
-	{
-		// TODO: implement
-		notifyWatchers();
 	}
 
 	/*
