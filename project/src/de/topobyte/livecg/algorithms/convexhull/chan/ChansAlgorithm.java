@@ -18,9 +18,7 @@
 package de.topobyte.livecg.algorithms.convexhull.chan;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Map.Entry;
 
 import de.topobyte.livecg.core.AlgorithmWatcher;
@@ -96,19 +94,12 @@ public class ChansAlgorithm implements SceneAlgorithm
 	 * Algorithm status / steps / output
 	 */
 
-	private List<Node> hull;
-	private Map<Polygon, Node> leftMostNodes = new HashMap<Polygon, Node>();
-	private Map<Polygon, Integer> leftMostNodesIndices = new HashMap<Polygon, Integer>();
+	private Data data = new Data();
 
-	private Polygon leftMostPolygon;
-	private Polygon currentHeadPolygon;
-	private Node leftMostNode;
-
-	private Phase phase = Phase.FIND_LEFTMOST_NODES;
-	private int polygonId = 0;
-	private int position = -1;
-	private List<Integer> positions = new ArrayList<Integer>();
-	private int bestPolygonId = -1;
+	public Data getData()
+	{
+		return data;
+	}
 
 	public void nextStep()
 	{
@@ -118,100 +109,102 @@ public class ChansAlgorithm implements SceneAlgorithm
 
 	public void executeNextStep()
 	{
-		if (phase == Phase.FIND_LEFTMOST_NODES) {
-			int done = leftMostNodes.size();
+		if (data.phase == Phase.FIND_LEFTMOST_NODES) {
+			int done = data.leftMostNodes.size();
 			if (done < polygons.size()) {
 				Polygon polygon = polygons.get(done);
 				int index = computeLeftMostPoint(polygon);
-				leftMostNodesIndices.put(polygon, index);
+				data.leftMostNodesIndices.put(polygon, index);
 				Node node = polygon.getShell().getNode(index);
-				leftMostNodes.put(polygon, node);
+				data.leftMostNodes.put(polygon, node);
 				if (done == polygons.size() - 1) {
-					phase = Phase.FOUND_LEFTMOST_NODES;
+					data.phase = Phase.FOUND_LEFTMOST_NODES;
 				}
 			}
-		} else if (phase == Phase.FOUND_LEFTMOST_NODES) {
-			phase = Phase.FIND_OVERALL_LEFTMOST_NODE;
-		} else if (phase == Phase.FIND_OVERALL_LEFTMOST_NODE) {
-			leftMostPolygon = computeOverallLeftMostPoint();
-			leftMostNode = leftMostNodes.get(leftMostPolygon);
+		} else if (data.phase == Phase.FOUND_LEFTMOST_NODES) {
+			data.phase = Phase.FIND_OVERALL_LEFTMOST_NODE;
+		} else if (data.phase == Phase.FIND_OVERALL_LEFTMOST_NODE) {
+			data.leftMostPolygon = computeOverallLeftMostPoint();
+			data.leftMostNode = data.leftMostNodes.get(data.leftMostPolygon);
 
-			phase = Phase.FOUND_OVERALL_LEFTMOST_NODE;
-		} else if (phase == Phase.FOUND_OVERALL_LEFTMOST_NODE) {
-			phase = Phase.INITIALIZE_DATASTRUCTURES;
-		} else if (phase == Phase.INITIALIZE_DATASTRUCTURES) {
-			hull = new ArrayList<Node>();
-			hull.add(leftMostNode);
+			data.phase = Phase.FOUND_OVERALL_LEFTMOST_NODE;
+		} else if (data.phase == Phase.FOUND_OVERALL_LEFTMOST_NODE) {
+			data.phase = Phase.INITIALIZE_DATASTRUCTURES;
+		} else if (data.phase == Phase.INITIALIZE_DATASTRUCTURES) {
+			data.hull = new ArrayList<Node>();
+			data.hull.add(data.leftMostNode);
 			for (int i = 0; i < polygons.size(); i++) {
-				positions.add(leftMostNodesIndices.get(polygons.get(i)));
+				data.positions.add(data.leftMostNodesIndices.get(polygons
+						.get(i)));
 			}
-			currentHeadPolygon = leftMostPolygon;
+			data.currentHeadPolygon = data.leftMostPolygon;
 
-			phase = Phase.INITIALIZED_DATASTRUCTURES;
-		} else if (phase == Phase.INITIALIZED_DATASTRUCTURES) {
-			phase = Phase.LOOK_FOR_TANGENTS;
-		} else if (phase == Phase.LOOK_FOR_TANGENTS) {
-			Polygon polygon = polygons.get(polygonId);
-			if (position == -1) {
-				position = positions.get(polygonId);
+			data.phase = Phase.INITIALIZED_DATASTRUCTURES;
+		} else if (data.phase == Phase.INITIALIZED_DATASTRUCTURES) {
+			data.phase = Phase.LOOK_FOR_TANGENTS;
+		} else if (data.phase == Phase.LOOK_FOR_TANGENTS) {
+			Polygon polygon = polygons.get(data.polygonId);
+			if (data.position == -1) {
+				data.position = data.positions.get(data.polygonId);
 			} else {
 				Chain shell = polygon.getShell();
-				IntRing ring = new IntRing(shell.getNumberOfNodes(), position);
+				IntRing ring = new IntRing(shell.getNumberOfNodes(),
+						data.position);
 				int prev = ring.prevValue();
-				Node a = getCurrentNode();
-				Node b = shell.getNode(position);
+				Node a = data.getCurrentNode();
+				Node b = shell.getNode(data.position);
 				Node c = shell.getNode(prev);
 
-				if (polygon == currentHeadPolygon && a == b) {
-					position = prev;
+				if (polygon == data.currentHeadPolygon && a == b) {
+					data.position = prev;
 				} else if (GeomMath.isLeftOf(a.getCoordinate(),
 						b.getCoordinate(), c.getCoordinate())) {
-					position = prev;
+					data.position = prev;
 				} else {
-					phase = Phase.TANGENT_FOUND;
-					positions.set(polygonId, position);
+					data.phase = Phase.TANGENT_FOUND;
+					data.positions.set(data.polygonId, data.position);
 				}
 			}
-		} else if (phase == Phase.TANGENT_FOUND) {
-			if (polygonId < polygons.size() - 1) {
-				position = -1;
-				polygonId++;
-				phase = Phase.LOOK_FOR_TANGENTS;
+		} else if (data.phase == Phase.TANGENT_FOUND) {
+			if (data.polygonId < polygons.size() - 1) {
+				data.position = -1;
+				data.polygonId++;
+				data.phase = Phase.LOOK_FOR_TANGENTS;
 			} else {
-				phase = Phase.ALL_TANGENTS_FOUND;
+				data.phase = Phase.ALL_TANGENTS_FOUND;
 			}
-		} else if (phase == Phase.ALL_TANGENTS_FOUND) {
+		} else if (data.phase == Phase.ALL_TANGENTS_FOUND) {
 			Coordinate a;
-			if (hull.size() == 1) {
-				a = new Coordinate(getCurrentNode().getCoordinate());
+			if (data.hull.size() == 1) {
+				a = new Coordinate(data.getCurrentNode().getCoordinate());
 				a.setY(a.getY() - 100);
 			} else {
-				a = hull.get(hull.size() - 2).getCoordinate();
+				a = data.hull.get(data.hull.size() - 2).getCoordinate();
 			}
-			Coordinate b = getCurrentNode().getCoordinate();
+			Coordinate b = data.getCurrentNode().getCoordinate();
 			double bestAngle = Double.MAX_VALUE;
 			Node bestNode = null;
 			for (int i = 0; i < polygons.size(); i++) {
-				int pos = positions.get(i);
+				int pos = data.positions.get(i);
 				Polygon polygon = polygons.get(i);
 				Node node = polygon.getShell().getNode(pos);
 				double angle = GeomMath.angle(b, a, node.getCoordinate());
 				if (angle < bestAngle) {
 					bestAngle = angle;
-					bestPolygonId = i;
+					data.bestPolygonId = i;
 					bestNode = node;
-					currentHeadPolygon = polygon;
+					data.currentHeadPolygon = polygon;
 				}
 			}
-			hull.add(bestNode);
-			phase = Phase.BEST_TANGENT_FOUND;
-		} else if (phase == Phase.BEST_TANGENT_FOUND) {
-			if (hull.get(0) != hull.get(hull.size() - 1)) {
-				phase = Phase.LOOK_FOR_TANGENTS;
-				polygonId = 0;
-				position = positions.get(0);
+			data.hull.add(bestNode);
+			data.phase = Phase.BEST_TANGENT_FOUND;
+		} else if (data.phase == Phase.BEST_TANGENT_FOUND) {
+			if (data.hull.get(0) != data.hull.get(data.hull.size() - 1)) {
+				data.phase = Phase.LOOK_FOR_TANGENTS;
+				data.polygonId = 0;
+				data.position = data.positions.get(0);
 			} else {
-				phase = Phase.DONE;
+				data.phase = Phase.DONE;
 			}
 		}
 	}
@@ -220,60 +213,6 @@ public class ChansAlgorithm implements SceneAlgorithm
 	{
 		// TODO: implement
 		notifyWatchers();
-	}
-
-	/*
-	 * Getters
-	 */
-
-	public Map<Polygon, Node> getLeftMostNodes()
-	{
-		return leftMostNodes;
-	}
-
-	public Polygon getLeftMostPolygon()
-	{
-		return leftMostPolygon;
-	}
-
-	public Node getLeftMostNode()
-	{
-		return leftMostNode;
-	}
-
-	public Node getCurrentNode()
-	{
-		return hull.get(hull.size() - 1);
-	}
-
-	public Phase getPhase()
-	{
-		return phase;
-	}
-
-	public int getPolygonId()
-	{
-		return polygonId;
-	}
-
-	public int getPosition()
-	{
-		return position;
-	}
-
-	public List<Integer> getPositions()
-	{
-		return positions;
-	}
-
-	public int getBestPolygonId()
-	{
-		return bestPolygonId;
-	}
-
-	public List<Node> getHull()
-	{
-		return hull;
 	}
 
 	/*
@@ -299,7 +238,7 @@ public class ChansAlgorithm implements SceneAlgorithm
 	{
 		Polygon leftMostPolygon = null;
 		double x = Double.MAX_VALUE;
-		for (Entry<Polygon, Node> entry : leftMostNodes.entrySet()) {
+		for (Entry<Polygon, Node> entry : data.leftMostNodes.entrySet()) {
 			Node node = entry.getValue();
 			if (node.getCoordinate().getX() < x) {
 				leftMostPolygon = entry.getKey();
