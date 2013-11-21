@@ -20,6 +20,7 @@ package de.topobyte.livecg.core.painting;
 import java.awt.Color;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -27,6 +28,7 @@ import javax.xml.transform.TransformerException;
 
 import org.xml.sax.SAXException;
 
+import de.topobyte.livecg.algorithms.frechet.freespace.FreeSpacePainterChains;
 import de.topobyte.livecg.algorithms.polygon.monotonepieces.Config;
 import de.topobyte.livecg.algorithms.polygon.monotonepieces.MonotonePiecesAlgorithm;
 import de.topobyte.livecg.algorithms.polygon.monotonepieces.MonotonePiecesPainter;
@@ -36,6 +38,7 @@ import de.topobyte.livecg.core.export.SvgExporter;
 import de.topobyte.livecg.core.export.TikzExporter;
 import de.topobyte.livecg.core.geometry.dcel.DCEL;
 import de.topobyte.livecg.core.geometry.dcel.DcelConverter;
+import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.core.geometry.geom.CopyUtil;
 import de.topobyte.livecg.core.geometry.geom.CopyUtil.PolygonMode;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
@@ -87,9 +90,36 @@ public class Test
 
 		triangulation(svg4, tikz4,
 				CopyUtil.copy(polygon, PolygonMode.REUSE_NOTHING));
+
+		// Frechet
+
+		String path3 = "res/presets/frechet/Paper.geom";
+		Content content3 = contentReader.read(new File(path3));
+
+		List<Chain> chains = content3.getChains();
+		Chain chain1 = chains.get(0);
+		Chain chain2 = chains.get(1);
+
+		File svg5 = new File("/tmp/test5.svg");
+		File tikz5 = new File("/tmp/test5.tikz");
+
+		freeSpace(svg5, tikz5, chain1, chain2);
 	}
 
-	private static void geometry(File svg1, File tikz1, Content content1)
+	private static void freeSpace(File svg, File tikz, Chain chain1,
+			Chain chain2) throws TransformerException, IOException
+	{
+		de.topobyte.livecg.algorithms.frechet.freespace.Config config = new de.topobyte.livecg.algorithms.frechet.freespace.Config();
+		FreeSpacePainterChains freeSpacePainter = new FreeSpacePainterChains(
+				config, 100, chain1, chain2, null);
+
+		int width = 400;
+		int height = 400;
+		SvgExporter.exportSVG(svg, freeSpacePainter, width, height);
+		TikzExporter.exportTikz(tikz, freeSpacePainter, width, height);
+	}
+
+	private static void geometry(File svg, File tikz, Content content1)
 			throws TransformerException, IOException
 	{
 		Rectangle scene = content1.getScene();
@@ -100,8 +130,8 @@ public class Test
 		ContentPainter contentPainter = new ContentPainter(scene, content1,
 				contentConfig, null);
 
-		SvgExporter.exportSVG(svg1, contentPainter, width, height);
-		TikzExporter.exportTikz(tikz1, contentPainter, width, height);
+		SvgExporter.exportSVG(svg, contentPainter, width, height);
+		TikzExporter.exportTikz(tikz, contentPainter, width, height);
 	}
 
 	private static void dcel(File svg, File tikz, Content content)
