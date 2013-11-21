@@ -19,8 +19,14 @@ package de.topobyte.livecg.core.painting;
 
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.PathIterator;
 import java.awt.image.BufferedImage;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.core.geometry.geom.Coordinate;
@@ -32,7 +38,9 @@ import de.topobyte.livecg.core.lina.Matrix;
 public class TikzPainter implements Painter
 {
 
-	private StringBuffer buffer;
+	final static Logger logger = LoggerFactory.getLogger(TikzPainter.class);
+
+	private StringBuilder buffer;
 	private double div;
 
 	private Matrix matrix;
@@ -45,7 +53,7 @@ public class TikzPainter implements Painter
 	private float[] dash = null;
 	private float phase = 0;
 
-	public TikzPainter(StringBuffer buffer, double div)
+	public TikzPainter(StringBuilder buffer, double div)
 	{
 		this.buffer = buffer;
 		this.div = div;
@@ -80,95 +88,151 @@ public class TikzPainter implements Painter
 		this.phase = phase;
 	}
 
-	private void appendColorDefine()
-	{
-		int rgb = color.getRGB();
-		double r = ((rgb & 0xff0000) >> 16) / 255.0;
-		double g = ((rgb & 0xff00) >> 8) / 255.0;
-		double b = (rgb & 0xff) / 255.0;
-		buffer.append(String.format("\\definecolor{c}{rgb}{%.5f,%.5f,%.5f}", r,
-				g, b));
-		buffer.append(newline);
-	}
-
 	private String line()
 	{
 		return String.format("line width=%.5fmm", width / 5.0);
 	}
 
+	private Set<String> definedNames = new HashSet<String>();
+
+	private String appendColorDefine()
+	{
+		int rgb = color.getRGB();
+		String name = String.format("%06X", rgb);
+		if (!definedNames.contains(name)) {
+			definedNames.add(name);
+			double r = ((rgb & 0xff0000) >> 16) / 255.0;
+			double g = ((rgb & 0xff00) >> 8) / 255.0;
+			double b = (rgb & 0xff) / 255.0;
+			buffer.append(String.format("\\definecolor{" + name
+					+ "}{rgb}{%.5f,%.5f,%.5f}", r, g, b));
+			buffer.append(newline);
+		}
+		return name;
+	}
+
+	private void appendDraw()
+	{
+		String c = appendColorDefine();
+		buffer.append("\\draw[" + line() + ", color=" + c + "] ");
+	}
+
+	private void appendFill()
+	{
+		String c = appendColorDefine();
+		buffer.append("\\fill[color=" + c + "] ");
+	}
+
+	private void appendFillEvenOdd()
+	{
+		String c = appendColorDefine();
+		buffer.append("\\fill[color=" + c + ", even odd rule] ");
+	}
+
+	private void append(Coordinate c)
+	{
+		append(buffer, c);
+	}
+
+	private void append(StringBuilder strb, Coordinate c)
+	{
+		strb.append(String.format("(%.5f,%.5f)", c.getX(), c.getY()));
+	}
+
+	private void appendRect(double x, double y, double width, double height)
+	{
+		Coordinate c1 = transformer.transform(new Coordinate(x, y));
+		Coordinate c2 = transformer.transform(new Coordinate(x + width, y
+				+ height));
+		buffer.append(String.format("(%.5f, %.5f) rectangle (%.5f, %.5f);",
+				c1.getX(), c1.getY(), c2.getX(), c2.getY()));
+		buffer.append(newline);
+	}
+
+	private void appendCircle(double x, double y, double radius)
+	{
+		Coordinate c = transformer.transform(new Coordinate(x, y));
+		buffer.append(String.format("(%.5f,%.5f) circle (%.5f);", c.getX(),
+				c.getY(), radius / div));
+		buffer.append(newline);
+	}
+
 	@Override
 	public void drawRect(int x, int y, int width, int height)
 	{
-		// TODO Auto-generated method stub
-
+		drawRect((double) x, (double) y, (double) width, (double) height);
 	}
 
 	@Override
 	public void drawRect(double x, double y, double width, double height)
 	{
-		Coordinate c1 = transformer.transform(new Coordinate(x, y));
-		Coordinate c2 = transformer.transform(new Coordinate(x + width, y
-				+ height));
-		buffer.append(String.format("\\draw[" + line()
-				+ "] (%.5f, %.5f) rectangle (%.5f, %.5f);", c1.getX(),
-				c1.getY(), c2.getX(), c2.getY()));
-		buffer.append(newline);
+		appendDraw();
+		appendRect(x, y, width, height);
 	}
 
 	@Override
 	public void fillRect(int x, int y, int width, int height)
 	{
-		// TODO Auto-generated method stub
-
+		fillRect((double) x, (double) y, (double) width, (double) height);
 	}
 
 	@Override
 	public void fillRect(double x, double y, double width, double height)
 	{
-		// TODO Auto-generated method stub
-
+		appendFill();
+		appendRect(x, y, width, height);
 	}
 
 	@Override
 	public void drawLine(int x1, int y1, int x2, int y2)
 	{
-		// TODO Auto-generated method stub
-
+		drawLine((double) x1, (double) y1, (double) x2, (double) y2);
 	}
 
 	@Override
 	public void drawLine(double x1, double y1, double x2, double y2)
 	{
-		// TODO Auto-generated method stub
-
+		appendDraw();
+		append(transformer.transform(new Coordinate(x1, y1)));
+		buffer.append(" -- ");
+		append(transformer.transform(new Coordinate(x2, y2)));
+		buffer.append(";");
+		buffer.append(newline);
 	}
 
 	@Override
 	public void drawPath(List<Coordinate> points, boolean close)
 	{
-		// TODO Auto-generated method stub
-
+		appendDraw();
+		for (int i = 0; i < points.size(); i++) {
+			append(points.get(i));
+			if (i < points.size() - 1) {
+				buffer.append(" -- ");
+			}
+		}
+		if (close) {
+			buffer.append(" -- cycle");
+		}
 	}
 
 	@Override
 	public void drawCircle(double x, double y, double radius)
 	{
-		// TODO Auto-generated method stub
-
+		appendDraw();
+		appendCircle(x, y, radius);
 	}
 
 	@Override
 	public void fillCircle(double x, double y, double radius)
 	{
-		// TODO Auto-generated method stub
-
+		appendFill();
+		appendCircle(x, y, radius);
 	}
 
 	private void appendChain(Chain chain)
 	{
 		for (int i = 0; i < chain.getNumberOfNodes(); i++) {
-			Coordinate c = chain.getCoordinate(i);
-			buffer.append(String.format("(%.5f,%.5f)", c.getX(), c.getY()));
+			append(chain.getCoordinate(i));
 			if (i < chain.getNumberOfNodes() - 1) {
 				buffer.append(" -- ");
 			}
@@ -181,7 +245,7 @@ public class TikzPainter implements Painter
 	@Override
 	public void drawChain(Chain chain)
 	{
-		buffer.append("\\draw[" + line() + "] ");
+		appendDraw();
 		appendChain(transformer.transform(chain));
 		buffer.append(";");
 		buffer.append(newline);
@@ -190,8 +254,8 @@ public class TikzPainter implements Painter
 	@Override
 	public void drawPolygon(Polygon polygon)
 	{
+		appendDraw();
 		Polygon tpolygon = transformer.transform(polygon);
-		buffer.append("\\draw[" + line() + "] ");
 		Chain shell = tpolygon.getShell();
 		appendChain(shell);
 		for (Chain hole : tpolygon.getHoles()) {
@@ -205,9 +269,8 @@ public class TikzPainter implements Painter
 	@Override
 	public void fillPolygon(Polygon polygon)
 	{
-		appendColorDefine();
+		appendFillEvenOdd();
 		Polygon tpolygon = transformer.transform(polygon);
-		buffer.append("\\fill[color=c, even odd rule] ");
 		Chain shell = tpolygon.getShell();
 		appendChain(shell);
 		for (Chain hole : tpolygon.getHoles()) {
@@ -221,15 +284,21 @@ public class TikzPainter implements Painter
 	@Override
 	public void draw(Shape shape)
 	{
-		// TODO Auto-generated method stub
-
+		appendDraw();
+		StringBuilder path = buildPath(shape);
+		buffer.append(path.toString());
+		buffer.append(";");
+		buffer.append(newline);
 	}
 
 	@Override
 	public void fill(Shape shape)
 	{
-		// TODO Auto-generated method stub
-
+		appendFillEvenOdd();
+		StringBuilder path = buildPath(shape);
+		buffer.append(path.toString());
+		buffer.append(";");
+		buffer.append(newline);
 	}
 
 	@Override
@@ -286,6 +355,92 @@ public class TikzPainter implements Painter
 	{
 		// TODO Auto-generated method stub
 
+	}
+
+	private StringBuilder buildPath(Shape shape)
+	{
+		StringBuilder strb = new StringBuilder();
+
+		PathIterator pathIterator = shape
+				.getPathIterator(new AffineTransform());
+		while (!pathIterator.isDone()) {
+			double[] coords = new double[6];
+			int type = pathIterator.currentSegment(coords);
+			pathIterator.next();
+
+			switch (type) {
+			case PathIterator.SEG_MOVETO:
+				double cx = coords[0];
+				double cy = coords[1];
+				pathMoveTo(strb, cx, cy);
+				break;
+			case PathIterator.SEG_LINETO:
+				cx = coords[0];
+				cy = coords[1];
+				pathLineTo(strb, cx, cy);
+				break;
+			case PathIterator.SEG_CLOSE:
+				pathClose(strb);
+				break;
+			case PathIterator.SEG_QUADTO:
+				cx = coords[2];
+				cy = coords[3];
+				double c1x = coords[0];
+				double c1y = coords[1];
+				pathQuadraticTo(strb, c1x, c1y, cx, cy);
+				break;
+			case PathIterator.SEG_CUBICTO:
+				cx = coords[4];
+				cy = coords[5];
+				c1x = coords[0];
+				c1y = coords[1];
+				double c2x = coords[2];
+				double c2y = coords[3];
+				pathCubicTo(strb, c1x, c1y, c2x, c2y, cx, cy);
+				break;
+			default:
+				logger.error("Not implemented! PathIterator type: " + type);
+			}
+		}
+		return strb;
+	}
+
+	private void pathMoveTo(StringBuilder strb, double cx, double cy)
+	{
+		strb.append(" ");
+		append(strb, transformer.transform(new Coordinate(cx, cy)));
+	}
+
+	private void pathLineTo(StringBuilder strb, double cx, double cy)
+	{
+		strb.append(" -- ");
+		append(strb, transformer.transform(new Coordinate(cx, cy)));
+	}
+
+	private void pathClose(StringBuilder strb)
+	{
+		strb.append(" -- ");
+		strb.append("cycle");
+	}
+
+	private void pathQuadraticTo(StringBuilder strb, double c1x, double c1y,
+			double cx, double cy)
+	{
+		strb.append(" .. controls ");
+		append(strb, transformer.transform(new Coordinate(c1x, c1y)));
+		strb.append(" .. ");
+		append(strb, transformer.transform(new Coordinate(cx, cy)));
+	}
+
+	private void pathCubicTo(StringBuilder strb, double c1x, double c1y,
+			double c2x, double c2y, double cx, double cy)
+	{
+		strb.append(" .. controls ");
+		append(strb, transformer.transform(new Coordinate(c1x, c1y)));
+		strb.append(" and ");
+		append(strb, transformer.transform(new Coordinate(c2x, c2y)));
+		strb.append(" .. ");
+		append(strb, transformer.transform(new Coordinate(cx, cy)));
 	}
 
 }

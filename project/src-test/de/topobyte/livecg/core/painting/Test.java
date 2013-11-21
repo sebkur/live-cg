@@ -27,10 +27,15 @@ import org.xml.sax.SAXException;
 
 import de.topobyte.livecg.core.export.SvgExporter;
 import de.topobyte.livecg.core.export.TikzExporter;
+import de.topobyte.livecg.core.geometry.dcel.DCEL;
+import de.topobyte.livecg.core.geometry.dcel.DcelConverter;
 import de.topobyte.livecg.core.geometry.geom.Rectangle;
 import de.topobyte.livecg.core.geometry.io.ContentReader;
 import de.topobyte.livecg.datastructures.content.ContentConfig;
 import de.topobyte.livecg.datastructures.content.ContentPainter;
+import de.topobyte.livecg.datastructures.dcel.DcelConfig;
+import de.topobyte.livecg.datastructures.dcel.DcelPainter;
+import de.topobyte.livecg.datastructures.dcel.InstanceDcelPainter;
 import de.topobyte.livecg.ui.geometryeditor.Content;
 
 public class Test
@@ -43,17 +48,29 @@ public class Test
 		Content content = contentReader.read(new File(path));
 
 		Rectangle scene = content.getScene();
-		ContentConfig config = new ContentConfig();
-		ContentPainter contentPainter = new ContentPainter(scene, content,
-				config, null);
 
 		int width = (int) Math.ceil(scene.getWidth());
 		int height = (int) Math.ceil(scene.getHeight());
 
-		File svg = new File("/tmp/test.svg");
-		File tikz = new File("/tmp/test.tikz");
+		File svg1 = new File("/tmp/test1.svg");
+		File tikz1 = new File("/tmp/test1.tikz");
 
-		SvgExporter.exportSVG(svg, contentPainter, width, height);
-		TikzExporter.exportTikz(tikz, contentPainter, width, height);
+		ContentConfig contentConfig = new ContentConfig();
+		ContentPainter contentPainter = new ContentPainter(scene, content,
+				contentConfig, null);
+
+		SvgExporter.exportSVG(svg1, contentPainter, width, height);
+		TikzExporter.exportTikz(tikz1, contentPainter, width, height);
+
+		File svg2 = new File("/tmp/test2.svg");
+		File tikz2 = new File("/tmp/test2.tikz");
+
+		DcelConfig dcelConfig = new DcelConfig();
+		DCEL dcel = DcelConverter.convert(content);
+		DcelPainter dcelPainter = new InstanceDcelPainter(scene, dcel,
+				dcelConfig, null);
+
+		SvgExporter.exportSVG(svg2, dcelPainter, width, height);
+		TikzExporter.exportTikz(tikz2, dcelPainter, width, height);
 	}
 }

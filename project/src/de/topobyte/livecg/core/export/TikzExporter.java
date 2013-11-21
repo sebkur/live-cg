@@ -32,7 +32,7 @@ public class TikzExporter
 	public static void exportTikz(File file, AlgorithmPainter algorithmPainter,
 			int width, int height) throws TransformerException, IOException
 	{
-		StringBuffer buffer = new StringBuffer();
+		StringBuilder buffer = new StringBuilder();
 		buffer.append("\\begin{tikzpicture}[scale=13.0]\n");
 
 		int div = Math.max(width, height);
