@@ -60,6 +60,10 @@ public class TikzPainter implements Painter
 
 		matrix = AffineTransformUtil.scale(1 / div, -1 / div);
 		transformer = new GeometryTransformer(matrix);
+
+		// buffer.append("\\draw[color=black]");
+		// buffer.append("(0, 0) rectangle (1, -1);");
+		// buffer.append(newline);
 	}
 
 	@Override
@@ -111,22 +115,32 @@ public class TikzPainter implements Painter
 		return name;
 	}
 
-	private void appendDraw()
+	private String colorDefinition()
 	{
 		String c = appendColorDefine();
-		buffer.append("\\draw[" + line() + ", color=" + c + "] ");
+		if (color.getAlpha() == 1.0) {
+			return "color=" + c;
+		}
+		return "color=" + c + ", opacity="
+				+ String.format("%.2f", color.getAlpha());
+	}
+
+	private void appendDraw()
+	{
+		String c = colorDefinition();
+		buffer.append("\\draw[" + line() + ", " + c + "] ");
 	}
 
 	private void appendFill()
 	{
-		String c = appendColorDefine();
-		buffer.append("\\fill[color=" + c + "] ");
+		String c = colorDefinition();
+		buffer.append("\\fill[" + c + "] ");
 	}
 
 	private void appendFillEvenOdd()
 	{
-		String c = appendColorDefine();
-		buffer.append("\\fill[color=" + c + ", even odd rule] ");
+		String c = colorDefinition();
+		buffer.append("\\fill[" + c + ", even odd rule] ");
 	}
 
 	private void append(Coordinate c)
@@ -347,7 +361,6 @@ public class TikzPainter implements Painter
 	public void setTransform(AffineTransform t)
 	{
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
