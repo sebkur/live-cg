@@ -33,11 +33,25 @@ public class TikzExporter
 			int width, int height) throws TransformerException, IOException
 	{
 		StringBuilder buffer = new StringBuilder();
+		// The TikzPainter will paint in bounds (0,0) to (1,-1), by applying
+		// this scale, we scale everything to 13cm width
 		buffer.append("\\begin{tikzpicture}[scale=13.0]\n");
 
+		// By this factor everything will be scaled so that drawing happens in
+		// the unit square bounds
 		int div = Math.max(width, height);
+		double scale = 1 / (double) div;
 
-		TikzPainter painter = new TikzPainter(buffer, div);
+		// Clip the image to the actual bound so that it will not be too large
+		// (because the TikzPainter will clip with the unit square which will
+		// lead to an image of exactly the unit square's size)
+		double clipX = width / (double) div;
+		double clipY = -height / (double) div;
+		String clip = String.format("\\clip (0,0) rectangle (%f,%f);", clipX,
+				clipY);
+		buffer.append(clip);
+
+		TikzPainter painter = new TikzPainter(buffer, scale);
 
 		algorithmPainter.setPainter(painter);
 		algorithmPainter.setWidth(width);

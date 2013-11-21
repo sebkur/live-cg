@@ -19,8 +19,11 @@ package de.topobyte.livecg.core.painting;
 
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Area;
 import java.awt.geom.PathIterator;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -33,7 +36,9 @@ import de.topobyte.livecg.core.geometry.geom.Coordinate;
 import de.topobyte.livecg.core.geometry.geom.GeometryTransformer;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
 import de.topobyte.livecg.core.lina.AffineTransformUtil;
+import de.topobyte.livecg.core.lina.AwtTransformUtil;
 import de.topobyte.livecg.core.lina.Matrix;
+import de.topobyte.livecg.util.CloneUtil;
 
 public class TikzPainter implements Painter
 {
@@ -41,10 +46,17 @@ public class TikzPainter implements Painter
 	final static Logger logger = LoggerFactory.getLogger(TikzPainter.class);
 
 	private StringBuilder buffer;
-	private double div;
+	private double scale;
 
-	private Matrix matrix;
-	private GeometryTransformer transformer;
+	// Scaling to unity square
+	private AffineTransform atUnity;
+	private Matrix mxUnity;
+	private GeometryTransformer trUnity;
+
+	// Applying the user transform
+	private AffineTransform transform = null;
+	private Matrix mxTransform;
+	private GeometryTransformer trTransform;
 
 	private String newline = "\n";
 
@@ -53,17 +65,19 @@ public class TikzPainter implements Painter
 	private float[] dash = null;
 	private float phase = 0;
 
-	public TikzPainter(StringBuilder buffer, double div)
+	public TikzPainter(StringBuilder buffer, double scale)
 	{
 		this.buffer = buffer;
-		this.div = div;
+		this.scale = scale;
 
-		matrix = AffineTransformUtil.scale(1 / div, -1 / div);
-		transformer = new GeometryTransformer(matrix);
+		mxUnity = AffineTransformUtil.scale(scale, -scale);
+		trUnity = new GeometryTransformer(mxUnity);
 
-		// buffer.append("\\draw[color=black]");
-		// buffer.append("(0, 0) rectangle (1, -1);");
-		// buffer.append(newline);
+		atUnity = new AffineTransform();
+		atUnity.scale(scale, -scale);
+
+		buffer.append("\\clip (0,0) rectangle (1,-1);");
+		buffer.append(newline);
 	}
 
 	@Override
@@ -103,7 +117,7 @@ public class TikzPainter implements Painter
 	{
 		int rgb = color.getRGB();
 		String name = String.format("%06X", rgb);
-		if (!definedNames.contains(name)) {
+		if (!definedNames.contains(name) || true) {
 			definedNames.add(name);
 			double r = ((rgb & 0xff0000) >> 16) / 255.0;
 			double g = ((rgb & 0xff00) >> 8) / 255.0;
@@ -153,11 +167,32 @@ public class TikzPainter implements Painter
 		strb.append(String.format("(%.5f,%.5f)", c.getX(), c.getY()));
 	}
 
+	private Coordinate applyTransforms(double x, double y)
+	{
+		return applyTransforms(new Coordinate(x, y));
+	}
+
+	private Coordinate applyTransforms(Coordinate c)
+	{
+		if (transform != null) {
+			c = trTransform.transform(c);
+		}
+		return trUnity.transform(c);
+	}
+
+	private Shape applyTransforms(Shape shape)
+	{
+		Shape s = shape;
+		if (transform != null) {
+			s = transform.createTransformedShape(s);
+		}
+		return atUnity.createTransformedShape(s);
+	}
+
 	private void appendRect(double x, double y, double width, double height)
 	{
-		Coordinate c1 = transformer.transform(new Coordinate(x, y));
-		Coordinate c2 = transformer.transform(new Coordinate(x + width, y
-				+ height));
+		Coordinate c1 = applyTransforms(x, y);
+		Coordinate c2 = applyTransforms(x + width, y + height);
 		buffer.append(String.format("(%.5f, %.5f) rectangle (%.5f, %.5f);",
 				c1.getX(), c1.getY(), c2.getX(), c2.getY()));
 		buffer.append(newline);
@@ -165,9 +200,9 @@ public class TikzPainter implements Painter
 
 	private void appendCircle(double x, double y, double radius)
 	{
-		Coordinate c = transformer.transform(new Coordinate(x, y));
+		Coordinate c = applyTransforms(x, y);
 		buffer.append(String.format("(%.5f,%.5f) circle (%.5f);", c.getX(),
-				c.getY(), radius / div));
+				c.getY(), radius * scale));
 		buffer.append(newline);
 	}
 
@@ -207,9 +242,9 @@ public class TikzPainter implements Painter
 	public void drawLine(double x1, double y1, double x2, double y2)
 	{
 		appendDraw();
-		append(transformer.transform(new Coordinate(x1, y1)));
+		append(applyTransforms(x1, y1));
 		buffer.append(" -- ");
-		append(transformer.transform(new Coordinate(x2, y2)));
+		append(applyTransforms(x2, y2));
 		buffer.append(";");
 		buffer.append(newline);
 	}
@@ -219,7 +254,7 @@ public class TikzPainter implements Painter
 	{
 		appendDraw();
 		for (int i = 0; i < points.size(); i++) {
-			append(points.get(i));
+			append(applyTransforms(points.get(i)));
 			if (i < points.size() - 1) {
 				buffer.append(" -- ");
 			}
@@ -246,7 +281,7 @@ public class TikzPainter implements Painter
 	private void appendChain(Chain chain)
 	{
 		for (int i = 0; i < chain.getNumberOfNodes(); i++) {
-			append(chain.getCoordinate(i));
+			append(applyTransforms(chain.getCoordinate(i)));
 			if (i < chain.getNumberOfNodes() - 1) {
 				buffer.append(" -- ");
 			}
@@ -260,7 +295,7 @@ public class TikzPainter implements Painter
 	public void drawChain(Chain chain)
 	{
 		appendDraw();
-		appendChain(transformer.transform(chain));
+		appendChain(chain);
 		buffer.append(";");
 		buffer.append(newline);
 	}
@@ -269,10 +304,9 @@ public class TikzPainter implements Painter
 	public void drawPolygon(Polygon polygon)
 	{
 		appendDraw();
-		Polygon tpolygon = transformer.transform(polygon);
-		Chain shell = tpolygon.getShell();
+		Chain shell = polygon.getShell();
 		appendChain(shell);
-		for (Chain hole : tpolygon.getHoles()) {
+		for (Chain hole : polygon.getHoles()) {
 			buffer.append(" ");
 			appendChain(hole);
 		}
@@ -284,10 +318,9 @@ public class TikzPainter implements Painter
 	public void fillPolygon(Polygon polygon)
 	{
 		appendFillEvenOdd();
-		Polygon tpolygon = transformer.transform(polygon);
-		Chain shell = tpolygon.getShell();
+		Chain shell = polygon.getShell();
 		appendChain(shell);
-		for (Chain hole : tpolygon.getHoles()) {
+		for (Chain hole : polygon.getHoles()) {
 			buffer.append(" ");
 			appendChain(hole);
 		}
@@ -295,25 +328,153 @@ public class TikzPainter implements Painter
 		buffer.append(newline);
 	}
 
+	private void appendClipScopeBegin()
+	{
+		if (clipShapes != null && !clipShapes.isEmpty()) {
+			appendScopeBegin();
+			appendClip();
+		}
+	}
+
+	private void appendClipScopeEnd()
+	{
+		if (clipShapes != null && !clipShapes.isEmpty()) {
+			appendScopeEnd();
+		}
+	}
+
+	private void appendScopeBegin()
+	{
+		buffer.append("\\begin{scope}");
+		buffer.append(newline);
+	}
+
+	private void appendScopeEnd()
+	{
+		buffer.append("\\end{scope}");
+		buffer.append(newline);
+	}
+
+	private void appendClip()
+	{
+		if (clipShapes.isEmpty()) {
+			return;
+		}
+		for (int i = 0; i < clipShapes.size(); i++) {
+			Shape shape = clipShapes.get(i);
+			StringBuilder buf = buildPath(atUnity.createTransformedShape(shape));
+			buffer.append("\\clip ");
+			buffer.append(buf.toString());
+			buffer.append(";");
+			buffer.append(newline);
+		}
+	}
+
 	@Override
 	public void draw(Shape shape)
 	{
+		Shape tshape = applyTransforms(shape);
+
+		Rectangle2D.Double rect = new Rectangle2D.Double(-2, -2, 3, 4);
+		if (!rect.contains(tshape.getBounds2D())) {
+			return;
+		}
+
+		appendClipScopeBegin();
+
 		appendDraw();
-		StringBuilder path = buildPath(shape);
+
+		StringBuilder path = buildPath(tshape);
 		buffer.append(path.toString());
 		buffer.append(";");
 		buffer.append(newline);
+
+		appendClipScopeEnd();
 	}
 
 	@Override
 	public void fill(Shape shape)
 	{
+		Shape tshape = applyTransforms(shape);
+
+		Area area = new Area(tshape);
+		Rectangle2D.Double crect = new Rectangle2D.Double(0, -1, 1, 1);
+		area.intersect(new Area(crect));
+
+		appendClipScopeBegin();
+
 		appendFillEvenOdd();
-		StringBuilder path = buildPath(shape);
+		StringBuilder path = buildPath(area);
 		buffer.append(path.toString());
 		buffer.append(";");
 		buffer.append(newline);
+
+		appendClipScopeEnd();
 	}
+
+	/*
+	 * Transformations
+	 */
+
+	@Override
+	public AffineTransform getTransform()
+	{
+		if (transform == null) {
+			return new AffineTransform();
+		}
+		return new AffineTransform(transform);
+	}
+
+	@Override
+	public void setTransform(AffineTransform t)
+	{
+		transform = t;
+		mxTransform = AwtTransformUtil.convert(t);
+		trTransform = new GeometryTransformer(mxTransform);
+	}
+
+	/*
+	 * Clipping
+	 */
+
+	private List<Shape> clipShapes = null;
+
+	@Override
+	public Object getClip()
+	{
+		if (clipShapes == null) {
+			return null;
+		}
+		return CloneUtil.clone(clipShapes);
+	}
+
+	@Override
+	public void setClip(Object clip)
+	{
+		if (clip == null) {
+			clipShapes = null;
+		}
+		clipShapes = CloneUtil.clone((List<Shape>) clip);
+	}
+
+	@Override
+	public void clipRect(double x, double y, double width, double height)
+	{
+		clipArea(new Rectangle2D.Double(x, y, width, height));
+	}
+
+	@Override
+	public void clipArea(Shape shape)
+	{
+		if (clipShapes == null) {
+			clipShapes = new ArrayList<Shape>();
+		}
+		clipShapes.add(shape);
+	}
+
+	/*
+	 * TODO: these are not yet implemented
+	 */
 
 	@Override
 	public void drawString(String text, double x, double y)
@@ -323,52 +484,15 @@ public class TikzPainter implements Painter
 	}
 
 	@Override
-	public Object getClip()
-	{
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void setClip(Object clip)
-	{
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void clipRect(double x, double y, double width, double height)
-	{
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void clipArea(Shape shape)
-	{
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public AffineTransform getTransform()
-	{
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void setTransform(AffineTransform t)
-	{
-		// TODO Auto-generated method stub
-	}
-
-	@Override
 	public void drawImage(BufferedImage image, int x, int y)
 	{
 		// TODO Auto-generated method stub
 
 	}
+
+	/*
+	 * Shapes, paths
+	 */
 
 	private StringBuilder buildPath(Shape shape)
 	{
@@ -421,13 +545,13 @@ public class TikzPainter implements Painter
 	private void pathMoveTo(StringBuilder strb, double cx, double cy)
 	{
 		strb.append(" ");
-		append(strb, transformer.transform(new Coordinate(cx, cy)));
+		append(strb, new Coordinate(cx, cy));
 	}
 
 	private void pathLineTo(StringBuilder strb, double cx, double cy)
 	{
 		strb.append(" -- ");
-		append(strb, transformer.transform(new Coordinate(cx, cy)));
+		append(strb, new Coordinate(cx, cy));
 	}
 
 	private void pathClose(StringBuilder strb)
@@ -440,20 +564,20 @@ public class TikzPainter implements Painter
 			double cx, double cy)
 	{
 		strb.append(" .. controls ");
-		append(strb, transformer.transform(new Coordinate(c1x, c1y)));
+		append(strb, new Coordinate(c1x, c1y));
 		strb.append(" .. ");
-		append(strb, transformer.transform(new Coordinate(cx, cy)));
+		append(strb, new Coordinate(cx, cy));
 	}
 
 	private void pathCubicTo(StringBuilder strb, double c1x, double c1y,
 			double c2x, double c2y, double cx, double cy)
 	{
 		strb.append(" .. controls ");
-		append(strb, transformer.transform(new Coordinate(c1x, c1y)));
+		append(strb, new Coordinate(c1x, c1y));
 		strb.append(" and ");
-		append(strb, transformer.transform(new Coordinate(c2x, c2y)));
+		append(strb, new Coordinate(c2x, c2y));
 		strb.append(" .. ");
-		append(strb, transformer.transform(new Coordinate(cx, cy)));
+		append(strb, new Coordinate(cx, cy));
 	}
 
 }
