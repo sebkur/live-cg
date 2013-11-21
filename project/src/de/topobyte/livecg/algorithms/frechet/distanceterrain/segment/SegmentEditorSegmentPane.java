@@ -47,13 +47,13 @@ public class SegmentEditorSegmentPane extends SegmentPane implements
 
 	public void update()
 	{
-		Chain line1 = editor1.getEditPane().getSegment();
-		Chain line2 = editor2.getEditPane().getSegment();
+		Chain segment1 = editor1.getEditPane().getSegment();
+		Chain segment2 = editor2.getEditPane().getSegment();
 
-		LineSegment seg1 = new LineSegment(line1.getFirstCoordinate(),
-				line1.getLastCoordinate());
-		LineSegment seg2 = new LineSegment(line2.getFirstCoordinate(),
-				line2.getLastCoordinate());
+		LineSegment seg1 = new LineSegment(segment1.getFirstCoordinate(),
+				segment1.getLastCoordinate());
+		LineSegment seg2 = new LineSegment(segment2.getFirstCoordinate(),
+				segment2.getLastCoordinate());
 
 		setSegment1(seg1);
 		setSegment2(seg2);

@@ -38,17 +38,17 @@ public class FreeSpacePainterChains extends BasicAlgorithmPainter implements
 	private Color colorCellBoundaries = new Color(0x000000);
 
 	private int epsilon;
-	private final Chain line1;
-	private final Chain line2;
+	private final Chain chain1;
+	private final Chain chain2;
 
-	public FreeSpacePainterChains(Config config, int epsilon, Chain line1,
-			Chain line2, Painter painter)
+	public FreeSpacePainterChains(Config config, int epsilon, Chain chain1,
+			Chain chain2, Painter painter)
 	{
 		super(painter);
 		this.config = config;
 		this.epsilon = epsilon;
-		this.line1 = line1;
-		this.line2 = line2;
+		this.chain1 = chain1;
+		this.chain2 = chain2;
 		segmentPainter = new FreeSpacePainterSegments(config, epsilon, painter);
 	}
 
@@ -68,15 +68,15 @@ public class FreeSpacePainterChains extends BasicAlgorithmPainter implements
 		int width = getWidth();
 		int height = getHeight();
 
-		int nSegmentsP = line1.getNumberOfNodes() - 1;
-		int nSegmentsQ = line2.getNumberOfNodes() - 1;
+		int nSegmentsP = chain1.getNumberOfNodes() - 1;
+		int nSegmentsQ = chain2.getNumberOfNodes() - 1;
 
 		int w = width / nSegmentsP;
 		int h = height / nSegmentsQ;
 		int usedWidth = w * nSegmentsP;
 		int usedHeight = h * nSegmentsQ;
 
-		ReachableSpace reachableSpace = new ReachableSpace(line1, line2,
+		ReachableSpace reachableSpace = new ReachableSpace(chain1, chain2,
 				epsilon);
 
 		AffineTransform transform = painter.getTransform();
@@ -84,8 +84,8 @@ public class FreeSpacePainterChains extends BasicAlgorithmPainter implements
 		for (int x = 0; x < nSegmentsP; x++) {
 			for (int y = 0; y < nSegmentsQ; y++) {
 				int ry = nSegmentsQ - y - 1;
-				LineSegment segP = FrechetUtil.getSegment(line1, x);
-				LineSegment segQ = FrechetUtil.getSegment(line2, ry);
+				LineSegment segP = FrechetUtil.getSegment(chain1, x);
+				LineSegment segQ = FrechetUtil.getSegment(chain2, ry);
 
 				int lx = x * w;
 				int ly = y * h;

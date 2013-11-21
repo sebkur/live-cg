@@ -27,18 +27,18 @@ public class ReachableSpace
 	private Interval[][] L;
 	private Interval[][] B;
 
-	public ReachableSpace(Chain line1, Chain line2, int epsilon)
+	public ReachableSpace(Chain chain1, Chain chain2, int epsilon)
 	{
-		int nSegmentsP = line1.getNumberOfNodes() - 1;
-		int nSegmentsQ = line2.getNumberOfNodes() - 1;
+		int nSegmentsP = chain1.getNumberOfNodes() - 1;
+		int nSegmentsQ = chain2.getNumberOfNodes() - 1;
 
 		L = new Interval[nSegmentsP + 1][nSegmentsQ + 1];
 		B = new Interval[nSegmentsP + 1][nSegmentsQ + 1];
 
 		// Initialize for cell 0,0
 
-		LineSegment seg1 = FrechetUtil.getSegment(line1, 0);
-		LineSegment seg2 = FrechetUtil.getSegment(line2, 0);
+		LineSegment seg1 = FrechetUtil.getSegment(chain1, 0);
+		LineSegment seg2 = FrechetUtil.getSegment(chain2, 0);
 
 		Interval BF1 = FreeSpaceUtil // bottom
 				.freeSpace(seg2, seg1, 0, epsilon);
@@ -65,8 +65,8 @@ public class ReachableSpace
 
 		for (int y = 0; y < nSegmentsQ; y++) {
 			for (int x = 0; x < nSegmentsP; x++) {
-				seg1 = FrechetUtil.getSegment(line1, x);
-				seg2 = FrechetUtil.getSegment(line2, y);
+				seg1 = FrechetUtil.getSegment(chain1, x);
+				seg2 = FrechetUtil.getSegment(chain2, y);
 
 				Interval LRij = L[x][y];
 				Interval BRij = B[x][y];

@@ -35,11 +35,11 @@ public class DualSegmentEditorDistanceTerrain extends JPanel
 	private SegmentEditor editor2;
 	private SegmentEditorSegmentPane segmentPane;
 
-	public DualSegmentEditorDistanceTerrain(int width, int height, Chain line1,
-			Chain line2)
+	public DualSegmentEditorDistanceTerrain(int width, int height, Chain chain1,
+			Chain chain2)
 	{
-		editor1 = new SegmentEditor(width, height, line1);
-		editor2 = new SegmentEditor(width, height, line2);
+		editor1 = new SegmentEditor(width, height, chain1);
+		editor2 = new SegmentEditor(width, height, chain2);
 		segmentPane = new SegmentEditorSegmentPane(editor1, editor2);
 
 		segmentPane.update();

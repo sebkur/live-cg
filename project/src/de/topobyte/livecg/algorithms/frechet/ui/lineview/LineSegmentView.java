@@ -42,21 +42,21 @@ public class LineSegmentView extends JPanel implements EpsilonSettable
 
 	private static final long serialVersionUID = 9050114560510657609L;
 
-	private final Chain line1;
-	private final Chain line2;
+	private final Chain chain1;
+	private final Chain chain2;
 
 	private int epsilon;
 
 	private boolean drawSegmentBufferP, drawSegmentBufferQ, drawPointBufferP,
 			drawPointBufferQ, drawEpsilon = true;
 
-	public LineSegmentView(int epsilon, Chain line1, Chain line2,
+	public LineSegmentView(int epsilon, Chain chain1, Chain chain2,
 			boolean pSegmentBuffers, boolean qSegmentBuffers,
 			boolean pPointBuffers, boolean qPointBuffers)
 	{
 		this.epsilon = epsilon;
-		this.line1 = line1;
-		this.line2 = line2;
+		this.chain1 = chain1;
+		this.chain2 = chain2;
 		this.drawSegmentBufferP = pSegmentBuffers;
 		this.drawSegmentBufferQ = qSegmentBuffers;
 		this.drawPointBufferP = pPointBuffers;
@@ -69,8 +69,8 @@ public class LineSegmentView extends JPanel implements EpsilonSettable
 		super.paint(graphics);
 		Graphics2D g = (Graphics2D) graphics;
 
-		draw(g, line1, "P", drawSegmentBufferP, drawPointBufferP);
-		draw(g, line2, "Q", drawSegmentBufferQ, drawPointBufferQ);
+		draw(g, chain1, "P", drawSegmentBufferP, drawPointBufferP);
+		draw(g, chain2, "Q", drawSegmentBufferQ, drawPointBufferQ);
 	}
 
 	private static final Color colorBuffersLines = new Color(0x22ff0000, true);

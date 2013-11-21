@@ -35,10 +35,10 @@ public class DistanceTerrain extends JPanel implements SizeProvider
 	private AwtPainter painter;
 	private DistanceTerrainPainterChains terrainPainter;
 
-	public DistanceTerrain(Config config, Chain line1, Chain line2)
+	public DistanceTerrain(Config config, Chain chain1, Chain chain2)
 	{
 		painter = new AwtPainter(null);
-		terrainPainter = new DistanceTerrainPainterChains(config, line1, line2,
+		terrainPainter = new DistanceTerrainPainterChains(config, chain1, chain2,
 				painter);
 	}
 

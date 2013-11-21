@@ -51,19 +51,19 @@ public class RunDualSegmentEditorDistanceTerrain
 		Chain segment1 = new Chain();
 		Chain segment2 = new Chain();
 
-		// line1.addPoint(new Coordinate(20, 50));
-		// line1.addPoint(new Coordinate(170, 150));
+		// segment1.addPoint(new Coordinate(20, 50));
+		// segment1.addPoint(new Coordinate(170, 150));
 		//
-		// line2.addPoint(new Coordinate(30, 150));
-		// line2.addPoint(new Coordinate(140, 50));
+		// segment2.addPoint(new Coordinate(30, 150));
+		// segment2.addPoint(new Coordinate(140, 50));
 
 		// int epsilon = 50;
 
-		// line1.addPoint(new Coordinate(0, 100));
-		// line1.addPoint(new Coordinate(100, 0));
+		// segment1.addPoint(new Coordinate(0, 100));
+		// segment1.addPoint(new Coordinate(100, 0));
 		//
-		// line2.addPoint(new Coordinate(0, 50));
-		// line2.addPoint(new Coordinate(100, 50));
+		// segment2.addPoint(new Coordinate(0, 50));
+		// segment2.addPoint(new Coordinate(100, 50));
 
 		segment1.appendPoint(new Coordinate(0, 200));
 		segment1.appendPoint(new Coordinate(200, 0));
@@ -71,8 +71,8 @@ public class RunDualSegmentEditorDistanceTerrain
 		segment2.appendPoint(new Coordinate(0, 100));
 		segment2.appendPoint(new Coordinate(200, 100));
 
-		// line2.addPoint(new Coordinate(0, 200));
-		// line2.addPoint(new Coordinate(200, 0));
+		// segment2.addPoint(new Coordinate(0, 200));
+		// segment2.addPoint(new Coordinate(200, 0));
 
 		final DualSegmentEditorDistanceTerrain segmentEditor = new DualSegmentEditorDistanceTerrain(
 				size, size, segment1, segment2);

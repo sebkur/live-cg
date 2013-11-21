@@ -33,22 +33,22 @@ public class DistanceTerrainPainterChains extends BasicAlgorithmPainter
 
 	private Config config;
 
-	private final Chain line1;
-	private final Chain line2;
+	private final Chain chain1;
+	private final Chain chain2;
 
-	public DistanceTerrainPainterChains(Config config, Chain line1,
-			Chain line2, Painter painter)
+	public DistanceTerrainPainterChains(Config config, Chain chain1,
+			Chain chain2, Painter painter)
 	{
 		super(painter);
 		this.config = config;
-		this.line1 = line1;
-		this.line2 = line2;
+		this.chain1 = chain1;
+		this.chain2 = chain2;
 	}
 
-	private LineSegment getSegment(Chain line, int n)
+	private LineSegment getSegment(Chain chain, int n)
 	{
-		Coordinate c1 = line.getCoordinate(n);
-		Coordinate c2 = line.getCoordinate(n + 1);
+		Coordinate c1 = chain.getCoordinate(n);
+		Coordinate c2 = chain.getCoordinate(n + 1);
 		return new LineSegment(c1, c2);
 	}
 
@@ -58,8 +58,8 @@ public class DistanceTerrainPainterChains extends BasicAlgorithmPainter
 		int width = getWidth();
 		int height = getHeight();
 
-		int nSegmentsP = line1.getNumberOfNodes() - 1;
-		int nSegmentsQ = line2.getNumberOfNodes() - 1;
+		int nSegmentsP = chain1.getNumberOfNodes() - 1;
+		int nSegmentsQ = chain2.getNumberOfNodes() - 1;
 
 		int w = width / nSegmentsP;
 		int h = height / nSegmentsQ;
@@ -71,8 +71,8 @@ public class DistanceTerrainPainterChains extends BasicAlgorithmPainter
 
 		for (int x = 0; x < nSegmentsP; x++) {
 			for (int y = 0; y < nSegmentsQ; y++) {
-				LineSegment segP = getSegment(line1, x);
-				LineSegment segQ = getSegment(line2, nSegmentsQ - y - 1);
+				LineSegment segP = getSegment(chain1, x);
+				LineSegment segQ = getSegment(chain2, nSegmentsQ - y - 1);
 
 				int lx = x * w;
 				int ly = y * h;

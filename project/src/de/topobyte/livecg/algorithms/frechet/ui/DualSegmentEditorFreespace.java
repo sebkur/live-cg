@@ -39,12 +39,12 @@ public class DualSegmentEditorFreespace extends JPanel
 
 	private JSlider slider;
 
-	public DualSegmentEditorFreespace(int width, int height, Chain line1,
-			Chain line2, int epsilon)
+	public DualSegmentEditorFreespace(int width, int height, Chain chain1,
+			Chain chain2, int epsilon)
 	{
 		Config config = new Config();
-		editor1 = new SegmentEditor(width, height, line1);
-		editor2 = new SegmentEditor(width, height, line2);
+		editor1 = new SegmentEditor(width, height, chain1);
+		editor2 = new SegmentEditor(width, height, chain2);
 		segmentPane = new SegmentEditorSegmentPane(config, editor1, editor2,
 				epsilon);
 

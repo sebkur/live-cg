@@ -29,7 +29,7 @@ public class LineSegmentViewControl extends JPanel
 
 	private static final long serialVersionUID = 8617637401144584172L;
 
-	public LineSegmentViewControl(final LineSegmentView lineView)
+	public LineSegmentViewControl(final LineSegmentView segmentView)
 	{
 		setBorder(new TitledBorder("Buffers"));
 		final JCheckBox checkPointP = new JCheckBox("points p");
@@ -41,18 +41,18 @@ public class LineSegmentViewControl extends JPanel
 		add(checkLineP);
 		add(checkLineQ);
 
-		checkPointP.setSelected(lineView.isDrawPointBufferP());
-		checkPointQ.setSelected(lineView.isDrawPointBufferQ());
-		checkLineP.setSelected(lineView.isDrawSegmentBufferP());
-		checkLineQ.setSelected(lineView.isDrawSegmentBufferQ());
+		checkPointP.setSelected(segmentView.isDrawPointBufferP());
+		checkPointQ.setSelected(segmentView.isDrawPointBufferQ());
+		checkLineP.setSelected(segmentView.isDrawSegmentBufferP());
+		checkLineQ.setSelected(segmentView.isDrawSegmentBufferQ());
 
 		checkPointP.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
-				lineView.setDrawPointBufferP(checkPointP.isSelected());
-				lineView.repaint();
+				segmentView.setDrawPointBufferP(checkPointP.isSelected());
+				segmentView.repaint();
 			}
 		});
 		checkPointQ.addActionListener(new ActionListener() {
@@ -60,8 +60,8 @@ public class LineSegmentViewControl extends JPanel
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
-				lineView.setDrawPointBufferQ(checkPointQ.isSelected());
-				lineView.repaint();
+				segmentView.setDrawPointBufferQ(checkPointQ.isSelected());
+				segmentView.repaint();
 			}
 		});
 		checkLineP.addActionListener(new ActionListener() {
@@ -69,8 +69,8 @@ public class LineSegmentViewControl extends JPanel
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
-				lineView.setDrawSegmentBufferP(checkLineP.isSelected());
-				lineView.repaint();
+				segmentView.setDrawSegmentBufferP(checkLineP.isSelected());
+				segmentView.repaint();
 			}
 		});
 		checkLineQ.addActionListener(new ActionListener() {
@@ -78,8 +78,8 @@ public class LineSegmentViewControl extends JPanel
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
-				lineView.setDrawSegmentBufferQ(checkLineQ.isSelected());
-				lineView.repaint();
+				segmentView.setDrawSegmentBufferQ(checkLineQ.isSelected());
+				segmentView.repaint();
 			}
 		});
 	}

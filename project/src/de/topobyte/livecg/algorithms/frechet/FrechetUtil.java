@@ -23,10 +23,10 @@ import de.topobyte.livecg.core.geometry.geom.Coordinate;
 
 public class FrechetUtil
 {
-	public static LineSegment getSegment(Chain line, int n)
+	public static LineSegment getSegment(Chain chain, int n)
 	{
-		Coordinate c1 = line.getCoordinate(n);
-		Coordinate c2 = line.getCoordinate(n + 1);
+		Coordinate c1 = chain.getCoordinate(n);
+		Coordinate c2 = chain.getCoordinate(n + 1);
 		return new LineSegment(c1, c2);
 	}
 }

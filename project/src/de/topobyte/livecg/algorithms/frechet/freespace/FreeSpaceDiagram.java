@@ -37,12 +37,12 @@ public class FreeSpaceDiagram extends JPanel implements EpsilonSettable,
 
 	private int epsilon;
 
-	public FreeSpaceDiagram(Config config, int epsilon, Chain line1, Chain line2)
+	public FreeSpaceDiagram(Config config, int epsilon, Chain chain1, Chain chain2)
 	{
 		this.epsilon = epsilon;
 		painter = new AwtPainter(null);
-		algorithmPainter = new FreeSpacePainterChains(config, epsilon, line1,
-				line2, painter);
+		algorithmPainter = new FreeSpacePainterChains(config, epsilon, chain1,
+				chain2, painter);
 	}
 
 	@Override

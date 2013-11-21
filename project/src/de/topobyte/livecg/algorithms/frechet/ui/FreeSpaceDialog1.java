@@ -57,20 +57,20 @@ public class FreeSpaceDialog1 implements ContentChangedListener
 	private FreeSpaceDiagram diagram = null;
 
 	private int epsilon = 100;
-	private Chain line1 = null;
-	private Chain line2 = null;
+	private Chain chain1 = null;
+	private Chain chain2 = null;
 
 	public FreeSpaceDialog1(final Content content)
 	{
-		List<Chain> lines = content.getChains();
-		if (lines.size() < 2) {
-			System.out.println("not enough lines");
+		List<Chain> chains = content.getChains();
+		if (chains.size() < 2) {
+			System.out.println("not enough chains");
 			return;
 		}
 		System.out.println("showing frechet diagram");
 
-		line1 = lines.get(0);
-		line2 = lines.get(1);
+		chain1 = chains.get(0);
+		chain2 = chains.get(1);
 
 		int maxEpsilon = 200;
 		final JSlider slider = new JSlider(0, maxEpsilon);
@@ -92,7 +92,7 @@ public class FreeSpaceDialog1 implements ContentChangedListener
 			}
 		});
 
-		diagram = new FreeSpaceDiagram(config, epsilon, line1, line2);
+		diagram = new FreeSpaceDiagram(config, epsilon, chain1, chain2);
 		JPanel diagramPanel = new JPanel(new BorderLayout());
 		diagramPanel.add(settings, BorderLayout.NORTH);
 		diagramPanel.add(diagram, BorderLayout.CENTER);
@@ -118,7 +118,7 @@ public class FreeSpaceDialog1 implements ContentChangedListener
 		 */
 
 		FreeSpacePainterChains painter = new FreeSpacePainterChains(config,
-				epsilon, line1, line2, null);
+				epsilon, chain1, chain2, null);
 
 		JMenuBar menu = new JMenuBar();
 		frame.setJMenuBar(menu);
