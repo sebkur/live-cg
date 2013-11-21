@@ -17,18 +17,28 @@
  */
 package de.topobyte.livecg.core.painting;
 
+import java.awt.Color;
 import java.io.File;
 import java.io.IOException;
+import java.util.Map;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 
 import org.xml.sax.SAXException;
 
+import de.topobyte.livecg.algorithms.polygon.monotonepieces.Config;
+import de.topobyte.livecg.algorithms.polygon.monotonepieces.MonotonePiecesAlgorithm;
+import de.topobyte.livecg.algorithms.polygon.monotonepieces.MonotonePiecesPainter;
+import de.topobyte.livecg.algorithms.polygon.monotonepieces.MonotonePiecesTriangulationAlgorithm;
+import de.topobyte.livecg.algorithms.polygon.monotonepieces.MonotonePiecesTriangulationPainter;
 import de.topobyte.livecg.core.export.SvgExporter;
 import de.topobyte.livecg.core.export.TikzExporter;
 import de.topobyte.livecg.core.geometry.dcel.DCEL;
 import de.topobyte.livecg.core.geometry.dcel.DcelConverter;
+import de.topobyte.livecg.core.geometry.geom.CopyUtil;
+import de.topobyte.livecg.core.geometry.geom.CopyUtil.PolygonMode;
+import de.topobyte.livecg.core.geometry.geom.Polygon;
 import de.topobyte.livecg.core.geometry.geom.Rectangle;
 import de.topobyte.livecg.core.geometry.io.ContentReader;
 import de.topobyte.livecg.datastructures.content.ContentConfig;
@@ -37,40 +47,115 @@ import de.topobyte.livecg.datastructures.dcel.DcelConfig;
 import de.topobyte.livecg.datastructures.dcel.DcelPainter;
 import de.topobyte.livecg.datastructures.dcel.InstanceDcelPainter;
 import de.topobyte.livecg.ui.geometryeditor.Content;
+import de.topobyte.livecg.util.coloring.ColorMapBuilder;
 
 public class Test
 {
 	public static void main(String[] args) throws IOException,
 			ParserConfigurationException, SAXException, TransformerException
 	{
-		String path = "res/presets/Startup.geom";
 		ContentReader contentReader = new ContentReader();
-		Content content = contentReader.read(new File(path));
 
-		Rectangle scene = content.getScene();
+		// Geometery, DCEL
 
-		int width = (int) Math.ceil(scene.getWidth());
-		int height = (int) Math.ceil(scene.getHeight());
+		String path1 = "res/presets/Startup.geom";
+		Content content1 = contentReader.read(new File(path1));
 
 		File svg1 = new File("/tmp/test1.svg");
 		File tikz1 = new File("/tmp/test1.tikz");
 
+		geometry(svg1, tikz1, content1);
+
+		File svg2 = new File("/tmp/test2.svg");
+		File tikz2 = new File("/tmp/test2.tikz");
+
+		dcel(svg2, tikz2, content1);
+
+		// Triangulations
+
+		String path2 = "res/presets/polygons/Big.geom";
+		Content content2 = contentReader.read(new File(path2));
+		Polygon polygon = content2.getPolygons().get(0);
+
+		File svg3 = new File("/tmp/test3.svg");
+		File tikz3 = new File("/tmp/test3.tikz");
+
+		monotone(svg3, tikz3, CopyUtil.copy(polygon, PolygonMode.REUSE_NOTHING));
+
+		File svg4 = new File("/tmp/test4.svg");
+		File tikz4 = new File("/tmp/test4.tikz");
+
+		triangulation(svg4, tikz4,
+				CopyUtil.copy(polygon, PolygonMode.REUSE_NOTHING));
+	}
+
+	private static void geometry(File svg1, File tikz1, Content content1)
+			throws TransformerException, IOException
+	{
+		Rectangle scene = content1.getScene();
+		int width = (int) Math.ceil(scene.getWidth());
+		int height = (int) Math.ceil(scene.getHeight());
+
 		ContentConfig contentConfig = new ContentConfig();
-		ContentPainter contentPainter = new ContentPainter(scene, content,
+		ContentPainter contentPainter = new ContentPainter(scene, content1,
 				contentConfig, null);
 
 		SvgExporter.exportSVG(svg1, contentPainter, width, height);
 		TikzExporter.exportTikz(tikz1, contentPainter, width, height);
+	}
 
-		File svg2 = new File("/tmp/test2.svg");
-		File tikz2 = new File("/tmp/test2.tikz");
+	private static void dcel(File svg, File tikz, Content content)
+			throws TransformerException, IOException
+	{
+		Rectangle scene = content.getScene();
+		int width = (int) Math.ceil(scene.getWidth());
+		int height = (int) Math.ceil(scene.getHeight());
 
 		DcelConfig dcelConfig = new DcelConfig();
 		DCEL dcel = DcelConverter.convert(content);
 		DcelPainter dcelPainter = new InstanceDcelPainter(scene, dcel,
 				dcelConfig, null);
 
-		SvgExporter.exportSVG(svg2, dcelPainter, width, height);
-		TikzExporter.exportTikz(tikz2, dcelPainter, width, height);
+		SvgExporter.exportSVG(svg, dcelPainter, width, height);
+		TikzExporter.exportTikz(tikz, dcelPainter, width, height);
+	}
+
+	private static void monotone(File svg, File tikz, Polygon polygon)
+			throws TransformerException, IOException
+	{
+		MonotonePiecesAlgorithm algorithm = new MonotonePiecesAlgorithm(polygon);
+
+		Config polygonConfig = new Config();
+		Map<Polygon, Color> colorMap = ColorMapBuilder.buildColorMap(algorithm
+				.getExtendedGraph());
+		MonotonePiecesPainter triangulationPainter = new MonotonePiecesPainter(
+				algorithm, polygonConfig, colorMap, null);
+
+		Rectangle scene = algorithm.getScene();
+		int width = (int) Math.ceil(scene.getWidth());
+		int height = (int) Math.ceil(scene.getHeight());
+
+		SvgExporter.exportSVG(svg, triangulationPainter, width, height);
+		TikzExporter.exportTikz(tikz, triangulationPainter, width, height);
+	}
+
+	private static void triangulation(File svg, File tikz, Polygon polygon)
+			throws TransformerException, IOException
+	{
+		MonotonePiecesTriangulationAlgorithm algorithm = new MonotonePiecesTriangulationAlgorithm(
+				polygon);
+
+		Config polygonConfig = new Config();
+		Map<Polygon, Color> colorMap = ColorMapBuilder.buildColorMap(algorithm
+				.getExtendedGraph());
+		MonotonePiecesTriangulationPainter triangulationPainter = new MonotonePiecesTriangulationPainter(
+				algorithm, polygonConfig, colorMap, null);
+
+		Rectangle scene = algorithm.getScene();
+		int width = (int) Math.ceil(scene.getWidth());
+		int height = (int) Math.ceil(scene.getHeight());
+
+		SvgExporter.exportSVG(svg, triangulationPainter, width, height);
+		TikzExporter.exportTikz(tikz, triangulationPainter, width, height);
 	}
 }
