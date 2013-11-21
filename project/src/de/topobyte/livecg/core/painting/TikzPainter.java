@@ -20,6 +20,7 @@ package de.topobyte.livecg.core.painting;
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
+import java.awt.geom.GeneralPath;
 import java.awt.geom.PathIterator;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
@@ -30,6 +31,8 @@ import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.bric.geom.Clipper;
 
 import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.core.geometry.geom.Coordinate;
@@ -379,17 +382,9 @@ public class TikzPainter implements Painter
 	{
 		Shape tshape = applyTransforms(shape);
 
-		// TODO: instead of ignoring shapes outside this rectangle,
-		// clip the path with the safetyRectangle
-		Rectangle2D.Double rect = new Rectangle2D.Double(-2, -2, 3, 4);
-		if (!rect.contains(tshape.getBounds2D())) {
-			return;
-		}
-
 		appendClipScopeBegin();
 
 		appendDraw();
-
 		StringBuilder path = buildPath(tshape);
 		buffer.append(path.toString());
 		buffer.append(";");
@@ -503,7 +498,9 @@ public class TikzPainter implements Painter
 	{
 		StringBuilder strb = new StringBuilder();
 
-		PathIterator pathIterator = shape
+		GeneralPath clipped = Clipper.clipToRect(shape, safetyRect);
+
+		PathIterator pathIterator = clipped
 				.getPathIterator(new AffineTransform());
 		while (!pathIterator.isDone()) {
 			double[] coords = new double[6];

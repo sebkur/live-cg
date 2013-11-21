@@ -1,0 +1,40 @@
+avl-tree.jar			LGPL
+carbon.jar			Topobyte.de
+cli-helper.jar			Topobyte.de
+Clipper.jar			BSD
+color-util.jar			Topobyte.de
+commons-cli-1.2.jar		Apache
+commons-codec-1.6.jar		Apache
+Jama-1.0.2.jar			Public domain. See http://math.nist.gov/javanumerics/jama/
+jts-1.12.jar			LGPL
+log4j-1.2.16.jar		Apache
+slf4j-api-1.6.1.jar		MIT
+slf4j-log4j12-1.6.1.jar		MIT
+swing-misc.jar			Topobyte.de
+tango-icon-theme-0.8.90.jar	Public domain. See http://tango.freedesktop.org/
+
+Batik:				Apache
+batik-anim.jar
+batik-awt-util.jar
+batik-bridge.jar
+batik-codec.jar
+batik-css.jar
+batik-dom.jar
+batik-extension.jar
+batik-ext.jar
+batik-gui-util.jar
+batik-gvt.jar
+batik-parser.jar
+batik-script.jar
+batik-svg-dom.jar
+batik-svggen.jar
+batik-swing.jar
+batik-transcoder.jar
+batik-util.jar
+batik-xml.jar
+js.jar
+pdf-transcoder.jar
+xalan-2.6.0.jar
+xerces_2_5_0.jar
+xml-apis-ext.jar
+xml-apis.jar
