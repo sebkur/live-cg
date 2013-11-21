@@ -58,6 +58,10 @@ public class TikzPainter implements Painter
 	private Matrix mxTransform;
 	private GeometryTransformer trTransform;
 
+	// Safety rectangle to clip geometries with, to avoid latex errors
+	private Rectangle2D safetyRect = new Rectangle2D.Double(0, -1, 1, 1);
+	private Area safetyArea = new Area(safetyRect);
+
 	private String newline = "\n";
 
 	private Color color;
@@ -375,6 +379,8 @@ public class TikzPainter implements Painter
 	{
 		Shape tshape = applyTransforms(shape);
 
+		// TODO: instead of ignoring shapes outside this rectangle,
+		// clip the path with the safetyRectangle
 		Rectangle2D.Double rect = new Rectangle2D.Double(-2, -2, 3, 4);
 		if (!rect.contains(tshape.getBounds2D())) {
 			return;
@@ -398,8 +404,7 @@ public class TikzPainter implements Painter
 		Shape tshape = applyTransforms(shape);
 
 		Area area = new Area(tshape);
-		Rectangle2D.Double crect = new Rectangle2D.Double(0, -1, 1, 1);
-		area.intersect(new Area(crect));
+		area.intersect(safetyArea);
 
 		appendClipScopeBegin();
 
