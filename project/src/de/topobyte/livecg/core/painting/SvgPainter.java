@@ -415,6 +415,8 @@ public class SvgPainter implements Painter
 		if (clip == null) {
 			clipIds = null;
 		} else {
+			// TODO: this could be a bug, we should copy the input clip
+			// to avoid insertions into the input object
 			clipIds = (List<Integer>) clip;
 		}
 	}
