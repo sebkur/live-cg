@@ -506,21 +506,27 @@ public class TikzPainter implements Painter
 	}
 
 	/*
-	 * TODO: these are not yet implemented
+	 * Text
 	 */
 
 	@Override
 	public void drawString(String text, double x, double y)
 	{
-		// TODO Auto-generated method stub
-
+		appendDraw();
+		append(applyTransforms(x, y));
+		text = text.replaceAll("_", "\\\\_");
+		String node = "node[anchor=west] {" + text + "};";
+		buffer.append(node);
 	}
+
+	/*
+	 * Images
+	 */
 
 	@Override
 	public void drawImage(BufferedImage image, int x, int y)
 	{
 		// TODO Auto-generated method stub
-
 	}
 
 	/*
