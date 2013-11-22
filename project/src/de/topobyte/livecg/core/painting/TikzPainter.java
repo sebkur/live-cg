@@ -48,7 +48,9 @@ public class TikzPainter implements Painter
 
 	final static Logger logger = LoggerFactory.getLogger(TikzPainter.class);
 
+	private StringBuilder header;
 	private StringBuilder buffer;
+
 	private double scale;
 
 	// Scaling to unity square
@@ -72,8 +74,9 @@ public class TikzPainter implements Painter
 	private float[] dash = null;
 	private float phase = 0;
 
-	public TikzPainter(StringBuilder buffer, double scale)
+	public TikzPainter(StringBuilder header, StringBuilder buffer, double scale)
 	{
+		this.header = header;
 		this.buffer = buffer;
 		this.scale = scale;
 
@@ -129,14 +132,14 @@ public class TikzPainter implements Painter
 	{
 		int rgb = color.getRGB();
 		String name = String.format("%06X", rgb);
-		if (!definedNames.contains(name) || true) {
+		if (!definedNames.contains(name)) {
 			definedNames.add(name);
 			double r = ((rgb & 0xff0000) >> 16) / 255.0;
 			double g = ((rgb & 0xff00) >> 8) / 255.0;
 			double b = (rgb & 0xff) / 255.0;
-			buffer.append(String.format("\\definecolor{" + name
+			header.append(String.format("\\definecolor{" + name
 					+ "}{rgb}{%.5f,%.5f,%.5f}", r, g, b));
-			buffer.append(newline);
+			header.append(newline);
 		}
 		return name;
 	}
