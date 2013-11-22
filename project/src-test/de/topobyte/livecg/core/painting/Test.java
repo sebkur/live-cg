@@ -34,6 +34,10 @@ import de.topobyte.livecg.algorithms.polygon.monotonepieces.MonotonePiecesAlgori
 import de.topobyte.livecg.algorithms.polygon.monotonepieces.MonotonePiecesPainter;
 import de.topobyte.livecg.algorithms.polygon.monotonepieces.MonotonePiecesTriangulationAlgorithm;
 import de.topobyte.livecg.algorithms.polygon.monotonepieces.MonotonePiecesTriangulationPainter;
+import de.topobyte.livecg.algorithms.polygon.shortestpath.PairOfNodes;
+import de.topobyte.livecg.algorithms.polygon.shortestpath.ShortestPathAlgorithm;
+import de.topobyte.livecg.algorithms.polygon.shortestpath.ShortestPathHelper;
+import de.topobyte.livecg.algorithms.polygon.shortestpath.ShortestPathPainter;
 import de.topobyte.livecg.core.export.SvgExporter;
 import de.topobyte.livecg.core.export.TikzExporter;
 import de.topobyte.livecg.core.geometry.dcel.DCEL;
@@ -41,6 +45,7 @@ import de.topobyte.livecg.core.geometry.dcel.DcelConverter;
 import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.core.geometry.geom.CopyUtil;
 import de.topobyte.livecg.core.geometry.geom.CopyUtil.PolygonMode;
+import de.topobyte.livecg.core.geometry.geom.Node;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
 import de.topobyte.livecg.core.geometry.geom.Rectangle;
 import de.topobyte.livecg.core.geometry.io.ContentReader;
@@ -104,6 +109,13 @@ public class Test
 		File tikz5 = new File("/tmp/test5.tikz");
 
 		freeSpace(svg5, tikz5, chain1, chain2);
+
+		// Shortest path in polygon
+
+		File svg6 = new File("/tmp/test6.svg");
+		File tikz6 = new File("/tmp/test6.tikz");
+
+		spip(svg6, tikz6, CopyUtil.copy(polygon, PolygonMode.REUSE_NOTHING));
 	}
 
 	private static void freeSpace(File svg, File tikz, Chain chain1,
@@ -187,5 +199,28 @@ public class Test
 
 		SvgExporter.exportSVG(svg, triangulationPainter, width, height);
 		TikzExporter.exportTikz(tikz, triangulationPainter, width, height);
+	}
+
+	private static void spip(File svg, File tikz, Polygon polygon)
+			throws TransformerException, IOException
+	{
+		PairOfNodes nodes = ShortestPathHelper.determineGoodNodes(polygon);
+		Node start = nodes.getA();
+		Node target = nodes.getB();
+		ShortestPathAlgorithm algorithm = new ShortestPathAlgorithm(polygon,
+				start, target);
+		de.topobyte.livecg.algorithms.polygon.shortestpath.Config config = new de.topobyte.livecg.algorithms.polygon.shortestpath.Config();
+		ShortestPathPainter shortestPathPainter = new ShortestPathPainter(
+				algorithm, config, null);
+
+		algorithm.setStatus(10);
+		algorithm.setSubStatus(1);
+
+		Rectangle scene = algorithm.getScene();
+		int width = (int) Math.ceil(scene.getWidth());
+		int height = (int) Math.ceil(scene.getHeight());
+
+		SvgExporter.exportSVG(svg, shortestPathPainter, width, height);
+		TikzExporter.exportTikz(tikz, shortestPathPainter, width, height);
 	}
 }
