@@ -19,6 +19,7 @@ package de.topobyte.livecg.ui.console;
 
 import de.topobyte.livecg.core.algorithm.Algorithm;
 import de.topobyte.livecg.core.algorithm.AlgorithmWatcher;
+import de.topobyte.livecg.core.algorithm.Explainable;
 
 public class AlgorithmOutputConsole extends OutputConsole implements
 		AlgorithmWatcher
@@ -28,16 +29,31 @@ public class AlgorithmOutputConsole extends OutputConsole implements
 
 	private String newline = System.getProperty("line.separator");
 
+	private Explainable explainable = null;
+
 	public AlgorithmOutputConsole(Algorithm algorithm)
 	{
 		algorithm.addAlgorithmWatcher(this);
+		if (algorithm instanceof Explainable) {
+			explainable = (Explainable) algorithm;
+			appendExplanation();
+		}
+	}
+
+	private void appendExplanation()
+	{
+		String text = explainable.explain();
+		push(text);
+		pushToPreBuffer(newline);
 	}
 
 	@Override
 	public void updateAlgorithmStatus()
 	{
-		push("new status");
-		pushToPreBuffer(newline);
+		if (explainable == null) {
+			return;
+		}
+		appendExplanation();
 	}
 
 }

@@ -35,6 +35,7 @@ import de.topobyte.livecg.core.geometry.geom.Node;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
 import de.topobyte.livecg.core.geometry.geom.PolygonHelper;
 import de.topobyte.livecg.core.geometry.io.ContentReader;
+import de.topobyte.livecg.ui.console.AlgorithmConsoleDialog;
 import de.topobyte.livecg.ui.geometryeditor.Content;
 
 public class TestShortestPath
@@ -84,5 +85,11 @@ public class TestShortestPath
 				nodeStart, nodeTarget);
 		ShortestPathDialog dialog = new ShortestPathDialog(algorithm);
 		dialog.getFrame().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+		AlgorithmConsoleDialog console = new AlgorithmConsoleDialog(algorithm);
+		console.setVisible(true);
+		console.setLocation(dialog.getFrame().getX()
+				+ dialog.getFrame().getWidth(), (int) console.getLocation()
+				.getY());
 	}
 }

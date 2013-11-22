@@ -36,6 +36,7 @@ import de.topobyte.livecg.algorithms.polygon.shortestpath.funnel.StepMoveApexToL
 import de.topobyte.livecg.algorithms.polygon.shortestpath.funnel.StepWalkBackward;
 import de.topobyte.livecg.algorithms.polygon.shortestpath.funnel.StepWalkForward;
 import de.topobyte.livecg.core.algorithm.DefaultSceneAlgorithm;
+import de.topobyte.livecg.core.algorithm.Explainable;
 import de.topobyte.livecg.core.geometry.geom.BoundingBoxes;
 import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.core.geometry.geom.CrossingsTest;
@@ -46,7 +47,8 @@ import de.topobyte.livecg.core.geometry.geom.Rectangle;
 import de.topobyte.livecg.core.geometry.geom.Rectangles;
 import de.topobyte.livecg.util.graph.Graph;
 
-public class ShortestPathAlgorithm extends DefaultSceneAlgorithm
+public class ShortestPathAlgorithm extends DefaultSceneAlgorithm implements
+		Explainable
 {
 	final static Logger logger = LoggerFactory
 			.getLogger(ShortestPathAlgorithm.class);
@@ -591,6 +593,25 @@ public class ShortestPathAlgorithm extends DefaultSceneAlgorithm
 			return data.getApex();
 		}
 		return data.get(other(on), s - lengthOfFirstPath - 2);
+	}
+
+	@Override
+	public String explain()
+	{
+		String prefix = status + ", " + subStatus + ": ";
+		if (status == 0) {
+			if (subStatus == 0) {
+				return prefix + "The algorithm has just started.";
+			}
+			return prefix
+					+ "The funnel will be initialized with the first diagonal of the sleeve.";
+		}
+		if (subStatus == 0) {
+			Side side = sideOfNextNode(nextDiagonal());
+			return prefix + "The node of the next diagonal is on the " + side
+					+ " path";
+		}
+		return prefix + "No description yet";
 	}
 
 }
