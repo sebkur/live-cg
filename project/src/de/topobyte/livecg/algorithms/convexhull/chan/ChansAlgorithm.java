@@ -20,7 +20,7 @@ package de.topobyte.livecg.algorithms.convexhull.chan;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.topobyte.livecg.core.DefaultSceneAlgorithm;
+import de.topobyte.livecg.core.algorithm.DefaultSceneAlgorithm;
 import de.topobyte.livecg.core.geometry.geom.BoundingBoxes;
 import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.core.geometry.geom.Coordinate;

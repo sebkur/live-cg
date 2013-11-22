@@ -17,7 +17,7 @@
  */
 package de.topobyte.livecg.algorithms.convexhull.chan;
 
-import de.topobyte.livecg.core.AlgorithmWatcher;
+import de.topobyte.livecg.core.algorithm.AlgorithmWatcher;
 import de.topobyte.livecg.core.export.SizeProvider;
 import de.topobyte.livecg.core.scrolling.ScenePanel;
 

@@ -15,11 +15,11 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.topobyte.livecg.core;
+package de.topobyte.livecg.core.algorithm;
 
-public interface AlgorithmWatcher
+public interface AlgorithmChangedListener
 {
 
-	public void updateAlgorithmStatus();
+	public void algorithmChanged();
 
 }

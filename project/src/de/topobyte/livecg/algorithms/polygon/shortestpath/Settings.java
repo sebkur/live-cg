@@ -30,7 +30,7 @@ import javax.swing.JButton;
 import javax.swing.JToggleButton;
 import javax.swing.JToolBar;
 
-import de.topobyte.livecg.core.AlgorithmWatcher;
+import de.topobyte.livecg.core.algorithm.AlgorithmWatcher;
 import de.topobyte.livecg.util.ImageLoader;
 import de.topobyte.livecg.util.ZoomInput;
 

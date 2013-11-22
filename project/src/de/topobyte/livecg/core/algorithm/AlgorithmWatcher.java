@@ -15,10 +15,11 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.topobyte.livecg.core;
+package de.topobyte.livecg.core.algorithm;
 
-public abstract class DefaultSceneAlgorithm extends DefaultAlgorithm implements
-		SceneAlgorithm
+public interface AlgorithmWatcher
 {
-	// Intentionally empty
+
+	public void updateAlgorithmStatus();
+
 }

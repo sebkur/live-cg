@@ -37,7 +37,7 @@ import de.topobyte.livecg.algorithms.voronoi.fortune.events.HistoryEventQueue;
 import de.topobyte.livecg.algorithms.voronoi.fortune.events.SitePoint;
 import de.topobyte.livecg.algorithms.voronoi.fortune.geometry.Edge;
 import de.topobyte.livecg.algorithms.voronoi.fortune.geometry.Point;
-import de.topobyte.livecg.core.DefaultAlgorithm;
+import de.topobyte.livecg.core.algorithm.DefaultAlgorithm;
 import de.topobyte.livecg.core.geometry.dcel.DCEL;
 import de.topobyte.livecg.core.geometry.dcel.DcelUtil;
 import de.topobyte.livecg.core.geometry.dcel.HalfEdge;

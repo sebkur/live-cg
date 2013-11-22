@@ -20,7 +20,7 @@ package de.topobyte.livecg.algorithms.polygon.shortestpath;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.topobyte.livecg.core.AlgorithmChangedListener;
+import de.topobyte.livecg.core.algorithm.AlgorithmChangedListener;
 
 public class AlgorithmMonitor
 {

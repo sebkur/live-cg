@@ -17,8 +17,8 @@
  */
 package de.topobyte.livecg.ui.console;
 
-import de.topobyte.livecg.core.Algorithm;
-import de.topobyte.livecg.core.AlgorithmWatcher;
+import de.topobyte.livecg.core.algorithm.Algorithm;
+import de.topobyte.livecg.core.algorithm.AlgorithmWatcher;
 
 public class AlgorithmOutputConsole extends OutputConsole implements
 		AlgorithmWatcher

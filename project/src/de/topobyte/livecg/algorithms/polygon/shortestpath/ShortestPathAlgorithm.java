@@ -35,7 +35,7 @@ import de.topobyte.livecg.algorithms.polygon.shortestpath.funnel.StepInitializeA
 import de.topobyte.livecg.algorithms.polygon.shortestpath.funnel.StepMoveApexToLastNode;
 import de.topobyte.livecg.algorithms.polygon.shortestpath.funnel.StepWalkBackward;
 import de.topobyte.livecg.algorithms.polygon.shortestpath.funnel.StepWalkForward;
-import de.topobyte.livecg.core.DefaultSceneAlgorithm;
+import de.topobyte.livecg.core.algorithm.DefaultSceneAlgorithm;
 import de.topobyte.livecg.core.geometry.geom.BoundingBoxes;
 import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.core.geometry.geom.CrossingsTest;

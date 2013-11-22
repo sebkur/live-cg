@@ -15,13 +15,17 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.topobyte.livecg.core;
+package de.topobyte.livecg.core.algorithm;
 
-import de.topobyte.livecg.core.geometry.geom.Rectangle;
-
-public interface SceneAlgorithm extends Algorithm
+public interface Algorithm
 {
 
-	public Rectangle getScene();
+	public void addAlgorithmChangedListener(AlgorithmChangedListener listener);
+
+	public void remvoeAlgorithmChangedListener(AlgorithmChangedListener listener);
+
+	public void addAlgorithmWatcher(AlgorithmWatcher listener);
+
+	public void removeAlgorithmWatcher(AlgorithmWatcher listener);
 
 }
