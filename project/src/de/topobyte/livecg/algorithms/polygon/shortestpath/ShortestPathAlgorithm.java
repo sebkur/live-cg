@@ -598,23 +598,34 @@ public class ShortestPathAlgorithm extends DefaultSceneAlgorithm implements
 		return data.get(other(on), s - lengthOfFirstPath - 2);
 	}
 
-	@Override
-	public String explain()
+	private List<String> messages = new ArrayList<String>();
+
+	private void addMessage(String text)
 	{
 		String prefix = status + ", " + subStatus + ": ";
+		messages.add(prefix + text);
+	}
+
+	@Override
+	public List<String> explain()
+	{
+		messages.clear();
 		if (status == 0) {
 			if (subStatus == 0) {
-				return prefix + "The algorithm has just started.";
+				addMessage("The algorithm has just started.");
+			} else {
+				addMessage("The funnel will be initialized with the first diagonal of the sleeve.");
 			}
-			return prefix
-					+ "The funnel will be initialized with the first diagonal of the sleeve.";
+		} else {
+			if (subStatus == 0) {
+				Side side = sideOfNextNode(nextDiagonal());
+				addMessage("The node of the next diagonal is on the " + side
+						+ " path");
+			} else {
+				addMessage("No description yet");
+			}
 		}
-		if (subStatus == 0) {
-			Side side = sideOfNextNode(nextDiagonal());
-			return prefix + "The node of the next diagonal is on the " + side
-					+ " path";
-		}
-		return prefix + "No description yet";
+		return messages;
 	}
 
 }

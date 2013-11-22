@@ -17,6 +17,8 @@
  */
 package de.topobyte.livecg.ui.console;
 
+import java.util.List;
+
 import de.topobyte.livecg.core.algorithm.Algorithm;
 import de.topobyte.livecg.core.algorithm.AlgorithmWatcher;
 import de.topobyte.livecg.core.algorithm.Explainable;
@@ -42,9 +44,11 @@ public class AlgorithmOutputConsole extends OutputConsole implements
 
 	private void appendExplanation()
 	{
-		String text = explainable.explain();
-		push(text);
-		pushToPreBuffer(newline);
+		List<String> messages = explainable.explain();
+		for (String message : messages) {
+			push(message);
+			pushToPreBuffer(newline);
+		}
 	}
 
 	@Override

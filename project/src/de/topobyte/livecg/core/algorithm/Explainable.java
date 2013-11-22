@@ -17,9 +17,11 @@
  */
 package de.topobyte.livecg.core.algorithm;
 
+import java.util.List;
+
 public interface Explainable
 {
 
-	public String explain();
+	public List<String> explain();
 
 }
