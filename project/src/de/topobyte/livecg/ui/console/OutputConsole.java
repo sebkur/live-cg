@@ -18,6 +18,8 @@
 package de.topobyte.livecg.ui.console;
 
 import java.awt.BorderLayout;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -40,5 +42,31 @@ public class OutputConsole extends JPanel
 		jsp.setViewportView(output);
 
 		add(jsp, BorderLayout.CENTER);
+	}
+
+	protected void append(String text)
+	{
+		output.append(text);
+	}
+
+	private List<String> preBuffer = new ArrayList<String>();
+
+	private void emptyPreBuffer()
+	{
+		for (String text : preBuffer) {
+			append(text);
+		}
+		preBuffer.clear();
+	}
+
+	public void pushToPreBuffer(String text)
+	{
+		preBuffer.add(text);
+	}
+
+	public void push(String text)
+	{
+		emptyPreBuffer();
+		append(text);
 	}
 }

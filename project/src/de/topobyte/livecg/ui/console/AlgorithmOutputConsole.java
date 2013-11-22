@@ -36,7 +36,8 @@ public class AlgorithmOutputConsole extends OutputConsole implements
 	@Override
 	public void updateAlgorithmStatus()
 	{
-		output.append("new status");
-		output.append(newline);
+		push("new status");
+		pushToPreBuffer(newline);
 	}
+
 }
