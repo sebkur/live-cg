@@ -1,0 +1,13 @@
+\documentclass[a4paper]{article}
+\usepackage{tikz}
+\begin{document}
+Test. This is a relatively long text block that only exists
+to show how this paragraph will be layed out with respect to 
+the graphic below.
+\begin{center}
+\input{/tmp/test1.tikz}
+\end{center}
+Also there should be some text below. This text block
+should also be a not too short, so that there will be a line
+break within the paragraph.
+\end{document}

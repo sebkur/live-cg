@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" contentScriptType="text/ecmascript" width="419" zoomAndPan="magnify" contentStyleType="text/css" height="359" preserveAspectRatio="xMidYMid meet" version="1.0">
+    <defs/>
+    <rect fill="#ffffff" x="0.0" width="419.0" height="359.0" y="0.0"/>
+    <text x="10.0" style="fill:#000000;stroke:none;fill-opacity:1.0;font-family:Sans;font-size:12px" y="20.0">LOOK_FOR_TANGENTS</text>
+    <path style="fill:#dddddd;fill-rule:evenodd;stroke:none;fill-opacity:1.0" d="M 277.000000,17.000000 239.000000,33.000000 219.000000,62.000000 220.000000,98.000000 251.000000,123.000000 302.000000,133.000000 312.000000,125.000000 330.000000,104.000000 330.000000,68.000000 317.000000,23.000000 296.000000,15.000000 Z"/>
+    <path style="fill:#dddddd;fill-rule:evenodd;stroke:none;fill-opacity:1.0" d="M 99.000000,63.000000 58.000000,68.000000 34.000000,87.000000 15.000000,116.000000 28.000000,147.000000 66.000000,177.000000 105.000000,186.000000 149.000000,171.000000 161.000000,135.000000 142.000000,89.000000 121.000000,69.000000 Z"/>
+    <path style="fill:#dddddd;fill-rule:evenodd;stroke:none;fill-opacity:1.0" d="M 110.000000,231.000000 55.000000,258.000000 54.000000,294.000000 80.000000,335.000000 129.000000,344.000000 178.000000,338.000000 202.000000,295.000000 185.000000,261.000000 143.000000,232.000000 Z"/>
+    <path style="fill:#6666ff;fill-rule:evenodd;stroke:none;fill-opacity:1.0" d="M 334.000000,174.000000 291.000000,188.000000 263.000000,228.000000 269.000000,279.000000 315.000000,312.000000 374.000000,319.000000 394.000000,300.000000 404.000000,247.000000 388.000000,214.000000 366.000000,181.000000 Z"/>
+    <path style="fill:#ffaaaa;fill-rule:evenodd;stroke:none;fill-opacity:1.0" d="M 277.000000,17.000000 239.000000,33.000000 219.000000,62.000000 220.000000,98.000000 251.000000,123.000000 302.000000,133.000000 312.000000,125.000000 330.000000,104.000000 330.000000,68.000000 317.000000,23.000000 296.000000,15.000000 Z"/>
+    <path fill="none" d="M 334.000000,174.000000 291.000000,188.000000 263.000000,228.000000 269.000000,279.000000 315.000000,312.000000 374.000000,319.000000 394.000000,300.000000 404.000000,247.000000 388.000000,214.000000 366.000000,181.000000 Z" stroke-width="1.0px" stroke-linecap="round" stroke="#000000"/>
+    <path fill="none" d="M 277.000000,17.000000 239.000000,33.000000 219.000000,62.000000 220.000000,98.000000 251.000000,123.000000 302.000000,133.000000 312.000000,125.000000 330.000000,104.000000 330.000000,68.000000 317.000000,23.000000 296.000000,15.000000 Z" stroke-width="1.0px" stroke-linecap="round" stroke="#000000"/>
+    <path fill="none" d="M 99.000000,63.000000 58.000000,68.000000 34.000000,87.000000 15.000000,116.000000 28.000000,147.000000 66.000000,177.000000 105.000000,186.000000 149.000000,171.000000 161.000000,135.000000 142.000000,89.000000 121.000000,69.000000 Z" stroke-width="1.0px" stroke-linecap="round" stroke="#000000"/>
+    <path fill="none" d="M 110.000000,231.000000 55.000000,258.000000 54.000000,294.000000 80.000000,335.000000 129.000000,344.000000 178.000000,338.000000 202.000000,295.000000 185.000000,261.000000 143.000000,232.000000 Z" stroke-width="1.0px" stroke-linecap="round" stroke="#000000"/>
+    <path fill="none" d="M 15.000000,116.000000 34.000000,87.000000 58.000000,68.000000" stroke-width="2.0px" stroke-linecap="round" stroke="#00ff00"/>
+    <circle stroke-linecap="round" fill="none" r="4.0" cx="15.0" cy="116.0" stroke="#000000" stroke-width="1.0px"/>
+    <circle stroke-linecap="round" fill="none" r="4.0" cx="34.0" cy="87.0" stroke="#000000" stroke-width="1.0px"/>
+    <circle stroke-linecap="round" fill="none" r="4.0" cx="58.0" cy="68.0" stroke="#000000" stroke-width="1.0px"/>
+    <path fill="none" d="M 58.000000,68.000000 366.000000,181.000000" stroke-width="2.0px" stroke-linecap="round" stroke="#ff0000"/>
+    <path fill="none" d="M 58.000000,68.000000 277.000000,17.000000" stroke-width="2.0px" stroke-linecap="round" stroke="#ff0000"/>
+    <path fill="none" d="M 58.000000,68.000000 58.000000,68.000000" stroke-width="2.0px" stroke-linecap="round" stroke="#ff0000"/>
+    <path fill="none" d="M 58.000000,68.000000 185.000000,261.000000" stroke-width="2.0px" stroke-linecap="round" stroke="#ff0000"/>
+    <path fill="none" d="M 58.000000,68.000000 277.000000,17.000000" stroke-width="2.0px" stroke-linecap="round" stroke="#ff00ff"/>
+    <circle fill="#000000" r="4.0" cx="366.0" cy="181.0"/>
+    <circle fill="#000000" r="4.0" cx="277.0" cy="17.0"/>
+    <circle fill="#000000" r="4.0" cx="58.0" cy="68.0"/>
+    <circle fill="#000000" r="4.0" cx="185.0" cy="261.0"/>
+    <circle stroke-linecap="round" fill="none" r="7.0" cx="277.0" cy="17.0" stroke="#000000" stroke-width="1.0px"/>
+    <text x="339.8" style="fill:#000000;stroke:none;fill-opacity:1.0;font-family:Sans;font-size:12px" y="244.2">1</text>
+    <text x="281.1818181818182" style="fill:#000000;stroke:none;fill-opacity:1.0;font-family:Sans;font-size:12px" y="72.81818181818181">2</text>
+    <text x="88.9090909090909" style="fill:#000000;stroke:none;fill-opacity:1.0;font-family:Sans;font-size:12px" y="118.9090909090909">3</text>
+    <text x="126.22222222222223" style="fill:#000000;stroke:none;fill-opacity:1.0;font-family:Sans;font-size:12px" y="287.55555555555554">4</text>
+</svg>

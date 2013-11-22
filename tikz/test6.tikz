@@ -1,0 +1,20 @@
+\begin{tikzpicture}[scale=13.0]
+\clip (0,0) rectangle (1.000000,-1.000000);
+\definecolor{000000}{rgb}{0.00000,0.00000,0.00000}
+\clip (0,0) rectangle (1,-1);
+\draw[line width=0.25000mm, join=round, cap=round] (0.00000,0.00000)
+node[inner sep=0pt, below right]
+ {\includegraphics[width=13.0cm]{/tmp/test6.tikz-images/image1.png}};
+\draw[line width=0.25000mm, join=round, cap=round, color=000000] (0.00000,0.00000) -- (0.00000,-1.00000);
+\draw[line width=0.25000mm, join=round, cap=round, color=000000] (0.16500,0.00000) -- (0.16500,-1.00000);
+\draw[line width=0.25000mm, join=round, cap=round, color=000000] (0.33000,0.00000) -- (0.33000,-1.00000);
+\draw[line width=0.25000mm, join=round, cap=round, color=000000] (0.49500,0.00000) -- (0.49500,-1.00000);
+\draw[line width=0.25000mm, join=round, cap=round, color=000000] (0.66000,0.00000) -- (0.66000,-1.00000);
+\draw[line width=0.25000mm, join=round, cap=round, color=000000] (0.82500,0.00000) -- (0.82500,-1.00000);
+\draw[line width=0.25000mm, join=round, cap=round, color=000000] (0.99000,0.00000) -- (0.99000,-1.00000);
+\draw[line width=0.25000mm, join=round, cap=round, color=000000] (0.00000,0.00000) -- (0.99000,0.00000);
+\draw[line width=0.25000mm, join=round, cap=round, color=000000] (0.00000,-0.25000) -- (0.99000,-0.25000);
+\draw[line width=0.25000mm, join=round, cap=round, color=000000] (0.00000,-0.50000) -- (0.99000,-0.50000);
+\draw[line width=0.25000mm, join=round, cap=round, color=000000] (0.00000,-0.75000) -- (0.99000,-0.75000);
+\draw[line width=0.25000mm, join=round, cap=round, color=000000] (0.00000,-1.00000) -- (0.99000,-1.00000);
+\end{tikzpicture}
