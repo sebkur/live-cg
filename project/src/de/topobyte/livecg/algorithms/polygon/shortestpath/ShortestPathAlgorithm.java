@@ -362,7 +362,6 @@ public class ShortestPathAlgorithm implements SceneAlgorithm
 				data.clear(Side.LEFT);
 				data.clear(Side.RIGHT);
 			}
-			return;
 		}
 
 		// Main algorithm loop
