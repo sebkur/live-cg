@@ -40,11 +40,15 @@ import de.topobyte.livecg.algorithms.polygon.shortestpath.PairOfNodes;
 import de.topobyte.livecg.algorithms.polygon.shortestpath.ShortestPathAlgorithm;
 import de.topobyte.livecg.algorithms.polygon.shortestpath.ShortestPathHelper;
 import de.topobyte.livecg.algorithms.polygon.shortestpath.ShortestPathPainter;
+import de.topobyte.livecg.algorithms.voronoi.fortune.FortunesSweep;
+import de.topobyte.livecg.algorithms.voronoi.fortune.geometry.Point;
+import de.topobyte.livecg.algorithms.voronoi.fortune.ui.core.FortunePainter;
 import de.topobyte.livecg.core.export.SvgExporter;
 import de.topobyte.livecg.core.export.TikzExporter;
 import de.topobyte.livecg.core.geometry.dcel.DCEL;
 import de.topobyte.livecg.core.geometry.dcel.DcelConverter;
 import de.topobyte.livecg.core.geometry.geom.Chain;
+import de.topobyte.livecg.core.geometry.geom.Coordinate;
 import de.topobyte.livecg.core.geometry.geom.CopyUtil;
 import de.topobyte.livecg.core.geometry.geom.CopyUtil.PolygonMode;
 import de.topobyte.livecg.core.geometry.geom.Node;
@@ -57,6 +61,7 @@ import de.topobyte.livecg.datastructures.dcel.DcelConfig;
 import de.topobyte.livecg.datastructures.dcel.DcelPainter;
 import de.topobyte.livecg.datastructures.dcel.InstanceDcelPainter;
 import de.topobyte.livecg.ui.geometryeditor.Content;
+import de.topobyte.livecg.ui.geometryeditor.ContentHelper;
 import de.topobyte.livecg.util.coloring.ColorMapBuilder;
 
 public class Test
@@ -130,6 +135,16 @@ public class Test
 		File tikz7 = new File("/tmp/test7.tikz");
 
 		chan(svg7, tikz7, polygons);
+
+		// Fortune's Sweep
+
+		String path5 = "res/presets/voronoi/Points1.geom";
+		Content content5 = contentReader.read(new File(path5));
+
+		File svg8 = new File("/tmp/test8.svg");
+		File tikz8 = new File("/tmp/test8.tikz");
+
+		fortune(svg8, tikz8, content5);
 	}
 
 	private static void freeSpace(File svg, File tikz, Chain chain1,
@@ -255,5 +270,29 @@ public class Test
 
 		SvgExporter.exportSVG(svg, algorithmPainter, width, height);
 		TikzExporter.exportTikz(tikz, algorithmPainter, width, height);
+	}
+
+	private static void fortune(File svg, File tikz, Content content)
+			throws TransformerException, IOException
+	{
+		List<Node> nodes = ContentHelper.collectNodes(content);
+		FortunesSweep fortunesSweep = new FortunesSweep();
+		for (Node node : nodes) {
+			Coordinate c = node.getCoordinate();
+			Point p = new Point(c.getX(), c.getY());
+			fortunesSweep.addSite(p, false);
+		}
+		de.topobyte.livecg.algorithms.voronoi.fortune.ui.core.Config config = new de.topobyte.livecg.algorithms.voronoi.fortune.ui.core.Config();
+		FortunePainter fortunePainter = new FortunePainter(fortunesSweep,
+				config, null);
+
+		fortunesSweep.setSweep(500);
+
+		Rectangle scene = content.getScene();
+		int width = (int) Math.ceil(scene.getWidth());
+		int height = (int) Math.ceil(scene.getHeight());
+
+		SvgExporter.exportSVG(svg, fortunePainter, width, height);
+		TikzExporter.exportTikz(tikz, fortunePainter, width, height);
 	}
 }
