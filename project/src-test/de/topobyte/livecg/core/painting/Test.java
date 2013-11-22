@@ -30,6 +30,7 @@ import org.xml.sax.SAXException;
 
 import de.topobyte.livecg.algorithms.convexhull.chan.ChansAlgorithm;
 import de.topobyte.livecg.algorithms.convexhull.chan.ChansAlgorithmPainter;
+import de.topobyte.livecg.algorithms.frechet.distanceterrain.DistanceTerrainPainterChains;
 import de.topobyte.livecg.algorithms.frechet.freespace.FreeSpacePainterChains;
 import de.topobyte.livecg.algorithms.polygon.monotonepieces.Config;
 import de.topobyte.livecg.algorithms.polygon.monotonepieces.MonotonePiecesAlgorithm;
@@ -117,6 +118,11 @@ public class Test
 
 		freeSpace(svg5, tikz5, chain1, chain2);
 
+		File svg9 = new File("/tmp/test9.svg");
+		File tikz9 = new File("/tmp/test9.tikz");
+
+		distanceTerrain(svg9, tikz9, chain1, chain2);
+
 		// Shortest path in polygon
 
 		File svg6 = new File("/tmp/test6.svg");
@@ -158,6 +164,19 @@ public class Test
 		int height = 400;
 		SvgExporter.exportSVG(svg, freeSpacePainter, width, height);
 		TikzExporter.exportTikz(tikz, freeSpacePainter, width, height);
+	}
+
+	private static void distanceTerrain(File svg, File tikz, Chain chain1,
+			Chain chain2) throws TransformerException, IOException
+	{
+		de.topobyte.livecg.algorithms.frechet.distanceterrain.Config config = new de.topobyte.livecg.algorithms.frechet.distanceterrain.Config();
+		DistanceTerrainPainterChains terrainPainter = new DistanceTerrainPainterChains(
+				config, chain1, chain2, null);
+
+		int width = 400;
+		int height = 400;
+		SvgExporter.exportSVG(svg, terrainPainter, width, height);
+		TikzExporter.exportTikz(tikz, terrainPainter, width, height);
 	}
 
 	private static void geometry(File svg, File tikz, Content content1)
