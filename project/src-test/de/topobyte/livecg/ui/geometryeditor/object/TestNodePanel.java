@@ -15,27 +15,26 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.topobyte.livecg.geometryeditor.object;
+package de.topobyte.livecg.ui.geometryeditor.object;
 
 import javax.swing.JFrame;
 
-import de.topobyte.livecg.core.geometry.geom.Chain;
-import de.topobyte.livecg.core.geometry.geom.Polygon;
+import de.topobyte.livecg.core.geometry.geom.Coordinate;
+import de.topobyte.livecg.core.geometry.geom.Node;
 import de.topobyte.livecg.ui.geometryeditor.GeometryEditPane;
-import de.topobyte.livecg.ui.geometryeditor.object.single.PolygonPanel;
+import de.topobyte.livecg.ui.geometryeditor.object.single.NodePanel;
 
-public class TestPolygonPanel
+public class TestNodePanel
 {
 	public static void main(String[] args)
 	{
-		JFrame frame = new JFrame(PolygonPanel.class.getSimpleName());
+		JFrame frame = new JFrame(NodePanel.class.getSimpleName());
 
 		GeometryEditPane editPane = new GeometryEditPane();
-		Chain shell = new Chain();
-		Polygon polygon = new Polygon(shell, null);
-		editPane.getContent().addPolygon(polygon);
+		Coordinate coordinate = new Coordinate(200, 100);
+		Node node = new Node(coordinate);
 
-		PolygonPanel panel = new PolygonPanel(editPane, polygon);
+		NodePanel panel = new NodePanel(editPane, node);
 		frame.setContentPane(panel);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 

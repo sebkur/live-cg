@@ -15,30 +15,37 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.topobyte.livecg.geometryeditor.object;
+package de.topobyte.livecg.ui.geometryeditor.presets;
 
-import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
 
-import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.ui.geometryeditor.GeometryEditPane;
-import de.topobyte.livecg.ui.geometryeditor.object.single.PolygonalChainPanel;
+import de.topobyte.livecg.ui.geometryeditor.presets.PresetMenu;
 
-public class TestPolygonalChainPanel
+public class TestPresetBuilder
 {
 	public static void main(String[] args)
 	{
-		JFrame frame = new JFrame(PolygonalChainPanel.class.getSimpleName());
+		JMenu menu = new JMenu("Presets");
+		PresetMenu presetMenu = new PresetMenu(menu);
+		presetMenu.build(new GeometryEditPane());
 
-		GeometryEditPane editPane = new GeometryEditPane();
-		Chain editable = new Chain();
-		editPane.getContent().addChain(editable);
+		print(menu, 0);
+	}
 
-		PolygonalChainPanel panel = new PolygonalChainPanel(editPane, editable);
-		frame.setContentPane(panel);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-		frame.setLocationByPlatform(true);
-		frame.setSize(300, 300);
-		frame.setVisible(true);
+	private static void print(JMenuItem item, int depth)
+	{
+		for (int i = 0; i < depth; i++) {
+			System.out.print(" ");
+		}
+		System.out.println(item.getText());
+		if (item instanceof JMenu) {
+			JMenu menu = (JMenu) item;
+			for (int i = 0; i < menu.getItemCount(); i++) {
+				JMenuItem subItem = menu.getItem(i);
+				print(subItem, depth + 1);
+			}
+		}
 	}
 }

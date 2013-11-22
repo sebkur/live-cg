@@ -15,26 +15,47 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.topobyte.livecg.geometryeditor.object;
+package de.topobyte.livecg.ui.geometryeditor.object;
 
 import javax.swing.JFrame;
 
+import de.topobyte.livecg.core.geometry.geom.Chain;
+import de.topobyte.livecg.core.geometry.geom.CloseabilityException;
 import de.topobyte.livecg.core.geometry.geom.Coordinate;
-import de.topobyte.livecg.core.geometry.geom.Node;
+import de.topobyte.livecg.core.geometry.geom.Polygon;
 import de.topobyte.livecg.ui.geometryeditor.GeometryEditPane;
-import de.topobyte.livecg.ui.geometryeditor.object.single.NodePanel;
+import de.topobyte.livecg.ui.geometryeditor.object.multiple.MultiplePanel;
 
-public class TestNodePanel
+public class TestMultipleObjectsPanel
 {
 	public static void main(String[] args)
 	{
-		JFrame frame = new JFrame(NodePanel.class.getSimpleName());
+		JFrame frame = new JFrame(MultiplePanel.class.getSimpleName());
 
 		GeometryEditPane editPane = new GeometryEditPane();
-		Coordinate coordinate = new Coordinate(200, 100);
-		Node node = new Node(coordinate);
 
-		NodePanel panel = new NodePanel(editPane, node);
+		Chain chain = new Chain();
+		chain.appendPoint(new Coordinate(100, 100));
+		chain.appendPoint(new Coordinate(200, 100));
+		chain.appendPoint(new Coordinate(200, 200));
+
+		Chain shell = new Chain();
+		shell.appendPoint(new Coordinate(10, 10));
+		shell.appendPoint(new Coordinate(20, 100));
+		shell.appendPoint(new Coordinate(300, 300));
+		shell.appendPoint(new Coordinate(300, 40));
+		try {
+			shell.setClosed(true);
+		} catch (CloseabilityException e) {
+			// ignore
+		}
+		Polygon polygon = new Polygon(shell, null);
+		editPane.getContent().addPolygon(polygon);
+
+		editPane.addCurrentChain(chain);
+		editPane.addCurrentPolygon(polygon);
+
+		MultiplePanel panel = new MultiplePanel(editPane);
 		frame.setContentPane(panel);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
