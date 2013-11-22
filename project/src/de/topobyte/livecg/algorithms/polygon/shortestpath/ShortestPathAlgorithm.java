@@ -35,8 +35,7 @@ import de.topobyte.livecg.algorithms.polygon.shortestpath.funnel.StepInitializeA
 import de.topobyte.livecg.algorithms.polygon.shortestpath.funnel.StepMoveApexToLastNode;
 import de.topobyte.livecg.algorithms.polygon.shortestpath.funnel.StepWalkBackward;
 import de.topobyte.livecg.algorithms.polygon.shortestpath.funnel.StepWalkForward;
-import de.topobyte.livecg.core.AlgorithmWatcher;
-import de.topobyte.livecg.core.SceneAlgorithm;
+import de.topobyte.livecg.core.DefaultSceneAlgorithm;
 import de.topobyte.livecg.core.geometry.geom.BoundingBoxes;
 import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.core.geometry.geom.CrossingsTest;
@@ -47,7 +46,7 @@ import de.topobyte.livecg.core.geometry.geom.Rectangle;
 import de.topobyte.livecg.core.geometry.geom.Rectangles;
 import de.topobyte.livecg.util.graph.Graph;
 
-public class ShortestPathAlgorithm implements SceneAlgorithm
+public class ShortestPathAlgorithm extends DefaultSceneAlgorithm
 {
 	final static Logger logger = LoggerFactory
 			.getLogger(ShortestPathAlgorithm.class);
@@ -80,12 +79,6 @@ public class ShortestPathAlgorithm implements SceneAlgorithm
 
 	private List<Data> history = new ArrayList<Data>();
 
-	/*
-	 * Watchers that need to be notified once the algorithm moved to a new
-	 * state.
-	 */
-	private List<AlgorithmWatcher> watchers = new ArrayList<AlgorithmWatcher>();
-
 	public ShortestPathAlgorithm(Polygon polygon, Node start, Node target)
 	{
 		this.polygon = polygon;
@@ -106,23 +99,6 @@ public class ShortestPathAlgorithm implements SceneAlgorithm
 		Rectangle bbox = BoundingBoxes.get(polygon);
 		Rectangle scene = Rectangles.extend(bbox, 15);
 		return scene;
-	}
-
-	public void addWatcher(AlgorithmWatcher watcher)
-	{
-		watchers.add(watcher);
-	}
-
-	public void removeWatcher(AlgorithmWatcher watcher)
-	{
-		watchers.remove(watcher);
-	}
-
-	private void notifyWatchers()
-	{
-		for (AlgorithmWatcher watcher : watchers) {
-			watcher.updateAlgorithmStatus();
-		}
 	}
 
 	public void setStart(Node start)
@@ -332,13 +308,13 @@ public class ShortestPathAlgorithm implements SceneAlgorithm
 			}
 			this.status = status;
 		}
-		notifyWatchers();
+		fireAlgorithmStatusChanged();
 	}
 
 	public void setSubStatus(int subStatus)
 	{
 		this.subStatus = subStatus;
-		notifyWatchers();
+		fireAlgorithmStatusChanged();
 	}
 
 	public Side getSideOfNextNode()

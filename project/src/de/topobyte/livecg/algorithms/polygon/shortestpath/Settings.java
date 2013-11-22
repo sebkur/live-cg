@@ -106,7 +106,7 @@ public class Settings extends JToolBar implements ItemListener,
 			});
 		}
 
-		algorithm.addWatcher(this);
+		algorithm.addAlgorithmWatcher(this);
 		setButtonStatesDependingOnAlgorithmStatus();
 	}
 

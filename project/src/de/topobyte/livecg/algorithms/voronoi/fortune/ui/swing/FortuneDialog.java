@@ -113,8 +113,8 @@ public class FortuneDialog extends JFrame implements Runnable
 		main.add(canvas, BorderLayout.CENTER);
 		main.add(sweepControl, BorderLayout.SOUTH);
 
-		algorithm.addWatcher(canvas);
-		algorithm.addWatcher(sweepControl);
+		algorithm.addAlgorithmWatcher(canvas);
+		algorithm.addAlgorithmWatcher(sweepControl);
 
 		canvas.addComponentListener(new ComponentAdapter() {
 

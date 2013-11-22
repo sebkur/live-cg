@@ -37,7 +37,7 @@ import de.topobyte.livecg.algorithms.voronoi.fortune.events.HistoryEventQueue;
 import de.topobyte.livecg.algorithms.voronoi.fortune.events.SitePoint;
 import de.topobyte.livecg.algorithms.voronoi.fortune.geometry.Edge;
 import de.topobyte.livecg.algorithms.voronoi.fortune.geometry.Point;
-import de.topobyte.livecg.core.AlgorithmWatcher;
+import de.topobyte.livecg.core.DefaultAlgorithm;
 import de.topobyte.livecg.core.geometry.dcel.DCEL;
 import de.topobyte.livecg.core.geometry.dcel.DcelUtil;
 import de.topobyte.livecg.core.geometry.dcel.HalfEdge;
@@ -45,7 +45,7 @@ import de.topobyte.livecg.core.geometry.dcel.Vertex;
 import de.topobyte.livecg.core.geometry.geom.Coordinate;
 import de.topobyte.livecg.util.Stack;
 
-public class FortunesSweep
+public class FortunesSweep extends DefaultAlgorithm
 {
 	private Logger logger = LoggerFactory.getLogger(FortunesSweep.class);
 
@@ -92,12 +92,6 @@ public class FortunesSweep
 	 */
 	private ArcNode arcs = null;
 
-	/*
-	 * Watchers that need to be notified once the algorithm moved to a new
-	 * state.
-	 */
-	private List<AlgorithmWatcher> watchers = new ArrayList<AlgorithmWatcher>();
-
 	public FortunesSweep()
 	{
 		sites = new ArrayList<Point>();
@@ -127,16 +121,6 @@ public class FortunesSweep
 			voronoi.addSite(point);
 		}
 		restart();
-	}
-
-	public void addWatcher(AlgorithmWatcher watcher)
-	{
-		watchers.add(watcher);
-	}
-
-	public void removeWatcher(AlgorithmWatcher watcher)
-	{
-		watchers.remove(watcher);
 	}
 
 	/*
@@ -206,13 +190,6 @@ public class FortunesSweep
 	 * Internal methods
 	 */
 
-	private void notifyWatchers()
-	{
-		for (AlgorithmWatcher watcher : watchers) {
-			watcher.updateAlgorithmStatus();
-		}
-	}
-
 	private synchronized void init()
 	{
 		sweepX = 0;
@@ -262,7 +239,7 @@ public class FortunesSweep
 
 		initArcs(arcs, sweepX);
 
-		notifyWatchers();
+		fireAlgorithmStatusChanged();
 		return !isFinshed();
 	}
 
@@ -297,7 +274,7 @@ public class FortunesSweep
 
 		initArcs(arcs, sweepX);
 
-		notifyWatchers();
+		fireAlgorithmStatusChanged();
 		return sweepX > 0;
 	}
 
@@ -342,7 +319,7 @@ public class FortunesSweep
 
 		initArcs(arcs, sweepX);
 
-		notifyWatchers();
+		fireAlgorithmStatusChanged();
 	}
 
 	public synchronized void previousEvent()
@@ -351,7 +328,7 @@ public class FortunesSweep
 			// If we are before the first event but after 0, just go to 0.
 			if (sweepX > 0) {
 				sweepX = 0;
-				notifyWatchers();
+				fireAlgorithmStatusChanged();
 			}
 			return;
 		}
@@ -389,7 +366,7 @@ public class FortunesSweep
 
 		initArcs(arcs, sweepX);
 
-		notifyWatchers();
+		fireAlgorithmStatusChanged();
 	}
 
 	public synchronized void clear()
@@ -402,7 +379,7 @@ public class FortunesSweep
 	public synchronized void restart()
 	{
 		init();
-		notifyWatchers();
+		fireAlgorithmStatusChanged();
 	}
 
 	/*

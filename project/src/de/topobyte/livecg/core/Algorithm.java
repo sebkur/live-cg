@@ -17,11 +17,15 @@
  */
 package de.topobyte.livecg.core;
 
-import de.topobyte.livecg.core.geometry.geom.Rectangle;
-
-public interface SceneAlgorithm extends Algorithm
+public interface Algorithm
 {
 
-	public Rectangle getScene();
+	public void addAlgorithmChangedListener(AlgorithmChangedListener listener);
+
+	public void remvoeAlgorithmChangedListener(AlgorithmChangedListener listener);
+
+	public void addAlgorithmWatcher(AlgorithmWatcher listener);
+
+	public void removeAlgorithmWatcher(AlgorithmWatcher listener);
 
 }

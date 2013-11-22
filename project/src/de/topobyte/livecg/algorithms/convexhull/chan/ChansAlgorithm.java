@@ -20,8 +20,7 @@ package de.topobyte.livecg.algorithms.convexhull.chan;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.topobyte.livecg.core.AlgorithmWatcher;
-import de.topobyte.livecg.core.SceneAlgorithm;
+import de.topobyte.livecg.core.DefaultSceneAlgorithm;
 import de.topobyte.livecg.core.geometry.geom.BoundingBoxes;
 import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.core.geometry.geom.Coordinate;
@@ -32,31 +31,8 @@ import de.topobyte.livecg.core.geometry.geom.Rectangle;
 import de.topobyte.livecg.core.geometry.geom.Rectangles;
 import de.topobyte.livecg.util.circular.IntRing;
 
-public class ChansAlgorithm implements SceneAlgorithm
+public class ChansAlgorithm extends DefaultSceneAlgorithm
 {
-
-	/*
-	 * Watchers that need to be notified once the algorithm moved to a new
-	 * state.
-	 */
-	private List<AlgorithmWatcher> watchers = new ArrayList<AlgorithmWatcher>();
-
-	public void addWatcher(AlgorithmWatcher watcher)
-	{
-		watchers.add(watcher);
-	}
-
-	public void removeWatcher(AlgorithmWatcher watcher)
-	{
-		watchers.remove(watcher);
-	}
-
-	private void notifyWatchers()
-	{
-		for (AlgorithmWatcher watcher : watchers) {
-			watcher.updateAlgorithmStatus();
-		}
-	}
 
 	/*
 	 * Input
@@ -107,7 +83,7 @@ public class ChansAlgorithm implements SceneAlgorithm
 		if (data.getPhase() != Phase.DONE) {
 			history.add(data.clone());
 			executeNextStep();
-			notifyWatchers();
+			fireAlgorithmStatusChanged();
 		}
 	}
 
@@ -115,7 +91,7 @@ public class ChansAlgorithm implements SceneAlgorithm
 	{
 		if (history.size() > 0) {
 			data = history.remove(history.size() - 1);
-			notifyWatchers();
+			fireAlgorithmStatusChanged();
 		}
 	}
 

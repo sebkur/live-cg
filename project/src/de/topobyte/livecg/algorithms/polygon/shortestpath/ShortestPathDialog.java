@@ -93,7 +93,7 @@ public class ShortestPathDialog implements AlgorithmChangedListener,
 		sliderFunnel.setValue(0);
 		sliderFunnel.setBorder(new TitledBorder("Funnel"));
 
-		algorithm.addWatcher(this);
+		algorithm.addAlgorithmWatcher(this);
 
 		Box north = new Box(BoxLayout.Y_AXIS);
 		settings.setAlignmentX(Component.LEFT_ALIGNMENT);
