@@ -24,10 +24,14 @@ import java.awt.geom.GeneralPath;
 import java.awt.geom.PathIterator;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import javax.imageio.ImageIO;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -74,11 +78,19 @@ public class TikzPainter implements Painter
 	private float[] dash = null;
 	private float phase = 0;
 
-	public TikzPainter(StringBuilder header, StringBuilder buffer, double scale)
+	private double sceneWidth;
+	private double imageWidth;
+	private File images;
+
+	public TikzPainter(StringBuilder header, StringBuilder buffer,
+			double scale, double sceneWidth, double imageWidth, File images)
 	{
 		this.header = header;
 		this.buffer = buffer;
 		this.scale = scale;
+		this.sceneWidth = sceneWidth;
+		this.imageWidth = imageWidth;
+		this.images = images;
 
 		mxUnity = AffineTransformUtil.scale(scale, -scale);
 		trUnity = new GeometryTransformer(mxUnity);
@@ -156,13 +168,16 @@ public class TikzPainter implements Painter
 
 	private void appendDraw()
 	{
-		String c = colorDefinition();
+		String c = "";
+		if (color != null) {
+			c = ", " + colorDefinition();
+		}
 		if (dash == null) {
-			buffer.append("\\draw[" + line() + ", join=round, cap=round, " + c
+			buffer.append("\\draw[" + line() + ", join=round, cap=round" + c
 					+ "] ");
 		} else {
 			String d = createDash();
-			buffer.append("\\draw[" + line() + ", join=round, cap=round, " + c
+			buffer.append("\\draw[" + line() + ", join=round, cap=round" + c
 					+ ", " + d + "] ");
 		}
 	}
@@ -526,10 +541,33 @@ public class TikzPainter implements Painter
 	 * Images
 	 */
 
+	private int imageCoutner = 1;
+
 	@Override
 	public void drawImage(BufferedImage image, int x, int y)
 	{
-		// TODO Auto-generated method stub
+		appendDraw();
+		append(applyTransforms(x, y));
+		String node = "node[inner sep=0pt, below right]";
+		String imageName = "image" + (imageCoutner++) + ".png";
+		File output = new File(images, imageName);
+		double w = image.getWidth() / sceneWidth * imageWidth;
+		String include = " {\\includegraphics[width=" + w + "cm]{" + output
+				+ "}};";
+		buffer.append(newline);
+		buffer.append(node);
+		buffer.append(newline);
+		buffer.append(include);
+		buffer.append(newline);
+
+		output.getParentFile().mkdirs();
+		try {
+			ImageIO.write(image, "png", output);
+		} catch (IOException e) {
+			logger.error("Error while writing image.");
+			logger.error("Image path: " + output);
+			logger.error("Exception message: " + e.getMessage());
+		}
 	}
 
 	/*

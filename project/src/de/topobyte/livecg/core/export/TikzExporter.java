@@ -32,11 +32,17 @@ public class TikzExporter
 	public static void exportTikz(File file, AlgorithmPainter algorithmPainter,
 			int width, int height) throws TransformerException, IOException
 	{
+		File parent = file.getParentFile();
+		String name = file.getName();
+		File images = new File(parent, name + "-images");
+
+		double imageWidth = 13.0;
+
 		StringBuilder header = new StringBuilder();
 		StringBuilder buffer = new StringBuilder();
 		// The TikzPainter will paint in bounds (0,0) to (1,-1), by applying
 		// this scale, we scale everything to 13cm width
-		header.append("\\begin{tikzpicture}[scale=13.0]\n");
+		header.append("\\begin{tikzpicture}[scale=" + imageWidth + "]\n");
 
 		// By this factor everything will be scaled so that drawing happens in
 		// the unit square bounds
@@ -52,7 +58,8 @@ public class TikzExporter
 				clipY);
 		header.append(clip);
 
-		TikzPainter painter = new TikzPainter(header, buffer, scale);
+		TikzPainter painter = new TikzPainter(header, buffer, scale, width,
+				imageWidth, images);
 
 		algorithmPainter.setPainter(painter);
 		algorithmPainter.setWidth(width);
