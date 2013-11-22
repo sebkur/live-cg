@@ -113,9 +113,14 @@ public class TikzPainter implements Painter
 		this.phase = phase;
 	}
 
+	private double convertToMM(double value)
+	{
+		return value / 4.0;
+	}
+
 	private String line()
 	{
-		return String.format("line width=%.5fmm", width / 5.0);
+		return String.format("line width=%.5fmm", convertToMM(width));
 	}
 
 	private Set<String> definedNames = new HashSet<String>();
@@ -154,7 +159,6 @@ public class TikzPainter implements Painter
 					+ "] ");
 		} else {
 			String d = createDash();
-			System.out.println(d);
 			buffer.append("\\draw[" + line() + ", join=round, cap=round, " + c
 					+ ", " + d + "] ");
 		}
@@ -171,7 +175,8 @@ public class TikzPainter implements Painter
 			String d = ((i % 2) == 0) ? "on" : "off";
 			strb.append(d);
 			strb.append(" ");
-			strb.append(dash[i]);
+			strb.append(convertToMM(dash[i]));
+			strb.append("mm");
 		}
 		strb.append(", dash phase=");
 		strb.append(phase);
