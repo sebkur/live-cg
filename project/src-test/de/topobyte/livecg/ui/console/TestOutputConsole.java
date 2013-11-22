@@ -93,7 +93,7 @@ public class TestOutputConsole
 			public void actionPerformed(ActionEvent e)
 			{
 				int status = algorithm.getStatus();
-				algorithm.setStatus(status + 1);
+				algorithm.setStatus(status + 1, 0);
 			}
 		});
 
@@ -103,7 +103,7 @@ public class TestOutputConsole
 			public void actionPerformed(ActionEvent e)
 			{
 				int status = algorithm.getStatus();
-				algorithm.setStatus(status - 1);
+				algorithm.setStatus(status - 1, 0);
 			}
 		});
 	}

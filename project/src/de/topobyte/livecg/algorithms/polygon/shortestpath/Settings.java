@@ -154,8 +154,7 @@ public class Settings extends JToolBar implements ItemListener,
 	{
 		int status = algorithm.getStatus();
 		if (status > 0) {
-			algorithm.setSubStatus(0);
-			algorithm.setStatus(status - 1);
+			algorithm.setStatus(status - 1, 0);
 			spp.repaint();
 		}
 	}
@@ -164,8 +163,7 @@ public class Settings extends JToolBar implements ItemListener,
 	{
 		int status = algorithm.getStatus();
 		if (status < algorithm.getNumberOfSteps()) {
-			algorithm.setSubStatus(0);
-			algorithm.setStatus(status + 1);
+			algorithm.setStatus(status + 1, 0);
 			spp.repaint();
 		}
 	}

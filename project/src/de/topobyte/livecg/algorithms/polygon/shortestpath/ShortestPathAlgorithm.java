@@ -292,24 +292,27 @@ public class ShortestPathAlgorithm extends DefaultSceneAlgorithm implements
 		return data;
 	}
 
-	public void setStatus(int status)
+	public void setStatus(int status, int subStatus)
 	{
-		if (status == this.status) {
+		if (this.status == status && this.subStatus == subStatus) {
 			return;
 		}
-		if (status == 0) {
-			data = null;
-			this.status = 0;
-			history.clear();
-		} else if (status > this.status) {
-			computeUpTo(status);
-		} else if (status < this.status) {
-			data = history.get(status - 1).clone();
-			while (history.size() > status) {
-				history.remove(history.size() - 1);
+		if (this.status != status) {
+			if (status == 0) {
+				data = null;
+				this.status = 0;
+				history.clear();
+			} else if (status > this.status) {
+				computeUpTo(status);
+			} else if (status < this.status) {
+				data = history.get(status - 1).clone();
+				while (history.size() > status) {
+					history.remove(history.size() - 1);
+				}
+				this.status = status;
 			}
-			this.status = status;
 		}
+		this.subStatus = subStatus;
 		fireAlgorithmStatusChanged();
 	}
 
