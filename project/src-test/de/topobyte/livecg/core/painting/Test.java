@@ -67,6 +67,26 @@ import de.topobyte.livecg.util.coloring.ColorMapBuilder;
 
 public class Test
 {
+	private static String patternSvg = ("/tmp/test%d.svg");
+	private static String patternTikz = ("/tmp/test%d.tikz");
+
+	private static int counter = 1;
+
+	private static File svg()
+	{
+		return new File(String.format(patternSvg, counter));
+	}
+
+	private static File tikz()
+	{
+		return new File(String.format(patternTikz, counter));
+	}
+
+	private static void next()
+	{
+		counter += 1;
+	}
+
 	public static void main(String[] args) throws IOException,
 			ParserConfigurationException, SAXException, TransformerException
 	{
@@ -77,15 +97,10 @@ public class Test
 		String path1 = "res/presets/Startup.geom";
 		Content content1 = contentReader.read(new File(path1));
 
-		File svg1 = new File("/tmp/test1.svg");
-		File tikz1 = new File("/tmp/test1.tikz");
+		geometry(svg(), tikz(), content1);
 
-		geometry(svg1, tikz1, content1);
-
-		File svg2 = new File("/tmp/test2.svg");
-		File tikz2 = new File("/tmp/test2.tikz");
-
-		dcel(svg2, tikz2, content1);
+		next();
+		dcel(svg(), tikz(), content1);
 
 		// Triangulations
 
@@ -93,15 +108,12 @@ public class Test
 		Content content2 = contentReader.read(new File(path2));
 		Polygon polygon = content2.getPolygons().get(0);
 
-		File svg3 = new File("/tmp/test3.svg");
-		File tikz3 = new File("/tmp/test3.tikz");
+		next();
+		monotone(svg(), tikz(),
+				CopyUtil.copy(polygon, PolygonMode.REUSE_NOTHING));
 
-		monotone(svg3, tikz3, CopyUtil.copy(polygon, PolygonMode.REUSE_NOTHING));
-
-		File svg4 = new File("/tmp/test4.svg");
-		File tikz4 = new File("/tmp/test4.tikz");
-
-		triangulation(svg4, tikz4,
+		next();
+		triangulation(svg(), tikz(),
 				CopyUtil.copy(polygon, PolygonMode.REUSE_NOTHING));
 
 		// Frechet
@@ -113,22 +125,16 @@ public class Test
 		Chain chain1 = chains.get(0);
 		Chain chain2 = chains.get(1);
 
-		File svg5 = new File("/tmp/test5.svg");
-		File tikz5 = new File("/tmp/test5.tikz");
+		next();
+		freeSpace(svg(), tikz(), chain1, chain2);
 
-		freeSpace(svg5, tikz5, chain1, chain2);
-
-		File svg9 = new File("/tmp/test9.svg");
-		File tikz9 = new File("/tmp/test9.tikz");
-
-		distanceTerrain(svg9, tikz9, chain1, chain2);
+		next();
+		distanceTerrain(svg(), tikz(), chain1, chain2);
 
 		// Shortest path in polygon
 
-		File svg6 = new File("/tmp/test6.svg");
-		File tikz6 = new File("/tmp/test6.tikz");
-
-		spip(svg6, tikz6, CopyUtil.copy(polygon, PolygonMode.REUSE_NOTHING));
+		next();
+		spip(svg(), tikz(), CopyUtil.copy(polygon, PolygonMode.REUSE_NOTHING));
 
 		// Chan's Algorithm
 
@@ -137,20 +143,16 @@ public class Test
 
 		List<Polygon> polygons = content4.getPolygons();
 
-		File svg7 = new File("/tmp/test7.svg");
-		File tikz7 = new File("/tmp/test7.tikz");
-
-		chan(svg7, tikz7, polygons);
+		next();
+		chan(svg(), tikz(), polygons);
 
 		// Fortune's Sweep
 
 		String path5 = "res/presets/voronoi/Points1.geom";
 		Content content5 = contentReader.read(new File(path5));
 
-		File svg8 = new File("/tmp/test8.svg");
-		File tikz8 = new File("/tmp/test8.tikz");
-
-		fortune(svg8, tikz8, content5);
+		next();
+		fortune(svg(), tikz(), content5);
 	}
 
 	private static void freeSpace(File svg, File tikz, Chain chain1,
