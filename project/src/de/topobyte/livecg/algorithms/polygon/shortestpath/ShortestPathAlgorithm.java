@@ -485,10 +485,9 @@ public class ShortestPathAlgorithm extends DefaultSceneAlgorithm implements
 		}
 	}
 
-	public int numberOfStepsToUpdateFunnel()
+	private int numberOfStepsToUpdateFunnel(List<Step> steps)
 	{
 		int s = 0;
-		List<Step> steps = stepsToUpdateFunnel();
 		for (Step step : steps) {
 			if (step instanceof RepeatedStep) {
 				RepeatedStep repeated = (RepeatedStep) step;
@@ -498,6 +497,13 @@ public class ShortestPathAlgorithm extends DefaultSceneAlgorithm implements
 			}
 		}
 		return s;
+
+	}
+
+	public int numberOfStepsToUpdateFunnel()
+	{
+		List<Step> steps = stepsToUpdateFunnel();
+		return numberOfStepsToUpdateFunnel(steps);
 	}
 
 	public List<Step> stepsToUpdateFunnel()
@@ -602,30 +608,67 @@ public class ShortestPathAlgorithm extends DefaultSceneAlgorithm implements
 
 	private void addMessage(String text)
 	{
-		String prefix = status + ", " + subStatus + ": ";
-		messages.add(prefix + text);
+		// String prefix = status + ", " + subStatus + ": ";
+		// messages.add(prefix + text);
+		messages.add(text);
 	}
 
 	@Override
 	public List<String> explain()
 	{
+		System.out.println(triangulationDiagonals.size());
 		messages.clear();
 		if (status == 0) {
 			if (subStatus == 0) {
 				addMessage("The algorithm has just started.");
 			} else {
+				addMessage("DIAGONAL: " + (status + 1));
 				addMessage("The funnel will be initialized with the first diagonal of the sleeve.");
 			}
-		} else {
+		} else if (status <= sleeve.getDiagonals().size()) {
+			List<Step> steps = stepsToUpdateFunnel();
+			int nSteps = numberOfStepsToUpdateFunnel(steps);
 			if (subStatus == 0) {
+				addMessage("DIAGONAL: " + (status + 1));
+				if (status == sleeve.getDiagonals().size()) {
+					addMessage("The next diagonal is the last one.");
+				}
 				Side side = sideOfNextNode(nextDiagonal());
 				addMessage("The node of the next diagonal is on the " + side
-						+ " path");
+						+ " path.");
 			} else {
-				addMessage("No description yet");
+
+				if (subStatus == 1) {
+					addMessage("We check the first segment for funnel convexity.");
+				} else {
+					addMessage("We check the next segment for funnel convexity.");
+				}
+				if (subStatus != nSteps) {
+					addMessage("When adding this segment, the funnel would not be convex anymore.");
+				} else {
+					addMessage("When adding this segment, the funnel will be convex.");
+					if (status < sleeve.getDiagonals().size()) {
+						addMessage("We add this segment to the funnel and continue with the next diagonal.");
+					} else {
+						addMessage("We add this segment to the funnel.");
+					}
+				}
 			}
+		} else if (status == sleeve.getDiagonals().size() + 1) {
+			Side currentChain = Side.LEFT;
+			if (data.getLast(Side.RIGHT) == target) {
+				currentChain = Side.RIGHT;
+			}
+			if (subStatus == 0) {
+				addMessage("We reached the target with the " + currentChain
+						+ " path.");
+			} else if (subStatus == 1) {
+				addMessage("We set the result to the " + currentChain
+						+ " path.");
+			}
+		} else if (status == sleeve.getDiagonals().size() + 2) {
+			addMessage("The algorithm is complete.");
 		}
 		return messages;
 	}
-
 }
