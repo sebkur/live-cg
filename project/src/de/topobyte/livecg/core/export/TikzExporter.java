@@ -47,7 +47,7 @@ public class TikzExporter
 		// lead to an image of exactly the unit square's size)
 		double clipX = width / (double) div;
 		double clipY = -height / (double) div;
-		String clip = String.format("\\clip (0,0) rectangle (%f,%f);", clipX,
+		String clip = String.format("\\clip (0,0) rectangle (%f,%f);\n", clipX,
 				clipY);
 		buffer.append(clip);
 
