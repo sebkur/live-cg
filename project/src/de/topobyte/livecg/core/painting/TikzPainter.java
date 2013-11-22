@@ -269,6 +269,8 @@ public class TikzPainter implements Painter
 		if (close) {
 			buffer.append(" -- cycle");
 		}
+		buffer.append(";");
+		buffer.append(newline);
 	}
 
 	@Override
