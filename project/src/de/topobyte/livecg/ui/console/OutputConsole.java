@@ -24,6 +24,8 @@ import java.util.List;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.text.Document;
+import javax.swing.text.Position;
 
 public class OutputConsole extends JPanel
 {
@@ -68,5 +70,9 @@ public class OutputConsole extends JPanel
 	{
 		emptyPreBuffer();
 		append(text);
+
+		Document document = output.getDocument();
+		Position end = document.getEndPosition();
+		output.setCaretPosition(end.getOffset() - 1);
 	}
 }
