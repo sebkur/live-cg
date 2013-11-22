@@ -28,6 +28,8 @@ import javax.xml.transform.TransformerException;
 
 import org.xml.sax.SAXException;
 
+import de.topobyte.livecg.algorithms.convexhull.chan.ChansAlgorithm;
+import de.topobyte.livecg.algorithms.convexhull.chan.ChansAlgorithmPainter;
 import de.topobyte.livecg.algorithms.frechet.freespace.FreeSpacePainterChains;
 import de.topobyte.livecg.algorithms.polygon.monotonepieces.Config;
 import de.topobyte.livecg.algorithms.polygon.monotonepieces.MonotonePiecesAlgorithm;
@@ -116,6 +118,18 @@ public class Test
 		File tikz6 = new File("/tmp/test6.tikz");
 
 		spip(svg6, tikz6, CopyUtil.copy(polygon, PolygonMode.REUSE_NOTHING));
+
+		// Chan's Algorithm
+
+		String path4 = "res/presets/chan/Chan1.geom";
+		Content content4 = contentReader.read(new File(path4));
+
+		List<Polygon> polygons = content4.getPolygons();
+
+		File svg7 = new File("/tmp/test7.svg");
+		File tikz7 = new File("/tmp/test7.tikz");
+
+		chan(svg7, tikz7, polygons);
 	}
 
 	private static void freeSpace(File svg, File tikz, Chain chain1,
@@ -222,5 +236,24 @@ public class Test
 
 		SvgExporter.exportSVG(svg, shortestPathPainter, width, height);
 		TikzExporter.exportTikz(tikz, shortestPathPainter, width, height);
+	}
+
+	private static void chan(File svg, File tikz, List<Polygon> polygons)
+			throws TransformerException, IOException
+	{
+		ChansAlgorithm chansAlgorithm = new ChansAlgorithm(polygons);
+		ChansAlgorithmPainter algorithmPainter = new ChansAlgorithmPainter(
+				chansAlgorithm, null);
+
+		for (int i = 0; i < 50; i++) {
+			chansAlgorithm.nextStep();
+		}
+
+		Rectangle scene = chansAlgorithm.getScene();
+		int width = (int) Math.ceil(scene.getWidth());
+		int height = (int) Math.ceil(scene.getHeight());
+
+		SvgExporter.exportSVG(svg, algorithmPainter, width, height);
+		TikzExporter.exportTikz(tikz, algorithmPainter, width, height);
 	}
 }
