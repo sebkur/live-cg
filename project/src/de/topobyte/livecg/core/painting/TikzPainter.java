@@ -149,7 +149,33 @@ public class TikzPainter implements Painter
 	private void appendDraw()
 	{
 		String c = colorDefinition();
-		buffer.append("\\draw[" + line() + ", " + c + "] ");
+		if (dash == null) {
+			buffer.append("\\draw[" + line() + ", join=round, cap=round, " + c
+					+ "] ");
+		} else {
+			String d = createDash();
+			System.out.println(d);
+			buffer.append("\\draw[" + line() + ", join=round, cap=round, " + c
+					+ ", " + d + "] ");
+		}
+	}
+
+	private String createDash()
+	{
+		StringBuilder strb = new StringBuilder();
+		strb.append("dash pattern=");
+		for (int i = 0; i < dash.length; i++) {
+			if (i > 0) {
+				strb.append(" ");
+			}
+			String d = ((i % 2) == 0) ? "on" : "off";
+			strb.append(d);
+			strb.append(" ");
+			strb.append(dash[i]);
+		}
+		strb.append(", dash phase=");
+		strb.append(phase);
+		return strb.toString();
 	}
 
 	private void appendFill()
