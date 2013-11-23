@@ -32,7 +32,9 @@ import de.topobyte.livecg.algorithms.polygon.shortestpath.funnel.Step;
 import de.topobyte.livecg.algorithms.polygon.shortestpath.funnel.StepFinishAlgorithm;
 import de.topobyte.livecg.algorithms.polygon.shortestpath.funnel.StepFunnelPathEmpty;
 import de.topobyte.livecg.algorithms.polygon.shortestpath.funnel.StepInitializeAlgorithm;
+import de.topobyte.livecg.algorithms.polygon.shortestpath.funnel.StepLocateNextNode;
 import de.topobyte.livecg.algorithms.polygon.shortestpath.funnel.StepMoveApexToLastNode;
+import de.topobyte.livecg.algorithms.polygon.shortestpath.funnel.StepUpdateFunnel;
 import de.topobyte.livecg.algorithms.polygon.shortestpath.funnel.StepWalkBackward;
 import de.topobyte.livecg.algorithms.polygon.shortestpath.funnel.StepWalkForward;
 import de.topobyte.livecg.core.algorithm.DefaultSceneAlgorithm;
@@ -528,6 +530,8 @@ public class ShortestPathAlgorithm extends DefaultSceneAlgorithm implements
 		Side on = sideOfNextNode(next);
 		Node notYetOnChain = notYetOnChain(next);
 
+		steps.add(new StepLocateNextNode());
+
 		if (data.getFunnelLength(on) == 0) {
 			steps.add(new StepFunnelPathEmpty());
 			return steps;
@@ -552,6 +556,7 @@ public class ShortestPathAlgorithm extends DefaultSceneAlgorithm implements
 			Node p1 = data.getApex();
 			Node p2 = data.get(other, 0);
 			if (turnOk(p1, p2, notYetOnChain, on)) {
+				steps.add(new StepUpdateFunnel());
 				return steps;
 			}
 		}
@@ -564,6 +569,7 @@ public class ShortestPathAlgorithm extends DefaultSceneAlgorithm implements
 			boolean turnOk = turnOk(pn1, pn2, notYetOnChain, on);
 			if (turnOk) {
 				steps.add(new StepWalkForward(counterForward));
+				steps.add(new StepUpdateFunnel());
 				return steps;
 			}
 		}
@@ -633,12 +639,12 @@ public class ShortestPathAlgorithm extends DefaultSceneAlgorithm implements
 				if (status == sleeve.getDiagonals().size()) {
 					addMessage("The next diagonal is the last one.");
 				}
+			} else if (subStatus == 1) {
 				Side side = sideOfNextNode(nextDiagonal());
 				addMessage("The node of the next diagonal is on the " + side
 						+ " path.");
 			} else {
-
-				if (subStatus == 1) {
+				if (subStatus == 2) {
 					addMessage("We check the first segment for funnel convexity.");
 				} else {
 					addMessage("We check the next segment for funnel convexity.");

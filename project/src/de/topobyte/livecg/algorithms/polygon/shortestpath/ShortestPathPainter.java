@@ -254,23 +254,34 @@ public class ShortestPathPainter extends TransformingAlgorithmPainter
 			int status = algorithm.getStatus();
 			int steps = algorithm.getNumberOfSteps();
 			int subStatus = algorithm.getSubStatus();
-			if (status != steps - 1 && subStatus != 0) {
+			int subSteps = algorithm.numberOfStepsToUpdateFunnel();
+			if (status != steps - 1 && subStatus > 1) {
+				int candidateIndex = subStatus - 1;
+				if (subStatus == subSteps) {
+					candidateIndex--;
+				}
 				Node next = algorithm.getNextNode();
 				Node candiate = algorithm
-						.getNthNodeOfFunnelTraversal(subStatus);
+						.getNthNodeOfFunnelTraversal(candidateIndex);
 				Coordinate tn = transformer.transform(next.getCoordinate());
 				Coordinate tc = transformer.transform(candiate.getCoordinate());
+				if (subStatus < subSteps) {
+					painter.setColor(COLOR_SUBSTATUS_BG);
+					painter.setStrokeWidth(LINE_WIDTH_SUBSTATUS_BG);
+					painter.setStrokeDash(new float[] { 8.0f, 12.0f }, 0.0f);
+					painter.drawLine(tc.getX(), tc.getY(), tn.getX(), tn.getY());
 
-				painter.setColor(COLOR_SUBSTATUS_BG);
-				painter.setStrokeWidth(LINE_WIDTH_SUBSTATUS_BG);
-				painter.setStrokeDash(new float[] { 8.0f, 12.0f }, 0.0f);
-				painter.drawLine(tc.getX(), tc.getY(), tn.getX(), tn.getY());
-
-				painter.setColor(nextNodeColor());
-				painter.setStrokeWidth(LINE_WIDTH_SUBSTATUS);
-				painter.setStrokeDash(new float[] { 8.0f, 12.0f }, 0.0f);
-				painter.drawLine(tc.getX(), tc.getY(), tn.getX(), tn.getY());
-				painter.setStrokeNormal();
+					painter.setColor(nextNodeColor());
+					painter.setStrokeWidth(LINE_WIDTH_SUBSTATUS);
+					painter.setStrokeDash(new float[] { 8.0f, 12.0f }, 0.0f);
+					painter.drawLine(tc.getX(), tc.getY(), tn.getX(), tn.getY());
+					painter.setStrokeNormal();
+				} else if (subStatus == subSteps) {
+					painter.setColor(nextNodeColor());
+					painter.setStrokeWidth(LINE_WIDTH_SUBSTATUS);
+					painter.drawLine(tc.getX(), tc.getY(), tn.getX(), tn.getY());
+					painter.setStrokeNormal();
+				}
 			}
 		}
 
