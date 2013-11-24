@@ -16,3 +16,4 @@ DONE Let right mouse button + drag pan the scene
 
 Make SvgPainter create more readable files
 Add keyboard bindings: Ctrl + Arrow keys for panning the scene
+Implemented text output module
