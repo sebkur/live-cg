@@ -235,26 +235,29 @@ public class ShortestPathPainter extends TransformingAlgorithmPainter
 		 * Funnel
 		 */
 
+		Data data = algorithm.getData();
+
 		int status = algorithm.getStatus();
 		int steps = algorithm.getNumberOfSteps();
 		int subStatus = algorithm.getSubStatus();
-		int subSteps = algorithm.numberOfStepsToUpdateFunnel();
+		int subSteps = algorithm.numberOfStepsToNextDiagonal();
+
+		Data drawData = data;
+		if (data != null && status < steps - 1 && subStatus == subSteps) {
+			drawData = algorithm.getNextFunnel();
+		}
 
 		/*
 		 * Funnel (paths)
 		 */
 
-		Data data = algorithm.getData();
-
 		painter.setStrokeWidth(LINE_WIDTH_PATH);
 
-		if (data != null) {
-			if (subStatus < subSteps) {
-				paintCommonPath();
+		if (drawData != null) {
+			paintCommonPath(drawData);
 
-				paintPath(Side.LEFT);
-				paintPath(Side.RIGHT);
-			}
+			paintPath(drawData, Side.LEFT);
+			paintPath(drawData, Side.RIGHT);
 		}
 
 		/*
@@ -283,11 +286,6 @@ public class ShortestPathPainter extends TransformingAlgorithmPainter
 					painter.setStrokeDash(new float[] { 8.0f, 12.0f }, 0.0f);
 					painter.drawLine(tc.getX(), tc.getY(), tn.getX(), tn.getY());
 					painter.setStrokeNormal();
-				} else if (subStatus == subSteps) {
-					painter.setColor(nextNodeColor());
-					painter.setStrokeWidth(LINE_WIDTH_SUBSTATUS);
-					painter.drawLine(tc.getX(), tc.getY(), tn.getX(), tn.getY());
-					painter.setStrokeNormal();
 				}
 			}
 		}
@@ -296,20 +294,20 @@ public class ShortestPathPainter extends TransformingAlgorithmPainter
 		 * Funnel (nodes)
 		 */
 
-		if (data != null) {
-			paintNodes(Side.LEFT);
-			paintNodes(Side.RIGHT);
+		if (drawData != null) {
+			paintNodes(drawData, Side.LEFT);
+			paintNodes(drawData, Side.RIGHT);
 
 			boolean apexVisible = true;
-			if (data.getFunnelLength(Side.LEFT) == 0
-					|| data.getFunnelLength(Side.RIGHT) == 0) {
+			if (drawData.getFunnelLength(Side.LEFT) == 0
+					|| drawData.getFunnelLength(Side.RIGHT) == 0) {
 				apexVisible = false;
 			}
-			if (data.getFunnelLength(Side.LEFT) == 0
-					&& data.getFunnelLength(Side.RIGHT) == 0) {
+			if (drawData.getFunnelLength(Side.LEFT) == 0
+					&& drawData.getFunnelLength(Side.RIGHT) == 0) {
 				apexVisible = true;
 			}
-			Coordinate c = data.getApex().getCoordinate();
+			Coordinate c = drawData.getApex().getCoordinate();
 			Coordinate t = transformer.transform(c);
 			if (apexVisible) {
 				painter.setColor(COLOR_APEX);
@@ -422,9 +420,8 @@ public class ShortestPathPainter extends TransformingAlgorithmPainter
 		}
 	}
 
-	private void paintCommonPath()
+	private void paintCommonPath(Data data)
 	{
-		Data data = algorithm.getData();
 		painter.setColor(COLOR_COMMON_PATH);
 		for (int i = 0; i < data.getCommonLength() - 1; i++) {
 			Node m = data.getCommon(i);
@@ -443,9 +440,8 @@ public class ShortestPathPainter extends TransformingAlgorithmPainter
 		}
 	}
 
-	private void paintPath(Side side)
+	private void paintPath(Data data, Side side)
 	{
-		Data data = algorithm.getData();
 		if (side == Side.LEFT) {
 			painter.setColor(COLOR_LEFT_PATH);
 		} else {
@@ -463,9 +459,8 @@ public class ShortestPathPainter extends TransformingAlgorithmPainter
 		}
 	}
 
-	private void paintNodes(Side side)
+	private void paintNodes(Data data, Side side)
 	{
-		Data data = algorithm.getData();
 		if (side == Side.LEFT) {
 			painter.setColor(COLOR_LEFT_PATH);
 		} else {

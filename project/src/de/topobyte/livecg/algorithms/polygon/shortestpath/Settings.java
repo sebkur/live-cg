@@ -135,12 +135,12 @@ public class Settings extends JToolBar implements ItemListener,
 				spp.repaint();
 			} else if (subStatus == 0) {
 				tryPreviousDiagonal();
-				int nostuf = algorithm.numberOfStepsToUpdateFunnel();
+				int nostuf = algorithm.numberOfStepsToNextDiagonal();
 				algorithm.setSubStatus(nostuf);
 			}
 		} else if (name.equals(TEXT_NEXT)) {
 			int subStatus = algorithm.getSubStatus();
-			int nostuf = algorithm.numberOfStepsToUpdateFunnel();
+			int nostuf = algorithm.numberOfStepsToNextDiagonal();
 			if (subStatus < nostuf) {
 				algorithm.setSubStatus(subStatus + 1);
 				spp.repaint();

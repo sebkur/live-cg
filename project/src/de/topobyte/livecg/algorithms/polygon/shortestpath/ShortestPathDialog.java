@@ -184,13 +184,13 @@ public class ShortestPathDialog implements AlgorithmChangedListener,
 		sliderDiagonals.setValue(algorithm.getStatus());
 		System.out.println("Diagonal: " + algorithm.getStatus());
 
-		int nSteps = algorithm.numberOfStepsToUpdateFunnel();
+		int nSteps = algorithm.numberOfStepsToNextDiagonal();
 		System.out.println("Steps to update funnel: " + nSteps);
 
 		sliderFunnel.setValue(algorithm.getSubStatus());
 		sliderFunnel.setMaximum(nSteps);
 
-		List<Step> steps = algorithm.stepsToUpdateFunnel();
+		List<Step> steps = algorithm.stepsToNextDiagonal();
 		for (Step step : steps) {
 			if (step instanceof RepeatedStep) {
 				RepeatedStep repeated = (RepeatedStep) step;

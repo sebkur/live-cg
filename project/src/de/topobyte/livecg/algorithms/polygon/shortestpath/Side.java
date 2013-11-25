@@ -20,11 +20,12 @@ package de.topobyte.livecg.algorithms.polygon.shortestpath;
 public enum Side {
 	LEFT, RIGHT;
 
-	public static Side other(Side side)
+	public Side other()
 	{
-		if (side == LEFT) {
+		if (this == LEFT) {
 			return RIGHT;
+		} else {
+			return LEFT;
 		}
-		return LEFT;
 	}
 }

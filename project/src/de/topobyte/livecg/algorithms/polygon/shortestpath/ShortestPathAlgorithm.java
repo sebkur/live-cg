@@ -30,13 +30,7 @@ import de.topobyte.livecg.algorithms.polygon.monotonepieces.TriangulationOperati
 import de.topobyte.livecg.algorithms.polygon.shortestpath.funnel.RepeatedStep;
 import de.topobyte.livecg.algorithms.polygon.shortestpath.funnel.Step;
 import de.topobyte.livecg.algorithms.polygon.shortestpath.funnel.StepFinishAlgorithm;
-import de.topobyte.livecg.algorithms.polygon.shortestpath.funnel.StepFunnelPathEmpty;
 import de.topobyte.livecg.algorithms.polygon.shortestpath.funnel.StepInitializeAlgorithm;
-import de.topobyte.livecg.algorithms.polygon.shortestpath.funnel.StepLocateNextNode;
-import de.topobyte.livecg.algorithms.polygon.shortestpath.funnel.StepMoveApexToLastNode;
-import de.topobyte.livecg.algorithms.polygon.shortestpath.funnel.StepUpdateFunnel;
-import de.topobyte.livecg.algorithms.polygon.shortestpath.funnel.StepWalkBackward;
-import de.topobyte.livecg.algorithms.polygon.shortestpath.funnel.StepWalkForward;
 import de.topobyte.livecg.core.algorithm.DefaultSceneAlgorithm;
 import de.topobyte.livecg.core.algorithm.Explainable;
 import de.topobyte.livecg.core.geometry.geom.BoundingBoxes;
@@ -356,7 +350,7 @@ public class ShortestPathAlgorithm extends DefaultSceneAlgorithm implements
 			logger.debug("next node is on " + currentChain + " chain");
 			// Find node of diagonal that is not node of d_(i-1)
 			Node notYetOnChain = notYetOnChain(next);
-			updateFunnel(notYetOnChain, currentChain);
+			FunnelUtil.updateFunnel(data, notYetOnChain, currentChain);
 			logger.debug("left path length: " + data.getFunnelLength(Side.LEFT));
 			logger.debug("right path length: "
 					+ data.getFunnelLength(Side.RIGHT));
@@ -373,10 +367,21 @@ public class ShortestPathAlgorithm extends DefaultSceneAlgorithm implements
 			for (int i = 0; i < data.getFunnelLength(currentChain);) {
 				data.appendCommon(data.removeFirst(currentChain));
 			}
-			data.clear(Side.other(currentChain));
+			data.clear(currentChain.other());
 			history.add(data.clone());
 			status = diagonal;
 		}
+	}
+
+	public Data getNextFunnel()
+	{
+		Data copy = data.clone();
+		Diagonal next = nextDiagonal();
+		Side currentChain = sideOfNextNode(next);
+		// Find node of diagonal that is not node of d_(i-1)
+		Node notYetOnChain = notYetOnChain(next);
+		FunnelUtil.updateFunnel(copy, notYetOnChain, currentChain);
+		return copy;
 	}
 
 	private Diagonal nextDiagonal()
@@ -393,14 +398,6 @@ public class ShortestPathAlgorithm extends DefaultSceneAlgorithm implements
 				return new Diagonal(last.getB(), target);
 			}
 		}
-	}
-
-	private Side other(Side side)
-	{
-		if (side == Side.LEFT) {
-			return Side.RIGHT;
-		}
-		return Side.LEFT;
 	}
 
 	private Side sideOfNextNode(Diagonal d)
@@ -428,66 +425,7 @@ public class ShortestPathAlgorithm extends DefaultSceneAlgorithm implements
 		return diagonal.getA();
 	}
 
-	private void updateFunnel(Node notYetOnChain, Side on)
-	{
-		if (data.getFunnelLength(on) == 0) {
-			logger.debug("case1: path1 has length 1");
-			data.append(on, notYetOnChain);
-			return;
-		}
-
-		logger.debug("case2: walking backward on path1");
-		for (int k = data.getFunnelLength(on) - 1; k >= 0; k--) {
-			Node pn1 = data.getSafe(on, k - 1);
-			Node pn2 = data.get(on, k);
-			boolean turnOk = turnOk(pn1, pn2, notYetOnChain, on);
-			if (!turnOk) {
-				data.removeLast(on);
-			} else {
-				data.append(on, notYetOnChain);
-				return;
-			}
-		}
-
-		Side other = other(on);
-
-		logger.debug("case3: reached apex");
-		if (data.getFunnelLength(other) == 0) {
-			data.append(on, notYetOnChain);
-			return;
-		}
-		Node p1 = data.getApex();
-		Node p2 = data.get(other, 0);
-		if (turnOk(p1, p2, notYetOnChain, on)) {
-			data.append(on, notYetOnChain);
-			return;
-		}
-
-		logger.debug("case4: walking forward on path2");
-		for (int k = 0; k < data.getFunnelLength(other) - 1; k++) {
-			Node pn1 = data.get(other, k);
-			Node pn2 = data.get(other, k + 1);
-			boolean turnOk = turnOk(pn1, pn2, notYetOnChain, on);
-			if (turnOk) {
-				logger.debug("turn is ok with k=" + k);
-				Node w = pn1;
-				data.append(on, notYetOnChain);
-				for (int l = 0; l <= k; l++) {
-					data.appendCommon(data.removeFirst(other));
-				}
-				data.appendCommon(w);
-				return;
-			}
-		}
-
-		logger.debug("case5: moving apex to last node of path2");
-		data.append(on, notYetOnChain);
-		for (int k = 0; k < data.getFunnelLength(other);) {
-			data.appendCommon(data.removeFirst(other));
-		}
-	}
-
-	private int numberOfStepsToUpdateFunnel(List<Step> steps)
+	private int numberOfStepsToNextDiagonal(List<Step> steps)
 	{
 		int s = 0;
 		for (Step step : steps) {
@@ -502,13 +440,13 @@ public class ShortestPathAlgorithm extends DefaultSceneAlgorithm implements
 
 	}
 
-	public int numberOfStepsToUpdateFunnel()
+	public int numberOfStepsToNextDiagonal()
 	{
-		List<Step> steps = stepsToUpdateFunnel();
-		return numberOfStepsToUpdateFunnel(steps);
+		List<Step> steps = stepsToNextDiagonal();
+		return numberOfStepsToNextDiagonal(steps);
 	}
 
-	public List<Step> stepsToUpdateFunnel()
+	public List<Step> stepsToNextDiagonal()
 	{
 		List<Step> steps = new ArrayList<Step>();
 
@@ -523,6 +461,7 @@ public class ShortestPathAlgorithm extends DefaultSceneAlgorithm implements
 		}
 
 		if (status == sleeve.getDiagonals().size() + 2) {
+			// No steps left here, we're finished
 			return steps;
 		}
 
@@ -530,65 +469,7 @@ public class ShortestPathAlgorithm extends DefaultSceneAlgorithm implements
 		Side on = sideOfNextNode(next);
 		Node notYetOnChain = notYetOnChain(next);
 
-		steps.add(new StepLocateNextNode());
-
-		if (data.getFunnelLength(on) == 0) {
-			steps.add(new StepFunnelPathEmpty());
-			return steps;
-		}
-
-		int counterBackward = 0;
-		for (int k = data.getFunnelLength(on) - 1; k >= 0; k--) {
-			counterBackward++;
-			Node pn1 = data.getSafe(on, k - 1);
-			Node pn2 = data.get(on, k);
-			boolean turnOk = turnOk(pn1, pn2, notYetOnChain, on);
-			if (turnOk) {
-				steps.add(new StepWalkBackward(counterBackward));
-				steps.add(new StepUpdateFunnel());
-				return steps;
-			}
-		}
-
-		Side other = other(on);
-
-		if (data.getFunnelLength(other) > 0) {
-			steps.add(new StepWalkBackward(++counterBackward));
-			Node p1 = data.getApex();
-			Node p2 = data.get(other, 0);
-			if (turnOk(p1, p2, notYetOnChain, on)) {
-				steps.add(new StepUpdateFunnel());
-				return steps;
-			}
-		}
-
-		int counterForward = 0;
-		for (int k = 0; k < data.getFunnelLength(other) - 1; k++) {
-			counterForward++;
-			Node pn1 = data.get(other, k);
-			Node pn2 = data.get(other, k + 1);
-			boolean turnOk = turnOk(pn1, pn2, notYetOnChain, on);
-			if (turnOk) {
-				steps.add(new StepWalkForward(counterForward));
-				steps.add(new StepUpdateFunnel());
-				return steps;
-			}
-		}
-		steps.add(new StepWalkForward(counterForward));
-
-		steps.add(new StepMoveApexToLastNode());
-		return steps;
-	}
-
-	private boolean turnOk(Node pn1, Node pn2, Node notOnChain, Side side)
-	{
-		if (side == Side.LEFT) {
-			return GeomMath.isLeftOf(pn1.getCoordinate(), pn2.getCoordinate(),
-					notOnChain.getCoordinate());
-		} else {
-			return GeomMath.isRightOf(pn1.getCoordinate(), pn2.getCoordinate(),
-					notOnChain.getCoordinate());
-		}
+		return FunnelUtil.stepsToUpdateFunnel(data, next, on, notYetOnChain);
 	}
 
 	public Node getNextNode()
@@ -601,14 +482,7 @@ public class ShortestPathAlgorithm extends DefaultSceneAlgorithm implements
 	{
 		Diagonal next = nextDiagonal();
 		Side on = sideOfNextNode(next);
-		int lengthOfFirstPath = data.getFunnelLength(on);
-		if (s <= lengthOfFirstPath) {
-			return data.get(on, lengthOfFirstPath - s);
-		}
-		if (s == lengthOfFirstPath + 1) {
-			return data.getApex();
-		}
-		return data.get(other(on), s - lengthOfFirstPath - 2);
+		return FunnelUtil.getNthNodeOfFunnelTraversal(data, next, on, s);
 	}
 
 	private List<String> messages = new ArrayList<String>();
@@ -623,7 +497,6 @@ public class ShortestPathAlgorithm extends DefaultSceneAlgorithm implements
 	@Override
 	public List<String> explain()
 	{
-		System.out.println(triangulationDiagonals.size());
 		messages.clear();
 		if (status == 0) {
 			if (subStatus == 0) {
@@ -633,8 +506,8 @@ public class ShortestPathAlgorithm extends DefaultSceneAlgorithm implements
 				addMessage("The funnel will be initialized with the first diagonal of the sleeve.");
 			}
 		} else if (status <= sleeve.getDiagonals().size()) {
-			List<Step> steps = stepsToUpdateFunnel();
-			int nSteps = numberOfStepsToUpdateFunnel(steps);
+			List<Step> steps = stepsToNextDiagonal();
+			int nSteps = numberOfStepsToNextDiagonal(steps);
 			if (subStatus == 0) {
 				addMessage("DIAGONAL: " + (status + 1));
 				if (status == sleeve.getDiagonals().size()) {
