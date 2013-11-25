@@ -46,8 +46,8 @@ public class OutputConsole extends JPanel
 
 	private StyledDocument doc = new DefaultStyledDocument();
 
-	private static final String styleDefault = "base";
-	private static final String styleEmphasis = "emph";
+	private static final String STYLE_DEFAULT = "base";
+	private static final String STYLE_EMPHASIS = "emph";
 
 	public OutputConsole()
 	{
@@ -66,8 +66,8 @@ public class OutputConsole extends JPanel
 
 		Style def = sc.getStyle(StyleContext.DEFAULT_STYLE);
 
-		Style base = doc.addStyle(styleDefault, def);
-		Style emphasis = doc.addStyle(styleEmphasis, def);
+		Style base = doc.addStyle(STYLE_DEFAULT, def);
+		Style emphasis = doc.addStyle(STYLE_EMPHASIS, def);
 
 		StyleConstants.setItalic(base, true);
 		StyleConstants.setBold(emphasis, true);
@@ -76,7 +76,8 @@ public class OutputConsole extends JPanel
 	protected void append(String text)
 	{
 		try {
-			doc.insertString(doc.getLength(), text, doc.getStyle(styleEmphasis));
+			doc.insertString(doc.getLength(), text,
+					doc.getStyle(STYLE_EMPHASIS));
 		} catch (BadLocationException e) {
 			logger.error("Error during document text insertion: "
 					+ e.getMessage());
@@ -110,6 +111,28 @@ public class OutputConsole extends JPanel
 	protected void clearStyle()
 	{
 		doc.setCharacterAttributes(0, doc.getLength(),
-				doc.getStyle(styleDefault), true);
+				doc.getStyle(STYLE_DEFAULT), true);
+	}
+
+	protected Position createPositionAtEnd(int offset)
+	{
+		int pos = doc.getLength() + offset;
+		if (pos < 0) {
+			pos = 0;
+		}
+		try {
+			return doc.createPosition(pos);
+		} catch (BadLocationException e) {
+			// This should be impossible
+			return null;
+		}
+	}
+
+	protected void setEmphasized(Position a, int length)
+	{
+		int offset = a.getOffset();
+		System.out.println("emph: " + offset + " -> " + length);
+		doc.setCharacterAttributes(offset, length,
+				doc.getStyle(STYLE_EMPHASIS), true);
 	}
 }

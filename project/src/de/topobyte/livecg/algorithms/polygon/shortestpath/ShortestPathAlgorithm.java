@@ -31,6 +31,7 @@ import de.topobyte.livecg.algorithms.polygon.shortestpath.steps.StepFinishAlgori
 import de.topobyte.livecg.algorithms.polygon.shortestpath.steps.StepInitializeAlgorithm;
 import de.topobyte.livecg.core.algorithm.DefaultSceneAlgorithm;
 import de.topobyte.livecg.core.algorithm.Explainable;
+import de.topobyte.livecg.core.algorithm.HasStatusMarker;
 import de.topobyte.livecg.core.algorithm.steps.Step;
 import de.topobyte.livecg.core.algorithm.steps.StepUtil;
 import de.topobyte.livecg.core.geometry.geom.BoundingBoxes;
@@ -44,7 +45,7 @@ import de.topobyte.livecg.core.geometry.geom.Rectangles;
 import de.topobyte.livecg.util.graph.Graph;
 
 public class ShortestPathAlgorithm extends DefaultSceneAlgorithm implements
-		Explainable
+		Explainable, HasStatusMarker
 {
 	final static Logger logger = LoggerFactory
 			.getLogger(ShortestPathAlgorithm.class);
@@ -607,5 +608,11 @@ public class ShortestPathAlgorithm extends DefaultSceneAlgorithm implements
 	private String name(Side side)
 	{
 		return side.toString().toLowerCase();
+	}
+
+	@Override
+	public String getMarker()
+	{
+		return status + "-" + subStatus;
 	}
 }
