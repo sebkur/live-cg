@@ -86,7 +86,8 @@ public class TestShortestPath
 		ShortestPathDialog dialog = new ShortestPathDialog(algorithm);
 		dialog.getFrame().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		AlgorithmConsoleDialog console = new AlgorithmConsoleDialog(algorithm);
+		AlgorithmConsoleDialog console = new AlgorithmConsoleDialog(
+				dialog.getFrame(), algorithm);
 		console.setVisible(true);
 		console.setLocation(dialog.getFrame().getX()
 				+ dialog.getFrame().getWidth(), (int) console.getLocation()

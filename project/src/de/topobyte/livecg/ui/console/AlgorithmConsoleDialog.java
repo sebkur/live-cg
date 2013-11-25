@@ -18,6 +18,7 @@
 package de.topobyte.livecg.ui.console;
 
 import java.awt.BorderLayout;
+import java.awt.Window;
 
 import javax.swing.JDialog;
 import javax.swing.JPanel;
@@ -31,8 +32,10 @@ public class AlgorithmConsoleDialog extends JDialog
 
 	private static final long serialVersionUID = -4308148067866265620L;
 
-	public AlgorithmConsoleDialog(Algorithm algorithm)
+	public AlgorithmConsoleDialog(Window owner, Algorithm algorithm)
 	{
+		super(owner, "Description");
+
 		/*
 		 * Console
 		 */
