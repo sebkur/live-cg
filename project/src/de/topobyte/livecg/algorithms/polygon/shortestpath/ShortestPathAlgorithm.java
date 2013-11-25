@@ -520,8 +520,8 @@ public class ShortestPathAlgorithm extends DefaultSceneAlgorithm implements
 				}
 			} else if (subStatus == 1) {
 				Side side = sideOfNextNode(nextDiagonal());
-				addMessage("The node of the next diagonal is on the " + side
-						+ " path.");
+				addMessage("The node of the next diagonal is on the "
+						+ name(side) + " path.");
 			} else {
 				if (subStatus + 1 < nSteps) {
 					if (subStatus == 2) {
@@ -547,15 +547,20 @@ public class ShortestPathAlgorithm extends DefaultSceneAlgorithm implements
 				currentChain = Side.RIGHT;
 			}
 			if (subStatus == 0) {
-				addMessage("We reached the target with the " + currentChain
-						+ " path.");
+				addMessage("We reached the target with the "
+						+ name(currentChain) + " path.");
 			} else if (subStatus == 1) {
-				addMessage("We set the result to the " + currentChain
+				addMessage("We set the result to the " + name(currentChain)
 						+ " path.");
 			}
 		} else if (status == sleeve.getDiagonals().size() + 3) {
 			addMessage("The algorithm is complete.");
 		}
 		return messages;
+	}
+
+	private String name(Side side)
+	{
+		return side.toString().toLowerCase();
 	}
 }
