@@ -545,6 +545,7 @@ public class ShortestPathAlgorithm extends DefaultSceneAlgorithm implements
 			boolean turnOk = turnOk(pn1, pn2, notYetOnChain, on);
 			if (turnOk) {
 				steps.add(new StepWalkBackward(counterBackward));
+				steps.add(new StepUpdateFunnel());
 				return steps;
 			}
 		}
