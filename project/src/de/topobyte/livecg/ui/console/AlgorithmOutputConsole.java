@@ -17,9 +17,9 @@
  */
 package de.topobyte.livecg.ui.console;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import javax.swing.text.Position;
 
@@ -51,7 +51,7 @@ public class AlgorithmOutputConsole extends OutputConsole implements
 		}
 	}
 
-	private Map<String, Entry> positions = new HashMap<String, Entry>();
+	private SortedMap<String, Entry> positions = new TreeMap<String, Entry>();
 
 	private void appendExplanation()
 	{
@@ -59,29 +59,54 @@ public class AlgorithmOutputConsole extends OutputConsole implements
 			return;
 		}
 		String marker = statusMarker.getMarker();
+		System.out.println(marker);
 
 		Entry entry = positions.get(marker);
 
 		clearStyle();
 
-		if (entry == null) {
-			List<String> messages = explainable.explain();
-
-			int length = 0;
-			for (String message : messages) {
-				push(message);
-				pushToPreBuffer(newline);
-
-				length += message.length();
-				length += newline.length();
-			}
-
-			Position posBefore = createPositionAtEnd(-length);
-
-			entry = new Entry(posBefore, length);
-			positions.put(marker, entry);
-		} else {
+		if (entry != null) {
+			// Text already there, just highlight
 			setEmphasized(entry.position, entry.length);
+			show(entry.position.getOffset() + entry.length - 1);
+			// show(entry.position.getOffset());
+			return;
+		}
+
+		List<String> messages = explainable.explain();
+
+		int position = 0;
+		if (positions.size() > 0) {
+			SortedMap<String, Entry> headMap = positions.headMap(marker);
+			if (headMap.size() != 0) {
+				Entry e = headMap.get(headMap.lastKey());
+				position = e.position.getOffset() + e.length;
+			}
+		}
+		int length = 0;
+		for (String message : messages) {
+			gotoPosition(position + length);
+			insert(message);
+			length += message.length();
+
+			gotoPosition(position + length);
+			insert(newline);
+			length += newline.length();
+		}
+
+		show(position + length);
+		// show(position);
+
+		Position posBefore = createPositionAt(position);
+
+		entry = new Entry(posBefore, length);
+		positions.put(marker, entry);
+
+		for (java.util.Map.Entry<String, Entry> me : positions.entrySet()) {
+			int offset = me.getValue().position.getOffset();
+			int l = me.getValue().length;
+			System.out.println(String.format("%s: %d->%d", me.getKey(), offset,
+					offset + l));
 		}
 	}
 

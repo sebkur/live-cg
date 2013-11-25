@@ -44,7 +44,7 @@ public class OutputConsole extends JPanel
 
 	private JTextPane output = new JTextPane();
 
-	private StyledDocument doc = new DefaultStyledDocument();
+	protected StyledDocument doc = new DefaultStyledDocument();
 
 	private static final String STYLE_DEFAULT = "base";
 	private static final String STYLE_EMPHASIS = "emph";
@@ -86,6 +86,8 @@ public class OutputConsole extends JPanel
 
 	private List<String> preBuffer = new ArrayList<String>();
 
+	private Position p;
+
 	private void emptyPreBuffer()
 	{
 		for (String text : preBuffer) {
@@ -114,6 +116,16 @@ public class OutputConsole extends JPanel
 				doc.getStyle(STYLE_DEFAULT), true);
 	}
 
+	protected Position createPositionAt(int offset)
+	{
+		try {
+			return doc.createPosition(offset);
+		} catch (BadLocationException e) {
+			// This should be impossible
+			return null;
+		}
+	}
+
 	protected Position createPositionAtEnd(int offset)
 	{
 		int pos = doc.getLength() + offset;
@@ -128,11 +140,33 @@ public class OutputConsole extends JPanel
 		}
 	}
 
+	private int pos = 0;
+
+	protected void gotoPosition(int pos)
+	{
+		this.pos = pos;
+	}
+
+	protected void insert(String text)
+	{
+		try {
+			doc.insertString(pos, text, doc.getStyle(STYLE_EMPHASIS));
+		} catch (BadLocationException e) {
+			logger.error("Error during document text insertion: "
+					+ e.getMessage());
+		}
+	}
+
 	protected void setEmphasized(Position a, int length)
 	{
 		int offset = a.getOffset();
 		System.out.println("emph: " + offset + " -> " + length);
 		doc.setCharacterAttributes(offset, length,
 				doc.getStyle(STYLE_EMPHASIS), true);
+	}
+
+	protected void show(int position)
+	{
+		output.setCaretPosition(position);
 	}
 }

@@ -549,7 +549,7 @@ public class ShortestPathAlgorithm extends DefaultSceneAlgorithm implements
 			}
 		} else if (status == 1) {
 			if (subStatus == 0) {
-				addMessage("DIAGONAL: " + status);
+				addMessage("Diagonal " + status);
 				addMessage("The funnel will be initialized with the first diagonal of the sleeve.");
 			} else if (subStatus == 1) {
 				addMessage("Funnel initialized.");
@@ -558,7 +558,7 @@ public class ShortestPathAlgorithm extends DefaultSceneAlgorithm implements
 			List<Step> steps = stepsToNextDiagonal();
 			int nSteps = StepUtil.totalNumberOfSteps(steps);
 			if (subStatus == 0) {
-				addMessage("DIAGONAL: " + status);
+				addMessage("Diagonal " + status);
 				if (status - 1 == sleeve.getDiagonals().size()) {
 					addMessage("The next diagonal is the last one.");
 				}
@@ -613,6 +613,6 @@ public class ShortestPathAlgorithm extends DefaultSceneAlgorithm implements
 	@Override
 	public String getMarker()
 	{
-		return status + "-" + subStatus;
+		return String.format("%04d-%04d", status, subStatus);
 	}
 }
