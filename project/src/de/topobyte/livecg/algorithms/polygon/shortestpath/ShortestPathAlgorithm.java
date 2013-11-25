@@ -27,12 +27,12 @@ import de.topobyte.livecg.algorithms.polygon.monotonepieces.Diagonal;
 import de.topobyte.livecg.algorithms.polygon.monotonepieces.DiagonalUtil;
 import de.topobyte.livecg.algorithms.polygon.monotonepieces.SplitResult;
 import de.topobyte.livecg.algorithms.polygon.monotonepieces.TriangulationOperation;
-import de.topobyte.livecg.algorithms.polygon.shortestpath.funnel.RepeatedStep;
-import de.topobyte.livecg.algorithms.polygon.shortestpath.funnel.Step;
-import de.topobyte.livecg.algorithms.polygon.shortestpath.funnel.StepFinishAlgorithm;
-import de.topobyte.livecg.algorithms.polygon.shortestpath.funnel.StepInitializeAlgorithm;
+import de.topobyte.livecg.algorithms.polygon.shortestpath.steps.StepFinishAlgorithm;
+import de.topobyte.livecg.algorithms.polygon.shortestpath.steps.StepInitializeAlgorithm;
 import de.topobyte.livecg.core.algorithm.DefaultSceneAlgorithm;
 import de.topobyte.livecg.core.algorithm.Explainable;
+import de.topobyte.livecg.core.algorithm.steps.Step;
+import de.topobyte.livecg.core.algorithm.steps.StepUtil;
 import de.topobyte.livecg.core.geometry.geom.BoundingBoxes;
 import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.core.geometry.geom.CrossingsTest;
@@ -425,25 +425,9 @@ public class ShortestPathAlgorithm extends DefaultSceneAlgorithm implements
 		return diagonal.getA();
 	}
 
-	private int numberOfStepsToNextDiagonal(List<Step> steps)
-	{
-		int s = 0;
-		for (Step step : steps) {
-			if (step instanceof RepeatedStep) {
-				RepeatedStep repeated = (RepeatedStep) step;
-				s += repeated.howOften();
-			} else {
-				s += 1;
-			}
-		}
-		return s;
-
-	}
-
 	public int numberOfStepsToNextDiagonal()
 	{
-		List<Step> steps = stepsToNextDiagonal();
-		return numberOfStepsToNextDiagonal(steps);
+		return StepUtil.totalNumberOfSteps(stepsToNextDiagonal());
 	}
 
 	public List<Step> stepsToNextDiagonal()
@@ -507,7 +491,7 @@ public class ShortestPathAlgorithm extends DefaultSceneAlgorithm implements
 			}
 		} else if (status <= sleeve.getDiagonals().size()) {
 			List<Step> steps = stepsToNextDiagonal();
-			int nSteps = numberOfStepsToNextDiagonal(steps);
+			int nSteps = StepUtil.totalNumberOfSteps(steps);
 			if (subStatus == 0) {
 				addMessage("DIAGONAL: " + (status + 1));
 				if (status == sleeve.getDiagonals().size()) {

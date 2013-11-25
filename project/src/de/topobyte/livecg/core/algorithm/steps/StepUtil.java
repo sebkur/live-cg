@@ -15,9 +15,24 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.topobyte.livecg.algorithms.polygon.shortestpath.funnel;
+package de.topobyte.livecg.core.algorithm.steps;
 
-public class StepInitializeAlgorithm implements Step
+import java.util.List;
+
+public class StepUtil
 {
 
+	public static int totalNumberOfSteps(List<Step> steps)
+	{
+		int s = 0;
+		for (Step step : steps) {
+			if (step instanceof RepeatedStep) {
+				RepeatedStep repeated = (RepeatedStep) step;
+				s += repeated.howOften();
+			} else {
+				s += 1;
+			}
+		}
+		return s;
+	}
 }

@@ -15,22 +15,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.topobyte.livecg.algorithms.polygon.shortestpath.funnel;
+package de.topobyte.livecg.core.algorithm.steps;
 
-public class StepWalkForward implements RepeatedStep
+public interface RepeatedStep extends Step
 {
-
-	private int n;
-
-	public StepWalkForward(int n)
-	{
-		this.n = n;
-	}
-
-	@Override
-	public int howOften()
-	{
-		return n;
-	}
-
+	public int howOften();
 }

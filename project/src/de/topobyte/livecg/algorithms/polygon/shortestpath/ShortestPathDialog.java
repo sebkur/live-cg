@@ -32,10 +32,10 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import de.topobyte.livecg.algorithms.polygon.shortestpath.funnel.RepeatedStep;
-import de.topobyte.livecg.algorithms.polygon.shortestpath.funnel.Step;
 import de.topobyte.livecg.core.algorithm.AlgorithmChangedListener;
 import de.topobyte.livecg.core.algorithm.AlgorithmWatcher;
+import de.topobyte.livecg.core.algorithm.steps.RepeatedStep;
+import de.topobyte.livecg.core.algorithm.steps.Step;
 import de.topobyte.livecg.core.export.ExportUtil;
 import de.topobyte.livecg.core.scrolling.ScrollableView;
 

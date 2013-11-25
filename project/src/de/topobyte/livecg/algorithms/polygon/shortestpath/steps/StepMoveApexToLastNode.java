@@ -15,22 +15,11 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.topobyte.livecg.algorithms.polygon.shortestpath.funnel;
+package de.topobyte.livecg.algorithms.polygon.shortestpath.steps;
 
-public class StepWalkBackward implements RepeatedStep
+import de.topobyte.livecg.core.algorithm.steps.Step;
+
+public class StepMoveApexToLastNode implements Step
 {
-
-	private int n;
-
-	public StepWalkBackward(int n)
-	{
-		this.n = n;
-	}
-
-	@Override
-	public int howOften()
-	{
-		return n;
-	}
 
 }

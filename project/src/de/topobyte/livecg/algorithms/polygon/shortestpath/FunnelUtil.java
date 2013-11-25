@@ -24,13 +24,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.topobyte.livecg.algorithms.polygon.monotonepieces.Diagonal;
-import de.topobyte.livecg.algorithms.polygon.shortestpath.funnel.Step;
-import de.topobyte.livecg.algorithms.polygon.shortestpath.funnel.StepFunnelPathEmpty;
-import de.topobyte.livecg.algorithms.polygon.shortestpath.funnel.StepLocateNextNode;
-import de.topobyte.livecg.algorithms.polygon.shortestpath.funnel.StepMoveApexToLastNode;
-import de.topobyte.livecg.algorithms.polygon.shortestpath.funnel.StepUpdateFunnel;
-import de.topobyte.livecg.algorithms.polygon.shortestpath.funnel.StepWalkBackward;
-import de.topobyte.livecg.algorithms.polygon.shortestpath.funnel.StepWalkForward;
+import de.topobyte.livecg.algorithms.polygon.shortestpath.steps.StepFunnelPathEmpty;
+import de.topobyte.livecg.algorithms.polygon.shortestpath.steps.StepLocateNextNode;
+import de.topobyte.livecg.algorithms.polygon.shortestpath.steps.StepMoveApexToLastNode;
+import de.topobyte.livecg.algorithms.polygon.shortestpath.steps.StepUpdateFunnel;
+import de.topobyte.livecg.algorithms.polygon.shortestpath.steps.StepWalkBackward;
+import de.topobyte.livecg.algorithms.polygon.shortestpath.steps.StepWalkForward;
+import de.topobyte.livecg.core.algorithm.steps.Step;
 import de.topobyte.livecg.core.geometry.geom.GeomMath;
 import de.topobyte.livecg.core.geometry.geom.Node;
 
