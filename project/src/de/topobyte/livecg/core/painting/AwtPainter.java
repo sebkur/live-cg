@@ -42,12 +42,16 @@ public class AwtPainter implements Painter
 
 	public AwtPainter(Graphics2D g)
 	{
-		this.g = g;
+		setGraphics(g);
 	}
 
 	public void setGraphics(Graphics2D g)
 	{
 		this.g = g;
+		if (g == null) {
+			return;
+		}
+		updateStroke();
 	}
 
 	@Override
@@ -237,7 +241,8 @@ public class AwtPainter implements Painter
 	private void updateStroke()
 	{
 		if (dash == null) {
-			g.setStroke(new BasicStroke((float) width));
+			g.setStroke(new BasicStroke((float) width, BasicStroke.CAP_ROUND,
+					BasicStroke.JOIN_ROUND));
 		} else {
 			g.setStroke(new BasicStroke((float) width, BasicStroke.CAP_ROUND,
 					BasicStroke.JOIN_ROUND, 0, dash, phase));
