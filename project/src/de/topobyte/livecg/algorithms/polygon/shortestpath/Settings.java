@@ -125,7 +125,7 @@ public class Settings extends JToolBar implements ItemListener,
 	protected void control(String name)
 	{
 		if (name.equals(TEXT_PREVIOUS_DIAG)) {
-			tryPreviousDiagonal();
+			tryPreviousDiagonal(0);
 		} else if (name.equals(TEXT_NEXT_DIAG)) {
 			tryNextDiagonal();
 		} else if (name.equals(TEXT_PREVIOUS)) {
@@ -134,9 +134,7 @@ public class Settings extends JToolBar implements ItemListener,
 				algorithm.setSubStatus(subStatus - 1);
 				spp.repaint();
 			} else if (subStatus == 0) {
-				tryPreviousDiagonal();
-				int nostuf = algorithm.numberOfStepsToNextDiagonal();
-				algorithm.setSubStatus(nostuf);
+				tryPreviousDiagonal(-1);
 			}
 		} else if (name.equals(TEXT_NEXT)) {
 			int subStatus = algorithm.getSubStatus();
@@ -150,11 +148,11 @@ public class Settings extends JToolBar implements ItemListener,
 		}
 	}
 
-	private void tryPreviousDiagonal()
+	private void tryPreviousDiagonal(int subStatus)
 	{
 		int status = algorithm.getStatus();
 		if (status > 0) {
-			algorithm.setStatus(status - 1, 0);
+			algorithm.setStatus(status - 1, subStatus);
 			spp.repaint();
 		}
 	}
@@ -176,13 +174,16 @@ public class Settings extends JToolBar implements ItemListener,
 
 	private void setButtonStatesDependingOnAlgorithmStatus()
 	{
-		boolean next = algorithm.getStatus() != algorithm.getNumberOfSteps();
+		boolean nextDiagonal = algorithm.getStatus() != algorithm
+				.getNumberOfSteps();
+		boolean nextStep = nextDiagonal
+				|| algorithm.getSubStatus() < algorithm
+						.numberOfStepsToNextDiagonal();
 		boolean prevDiagonal = algorithm.getStatus() != 0;
-		boolean prevStep = algorithm.getStatus() != 0
-				|| algorithm.getSubStatus() != 0;
+		boolean prevStep = prevDiagonal || algorithm.getSubStatus() != 0;
 		controlMap.get(TEXT_PREVIOUS_DIAG).setEnabled(prevDiagonal);
-		controlMap.get(TEXT_NEXT_DIAG).setEnabled(next);
+		controlMap.get(TEXT_NEXT_DIAG).setEnabled(nextDiagonal);
 		controlMap.get(TEXT_PREVIOUS).setEnabled(prevStep);
-		controlMap.get(TEXT_NEXT).setEnabled(next);
+		controlMap.get(TEXT_NEXT).setEnabled(nextStep);
 	}
 }

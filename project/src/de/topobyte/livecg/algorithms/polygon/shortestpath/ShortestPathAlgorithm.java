@@ -176,7 +176,7 @@ public class ShortestPathAlgorithm extends DefaultSceneAlgorithm implements
 		triangleTarget = triangles.get(triangles.size() - 1);
 
 		if (triangleStart == triangleTarget) {
-			numberOfSteps = 1;
+			numberOfSteps = 2;
 			return;
 		}
 
@@ -291,6 +291,11 @@ public class ShortestPathAlgorithm extends DefaultSceneAlgorithm implements
 		return data;
 	}
 
+	public boolean startAndTargetInSameTriangle()
+	{
+		return triangleStart == triangleTarget;
+	}
+
 	public void setStatus(int status, int subStatus)
 	{
 		if (this.status == status && this.subStatus == subStatus) {
@@ -309,13 +314,17 @@ public class ShortestPathAlgorithm extends DefaultSceneAlgorithm implements
 				} else {
 					data = history.get(status - 2).clone();
 				}
-				while (history.size() > status) {
+				while (history.size() > status - 1) {
 					history.remove(history.size() - 1);
 				}
 				this.status = status;
 			}
 		}
-		this.subStatus = subStatus;
+		if (subStatus == -1) {
+			this.subStatus = numberOfStepsToNextDiagonal();
+		} else {
+			this.subStatus = subStatus;
+		}
 		fireAlgorithmStatusChanged();
 	}
 
@@ -334,21 +343,13 @@ public class ShortestPathAlgorithm extends DefaultSceneAlgorithm implements
 
 	private void computeUpTo(int diagonal)
 	{
-		System.out.println("compute to " + diagonal);
 		if (status == 0) {
 			status = 1;
 		} else if (status == 1) {
 			status = 2;
 			// Initialize data structures
-			data = new Data(start, left, right);
+			data = getNextFunnel(null);
 			history.add(data.clone());
-
-			// Handle the case with start and target lying in the same triangle
-			if (triangleStart == triangleTarget) {
-				data.appendCommon(target);
-				data.clear(Side.LEFT);
-				data.clear(Side.RIGHT);
-			}
 		}
 
 		// Main algorithm loop
@@ -383,18 +384,32 @@ public class ShortestPathAlgorithm extends DefaultSceneAlgorithm implements
 		}
 	}
 
-	public Data getNextFunnel()
+	public Data getNextFunnel(Data data)
 	{
+		if (triangleStart == triangleTarget) {
+			if (data == null) {
+				// Handle the case with start and target lying in the same
+				// triangle
+				data = new Data(start, left, right);
+				data.appendCommon(target);
+				data.clear(Side.LEFT);
+				data.clear(Side.RIGHT);
+				return data;
+			} else {
+				return data;
+			}
+		}
+
 		if (data == null) {
 			return new Data(start, left, right);
 		}
-		Data copy = data.clone();
+
 		Diagonal next = nextDiagonal();
 		Side currentChain = sideOfNextNode(next);
 		// Find node of diagonal that is not node of d_(i-1)
 		Node notYetOnChain = notYetOnChain(next);
-		FunnelUtil.updateFunnel(copy, notYetOnChain, currentChain);
-		return copy;
+		FunnelUtil.updateFunnel(data, notYetOnChain, currentChain);
+		return data;
 	}
 
 	private Diagonal nextDiagonal()
@@ -451,6 +466,16 @@ public class ShortestPathAlgorithm extends DefaultSceneAlgorithm implements
 			return steps;
 		}
 
+		if (triangleStart == triangleTarget) {
+			if (status == 1) {
+				steps.add(new StepFinishAlgorithm());
+				return steps;
+			} else if (status == 2) {
+				// No steps left here, we're finished
+				return steps;
+			}
+		}
+
 		if (status == 1) {
 			steps.add(new StepInitializeAlgorithm());
 			return steps;
@@ -499,6 +524,24 @@ public class ShortestPathAlgorithm extends DefaultSceneAlgorithm implements
 	public List<String> explain()
 	{
 		messages.clear();
+
+		// Start and target in same triangle
+		if (triangleStart == triangleTarget) {
+			if (status == 0) {
+				addMessage("The algorithm has just started.");
+			} else if (status == 1) {
+				if (subStatus == 0) {
+					addMessage("Start and target node lie within the same triangle.");
+				} else {
+					addMessage("The shortest path is a straigt line.");
+				}
+			} else if (status == 2) {
+				addMessage("The algorithm is complete.");
+			}
+			return messages;
+		}
+
+		// Start and target in different triangles
 		if (status == 0) {
 			if (subStatus == 0) {
 				addMessage("The algorithm has just started.");

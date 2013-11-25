@@ -243,8 +243,12 @@ public class ShortestPathPainter extends TransformingAlgorithmPainter
 		int subSteps = algorithm.numberOfStepsToNextDiagonal();
 
 		Data drawData = data;
-		if (status > 0 && status < steps - 1 && subStatus == subSteps) {
-			drawData = algorithm.getNextFunnel();
+		if (status > 0
+				&& ((status < steps - 1) || (algorithm
+						.startAndTargetInSameTriangle() && status < steps))
+				&& subStatus == subSteps) {
+			drawData = algorithm.getNextFunnel(data == null ? null : data
+					.clone());
 		}
 
 		/*
@@ -267,7 +271,7 @@ public class ShortestPathPainter extends TransformingAlgorithmPainter
 		if (data != null) {
 			if (status != steps - 1 && subStatus > 1) {
 				int candidateIndex = subStatus - 1;
-				if (subStatus == subSteps) {
+				if (candidateIndex > 1 && subStatus == subSteps) {
 					candidateIndex--;
 				}
 				Node next = algorithm.getNextNode();

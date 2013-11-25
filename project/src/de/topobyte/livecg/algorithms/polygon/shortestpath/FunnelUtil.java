@@ -117,6 +117,7 @@ public class FunnelUtil
 
 		if (data.getFunnelLength(on) == 0) {
 			steps.add(new StepFunnelPathEmpty());
+			steps.add(new StepUpdateFunnel());
 			return steps;
 		}
 
@@ -132,11 +133,14 @@ public class FunnelUtil
 				return steps;
 			}
 		}
+		steps.add(new StepWalkBackward(++counterBackward));
 
 		Side other = on.other();
 
-		if (data.getFunnelLength(other) > 0) {
-			steps.add(new StepWalkBackward(++counterBackward));
+		if (data.getFunnelLength(other) == 0) {
+			steps.add(new StepUpdateFunnel());
+			return steps;
+		} else {
 			Node p1 = data.getApex();
 			Node p2 = data.get(other, 0);
 			if (FunnelUtil.turnOk(p1, p2, notYetOnChain, on)) {
@@ -160,6 +164,7 @@ public class FunnelUtil
 		steps.add(new StepWalkForward(counterForward));
 
 		steps.add(new StepMoveApexToLastNode());
+		steps.add(new StepUpdateFunnel());
 		return steps;
 	}
 

@@ -50,6 +50,8 @@ public class ShortestPathDialog implements AlgorithmChangedListener,
 
 	private JSlider sliderDiagonals;
 	private JSlider sliderFunnel;
+	private boolean ignoreFunnelSliderEvents = false;
+
 	private ShortestPathPanel spp;
 
 	public ShortestPathDialog(ShortestPathAlgorithm algorithm)
@@ -140,6 +142,9 @@ public class ShortestPathDialog implements AlgorithmChangedListener,
 			@Override
 			public void stateChanged(ChangeEvent e)
 			{
+				if (ignoreFunnelSliderEvents) {
+					return;
+				}
 				setSubStatus();
 			}
 		});
@@ -185,8 +190,11 @@ public class ShortestPathDialog implements AlgorithmChangedListener,
 		int nSteps = algorithm.numberOfStepsToNextDiagonal();
 		System.out.println("Steps to update funnel: " + nSteps);
 
-		sliderFunnel.setValue(algorithm.getSubStatus());
+		System.out.println("Substatus: " + algorithm.getSubStatus());
+		ignoreFunnelSliderEvents = true;
 		sliderFunnel.setMaximum(nSteps);
+		ignoreFunnelSliderEvents = false;
+		sliderFunnel.setValue(algorithm.getSubStatus());
 
 		List<Step> steps = algorithm.stepsToNextDiagonal();
 		for (Step step : steps) {
