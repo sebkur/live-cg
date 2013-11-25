@@ -65,12 +65,10 @@ public class ShortestPathDialog implements AlgorithmChangedListener,
 		config = new Config();
 		config.setDrawDualGraph(false);
 
-		AlgorithmMonitor algorithmMonitor = new AlgorithmMonitor();
-		algorithmMonitor.addAlgorithmChangedListener(this);
+		algorithm.addAlgorithmChangedListener(this);
 
 		spp = new ShortestPathPanel(algorithm, config);
-		PickNodesListener pickNodesListener = new PickNodesListener(spp,
-				algorithmMonitor);
+		PickNodesListener pickNodesListener = new PickNodesListener(spp);
 
 		ScrollableView<ShortestPathPanel> scrollableView = new ScrollableView<ShortestPathPanel>(
 				spp);

@@ -105,6 +105,7 @@ public class ShortestPathAlgorithm extends DefaultSceneAlgorithm implements
 		nodeHitStart = false;
 		triangleStart = null;
 		setup();
+		fireAlgorithmChanged();
 	}
 
 	public void setTarget(Node target)
@@ -113,6 +114,7 @@ public class ShortestPathAlgorithm extends DefaultSceneAlgorithm implements
 		nodeHitTarget = false;
 		triangleTarget = null;
 		setup();
+		fireAlgorithmChanged();
 	}
 
 	public void setStartTarget(Node start, Node target)
@@ -124,6 +126,7 @@ public class ShortestPathAlgorithm extends DefaultSceneAlgorithm implements
 		triangleStart = null;
 		triangleTarget = null;
 		setup();
+		fireAlgorithmChanged();
 	}
 
 	private void setup()
