@@ -523,12 +523,14 @@ public class ShortestPathAlgorithm extends DefaultSceneAlgorithm implements
 				addMessage("The node of the next diagonal is on the "
 						+ name(side) + " path.");
 			} else {
-				if (subStatus + 1 < nSteps) {
+				if (subStatus < nSteps) {
 					if (subStatus == 2) {
 						addMessage("We check the first segment for funnel concavity.");
 					} else {
 						addMessage("We check the next segment for funnel concavity.");
 					}
+				}
+				if (subStatus + 1 < nSteps) {
 					addMessage("When adding this segment, the funnel would not be concave anymore.");
 				} else if (subStatus + 1 == nSteps) {
 					addMessage("When adding this segment, the funnel will be concave.");
