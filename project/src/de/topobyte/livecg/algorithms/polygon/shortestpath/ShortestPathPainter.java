@@ -232,6 +232,15 @@ public class ShortestPathPainter extends TransformingAlgorithmPainter
 		}
 
 		/*
+		 * Funnel
+		 */
+
+		int status = algorithm.getStatus();
+		int steps = algorithm.getNumberOfSteps();
+		int subStatus = algorithm.getSubStatus();
+		int subSteps = algorithm.numberOfStepsToUpdateFunnel();
+
+		/*
 		 * Funnel (paths)
 		 */
 
@@ -240,10 +249,12 @@ public class ShortestPathPainter extends TransformingAlgorithmPainter
 		painter.setStrokeWidth(LINE_WIDTH_PATH);
 
 		if (data != null) {
-			paintCommonPath();
+			if (subStatus < subSteps) {
+				paintCommonPath();
 
-			paintPath(Side.LEFT);
-			paintPath(Side.RIGHT);
+				paintPath(Side.LEFT);
+				paintPath(Side.RIGHT);
+			}
 		}
 
 		/*
@@ -251,10 +262,6 @@ public class ShortestPathPainter extends TransformingAlgorithmPainter
 		 */
 
 		if (data != null) {
-			int status = algorithm.getStatus();
-			int steps = algorithm.getNumberOfSteps();
-			int subStatus = algorithm.getSubStatus();
-			int subSteps = algorithm.numberOfStepsToUpdateFunnel();
 			if (status != steps - 1 && subStatus > 1) {
 				int candidateIndex = subStatus - 1;
 				if (subStatus == subSteps) {
@@ -315,9 +322,6 @@ public class ShortestPathPainter extends TransformingAlgorithmPainter
 		 */
 
 		if (data != null) {
-			int status = algorithm.getStatus();
-			int steps = algorithm.getNumberOfSteps();
-			int subStatus = algorithm.getSubStatus();
 			if (status != steps - 1 && subStatus != 0) {
 				Node next = algorithm.getNextNode();
 				Coordinate tn = transformer.transform(next.getCoordinate());
