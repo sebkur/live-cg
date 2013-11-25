@@ -45,6 +45,7 @@ public class AlgorithmOutputConsole extends OutputConsole implements
 	private void appendExplanation()
 	{
 		List<String> messages = explainable.explain();
+		clearStyle();
 		for (String message : messages) {
 			push(message);
 			pushToPreBuffer(newline);

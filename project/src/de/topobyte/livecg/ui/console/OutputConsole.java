@@ -23,32 +23,64 @@ import java.util.List;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.text.Document;
+import javax.swing.JTextPane;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.DefaultStyledDocument;
 import javax.swing.text.Position;
+import javax.swing.text.Style;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyleContext;
+import javax.swing.text.StyledDocument;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class OutputConsole extends JPanel
 {
 
 	private static final long serialVersionUID = 5922951928480514060L;
 
-	protected JTextArea output = new JTextArea();
+	final static Logger logger = LoggerFactory.getLogger(OutputConsole.class);
+
+	private JTextPane output = new JTextPane();
+
+	private StyledDocument doc = new DefaultStyledDocument();
+
+	private static final String styleDefault = "base";
+	private static final String styleEmphasis = "emph";
 
 	public OutputConsole()
 	{
 		setLayout(new BorderLayout());
 
+		output = new JTextPane(doc);
 		output.setEditable(false);
+		// output.setDocument(doc);
 
 		JScrollPane jsp = new JScrollPane();
 		jsp.setViewportView(output);
 
 		add(jsp, BorderLayout.CENTER);
+
+		StyleContext sc = StyleContext.getDefaultStyleContext();
+
+		Style def = sc.getStyle(StyleContext.DEFAULT_STYLE);
+
+		Style base = doc.addStyle(styleDefault, def);
+		Style emphasis = doc.addStyle(styleEmphasis, def);
+
+		StyleConstants.setItalic(base, true);
+		StyleConstants.setBold(emphasis, true);
 	}
 
 	protected void append(String text)
 	{
-		output.append(text);
+		try {
+			doc.insertString(doc.getLength(), text, doc.getStyle(styleEmphasis));
+		} catch (BadLocationException e) {
+			logger.error("Error during document text insertion: "
+					+ e.getMessage());
+		}
 	}
 
 	private List<String> preBuffer = new ArrayList<String>();
@@ -71,8 +103,13 @@ public class OutputConsole extends JPanel
 		emptyPreBuffer();
 		append(text);
 
-		Document document = output.getDocument();
-		Position end = document.getEndPosition();
+		Position end = doc.getEndPosition();
 		output.setCaretPosition(end.getOffset() - 1);
+	}
+
+	protected void clearStyle()
+	{
+		doc.setCharacterAttributes(0, doc.getLength(),
+				doc.getStyle(styleDefault), true);
 	}
 }
