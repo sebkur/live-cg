@@ -180,7 +180,7 @@ public class ShortestPathAlgorithm extends DefaultSceneAlgorithm implements
 			return;
 		}
 
-		numberOfSteps = sleeve.getDiagonals().size() + 2;
+		numberOfSteps = sleeve.getDiagonals().size() + 3;
 
 		// Get the first triangle
 		Polygon p0 = sleeve.getPolygons().get(0);
@@ -302,9 +302,13 @@ public class ShortestPathAlgorithm extends DefaultSceneAlgorithm implements
 				this.status = 0;
 				history.clear();
 			} else if (status > this.status) {
-				computeUpTo(status);
+				computeUpTo(status - 1);
 			} else if (status < this.status) {
-				data = history.get(status - 1).clone();
+				if (status < 2) {
+					data = null;
+				} else {
+					data = history.get(status - 2).clone();
+				}
 				while (history.size() > status) {
 					history.remove(history.size() - 1);
 				}
@@ -330,11 +334,14 @@ public class ShortestPathAlgorithm extends DefaultSceneAlgorithm implements
 
 	private void computeUpTo(int diagonal)
 	{
+		System.out.println("compute to " + diagonal);
 		if (status == 0) {
+			status = 1;
+		} else if (status == 1) {
+			status = 2;
 			// Initialize data structures
 			data = new Data(start, left, right);
 			history.add(data.clone());
-			status = 1;
 
 			// Handle the case with start and target lying in the same triangle
 			if (triangleStart == triangleTarget) {
@@ -346,7 +353,7 @@ public class ShortestPathAlgorithm extends DefaultSceneAlgorithm implements
 
 		// Main algorithm loop
 		List<Diagonal> diagonals = sleeve.getDiagonals();
-		while (status <= diagonals.size() && status < diagonal) {
+		while (status - 1 <= diagonals.size() && status - 1 < diagonal) {
 			logger.debug("Diagonal " + status);
 			Diagonal next = nextDiagonal();
 			Side currentChain = sideOfNextNode(next);
@@ -372,12 +379,15 @@ public class ShortestPathAlgorithm extends DefaultSceneAlgorithm implements
 			}
 			data.clear(currentChain.other());
 			history.add(data.clone());
-			status = diagonal;
+			status = diagonal + 1;
 		}
 	}
 
 	public Data getNextFunnel()
 	{
+		if (data == null) {
+			return new Data(start, left, right);
+		}
 		Data copy = data.clone();
 		Diagonal next = nextDiagonal();
 		Side currentChain = sideOfNextNode(next);
@@ -390,8 +400,8 @@ public class ShortestPathAlgorithm extends DefaultSceneAlgorithm implements
 	private Diagonal nextDiagonal()
 	{
 		List<Diagonal> diagonals = sleeve.getDiagonals();
-		if (status < diagonals.size()) {
-			return diagonals.get(status);
+		if (status - 1 < diagonals.size()) {
+			return diagonals.get(status - 1);
 		} else {
 			Diagonal last = diagonals.get(diagonals.size() - 1);
 			// Add a final diagonal that extends the right chain
@@ -438,16 +448,20 @@ public class ShortestPathAlgorithm extends DefaultSceneAlgorithm implements
 		List<Step> steps = new ArrayList<Step>();
 
 		if (status == 0) {
+			return steps;
+		}
+
+		if (status == 1) {
 			steps.add(new StepInitializeAlgorithm());
 			return steps;
 		}
 
-		if (status == sleeve.getDiagonals().size() + 1) {
+		if (status == sleeve.getDiagonals().size() + 2) {
 			steps.add(new StepFinishAlgorithm());
 			return steps;
 		}
 
-		if (status == sleeve.getDiagonals().size() + 2) {
+		if (status == sleeve.getDiagonals().size() + 3) {
 			// No steps left here, we're finished
 			return steps;
 		}
@@ -488,16 +502,20 @@ public class ShortestPathAlgorithm extends DefaultSceneAlgorithm implements
 		if (status == 0) {
 			if (subStatus == 0) {
 				addMessage("The algorithm has just started.");
-			} else {
-				addMessage("DIAGONAL: " + (status + 1));
-				addMessage("The funnel will be initialized with the first diagonal of the sleeve.");
 			}
-		} else if (status <= sleeve.getDiagonals().size()) {
+		} else if (status == 1) {
+			if (subStatus == 0) {
+				addMessage("DIAGONAL: " + status);
+				addMessage("The funnel will be initialized with the first diagonal of the sleeve.");
+			} else if (subStatus == 1) {
+				addMessage("Funnel initialized.");
+			}
+		} else if (status <= sleeve.getDiagonals().size() + 1) {
 			List<Step> steps = stepsToNextDiagonal();
 			int nSteps = StepUtil.totalNumberOfSteps(steps);
 			if (subStatus == 0) {
-				addMessage("DIAGONAL: " + (status + 1));
-				if (status == sleeve.getDiagonals().size()) {
+				addMessage("DIAGONAL: " + status);
+				if (status - 1 == sleeve.getDiagonals().size()) {
 					addMessage("The next diagonal is the last one.");
 				}
 			} else if (subStatus == 1) {
@@ -505,23 +523,25 @@ public class ShortestPathAlgorithm extends DefaultSceneAlgorithm implements
 				addMessage("The node of the next diagonal is on the " + side
 						+ " path.");
 			} else {
-				if (subStatus == 2) {
-					addMessage("We check the first segment for funnel convexity.");
-				} else {
-					addMessage("We check the next segment for funnel convexity.");
-				}
-				if (subStatus != nSteps) {
-					addMessage("When adding this segment, the funnel would not be convex anymore.");
-				} else {
-					addMessage("When adding this segment, the funnel will be convex.");
-					if (status < sleeve.getDiagonals().size()) {
-						addMessage("We add this segment to the funnel and continue with the next diagonal.");
+				if (subStatus + 1 < nSteps) {
+					if (subStatus == 2) {
+						addMessage("We check the first segment for funnel convexity.");
 					} else {
-						addMessage("We add this segment to the funnel.");
+						addMessage("We check the next segment for funnel convexity.");
+					}
+					addMessage("When adding this segment, the funnel would not be convex anymore.");
+				} else if (subStatus + 1 == nSteps) {
+					addMessage("When adding this segment, the funnel will be convex.");
+					addMessage("We add this segment to the funnel.");
+				} else if (subStatus == nSteps) {
+					if (status < sleeve.getDiagonals().size()) {
+						addMessage("We continue with the next diagonal.");
+					} else {
+						addMessage("No diagonals left.");
 					}
 				}
 			}
-		} else if (status == sleeve.getDiagonals().size() + 1) {
+		} else if (status == sleeve.getDiagonals().size() + 2) {
 			Side currentChain = Side.LEFT;
 			if (data.getLast(Side.RIGHT) == target) {
 				currentChain = Side.RIGHT;
@@ -533,7 +553,7 @@ public class ShortestPathAlgorithm extends DefaultSceneAlgorithm implements
 				addMessage("We set the result to the " + currentChain
 						+ " path.");
 			}
-		} else if (status == sleeve.getDiagonals().size() + 2) {
+		} else if (status == sleeve.getDiagonals().size() + 3) {
 			addMessage("The algorithm is complete.");
 		}
 		return messages;

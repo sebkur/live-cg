@@ -172,7 +172,7 @@ public class ShortestPathPainter extends TransformingAlgorithmPainter
 
 		List<Polygon> triangles = algorithm.getSleeve().getPolygons();
 		for (int i = 0; i < triangles.size(); i++) {
-			if (i < algorithm.getStatus()) {
+			if (i < algorithm.getStatus() - 1) {
 				painter.setColor(COLOR_TRIANGLE_SLEEVE_DONE);
 			} else {
 				painter.setColor(COLOR_TRIANGLE_SLEEVE);
@@ -243,7 +243,7 @@ public class ShortestPathPainter extends TransformingAlgorithmPainter
 		int subSteps = algorithm.numberOfStepsToNextDiagonal();
 
 		Data drawData = data;
-		if (data != null && status < steps - 1 && subStatus == subSteps) {
+		if (status > 0 && status < steps - 1 && subStatus == subSteps) {
 			drawData = algorithm.getNextFunnel();
 		}
 
