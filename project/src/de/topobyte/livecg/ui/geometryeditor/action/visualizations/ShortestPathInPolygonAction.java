@@ -34,6 +34,7 @@ import de.topobyte.livecg.core.geometry.geom.Node;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
 import de.topobyte.livecg.core.geometry.geom.PolygonHelper;
 import de.topobyte.livecg.ui.action.BasicAction;
+import de.topobyte.livecg.ui.console.AlgorithmConsoleDialog;
 import de.topobyte.livecg.ui.geometryeditor.Content;
 import de.topobyte.livecg.ui.geometryeditor.GeometryEditPane;
 
@@ -84,7 +85,14 @@ public class ShortestPathInPolygonAction extends BasicAction
 
 		ShortestPathAlgorithm algorithm = new ShortestPathAlgorithm(polygon,
 				start, target);
-		new ShortestPathDialog(algorithm);
+		ShortestPathDialog dialog = new ShortestPathDialog(algorithm);
+
+		AlgorithmConsoleDialog console = new AlgorithmConsoleDialog(
+				dialog.getFrame(), algorithm);
+		console.setVisible(true);
+		console.setLocation(dialog.getFrame().getX()
+				+ dialog.getFrame().getWidth(), (int) console.getLocation()
+				.getY());
 	}
 
 }
