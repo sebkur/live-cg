@@ -87,8 +87,6 @@ public class OutputConsole extends JPanel
 
 	private List<String> preBuffer = new ArrayList<String>();
 
-	private Position p;
-
 	private void emptyPreBuffer()
 	{
 		for (String text : preBuffer) {
@@ -161,7 +159,6 @@ public class OutputConsole extends JPanel
 	protected void setEmphasized(Position a, int length)
 	{
 		int offset = a.getOffset();
-		System.out.println("emph: " + offset + " -> " + length);
 		doc.setCharacterAttributes(offset, length,
 				doc.getStyle(STYLE_EMPHASIS), true);
 	}

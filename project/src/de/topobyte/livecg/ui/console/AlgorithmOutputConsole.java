@@ -59,7 +59,6 @@ public class AlgorithmOutputConsole extends OutputConsole implements
 			return;
 		}
 		String marker = statusMarker.getMarker();
-		System.out.println(marker);
 
 		Entry entry = positions.get(marker);
 
@@ -101,13 +100,6 @@ public class AlgorithmOutputConsole extends OutputConsole implements
 
 		entry = new Entry(posBefore, length);
 		positions.put(marker, entry);
-
-		for (java.util.Map.Entry<String, Entry> me : positions.entrySet()) {
-			int offset = me.getValue().position.getOffset();
-			int l = me.getValue().length;
-			System.out.println(String.format("%s: %d->%d", me.getKey(), offset,
-					offset + l));
-		}
 	}
 
 	@Override
