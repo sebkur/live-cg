@@ -346,6 +346,7 @@ public class ShortestPathAlgorithm extends DefaultSceneAlgorithm implements
 	{
 		if (status == 0) {
 			status = 1;
+			return;
 		} else if (status == 1) {
 			status = 2;
 			// Initialize data structures
