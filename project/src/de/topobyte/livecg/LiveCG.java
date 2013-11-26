@@ -155,13 +155,12 @@ public class LiveCG
 		c.weighty = 0.0;
 		mainPanel.add(statusBar, c);
 
-		frame.setLocationRelativeTo(null);
+		frame.setLocationByPlatform(true);
 		frame.setVisible(true);
 
 		objectDialog = new ObjectDialog(frame, geometryEditor.getEditPane());
 		objectDialog.setSize(300, 300);
 		objectDialog.setLocation(frame.getX() + frame.getWidth(), frame.getY());
-		objectDialog.setVisible(true);
 
 		contentDialog = new ContentDialog(frame, geometryEditor.getEditPane());
 		contentDialog.setSize(300, 300);
