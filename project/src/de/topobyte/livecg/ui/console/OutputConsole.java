@@ -23,6 +23,7 @@ import java.awt.Rectangle;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
+import javax.swing.SwingUtilities;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultStyledDocument;
 import javax.swing.text.Position;
@@ -120,11 +121,18 @@ public class OutputConsole extends JPanel
 	protected void show(int position, int length)
 	{
 		try {
-			Rectangle r1 = output.modelToView(position);
-			Rectangle r2 = output.modelToView(position + length);
+			final Rectangle r1 = output.modelToView(position);
+			final Rectangle r2 = output.modelToView(position + length);
 			if (r1 != null && r2 != null) {
 				Rectangle.union(r1, r2, r1);
-				output.scrollRectToVisible(r1);
+				SwingUtilities.invokeLater(new Runnable() {
+
+					@Override
+					public void run()
+					{
+						output.scrollRectToVisible(r1);
+					}
+				});
 			}
 		} catch (BadLocationException e) {
 			// This should not happen
