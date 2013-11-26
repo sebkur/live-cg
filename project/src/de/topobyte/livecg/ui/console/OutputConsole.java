@@ -19,8 +19,6 @@ package de.topobyte.livecg.ui.console;
 
 import java.awt.BorderLayout;
 import java.awt.Rectangle;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -52,17 +50,22 @@ public class OutputConsole extends JPanel
 
 	public OutputConsole()
 	{
+		/*
+		 * Layout
+		 */
 		setLayout(new BorderLayout());
 
 		output = new JTextPane(doc);
 		output.setEditable(false);
-		// output.setDocument(doc);
 
 		JScrollPane jsp = new JScrollPane();
 		jsp.setViewportView(output);
 
 		add(jsp, BorderLayout.CENTER);
 
+		/*
+		 * Text styles
+		 */
 		StyleContext sc = StyleContext.getDefaultStyleContext();
 
 		Style def = sc.getStyle(StyleContext.DEFAULT_STYLE);
@@ -72,41 +75,6 @@ public class OutputConsole extends JPanel
 
 		StyleConstants.setItalic(base, true);
 		StyleConstants.setBold(emphasis, true);
-	}
-
-	protected void append(String text)
-	{
-		try {
-			doc.insertString(doc.getLength(), text,
-					doc.getStyle(STYLE_EMPHASIS));
-		} catch (BadLocationException e) {
-			logger.error("Error during document text insertion: "
-					+ e.getMessage());
-		}
-	}
-
-	private List<String> preBuffer = new ArrayList<String>();
-
-	private void emptyPreBuffer()
-	{
-		for (String text : preBuffer) {
-			append(text);
-		}
-		preBuffer.clear();
-	}
-
-	public void pushToPreBuffer(String text)
-	{
-		preBuffer.add(text);
-	}
-
-	public void push(String text)
-	{
-		emptyPreBuffer();
-		append(text);
-
-		Position end = doc.getEndPosition();
-		output.setCaretPosition(end.getOffset() - 1);
 	}
 
 	protected void clearStyle()
@@ -119,20 +87,6 @@ public class OutputConsole extends JPanel
 	{
 		try {
 			return doc.createPosition(offset);
-		} catch (BadLocationException e) {
-			// This should be impossible
-			return null;
-		}
-	}
-
-	protected Position createPositionAtEnd(int offset)
-	{
-		int pos = doc.getLength() + offset;
-		if (pos < 0) {
-			pos = 0;
-		}
-		try {
-			return doc.createPosition(pos);
 		} catch (BadLocationException e) {
 			// This should be impossible
 			return null;
