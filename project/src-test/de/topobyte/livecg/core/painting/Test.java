@@ -263,7 +263,7 @@ public class Test
 		ShortestPathPainter shortestPathPainter = new ShortestPathPainter(
 				algorithm, config, null);
 
-		algorithm.setStatus(10, 1);
+		algorithm.setStatus(10, 4);
 
 		Rectangle scene = algorithm.getScene();
 		int width = (int) Math.ceil(scene.getWidth());
