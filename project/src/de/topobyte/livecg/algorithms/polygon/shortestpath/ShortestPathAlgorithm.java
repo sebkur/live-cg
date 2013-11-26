@@ -308,6 +308,15 @@ public class ShortestPathAlgorithm extends DefaultSceneAlgorithm implements
 				this.status = 0;
 				history.clear();
 			} else if (status > this.status) {
+				if (this.status == 0 && status >= 1) {
+					this.status = 1;
+				}
+				if (this.status == 1 && status >= 2) {
+					this.status = 2;
+					// Initialize data structures
+					data = getNextFunnel(null);
+					history.add(data.clone());
+				}
 				computeUpTo(status - 1);
 			} else if (status < this.status) {
 				if (status < 2) {
@@ -344,16 +353,6 @@ public class ShortestPathAlgorithm extends DefaultSceneAlgorithm implements
 
 	private void computeUpTo(int diagonal)
 	{
-		if (status == 0) {
-			status = 1;
-			return;
-		} else if (status == 1) {
-			status = 2;
-			// Initialize data structures
-			data = getNextFunnel(null);
-			history.add(data.clone());
-		}
-
 		// Main algorithm loop
 		List<Diagonal> diagonals = sleeve.getDiagonals();
 		while (status - 1 <= diagonals.size() && status - 1 < diagonal) {
