@@ -18,6 +18,7 @@
 package de.topobyte.livecg.ui.console;
 
 import java.awt.BorderLayout;
+import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -165,8 +166,17 @@ public class OutputConsole extends JPanel
 				doc.getStyle(STYLE_EMPHASIS), true);
 	}
 
-	protected void show(int position)
+	protected void show(int position, int length)
 	{
-		output.setCaretPosition(position);
+		try {
+			Rectangle r1 = output.modelToView(position);
+			Rectangle r2 = output.modelToView(position + length);
+			if (r1 != null && r2 != null) {
+				Rectangle.union(r1, r2, r1);
+				output.scrollRectToVisible(r1);
+			}
+		} catch (BadLocationException e) {
+			// This should not happen
+		}
 	}
 }

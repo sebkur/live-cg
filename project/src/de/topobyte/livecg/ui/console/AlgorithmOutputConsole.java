@@ -68,7 +68,7 @@ public class AlgorithmOutputConsole extends OutputConsole implements
 		if (entry != null) {
 			// Text already there, just highlight
 			setEmphasized(entry.position, entry.length);
-			show(entry.position.getOffset() + entry.length - 1);
+			show(entry.position.getOffset(), entry.length - 1);
 			// show(entry.position.getOffset());
 			return;
 		}
@@ -94,7 +94,7 @@ public class AlgorithmOutputConsole extends OutputConsole implements
 			length += newline.length();
 		}
 
-		show(position + length);
+		show(position, length - 1);
 		// show(position);
 
 		Position posBefore = createPositionAt(position);
