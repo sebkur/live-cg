@@ -32,6 +32,9 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import de.topobyte.livecg.core.algorithm.AlgorithmChangedListener;
 import de.topobyte.livecg.core.algorithm.AlgorithmWatcher;
 import de.topobyte.livecg.core.algorithm.steps.RepeatedStep;
@@ -42,6 +45,9 @@ import de.topobyte.livecg.core.scrolling.ScrollableView;
 public class ShortestPathDialog implements AlgorithmChangedListener,
 		AlgorithmWatcher
 {
+
+	final static Logger logger = LoggerFactory
+			.getLogger(ShortestPathDialog.class);
 
 	private JFrame frame;
 
@@ -185,12 +191,12 @@ public class ShortestPathDialog implements AlgorithmChangedListener,
 	public void updateAlgorithmStatus()
 	{
 		sliderDiagonals.setValue(algorithm.getStatus());
-		System.out.println("Diagonal: " + algorithm.getStatus());
+		logger.debug("Diagonal: " + algorithm.getStatus());
 
 		int nSteps = algorithm.numberOfStepsToNextDiagonal();
-		System.out.println("Steps to update funnel: " + nSteps);
+		logger.debug("Steps to update funnel: " + nSteps);
 
-		System.out.println("Substatus: " + algorithm.getSubStatus());
+		logger.debug("Substatus: " + algorithm.getSubStatus());
 		ignoreFunnelSliderEvents = true;
 		sliderFunnel.setMaximum(nSteps);
 		ignoreFunnelSliderEvents = false;
@@ -200,10 +206,10 @@ public class ShortestPathDialog implements AlgorithmChangedListener,
 		for (Step step : steps) {
 			if (step instanceof RepeatedStep) {
 				RepeatedStep repeated = (RepeatedStep) step;
-				System.out.println(step.getClass().getSimpleName() + ": "
+				logger.debug(step.getClass().getSimpleName() + ": "
 						+ repeated.howOften());
 			} else {
-				System.out.println(step.getClass().getSimpleName());
+				logger.debug(step.getClass().getSimpleName());
 			}
 		}
 	}
