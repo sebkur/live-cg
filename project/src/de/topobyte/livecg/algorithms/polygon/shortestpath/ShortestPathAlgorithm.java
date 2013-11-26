@@ -78,6 +78,13 @@ public class ShortestPathAlgorithm extends DefaultSceneAlgorithm implements
 
 	private List<Data> history = new ArrayList<Data>();
 
+	/*
+	 * We need the pattern to pad with enough zeros to allow for a useful
+	 * lexicographic ordering of marker keys
+	 */
+	private final static String markerPatternFactory = "%%0%dd-%%0%dd";
+	private String markerPattern = null;
+
 	public ShortestPathAlgorithm(Polygon polygon, Node start, Node target)
 	{
 		this.polygon = polygon;
@@ -90,6 +97,10 @@ public class ShortestPathAlgorithm extends DefaultSceneAlgorithm implements
 		graph = splitResult.getGraph();
 
 		setup();
+
+		int digits = (int) Math.ceil(Math.log(sleeve.getDiagonals().size())
+				/ Math.log(10));
+		markerPattern = String.format(markerPatternFactory, digits, digits);
 	}
 
 	@Override
@@ -613,6 +624,6 @@ public class ShortestPathAlgorithm extends DefaultSceneAlgorithm implements
 	@Override
 	public String getMarker()
 	{
-		return String.format("%04d-%04d", status, subStatus);
+		return String.format(markerPattern, status, subStatus);
 	}
 }
