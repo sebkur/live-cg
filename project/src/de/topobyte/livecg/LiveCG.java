@@ -109,8 +109,8 @@ public class LiveCG
 	private boolean locationSetObjectDialog = false;
 	private boolean locationSetContentDialog = false;
 
-	private boolean showObjectDialog = true;
-	private boolean showContentDialog = true;
+	private boolean showObjectDialog = false;
+	private boolean showContentDialog = false;
 
 	public LiveCG()
 	{
