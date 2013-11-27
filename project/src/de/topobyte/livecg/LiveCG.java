@@ -45,6 +45,7 @@ import de.topobyte.livecg.ui.geometryeditor.Toolbar;
 import de.topobyte.livecg.ui.geometryeditor.debug.ContentDialog;
 import de.topobyte.livecg.ui.geometryeditor.mouse.StatusBarMouseListener;
 import de.topobyte.livecg.ui.geometryeditor.object.ObjectDialog;
+import de.topobyte.livecg.util.LocationUtil;
 import de.topobyte.utilities.apache.commons.cli.ArgumentHelper;
 import de.topobyte.utilities.apache.commons.cli.OptionHelper;
 import de.topobyte.utilities.apache.commons.cli.StringOption;
@@ -105,6 +106,12 @@ public class LiveCG
 	private ObjectDialog objectDialog;
 	private ContentDialog contentDialog;
 
+	private boolean locationSetObjectDialog = false;
+	private boolean locationSetContentDialog = false;
+
+	private boolean showObjectDialog = true;
+	private boolean showContentDialog = true;
+
 	public LiveCG()
 	{
 		frame = new JFrame();
@@ -160,12 +167,22 @@ public class LiveCG
 
 		objectDialog = new ObjectDialog(frame, geometryEditor.getEditPane());
 		objectDialog.setSize(300, 300);
-		objectDialog.setLocation(frame.getX() + frame.getWidth(), frame.getY());
 
 		contentDialog = new ContentDialog(frame, geometryEditor.getEditPane());
 		contentDialog.setSize(300, 300);
-		contentDialog
-				.setLocation(frame.getX() + frame.getWidth(), frame.getY());
+
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run()
+			{
+				if (showObjectDialog) {
+					showObjectDialog();
+				}
+				if (showContentDialog) {
+					showContentDialog();
+				}
+			}
+		});
 
 		ContentReader reader = new ContentReader();
 		String filename = "res/presets/Startup.geom";
@@ -184,11 +201,19 @@ public class LiveCG
 
 	public void showObjectDialog()
 	{
+		if (!locationSetObjectDialog) {
+			locationSetObjectDialog = true;
+			LocationUtil.positionTopAlignedToTheRightTo(frame, objectDialog);
+		}
 		objectDialog.setVisible(true);
 	}
 
 	public void showContentDialog()
 	{
+		if (!locationSetContentDialog) {
+			locationSetContentDialog = true;
+			LocationUtil.positionTopAlignedToTheRightTo(frame, contentDialog);
+		}
 		contentDialog.setVisible(true);
 	}
 }
