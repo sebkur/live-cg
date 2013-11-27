@@ -37,6 +37,7 @@ import de.topobyte.livecg.core.geometry.geom.PolygonHelper;
 import de.topobyte.livecg.core.geometry.io.ContentReader;
 import de.topobyte.livecg.ui.console.AlgorithmConsoleDialog;
 import de.topobyte.livecg.ui.geometryeditor.Content;
+import de.topobyte.livecg.util.LocationUtil;
 
 public class TestShortestPath
 {
@@ -89,8 +90,7 @@ public class TestShortestPath
 		AlgorithmConsoleDialog console = new AlgorithmConsoleDialog(
 				dialog.getFrame(), algorithm);
 		console.setVisible(true);
-		console.setLocation(dialog.getFrame().getX()
-				+ dialog.getFrame().getWidth(), (int) console.getLocation()
-				.getY());
+
+		LocationUtil.positionTopAlignedToTheRightTo(dialog.getFrame(), console);
 	}
 }
