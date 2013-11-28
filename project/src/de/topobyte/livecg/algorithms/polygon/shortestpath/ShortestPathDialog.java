@@ -127,6 +127,7 @@ public class ShortestPathDialog implements AlgorithmChangedListener,
 
 		ExportUtil.addExportPngZoomedItem(menuFile, frame, painter, spp);
 		ExportUtil.addExportSvgZoomedItem(menuFile, frame, painter, spp);
+		ExportUtil.addExportTikzZoomedItem(menuFile, frame, painter, spp);
 
 		frame.setJMenuBar(menu);
 

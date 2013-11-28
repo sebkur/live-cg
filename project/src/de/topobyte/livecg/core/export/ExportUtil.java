@@ -46,6 +46,14 @@ public class ExportUtil
 		menu.add(exportBitmap);
 	}
 
+	public static void addExportTikzItem(JMenu menu, Component component,
+			AlgorithmPainter painter, SizeProvider sizeProvider)
+	{
+		JMenuItem exportTikz = new JMenuItem(new ExportTikzActionOriginalSize(
+				component, painter, sizeProvider));
+		menu.add(exportTikz);
+	}
+
 	public static <T extends Viewport & HasScene> void addExportSvgZoomedItem(
 			JMenu menu, Component component, AlgorithmPainter painter,
 			T dimensionProvider)
@@ -64,4 +72,12 @@ public class ExportUtil
 		menu.add(exportBitmap);
 	}
 
+	public static <T extends Viewport & HasScene> void addExportTikzZoomedItem(
+			JMenu menu, Component component, AlgorithmPainter painter,
+			T dimensionProvider)
+	{
+		JMenuItem exportTikz = new JMenuItem(new ExportTikzActionZoomed<T>(
+				component, painter, dimensionProvider));
+		menu.add(exportTikz);
+	}
 }

@@ -71,6 +71,8 @@ public class ContentDialog
 				contentPanel);
 		ExportUtil.addExportSvgZoomedItem(menuFile, frame, painter,
 				contentPanel);
+		ExportUtil.addExportTikzZoomedItem(menuFile, frame, painter,
+				contentPanel);
 
 		frame.setJMenuBar(menu);
 

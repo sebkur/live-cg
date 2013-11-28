@@ -75,6 +75,7 @@ public class DcelDialog
 
 		ExportUtil.addExportPngZoomedItem(menuFile, frame, painter, dcelPanel);
 		ExportUtil.addExportSvgZoomedItem(menuFile, frame, painter, dcelPanel);
+		ExportUtil.addExportTikzZoomedItem(menuFile, frame, painter, dcelPanel);
 
 		frame.setJMenuBar(menu);
 

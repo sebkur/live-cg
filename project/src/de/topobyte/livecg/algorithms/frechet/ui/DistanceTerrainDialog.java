@@ -107,6 +107,7 @@ public class DistanceTerrainDialog implements ContentChangedListener
 
 		ExportUtil.addExportPngItem(menuFile, frame, painter, diagram);
 		ExportUtil.addExportSvgItem(menuFile, frame, painter, diagram);
+		ExportUtil.addExportTikzItem(menuFile, frame, painter, diagram);
 
 		/*
 		 * Misc

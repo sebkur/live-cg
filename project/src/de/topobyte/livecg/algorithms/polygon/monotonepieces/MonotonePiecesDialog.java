@@ -74,6 +74,7 @@ public class MonotonePiecesDialog
 
 		ExportUtil.addExportPngZoomedItem(menuFile, frame, painter, mpp);
 		ExportUtil.addExportSvgZoomedItem(menuFile, frame, painter, mpp);
+		ExportUtil.addExportTikzZoomedItem(menuFile, frame, painter, mpp);
 
 		frame.setJMenuBar(menu);
 

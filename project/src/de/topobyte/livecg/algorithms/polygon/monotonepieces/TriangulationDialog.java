@@ -83,6 +83,7 @@ public class TriangulationDialog
 
 		ExportUtil.addExportPngZoomedItem(menuFile, frame, painter, tp);
 		ExportUtil.addExportSvgZoomedItem(menuFile, frame, painter, tp);
+		ExportUtil.addExportTikzZoomedItem(menuFile, frame, painter, tp);
 
 		frame.setJMenuBar(menu);
 

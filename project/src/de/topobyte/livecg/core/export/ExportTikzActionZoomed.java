@@ -27,38 +27,40 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.topobyte.livecg.core.painting.AlgorithmPainter;
-import de.topobyte.livecg.ui.filefilters.FileFilterBitmap;
+import de.topobyte.livecg.core.scrolling.HasScene;
+import de.topobyte.livecg.core.scrolling.Viewport;
+import de.topobyte.livecg.ui.filefilters.FileFilterTikz;
 
-public class ExportBitmapActionOriginalSize extends ExportActionOriginalSize
+public class ExportTikzActionZoomed<T extends Viewport & HasScene> extends
+		ExportActionZoomed<T>
 {
-
 	private static final long serialVersionUID = 1L;
 
 	final static Logger logger = LoggerFactory
-			.getLogger(ExportBitmapActionOriginalSize.class);
+			.getLogger(ExportTikzActionZoomed.class);
 
-	public ExportBitmapActionOriginalSize(Component component,
-			AlgorithmPainter algorithmPainter, SizeProvider sizeProvider)
+	public ExportTikzActionZoomed(Component component,
+			AlgorithmPainter algorithmPainter, T dimensionProvider)
 	{
-		super("Export Bitmap", "Export the current view to a bitmap", null,
-				component, algorithmPainter, sizeProvider);
+		super("Export TikZ", "Export the current view to a TikZ image", null,
+				component, algorithmPainter, dimensionProvider);
 	}
 
 	@Override
 	protected void setupFileChooser(JFileChooser fc)
 	{
 		fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
-		fc.setFileFilter(new FileFilterBitmap());
+		fc.setFileFilter(new FileFilterTikz());
 	}
 
 	@Override
-	protected void export(File file)
+	protected void export(File file, int width, int height)
 	{
 		try {
-			GraphicsExporter.exportPNG(file, algorithmPainter,
-					sizeProvider.getWidth(), sizeProvider.getHeight());
+			TikzExporter.exportTikz(file, algorithmPainter, width, height);
 		} catch (IOException ex) {
-			logger.error("unable to export image: " + ex.getMessage());
+			logger.error("unable to export image (IOException): "
+					+ ex.getMessage());
 		}
 	}
 

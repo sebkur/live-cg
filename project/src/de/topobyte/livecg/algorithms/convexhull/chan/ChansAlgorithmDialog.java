@@ -76,6 +76,7 @@ public class ChansAlgorithmDialog
 
 		ExportUtil.addExportPngZoomedItem(menuFile, frame, painter, cap);
 		ExportUtil.addExportSvgZoomedItem(menuFile, frame, painter, cap);
+		ExportUtil.addExportTikzZoomedItem(menuFile, frame, painter, cap);
 
 		frame.setJMenuBar(menu);
 

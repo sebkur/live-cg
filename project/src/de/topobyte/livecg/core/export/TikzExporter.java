@@ -21,8 +21,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-import javax.xml.transform.TransformerException;
-
 import de.topobyte.livecg.core.painting.AlgorithmPainter;
 import de.topobyte.livecg.core.painting.TikzPainter;
 
@@ -30,7 +28,7 @@ public class TikzExporter
 {
 
 	public static void exportTikz(File file, AlgorithmPainter algorithmPainter,
-			int width, int height) throws TransformerException, IOException
+			int width, int height) throws IOException
 	{
 		File parent = file.getParentFile();
 		String name = file.getName();

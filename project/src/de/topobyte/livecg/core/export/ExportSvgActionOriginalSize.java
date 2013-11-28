@@ -18,7 +18,6 @@
 package de.topobyte.livecg.core.export;
 
 import java.awt.Component;
-import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.IOException;
 
@@ -29,49 +28,32 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.topobyte.livecg.core.painting.AlgorithmPainter;
-import de.topobyte.livecg.ui.action.BasicAction;
 import de.topobyte.livecg.ui.filefilters.FileFilterSvg;
 
-public class ExportSvgActionOriginalSize extends BasicAction
+public class ExportSvgActionOriginalSize extends ExportActionOriginalSize
 {
 	private static final long serialVersionUID = 1L;
 
 	final static Logger logger = LoggerFactory
 			.getLogger(ExportSvgActionOriginalSize.class);
 
-	private Component component;
-	private AlgorithmPainter algorithmPainter;
-	private SizeProvider sizeProvider;
-
 	public ExportSvgActionOriginalSize(Component component,
 			AlgorithmPainter algorithmPainter, SizeProvider sizeProvider)
 	{
-		super("Export SVG", "Export the current view to a SVG image", null);
-		this.component = component;
-		this.algorithmPainter = algorithmPainter;
-		this.sizeProvider = sizeProvider;
+		super("Export SVG", "Export the current view to a SVG image", null,
+				component, algorithmPainter, sizeProvider);
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent e)
+	protected void setupFileChooser(JFileChooser fc)
 	{
-		LastDirectoryService lastDirectoryService = LastDirectoryService
-				.getInstance();
-		final JFileChooser fc = new JFileChooser();
-		fc.setCurrentDirectory(lastDirectoryService.getLastActiveDirectory());
 		fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
 		fc.setFileFilter(new FileFilterSvg());
-		int returnVal = fc.showSaveDialog(component);
+	}
 
-		if (returnVal != JFileChooser.APPROVE_OPTION) {
-			return;
-		}
-
-		File file = fc.getSelectedFile();
-		lastDirectoryService.setLastActiveDirectory(file.getParentFile());
-
-		algorithmPainter.setZoom(1);
-
+	@Override
+	protected void export(File file)
+	{
 		try {
 			SvgExporter.exportSVG(file, algorithmPainter,
 					sizeProvider.getWidth(), sizeProvider.getHeight());
