@@ -97,10 +97,6 @@ public class ShortestPathAlgorithm extends DefaultSceneAlgorithm implements
 		graph = splitResult.getGraph();
 
 		setup();
-
-		int digits = (int) Math.ceil(Math.log(sleeve.getDiagonals().size())
-				/ Math.log(10));
-		markerPattern = String.format(markerPatternFactory, digits, digits);
 	}
 
 	@Override
@@ -241,6 +237,15 @@ public class ShortestPathAlgorithm extends DefaultSceneAlgorithm implements
 			Polygon pN = new Polygon(shell, null);
 			sleeve.getPolygons().set(sleeve.getPolygons().size() - 1, pN);
 		}
+
+		initMarkerPattern();
+	}
+
+	private void initMarkerPattern()
+	{
+		int digits = (int) Math.ceil(Math.log(sleeve.getDiagonals().size())
+				/ Math.log(10));
+		markerPattern = String.format(markerPatternFactory, digits, digits);
 	}
 
 	public Polygon getPolygon()

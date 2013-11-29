@@ -21,15 +21,17 @@ import java.util.List;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
+import javax.swing.text.BadLocationException;
 import javax.swing.text.Position;
 
 import de.topobyte.livecg.core.algorithm.Algorithm;
+import de.topobyte.livecg.core.algorithm.AlgorithmChangedListener;
 import de.topobyte.livecg.core.algorithm.AlgorithmWatcher;
 import de.topobyte.livecg.core.algorithm.Explainable;
 import de.topobyte.livecg.core.algorithm.HasStatusMarker;
 
 public class AlgorithmOutputConsole extends OutputConsole implements
-		AlgorithmWatcher
+		AlgorithmWatcher, AlgorithmChangedListener
 {
 
 	private static final long serialVersionUID = -2733953495384438417L;
@@ -42,6 +44,7 @@ public class AlgorithmOutputConsole extends OutputConsole implements
 	public AlgorithmOutputConsole(Algorithm algorithm)
 	{
 		algorithm.addAlgorithmWatcher(this);
+		algorithm.addAlgorithmChangedListener(this);
 		if (algorithm instanceof HasStatusMarker) {
 			statusMarker = (HasStatusMarker) algorithm;
 		}
@@ -106,6 +109,17 @@ public class AlgorithmOutputConsole extends OutputConsole implements
 	public void updateAlgorithmStatus()
 	{
 		appendExplanation();
+	}
+
+	@Override
+	public void algorithmChanged()
+	{
+		positions.clear();
+		try {
+			doc.remove(0, doc.getLength());
+		} catch (BadLocationException e) {
+			// Virtually impossible
+		}
 	}
 
 }
