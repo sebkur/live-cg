@@ -20,6 +20,7 @@ package de.topobyte.livecg;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Window;
 import java.io.InputStream;
 
 import javax.swing.JFrame;
@@ -133,6 +134,11 @@ public class LiveCG
 		frame = new JFrame();
 	}
 
+	public JFrame getFrame()
+	{
+		return frame;
+	}
+
 	public void setup(boolean exitOnClose)
 	{
 		frame.setSize(800, 600);
@@ -231,5 +237,31 @@ public class LiveCG
 			LocationUtil.positionTopAlignedToTheRightTo(frame, contentDialog);
 		}
 		contentDialog.setVisible(true);
+	}
+
+	public void applyConfiguration(Configuration configuration)
+	{
+		String lookAndFeel = configuration.getSelectedLookAndFeel();
+		if (lookAndFeel == null) {
+			lookAndFeel = UIManager.getSystemLookAndFeelClassName();
+		}
+		setLookAndFeel(configuration.getSelectedLookAndFeel());
+
+		PreferenceManager.store(configuration);
+	}
+
+	private void setLookAndFeel(String lookAndFeel)
+	{
+		try {
+			UIManager.setLookAndFeel(lookAndFeel);
+		} catch (Exception e) {
+			logger.error("error while setting look and feel '" + lookAndFeel
+					+ "': " + e.getClass().getSimpleName() + ", message: "
+					+ e.getMessage());
+		}
+		for (Window window : JFrame.getWindows()) {
+			SwingUtilities.updateComponentTreeUI(window);
+			// window.pack();
+		}
 	}
 }

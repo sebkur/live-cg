@@ -36,6 +36,7 @@ import de.topobyte.livecg.ui.geometryeditor.action.MouseAction;
 import de.topobyte.livecg.ui.geometryeditor.action.NewAction;
 import de.topobyte.livecg.ui.geometryeditor.action.OpenAction;
 import de.topobyte.livecg.ui.geometryeditor.action.PasteAction;
+import de.topobyte.livecg.ui.geometryeditor.action.PreferencesAction;
 import de.topobyte.livecg.ui.geometryeditor.action.SaveAction;
 import de.topobyte.livecg.ui.geometryeditor.action.SelectAllAction;
 import de.topobyte.livecg.ui.geometryeditor.action.SelectNothingAction;
@@ -163,11 +164,13 @@ public class Menu extends JMenuBar
 				editPane));
 		JMenuItem selectEverything = new JMenuItem(
 				new SelectAllAction(editPane));
+		JMenuItem preferences = new JMenuItem(new PreferencesAction(liveCG));
 
 		edit.add(copy);
 		edit.add(paste);
 		edit.add(selectNothing);
 		edit.add(selectEverything);
+		edit.add(preferences);
 
 		copy.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C,
 				KeyEvent.CTRL_DOWN_MASK));
