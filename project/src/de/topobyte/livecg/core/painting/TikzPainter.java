@@ -245,6 +245,15 @@ public class TikzPainter implements Painter
 		return atUnity.createTransformedShape(s);
 	}
 
+	private Shape applyUserTransforms(Shape shape)
+	{
+		Shape s = shape;
+		if (transform != null) {
+			s = transform.createTransformedShape(s);
+		}
+		return s;
+	}
+
 	private void appendRect(double x, double y, double width, double height)
 	{
 		Coordinate c1 = applyTransforms(x, y);
@@ -271,8 +280,12 @@ public class TikzPainter implements Painter
 	@Override
 	public void drawRect(double x, double y, double width, double height)
 	{
+		appendClipScopeBegin();
+
 		appendDraw();
 		appendRect(x, y, width, height);
+
+		appendClipScopeEnd();
 	}
 
 	@Override
@@ -284,8 +297,12 @@ public class TikzPainter implements Painter
 	@Override
 	public void fillRect(double x, double y, double width, double height)
 	{
+		appendClipScopeBegin();
+
 		appendFill();
 		appendRect(x, y, width, height);
+
+		appendClipScopeEnd();
 	}
 
 	@Override
@@ -297,17 +314,23 @@ public class TikzPainter implements Painter
 	@Override
 	public void drawLine(double x1, double y1, double x2, double y2)
 	{
+		appendClipScopeBegin();
+
 		appendDraw();
 		append(applyTransforms(x1, y1));
 		buffer.append(" -- ");
 		append(applyTransforms(x2, y2));
 		buffer.append(";");
 		buffer.append(newline);
+
+		appendClipScopeEnd();
 	}
 
 	@Override
 	public void drawPath(List<Coordinate> points, boolean close)
 	{
+		appendClipScopeBegin();
+
 		appendDraw();
 		for (int i = 0; i < points.size(); i++) {
 			append(applyTransforms(points.get(i)));
@@ -320,20 +343,30 @@ public class TikzPainter implements Painter
 		}
 		buffer.append(";");
 		buffer.append(newline);
+
+		appendClipScopeEnd();
 	}
 
 	@Override
 	public void drawCircle(double x, double y, double radius)
 	{
+		appendClipScopeBegin();
+
 		appendDraw();
 		appendCircle(x, y, radius);
+
+		appendClipScopeEnd();
 	}
 
 	@Override
 	public void fillCircle(double x, double y, double radius)
 	{
+		appendClipScopeBegin();
+
 		appendFill();
 		appendCircle(x, y, radius);
+
+		appendClipScopeEnd();
 	}
 
 	private void appendChain(Chain chain)
@@ -352,15 +385,21 @@ public class TikzPainter implements Painter
 	@Override
 	public void drawChain(Chain chain)
 	{
+		appendClipScopeBegin();
+
 		appendDraw();
 		appendChain(chain);
 		buffer.append(";");
 		buffer.append(newline);
+
+		appendClipScopeEnd();
 	}
 
 	@Override
 	public void drawPolygon(Polygon polygon)
 	{
+		appendClipScopeBegin();
+
 		appendDraw();
 		Chain shell = polygon.getShell();
 		appendChain(shell);
@@ -370,11 +409,15 @@ public class TikzPainter implements Painter
 		}
 		buffer.append(";");
 		buffer.append(newline);
+
+		appendClipScopeEnd();
 	}
 
 	@Override
 	public void fillPolygon(Polygon polygon)
 	{
+		appendClipScopeBegin();
+
 		appendFillEvenOdd();
 		Chain shell = polygon.getShell();
 		appendChain(shell);
@@ -384,6 +427,8 @@ public class TikzPainter implements Painter
 		}
 		buffer.append(";");
 		buffer.append(newline);
+
+		appendClipScopeEnd();
 	}
 
 	private void appendClipScopeBegin()
@@ -520,6 +565,7 @@ public class TikzPainter implements Painter
 		if (clipShapes == null) {
 			clipShapes = new ArrayList<Shape>();
 		}
+		shape = applyUserTransforms(shape);
 		clipShapes.add(shape);
 	}
 
