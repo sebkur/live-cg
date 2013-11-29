@@ -25,6 +25,7 @@ import java.io.InputStream;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -37,6 +38,8 @@ import org.slf4j.LoggerFactory;
 
 import de.topobyte.livecg.core.config.LiveConfig;
 import de.topobyte.livecg.core.geometry.io.ContentReader;
+import de.topobyte.livecg.preferences.Configuration;
+import de.topobyte.livecg.preferences.PreferenceManager;
 import de.topobyte.livecg.ui.geometryeditor.Content;
 import de.topobyte.livecg.ui.geometryeditor.GeometryEditor;
 import de.topobyte.livecg.ui.geometryeditor.Menu;
@@ -82,6 +85,19 @@ public class LiveCG
 		if (config.hasValue()) {
 			String configPath = config.getValue();
 			LiveConfig.setPath(configPath);
+		}
+
+		Configuration configuration = PreferenceManager.getConfiguration();
+		String lookAndFeel = configuration.getSelectedLookAndFeel();
+		if (lookAndFeel == null) {
+			lookAndFeel = UIManager.getSystemLookAndFeelClassName();
+		}
+		try {
+			UIManager.setLookAndFeel(lookAndFeel);
+		} catch (Exception e) {
+			logger.error("error while setting look and feel '" + lookAndFeel
+					+ "': " + e.getClass().getSimpleName() + ", message: "
+					+ e.getMessage());
 		}
 
 		final LiveCG runner = new LiveCG();
