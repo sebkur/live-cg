@@ -20,6 +20,8 @@ package de.topobyte.livecg;
 import java.awt.Color;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.cli.CommandLine;
@@ -31,6 +33,8 @@ import org.apache.commons.cli.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.topobyte.livecg.algorithms.convexhull.chan.ChansAlgorithm;
+import de.topobyte.livecg.algorithms.convexhull.chan.ChansAlgorithmPainter;
 import de.topobyte.livecg.algorithms.polygon.monotonepieces.MonotonePiecesAlgorithm;
 import de.topobyte.livecg.algorithms.polygon.monotonepieces.MonotonePiecesConfig;
 import de.topobyte.livecg.algorithms.polygon.monotonepieces.MonotonePiecesPainter;
@@ -49,7 +53,13 @@ import de.topobyte.livecg.core.export.GraphicsExporter;
 import de.topobyte.livecg.core.geometry.dcel.DCEL;
 import de.topobyte.livecg.core.geometry.dcel.DcelConverter;
 import de.topobyte.livecg.core.geometry.dcel.DcelUtil;
+import de.topobyte.livecg.core.geometry.geom.Chain;
+import de.topobyte.livecg.core.geometry.geom.ChainHelper;
+import de.topobyte.livecg.core.geometry.geom.CloseabilityException;
+import de.topobyte.livecg.core.geometry.geom.CopyUtil;
+import de.topobyte.livecg.core.geometry.geom.CopyUtil.PolygonMode;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
+import de.topobyte.livecg.core.geometry.geom.PolygonHelper;
 import de.topobyte.livecg.core.geometry.geom.Rectangle;
 import de.topobyte.livecg.core.geometry.geom.Rectangles;
 import de.topobyte.livecg.core.geometry.io.ContentReader;
@@ -185,6 +195,39 @@ public class CreateImage
 			break;
 		}
 		case CHAN: {
+			List<Polygon> viable = new ArrayList<Polygon>();
+			for (Polygon polygon : content.getPolygons()) {
+				if (polygon.getHoles().size() == 0) {
+					viable.add(polygon);
+				}
+				// TODO: if polygon is convex
+			}
+			if (viable.size() < 2) {
+				System.err.println("Not enough viable polygons");
+				System.exit(1);
+			}
+
+			List<Polygon> polygons = new ArrayList<Polygon>();
+
+			for (Polygon polygon : viable) {
+				if (PolygonHelper.isCounterClockwiseOriented(polygon)) {
+					polygons.add(CopyUtil.copy(polygon,
+							PolygonMode.REUSE_NOTHING));
+				} else {
+					Chain shell = polygon.getShell();
+					try {
+						polygon = new Polygon(ChainHelper.invert(shell), null);
+						polygons.add(CopyUtil.copy(polygon,
+								PolygonMode.REUSE_NOTHING));
+					} catch (CloseabilityException e) {
+						// Should not happen
+					}
+				}
+			}
+			ChansAlgorithm alg = new ChansAlgorithm(polygons);
+			algorithm = alg;
+			sceneAlgorithm = alg;
+			algorithmPainter = new ChansAlgorithmPainter(alg, null);
 			break;
 		}
 		case FORTUNE: {
