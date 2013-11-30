@@ -17,7 +17,7 @@
  */
 package de.topobyte.livecg.algorithms.frechet.freespace.segment;
 
-import de.topobyte.livecg.algorithms.frechet.freespace.Config;
+import de.topobyte.livecg.algorithms.frechet.freespace.FreeSpaceConfig;
 import de.topobyte.livecg.algorithms.frechet.freespace.calc.LineSegment;
 import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.ui.segmenteditor.SegmentChangeListener;
@@ -31,7 +31,7 @@ public class SegmentEditorSegmentPane extends SegmentPane implements
 	private SegmentEditor editor1;
 	private SegmentEditor editor2;
 
-	public SegmentEditorSegmentPane(Config config, SegmentEditor editor1,
+	public SegmentEditorSegmentPane(FreeSpaceConfig config, SegmentEditor editor1,
 			SegmentEditor editor2, int epsilon)
 	{
 		super(config, epsilon);

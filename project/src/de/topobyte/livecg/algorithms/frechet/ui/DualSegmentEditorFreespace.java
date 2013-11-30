@@ -24,7 +24,7 @@ import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.border.TitledBorder;
 
-import de.topobyte.livecg.algorithms.frechet.freespace.Config;
+import de.topobyte.livecg.algorithms.frechet.freespace.FreeSpaceConfig;
 import de.topobyte.livecg.algorithms.frechet.freespace.segment.SegmentEditorSegmentPane;
 import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.ui.segmenteditor.SegmentEditor;
@@ -42,7 +42,7 @@ public class DualSegmentEditorFreespace extends JPanel
 	public DualSegmentEditorFreespace(int width, int height, Chain chain1,
 			Chain chain2, int epsilon)
 	{
-		Config config = new Config();
+		FreeSpaceConfig config = new FreeSpaceConfig();
 		editor1 = new SegmentEditor(width, height, chain1);
 		editor2 = new SegmentEditor(width, height, chain2);
 		segmentPane = new SegmentEditorSegmentPane(config, editor1, editor2,

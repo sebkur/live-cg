@@ -22,7 +22,7 @@ import java.awt.Graphics2D;
 
 import javax.swing.JPanel;
 
-import de.topobyte.livecg.algorithms.frechet.freespace.Config;
+import de.topobyte.livecg.algorithms.frechet.freespace.FreeSpaceConfig;
 import de.topobyte.livecg.algorithms.frechet.freespace.EpsilonSettable;
 import de.topobyte.livecg.algorithms.frechet.freespace.FreeSpacePainterSegments;
 import de.topobyte.livecg.algorithms.frechet.freespace.calc.FreeSpaceUtil;
@@ -46,7 +46,7 @@ public class SegmentPane extends JPanel implements SegmentChangeListener,
 	private LineSegment seg1;
 	private LineSegment seg2;
 
-	public SegmentPane(Config config, int epsilon)
+	public SegmentPane(FreeSpaceConfig config, int epsilon)
 	{
 		this.epsilon = epsilon;
 		painter = new AwtPainter(null);

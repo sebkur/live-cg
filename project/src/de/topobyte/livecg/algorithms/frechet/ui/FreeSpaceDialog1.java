@@ -36,7 +36,7 @@ import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.border.TitledBorder;
 
-import de.topobyte.livecg.algorithms.frechet.freespace.Config;
+import de.topobyte.livecg.algorithms.frechet.freespace.FreeSpaceConfig;
 import de.topobyte.livecg.algorithms.frechet.freespace.ConfigChangedListener;
 import de.topobyte.livecg.algorithms.frechet.freespace.FreeSpaceDiagram;
 import de.topobyte.livecg.algorithms.frechet.freespace.FreeSpacePainterChains;
@@ -80,7 +80,7 @@ public class FreeSpaceDialog1 implements ContentChangedListener
 		slider.setValue(epsilon);
 		slider.setBorder(new TitledBorder("epsilon"));
 
-		Config config = new Config();
+		FreeSpaceConfig config = new FreeSpaceConfig();
 		Settings settings = new Settings(config);
 
 		config.addConfigChangedListener(new ConfigChangedListener() {

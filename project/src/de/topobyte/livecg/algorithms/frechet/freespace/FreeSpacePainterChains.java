@@ -33,7 +33,7 @@ public class FreeSpacePainterChains extends BasicAlgorithmPainter implements
 
 	private FreeSpacePainterSegments segmentPainter;
 
-	private Config config;
+	private FreeSpaceConfig config;
 
 	private Color colorCellBoundaries = new Color(0x000000);
 
@@ -41,7 +41,7 @@ public class FreeSpacePainterChains extends BasicAlgorithmPainter implements
 	private final Chain chain1;
 	private final Chain chain2;
 
-	public FreeSpacePainterChains(Config config, int epsilon, Chain chain1,
+	public FreeSpacePainterChains(FreeSpaceConfig config, int epsilon, Chain chain1,
 			Chain chain2, Painter painter)
 	{
 		super(painter);

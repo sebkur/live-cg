@@ -41,7 +41,7 @@ public class FreeSpacePainterSegments extends BasicAlgorithmPainter implements
 	private LineSegment seg1 = null;
 	private LineSegment seg2 = null;
 
-	private Config config;
+	private FreeSpaceConfig config;
 
 	private int width;
 	private int height;
@@ -60,7 +60,7 @@ public class FreeSpacePainterSegments extends BasicAlgorithmPainter implements
 	private float markerWidth = 2;
 	private int markerLength = 3;
 
-	public FreeSpacePainterSegments(Config config, int epsilon, Painter painter)
+	public FreeSpacePainterSegments(FreeSpaceConfig config, int epsilon, Painter painter)
 	{
 		super(painter);
 		this.config = config;

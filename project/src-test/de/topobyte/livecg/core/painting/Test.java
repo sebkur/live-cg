@@ -158,7 +158,7 @@ public class Test
 	private static void freeSpace(File svg, File tikz, Chain chain1,
 			Chain chain2) throws TransformerException, IOException
 	{
-		de.topobyte.livecg.algorithms.frechet.freespace.Config config = new de.topobyte.livecg.algorithms.frechet.freespace.Config();
+		de.topobyte.livecg.algorithms.frechet.freespace.FreeSpaceConfig config = new de.topobyte.livecg.algorithms.frechet.freespace.FreeSpaceConfig();
 		FreeSpacePainterChains freeSpacePainter = new FreeSpacePainterChains(
 				config, 100, chain1, chain2, null);
 

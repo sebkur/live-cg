@@ -20,7 +20,7 @@ package de.topobyte.livecg.algorithms.frechet.freespace;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Config
+public class FreeSpaceConfig
 {
 
 	private boolean drawGrid = true;

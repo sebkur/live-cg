@@ -28,7 +28,7 @@ public class Settings extends JToolBar implements ItemListener
 
 	private static final long serialVersionUID = -7316346525749613272L;
 
-	private Config config;
+	private FreeSpaceConfig config;
 
 	private JToggleButton[] buttons;
 
@@ -37,7 +37,7 @@ public class Settings extends JToolBar implements ItemListener
 	private static final String TEXT_DRAW_REACHABLE_SPACE_MARKERS = "Reachable markers";
 	private static final String TEXT_DRAW_FREESPACE_MARKERS = "Markers";
 
-	public Settings(Config config)
+	public Settings(FreeSpaceConfig config)
 	{
 		this.config = config;
 
