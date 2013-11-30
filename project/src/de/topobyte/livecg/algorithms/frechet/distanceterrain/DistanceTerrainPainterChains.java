@@ -31,12 +31,12 @@ public class DistanceTerrainPainterChains extends BasicAlgorithmPainter
 
 	private Color colorCellBoundaries = new Color(0x000000);
 
-	private Config config;
+	private DistanceTerrainConfig config;
 
 	private final Chain chain1;
 	private final Chain chain2;
 
-	public DistanceTerrainPainterChains(Config config, Chain chain1,
+	public DistanceTerrainPainterChains(DistanceTerrainConfig config, Chain chain1,
 			Chain chain2, Painter painter)
 	{
 		super(painter);

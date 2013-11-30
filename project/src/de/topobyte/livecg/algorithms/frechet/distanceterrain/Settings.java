@@ -28,13 +28,13 @@ public class Settings extends JToolBar implements ItemListener
 
 	private static final long serialVersionUID = -7316346525749613272L;
 
-	private Config config;
+	private DistanceTerrainConfig config;
 
 	private JToggleButton[] buttons;
 
 	private static final String TEXT_DRAW_GRID = "Grid";
 
-	public Settings(Config config)
+	public Settings(DistanceTerrainConfig config)
 	{
 		this.config = config;
 

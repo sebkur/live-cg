@@ -30,7 +30,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
-import de.topobyte.livecg.algorithms.frechet.distanceterrain.Config;
+import de.topobyte.livecg.algorithms.frechet.distanceterrain.DistanceTerrainConfig;
 import de.topobyte.livecg.algorithms.frechet.distanceterrain.ConfigChangedListener;
 import de.topobyte.livecg.algorithms.frechet.distanceterrain.DistanceTerrain;
 import de.topobyte.livecg.algorithms.frechet.distanceterrain.DistanceTerrainPainterChains;
@@ -62,7 +62,7 @@ public class DistanceTerrainDialog implements ContentChangedListener
 		chain1 = chains.get(0);
 		chain2 = chains.get(1);
 
-		Config config = new Config();
+		DistanceTerrainConfig config = new DistanceTerrainConfig();
 		Settings settings = new Settings(config);
 
 		config.addConfigChangedListener(new ConfigChangedListener() {

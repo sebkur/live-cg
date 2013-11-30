@@ -20,7 +20,7 @@ package de.topobyte.livecg.algorithms.frechet.distanceterrain;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Config
+public class DistanceTerrainConfig
 {
 
 	private boolean drawGrid = true;

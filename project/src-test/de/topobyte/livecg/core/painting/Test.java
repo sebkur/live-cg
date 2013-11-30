@@ -171,7 +171,7 @@ public class Test
 	private static void distanceTerrain(File svg, File tikz, Chain chain1,
 			Chain chain2) throws TransformerException, IOException
 	{
-		de.topobyte.livecg.algorithms.frechet.distanceterrain.Config config = new de.topobyte.livecg.algorithms.frechet.distanceterrain.Config();
+		de.topobyte.livecg.algorithms.frechet.distanceterrain.DistanceTerrainConfig config = new de.topobyte.livecg.algorithms.frechet.distanceterrain.DistanceTerrainConfig();
 		DistanceTerrainPainterChains terrainPainter = new DistanceTerrainPainterChains(
 				config, chain1, chain2, null);
 
