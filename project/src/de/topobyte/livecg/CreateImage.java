@@ -32,12 +32,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.topobyte.livecg.algorithms.polygon.monotonepieces.MonotonePiecesAlgorithm;
+import de.topobyte.livecg.algorithms.polygon.monotonepieces.MonotonePiecesConfig;
 import de.topobyte.livecg.algorithms.polygon.monotonepieces.MonotonePiecesPainter;
 import de.topobyte.livecg.algorithms.polygon.monotonepieces.MonotonePiecesTriangulationAlgorithm;
 import de.topobyte.livecg.algorithms.polygon.monotonepieces.MonotonePiecesTriangulationPainter;
-import de.topobyte.livecg.algorithms.polygon.shortestpath.ShortestPathConfig;
 import de.topobyte.livecg.algorithms.polygon.shortestpath.PairOfNodes;
 import de.topobyte.livecg.algorithms.polygon.shortestpath.ShortestPathAlgorithm;
+import de.topobyte.livecg.algorithms.polygon.shortestpath.ShortestPathConfig;
 import de.topobyte.livecg.algorithms.polygon.shortestpath.ShortestPathHelper;
 import de.topobyte.livecg.algorithms.polygon.shortestpath.ShortestPathPainter;
 import de.topobyte.livecg.core.algorithm.Algorithm;
@@ -176,7 +177,7 @@ public class CreateImage
 			}
 			Polygon polygon = content.getPolygons().get(0);
 			MonotonePiecesAlgorithm alg = new MonotonePiecesAlgorithm(polygon);
-			de.topobyte.livecg.algorithms.polygon.monotonepieces.MonotonePiecesConfig config = new de.topobyte.livecg.algorithms.polygon.monotonepieces.MonotonePiecesConfig();
+			MonotonePiecesConfig config = new MonotonePiecesConfig();
 			algorithm = alg;
 			sceneAlgorithm = alg;
 			Map<Polygon, Color> colorMap = ColorMapBuilder.buildColorMap(alg
@@ -193,7 +194,7 @@ public class CreateImage
 			Polygon polygon = content.getPolygons().get(0);
 			MonotonePiecesTriangulationAlgorithm alg = new MonotonePiecesTriangulationAlgorithm(
 					polygon);
-			de.topobyte.livecg.algorithms.polygon.monotonepieces.MonotonePiecesConfig config = new de.topobyte.livecg.algorithms.polygon.monotonepieces.MonotonePiecesConfig();
+			MonotonePiecesConfig config = new MonotonePiecesConfig();
 			algorithm = alg;
 			sceneAlgorithm = alg;
 			Map<Polygon, Color> colorMap = ColorMapBuilder.buildColorMap(alg

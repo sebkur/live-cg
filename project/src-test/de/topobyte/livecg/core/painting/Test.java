@@ -30,19 +30,23 @@ import org.xml.sax.SAXException;
 
 import de.topobyte.livecg.algorithms.convexhull.chan.ChansAlgorithm;
 import de.topobyte.livecg.algorithms.convexhull.chan.ChansAlgorithmPainter;
+import de.topobyte.livecg.algorithms.frechet.distanceterrain.DistanceTerrainConfig;
 import de.topobyte.livecg.algorithms.frechet.distanceterrain.DistanceTerrainPainterChains;
+import de.topobyte.livecg.algorithms.frechet.freespace.FreeSpaceConfig;
 import de.topobyte.livecg.algorithms.frechet.freespace.FreeSpacePainterChains;
-import de.topobyte.livecg.algorithms.polygon.monotonepieces.MonotonePiecesConfig;
 import de.topobyte.livecg.algorithms.polygon.monotonepieces.MonotonePiecesAlgorithm;
+import de.topobyte.livecg.algorithms.polygon.monotonepieces.MonotonePiecesConfig;
 import de.topobyte.livecg.algorithms.polygon.monotonepieces.MonotonePiecesPainter;
 import de.topobyte.livecg.algorithms.polygon.monotonepieces.MonotonePiecesTriangulationAlgorithm;
 import de.topobyte.livecg.algorithms.polygon.monotonepieces.MonotonePiecesTriangulationPainter;
 import de.topobyte.livecg.algorithms.polygon.shortestpath.PairOfNodes;
 import de.topobyte.livecg.algorithms.polygon.shortestpath.ShortestPathAlgorithm;
+import de.topobyte.livecg.algorithms.polygon.shortestpath.ShortestPathConfig;
 import de.topobyte.livecg.algorithms.polygon.shortestpath.ShortestPathHelper;
 import de.topobyte.livecg.algorithms.polygon.shortestpath.ShortestPathPainter;
 import de.topobyte.livecg.algorithms.voronoi.fortune.FortunesSweep;
 import de.topobyte.livecg.algorithms.voronoi.fortune.geometry.Point;
+import de.topobyte.livecg.algorithms.voronoi.fortune.ui.core.FortuneConfig;
 import de.topobyte.livecg.algorithms.voronoi.fortune.ui.core.FortunePainter;
 import de.topobyte.livecg.core.export.SvgExporter;
 import de.topobyte.livecg.core.export.TikzExporter;
@@ -158,7 +162,7 @@ public class Test
 	private static void freeSpace(File svg, File tikz, Chain chain1,
 			Chain chain2) throws TransformerException, IOException
 	{
-		de.topobyte.livecg.algorithms.frechet.freespace.FreeSpaceConfig config = new de.topobyte.livecg.algorithms.frechet.freespace.FreeSpaceConfig();
+		FreeSpaceConfig config = new FreeSpaceConfig();
 		FreeSpacePainterChains freeSpacePainter = new FreeSpacePainterChains(
 				config, 100, chain1, chain2, null);
 
@@ -171,7 +175,7 @@ public class Test
 	private static void distanceTerrain(File svg, File tikz, Chain chain1,
 			Chain chain2) throws TransformerException, IOException
 	{
-		de.topobyte.livecg.algorithms.frechet.distanceterrain.DistanceTerrainConfig config = new de.topobyte.livecg.algorithms.frechet.distanceterrain.DistanceTerrainConfig();
+		DistanceTerrainConfig config = new DistanceTerrainConfig();
 		DistanceTerrainPainterChains terrainPainter = new DistanceTerrainPainterChains(
 				config, chain1, chain2, null);
 
@@ -259,7 +263,7 @@ public class Test
 		Node target = nodes.getB();
 		ShortestPathAlgorithm algorithm = new ShortestPathAlgorithm(polygon,
 				start, target);
-		de.topobyte.livecg.algorithms.polygon.shortestpath.ShortestPathConfig config = new de.topobyte.livecg.algorithms.polygon.shortestpath.ShortestPathConfig();
+		ShortestPathConfig config = new ShortestPathConfig();
 		ShortestPathPainter shortestPathPainter = new ShortestPathPainter(
 				algorithm, config, null);
 
@@ -302,7 +306,7 @@ public class Test
 			Point p = new Point(c.getX(), c.getY());
 			fortunesSweep.addSite(p, false);
 		}
-		de.topobyte.livecg.algorithms.voronoi.fortune.ui.core.FortuneConfig config = new de.topobyte.livecg.algorithms.voronoi.fortune.ui.core.FortuneConfig();
+		FortuneConfig config = new FortuneConfig();
 		FortunePainter fortunePainter = new FortunePainter(fortunesSweep,
 				config, null);
 
