@@ -35,6 +35,10 @@ import org.slf4j.LoggerFactory;
 
 import de.topobyte.livecg.algorithms.convexhull.chan.ChansAlgorithm;
 import de.topobyte.livecg.algorithms.convexhull.chan.ChansAlgorithmPainter;
+import de.topobyte.livecg.algorithms.frechet.distanceterrain.DistanceTerrainConfig;
+import de.topobyte.livecg.algorithms.frechet.distanceterrain.DistanceTerrainPainterChains;
+import de.topobyte.livecg.algorithms.frechet.freespace.FreeSpaceConfig;
+import de.topobyte.livecg.algorithms.frechet.freespace.FreeSpacePainterChains;
 import de.topobyte.livecg.algorithms.polygon.monotonepieces.MonotonePiecesAlgorithm;
 import de.topobyte.livecg.algorithms.polygon.monotonepieces.MonotonePiecesConfig;
 import de.topobyte.livecg.algorithms.polygon.monotonepieces.MonotonePiecesPainter;
@@ -173,6 +177,7 @@ public class CreateImage
 		}
 
 		Algorithm algorithm = null;
+		Rectangle explicitScene = null;
 		Rectangle scene = null;
 		SceneAlgorithm sceneAlgorithm = null;
 		AlgorithmPainter algorithmPainter = null;
@@ -197,9 +202,32 @@ public class CreateImage
 			break;
 		}
 		case FREESPACE: {
+			List<Chain> chains = content.getChains();
+			if (chains.size() < 2) {
+				System.err.println("Not enough chains");
+				System.exit(1);
+			}
+			Chain chain1 = chains.get(0);
+			Chain chain2 = chains.get(1);
+			int epsilon = 100;
+			FreeSpaceConfig config = new FreeSpaceConfig();
+			algorithmPainter = new FreeSpacePainterChains(config, epsilon,
+					chain1, chain2, null);
+			explicitScene = new Rectangle(0, 0, 400, 400);
 			break;
 		}
 		case DISTANCETERRAIN: {
+			List<Chain> chains = content.getChains();
+			if (chains.size() < 2) {
+				System.err.println("Not enough chains");
+				System.exit(1);
+			}
+			Chain chain1 = chains.get(0);
+			Chain chain2 = chains.get(1);
+			DistanceTerrainConfig config = new DistanceTerrainConfig();
+			algorithmPainter = new DistanceTerrainPainterChains(config, chain1,
+					chain2, null);
+			explicitScene = new Rectangle(0, 0, 400, 400);
 			break;
 		}
 		case CHAN: {
@@ -317,13 +345,17 @@ public class CreateImage
 		int width = (int) Math.ceil(contentScene.getWidth() * zoom);
 		int height = (int) Math.ceil(contentScene.getHeight() * zoom);
 
-		if (sceneAlgorithm != null) {
-			// If the algorithm provides a scene
+		if (explicitScene != null) {
+			// First try the explicit scene
+			width = (int) Math.ceil(explicitScene.getWidth());
+			height = (int) Math.ceil(explicitScene.getHeight());
+		} else if (sceneAlgorithm != null) {
+			// Otherwise, see If the algorithm provides a scene
 			Rectangle algScene = sceneAlgorithm.getScene();
 			width = (int) Math.ceil(algScene.getWidth() * zoom);
 			height = (int) Math.ceil(algScene.getHeight() * zoom);
 		} else if (scene != null) {
-			// Otherwise, if the setup defined a scene
+			// Otherwise, see if the setup defined a scene
 			width = (int) Math.ceil(scene.getWidth() * zoom);
 			height = (int) Math.ceil(scene.getHeight() * zoom);
 		}
