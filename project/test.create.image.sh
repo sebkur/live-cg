@@ -4,3 +4,4 @@
 ./scripts/livecg-create-image -input res/presets/polygons/Big.geom -output triangulation.png -output_format png -visualization triangulation
 ./scripts/livecg-create-image -input res/presets/polygons/Big.geom -output spip.png -output_format png -visualization spip
 ./scripts/livecg-create-image -input res/presets/chan/Chan1.geom -output chan.png -output_format png -visualization chan
+./scripts/livecg-create-image -input res/presets/voronoi/Points1.geom -output fortune.png -output_format png -visualization fortune

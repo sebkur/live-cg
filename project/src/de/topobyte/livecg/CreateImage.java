@@ -45,6 +45,10 @@ import de.topobyte.livecg.algorithms.polygon.shortestpath.ShortestPathAlgorithm;
 import de.topobyte.livecg.algorithms.polygon.shortestpath.ShortestPathConfig;
 import de.topobyte.livecg.algorithms.polygon.shortestpath.ShortestPathHelper;
 import de.topobyte.livecg.algorithms.polygon.shortestpath.ShortestPathPainter;
+import de.topobyte.livecg.algorithms.voronoi.fortune.FortunesSweep;
+import de.topobyte.livecg.algorithms.voronoi.fortune.geometry.Point;
+import de.topobyte.livecg.algorithms.voronoi.fortune.ui.core.FortuneConfig;
+import de.topobyte.livecg.algorithms.voronoi.fortune.ui.core.FortunePainter;
 import de.topobyte.livecg.core.algorithm.Algorithm;
 import de.topobyte.livecg.core.algorithm.SceneAlgorithm;
 import de.topobyte.livecg.core.config.LiveConfig;
@@ -56,8 +60,10 @@ import de.topobyte.livecg.core.geometry.dcel.DcelUtil;
 import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.core.geometry.geom.ChainHelper;
 import de.topobyte.livecg.core.geometry.geom.CloseabilityException;
+import de.topobyte.livecg.core.geometry.geom.Coordinate;
 import de.topobyte.livecg.core.geometry.geom.CopyUtil;
 import de.topobyte.livecg.core.geometry.geom.CopyUtil.PolygonMode;
+import de.topobyte.livecg.core.geometry.geom.Node;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
 import de.topobyte.livecg.core.geometry.geom.PolygonHelper;
 import de.topobyte.livecg.core.geometry.geom.Rectangle;
@@ -69,6 +75,7 @@ import de.topobyte.livecg.datastructures.content.ContentPainter;
 import de.topobyte.livecg.datastructures.dcel.DcelConfig;
 import de.topobyte.livecg.datastructures.dcel.InstanceDcelPainter;
 import de.topobyte.livecg.ui.geometryeditor.Content;
+import de.topobyte.livecg.ui.geometryeditor.ContentHelper;
 import de.topobyte.livecg.util.coloring.ColorMapBuilder;
 import de.topobyte.misc.util.enums.EnumNameLookup;
 import de.topobyte.utilities.apache.commons.cli.ArgumentHelper;
@@ -171,6 +178,7 @@ public class CreateImage
 		AlgorithmPainter algorithmPainter = null;
 
 		int margin = 15;
+		double zoom = 2;
 
 		switch (visualization) {
 		case GEOMETRY: {
@@ -231,6 +239,20 @@ public class CreateImage
 			break;
 		}
 		case FORTUNE: {
+			List<Node> nodes = ContentHelper.collectNodes(content);
+
+			FortunesSweep alg = new FortunesSweep();
+
+			List<Point> sites = new ArrayList<Point>();
+			for (Node node : nodes) {
+				Coordinate c = node.getCoordinate();
+				sites.add(new Point(c.getX() * zoom, c.getY() * zoom));
+			}
+			alg.setSites(sites);
+
+			algorithm = alg;
+			FortuneConfig config = new FortuneConfig();
+			algorithmPainter = new FortunePainter(alg, config, null);
 			break;
 		}
 		case MONOTONE: {
@@ -289,8 +311,6 @@ public class CreateImage
 		}
 
 		File output = new File(argOutput.getValue());
-
-		double zoom = 2;
 
 		// Default dimension from content scene
 		Rectangle contentScene = content.getScene();
