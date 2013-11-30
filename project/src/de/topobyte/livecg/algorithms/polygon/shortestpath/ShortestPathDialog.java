@@ -51,7 +51,7 @@ public class ShortestPathDialog implements AlgorithmChangedListener,
 
 	private JFrame frame;
 
-	private Config config;
+	private ShortestPathConfig config;
 	private ShortestPathAlgorithm algorithm;
 
 	private JSlider sliderDiagonals;
@@ -70,7 +70,7 @@ public class ShortestPathDialog implements AlgorithmChangedListener,
 		frame.setContentPane(main);
 		main.setLayout(new BorderLayout());
 
-		config = new Config();
+		config = new ShortestPathConfig();
 		config.setDrawDualGraph(false);
 
 		algorithm.addAlgorithmChangedListener(this);

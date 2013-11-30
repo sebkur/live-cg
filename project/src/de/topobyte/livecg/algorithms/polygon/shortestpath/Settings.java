@@ -42,7 +42,7 @@ public class Settings extends JToolBar implements ItemListener,
 
 	private ShortestPathAlgorithm algorithm;
 	private ShortestPathPanel spp;
-	private Config config;
+	private ShortestPathConfig config;
 
 	private JToggleButton[] buttons;
 	private JButton[] control;
@@ -64,7 +64,7 @@ public class Settings extends JToolBar implements ItemListener,
 			"res/images/24x24/media-seek-forward.png" };
 
 	public Settings(ShortestPathAlgorithm algorithm, ShortestPathPanel spp,
-			Config config)
+			ShortestPathConfig config)
 	{
 		this.algorithm = algorithm;
 		this.spp = spp;

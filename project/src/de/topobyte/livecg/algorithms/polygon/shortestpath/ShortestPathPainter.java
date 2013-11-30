@@ -108,7 +108,7 @@ public class ShortestPathPainter extends TransformingAlgorithmPainter
 			.getNumber(q("width.substatus.bg"));
 
 	private ShortestPathAlgorithm algorithm;
-	private Config config;
+	private ShortestPathConfig config;
 
 	// Variables for handling start / target dragging
 
@@ -118,7 +118,7 @@ public class ShortestPathPainter extends TransformingAlgorithmPainter
 	private MouseOver mouseOverStart = MouseOver.NONE;
 	private MouseOver mouseOverTarget = MouseOver.NONE;
 
-	public ShortestPathPainter(ShortestPathAlgorithm algorithm, Config config,
+	public ShortestPathPainter(ShortestPathAlgorithm algorithm, ShortestPathConfig config,
 			Painter painter)
 	{
 		super(algorithm.getScene(), painter);

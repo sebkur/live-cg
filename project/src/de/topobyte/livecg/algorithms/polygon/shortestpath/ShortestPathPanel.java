@@ -29,7 +29,7 @@ public class ShortestPathPanel extends ScenePanel implements SizeProvider
 
 	private ShortestPathPainter algorithmPainter;
 
-	public ShortestPathPanel(ShortestPathAlgorithm algorithm, Config config)
+	public ShortestPathPanel(ShortestPathAlgorithm algorithm, ShortestPathConfig config)
 	{
 		super(algorithm.getScene());
 		this.algorithm = algorithm;

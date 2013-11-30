@@ -17,7 +17,7 @@
  */
 package de.topobyte.livecg.algorithms.polygon.shortestpath;
 
-public class Config
+public class ShortestPathConfig
 {
 
 	private boolean drawDualGraph = false;

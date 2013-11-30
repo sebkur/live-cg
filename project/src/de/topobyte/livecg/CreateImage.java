@@ -35,7 +35,7 @@ import de.topobyte.livecg.algorithms.polygon.monotonepieces.MonotonePiecesAlgori
 import de.topobyte.livecg.algorithms.polygon.monotonepieces.MonotonePiecesPainter;
 import de.topobyte.livecg.algorithms.polygon.monotonepieces.MonotonePiecesTriangulationAlgorithm;
 import de.topobyte.livecg.algorithms.polygon.monotonepieces.MonotonePiecesTriangulationPainter;
-import de.topobyte.livecg.algorithms.polygon.shortestpath.Config;
+import de.topobyte.livecg.algorithms.polygon.shortestpath.ShortestPathConfig;
 import de.topobyte.livecg.algorithms.polygon.shortestpath.PairOfNodes;
 import de.topobyte.livecg.algorithms.polygon.shortestpath.ShortestPathAlgorithm;
 import de.topobyte.livecg.algorithms.polygon.shortestpath.ShortestPathHelper;
@@ -211,7 +211,7 @@ public class CreateImage
 			PairOfNodes nodes = ShortestPathHelper.determineGoodNodes(polygon);
 			ShortestPathAlgorithm alg = new ShortestPathAlgorithm(polygon,
 					nodes.getA(), nodes.getB());
-			Config config = new Config();
+			ShortestPathConfig config = new ShortestPathConfig();
 			algorithm = alg;
 			sceneAlgorithm = alg;
 			algorithmPainter = new ShortestPathPainter(alg, config, null);

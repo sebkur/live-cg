@@ -259,7 +259,7 @@ public class Test
 		Node target = nodes.getB();
 		ShortestPathAlgorithm algorithm = new ShortestPathAlgorithm(polygon,
 				start, target);
-		de.topobyte.livecg.algorithms.polygon.shortestpath.Config config = new de.topobyte.livecg.algorithms.polygon.shortestpath.Config();
+		de.topobyte.livecg.algorithms.polygon.shortestpath.ShortestPathConfig config = new de.topobyte.livecg.algorithms.polygon.shortestpath.ShortestPathConfig();
 		ShortestPathPainter shortestPathPainter = new ShortestPathPainter(
 				algorithm, config, null);
 
