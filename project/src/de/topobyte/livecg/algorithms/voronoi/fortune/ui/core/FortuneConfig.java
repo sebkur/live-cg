@@ -17,13 +17,13 @@
  */
 package de.topobyte.livecg.algorithms.voronoi.fortune.ui.core;
 
-public class Config
+public class FortuneConfig
 {
 
 	private boolean drawCircles, drawBeach, drawVoronoiLines, drawDelaunay,
 			drawDcel;
 
-	public Config()
+	public FortuneConfig()
 	{
 		drawCircles = false;
 		drawBeach = true;

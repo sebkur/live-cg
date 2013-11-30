@@ -302,7 +302,7 @@ public class Test
 			Point p = new Point(c.getX(), c.getY());
 			fortunesSweep.addSite(p, false);
 		}
-		de.topobyte.livecg.algorithms.voronoi.fortune.ui.core.Config config = new de.topobyte.livecg.algorithms.voronoi.fortune.ui.core.Config();
+		de.topobyte.livecg.algorithms.voronoi.fortune.ui.core.FortuneConfig config = new de.topobyte.livecg.algorithms.voronoi.fortune.ui.core.FortuneConfig();
 		FortunePainter fortunePainter = new FortunePainter(fortunesSweep,
 				config, null);
 

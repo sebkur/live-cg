@@ -28,7 +28,7 @@ import javax.swing.JPanel;
 
 import de.topobyte.livecg.algorithms.voronoi.fortune.FortunesSweep;
 import de.topobyte.livecg.algorithms.voronoi.fortune.geometry.Point;
-import de.topobyte.livecg.algorithms.voronoi.fortune.ui.core.Config;
+import de.topobyte.livecg.algorithms.voronoi.fortune.ui.core.FortuneConfig;
 import de.topobyte.livecg.algorithms.voronoi.fortune.ui.core.FortunePainter;
 import de.topobyte.livecg.core.algorithm.AlgorithmWatcher;
 import de.topobyte.livecg.core.export.SizeProvider;
@@ -43,7 +43,7 @@ public class Canvas extends JPanel implements AlgorithmWatcher, SizeProvider
 	private FortunePainter algorithmPainter;
 	private AwtPainter painter;
 
-	public Canvas(FortunesSweep algorithm, Config config, int width, int height)
+	public Canvas(FortunesSweep algorithm, FortuneConfig config, int width, int height)
 	{
 		this.algorithm = algorithm;
 

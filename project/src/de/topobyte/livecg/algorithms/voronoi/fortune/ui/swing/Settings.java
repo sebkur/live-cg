@@ -23,7 +23,7 @@ import java.awt.event.ItemListener;
 import javax.swing.JToggleButton;
 import javax.swing.JToolBar;
 
-import de.topobyte.livecg.algorithms.voronoi.fortune.ui.core.Config;
+import de.topobyte.livecg.algorithms.voronoi.fortune.ui.core.FortuneConfig;
 
 public class Settings extends JToolBar implements ItemListener
 {
@@ -31,7 +31,7 @@ public class Settings extends JToolBar implements ItemListener
 	private static final long serialVersionUID = -6537449209660520005L;
 
 	private Canvas canvas;
-	private Config config;
+	private FortuneConfig config;
 
 	private JToggleButton[] buttons;
 
@@ -41,7 +41,7 @@ public class Settings extends JToolBar implements ItemListener
 	private static final String TEXT_DELAUNAY = "Delaunay triangulation";
 	private static final String TEXT_DCEL = "DCEL";
 
-	public Settings(Canvas canvas, Config config)
+	public Settings(Canvas canvas, FortuneConfig config)
 	{
 		this.canvas = canvas;
 		this.config = config;

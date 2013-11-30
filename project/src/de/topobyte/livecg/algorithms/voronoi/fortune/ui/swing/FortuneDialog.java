@@ -34,7 +34,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
 import de.topobyte.livecg.algorithms.voronoi.fortune.FortunesSweep;
-import de.topobyte.livecg.algorithms.voronoi.fortune.ui.core.Config;
+import de.topobyte.livecg.algorithms.voronoi.fortune.ui.core.FortuneConfig;
 import de.topobyte.livecg.algorithms.voronoi.fortune.ui.core.FortunePainter;
 import de.topobyte.livecg.algorithms.voronoi.fortune.ui.swing.action.OpenAction;
 import de.topobyte.livecg.algorithms.voronoi.fortune.ui.swing.action.SaveAction;
@@ -55,7 +55,7 @@ public class FortuneDialog extends JFrame implements Runnable
 	private FortunesSweep algorithm;
 	private Canvas canvas;
 	private Controls controls;
-	private Config config;
+	private FortuneConfig config;
 
 	private EventQueueDialog eventQueueDialog;
 
@@ -87,7 +87,7 @@ public class FortuneDialog extends JFrame implements Runnable
 		main.setLayout(new BorderLayout());
 
 		algorithm = new FortunesSweep();
-		config = new Config();
+		config = new FortuneConfig();
 
 		config.setDrawCircles(true);
 		config.setDrawBeach(true);
@@ -287,7 +287,7 @@ public class FortuneDialog extends JFrame implements Runnable
 		return canvas.getSize();
 	}
 
-	public Config getConfig()
+	public FortuneConfig getConfig()
 	{
 		return config;
 	}

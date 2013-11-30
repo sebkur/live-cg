@@ -47,10 +47,10 @@ public class FortunePainter extends BasicAlgorithmPainter
 {
 
 	private FortunesSweep algorithm;
-	private Config config;
+	private FortuneConfig config;
 	private DcelPainter dcelPainter;
 
-	public FortunePainter(FortunesSweep algorithm, Config config,
+	public FortunePainter(FortunesSweep algorithm, FortuneConfig config,
 			Painter painter)
 	{
 		super(painter);
