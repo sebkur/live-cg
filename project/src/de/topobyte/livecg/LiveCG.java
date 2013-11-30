@@ -59,7 +59,8 @@ public class LiveCG
 
 	static final Logger logger = LoggerFactory.getLogger(LiveCG.class);
 
-	private static final String HELP_MESSAGE = "LiveCG [args]";
+	private static final String HELP_MESSAGE = LiveCG.class.getSimpleName()
+			+ " [args]";
 
 	private static final String OPTION_CONFIG = "config";
 
