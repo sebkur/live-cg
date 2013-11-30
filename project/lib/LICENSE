@@ -8,6 +8,7 @@ commons-codec-1.6.jar		Apache
 Jama-1.0.2.jar			Public domain. See http://math.nist.gov/javanumerics/jama/
 jts-1.12.jar			LGPL
 log4j-1.2.16.jar		Apache
+misc-util.jar			Topobyte.de
 slf4j-api-1.6.1.jar		MIT
 slf4j-log4j12-1.6.1.jar		MIT
 swing-misc.jar			Topobyte.de
