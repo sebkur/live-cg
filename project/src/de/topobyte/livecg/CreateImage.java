@@ -176,7 +176,7 @@ public class CreateImage
 			}
 			Polygon polygon = content.getPolygons().get(0);
 			MonotonePiecesAlgorithm alg = new MonotonePiecesAlgorithm(polygon);
-			de.topobyte.livecg.algorithms.polygon.monotonepieces.Config config = new de.topobyte.livecg.algorithms.polygon.monotonepieces.Config();
+			de.topobyte.livecg.algorithms.polygon.monotonepieces.MonotonePiecesConfig config = new de.topobyte.livecg.algorithms.polygon.monotonepieces.MonotonePiecesConfig();
 			algorithm = alg;
 			sceneAlgorithm = alg;
 			Map<Polygon, Color> colorMap = ColorMapBuilder.buildColorMap(alg
@@ -193,7 +193,7 @@ public class CreateImage
 			Polygon polygon = content.getPolygons().get(0);
 			MonotonePiecesTriangulationAlgorithm alg = new MonotonePiecesTriangulationAlgorithm(
 					polygon);
-			de.topobyte.livecg.algorithms.polygon.monotonepieces.Config config = new de.topobyte.livecg.algorithms.polygon.monotonepieces.Config();
+			de.topobyte.livecg.algorithms.polygon.monotonepieces.MonotonePiecesConfig config = new de.topobyte.livecg.algorithms.polygon.monotonepieces.MonotonePiecesConfig();
 			algorithm = alg;
 			sceneAlgorithm = alg;
 			Map<Polygon, Color> colorMap = ColorMapBuilder.buildColorMap(alg

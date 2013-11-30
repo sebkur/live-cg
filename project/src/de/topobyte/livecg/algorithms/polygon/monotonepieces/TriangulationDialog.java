@@ -54,7 +54,7 @@ public class TriangulationDialog
 		SplitResult splitResult = DiagonalUtil.split(polygon, diagonals);
 		Graph<Polygon, Diagonal> graph = splitResult.getGraph();
 
-		Config config = new Config();
+		MonotonePiecesConfig config = new MonotonePiecesConfig();
 		TriangulationPanel tp = new TriangulationPanel(polygon, diagonals,
 				graph, config, margin);
 		ScrollableView<TriangulationPanel> scrollableView = new ScrollableView<TriangulationPanel>(

@@ -35,7 +35,7 @@ public class MonotonePiecesTriangulationPainter extends MonotonePiecesPainter
 
 	public MonotonePiecesTriangulationPainter(
 			MonotonePiecesTriangulationAlgorithm algorithm,
-			Config polygonConfig, Map<Polygon, java.awt.Color> colorMap,
+			MonotonePiecesConfig polygonConfig, Map<Polygon, java.awt.Color> colorMap,
 			Painter painter)
 	{
 		super(algorithm, polygonConfig, colorMap, painter);

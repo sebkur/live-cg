@@ -46,7 +46,7 @@ public class MonotonePiecesTriangulationDialog
 		frame.setContentPane(main);
 		main.setLayout(new BorderLayout());
 
-		Config polygonConfig = new Config();
+		MonotonePiecesConfig polygonConfig = new MonotonePiecesConfig();
 		MonotonePiecesTriangulationPanel mptp = new MonotonePiecesTriangulationPanel(
 				algorithm, polygonConfig);
 		ScrollableView<MonotonePiecesTriangulationPanel> scrollableView = new ScrollableView<MonotonePiecesTriangulationPanel>(

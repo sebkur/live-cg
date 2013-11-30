@@ -20,7 +20,7 @@ package de.topobyte.livecg.algorithms.polygon.monotonepieces;
 public interface PolygonPanel
 {
 
-	public Config getPolygonConfig();
+	public MonotonePiecesConfig getPolygonConfig();
 
 	public void settingsUpdated();
 

@@ -37,11 +37,11 @@ public class MonotonePiecesPainter extends TransformingAlgorithmPainter
 	private Polygon polygon;
 	private MonotonePiecesOperation monotonePiecesOperation;
 	private List<Polygon> monotonePieces;
-	private Config polygonConfig;
+	private MonotonePiecesConfig polygonConfig;
 	private Map<Polygon, java.awt.Color> colorMap;
 
 	public MonotonePiecesPainter(MonotonePiecesAlgorithm algorithm,
-			Config polygonConfig, Map<Polygon, java.awt.Color> colorMap,
+			MonotonePiecesConfig polygonConfig, Map<Polygon, java.awt.Color> colorMap,
 			Painter painter)
 	{
 		super(algorithm.getScene(), painter);

@@ -34,10 +34,10 @@ public class MonotonePiecesTriangulationPanel extends ScenePanel implements
 
 	private Map<Polygon, Color> colorMap;
 
-	private Config polygonConfig;
+	private MonotonePiecesConfig polygonConfig;
 
 	public MonotonePiecesTriangulationPanel(
-			MonotonePiecesTriangulationAlgorithm algorithm, Config polygonConfig)
+			MonotonePiecesTriangulationAlgorithm algorithm, MonotonePiecesConfig polygonConfig)
 	{
 		super(algorithm.getScene());
 		this.polygonConfig = polygonConfig;
@@ -49,7 +49,7 @@ public class MonotonePiecesTriangulationPanel extends ScenePanel implements
 	}
 
 	@Override
-	public Config getPolygonConfig()
+	public MonotonePiecesConfig getPolygonConfig()
 	{
 		return polygonConfig;
 	}

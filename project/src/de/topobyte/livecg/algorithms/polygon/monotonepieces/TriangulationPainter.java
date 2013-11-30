@@ -39,11 +39,11 @@ public class TriangulationPainter extends TransformingAlgorithmPainter
 	private Polygon polygon;
 	private List<Diagonal> diagonals;
 	private Graph<Polygon, Diagonal> graph;
-	private Config polygonConfig;
+	private MonotonePiecesConfig polygonConfig;
 
 	public TriangulationPainter(Rectangle scene, Polygon polygon,
 			List<Diagonal> diagonals, Graph<Polygon, Diagonal> graph,
-			Config polygonConfig, Painter painter)
+			MonotonePiecesConfig polygonConfig, Painter painter)
 	{
 		super(scene, painter);
 		this.polygon = polygon;

@@ -17,7 +17,7 @@
  */
 package de.topobyte.livecg.algorithms.polygon.monotonepieces;
 
-public class Config
+public class MonotonePiecesConfig
 {
 
 	private boolean drawNodeNumbers = false;

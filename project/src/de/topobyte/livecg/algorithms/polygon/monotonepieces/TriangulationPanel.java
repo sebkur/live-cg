@@ -33,10 +33,10 @@ public class TriangulationPanel extends ScenePanel implements PolygonPanel,
 
 	private static final long serialVersionUID = 1265869392513220699L;
 
-	private Config config;
+	private MonotonePiecesConfig config;
 
 	public TriangulationPanel(Polygon polygon, List<Diagonal> diagonals,
-			Graph<Polygon, Diagonal> graph, Config config, int margin)
+			Graph<Polygon, Diagonal> graph, MonotonePiecesConfig config, int margin)
 	{
 		super(scene(polygon, margin));
 		this.config = config;
@@ -53,7 +53,7 @@ public class TriangulationPanel extends ScenePanel implements PolygonPanel,
 	}
 
 	@Override
-	public Config getPolygonConfig()
+	public MonotonePiecesConfig getPolygonConfig()
 	{
 		return config;
 	}

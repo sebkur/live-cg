@@ -41,10 +41,10 @@ public class MonotonePiecesPanel extends ScenePanel implements PolygonPanel,
 
 	private Map<Polygon, Color> colorMap;
 
-	private Config polygonConfig;
+	private MonotonePiecesConfig polygonConfig;
 
 	public MonotonePiecesPanel(MonotonePiecesAlgorithm algorithm,
-			Config polygonConfig)
+			MonotonePiecesConfig polygonConfig)
 	{
 		super(algorithm.getScene());
 		this.polygonConfig = polygonConfig;
@@ -56,7 +56,7 @@ public class MonotonePiecesPanel extends ScenePanel implements PolygonPanel,
 	}
 
 	@Override
-	public Config getPolygonConfig()
+	public MonotonePiecesConfig getPolygonConfig()
 	{
 		return polygonConfig;
 	}

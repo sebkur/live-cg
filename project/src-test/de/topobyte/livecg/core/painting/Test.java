@@ -32,7 +32,7 @@ import de.topobyte.livecg.algorithms.convexhull.chan.ChansAlgorithm;
 import de.topobyte.livecg.algorithms.convexhull.chan.ChansAlgorithmPainter;
 import de.topobyte.livecg.algorithms.frechet.distanceterrain.DistanceTerrainPainterChains;
 import de.topobyte.livecg.algorithms.frechet.freespace.FreeSpacePainterChains;
-import de.topobyte.livecg.algorithms.polygon.monotonepieces.Config;
+import de.topobyte.livecg.algorithms.polygon.monotonepieces.MonotonePiecesConfig;
 import de.topobyte.livecg.algorithms.polygon.monotonepieces.MonotonePiecesAlgorithm;
 import de.topobyte.livecg.algorithms.polygon.monotonepieces.MonotonePiecesPainter;
 import de.topobyte.livecg.algorithms.polygon.monotonepieces.MonotonePiecesTriangulationAlgorithm;
@@ -217,7 +217,7 @@ public class Test
 	{
 		MonotonePiecesAlgorithm algorithm = new MonotonePiecesAlgorithm(polygon);
 
-		Config polygonConfig = new Config();
+		MonotonePiecesConfig polygonConfig = new MonotonePiecesConfig();
 		Map<Polygon, Color> colorMap = ColorMapBuilder.buildColorMap(algorithm
 				.getExtendedGraph());
 		MonotonePiecesPainter triangulationPainter = new MonotonePiecesPainter(
@@ -237,7 +237,7 @@ public class Test
 		MonotonePiecesTriangulationAlgorithm algorithm = new MonotonePiecesTriangulationAlgorithm(
 				polygon);
 
-		Config polygonConfig = new Config();
+		MonotonePiecesConfig polygonConfig = new MonotonePiecesConfig();
 		Map<Polygon, Color> colorMap = ColorMapBuilder.buildColorMap(algorithm
 				.getExtendedGraph());
 		MonotonePiecesTriangulationPainter triangulationPainter = new MonotonePiecesTriangulationPainter(
