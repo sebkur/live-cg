@@ -46,9 +46,9 @@ public class FreeSpaceChainsAction extends BasicAction
 	public void actionPerformed(ActionEvent event)
 	{
 		Content content = editPane.getContent();
-		List<Chain> lines = content.getChains();
-		if (lines.size() < 2) {
-			System.out.println("not enough lines");
+		List<Chain> chains = content.getChains();
+		if (chains.size() < 2) {
+			System.out.println("not enough chains");
 			return;
 		}
 		new FreeSpaceDialog1(content);
