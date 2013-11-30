@@ -60,7 +60,7 @@ public class ChansAlgorithmAction extends BasicAction
 			// TODO: if polygon is convex
 		}
 		if (viable.size() < 2) {
-			System.out.println("not enough viable polygon");
+			System.out.println("not enough viable polygons");
 			return;
 		}
 
