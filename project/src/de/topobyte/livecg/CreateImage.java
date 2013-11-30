@@ -46,10 +46,18 @@ import de.topobyte.livecg.core.algorithm.SceneAlgorithm;
 import de.topobyte.livecg.core.config.LiveConfig;
 import de.topobyte.livecg.core.export.ExportFormat;
 import de.topobyte.livecg.core.export.GraphicsExporter;
+import de.topobyte.livecg.core.geometry.dcel.DCEL;
+import de.topobyte.livecg.core.geometry.dcel.DcelConverter;
+import de.topobyte.livecg.core.geometry.dcel.DcelUtil;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
 import de.topobyte.livecg.core.geometry.geom.Rectangle;
+import de.topobyte.livecg.core.geometry.geom.Rectangles;
 import de.topobyte.livecg.core.geometry.io.ContentReader;
 import de.topobyte.livecg.core.painting.AlgorithmPainter;
+import de.topobyte.livecg.datastructures.content.ContentConfig;
+import de.topobyte.livecg.datastructures.content.ContentPainter;
+import de.topobyte.livecg.datastructures.dcel.DcelConfig;
+import de.topobyte.livecg.datastructures.dcel.InstanceDcelPainter;
 import de.topobyte.livecg.ui.geometryeditor.Content;
 import de.topobyte.livecg.util.coloring.ColorMapBuilder;
 import de.topobyte.misc.util.enums.EnumNameLookup;
@@ -148,14 +156,26 @@ public class CreateImage
 		}
 
 		Algorithm algorithm = null;
+		Rectangle scene = null;
 		SceneAlgorithm sceneAlgorithm = null;
 		AlgorithmPainter algorithmPainter = null;
 
+		int margin = 15;
+
 		switch (visualization) {
 		case GEOMETRY: {
+			scene = content.getScene();
+			ContentConfig config = new ContentConfig();
+			algorithmPainter = new ContentPainter(scene, content, config, null);
 			break;
 		}
 		case DCEL: {
+			DCEL dcel = DcelConverter.convert(content);
+			Rectangle bbox = DcelUtil.getBoundingBox(dcel);
+			scene = Rectangles.extend(bbox, margin);
+			DcelConfig config = new DcelConfig();
+			algorithmPainter = new InstanceDcelPainter(scene, dcel, config,
+					null);
 			break;
 		}
 		case FREESPACE: {
@@ -230,15 +250,19 @@ public class CreateImage
 		double zoom = 2;
 
 		// Default dimension from content scene
-		Rectangle scene = content.getScene();
-		int width = (int) Math.ceil(scene.getWidth() * zoom);
-		int height = (int) Math.ceil(scene.getHeight() * zoom);
+		Rectangle contentScene = content.getScene();
+		int width = (int) Math.ceil(contentScene.getWidth() * zoom);
+		int height = (int) Math.ceil(contentScene.getHeight() * zoom);
 
-		// If the algorithm provides a scene
 		if (sceneAlgorithm != null) {
+			// If the algorithm provides a scene
 			Rectangle algScene = sceneAlgorithm.getScene();
 			width = (int) Math.ceil(algScene.getWidth() * zoom);
 			height = (int) Math.ceil(algScene.getHeight() * zoom);
+		} else if (scene != null) {
+			// Otherwise, if the setup defined a scene
+			width = (int) Math.ceil(scene.getWidth() * zoom);
+			height = (int) Math.ceil(scene.getHeight() * zoom);
 		}
 
 		switch (exportFormat) {
