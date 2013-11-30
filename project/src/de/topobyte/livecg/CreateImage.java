@@ -152,22 +152,22 @@ public class CreateImage
 		AlgorithmPainter algorithmPainter = null;
 
 		switch (visualization) {
-		case CHAN: {
+		case GEOMETRY: {
 			break;
 		}
 		case DCEL: {
 			break;
 		}
-		case DISTANCETERRAIN: {
-			break;
-		}
-		case FORTUNE: {
-			break;
-		}
 		case FREESPACE: {
 			break;
 		}
-		case GEOMETRY: {
+		case DISTANCETERRAIN: {
+			break;
+		}
+		case CHAN: {
+			break;
+		}
+		case FORTUNE: {
 			break;
 		}
 		case MONOTONE: {
