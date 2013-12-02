@@ -579,17 +579,17 @@ public class SvgPainter implements Painter
 	private float[] dash = null;
 	private float phase = 0;
 
-	private void addStrokeAttributes(Element rectangle)
+	private void addStrokeAttributes(Element element)
 	{
 		if (dash == null) {
-			rectangle.setAttributeNS(null, "stroke", getCurrentColor());
-			rectangle.setAttributeNS(null, "stroke-width", width + "px");
-			rectangle.setAttributeNS(null, "stroke-linecap", "round");
+			element.setAttributeNS(null, "stroke", getCurrentColor());
+			element.setAttributeNS(null, "stroke-width", width + "px");
+			element.setAttributeNS(null, "stroke-linecap", "round");
 		} else {
-			rectangle.setAttributeNS(null, "stroke", getCurrentColor());
-			rectangle.setAttributeNS(null, "stroke-width", width + "px");
-			rectangle.setAttributeNS(null, "stroke-linejoin", "round");
-			rectangle.setAttributeNS(null, "stroke-linecap", "round");
+			element.setAttributeNS(null, "stroke", getCurrentColor());
+			element.setAttributeNS(null, "stroke-width", width + "px");
+			element.setAttributeNS(null, "stroke-linejoin", "round");
+			element.setAttributeNS(null, "stroke-linecap", "round");
 			StringBuilder strb = new StringBuilder();
 			for (int i = 0; i < dash.length; i++) {
 				strb.append(dash[i]);
@@ -597,9 +597,9 @@ public class SvgPainter implements Painter
 					strb.append(",");
 				}
 			}
-			rectangle.setAttributeNS(null, "stroke-dasharray", strb.toString());
-			rectangle.setAttributeNS(null, "stroke-dashoffset", "" + phase);
-			rectangle.setAttributeNS(null, "stroke-opacity",
+			element.setAttributeNS(null, "stroke-dasharray", strb.toString());
+			element.setAttributeNS(null, "stroke-dashoffset", "" + phase);
+			element.setAttributeNS(null, "stroke-opacity",
 					"" + color.getAlpha());
 		}
 
