@@ -39,7 +39,7 @@ import de.topobyte.livecg.core.painting.IpePainter;
 public class IpeExporter
 {
 
-	public static void exportSVG(File file, AlgorithmPainter algorithmPainter,
+	public static void exportIpe(File file, AlgorithmPainter algorithmPainter,
 			int width, int height) throws TransformerException, IOException
 	{
 		DOMImplementation impl = SVGDOMImplementation.getDOMImplementation();

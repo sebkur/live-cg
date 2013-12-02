@@ -58,6 +58,7 @@ import de.topobyte.livecg.core.algorithm.SceneAlgorithm;
 import de.topobyte.livecg.core.config.LiveConfig;
 import de.topobyte.livecg.core.export.ExportFormat;
 import de.topobyte.livecg.core.export.GraphicsExporter;
+import de.topobyte.livecg.core.export.IpeExporter;
 import de.topobyte.livecg.core.geometry.dcel.DCEL;
 import de.topobyte.livecg.core.geometry.dcel.DcelConverter;
 import de.topobyte.livecg.core.geometry.dcel.DcelUtil;
@@ -360,13 +361,22 @@ public class CreateImage
 			height = (int) Math.ceil(scene.getHeight() * zoom);
 		}
 
+		algorithmPainter.setZoom(zoom);
+
 		switch (exportFormat) {
 		case IPE: {
+			try {
+				IpeExporter.exportIpe(output, algorithmPainter, width, height);
+			} catch (Exception e) {
+				System.err.println("Error while exporting. Exception type: "
+						+ e.getClass().getSimpleName() + ", message: "
+						+ e.getMessage());
+				System.exit(1);
+			}
 			break;
 		}
 		case PNG: {
 			try {
-				algorithmPainter.setZoom(zoom);
 				GraphicsExporter.exportPNG(output, algorithmPainter, width,
 						height);
 			} catch (IOException e) {
