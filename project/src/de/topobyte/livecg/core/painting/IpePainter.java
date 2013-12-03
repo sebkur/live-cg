@@ -17,6 +17,7 @@
  */
 package de.topobyte.livecg.core.painting;
 
+import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.PathIterator;
@@ -40,11 +41,25 @@ import org.w3c.dom.Element;
 
 import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.core.geometry.geom.Coordinate;
+import de.topobyte.livecg.core.geometry.geom.GeometryTransformer;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
+import de.topobyte.livecg.core.lina.AffineTransformUtil;
+import de.topobyte.livecg.core.lina.AwtTransformUtil;
+import de.topobyte.livecg.core.lina.Matrix;
 
 public class IpePainter implements Painter
 {
 	final static Logger logger = LoggerFactory.getLogger(IpePainter.class);
+
+	// Scaling to workspace
+	private AffineTransform atWs;
+	private Matrix mxWs;
+	private GeometryTransformer trWs;
+
+	// Applying the user transform
+	private AffineTransform transform = null;
+	private Matrix mxTransform;
+	private GeometryTransformer trTransform;
 
 	private Document doc;
 	private Element root;
@@ -53,17 +68,54 @@ public class IpePainter implements Painter
 
 	private Color color;
 
-	private AffineTransform transform = null;
+	private static String newline = "\n";
 
 	public IpePainter(Document doc, Element root)
 	{
 		this.doc = doc;
 		this.root = root;
 
+		mxWs = AffineTransformUtil.scale(1, -1);
+		trWs = new GeometryTransformer(mxWs);
+
+		atWs = new AffineTransform();
+		atWs.scale(1, -1);
+
 		ipestyle = doc.createElementNS(null, "ipestyle");
 		page = doc.createElementNS(null, "page");
 		root.appendChild(ipestyle);
 		root.appendChild(page);
+	}
+
+	private Coordinate applyTransforms(double x, double y)
+	{
+		return applyTransforms(new Coordinate(x, y));
+	}
+
+	private Coordinate applyTransforms(Coordinate c)
+	{
+		if (transform != null) {
+			c = trTransform.transform(c);
+		}
+		return trWs.transform(c);
+	}
+
+	private Shape applyTransforms(Shape shape)
+	{
+		Shape s = shape;
+		if (transform != null) {
+			s = transform.createTransformedShape(s);
+		}
+		return atWs.createTransformedShape(s);
+	}
+
+	private Shape applyUserTransforms(Shape shape)
+	{
+		Shape s = shape;
+		if (transform != null) {
+			s = transform.createTransformedShape(s);
+		}
+		return s;
 	}
 
 	@Override
@@ -75,55 +127,29 @@ public class IpePainter implements Painter
 	@Override
 	public void drawRect(int x, int y, int width, int height)
 	{
-		Element rectangle = doc.createElementNS(null, "rect");
-		rectangle.setAttributeNS(null, "x", Integer.toString(x));
-		rectangle.setAttributeNS(null, "y", Integer.toString(y));
-		rectangle.setAttributeNS(null, "width", Integer.toString(width));
-		rectangle.setAttributeNS(null, "height", Integer.toString(height));
-		addStrokeAttributes(rectangle);
-		rectangle.setAttributeNS(null, "fill", "none");
-
-		append(rectangle);
+		Rectangle rect = new Rectangle(x, y, width, height);
+		draw(rect);
 	}
 
 	@Override
 	public void drawRect(double x, double y, double width, double height)
 	{
-		Element rectangle = doc.createElementNS(null, "rect");
-		rectangle.setAttributeNS(null, "x", Double.toString(x));
-		rectangle.setAttributeNS(null, "y", Double.toString(y));
-		rectangle.setAttributeNS(null, "width", Double.toString(width));
-		rectangle.setAttributeNS(null, "height", Double.toString(height));
-		addStrokeAttributes(rectangle);
-		rectangle.setAttributeNS(null, "fill", "none");
-
-		append(rectangle);
+		Rectangle2D rect = new Rectangle2D.Double(x, y, width, height);
+		draw(rect);
 	}
 
 	@Override
 	public void fillRect(int x, int y, int width, int height)
 	{
-		Element rectangle = doc.createElementNS(null, "rect");
-		rectangle.setAttributeNS(null, "x", Integer.toString(x));
-		rectangle.setAttributeNS(null, "y", Integer.toString(y));
-		rectangle.setAttributeNS(null, "width", Integer.toString(width));
-		rectangle.setAttributeNS(null, "height", Integer.toString(height));
-		rectangle.setAttributeNS(null, "fill", getCurrentColor());
-
-		append(rectangle);
+		Rectangle rect = new Rectangle(x, y, width, height);
+		fill(rect);
 	}
 
 	@Override
 	public void fillRect(double x, double y, double width, double height)
 	{
-		Element rectangle = doc.createElementNS(null, "rect");
-		rectangle.setAttributeNS(null, "x", Double.toString(x));
-		rectangle.setAttributeNS(null, "y", Double.toString(y));
-		rectangle.setAttributeNS(null, "width", Double.toString(width));
-		rectangle.setAttributeNS(null, "height", Double.toString(height));
-		rectangle.setAttributeNS(null, "fill", getCurrentColor());
-
-		append(rectangle);
+		Rectangle2D rect = new Rectangle2D.Double(x, y, width, height);
+		fill(rect);
 	}
 
 	@Override
@@ -195,12 +221,16 @@ public class IpePainter implements Painter
 
 	private String getCurrentColor()
 	{
-		return String.format("#%06x", color.getRGB());
+		float r = ((color.getRGB() & 0xFF0000) >>> 16) / 255.0f;
+		float g = ((color.getRGB() & 0xFF00) >>> 8) / 255.0f;
+		float b = ((color.getRGB() & 0xFF)) / 255.0f;
+		return String.format("%f %f %f", r, g, b);
 	}
 
 	private static void pathMoveTo(StringBuilder strb, double x, double y)
 	{
-		strb.append(String.format(Locale.US, "M %f,%f", x, y));
+		strb.append(String.format(Locale.US, "%f %f m", x, y));
+		strb.append(newline);
 	}
 
 	private static void pathMoveTo(StringBuilder strb, Coordinate c)
@@ -210,7 +240,8 @@ public class IpePainter implements Painter
 
 	private static void pathLineTo(StringBuilder strb, double x, double y)
 	{
-		strb.append(String.format(Locale.US, " %f,%f", x, y));
+		strb.append(String.format(Locale.US, "%f %f l", x, y));
+		strb.append(newline);
 	}
 
 	private static void pathLineTo(StringBuilder strb, Coordinate c)
@@ -220,28 +251,35 @@ public class IpePainter implements Painter
 
 	private static void pathClose(StringBuilder strb)
 	{
-		strb.append(" Z");
+		strb.append("h");
+		strb.append(newline);
 	}
 
 	private void pathQuadraticTo(StringBuilder strb, double x1, double y1,
 			double x, double y)
 	{
-		strb.append(String.format(Locale.US, "Q %f %f %f %f", x1, y1, x, y));
+		strb.append(String.format(Locale.US, "%f %f", x1, y1));
+		strb.append(newline);
+		strb.append(String.format(Locale.US, "%f %f q", x, y));
+		strb.append(newline);
 	}
 
 	private void pathCubicTo(StringBuilder strb, double x1, double y1,
 			double x2, double y2, double x, double y)
 	{
-		strb.append(String.format(Locale.US, "C %f %f %f %f %f %f", x1, y1, x2,
-				y2, x, y));
+		strb.append(String.format(Locale.US, "%f %f", x1, y1));
+		strb.append(newline);
+		strb.append(String.format(Locale.US, "%f %f", x2, y2));
+		strb.append(newline);
+		strb.append(String.format(Locale.US, "%f %f c", x, y));
+		strb.append(newline);
 	}
 
 	private void stroke(StringBuilder strb)
 	{
 		Element path = doc.createElementNS(null, "path");
 		addStrokeAttributes(path);
-		path.setAttributeNS(null, "fill", "none");
-		path.setAttributeNS(null, "d", strb.toString());
+		path.setTextContent(strb.toString());
 
 		append(path);
 	}
@@ -249,11 +287,8 @@ public class IpePainter implements Painter
 	private void fill(StringBuilder strb)
 	{
 		Element path = doc.createElementNS(null, "path");
-		path.setAttributeNS(null, "style",
-				"fill:" + getCurrentColor()
-						+ ";fill-rule:evenodd;stroke:none;fill-opacity:"
-						+ color.getAlpha());
-		path.setAttributeNS(null, "d", strb.toString());
+		path.setAttributeNS(null, "fill", getCurrentColor());
+		path.setTextContent(strb.toString());
 
 		append(path);
 	}
@@ -284,11 +319,11 @@ public class IpePainter implements Painter
 	private void appendChain(StringBuilder strb, Chain chain)
 	{
 		Coordinate start = chain.getCoordinate(0);
-		pathMoveTo(strb, start);
+		pathMoveTo(strb, applyTransforms(start));
 
 		for (int i = 1; i < chain.getNumberOfNodes(); i++) {
 			Coordinate c = chain.getCoordinate(i);
-			pathLineTo(strb, c);
+			pathLineTo(strb, applyTransforms(c));
 		}
 
 		if (chain.isClosed()) {
@@ -314,20 +349,23 @@ public class IpePainter implements Painter
 	@Override
 	public void draw(Shape shape)
 	{
-		StringBuilder strb = buildPath(shape);
+		Shape tshape = applyTransforms(shape);
+		StringBuilder strb = buildPath(tshape);
 		stroke(strb);
 	}
 
 	@Override
 	public void fill(Shape shape)
 	{
-		StringBuilder strb = buildPath(shape);
+		Shape tshape = applyTransforms(shape);
+		StringBuilder strb = buildPath(tshape);
 		fill(strb);
 	}
 
 	private StringBuilder buildPath(Shape shape)
 	{
 		StringBuilder strb = new StringBuilder();
+		strb.append(newline);
 
 		PathIterator pathIterator = shape
 				.getPathIterator(new AffineTransform());
@@ -436,60 +474,6 @@ public class IpePainter implements Painter
 		}
 		clipIds.add(index);
 		clipShapes.put(index, shape);
-		addToDefs(index, shape);
-	}
-
-	private void addToDefs(int index, Shape shape)
-	{
-		Element clipPath = doc.createElementNS(null, "clipPath");
-		clipPath.setAttributeNS(null, "id", CLIP_PATH_PREFIX + index);
-
-		StringBuilder strb = buildPath(shape);
-
-		Element path = doc.createElementNS(null, "path");
-		path.setAttributeNS(null, "d", strb.toString());
-
-		if (transform != null) {
-			path.setAttributeNS(null, "transform", transformValue());
-		}
-
-		clipPath.appendChild(path);
-		page.appendChild(clipPath);
-	}
-
-	/*
-	 * Transformations
-	 */
-
-	@Override
-	public AffineTransform getTransform()
-	{
-		if (transform == null) {
-			return new AffineTransform();
-		}
-		return new AffineTransform(transform);
-	}
-
-	@Override
-	public void setTransform(AffineTransform t)
-	{
-		transform = t;
-	}
-
-	private String transformValue()
-	{
-		double[] matrix = new double[6];
-		transform.getMatrix(matrix);
-		StringBuilder buffer = new StringBuilder();
-		buffer.append("matrix(");
-		for (int i = 0; i < matrix.length; i++) {
-			buffer.append(matrix[i]);
-			if (i < matrix.length - 1) {
-				buffer.append(" ");
-			}
-		}
-		buffer.append(")");
-		return buffer.toString();
 	}
 
 	/*
@@ -498,7 +482,7 @@ public class IpePainter implements Painter
 
 	private void append(Element element)
 	{
-		Element e = root;
+		Element e = page;
 		if (clipIds != null) {
 			for (int id : clipIds) {
 				Element g = doc.createElementNS(null, "g");
@@ -510,7 +494,6 @@ public class IpePainter implements Painter
 		}
 		if (transform != null && !transform.isIdentity()) {
 			Element g = doc.createElementNS(null, "g");
-			g.setAttributeNS(null, "transform", transformValue());
 			e.appendChild(g);
 			e = g;
 		}
@@ -583,8 +566,8 @@ public class IpePainter implements Painter
 	{
 		if (dash == null) {
 			rectangle.setAttributeNS(null, "stroke", getCurrentColor());
-			rectangle.setAttributeNS(null, "stroke-width", width + "px");
-			rectangle.setAttributeNS(null, "stroke-linecap", "round");
+			// rectangle.setAttributeNS(null, "stroke-width", width + "px");
+			// rectangle.setAttributeNS(null, "stroke-linecap", "round");
 		} else {
 			rectangle.setAttributeNS(null, "stroke", getCurrentColor());
 			rectangle.setAttributeNS(null, "stroke-width", width + "px");
@@ -623,5 +606,26 @@ public class IpePainter implements Painter
 	{
 		this.dash = dash;
 		this.phase = phase;
+	}
+
+	/*
+	 * Transformations
+	 */
+
+	@Override
+	public AffineTransform getTransform()
+	{
+		if (transform == null) {
+			return new AffineTransform();
+		}
+		return new AffineTransform(transform);
+	}
+
+	@Override
+	public void setTransform(AffineTransform t)
+	{
+		transform = t;
+		mxTransform = AwtTransformUtil.convert(t);
+		trTransform = new GeometryTransformer(mxTransform);
 	}
 }

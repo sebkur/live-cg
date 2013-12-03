@@ -21,6 +21,9 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
@@ -28,7 +31,6 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-import org.apache.batik.dom.svg.SVGDOMImplementation;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -40,15 +42,21 @@ public class IpeExporter
 {
 
 	public static void exportIpe(File file, AlgorithmPainter algorithmPainter,
-			int width, int height) throws TransformerException, IOException
+			int width, int height) throws TransformerException, IOException,
+			ParserConfigurationException
 	{
-		DOMImplementation impl = SVGDOMImplementation.getDOMImplementation();
+		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder builder = factory.newDocumentBuilder();
+		DOMImplementation impl = builder.getDOMImplementation();
+
 		Document doc = impl.createDocument(null, "ipe", null);
 
 		Element ipeRoot = doc.getDocumentElement();
 
-		ipeRoot.setAttributeNS(null, "width", Integer.toString(width));
-		ipeRoot.setAttributeNS(null, "height", Integer.toString(height));
+		// ipeRoot.setAttributeNS(null, "width", Integer.toString(width));
+		// ipeRoot.setAttributeNS(null, "height", Integer.toString(height));
+		ipeRoot.setAttributeNS(null, "version", "70005");
+		ipeRoot.setAttributeNS(null, "creator", "LiveCG");
 
 		IpePainter painter = new IpePainter(doc, ipeRoot);
 
@@ -65,7 +73,9 @@ public class IpeExporter
 		StreamResult result = new StreamResult(fos);
 
 		transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "no");
-		transformer.setOutputProperty(OutputKeys.METHOD, "xml");
+		// TODO: avoids empty single elements for the moment, set to xml again
+		transformer.setOutputProperty(OutputKeys.METHOD, "html");
+		// transformer.setOutputProperty(OutputKeys.METHOD, "xml");
 		transformer.setOutputProperty(OutputKeys.INDENT, "yes");
 		transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
 		transformer.setOutputProperty(
