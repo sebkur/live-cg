@@ -203,27 +203,35 @@ public class IpePainter implements Painter
 	@Override
 	public void drawCircle(double x, double y, double radius)
 	{
-		Element circle = doc.createElementNS(null, "circle");
-		circle.setAttributeNS(null, "cx", Double.toString(x));
-		circle.setAttributeNS(null, "cy", Double.toString(y));
-		circle.setAttributeNS(null, "r", Double.toString(radius));
-		circle.setAttributeNS(null, "fill", "none");
-		addStrokeAttributes(circle);
-		circle.setAttributeNS(null, "fill", "none");
+		StringBuilder strb = new StringBuilder();
+		Coordinate c = applyTransforms(x, y);
 
-		append(circle);
+		pathCircle(strb, c, radius);
+
+		stroke(strb);
 	}
 
 	@Override
 	public void fillCircle(double x, double y, double radius)
 	{
-		Element circle = doc.createElementNS(null, "circle");
-		circle.setAttributeNS(null, "cx", Double.toString(x));
-		circle.setAttributeNS(null, "cy", Double.toString(y));
-		circle.setAttributeNS(null, "r", Double.toString(radius));
-		circle.setAttributeNS(null, "fill", getCurrentColor());
+		StringBuilder strb = new StringBuilder();
+		Coordinate c = applyTransforms(x, y);
 
-		append(circle);
+		pathCircle(strb, c, radius);
+
+		fill(strb);
+	}
+
+	private void pathCircle(StringBuilder strb, Coordinate c, double radius)
+	{
+		strb.append(radius);
+		strb.append(" 0 0 ");
+		strb.append(radius);
+		strb.append(" ");
+		strb.append(c.getX());
+		strb.append(" ");
+		strb.append(c.getY());
+		strb.append(" e");
 	}
 
 	private String getCurrentColor()
