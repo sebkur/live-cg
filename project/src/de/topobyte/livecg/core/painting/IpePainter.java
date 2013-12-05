@@ -169,13 +169,12 @@ public class IpePainter implements Painter
 	@Override
 	public void drawLine(double x1, double y1, double x2, double y2)
 	{
-		Element path = doc.createElementNS(null, "path");
-		addStrokeAttributes(path);
-		path.setAttributeNS(null, "fill", "none");
-		path.setAttributeNS(null, "d",
-				String.format(Locale.US, "M %f,%f %f,%f", x1, y1, x2, y2));
+		StringBuilder strb = new StringBuilder();
 
-		append(path);
+		pathMoveTo(strb, applyTransforms(x1, y1));
+		pathLineTo(strb, applyTransforms(x2, y2));
+
+		stroke(strb);
 	}
 
 	@Override
