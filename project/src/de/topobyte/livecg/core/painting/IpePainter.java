@@ -186,11 +186,11 @@ public class IpePainter implements Painter
 
 		StringBuilder strb = new StringBuilder();
 		Coordinate start = points.get(0);
-		pathMoveTo(strb, start);
+		pathMoveTo(strb, applyTransforms(start));
 
 		for (int i = 1; i < points.size(); i++) {
 			Coordinate c = points.get(i);
-			pathLineTo(strb, c);
+			pathLineTo(strb, applyTransforms(c));
 		}
 
 		if (close) {
