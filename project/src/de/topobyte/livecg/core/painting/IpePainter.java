@@ -614,13 +614,14 @@ public class IpePainter implements Painter
 			if (join != null) {
 				element.setAttribute("join", join);
 			}
-			// rectangle.setAttributeNS(null, "stroke-width", width + "px");
-			// rectangle.setAttributeNS(null, "stroke-linecap", "round");
+			element.setAttributeNS(null, "pen", width + "");
+			element.setAttributeNS(null, "cap", "1");
+			element.setAttributeNS(null, "join", "1");
 		} else {
 			element.setAttributeNS(null, "stroke", getCurrentColor());
-			element.setAttributeNS(null, "stroke-width", width + "px");
-			element.setAttributeNS(null, "stroke-linejoin", "round");
-			element.setAttributeNS(null, "stroke-linecap", "round");
+			element.setAttributeNS(null, "pen", width + "");
+			element.setAttributeNS(null, "cap", "1");
+			element.setAttributeNS(null, "join", "1");
 			StringBuilder strb = new StringBuilder();
 			for (int i = 0; i < dash.length; i++) {
 				strb.append(dash[i]);
