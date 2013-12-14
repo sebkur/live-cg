@@ -73,9 +73,7 @@ public class IpeExporter
 		StreamResult result = new StreamResult(fos);
 
 		transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "no");
-		// TODO: avoids empty single elements for the moment, set to xml again
-		transformer.setOutputProperty(OutputKeys.METHOD, "html");
-		// transformer.setOutputProperty(OutputKeys.METHOD, "xml");
+		transformer.setOutputProperty(OutputKeys.METHOD, "xml");
 		transformer.setOutputProperty(OutputKeys.INDENT, "yes");
 		transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
 		transformer.setOutputProperty(

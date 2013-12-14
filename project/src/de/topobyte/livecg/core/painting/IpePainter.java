@@ -82,6 +82,15 @@ public class IpePainter implements Painter
 		atWs.scale(1, -1);
 
 		ipestyle = doc.createElementNS(null, "ipestyle");
+
+		for (int i = 0; i <= 100; i += 10) {
+			Element opacity = doc.createElementNS(null, "opacity");
+			ipestyle.appendChild(opacity);
+			opacity.setAttributeNS(null, "name", i + "%");
+			opacity.setAttributeNS(null, "value",
+					String.format("%.2f", i / (double) 100));
+		}
+
 		page = doc.createElementNS(null, "page");
 		root.appendChild(ipestyle);
 		root.appendChild(page);
@@ -294,8 +303,8 @@ public class IpePainter implements Painter
 	{
 		Element path = doc.createElementNS(null, "path");
 		addStrokeAttributes(path);
+		setOpacity(path);
 		path.setTextContent(strb.toString());
-
 		append(path);
 	}
 
@@ -303,9 +312,18 @@ public class IpePainter implements Painter
 	{
 		Element path = doc.createElementNS(null, "path");
 		path.setAttributeNS(null, "fill", getCurrentColor());
+		setOpacity(path);
 		path.setTextContent(strb.toString());
-
 		append(path);
+	}
+
+	private void setOpacity(Element path)
+	{
+		if (color.getAlpha() != 1) {
+			double alpha = color.getAlpha();
+			int a = (int) (Math.round(alpha * 10) * 10);
+			path.setAttributeNS(null, "opacity", a + "%");
+		}
 	}
 
 	@Override
