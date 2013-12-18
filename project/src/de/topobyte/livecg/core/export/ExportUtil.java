@@ -29,6 +29,25 @@ import de.topobyte.livecg.core.scrolling.Viewport;
 public class ExportUtil
 {
 
+	public static void addExportItems(JMenu menu, Component component,
+			AlgorithmPainter painter, SizeProvider sizeProvider)
+	{
+		addExportPngItem(menu, component, painter, sizeProvider);
+		addExportSvgItem(menu, component, painter, sizeProvider);
+		addExportTikzItem(menu, component, painter, sizeProvider);
+		addExportIpeItem(menu, component, painter, sizeProvider);
+	}
+
+	public static <T extends Viewport & HasScene> void addExportZoomedItems(
+			JMenu menu, Component component, AlgorithmPainter painter,
+			T dimensionProvider)
+	{
+		addExportPngZoomedItem(menu, component, painter, dimensionProvider);
+		addExportSvgZoomedItem(menu, component, painter, dimensionProvider);
+		addExportTikzZoomedItem(menu, component, painter, dimensionProvider);
+		addExportIpeZoomedItem(menu, component, painter, dimensionProvider);
+	}
+
 	public static void addExportSvgItem(JMenu menu, Component component,
 			AlgorithmPainter painter, SizeProvider sizeProvider)
 	{
@@ -52,6 +71,14 @@ public class ExportUtil
 		JMenuItem exportTikz = new JMenuItem(new ExportTikzActionOriginalSize(
 				component, painter, sizeProvider));
 		menu.add(exportTikz);
+	}
+
+	public static void addExportIpeItem(JMenu menu, Component component,
+			AlgorithmPainter painter, SizeProvider sizeProvider)
+	{
+		JMenuItem exportIpe = new JMenuItem(new ExportIpeActionOriginalSize(
+				component, painter, sizeProvider));
+		menu.add(exportIpe);
 	}
 
 	public static <T extends Viewport & HasScene> void addExportSvgZoomedItem(
@@ -79,5 +106,14 @@ public class ExportUtil
 		JMenuItem exportTikz = new JMenuItem(new ExportTikzActionZoomed<T>(
 				component, painter, dimensionProvider));
 		menu.add(exportTikz);
+	}
+
+	public static <T extends Viewport & HasScene> void addExportIpeZoomedItem(
+			JMenu menu, Component component, AlgorithmPainter painter,
+			T dimensionProvider)
+	{
+		JMenuItem exportIpe = new JMenuItem(new ExportIpeActionZoomed<T>(
+				component, painter, dimensionProvider));
+		menu.add(exportIpe);
 	}
 }

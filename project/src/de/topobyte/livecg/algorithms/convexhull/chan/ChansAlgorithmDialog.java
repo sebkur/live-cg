@@ -74,9 +74,7 @@ public class ChansAlgorithmDialog
 		JMenu menuFile = new JMenu("File");
 		menu.add(menuFile);
 
-		ExportUtil.addExportPngZoomedItem(menuFile, frame, painter, cap);
-		ExportUtil.addExportSvgZoomedItem(menuFile, frame, painter, cap);
-		ExportUtil.addExportTikzZoomedItem(menuFile, frame, painter, cap);
+		ExportUtil.addExportItems(menuFile, frame, painter, cap);
 
 		frame.setJMenuBar(menu);
 

@@ -30,9 +30,9 @@ import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
-import de.topobyte.livecg.algorithms.frechet.distanceterrain.DistanceTerrainConfig;
 import de.topobyte.livecg.algorithms.frechet.distanceterrain.ConfigChangedListener;
 import de.topobyte.livecg.algorithms.frechet.distanceterrain.DistanceTerrain;
+import de.topobyte.livecg.algorithms.frechet.distanceterrain.DistanceTerrainConfig;
 import de.topobyte.livecg.algorithms.frechet.distanceterrain.DistanceTerrainPainterChains;
 import de.topobyte.livecg.algorithms.frechet.distanceterrain.Settings;
 import de.topobyte.livecg.core.export.ExportUtil;
@@ -105,9 +105,7 @@ public class DistanceTerrainDialog implements ContentChangedListener
 		JMenu menuFile = new JMenu("File");
 		menu.add(menuFile);
 
-		ExportUtil.addExportPngItem(menuFile, frame, painter, diagram);
-		ExportUtil.addExportSvgItem(menuFile, frame, painter, diagram);
-		ExportUtil.addExportTikzItem(menuFile, frame, painter, diagram);
+		ExportUtil.addExportItems(menuFile, frame, painter, diagram);
 
 		/*
 		 * Misc

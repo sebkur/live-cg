@@ -125,9 +125,7 @@ public class ShortestPathDialog implements AlgorithmChangedListener,
 		JMenu menuFile = new JMenu("File");
 		menu.add(menuFile);
 
-		ExportUtil.addExportPngZoomedItem(menuFile, frame, painter, spp);
-		ExportUtil.addExportSvgZoomedItem(menuFile, frame, painter, spp);
-		ExportUtil.addExportTikzZoomedItem(menuFile, frame, painter, spp);
+		ExportUtil.addExportItems(menuFile, frame, painter, spp);
 
 		frame.setJMenuBar(menu);
 

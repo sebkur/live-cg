@@ -67,13 +67,7 @@ public class ContentDialog
 		JMenu menuFile = new JMenu("File");
 		menu.add(menuFile);
 
-		ExportUtil.addExportPngZoomedItem(menuFile, frame, painter,
-				contentPanel);
-		ExportUtil.addExportSvgZoomedItem(menuFile, frame, painter,
-				contentPanel);
-		ExportUtil.addExportTikzZoomedItem(menuFile, frame, painter,
-				contentPanel);
-
+		ExportUtil.addExportItems(menuFile, frame, painter, contentPanel);
 		frame.setJMenuBar(menu);
 
 		/*

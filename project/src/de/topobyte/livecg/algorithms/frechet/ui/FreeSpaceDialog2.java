@@ -36,8 +36,8 @@ import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.border.TitledBorder;
 
-import de.topobyte.livecg.algorithms.frechet.freespace.FreeSpaceConfig;
 import de.topobyte.livecg.algorithms.frechet.freespace.ConfigChangedListener;
+import de.topobyte.livecg.algorithms.frechet.freespace.FreeSpaceConfig;
 import de.topobyte.livecg.algorithms.frechet.freespace.FreeSpaceDiagram;
 import de.topobyte.livecg.algorithms.frechet.freespace.FreeSpacePainterChains;
 import de.topobyte.livecg.algorithms.frechet.freespace.Settings;
@@ -142,9 +142,7 @@ public class FreeSpaceDialog2 implements ContentChangedListener
 		JMenu menuFile = new JMenu("File");
 		menu.add(menuFile);
 
-		ExportUtil.addExportPngItem(menuFile, frame, painter, diagram);
-		ExportUtil.addExportSvgItem(menuFile, frame, painter, diagram);
-		ExportUtil.addExportTikzItem(menuFile, frame, painter, diagram);
+		ExportUtil.addExportItems(menuFile, frame, painter, diagram);
 
 		/*
 		 * Misc

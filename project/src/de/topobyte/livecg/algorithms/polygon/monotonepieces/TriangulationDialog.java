@@ -81,9 +81,7 @@ public class TriangulationDialog
 		JMenu menuFile = new JMenu("File");
 		menu.add(menuFile);
 
-		ExportUtil.addExportPngZoomedItem(menuFile, frame, painter, tp);
-		ExportUtil.addExportSvgZoomedItem(menuFile, frame, painter, tp);
-		ExportUtil.addExportTikzZoomedItem(menuFile, frame, painter, tp);
+		ExportUtil.addExportItems(menuFile, frame, painter, tp);
 
 		frame.setJMenuBar(menu);
 

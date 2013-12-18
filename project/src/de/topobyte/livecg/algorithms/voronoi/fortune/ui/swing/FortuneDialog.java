@@ -142,9 +142,7 @@ public class FortuneDialog extends JFrame implements Runnable
 		JMenuItem save = new JMenuItem(new SaveAction(this));
 		menuFile.add(save);
 
-		ExportUtil.addExportPngItem(menuFile, this, painter, canvas);
-		ExportUtil.addExportSvgItem(menuFile, this, painter, canvas);
-		ExportUtil.addExportTikzItem(menuFile, this, painter, canvas);
+		ExportUtil.addExportItems(menuFile, this, painter, canvas);
 
 		JMenuItem quit = new JMenuItem(new QuitAction());
 		menuFile.add(quit);
