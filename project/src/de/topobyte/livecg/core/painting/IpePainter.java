@@ -611,12 +611,9 @@ public class IpePainter implements Painter
 	{
 		if (dash == null) {
 			element.setAttributeNS(null, "stroke", getCurrentColor());
-			if (join != null) {
-				element.setAttribute("join", join);
-			}
+			element.setAttribute("join", join != null ? join : "1");
 			element.setAttributeNS(null, "pen", width + "");
 			element.setAttributeNS(null, "cap", "1");
-			element.setAttributeNS(null, "join", "1");
 		} else {
 			element.setAttributeNS(null, "stroke", getCurrentColor());
 			element.setAttributeNS(null, "pen", width + "");
