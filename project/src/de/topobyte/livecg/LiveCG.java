@@ -60,7 +60,7 @@ public class LiveCG
 	static final Logger logger = LoggerFactory.getLogger(LiveCG.class);
 
 	private static final String HELP_MESSAGE = LiveCG.class.getSimpleName()
-			+ " [args]";
+			+ "[options] [file]";
 
 	private static final String OPTION_CONFIG = "config";
 
@@ -102,13 +102,33 @@ public class LiveCG
 					+ e.getMessage());
 		}
 
+		Content content = null;
+		String filename = "res/presets/Startup.geom";
+
+		String[] extra = line.getArgs();
+		if (extra.length > 0) {
+			filename = extra[0];
+		}
+
+		ContentReader reader = new ContentReader();
+		InputStream input = Thread.currentThread().getContextClassLoader()
+				.getResourceAsStream(filename);
+		try {
+			content = reader.read(input);
+		} catch (Exception e) {
+			logger.debug("unable to load startup geometry file", e);
+			logger.debug("Exception: " + e.getClass().getSimpleName());
+			logger.debug("Message: " + e.getMessage());
+		}
+
 		final LiveCG runner = new LiveCG();
+		final Content c = content;
 
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run()
 			{
-				runner.setup(true);
+				runner.setup(true, c);
 			}
 		});
 		SwingUtilities.invokeLater(new Runnable() {
@@ -140,7 +160,7 @@ public class LiveCG
 		return frame;
 	}
 
-	public void setup(boolean exitOnClose)
+	public void setup(boolean exitOnClose, Content content)
 	{
 		frame.setSize(800, 600);
 		if (exitOnClose) {
@@ -207,19 +227,9 @@ public class LiveCG
 			}
 		});
 
-		ContentReader reader = new ContentReader();
-		String filename = "res/presets/Startup.geom";
-		InputStream input = Thread.currentThread().getContextClassLoader()
-				.getResourceAsStream(filename);
-		try {
-			Content content = reader.read(input);
+		if (content != null) {
 			geometryEditor.getEditPane().setContent(content);
-		} catch (Exception e) {
-			logger.debug("unable to load startup geometry file", e);
-			logger.debug("Exception: " + e.getClass().getSimpleName());
-			logger.debug("Message: " + e.getMessage());
 		}
-
 	}
 
 	public void showObjectDialog()
