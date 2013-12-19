@@ -592,8 +592,10 @@ public class TikzPainter implements Painter
 	private int imageCoutner = 1;
 
 	@Override
-	public void drawImage(BufferedImage image, int x, int y)
+	public void drawImage(Image image, int x, int y)
 	{
+		BufferedImage im = ImageUtil.convert(image);
+
 		appendDraw();
 		append(applyTransforms(x, y));
 		String node = "node[inner sep=0pt, below right]";
@@ -610,7 +612,7 @@ public class TikzPainter implements Painter
 
 		output.getParentFile().mkdirs();
 		try {
-			ImageIO.write(image, "png", output);
+			ImageIO.write(im, "png", output);
 		} catch (IOException e) {
 			logger.error("Error while writing image.");
 			logger.error("Image path: " + output);

@@ -225,9 +225,10 @@ public class AwtPainter implements Painter
 	}
 
 	@Override
-	public void drawImage(BufferedImage image, int x, int y)
+	public void drawImage(Image image, int x, int y)
 	{
-		g.drawImage(image, x, y, null);
+		BufferedImage im = ImageUtil.convert(image);
+		g.drawImage(im, x, y, null);
 	}
 
 	/*

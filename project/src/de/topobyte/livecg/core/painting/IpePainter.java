@@ -560,11 +560,12 @@ public class IpePainter implements Painter
 	}
 
 	@Override
-	public void drawImage(BufferedImage image, int x, int y)
+	public void drawImage(Image image, int x, int y)
 	{
+		BufferedImage im = ImageUtil.convert(image);
 		ByteArrayOutputStream output = new ByteArrayOutputStream();
 		try {
-			boolean written = ImageIO.write(image, "png", output);
+			boolean written = ImageIO.write(im, "png", output);
 			if (!written) {
 				logger.error("unable to draw image: no writer found");
 			}

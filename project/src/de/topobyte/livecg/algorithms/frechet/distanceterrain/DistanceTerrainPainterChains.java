@@ -17,13 +17,12 @@
  */
 package de.topobyte.livecg.algorithms.frechet.distanceterrain;
 
-import java.awt.image.BufferedImage;
-
 import de.topobyte.livecg.algorithms.frechet.freespace.calc.LineSegment;
 import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.core.geometry.geom.Coordinate;
 import de.topobyte.livecg.core.painting.BasicAlgorithmPainter;
 import de.topobyte.livecg.core.painting.Color;
+import de.topobyte.livecg.core.painting.Image;
 import de.topobyte.livecg.core.painting.Painter;
 
 public class DistanceTerrainPainterChains extends BasicAlgorithmPainter
@@ -36,8 +35,8 @@ public class DistanceTerrainPainterChains extends BasicAlgorithmPainter
 	private final Chain chain1;
 	private final Chain chain2;
 
-	public DistanceTerrainPainterChains(DistanceTerrainConfig config, Chain chain1,
-			Chain chain2, Painter painter)
+	public DistanceTerrainPainterChains(DistanceTerrainConfig config,
+			Chain chain1, Chain chain2, Painter painter)
 	{
 		super(painter);
 		this.config = config;
@@ -66,8 +65,7 @@ public class DistanceTerrainPainterChains extends BasicAlgorithmPainter
 		int usedWidth = w * nSegmentsP;
 		int usedHeight = h * nSegmentsQ;
 
-		BufferedImage image = new BufferedImage(width, height,
-				BufferedImage.TYPE_INT_RGB);
+		Image image = new Image(width, height);
 
 		for (int x = 0; x < nSegmentsP; x++) {
 			for (int y = 0; y < nSegmentsQ; y++) {

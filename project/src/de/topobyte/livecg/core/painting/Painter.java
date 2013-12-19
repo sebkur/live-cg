@@ -17,7 +17,6 @@
  */
 package de.topobyte.livecg.core.painting;
 
-import java.awt.image.BufferedImage;
 import java.util.List;
 
 import noawt.java.awt.Shape;
@@ -78,5 +77,5 @@ public interface Painter
 
 	public void setTransform(AffineTransform t);
 
-	public void drawImage(BufferedImage image, int x, int y);
+	public void drawImage(Image image, int x, int y);
 }

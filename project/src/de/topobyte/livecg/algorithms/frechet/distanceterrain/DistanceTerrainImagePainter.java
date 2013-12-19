@@ -17,16 +17,15 @@
  */
 package de.topobyte.livecg.algorithms.frechet.distanceterrain;
 
-import java.awt.image.BufferedImage;
-
 import de.topobyte.color.util.HSLColor;
 import de.topobyte.livecg.algorithms.frechet.freespace.calc.LineSegment;
 import de.topobyte.livecg.core.lina.Vector2;
 import de.topobyte.livecg.core.painting.Color;
+import de.topobyte.livecg.core.painting.Image;
 
 public class DistanceTerrainImagePainter
 {
-	private BufferedImage image;
+	private Image image;
 	private int ox;
 	private int oy;
 	private int width;
@@ -34,8 +33,8 @@ public class DistanceTerrainImagePainter
 	private LineSegment seg1 = null;
 	private LineSegment seg2 = null;
 
-	public DistanceTerrainImagePainter(BufferedImage image, int x, int y,
-			int width, int height, LineSegment seg1, LineSegment seg2)
+	public DistanceTerrainImagePainter(Image image, int x, int y, int width,
+			int height, LineSegment seg1, LineSegment seg2)
 	{
 		this.image = image;
 		this.ox = x;
