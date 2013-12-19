@@ -42,5 +42,6 @@
 	<classpathentry kind="lib" path="lib/commons-codec-1.6.jar"/>
 	<classpathentry kind="lib" path="lib/Clipper.jar"/>
 	<classpathentry kind="lib" path="lib/misc-utils.jar"/>
+	<classpathentry kind="lib" path="lib/noawt.jar"/>
 	<classpathentry kind="output" path="bin/main"/>
 </classpath>

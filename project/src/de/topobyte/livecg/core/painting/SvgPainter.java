@@ -17,10 +17,6 @@
  */
 package de.topobyte.livecg.core.painting;
 
-import java.awt.Shape;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.PathIterator;
-import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -31,6 +27,11 @@ import java.util.Locale;
 import java.util.Map;
 
 import javax.imageio.ImageIO;
+
+import noawt.java.awt.Shape;
+import noawt.java.awt.geom.AffineTransform;
+import noawt.java.awt.geom.PathIterator;
+import noawt.java.awt.geom.Rectangle2D;
 
 import org.apache.batik.dom.svg.SVGDOMImplementation;
 import org.apache.commons.codec.binary.Base64;

@@ -15,23 +15,40 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.topobyte.livecg.core.lina;
+package de.topobyte.livecg.core.geometry.geom;
 
-import noawt.java.awt.geom.AffineTransform;
+import noawt.java.awt.geom.Area;
+import noawt.java.awt.geom.Path2D;
 
-public class AwtTransformUtil
+public class NoAwtHelper
 {
-
-	public static Matrix convert(AffineTransform transform)
+	public static Area toShape(Polygon p)
 	{
-		Matrix matrix = new Matrix(2, 3);
-		matrix.setValue(0, 0, transform.getScaleX());
-		matrix.setValue(0, 1, transform.getShearY());
-		matrix.setValue(1, 0, transform.getShearX());
-		matrix.setValue(1, 1, transform.getScaleY());
-		matrix.setValue(2, 0, transform.getTranslateX());
-		matrix.setValue(2, 1, transform.getTranslateY());
-		return matrix;
+		if (p.isEmpty()) {
+			return new Area();
+		}
+
+		Chain shell = p.getShell();
+		Area outer = getArea(shell);
+
+		for (Chain hole : p.getHoles()) {
+			Area inner = getArea(hole);
+			outer.subtract(inner);
+		}
+
+		return outer;
 	}
 
+	public static Area getArea(Chain ring)
+	{
+		Path2D.Double path = new Path2D.Double();
+		Coordinate c = ring.getCoordinate(0);
+		path.moveTo(c.getX(), c.getY());
+		for (int i = 1; i < ring.getNumberOfNodes(); i++) {
+			c = ring.getCoordinate(i);
+			path.lineTo(c.getX(), c.getY());
+		}
+		path.closePath();
+		return new Area(path);
+	}
 }

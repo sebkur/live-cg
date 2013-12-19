@@ -17,11 +17,11 @@
  */
 package de.topobyte.livecg.algorithms.polygon.shortestpath;
 
-import java.awt.Shape;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
+import noawt.java.awt.Shape;
 import de.topobyte.livecg.algorithms.polygon.monotonepieces.Diagonal;
 import de.topobyte.livecg.core.config.LiveConfig;
 import de.topobyte.livecg.core.geometry.geom.Chain;
@@ -33,7 +33,7 @@ import de.topobyte.livecg.core.painting.Color;
 import de.topobyte.livecg.core.painting.Painter;
 import de.topobyte.livecg.core.painting.TransformingAlgorithmPainter;
 import de.topobyte.livecg.util.MouseOver;
-import de.topobyte.livecg.util.ShapeUtil;
+import de.topobyte.livecg.util.ShapeUtilNoAwt;
 import de.topobyte.livecg.util.graph.Edge;
 
 public class ShortestPathPainter extends TransformingAlgorithmPainter
@@ -118,8 +118,8 @@ public class ShortestPathPainter extends TransformingAlgorithmPainter
 	private MouseOver mouseOverStart = MouseOver.NONE;
 	private MouseOver mouseOverTarget = MouseOver.NONE;
 
-	public ShortestPathPainter(ShortestPathAlgorithm algorithm, ShortestPathConfig config,
-			Painter painter)
+	public ShortestPathPainter(ShortestPathAlgorithm algorithm,
+			ShortestPathConfig config, Painter painter)
 	{
 		super(algorithm.getScene(), painter);
 		this.algorithm = algorithm;
@@ -315,7 +315,7 @@ public class ShortestPathPainter extends TransformingAlgorithmPainter
 			Coordinate t = transformer.transform(c);
 			if (apexVisible) {
 				painter.setColor(COLOR_APEX);
-				painter.fill(ShapeUtil.createArc(t.getX(), t.getY(), SIZE_APEX));
+				painter.fill(ShapeUtilNoAwt.createArc(t.getX(), t.getY(), SIZE_APEX));
 			}
 		}
 
@@ -329,7 +329,7 @@ public class ShortestPathPainter extends TransformingAlgorithmPainter
 				Coordinate tn = transformer.transform(next.getCoordinate());
 
 				painter.setColor(nextNodeColor());
-				painter.fill(ShapeUtil.createArc(tn.getX(), tn.getY(),
+				painter.fill(ShapeUtilNoAwt.createArc(tn.getX(), tn.getY(),
 						SIZE_SUBSTATUS_NODE));
 			}
 		}
@@ -354,16 +354,16 @@ public class ShortestPathPainter extends TransformingAlgorithmPainter
 		Coordinate tStart = transformer.transform(cStart);
 		Coordinate tTarget = transformer.transform(cTarget);
 
-		Shape arcStart = ShapeUtil.createArc(tStart.getX(), tStart.getY(), r);
-		Shape arcTarget = ShapeUtil
+		Shape arcStart = ShapeUtilNoAwt.createArc(tStart.getX(), tStart.getY(), r);
+		Shape arcTarget = ShapeUtilNoAwt
 				.createArc(tTarget.getX(), tTarget.getY(), r);
-		Shape arcStartIn = ShapeUtil.createArc(tStart.getX(), tStart.getY(), r
+		Shape arcStartIn = ShapeUtilNoAwt.createArc(tStart.getX(), tStart.getY(), r
 				- w / 2);
-		Shape arcTargetIn = ShapeUtil.createArc(tTarget.getX(), tTarget.getY(),
+		Shape arcTargetIn = ShapeUtilNoAwt.createArc(tTarget.getX(), tTarget.getY(),
 				r - w / 2);
-		Shape arcStartOut = ShapeUtil.createArc(tStart.getX(), tStart.getY(), r
+		Shape arcStartOut = ShapeUtilNoAwt.createArc(tStart.getX(), tStart.getY(), r
 				+ w / 2);
-		Shape arcTargetOut = ShapeUtil.createArc(tTarget.getX(),
+		Shape arcTargetOut = ShapeUtilNoAwt.createArc(tTarget.getX(),
 				tTarget.getY(), r + w / 2);
 
 		painter.setStrokeWidth(w);
@@ -439,7 +439,7 @@ public class ShortestPathPainter extends TransformingAlgorithmPainter
 		for (int i = 0; i < data.getCommonLength() - 1; i++) {
 			Coordinate c = data.getCommon(i).getCoordinate();
 			Coordinate t = transformer.transform(c);
-			painter.fill(ShapeUtil.createArc(t.getX(), t.getY(),
+			painter.fill(ShapeUtilNoAwt.createArc(t.getX(), t.getY(),
 					i == 0 ? SIZE_FIRST_NODE : SIZE_INTERMEDIATE_NODES));
 		}
 	}
@@ -474,7 +474,7 @@ public class ShortestPathPainter extends TransformingAlgorithmPainter
 		for (int i = 0; i < data.getFunnelLength(side); i++) {
 			Coordinate c = transformer.transform(data.get(side, i)
 					.getCoordinate());
-			painter.fill(ShapeUtil.createArc(c.getX(), c.getY(),
+			painter.fill(ShapeUtilNoAwt.createArc(c.getX(), c.getY(),
 					SIZE_INTERMEDIATE_NODES));
 		}
 
@@ -485,7 +485,7 @@ public class ShortestPathPainter extends TransformingAlgorithmPainter
 		} else {
 			painter.setColor(COLOR_RIGHT_TOP);
 		}
-		painter.fill(ShapeUtil.createArc(c.getX(), c.getY(), SIZE_FINAL_NODES));
+		painter.fill(ShapeUtilNoAwt.createArc(c.getX(), c.getY(), SIZE_FINAL_NODES));
 	}
 
 }

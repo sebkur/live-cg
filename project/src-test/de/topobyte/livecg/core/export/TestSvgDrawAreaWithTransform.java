@@ -17,10 +17,6 @@
  */
 package de.topobyte.livecg.core.export;
 
-import java.awt.Shape;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Arc2D;
-import java.awt.geom.Area;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -34,19 +30,24 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import noawt.java.awt.Shape;
+import noawt.java.awt.geom.AffineTransform;
+import noawt.java.awt.geom.Arc2D;
+import noawt.java.awt.geom.Area;
+
 import org.apache.batik.dom.svg.SVGDOMImplementation;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
-import de.topobyte.livecg.core.geometry.geom.AwtHelper;
+import de.topobyte.livecg.core.geometry.geom.NoAwtHelper;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
 import de.topobyte.livecg.core.geometry.io.ContentReader;
 import de.topobyte.livecg.core.painting.Color;
 import de.topobyte.livecg.core.painting.SvgPainter;
 import de.topobyte.livecg.ui.geometryeditor.Content;
-import de.topobyte.livecg.util.ShapeUtil;
+import de.topobyte.livecg.util.ShapeUtilNoAwt;
 
 public class TestSvgDrawAreaWithTransform
 {
@@ -60,7 +61,7 @@ public class TestSvgDrawAreaWithTransform
 		Content content = contentReader.read(new File(path));
 		List<Polygon> polygons = content.getPolygons();
 		Polygon polygon = polygons.get(0);
-		Area area = AwtHelper.toShape(polygon);
+		Area area = NoAwtHelper.toShape(polygon);
 
 		int width = 600, height = 600;
 
@@ -90,7 +91,7 @@ public class TestSvgDrawAreaWithTransform
 
 		paint(painter, area);
 
-		Arc2D arc = ShapeUtil.createArc(200, 200, 100);
+		Arc2D arc = ShapeUtilNoAwt.createArc(200, 200, 100);
 		paint(painter, arc);
 
 		TransformerFactory transformerFactory = TransformerFactory

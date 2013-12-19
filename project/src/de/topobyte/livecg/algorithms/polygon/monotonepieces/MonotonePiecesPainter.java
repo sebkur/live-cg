@@ -17,12 +17,12 @@
  */
 package de.topobyte.livecg.algorithms.polygon.monotonepieces;
 
-import java.awt.geom.Arc2D;
-import java.awt.geom.Path2D;
-import java.awt.geom.Rectangle2D;
 import java.util.List;
 import java.util.Map;
 
+import noawt.java.awt.geom.Arc2D;
+import noawt.java.awt.geom.Path2D;
+import noawt.java.awt.geom.Rectangle2D;
 import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.core.geometry.geom.Coordinate;
 import de.topobyte.livecg.core.geometry.geom.Node;
@@ -41,8 +41,8 @@ public class MonotonePiecesPainter extends TransformingAlgorithmPainter
 	private Map<Polygon, java.awt.Color> colorMap;
 
 	public MonotonePiecesPainter(MonotonePiecesAlgorithm algorithm,
-			MonotonePiecesConfig polygonConfig, Map<Polygon, java.awt.Color> colorMap,
-			Painter painter)
+			MonotonePiecesConfig polygonConfig,
+			Map<Polygon, java.awt.Color> colorMap, Painter painter)
 	{
 		super(algorithm.getScene(), painter);
 		this.polygon = algorithm.getPolygon();

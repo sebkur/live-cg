@@ -17,8 +17,7 @@
  */
 package de.topobyte.livecg.datastructures.dcel;
 
-import java.awt.geom.GeneralPath;
-
+import noawt.java.awt.geom.GeneralPath;
 import de.topobyte.livecg.core.config.LiveConfig;
 import de.topobyte.livecg.core.geometry.dcel.DCEL;
 import de.topobyte.livecg.core.geometry.dcel.DcelUtil;

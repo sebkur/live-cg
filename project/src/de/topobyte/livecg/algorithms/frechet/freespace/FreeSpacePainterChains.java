@@ -17,8 +17,7 @@
  */
 package de.topobyte.livecg.algorithms.frechet.freespace;
 
-import java.awt.geom.AffineTransform;
-
+import noawt.java.awt.geom.AffineTransform;
 import de.topobyte.livecg.algorithms.frechet.FrechetUtil;
 import de.topobyte.livecg.algorithms.frechet.freespace.calc.LineSegment;
 import de.topobyte.livecg.algorithms.frechet.freespace.calc.ReachableSpace;
@@ -41,8 +40,8 @@ public class FreeSpacePainterChains extends BasicAlgorithmPainter implements
 	private final Chain chain1;
 	private final Chain chain2;
 
-	public FreeSpacePainterChains(FreeSpaceConfig config, int epsilon, Chain chain1,
-			Chain chain2, Painter painter)
+	public FreeSpacePainterChains(FreeSpaceConfig config, int epsilon,
+			Chain chain1, Chain chain2, Painter painter)
 	{
 		super(painter);
 		this.config = config;

@@ -17,12 +17,6 @@
  */
 package de.topobyte.livecg.core.painting;
 
-import java.awt.Shape;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Area;
-import java.awt.geom.GeneralPath;
-import java.awt.geom.PathIterator;
-import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -32,6 +26,11 @@ import java.util.List;
 import java.util.Set;
 
 import javax.imageio.ImageIO;
+
+import noawt.java.awt.Shape;
+import noawt.java.awt.geom.AffineTransform;
+import noawt.java.awt.geom.Area;
+import noawt.java.awt.geom.Rectangle2D;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,6 +45,7 @@ import de.topobyte.livecg.core.lina.AffineTransformUtil;
 import de.topobyte.livecg.core.lina.AwtTransformUtil;
 import de.topobyte.livecg.core.lina.Matrix;
 import de.topobyte.livecg.util.CloneUtil;
+import de.topobyte.livecg.util.NoAwtUtil;
 
 public class TikzPainter implements Painter
 {
@@ -69,6 +69,8 @@ public class TikzPainter implements Painter
 
 	// Safety rectangle to clip geometries with, to avoid latex errors
 	private Rectangle2D safetyRect = new Rectangle2D.Double(0, -1, 1, 1);
+	private java.awt.geom.Rectangle2D safetyRectAwt = new java.awt.geom.Rectangle2D.Double(
+			0, -1, 1, 1);
 	private Area safetyArea = new Area(safetyRect);
 
 	private String newline = "\n";
@@ -624,37 +626,39 @@ public class TikzPainter implements Painter
 	{
 		StringBuilder strb = new StringBuilder();
 
-		GeneralPath clipped = Clipper.clipToRect(shape, safetyRect);
+		java.awt.Shape awtShape = NoAwtUtil.convert(shape);
+		java.awt.geom.GeneralPath clipped = Clipper.clipToRect(awtShape,
+				safetyRectAwt);
 
-		PathIterator pathIterator = clipped
-				.getPathIterator(new AffineTransform());
+		java.awt.geom.PathIterator pathIterator = clipped
+				.getPathIterator(new java.awt.geom.AffineTransform());
 		while (!pathIterator.isDone()) {
 			double[] coords = new double[6];
 			int type = pathIterator.currentSegment(coords);
 			pathIterator.next();
 
 			switch (type) {
-			case PathIterator.SEG_MOVETO:
+			case java.awt.geom.PathIterator.SEG_MOVETO:
 				double cx = coords[0];
 				double cy = coords[1];
 				pathMoveTo(strb, cx, cy);
 				break;
-			case PathIterator.SEG_LINETO:
+			case java.awt.geom.PathIterator.SEG_LINETO:
 				cx = coords[0];
 				cy = coords[1];
 				pathLineTo(strb, cx, cy);
 				break;
-			case PathIterator.SEG_CLOSE:
+			case java.awt.geom.PathIterator.SEG_CLOSE:
 				pathClose(strb);
 				break;
-			case PathIterator.SEG_QUADTO:
+			case java.awt.geom.PathIterator.SEG_QUADTO:
 				cx = coords[2];
 				cy = coords[3];
 				double c1x = coords[0];
 				double c1y = coords[1];
 				pathQuadraticTo(strb, c1x, c1y, cx, cy);
 				break;
-			case PathIterator.SEG_CUBICTO:
+			case java.awt.geom.PathIterator.SEG_CUBICTO:
 				cx = coords[4];
 				cy = coords[5];
 				c1x = coords[0];

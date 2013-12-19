@@ -17,11 +17,11 @@
  */
 package de.topobyte.livecg.core.painting;
 
-import java.awt.Shape;
-import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.util.List;
 
+import noawt.java.awt.Shape;
+import noawt.java.awt.geom.AffineTransform;
 import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.core.geometry.geom.Coordinate;
 import de.topobyte.livecg.core.geometry.geom.Polygon;

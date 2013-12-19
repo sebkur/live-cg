@@ -20,20 +20,18 @@ package de.topobyte.livecg.core.painting;
 import java.awt.BasicStroke;
 import java.awt.Font;
 import java.awt.Graphics2D;
-import java.awt.Shape;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Arc2D;
-import java.awt.geom.Area;
-import java.awt.geom.GeneralPath;
-import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.List;
 
+import noawt.java.awt.Shape;
+import noawt.java.awt.geom.AffineTransform;
+import noawt.java.awt.geom.Rectangle2D;
 import de.topobyte.livecg.core.geometry.geom.AwtHelper;
 import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.core.geometry.geom.Coordinate;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
-import de.topobyte.livecg.util.ShapeUtil;
+import de.topobyte.livecg.util.NoAwtUtil;
+import de.topobyte.livecg.util.ShapeUtilAwt;
 
 public class AwtPainter implements Painter
 {
@@ -69,7 +67,8 @@ public class AwtPainter implements Painter
 	@Override
 	public void drawRect(double x, double y, double width, double height)
 	{
-		Rectangle2D.Double rect = new Rectangle2D.Double(x, y, width, height);
+		java.awt.geom.Rectangle2D.Double rect = new java.awt.geom.Rectangle2D.Double(
+				x, y, width, height);
 		g.draw(rect);
 	}
 
@@ -82,7 +81,8 @@ public class AwtPainter implements Painter
 	@Override
 	public void fillRect(double x, double y, double width, double height)
 	{
-		Rectangle2D.Double rect = new Rectangle2D.Double(x, y, width, height);
+		java.awt.geom.Rectangle2D.Double rect = new java.awt.geom.Rectangle2D.Double(
+				x, y, width, height);
 		g.fill(rect);
 	}
 
@@ -95,7 +95,7 @@ public class AwtPainter implements Painter
 	@Override
 	public void drawLine(double x1, double y1, double x2, double y2)
 	{
-		GeneralPath p = new GeneralPath();
+		java.awt.geom.GeneralPath p = new java.awt.geom.GeneralPath();
 		p.moveTo(x1, y1);
 		p.lineTo(x2, y2);
 		g.draw(p);
@@ -108,7 +108,7 @@ public class AwtPainter implements Painter
 			return;
 		}
 
-		GeneralPath p = new GeneralPath();
+		java.awt.geom.GeneralPath p = new java.awt.geom.GeneralPath();
 		p.moveTo(points.get(0).getX(), points.get(0).getY());
 		for (int i = 1; i < points.size(); i++) {
 			Coordinate c = points.get(i);
@@ -127,7 +127,7 @@ public class AwtPainter implements Painter
 			return;
 		}
 
-		GeneralPath p = new GeneralPath();
+		java.awt.geom.GeneralPath p = new java.awt.geom.GeneralPath();
 		Coordinate c0 = chain.getCoordinate(0);
 		p.moveTo(c0.getX(), c0.getY());
 		for (int i = 1; i < chain.getNumberOfNodes(); i++) {
@@ -143,41 +143,41 @@ public class AwtPainter implements Painter
 	@Override
 	public void drawCircle(double x, double y, double radius)
 	{
-		Arc2D arc = ShapeUtil.createArc(x, y, radius);
+		java.awt.geom.Arc2D arc = ShapeUtilAwt.createArc(x, y, radius);
 		g.draw(arc);
 	}
 
 	@Override
 	public void fillCircle(double x, double y, double radius)
 	{
-		Arc2D arc = ShapeUtil.createArc(x, y, radius);
+		java.awt.geom.Arc2D arc = ShapeUtilAwt.createArc(x, y, radius);
 		g.fill(arc);
 	}
 
 	@Override
 	public void drawPolygon(Polygon polygon)
 	{
-		Area area = AwtHelper.toShape(polygon);
+		java.awt.geom.Area area = AwtHelper.toShape(polygon);
 		g.draw(area);
 	}
 
 	@Override
 	public void fillPolygon(Polygon polygon)
 	{
-		Area area = AwtHelper.toShape(polygon);
+		java.awt.geom.Area area = AwtHelper.toShape(polygon);
 		g.fill(area);
 	}
 
 	@Override
 	public void draw(Shape shape)
 	{
-		g.draw(shape);
+		g.draw(NoAwtUtil.convert(shape));
 	}
 
 	@Override
 	public void fill(Shape shape)
 	{
-		g.fill(shape);
+		g.fill(NoAwtUtil.convert(shape));
 	}
 
 	@Override
@@ -197,7 +197,7 @@ public class AwtPainter implements Painter
 	@Override
 	public void setClip(Object clip)
 	{
-		g.setClip((Shape) clip);
+		g.setClip((java.awt.Shape) clip);
 	}
 
 	@Override
@@ -209,19 +209,19 @@ public class AwtPainter implements Painter
 	@Override
 	public void clipArea(Shape shape)
 	{
-		g.clip(shape);
+		g.clip(NoAwtUtil.convert(shape));
 	}
 
 	@Override
 	public AffineTransform getTransform()
 	{
-		return g.getTransform();
+		return NoAwtUtil.convert(g.getTransform());
 	}
 
 	@Override
 	public void setTransform(AffineTransform t)
 	{
-		g.setTransform(t);
+		g.setTransform(NoAwtUtil.convert(t));
 	}
 
 	@Override

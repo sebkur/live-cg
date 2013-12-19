@@ -17,14 +17,14 @@
  */
 package de.topobyte.livecg.algorithms.frechet.freespace;
 
-import java.awt.Shape;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Arc2D;
-import java.awt.geom.Area;
-import java.awt.geom.NoninvertibleTransformException;
-import java.awt.geom.Rectangle2D;
 import java.util.Random;
 
+import noawt.java.awt.Shape;
+import noawt.java.awt.geom.AffineTransform;
+import noawt.java.awt.geom.Arc2D;
+import noawt.java.awt.geom.Area;
+import noawt.java.awt.geom.NoninvertibleTransformException;
+import noawt.java.awt.geom.Rectangle2D;
 import de.topobyte.livecg.algorithms.frechet.freespace.calc.FreeSpaceUtil;
 import de.topobyte.livecg.algorithms.frechet.freespace.calc.Interval;
 import de.topobyte.livecg.algorithms.frechet.freespace.calc.LineSegment;
@@ -60,7 +60,8 @@ public class FreeSpacePainterSegments extends BasicAlgorithmPainter implements
 	private float markerWidth = 2;
 	private int markerLength = 3;
 
-	public FreeSpacePainterSegments(FreeSpaceConfig config, int epsilon, Painter painter)
+	public FreeSpacePainterSegments(FreeSpaceConfig config, int epsilon,
+			Painter painter)
 	{
 		super(painter);
 		this.config = config;

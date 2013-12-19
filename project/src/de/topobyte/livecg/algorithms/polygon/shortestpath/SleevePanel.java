@@ -38,7 +38,7 @@ import de.topobyte.livecg.core.geometry.geom.Coordinate;
 import de.topobyte.livecg.core.geometry.geom.Node;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
 import de.topobyte.livecg.core.geometry.geom.PolygonHelper;
-import de.topobyte.livecg.util.ShapeUtil;
+import de.topobyte.livecg.util.ShapeUtilAwt;
 import de.topobyte.livecg.util.SwingUtil;
 import de.topobyte.livecg.util.circular.IntRing;
 import de.topobyte.livecg.util.graph.Edge;
@@ -153,9 +153,10 @@ public class SleevePanel extends JPanel
 
 		Coordinate cStart = nodeStart.getCoordinate();
 		Coordinate cTarget = nodeTarget.getCoordinate();
-		Arc2D arcStart = ShapeUtil.createArc(cStart.getX(), cStart.getY(), 5);
-		Arc2D arcTarget = ShapeUtil
-				.createArc(cTarget.getX(), cTarget.getY(), 5);
+		Arc2D arcStart = ShapeUtilAwt
+				.createArc(cStart.getX(), cStart.getY(), 5);
+		Arc2D arcTarget = ShapeUtilAwt.createArc(cTarget.getX(),
+				cTarget.getY(), 5);
 		g.setColor(Color.RED);
 		g.draw(arcStart);
 		g.setColor(Color.GREEN);

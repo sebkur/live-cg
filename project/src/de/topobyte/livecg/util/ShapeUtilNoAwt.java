@@ -17,11 +17,11 @@
  */
 package de.topobyte.livecg.util;
 
-import java.awt.Shape;
-import java.awt.geom.Arc2D;
-import java.awt.geom.Area;
+import noawt.java.awt.Shape;
+import noawt.java.awt.geom.Arc2D;
+import noawt.java.awt.geom.Area;
 
-public class ShapeUtil
+public class ShapeUtilNoAwt
 {
 
 	public static Arc2D createArc(double x, double y, double r)

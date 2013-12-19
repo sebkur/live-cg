@@ -25,7 +25,6 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
-import java.awt.geom.Area;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -36,15 +35,17 @@ import javax.swing.InputMap;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 
+import noawt.java.awt.geom.Area;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.topobyte.livecg.core.config.LiveConfig;
-import de.topobyte.livecg.core.geometry.geom.AwtHelper;
 import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.core.geometry.geom.Coordinate;
 import de.topobyte.livecg.core.geometry.geom.GeometryTransformer;
 import de.topobyte.livecg.core.geometry.geom.LineSegment;
+import de.topobyte.livecg.core.geometry.geom.NoAwtHelper;
 import de.topobyte.livecg.core.geometry.geom.Node;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
 import de.topobyte.livecg.core.geometry.geom.Rectangle;
@@ -55,8 +56,8 @@ import de.topobyte.livecg.core.painting.Color;
 import de.topobyte.livecg.core.painting.Painter;
 import de.topobyte.livecg.core.scrolling.HasMargin;
 import de.topobyte.livecg.core.scrolling.HasScene;
-import de.topobyte.livecg.core.scrolling.ViewportWithSignals;
 import de.topobyte.livecg.core.scrolling.ViewportListener;
+import de.topobyte.livecg.core.scrolling.ViewportWithSignals;
 import de.topobyte.livecg.ui.geometryeditor.action.OpenCloseRingAction;
 import de.topobyte.livecg.ui.geometryeditor.mouse.EditorMouseListener;
 import de.topobyte.livecg.ui.geometryeditor.mousemode.MouseMode;
@@ -717,7 +718,7 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 
 	private void drawInterior(Painter p, Polygon polygon)
 	{
-		Area area = AwtHelper.toShape(polygon);
+		Area area = NoAwtHelper.toShape(polygon);
 		p.setColor(colorPolygonInterior);
 		p.fill(area);
 	}
