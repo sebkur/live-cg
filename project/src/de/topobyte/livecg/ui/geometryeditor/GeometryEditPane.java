@@ -126,6 +126,7 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 	public void setZoom(double zoom)
 	{
 		setZoomCentered(zoom);
+		repaint();
 	}
 
 	public void setZoomCentered(double zoom)
