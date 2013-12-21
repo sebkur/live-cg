@@ -76,11 +76,16 @@ public class IpePainter implements Painter
 		this.doc = doc;
 		this.root = root;
 
-		mxWs = AffineTransformUtil.scale(1, -1);
+		int y = 832;
+
+		mxWs = AffineTransformUtil.scale(1, -1).multiplyFromRight(
+				AffineTransformUtil.translate(0, -y));
+		;
 		trWs = new GeometryTransformer(mxWs);
 
 		atWs = new AffineTransform();
 		atWs.scale(1, -1);
+		atWs.translate(0, -y);
 
 		ipestyle = doc.createElementNS(null, "ipestyle");
 
