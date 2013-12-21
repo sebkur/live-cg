@@ -512,7 +512,8 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 				continue;
 			}
 			Polygon tpolygon = transformer.transform(polygon);
-			drawExterior(p, tpolygon, colorChainLines, colorChainPoints);
+			drawExterior(p, tpolygon, colorChainLines, colorChainPoints,
+					getName(chains.size() + i));
 		}
 
 		if (currentChains.size() > 0) {
@@ -541,7 +542,7 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 			for (Polygon polygon : currentPolygons) {
 				Polygon tpolygon = transformer.transform(polygon);
 				drawExterior(p, tpolygon, colorEditingChainLines,
-						colorEditingChainPoints);
+						colorEditingChainPoints, null);
 			}
 		}
 
@@ -724,12 +725,12 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 	}
 
 	private void drawExterior(Painter p, Polygon polygon, Color colorLines,
-			Color colorPoints)
+			Color colorPoints, String name)
 	{
 		if (currentChains.contains(polygon.getShell())) {
 			return;
 		}
-		draw(p, polygon.getShell(), colorLines, colorPoints, null);
+		draw(p, polygon.getShell(), colorLines, colorPoints, name);
 		for (Chain hole : polygon.getHoles()) {
 			draw(p, hole, colorLines, colorPoints, null);
 		}
