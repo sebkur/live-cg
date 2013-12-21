@@ -185,7 +185,7 @@ public class CreateImage
 		AlgorithmPainter algorithmPainter = null;
 
 		int margin = 15;
-		double zoom = 2;
+		double zoom = 1;
 
 		switch (visualization) {
 		case GEOMETRY: {
