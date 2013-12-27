@@ -75,6 +75,9 @@ public abstract class DcelPainter extends TransformingAlgorithmPainter
 			painter.setColor(COLOR_NODES);
 			for (Vertex vertex : getDcel().getVertices()) {
 				Coordinate c = transformer.transform(vertex.getCoordinate());
+				if (!isValid(c)) {
+					continue;
+				}
 				painter.fillCircle(c.getX(), c.getY(), 4);
 			}
 
@@ -86,6 +89,9 @@ public abstract class DcelPainter extends TransformingAlgorithmPainter
 				Coordinate co = transformer.transform(origin.getCoordinate());
 				Coordinate cd = transformer.transform(destination
 						.getCoordinate());
+				if (!isValid(co) || !isValid(cd)) {
+					continue;
+				}
 				painter.drawLine(co.getX(), co.getY(), cd.getX(), cd.getY());
 			}
 
@@ -159,6 +165,11 @@ public abstract class DcelPainter extends TransformingAlgorithmPainter
 	private void drawLine(Vector2 v1, Vector2 v2)
 	{
 		painter.drawLine(v1.getX(), v1.getY(), v2.getX(), v2.getY());
+	}
+
+	private boolean isValid(Coordinate c)
+	{
+		return !Double.isNaN(c.getX()) && !Double.isNaN(c.getY());
 	}
 
 }
