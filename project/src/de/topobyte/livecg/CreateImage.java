@@ -49,6 +49,7 @@ import de.topobyte.livecg.algorithms.polygon.shortestpath.ShortestPathAlgorithm;
 import de.topobyte.livecg.algorithms.polygon.shortestpath.ShortestPathConfig;
 import de.topobyte.livecg.algorithms.polygon.shortestpath.ShortestPathHelper;
 import de.topobyte.livecg.algorithms.polygon.shortestpath.ShortestPathPainter;
+import de.topobyte.livecg.algorithms.voronoi.fortune.FortuneStatusParser;
 import de.topobyte.livecg.algorithms.voronoi.fortune.FortunesSweep;
 import de.topobyte.livecg.algorithms.voronoi.fortune.geometry.Point;
 import de.topobyte.livecg.algorithms.voronoi.fortune.ui.core.FortuneConfig;
@@ -100,6 +101,7 @@ public class CreateImage
 	private static final String OPTION_OUTPUT = "output";
 	private static final String OPTION_OUTPUT_FORMAT = "output_format";
 	private static final String OPTION_VISUALIZATION = "visualization";
+	private static final String OPTION_STATUS = "status";
 
 	public static void main(String[] args)
 	{
@@ -120,6 +122,8 @@ public class CreateImage
 					"type of visualization. one of " +
 					"<geometry, dcel, fortune, monotone, triangulation, " +
 					"spip, freespace, distanceterrain, chan>");
+		OptionHelper.add(options, OPTION_STATUS, true, false, "status to " +
+				"set the algorithm to. The format depends on the algorithm");
 		// @formatter:on
 
 		CommandLineParser clp = new GnuParser();
@@ -146,6 +150,7 @@ public class CreateImage
 				OPTION_OUTPUT_FORMAT);
 		StringOption argVisualization = ArgumentHelper.getString(line,
 				OPTION_VISUALIZATION);
+		StringOption argStatus = ArgumentHelper.getString(line, OPTION_STATUS);
 
 		ExportFormat exportFormat = exportSwitch.find(argOutputFormat
 				.getValue());
@@ -270,7 +275,6 @@ public class CreateImage
 		}
 		case FORTUNE: {
 			List<Node> nodes = ContentHelper.collectNodes(content);
-
 			FortunesSweep alg = new FortunesSweep();
 
 			List<Point> sites = new ArrayList<Point>();
@@ -280,8 +284,20 @@ public class CreateImage
 			}
 			alg.setSites(sites);
 
+			if (argStatus.hasValue()) {
+				String statusArgument = argStatus.getValue();
+				try {
+					double status = FortuneStatusParser.parse(statusArgument);
+					alg.setSweep(status);
+				} catch (IllegalArgumentException e) {
+					System.out.println("Invalid format for status");
+					System.exit(1);
+				}
+			}
+
 			algorithm = alg;
 			FortuneConfig config = new FortuneConfig();
+			config.setDrawCircles(true);
 			algorithmPainter = new FortunePainter(alg, config, null);
 			break;
 		}
