@@ -71,12 +71,12 @@ public class IpePainter implements Painter
 
 	private static String newline = "\n";
 
-	public IpePainter(Document doc, Element root)
+	public IpePainter(Document doc, Element root, int pwidth, int pheight)
 	{
 		this.doc = doc;
 		this.root = root;
 
-		int y = 832;
+		int y = pheight;
 
 		mxWs = AffineTransformUtil.scale(1, -1).multiplyFromRight(
 				AffineTransformUtil.translate(0, -y));
@@ -88,6 +88,12 @@ public class IpePainter implements Painter
 		atWs.translate(0, -y);
 
 		ipestyle = doc.createElementNS(null, "ipestyle");
+
+		Element layout = doc.createElementNS(null, "layout");
+		ipestyle.appendChild(layout);
+		layout.setAttribute("paper", pwidth + " " + pheight);
+		layout.setAttribute("origin", "0 0");
+		layout.setAttribute("frame", pwidth + " " + pheight);
 
 		for (int i = 0; i <= 100; i += 10) {
 			Element opacity = doc.createElementNS(null, "opacity");

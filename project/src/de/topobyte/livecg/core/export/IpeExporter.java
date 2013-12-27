@@ -58,7 +58,7 @@ public class IpeExporter
 		ipeRoot.setAttributeNS(null, "version", "70005");
 		ipeRoot.setAttributeNS(null, "creator", "LiveCG");
 
-		IpePainter painter = new IpePainter(doc, ipeRoot);
+		IpePainter painter = new IpePainter(doc, ipeRoot, width, height);
 
 		algorithmPainter.setPainter(painter);
 		algorithmPainter.setWidth(width);
