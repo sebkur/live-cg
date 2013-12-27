@@ -120,7 +120,6 @@ public class ArcNode extends ParabolaPoint
 	{
 		if (startOfTrace != null) {
 			algorithm.getVoronoi().addLine(new Edge(startOfTrace, point));
-			algorithm.getDelaunay().add(new Edge(this, next));
 			startOfTraceBackup.push(startOfTrace);
 			startOfTrace = null;
 		}

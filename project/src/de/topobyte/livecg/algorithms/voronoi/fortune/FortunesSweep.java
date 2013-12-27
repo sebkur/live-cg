@@ -503,6 +503,9 @@ public class FortunesSweep extends DefaultAlgorithm
 			// Create a supporting point at the left of the image
 			start = new Point(0, (splitArc.getY() + parabolaPoint.getY()) / 2);
 			splitArc.setStartOfTrace(start);
+
+			// Add an edge to the delaunay triangulation
+			delaunay.add(new Edge(splitArc, newArc));
 		} else {
 			// Delete now invalid circle-event
 			splitArc.removeCircle(site, events);
@@ -529,6 +532,9 @@ public class FortunesSweep extends DefaultAlgorithm
 					parabolaPoint.getY());
 			splitArc.setStartOfTrace(start);
 			splitArc.getNext().setStartOfTrace(start);
+
+			// Add an edge to the delaunay triangulation
+			delaunay.add(new Edge(splitArc, newArc));
 		}
 
 		/*
@@ -599,6 +605,9 @@ public class FortunesSweep extends DefaultAlgorithm
 		if (degenerate) {
 			prev.setNext(null);
 		}
+
+		// Update Delaunay
+		delaunay.remove(iter, prev);
 
 		// Update DCEL
 		DCEL dcel = voronoi.getDcel();
@@ -672,6 +681,9 @@ public class FortunesSweep extends DefaultAlgorithm
 			}
 		}, arcs, height, sweepX);
 
+		// Add an edge to the delaunay triangulation
+		delaunay.add(new Edge(prev, next));
+
 		// Get both halfedges starting at the voronoi vertex
 		HalfEdge e1 = prev.getHalfedge();
 		HalfEdge e2 = arc.getHalfedge();
@@ -736,12 +748,8 @@ public class FortunesSweep extends DefaultAlgorithm
 		arc.getPrevious().uncompleteTrace();
 		// Remove vertex/edges from voronoi diagram
 		voronoi.removeLinesFromVertex(point);
-		// Remove edge from delaunay triangulation. Remove each edge twice with
-		// inverted coordinates to make sure equals() works with one of them.
-		delaunay.remove(new Edge(arc, arc.getPrevious()));
-		delaunay.remove(new Edge(arc, arc.getNext()));
-		delaunay.remove(new Edge(arc.getPrevious(), arc));
-		delaunay.remove(new Edge(arc.getNext(), arc));
+		// Remove edge from delaunay triangulation
+		delaunay.remove(arc.getPrevious(), arc.getNext());
 
 		// Update DCEL
 		DCEL dcel = voronoi.getDcel();

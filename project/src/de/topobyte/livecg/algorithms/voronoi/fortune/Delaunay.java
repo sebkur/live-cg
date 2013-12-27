@@ -21,10 +21,18 @@ package de.topobyte.livecg.algorithms.voronoi.fortune;
 import java.util.ArrayList;
 
 import de.topobyte.livecg.algorithms.voronoi.fortune.geometry.Edge;
+import de.topobyte.livecg.algorithms.voronoi.fortune.geometry.Point;
 
 public class Delaunay extends ArrayList<Edge>
 {
 
 	private static final long serialVersionUID = -1644395346085708102L;
 
+	public void remove(Point p1, Point p2)
+	{
+		// Remove each edge twice with inverted coordinates to make sure
+		// equals() works with one of them.
+		remove(new Edge(p1, p2));
+		remove(new Edge(p2, p1));
+	}
 }
