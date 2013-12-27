@@ -49,9 +49,12 @@ import de.topobyte.livecg.algorithms.polygon.shortestpath.ShortestPathAlgorithm;
 import de.topobyte.livecg.algorithms.polygon.shortestpath.ShortestPathConfig;
 import de.topobyte.livecg.algorithms.polygon.shortestpath.ShortestPathHelper;
 import de.topobyte.livecg.algorithms.polygon.shortestpath.ShortestPathPainter;
-import de.topobyte.livecg.algorithms.voronoi.fortune.FortuneStatusParser;
 import de.topobyte.livecg.algorithms.voronoi.fortune.FortunesSweep;
 import de.topobyte.livecg.algorithms.voronoi.fortune.geometry.Point;
+import de.topobyte.livecg.algorithms.voronoi.fortune.status.EventPosition;
+import de.topobyte.livecg.algorithms.voronoi.fortune.status.FortuneStatusParser;
+import de.topobyte.livecg.algorithms.voronoi.fortune.status.PixelPosition;
+import de.topobyte.livecg.algorithms.voronoi.fortune.status.Position;
 import de.topobyte.livecg.algorithms.voronoi.fortune.ui.core.FortuneConfig;
 import de.topobyte.livecg.algorithms.voronoi.fortune.ui.core.FortunePainter;
 import de.topobyte.livecg.core.algorithm.Algorithm;
@@ -287,8 +290,20 @@ public class CreateImage
 			if (argStatus.hasValue()) {
 				String statusArgument = argStatus.getValue();
 				try {
-					double status = FortuneStatusParser.parse(statusArgument);
-					alg.setSweep(status);
+					Position status = FortuneStatusParser.parse(statusArgument);
+					if (status instanceof PixelPosition) {
+						PixelPosition pp = (PixelPosition) status;
+						alg.setSweep(pp.getPosition());
+					} else if (status instanceof EventPosition) {
+						EventPosition ep = (EventPosition) status;
+						for (int i = 0; i < ep.getEvent(); i++) {
+							if (alg.getEventQueue().size() != 0) {
+								alg.nextEvent();
+							} else {
+								alg.setSweep(alg.getSweepX() + 1000);
+							}
+						}
+					}
 				} catch (IllegalArgumentException e) {
 					System.out.println("Invalid format for status");
 					System.exit(1);
@@ -298,6 +313,8 @@ public class CreateImage
 			algorithm = alg;
 			FortuneConfig config = new FortuneConfig();
 			config.setDrawCircles(true);
+			config.setDrawDcel(true);
+			config.setDrawDelaunay(false);
 			algorithmPainter = new FortunePainter(alg, config, null);
 			break;
 		}

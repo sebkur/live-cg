@@ -15,18 +15,21 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.topobyte.livecg.algorithms.voronoi.fortune;
+package de.topobyte.livecg.algorithms.voronoi.fortune.status;
 
-public class FortuneStatusParser
+public class PixelPosition implements Position
 {
 
-	public static double parse(String argument)
+	private double position;
+
+	public PixelPosition(double position)
 	{
-		try {
-			double value = Double.parseDouble(argument);
-			return value;
-		} catch (NumberFormatException e) {
-			throw new IllegalArgumentException();
-		}
+		this.position = position;
 	}
+
+	public double getPosition()
+	{
+		return position;
+	}
+
 }
