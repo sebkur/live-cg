@@ -20,6 +20,7 @@ package de.topobyte.livecg.datastructures.dcel;
 public class DcelConfig
 {
 	private boolean drawConnectors = true;
+	private boolean drawBackground = true;
 
 	public boolean isDrawConnectors()
 	{
@@ -29,6 +30,16 @@ public class DcelConfig
 	public void setDrawConnectors(boolean draw)
 	{
 		this.drawConnectors = draw;
+	}
+
+	public boolean isDrawBackground()
+	{
+		return drawBackground;
+	}
+
+	public void setDrawBackground(boolean draw)
+	{
+		this.drawBackground = draw;
 	}
 
 }

@@ -50,17 +50,19 @@ public class FortunePainter extends BasicAlgorithmPainter
 	private FortuneConfig config;
 	private DcelPainter dcelPainter;
 
+	private Rectangle scene;
+
 	public FortunePainter(FortunesSweep algorithm, FortuneConfig config,
 			Painter painter)
 	{
 		super(painter);
 		this.algorithm = algorithm;
 		this.config = config;
+
 		DcelConfig dcelConfig = new DcelConfig();
+		dcelConfig.setDrawBackground(false);
 
-		// TODO: use some supplied scene here
-		Rectangle scene = new Rectangle(0, 0, 800, 500);
-
+		scene = new Rectangle(0, 0, 800, 500);
 		dcelPainter = new DcelPainter(scene, dcelConfig, painter) {
 
 			@Override
@@ -106,6 +108,20 @@ public class FortunePainter extends BasicAlgorithmPainter
 	{
 		super.setPainter(painter);
 		dcelPainter.setPainter(painter);
+	}
+
+	@Override
+	public void setWidth(int width)
+	{
+		super.setWidth(width);
+		scene.setX2(width);
+	}
+
+	@Override
+	public void setHeight(int height)
+	{
+		super.setHeight(height);
+		scene.setY2(height);
 	}
 
 	@Override

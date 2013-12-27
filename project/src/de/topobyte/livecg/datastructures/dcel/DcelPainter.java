@@ -68,7 +68,9 @@ public abstract class DcelPainter extends TransformingAlgorithmPainter
 			double alpha = Math.PI / 8;
 			double minArrowLen = 4;
 
-			fillBackground(COLOR_BG);
+			if (config.isDrawBackground()) {
+				fillBackground(COLOR_BG);
+			}
 
 			painter.setColor(COLOR_NODES);
 			for (Vertex vertex : getDcel().getVertices()) {

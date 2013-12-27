@@ -36,6 +36,11 @@ public abstract class TransformingAlgorithmPainter extends
 		this.scene = scene;
 	}
 
+	public void setScene(Rectangle scene)
+	{
+		this.scene = scene;
+	}
+
 	public void preparePaint()
 	{
 		Matrix matrix = TransformHelper.createMatrix(scene, this);
