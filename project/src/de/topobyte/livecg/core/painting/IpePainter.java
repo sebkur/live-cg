@@ -21,17 +21,13 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
-import java.util.Map;
 
 import javax.imageio.ImageIO;
 
 import noawt.java.awt.Rectangle;
 import noawt.java.awt.Shape;
 import noawt.java.awt.geom.AffineTransform;
-import noawt.java.awt.geom.PathIterator;
 import noawt.java.awt.geom.Rectangle2D;
 
 import org.apache.commons.codec.binary.Base64;
@@ -192,8 +188,9 @@ public class IpePainter implements Painter
 	{
 		StringBuilder strb = new StringBuilder();
 
-		pathMoveTo(strb, applyTransforms(x1, y1));
-		pathLineTo(strb, applyTransforms(x2, y2));
+		IpePathBuilder pb = new IpePathBuilder(newline);
+		pb.pathMoveTo(strb, applyTransforms(x1, y1));
+		pb.pathLineTo(strb, applyTransforms(x2, y2));
 
 		stroke(strb);
 	}
@@ -205,17 +202,19 @@ public class IpePainter implements Painter
 			return;
 		}
 
+		IpePathBuilder pb = new IpePathBuilder(newline);
+
 		StringBuilder strb = new StringBuilder();
 		Coordinate start = points.get(0);
-		pathMoveTo(strb, applyTransforms(start));
+		pb.pathMoveTo(strb, applyTransforms(start));
 
 		for (int i = 1; i < points.size(); i++) {
 			Coordinate c = points.get(i);
-			pathLineTo(strb, applyTransforms(c));
+			pb.pathLineTo(strb, applyTransforms(c));
 		}
 
 		if (close) {
-			pathClose(strb);
+			pb.pathClose(strb);
 		}
 
 		stroke(strb);
@@ -261,54 +260,6 @@ public class IpePainter implements Painter
 		float g = ((color.getRGB() & 0xFF00) >>> 8) / 255.0f;
 		float b = ((color.getRGB() & 0xFF)) / 255.0f;
 		return String.format("%f %f %f", r, g, b);
-	}
-
-	private static void pathMoveTo(StringBuilder strb, double x, double y)
-	{
-		strb.append(String.format(Locale.US, "%f %f m", x, y));
-		strb.append(newline);
-	}
-
-	private static void pathMoveTo(StringBuilder strb, Coordinate c)
-	{
-		pathMoveTo(strb, c.getX(), c.getY());
-	}
-
-	private static void pathLineTo(StringBuilder strb, double x, double y)
-	{
-		strb.append(String.format(Locale.US, "%f %f l", x, y));
-		strb.append(newline);
-	}
-
-	private static void pathLineTo(StringBuilder strb, Coordinate c)
-	{
-		pathLineTo(strb, c.getX(), c.getY());
-	}
-
-	private static void pathClose(StringBuilder strb)
-	{
-		strb.append("h");
-		strb.append(newline);
-	}
-
-	private void pathQuadraticTo(StringBuilder strb, double x1, double y1,
-			double x, double y)
-	{
-		strb.append(String.format(Locale.US, "%f %f", x1, y1));
-		strb.append(newline);
-		strb.append(String.format(Locale.US, "%f %f q", x, y));
-		strb.append(newline);
-	}
-
-	private void pathCubicTo(StringBuilder strb, double x1, double y1,
-			double x2, double y2, double x, double y)
-	{
-		strb.append(String.format(Locale.US, "%f %f", x1, y1));
-		strb.append(newline);
-		strb.append(String.format(Locale.US, "%f %f", x2, y2));
-		strb.append(newline);
-		strb.append(String.format(Locale.US, "%f %f c", x, y));
-		strb.append(newline);
 	}
 
 	private void stroke(StringBuilder strb)
@@ -363,16 +314,17 @@ public class IpePainter implements Painter
 
 	private void appendChain(StringBuilder strb, Chain chain)
 	{
+		IpePathBuilder pb = new IpePathBuilder(newline);
 		Coordinate start = chain.getCoordinate(0);
-		pathMoveTo(strb, applyTransforms(start));
+		pb.pathMoveTo(strb, applyTransforms(start));
 
 		for (int i = 1; i < chain.getNumberOfNodes(); i++) {
 			Coordinate c = chain.getCoordinate(i);
-			pathLineTo(strb, applyTransforms(c));
+			pb.pathLineTo(strb, applyTransforms(c));
 		}
 
 		if (chain.isClosed()) {
-			pathClose(strb);
+			pb.pathClose(strb);
 		}
 	}
 
@@ -395,7 +347,8 @@ public class IpePainter implements Painter
 	public void draw(Shape shape)
 	{
 		Shape tshape = applyTransforms(shape);
-		StringBuilder strb = buildPath(tshape);
+		IpePathBuilder pb = new IpePathBuilder(newline);
+		StringBuilder strb = pb.buildPath(tshape);
 		stroke(strb);
 	}
 
@@ -403,57 +356,9 @@ public class IpePainter implements Painter
 	public void fill(Shape shape)
 	{
 		Shape tshape = applyTransforms(shape);
-		StringBuilder strb = buildPath(tshape);
+		IpePathBuilder pb = new IpePathBuilder(newline);
+		StringBuilder strb = pb.buildPath(tshape);
 		fill(strb);
-	}
-
-	private StringBuilder buildPath(Shape shape)
-	{
-		StringBuilder strb = new StringBuilder();
-		strb.append(newline);
-
-		PathIterator pathIterator = shape
-				.getPathIterator(new AffineTransform());
-		while (!pathIterator.isDone()) {
-			double[] coords = new double[6];
-			int type = pathIterator.currentSegment(coords);
-			pathIterator.next();
-
-			switch (type) {
-			case PathIterator.SEG_MOVETO:
-				double cx = coords[0];
-				double cy = coords[1];
-				pathMoveTo(strb, cx, cy);
-				break;
-			case PathIterator.SEG_LINETO:
-				cx = coords[0];
-				cy = coords[1];
-				pathLineTo(strb, cx, cy);
-				break;
-			case PathIterator.SEG_CLOSE:
-				pathClose(strb);
-				break;
-			case PathIterator.SEG_QUADTO:
-				cx = coords[2];
-				cy = coords[3];
-				double c1x = coords[0];
-				double c1y = coords[1];
-				pathQuadraticTo(strb, c1x, c1y, cx, cy);
-				break;
-			case PathIterator.SEG_CUBICTO:
-				cx = coords[4];
-				cy = coords[5];
-				c1x = coords[0];
-				c1y = coords[1];
-				double c2x = coords[2];
-				double c2y = coords[3];
-				pathCubicTo(strb, c1x, c1y, c2x, c2y, cx, cy);
-				break;
-			default:
-				logger.error("Not implemented! PathIterator type: " + type);
-			}
-		}
-		return strb;
 	}
 
 	@Override
@@ -475,19 +380,17 @@ public class IpePainter implements Painter
 	 */
 
 	private static final String CLIP_PATH_PREFIX = "clip";
-	private int clipId = 1;
-	private List<Integer> clipIds = null;
-	private Map<Integer, Shape> clipShapes = new HashMap<Integer, Shape>();
+	private List<Shape> clipShapes = null;
 
 	@Override
 	public Object getClip()
 	{
-		if (clipIds == null) {
+		if (clipShapes == null) {
 			return null;
 		}
-		List<Integer> copy = new ArrayList<Integer>();
-		for (int i : clipIds) {
-			copy.add(i);
+		List<Shape> copy = new ArrayList<Shape>();
+		for (Shape s : clipShapes) {
+			copy.add(s);
 		}
 		return copy;
 	}
@@ -496,11 +399,11 @@ public class IpePainter implements Painter
 	public void setClip(Object clip)
 	{
 		if (clip == null) {
-			clipIds = null;
+			clipShapes = null;
 		} else {
 			// TODO: this could be a bug, we should copy the input clip
 			// to avoid insertions into the input object
-			clipIds = (List<Integer>) clip;
+			clipShapes = (List<Shape>) clip;
 		}
 	}
 
@@ -513,12 +416,10 @@ public class IpePainter implements Painter
 	@Override
 	public void clipArea(Shape shape)
 	{
-		int index = clipId++;
-		if (clipIds == null) {
-			clipIds = new ArrayList<Integer>();
+		if (clipShapes == null) {
+			clipShapes = new ArrayList<Shape>();
 		}
-		clipIds.add(index);
-		clipShapes.put(index, shape);
+		clipShapes.add(shape);
 	}
 
 	/*
@@ -528,17 +429,19 @@ public class IpePainter implements Painter
 	private void append(Element element)
 	{
 		Element e = page;
-		if (clipIds != null) {
-			for (int id : clipIds) {
-				Element g = doc.createElementNS(null, "g");
-				g.setAttributeNS(null, "clip-path", "url(#" + CLIP_PATH_PREFIX
-						+ id + ")");
-				e.appendChild(g);
-				e = g;
+		if (clipShapes != null) {
+			Element g = doc.createElement("group");
+			e.appendChild(g);
+			StringBuilder strb = new StringBuilder();
+			IpePathBuilder pb = new IpePathBuilder(" ");
+			for (Shape shape : clipShapes) {
+				strb.append(pb.buildPath(shape).toString());
 			}
+			g.setAttribute("clip", strb.toString());
+			e = g;
 		}
 		if (transform != null && !transform.isIdentity()) {
-			Element g = doc.createElementNS(null, "g");
+			Element g = doc.createElementNS(null, "group");
 			e.appendChild(g);
 			e = g;
 		}
