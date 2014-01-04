@@ -22,7 +22,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 import de.topobyte.livecg.core.painting.AlgorithmPainter;
-import de.topobyte.livecg.core.painting.TikzPainter;
+import de.topobyte.livecg.core.painting.backend.tikz.TikzPainter;
 
 public class TikzExporter
 {

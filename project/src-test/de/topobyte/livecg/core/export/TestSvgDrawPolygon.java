@@ -39,7 +39,7 @@ import org.xml.sax.SAXException;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
 import de.topobyte.livecg.core.geometry.io.ContentReader;
 import de.topobyte.livecg.core.painting.Color;
-import de.topobyte.livecg.core.painting.SvgPainter;
+import de.topobyte.livecg.core.painting.backend.svg.SvgPainter;
 import de.topobyte.livecg.ui.geometryeditor.Content;
 
 public class TestSvgDrawPolygon

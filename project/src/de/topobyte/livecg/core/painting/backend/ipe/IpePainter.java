@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.topobyte.livecg.core.painting;
+package de.topobyte.livecg.core.painting.backend.ipe;
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
@@ -43,6 +43,10 @@ import de.topobyte.livecg.core.geometry.geom.Polygon;
 import de.topobyte.livecg.core.lina.AffineTransformUtil;
 import de.topobyte.livecg.core.lina.AwtTransformUtil;
 import de.topobyte.livecg.core.lina.Matrix;
+import de.topobyte.livecg.core.painting.Color;
+import de.topobyte.livecg.core.painting.Image;
+import de.topobyte.livecg.core.painting.Painter;
+import de.topobyte.livecg.core.painting.backend.ImageUtil;
 
 public class IpePainter implements Painter
 {

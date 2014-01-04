@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.topobyte.livecg.core.painting;
+package de.topobyte.livecg.core.painting.backend.svg;
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
@@ -43,6 +43,10 @@ import org.w3c.dom.Element;
 import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.core.geometry.geom.Coordinate;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
+import de.topobyte.livecg.core.painting.Color;
+import de.topobyte.livecg.core.painting.Image;
+import de.topobyte.livecg.core.painting.Painter;
+import de.topobyte.livecg.core.painting.backend.ImageUtil;
 
 public class SvgPainter implements Painter
 {

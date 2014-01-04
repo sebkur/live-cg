@@ -31,7 +31,7 @@ import org.slf4j.LoggerFactory;
 
 import de.topobyte.livecg.core.geometry.geom.Rectangle;
 import de.topobyte.livecg.core.painting.AlgorithmPainter;
-import de.topobyte.livecg.core.painting.AwtPainter;
+import de.topobyte.livecg.core.painting.backend.awt.AwtPainter;
 import de.topobyte.livecg.util.SwingUtil;
 
 public class ScenePanel extends JPanel implements ViewportWithSignals,

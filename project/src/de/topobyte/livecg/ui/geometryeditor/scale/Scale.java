@@ -27,8 +27,8 @@ import java.awt.RenderingHints;
 import javax.swing.JPanel;
 
 import de.topobyte.livecg.core.config.LiveConfig;
-import de.topobyte.livecg.core.painting.AwtPainter;
 import de.topobyte.livecg.core.painting.Color;
+import de.topobyte.livecg.core.painting.backend.awt.AwtPainter;
 import de.topobyte.livecg.core.scrolling.ViewportWithSignals;
 import de.topobyte.livecg.core.scrolling.ViewportListener;
 

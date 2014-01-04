@@ -32,7 +32,7 @@ import de.topobyte.livecg.algorithms.voronoi.fortune.ui.core.FortuneConfig;
 import de.topobyte.livecg.algorithms.voronoi.fortune.ui.core.FortunePainter;
 import de.topobyte.livecg.core.algorithm.AlgorithmWatcher;
 import de.topobyte.livecg.core.export.SizeProvider;
-import de.topobyte.livecg.core.painting.AwtPainter;
+import de.topobyte.livecg.core.painting.backend.awt.AwtPainter;
 
 public class Canvas extends JPanel implements AlgorithmWatcher, SizeProvider
 {

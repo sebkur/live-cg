@@ -36,7 +36,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import de.topobyte.livecg.core.painting.AlgorithmPainter;
-import de.topobyte.livecg.core.painting.IpePainter;
+import de.topobyte.livecg.core.painting.backend.ipe.IpePainter;
 
 public class IpeExporter
 {

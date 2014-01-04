@@ -26,7 +26,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 import de.topobyte.livecg.core.painting.AlgorithmPainter;
-import de.topobyte.livecg.core.painting.AwtPainter;
+import de.topobyte.livecg.core.painting.backend.awt.AwtPainter;
 
 public class GraphicsExporter
 {
