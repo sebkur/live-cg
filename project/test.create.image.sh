@@ -62,7 +62,7 @@ for file in "test/tikz/"*.tikz; do
 	echo "break within the paragraph." >> "$latex"
 	echo "\end{document}" >> "$latex"
 
-	pushd
+	pushd .
 	cd "$dir"
 	pdflatex "$name.latex"
 	popd
