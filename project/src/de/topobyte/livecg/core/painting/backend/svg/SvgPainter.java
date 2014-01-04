@@ -30,7 +30,6 @@ import javax.imageio.ImageIO;
 
 import noawt.java.awt.Shape;
 import noawt.java.awt.geom.AffineTransform;
-import noawt.java.awt.geom.PathIterator;
 import noawt.java.awt.geom.Rectangle2D;
 
 import org.apache.batik.dom.svg.SVGDOMImplementation;
@@ -156,17 +155,19 @@ public class SvgPainter implements Painter
 			return;
 		}
 
+		SvgPathBuilder pb = new SvgPathBuilder();
+
 		StringBuilder strb = new StringBuilder();
 		Coordinate start = points.get(0);
-		pathMoveTo(strb, start);
+		pb.pathMoveTo(strb, start);
 
 		for (int i = 1; i < points.size(); i++) {
 			Coordinate c = points.get(i);
-			pathLineTo(strb, c);
+			pb.pathLineTo(strb, c);
 		}
 
 		if (close) {
-			pathClose(strb);
+			pb.pathClose(strb);
 		}
 
 		stroke(strb);
@@ -201,44 +202,6 @@ public class SvgPainter implements Painter
 	private String getCurrentColor()
 	{
 		return String.format("#%06x", color.getRGB());
-	}
-
-	private static void pathMoveTo(StringBuilder strb, double x, double y)
-	{
-		strb.append(String.format(Locale.US, "M %f,%f", x, y));
-	}
-
-	private static void pathMoveTo(StringBuilder strb, Coordinate c)
-	{
-		pathMoveTo(strb, c.getX(), c.getY());
-	}
-
-	private static void pathLineTo(StringBuilder strb, double x, double y)
-	{
-		strb.append(String.format(Locale.US, " %f,%f", x, y));
-	}
-
-	private static void pathLineTo(StringBuilder strb, Coordinate c)
-	{
-		pathLineTo(strb, c.getX(), c.getY());
-	}
-
-	private static void pathClose(StringBuilder strb)
-	{
-		strb.append(" Z");
-	}
-
-	private void pathQuadraticTo(StringBuilder strb, double x1, double y1,
-			double x, double y)
-	{
-		strb.append(String.format(Locale.US, "Q %f %f %f %f", x1, y1, x, y));
-	}
-
-	private void pathCubicTo(StringBuilder strb, double x1, double y1,
-			double x2, double y2, double x, double y)
-	{
-		strb.append(String.format(Locale.US, "C %f %f %f %f %f %f", x1, y1, x2,
-				y2, x, y));
 	}
 
 	private void stroke(StringBuilder strb)
@@ -288,16 +251,17 @@ public class SvgPainter implements Painter
 
 	private void appendChain(StringBuilder strb, Chain chain)
 	{
+		SvgPathBuilder pb = new SvgPathBuilder();
 		Coordinate start = chain.getCoordinate(0);
-		pathMoveTo(strb, start);
+		pb.pathMoveTo(strb, start);
 
 		for (int i = 1; i < chain.getNumberOfNodes(); i++) {
 			Coordinate c = chain.getCoordinate(i);
-			pathLineTo(strb, c);
+			pb.pathLineTo(strb, c);
 		}
 
 		if (chain.isClosed()) {
-			pathClose(strb);
+			pb.pathClose(strb);
 		}
 	}
 
@@ -319,63 +283,17 @@ public class SvgPainter implements Painter
 	@Override
 	public void draw(Shape shape)
 	{
-		StringBuilder strb = buildPath(shape);
+		SvgPathBuilder pb = new SvgPathBuilder();
+		StringBuilder strb = pb.buildPath(shape);
 		stroke(strb);
 	}
 
 	@Override
 	public void fill(Shape shape)
 	{
-		StringBuilder strb = buildPath(shape);
+		SvgPathBuilder pb = new SvgPathBuilder();
+		StringBuilder strb = pb.buildPath(shape);
 		fill(strb);
-	}
-
-	private StringBuilder buildPath(Shape shape)
-	{
-		StringBuilder strb = new StringBuilder();
-
-		PathIterator pathIterator = shape
-				.getPathIterator(new AffineTransform());
-		while (!pathIterator.isDone()) {
-			double[] coords = new double[6];
-			int type = pathIterator.currentSegment(coords);
-			pathIterator.next();
-
-			switch (type) {
-			case PathIterator.SEG_MOVETO:
-				double cx = coords[0];
-				double cy = coords[1];
-				pathMoveTo(strb, cx, cy);
-				break;
-			case PathIterator.SEG_LINETO:
-				cx = coords[0];
-				cy = coords[1];
-				pathLineTo(strb, cx, cy);
-				break;
-			case PathIterator.SEG_CLOSE:
-				pathClose(strb);
-				break;
-			case PathIterator.SEG_QUADTO:
-				cx = coords[2];
-				cy = coords[3];
-				double c1x = coords[0];
-				double c1y = coords[1];
-				pathQuadraticTo(strb, c1x, c1y, cx, cy);
-				break;
-			case PathIterator.SEG_CUBICTO:
-				cx = coords[4];
-				cy = coords[5];
-				c1x = coords[0];
-				c1y = coords[1];
-				double c2x = coords[2];
-				double c2y = coords[3];
-				pathCubicTo(strb, c1x, c1y, c2x, c2y, cx, cy);
-				break;
-			default:
-				logger.error("Not implemented! PathIterator type: " + type);
-			}
-		}
-		return strb;
 	}
 
 	@Override
@@ -449,7 +367,8 @@ public class SvgPainter implements Painter
 		Element clipPath = doc.createElementNS(svgNS, "clipPath");
 		clipPath.setAttributeNS(null, "id", CLIP_PATH_PREFIX + index);
 
-		StringBuilder strb = buildPath(shape);
+		SvgPathBuilder pb = new SvgPathBuilder();
+		StringBuilder strb = pb.buildPath(shape);
 
 		Element path = doc.createElementNS(svgNS, "path");
 		path.setAttributeNS(null, "d", strb.toString());

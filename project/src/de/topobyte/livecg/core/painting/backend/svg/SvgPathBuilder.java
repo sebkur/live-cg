@@ -15,38 +15,26 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.topobyte.livecg.core.painting.backend.ipe;
+package de.topobyte.livecg.core.painting.backend.svg;
 
 import java.util.Locale;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import de.topobyte.livecg.core.geometry.geom.Coordinate;
 import de.topobyte.livecg.core.painting.backend.PathBuilder;
 
-public class IpePathBuilder extends PathBuilder
+public class SvgPathBuilder extends PathBuilder
 {
-	final static Logger logger = LoggerFactory.getLogger(IpePathBuilder.class);
-
-	private String newline;
-
-	public IpePathBuilder(String newline)
-	{
-		this.newline = newline;
-	}
 
 	@Override
 	public void initPath(StringBuilder strb)
 	{
-		strb.append(newline);
+		// This is a no-op
 	}
 
 	@Override
 	public void pathMoveTo(StringBuilder strb, double x, double y)
 	{
-		strb.append(String.format(Locale.US, "%f %f m", x, y));
-		strb.append(newline);
+		strb.append(String.format(Locale.US, "M %f,%f", x, y));
 	}
 
 	@Override
@@ -58,8 +46,7 @@ public class IpePathBuilder extends PathBuilder
 	@Override
 	public void pathLineTo(StringBuilder strb, double x, double y)
 	{
-		strb.append(String.format(Locale.US, "%f %f l", x, y));
-		strb.append(newline);
+		strb.append(String.format(Locale.US, " %f,%f", x, y));
 	}
 
 	@Override
@@ -71,30 +58,22 @@ public class IpePathBuilder extends PathBuilder
 	@Override
 	public void pathClose(StringBuilder strb)
 	{
-		strb.append("h");
-		strb.append(newline);
+		strb.append(" Z");
 	}
 
 	@Override
 	public void pathQuadraticTo(StringBuilder strb, double x1, double y1,
 			double x, double y)
 	{
-		strb.append(String.format(Locale.US, "%f %f", x1, y1));
-		strb.append(newline);
-		strb.append(String.format(Locale.US, "%f %f q", x, y));
-		strb.append(newline);
+		strb.append(String.format(Locale.US, "Q %f %f %f %f", x1, y1, x, y));
 	}
 
 	@Override
 	public void pathCubicTo(StringBuilder strb, double x1, double y1,
 			double x2, double y2, double x, double y)
 	{
-		strb.append(String.format(Locale.US, "%f %f", x1, y1));
-		strb.append(newline);
-		strb.append(String.format(Locale.US, "%f %f", x2, y2));
-		strb.append(newline);
-		strb.append(String.format(Locale.US, "%f %f c", x, y));
-		strb.append(newline);
+		strb.append(String.format(Locale.US, "C %f %f %f %f %f %f", x1, y1, x2,
+				y2, x, y));
 	}
 
 }
