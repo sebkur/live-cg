@@ -59,7 +59,6 @@ public class IpePainter implements Painter
 	private GeometryTransformer trTransform;
 
 	private Document doc;
-	private Element root;
 	private Element ipestyle;
 	private Element page;
 
@@ -70,8 +69,6 @@ public class IpePainter implements Painter
 	public IpePainter(Document doc, Element root, int pwidth, int pheight)
 	{
 		this.doc = doc;
-		this.root = root;
-
 		int y = pheight;
 
 		mxWs = AffineTransformUtil.scale(1, -1).multiplyFromRight(
@@ -124,15 +121,6 @@ public class IpePainter implements Painter
 			s = transform.createTransformedShape(s);
 		}
 		return atWs.createTransformedShape(s);
-	}
-
-	private Shape applyUserTransforms(Shape shape)
-	{
-		Shape s = shape;
-		if (transform != null) {
-			s = transform.createTransformedShape(s);
-		}
-		return s;
 	}
 
 	@Override
@@ -379,7 +367,6 @@ public class IpePainter implements Painter
 	 * Clipping
 	 */
 
-	private static final String CLIP_PATH_PREFIX = "clip";
 	private List<Shape> clipShapes = null;
 
 	@Override
