@@ -419,6 +419,7 @@ public class IpePainter implements Painter
 		if (clipShapes == null) {
 			clipShapes = new ArrayList<Shape>();
 		}
+		shape = applyTransforms(shape);
 		clipShapes.add(shape);
 	}
 
