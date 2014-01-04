@@ -64,6 +64,7 @@ import de.topobyte.livecg.core.export.ExportFormat;
 import de.topobyte.livecg.core.export.GraphicsExporter;
 import de.topobyte.livecg.core.export.IpeExporter;
 import de.topobyte.livecg.core.export.SvgExporter;
+import de.topobyte.livecg.core.export.TikzExporter;
 import de.topobyte.livecg.core.geometry.dcel.DCEL;
 import de.topobyte.livecg.core.geometry.dcel.DcelConverter;
 import de.topobyte.livecg.core.geometry.dcel.DcelUtil;
@@ -433,6 +434,15 @@ public class CreateImage
 			break;
 		}
 		case TIKZ: {
+			try {
+				TikzExporter
+						.exportTikz(output, algorithmPainter, width, height);
+			} catch (Exception e) {
+				System.err.println("Error while exporting. Exception type: "
+						+ e.getClass().getSimpleName() + ", message: "
+						+ e.getMessage());
+				System.exit(1);
+			}
 			break;
 		}
 		}
