@@ -32,7 +32,8 @@ public class TikzExporter
 	{
 		File parent = file.getParentFile();
 		String name = file.getName();
-		File images = new File(parent, name + "-images");
+		String imageDir = name + "-images";
+		File images = new File(parent, imageDir);
 
 		double imageWidth = 13.0;
 
@@ -57,7 +58,7 @@ public class TikzExporter
 		header.append(clip);
 
 		TikzPainter painter = new TikzPainter(header, buffer, scale, width,
-				imageWidth, images);
+				imageWidth, images, imageDir);
 
 		algorithmPainter.setPainter(painter);
 		algorithmPainter.setWidth(width);

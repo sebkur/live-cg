@@ -86,9 +86,11 @@ public class TikzPainter implements Painter
 	private double sceneWidth;
 	private double imageWidth;
 	private File images;
+	private String imagePathPrefix;
 
 	public TikzPainter(StringBuilder header, StringBuilder buffer,
-			double scale, double sceneWidth, double imageWidth, File images)
+			double scale, double sceneWidth, double imageWidth, File images,
+			String imagePathPrefix)
 	{
 		this.header = header;
 		this.buffer = buffer;
@@ -96,6 +98,7 @@ public class TikzPainter implements Painter
 		this.sceneWidth = sceneWidth;
 		this.imageWidth = imageWidth;
 		this.images = images;
+		this.imagePathPrefix = imagePathPrefix;
 
 		mxUnity = AffineTransformUtil.scale(scale, -scale);
 		trUnity = new GeometryTransformer(mxUnity);
@@ -604,8 +607,9 @@ public class TikzPainter implements Painter
 		String node = "node[inner sep=0pt, below right]";
 		String imageName = "image" + (imageCoutner++) + ".png";
 		File output = new File(images, imageName);
+		String relative = imagePathPrefix + "/" + imageName;
 		double w = image.getWidth() / sceneWidth * imageWidth;
-		String include = " {\\includegraphics[width=" + w + "cm]{" + output
+		String include = " {\\includegraphics[width=" + w + "cm]{" + relative
 				+ "}};";
 		buffer.append(newline);
 		buffer.append(node);
