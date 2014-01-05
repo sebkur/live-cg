@@ -63,6 +63,7 @@ public class IpePainter implements Painter
 	private GeometryTransformer trTransform;
 
 	private Document doc;
+	private Element root;
 	private Element ipestyle;
 	private Element page;
 
@@ -73,6 +74,7 @@ public class IpePainter implements Painter
 	public IpePainter(Document doc, Element root, int pwidth, int pheight)
 	{
 		this.doc = doc;
+		this.root = root;
 		int y = pheight;
 
 		mxWs = AffineTransformUtil.scale(1, -1).multiplyFromRight(
@@ -484,17 +486,33 @@ public class IpePainter implements Painter
 		byte[] bytes = output.toByteArray();
 		String base64 = Base64.encodeBase64String(bytes);
 
-		Element element = doc.createElementNS(null, "image");
-		element.setAttributeNS(null, "x", Integer.toString(x));
-		element.setAttributeNS(null, "y", Integer.toString(y));
-		element.setAttributeNS(null, "width",
-				Integer.toString(image.getWidth()));
-		element.setAttributeNS(null, "height",
-				Integer.toString(image.getHeight()));
-		element.setAttributeNS(null, "xlink:href", "data:image/png;base64,"
-				+ base64);
+		int id = 1;
 
-		append(element);
+		Element bitmap = doc.createElement("bitmap");
+		bitmap.setAttribute("id", "" + id);
+		bitmap.setAttribute("width", Integer.toString(image.getWidth()));
+		bitmap.setAttribute("height", Integer.toString(image.getHeight()));
+		bitmap.setAttribute("encoding", "base64");
+		bitmap.setAttribute("ColorSpace", "DeviceRGB");
+		bitmap.setAttribute("Filter", "FlateDecode");
+		bitmap.setAttribute("BitPerComponent", "8");
+		bitmap.setAttribute("length", "" + base64.length());
+		bitmap.setTextContent(base64);
+
+		root.insertBefore(bitmap, ipestyle);
+
+		Element img = doc.createElement("image");
+
+		Coordinate c1 = applyTransforms(x, y + image.getHeight());
+		Coordinate c2 = applyTransforms(x + image.getWidth(), y);
+		img.setAttribute("bitmap", "" + id);
+		img.setAttribute(
+				"rect",
+				Double.toString(c1.getX()) + " " + Double.toString(c1.getY())
+						+ " " + Double.toString(c2.getX()) + " "
+						+ Double.toString(c2.getY()));
+
+		append(img);
 	}
 
 	/*
