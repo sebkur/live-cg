@@ -224,7 +224,10 @@ public class CreateImage
 			FreeSpaceConfig config = new FreeSpaceConfig();
 			algorithmPainter = new FreeSpacePainterChains(config, epsilon,
 					chain1, chain2, null);
-			explicitScene = new Rectangle(0, 0, 400, 400);
+			int cellSize = 50;
+			int width = chain1.getNumberOfNodes() * cellSize;
+			int height = chain2.getNumberOfNodes() * cellSize;
+			explicitScene = new Rectangle(0, 0, width, height);
 			break;
 		}
 		case DISTANCETERRAIN: {
@@ -238,7 +241,10 @@ public class CreateImage
 			DistanceTerrainConfig config = new DistanceTerrainConfig();
 			algorithmPainter = new DistanceTerrainPainterChains(config, chain1,
 					chain2, null);
-			explicitScene = new Rectangle(0, 0, 400, 400);
+			int cellSize = 50;
+			int width = chain1.getNumberOfNodes() * cellSize;
+			int height = chain2.getNumberOfNodes() * cellSize;
+			explicitScene = new Rectangle(0, 0, width, height);
 			break;
 		}
 		case CHAN: {
