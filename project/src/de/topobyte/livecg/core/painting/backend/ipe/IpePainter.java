@@ -356,12 +356,14 @@ public class IpePainter implements Painter
 	@Override
 	public void drawString(String text, double x, double y)
 	{
-		Element element = doc.createElementNS(null, "text");
-		element.setAttributeNS(null, "style", "fill:" + getCurrentColor()
-				+ ";stroke:none;fill-opacity:" + color.getAlpha()
-				+ ";font-family:Sans;font-size:12px");
-		element.setAttributeNS(null, "x", Double.toString(x));
-		element.setAttributeNS(null, "y", Double.toString(y));
+		Coordinate c = applyTransforms(x, y);
+		Element element = doc.createElement("text");
+		element.setAttribute("pos",
+				Double.toString(c.getX()) + " " + Double.toString(c.getY()));
+		element.setAttribute("type", "label");
+
+		// Need to produce valid latex, so replace "_" by "\_"
+		text = text.replaceAll("_", "\\\\_");
 		element.setTextContent(text);
 
 		append(element);
