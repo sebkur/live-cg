@@ -41,11 +41,27 @@ public class Image
 		return height;
 	}
 
+	/**
+	 * Get the RGB value at (i,j)
+	 * 
+	 * @param i
+	 *            the x coordinate
+	 * @param j
+	 *            the y coordinate
+	 */
 	public int getRGB(int i, int j)
 	{
 		return values[j * width + i];
 	}
 
+	/**
+	 * Set the RGB value at (i,j)
+	 * 
+	 * @param i
+	 *            the x coordinate
+	 * @param j
+	 *            the y coordinate
+	 */
 	public void setRGB(int i, int j, int rgb)
 	{
 		values[j * width + i] = rgb;
