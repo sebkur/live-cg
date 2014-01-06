@@ -420,20 +420,15 @@ public class IpePainter implements Painter
 	{
 		Element e = page;
 		if (clipShapes != null) {
-			Element g = doc.createElement("group");
-			e.appendChild(g);
-			StringBuilder strb = new StringBuilder();
 			IpePathBuilder pb = new IpePathBuilder(" ");
 			for (Shape shape : clipShapes) {
+				Element g = doc.createElement("group");
+				StringBuilder strb = new StringBuilder();
 				strb.append(pb.buildPath(shape).toString());
+				e.appendChild(g);
+				g.setAttribute("clip", strb.toString());
+				e = g;
 			}
-			g.setAttribute("clip", strb.toString());
-			e = g;
-		}
-		if (transform != null && !transform.isIdentity()) {
-			Element g = doc.createElementNS(null, "group");
-			e.appendChild(g);
-			e = g;
 		}
 		e.appendChild(element);
 	}
