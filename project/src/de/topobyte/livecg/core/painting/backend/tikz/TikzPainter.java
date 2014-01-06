@@ -30,14 +30,10 @@ import javax.imageio.ImageIO;
 import noawt.java.awt.Shape;
 import noawt.java.awt.geom.AffineTransform;
 import noawt.java.awt.geom.Area;
-import noawt.java.awt.geom.GeneralPath;
-import noawt.java.awt.geom.PathIterator;
 import noawt.java.awt.geom.Rectangle2D;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.bric.geom.Clipper;
 
 import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.core.geometry.geom.Coordinate;
@@ -471,9 +467,11 @@ public class TikzPainter implements Painter
 		if (clipShapes.isEmpty()) {
 			return;
 		}
+		TikzPathBuilder pb = new TikzPathBuilder(safetyRect);
 		for (int i = 0; i < clipShapes.size(); i++) {
 			Shape shape = clipShapes.get(i);
-			StringBuilder buf = buildPath(atUnity.createTransformedShape(shape));
+			StringBuilder buf = pb.buildPath(atUnity
+					.createTransformedShape(shape));
 			buffer.append("\\clip ");
 			buffer.append(buf.toString());
 			buffer.append(";");
@@ -489,7 +487,8 @@ public class TikzPainter implements Painter
 		appendClipScopeBegin();
 
 		appendDraw();
-		StringBuilder path = buildPath(tshape);
+		TikzPathBuilder pb = new TikzPathBuilder(safetyRect);
+		StringBuilder path = pb.buildPath(tshape);
 		buffer.append(path.toString());
 		buffer.append(";");
 		buffer.append(newline);
@@ -508,7 +507,8 @@ public class TikzPainter implements Painter
 		appendClipScopeBegin();
 
 		appendFillEvenOdd();
-		StringBuilder path = buildPath(area);
+		TikzPathBuilder pb = new TikzPathBuilder(safetyRect);
+		StringBuilder path = pb.buildPath(area);
 		buffer.append(path.toString());
 		buffer.append(";");
 		buffer.append(newline);
@@ -625,98 +625,6 @@ public class TikzPainter implements Painter
 			logger.error("Image path: " + output);
 			logger.error("Exception message: " + e.getMessage());
 		}
-	}
-
-	/*
-	 * Shapes, paths
-	 */
-
-	private StringBuilder buildPath(Shape shape)
-	{
-		StringBuilder strb = new StringBuilder();
-
-		GeneralPath clipped = Clipper.clipToRect(shape, safetyRect);
-
-		PathIterator pathIterator = clipped
-				.getPathIterator(new AffineTransform());
-		while (!pathIterator.isDone()) {
-			double[] coords = new double[6];
-			int type = pathIterator.currentSegment(coords);
-			pathIterator.next();
-
-			switch (type) {
-			case PathIterator.SEG_MOVETO:
-				double cx = coords[0];
-				double cy = coords[1];
-				pathMoveTo(strb, cx, cy);
-				break;
-			case PathIterator.SEG_LINETO:
-				cx = coords[0];
-				cy = coords[1];
-				pathLineTo(strb, cx, cy);
-				break;
-			case PathIterator.SEG_CLOSE:
-				pathClose(strb);
-				break;
-			case PathIterator.SEG_QUADTO:
-				cx = coords[2];
-				cy = coords[3];
-				double c1x = coords[0];
-				double c1y = coords[1];
-				pathQuadraticTo(strb, c1x, c1y, cx, cy);
-				break;
-			case PathIterator.SEG_CUBICTO:
-				cx = coords[4];
-				cy = coords[5];
-				c1x = coords[0];
-				c1y = coords[1];
-				double c2x = coords[2];
-				double c2y = coords[3];
-				pathCubicTo(strb, c1x, c1y, c2x, c2y, cx, cy);
-				break;
-			default:
-				logger.error("Not implemented! PathIterator type: " + type);
-			}
-		}
-		return strb;
-	}
-
-	private void pathMoveTo(StringBuilder strb, double cx, double cy)
-	{
-		strb.append(" ");
-		append(strb, new Coordinate(cx, cy));
-	}
-
-	private void pathLineTo(StringBuilder strb, double cx, double cy)
-	{
-		strb.append(" -- ");
-		append(strb, new Coordinate(cx, cy));
-	}
-
-	private void pathClose(StringBuilder strb)
-	{
-		strb.append(" -- ");
-		strb.append("cycle");
-	}
-
-	private void pathQuadraticTo(StringBuilder strb, double c1x, double c1y,
-			double cx, double cy)
-	{
-		strb.append(" .. controls ");
-		append(strb, new Coordinate(c1x, c1y));
-		strb.append(" .. ");
-		append(strb, new Coordinate(cx, cy));
-	}
-
-	private void pathCubicTo(StringBuilder strb, double c1x, double c1y,
-			double c2x, double c2y, double cx, double cy)
-	{
-		strb.append(" .. controls ");
-		append(strb, new Coordinate(c1x, c1y));
-		strb.append(" and ");
-		append(strb, new Coordinate(c2x, c2y));
-		strb.append(" .. ");
-		append(strb, new Coordinate(cx, cy));
 	}
 
 }
