@@ -23,11 +23,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.GnuParser;
 import org.apache.commons.cli.HelpFormatter;
+import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.slf4j.Logger;
@@ -39,6 +41,7 @@ import de.topobyte.livecg.algorithms.frechet.distanceterrain.DistanceTerrainConf
 import de.topobyte.livecg.algorithms.frechet.distanceterrain.DistanceTerrainPainterChains;
 import de.topobyte.livecg.algorithms.frechet.freespace.FreeSpaceConfig;
 import de.topobyte.livecg.algorithms.frechet.freespace.FreeSpacePainterChains;
+import de.topobyte.livecg.algorithms.frechet.freespace.FreeSpacePropertyParser;
 import de.topobyte.livecg.algorithms.polygon.monotonepieces.MonotonePiecesAlgorithm;
 import de.topobyte.livecg.algorithms.polygon.monotonepieces.MonotonePiecesConfig;
 import de.topobyte.livecg.algorithms.polygon.monotonepieces.MonotonePiecesPainter;
@@ -106,6 +109,7 @@ public class CreateImage
 	private static final String OPTION_OUTPUT_FORMAT = "output_format";
 	private static final String OPTION_VISUALIZATION = "visualization";
 	private static final String OPTION_STATUS = "status";
+	private static final String OPTION_PROPERTIES = "D";
 
 	public static void main(String[] args)
 	{
@@ -129,6 +133,13 @@ public class CreateImage
 		OptionHelper.add(options, OPTION_STATUS, true, false, "status to " +
 				"set the algorithm to. The format depends on the algorithm");
 		// @formatter:on
+
+		Option propertyOption = new Option(OPTION_PROPERTIES,
+				"set a special property");
+		propertyOption.setArgName("property=value");
+		propertyOption.setArgs(2);
+		propertyOption.setValueSeparator('=');
+		options.addOption(propertyOption);
 
 		CommandLineParser clp = new GnuParser();
 
@@ -187,6 +198,8 @@ public class CreateImage
 			System.exit(1);
 		}
 
+		Properties properties = line.getOptionProperties(OPTION_PROPERTIES);
+
 		Algorithm algorithm = null;
 		Rectangle explicitScene = null;
 		Rectangle scene = null;
@@ -222,6 +235,9 @@ public class CreateImage
 			Chain chain2 = chains.get(1);
 			int epsilon = 100;
 			FreeSpaceConfig config = new FreeSpaceConfig();
+
+			new FreeSpacePropertyParser(config).parse(properties);
+
 			algorithmPainter = new FreeSpacePainterChains(config, epsilon,
 					chain1, chain2, null);
 			int cellSize = 50;
