@@ -17,20 +17,15 @@
  */
 package de.topobyte.livecg.core.painting.backend.ipe;
 
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.imageio.ImageIO;
 
 import noawt.java.awt.Rectangle;
 import noawt.java.awt.Shape;
 import noawt.java.awt.geom.AffineTransform;
 import noawt.java.awt.geom.Rectangle2D;
 
-import org.apache.commons.codec.binary.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
@@ -46,7 +41,6 @@ import de.topobyte.livecg.core.lina.Matrix;
 import de.topobyte.livecg.core.painting.Color;
 import de.topobyte.livecg.core.painting.Image;
 import de.topobyte.livecg.core.painting.Painter;
-import de.topobyte.livecg.core.painting.backend.ImageUtil;
 
 public class IpePainter implements Painter
 {
@@ -472,19 +466,13 @@ public class IpePainter implements Painter
 	@Override
 	public void drawImage(Image image, int x, int y)
 	{
-		BufferedImage im = ImageUtil.convert(image);
-		ByteArrayOutputStream output = new ByteArrayOutputStream();
+		IpeImage ipeImage;
 		try {
-			boolean written = ImageIO.write(im, "png", output);
-			if (!written) {
-				logger.error("unable to draw image: no writer found");
-			}
+			ipeImage = IpeImageEncoder.encode(image);
 		} catch (IOException e) {
 			logger.error("unable to draw image: " + e.getMessage());
 			return;
 		}
-		byte[] bytes = output.toByteArray();
-		String base64 = Base64.encodeBase64String(bytes);
 
 		int id = 1;
 
@@ -495,9 +483,9 @@ public class IpePainter implements Painter
 		bitmap.setAttribute("encoding", "base64");
 		bitmap.setAttribute("ColorSpace", "DeviceRGB");
 		bitmap.setAttribute("Filter", "FlateDecode");
-		bitmap.setAttribute("BitPerComponent", "8");
-		bitmap.setAttribute("length", "" + base64.length());
-		bitmap.setTextContent(base64);
+		bitmap.setAttribute("BitsPerComponent", "8");
+		bitmap.setAttribute("length", "" + ipeImage.getLength());
+		bitmap.setTextContent(ipeImage.getData());
 
 		root.insertBefore(bitmap, ipestyle);
 
