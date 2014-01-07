@@ -469,7 +469,7 @@ public class IpePainter implements Painter
 			return;
 		}
 
-		int id = 1;
+		int id = 1; // TODO: use different ids
 
 		Element bitmap = doc.createElement("bitmap");
 		bitmap.setAttribute("id", "" + id);
