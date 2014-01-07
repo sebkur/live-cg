@@ -17,11 +17,12 @@
  */
 package de.topobyte.livecg.algorithms.frechet.distanceterrain;
 
-import de.topobyte.color.util.HSLColor;
 import de.topobyte.livecg.algorithms.frechet.freespace.calc.LineSegment;
 import de.topobyte.livecg.core.lina.Vector2;
 import de.topobyte.livecg.core.painting.Color;
 import de.topobyte.livecg.core.painting.Image;
+import de.topobyte.livecg.util.colorgradient.Gradient;
+import de.topobyte.livecg.util.colorgradient.HueGradient;
 
 public class DistanceTerrainImagePainter
 {
@@ -32,6 +33,8 @@ public class DistanceTerrainImagePainter
 	private int height;
 	private LineSegment seg1 = null;
 	private LineSegment seg2 = null;
+
+	private Gradient gradient = new HueGradient();
 
 	public DistanceTerrainImagePainter(Image image, int x, int y, int width,
 			int height, LineSegment seg1, LineSegment seg2)
@@ -75,8 +78,6 @@ public class DistanceTerrainImagePainter
 
 	private Color getColor(double distance)
 	{
-		float hue = ((float) distance / 600 * 360) % 360;
-		HSLColor hsl = new HSLColor(hue, 100, 50);
-		return new Color(hsl.getRGB().getRGB());
+		return gradient.getColor(distance / 600);
 	}
 }
