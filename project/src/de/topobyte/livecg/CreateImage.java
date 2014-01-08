@@ -39,6 +39,7 @@ import de.topobyte.livecg.algorithms.convexhull.chan.ChansAlgorithm;
 import de.topobyte.livecg.algorithms.convexhull.chan.ChansAlgorithmPainter;
 import de.topobyte.livecg.algorithms.frechet.distanceterrain.DistanceTerrainConfig;
 import de.topobyte.livecg.algorithms.frechet.distanceterrain.DistanceTerrainPainterChains;
+import de.topobyte.livecg.algorithms.frechet.distanceterrain.DistanceTerrainPropertyParser;
 import de.topobyte.livecg.algorithms.frechet.freespace.FreeSpaceConfig;
 import de.topobyte.livecg.algorithms.frechet.freespace.FreeSpacePainterChains;
 import de.topobyte.livecg.algorithms.frechet.freespace.FreeSpacePropertyParser;
@@ -255,6 +256,9 @@ public class CreateImage
 			Chain chain1 = chains.get(0);
 			Chain chain2 = chains.get(1);
 			DistanceTerrainConfig config = new DistanceTerrainConfig();
+
+			new DistanceTerrainPropertyParser(config).parse(properties);
+
 			algorithmPainter = new DistanceTerrainPainterChains(config, chain1,
 					chain2, null);
 			int cellSize = 50;

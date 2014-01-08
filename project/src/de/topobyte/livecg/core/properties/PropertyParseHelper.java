@@ -43,4 +43,19 @@ public class PropertyParseHelper
 		}
 	}
 
+	public static void parseInteger(Properties properties, String name,
+			IntegerCallback callback)
+	{
+		try {
+			String property = properties.getProperty(name);
+			if (property == null) {
+				return;
+			}
+			int value = PropertyParser.parseIntegerProperty(property);
+			callback.success(value);
+		} catch (PropertyParseException e) {
+			logger.warn("Problem while parsing property '" + name + "': "
+					+ e.getMessage());
+		}
+	}
 }

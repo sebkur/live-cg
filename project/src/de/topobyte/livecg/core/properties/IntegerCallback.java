@@ -17,31 +17,9 @@
  */
 package de.topobyte.livecg.core.properties;
 
-public class PropertyParser
+public interface IntegerCallback
 {
 
-	public static boolean parseBooleanProperty(String value)
-			throws PropertyParseException
-	{
-		String lower = value.toLowerCase();
-		if (lower.equals("true") || lower.equals("yes")) {
-			return true;
-		}
-		if (lower.equals("false") || lower.equals("no")) {
-			return false;
-		}
-		throw new PropertyParseException("not a valid boolean: '" + value + "'");
-	}
-
-	public static int parseIntegerProperty(String value)
-			throws PropertyParseException
-	{
-		try {
-			return Integer.parseInt(value);
-		} catch (NumberFormatException e) {
-			throw new PropertyParseException("not a valid integer: '" + value
-					+ "'");
-		}
-	}
+	public void success(int value);
 
 }
