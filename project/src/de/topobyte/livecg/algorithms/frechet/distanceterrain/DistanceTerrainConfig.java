@@ -24,6 +24,7 @@ public class DistanceTerrainConfig
 {
 
 	private boolean drawGrid = true;
+	private int scale = 600;
 
 	private List<ConfigChangedListener> listeners = new ArrayList<ConfigChangedListener>();
 
@@ -35,6 +36,16 @@ public class DistanceTerrainConfig
 	public void setDrawGrid(boolean drawGrid)
 	{
 		this.drawGrid = drawGrid;
+	}
+
+	public int getScale()
+	{
+		return scale;
+	}
+
+	public void setScale(int scale)
+	{
+		this.scale = scale;
 	}
 
 	public void addConfigChangedListener(ConfigChangedListener listener)

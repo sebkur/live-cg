@@ -76,7 +76,7 @@ public class DistanceTerrainPainterChains extends BasicAlgorithmPainter
 				int ly = y * h;
 
 				DistanceTerrainImagePainter imagePainter = new DistanceTerrainImagePainter(
-						image, lx, ly, w, h, segP, segQ);
+						image, lx, ly, w, h, segP, segQ, config.getScale());
 				imagePainter.paint();
 			}
 		}

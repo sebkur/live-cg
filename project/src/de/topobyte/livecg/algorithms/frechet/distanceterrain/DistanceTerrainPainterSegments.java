@@ -28,11 +28,14 @@ public class DistanceTerrainPainterSegments extends BasicAlgorithmPainter
 	private LineSegment seg1 = null;
 	private LineSegment seg2 = null;
 
+	private DistanceTerrainConfig config;
 	private boolean drawBorder;
 
-	public DistanceTerrainPainterSegments(boolean drawBorder, Painter painter)
+	public DistanceTerrainPainterSegments(DistanceTerrainConfig config,
+			boolean drawBorder, Painter painter)
 	{
 		super(painter);
+		this.config = config;
 		this.drawBorder = drawBorder;
 	}
 
@@ -56,7 +59,7 @@ public class DistanceTerrainPainterSegments extends BasicAlgorithmPainter
 		Image image = new Image(width, height);
 
 		DistanceTerrainImagePainter imagePainter = new DistanceTerrainImagePainter(
-				image, 0, 0, width, height, seg1, seg2);
+				image, 0, 0, width, height, seg1, seg2, config.getScale());
 		imagePainter.paint();
 
 		painter.drawImage(image, 0, 0);

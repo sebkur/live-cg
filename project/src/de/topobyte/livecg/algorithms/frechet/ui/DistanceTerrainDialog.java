@@ -28,7 +28,10 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
+import javax.swing.JSlider;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import de.topobyte.livecg.algorithms.frechet.distanceterrain.ConfigChangedListener;
 import de.topobyte.livecg.algorithms.frechet.distanceterrain.DistanceTerrain;
@@ -40,12 +43,16 @@ import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.ui.geometryeditor.Content;
 import de.topobyte.livecg.ui.geometryeditor.ContentChangedListener;
 
-public class DistanceTerrainDialog implements ContentChangedListener
+public class DistanceTerrainDialog implements ContentChangedListener,
+		ChangeListener
 {
 
 	private JFrame frame;
 
+	private JSlider slider;
 	private DistanceTerrain diagram = null;
+
+	private DistanceTerrainConfig config;
 
 	private Chain chain1 = null;
 	private Chain chain2 = null;
@@ -62,7 +69,17 @@ public class DistanceTerrainDialog implements ContentChangedListener
 		chain1 = chains.get(0);
 		chain2 = chains.get(1);
 
-		DistanceTerrainConfig config = new DistanceTerrainConfig();
+		config = new DistanceTerrainConfig();
+
+		int minValue = 100;
+		int maxValue = 1000;
+		slider = new JSlider(minValue, maxValue);
+		slider.setPaintLabels(true);
+		slider.setPaintTicks(true);
+		slider.setMajorTickSpacing(100);
+		slider.setValue(config.getScale());
+		slider.setBorder(new TitledBorder("Scale"));
+
 		Settings settings = new Settings(config);
 
 		config.addConfigChangedListener(new ConfigChangedListener() {
@@ -84,9 +101,12 @@ public class DistanceTerrainDialog implements ContentChangedListener
 		c.fill = GridBagConstraints.BOTH;
 		c.weightx = c.weighty = 1.0;
 		JPanel panel = new JPanel(new GridBagLayout());
-
 		c.gridx = 0;
 		c.gridy = 0;
+		c.weighty = 0.0;
+		panel.add(slider, c);
+		c.gridy = 1;
+		c.weighty = 1.0;
 		panel.add(diagramPanel, c);
 
 		frame = new JFrame("Fréchet distance");
@@ -114,6 +134,8 @@ public class DistanceTerrainDialog implements ContentChangedListener
 		frame.setLocationByPlatform(true);
 		frame.setSize(500, 600);
 		frame.setVisible(true);
+
+		slider.addChangeListener(this);
 
 		content.addContentChangedListener(this);
 
@@ -145,4 +167,10 @@ public class DistanceTerrainDialog implements ContentChangedListener
 		// ignore
 	}
 
+	@Override
+	public void stateChanged(ChangeEvent e)
+	{
+		config.setScale(slider.getValue());
+		config.fireConfigChanged();
+	}
 }

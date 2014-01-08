@@ -22,13 +22,16 @@ import java.awt.Graphics2D;
 
 import javax.swing.JPanel;
 
+import de.topobyte.livecg.algorithms.frechet.distanceterrain.ConfigChangedListener;
+import de.topobyte.livecg.algorithms.frechet.distanceterrain.DistanceTerrainConfig;
 import de.topobyte.livecg.algorithms.frechet.distanceterrain.DistanceTerrainPainterSegments;
 import de.topobyte.livecg.algorithms.frechet.freespace.calc.LineSegment;
 import de.topobyte.livecg.core.painting.backend.awt.AwtPainter;
 import de.topobyte.livecg.ui.segmenteditor.SegmentChangeListener;
 import de.topobyte.livecg.util.SwingUtil;
 
-public class SegmentPane extends JPanel implements SegmentChangeListener
+public class SegmentPane extends JPanel implements SegmentChangeListener,
+		ConfigChangedListener
 {
 
 	private static final long serialVersionUID = 8705743202734597623L;
@@ -37,10 +40,12 @@ public class SegmentPane extends JPanel implements SegmentChangeListener
 
 	private AwtPainter painter;
 
-	public SegmentPane()
+	public SegmentPane(DistanceTerrainConfig config)
 	{
 		painter = new AwtPainter(null);
-		terrainPainter = new DistanceTerrainPainterSegments(true, painter);
+		terrainPainter = new DistanceTerrainPainterSegments(config, true,
+				painter);
+		config.addConfigChangedListener(this);
 	}
 
 	public void setSegment1(LineSegment seg1)
@@ -70,6 +75,12 @@ public class SegmentPane extends JPanel implements SegmentChangeListener
 		terrainPainter.setWidth(getWidth());
 		terrainPainter.setHeight(getHeight());
 		terrainPainter.paint();
+	}
+
+	@Override
+	public void configChanged()
+	{
+		repaint();
 	}
 
 }

@@ -17,6 +17,7 @@
  */
 package de.topobyte.livecg.algorithms.frechet.distanceterrain.segment;
 
+import de.topobyte.livecg.algorithms.frechet.distanceterrain.DistanceTerrainConfig;
 import de.topobyte.livecg.algorithms.frechet.freespace.calc.LineSegment;
 import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.ui.segmenteditor.SegmentChangeListener;
@@ -31,8 +32,10 @@ public class SegmentEditorSegmentPane extends SegmentPane implements
 	private SegmentEditor editor1;
 	private SegmentEditor editor2;
 
-	public SegmentEditorSegmentPane(SegmentEditor editor1, SegmentEditor editor2)
+	public SegmentEditorSegmentPane(DistanceTerrainConfig config,
+			SegmentEditor editor1, SegmentEditor editor2)
 	{
+		super(config);
 		this.editor1 = editor1;
 		this.editor2 = editor2;
 		editor1.getEditPane().addLineChangeListener(this);

@@ -34,10 +34,11 @@ public class DistanceTerrainImagePainter
 	private LineSegment seg1 = null;
 	private LineSegment seg2 = null;
 
+	private int scale;
 	private Gradient gradient = new HueGradient();
 
 	public DistanceTerrainImagePainter(Image image, int x, int y, int width,
-			int height, LineSegment seg1, LineSegment seg2)
+			int height, LineSegment seg1, LineSegment seg2, int scale)
 	{
 		this.image = image;
 		this.ox = x;
@@ -46,6 +47,7 @@ public class DistanceTerrainImagePainter
 		this.height = height;
 		this.seg1 = seg1;
 		this.seg2 = seg2;
+		this.scale = scale;
 	}
 
 	public void paint()
@@ -78,6 +80,6 @@ public class DistanceTerrainImagePainter
 
 	private Color getColor(double distance)
 	{
-		return gradient.getColor(distance / 600);
+		return gradient.getColor(distance / scale);
 	}
 }

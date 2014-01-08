@@ -21,13 +21,18 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
 import javax.swing.JPanel;
+import javax.swing.JSlider;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
+import de.topobyte.livecg.algorithms.frechet.distanceterrain.DistanceTerrainConfig;
 import de.topobyte.livecg.algorithms.frechet.distanceterrain.segment.SegmentEditorSegmentPane;
 import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.ui.segmenteditor.SegmentEditor;
 
-public class DualSegmentEditorDistanceTerrain extends JPanel
+public class DualSegmentEditorDistanceTerrain extends JPanel implements
+		ChangeListener
 {
 	private static final long serialVersionUID = 3583790726202326121L;
 
@@ -35,12 +40,16 @@ public class DualSegmentEditorDistanceTerrain extends JPanel
 	private SegmentEditor editor2;
 	private SegmentEditorSegmentPane segmentPane;
 
-	public DualSegmentEditorDistanceTerrain(int width, int height, Chain chain1,
-			Chain chain2)
+	private DistanceTerrainConfig config = new DistanceTerrainConfig();
+
+	private JSlider slider;
+
+	public DualSegmentEditorDistanceTerrain(int width, int height,
+			Chain chain1, Chain chain2)
 	{
 		editor1 = new SegmentEditor(width, height, chain1);
 		editor2 = new SegmentEditor(width, height, chain2);
-		segmentPane = new SegmentEditorSegmentPane(editor1, editor2);
+		segmentPane = new SegmentEditorSegmentPane(config, editor1, editor2);
 
 		segmentPane.update();
 
@@ -54,11 +63,25 @@ public class DualSegmentEditorDistanceTerrain extends JPanel
 		segmentPaneContainer.add(segmentPane, c);
 		segmentPaneContainer.setBorder(new TitledBorder("Distance terrain"));
 
+		int minValue = 100;
+		int maxValue = 1000;
+		slider = new JSlider(minValue, maxValue);
+		slider.setPaintLabels(true);
+		slider.setPaintTicks(true);
+		slider.setMajorTickSpacing(100);
+		slider.setValue(config.getScale());
+		slider.setBorder(new TitledBorder("Scale"));
+
 		setLayout(new GridBagLayout());
 
 		c = new GridBagConstraints();
 
 		c.fill = GridBagConstraints.BOTH;
+
+		c.gridwidth = 3;
+		c.gridx = 0;
+		c.gridy = 0;
+		add(slider, c);
 
 		c.gridwidth = 1;
 		c.weightx = 1.0;
@@ -73,6 +96,15 @@ public class DualSegmentEditorDistanceTerrain extends JPanel
 
 		c.gridx = 2;
 		add(segmentPaneContainer, c);
+
+		slider.addChangeListener(this);
+	}
+
+	@Override
+	public void stateChanged(ChangeEvent e)
+	{
+		config.setScale(slider.getValue());
+		config.fireConfigChanged();
 	}
 
 }
