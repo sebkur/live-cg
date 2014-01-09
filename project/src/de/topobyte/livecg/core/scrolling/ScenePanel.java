@@ -166,8 +166,11 @@ public class ScenePanel extends JPanel implements ViewportWithSignals,
 		repaint();
 	}
 
-	private void checkBounds()
+	protected void checkBounds()
 	{
+		if (algorithmPainter == null) {
+			logger.error("algorithmPainter is null. Have you forgotten to set this field in your subclass?");
+		}
 		boolean update = false;
 		if (-positionX + getWidth() / zoom > getScene().getWidth() + margin) {
 			logger.debug("Moved out of viewport at right");
