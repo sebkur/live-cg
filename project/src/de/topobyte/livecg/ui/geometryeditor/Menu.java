@@ -51,6 +51,7 @@ import de.topobyte.livecg.ui.geometryeditor.action.visualizations.FortunesSweepA
 import de.topobyte.livecg.ui.geometryeditor.action.visualizations.FreeSpaceChainsAction;
 import de.topobyte.livecg.ui.geometryeditor.action.visualizations.FreeSpaceSegmentsAction;
 import de.topobyte.livecg.ui.geometryeditor.action.visualizations.MonotonePiecesAction;
+import de.topobyte.livecg.ui.geometryeditor.action.visualizations.PolygonBufferAction;
 import de.topobyte.livecg.ui.geometryeditor.action.visualizations.ShortestPathInPolygonAction;
 import de.topobyte.livecg.ui.geometryeditor.action.visualizations.TriangulationAction;
 import de.topobyte.livecg.ui.geometryeditor.action.visualizations.TriangulationDualGraphAction;
@@ -226,6 +227,8 @@ public class Menu extends JMenuBar
 				new ShortestPathInPolygonAction(editPane));
 		JMenuItem chansAlgorithm = new JMenuItem(new ChansAlgorithmAction(
 				editPane));
+		JMenuItem polygonBuffer = new JMenuItem(new PolygonBufferAction(
+				editPane));
 
 		visualizations.add(fortunesSweep);
 		visualizations.add(arrangements);
@@ -245,6 +248,7 @@ public class Menu extends JMenuBar
 		polygons.add(triangulationWithDualGraph);
 		polygons.add(shortestPathInPolygon);
 		polygons.add(chansAlgorithm);
+		polygons.add(polygonBuffer);
 
 		/*
 		 * View
