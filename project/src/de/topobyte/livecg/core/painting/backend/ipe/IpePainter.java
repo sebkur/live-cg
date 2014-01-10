@@ -80,23 +80,23 @@ public class IpePainter implements Painter
 		atWs.scale(1, -1);
 		atWs.translate(0, -y);
 
-		ipestyle = doc.createElementNS(null, "ipestyle");
+		ipestyle = doc.createElement("ipestyle");
 
-		Element layout = doc.createElementNS(null, "layout");
+		Element layout = doc.createElement("layout");
 		ipestyle.appendChild(layout);
 		layout.setAttribute("paper", pwidth + " " + pheight);
 		layout.setAttribute("origin", "0 0");
 		layout.setAttribute("frame", pwidth + " " + pheight);
 
 		for (int i = 0; i <= 100; i += 10) {
-			Element opacity = doc.createElementNS(null, "opacity");
+			Element opacity = doc.createElement("opacity");
 			ipestyle.appendChild(opacity);
-			opacity.setAttributeNS(null, "name", i + "%");
-			opacity.setAttributeNS(null, "value",
+			opacity.setAttribute("name", i + "%");
+			opacity.setAttribute("value",
 					String.format("%.2f", i / (double) 100));
 		}
 
-		page = doc.createElementNS(null, "page");
+		page = doc.createElement("page");
 		root.appendChild(ipestyle);
 		root.appendChild(page);
 	}
@@ -252,7 +252,7 @@ public class IpePainter implements Painter
 
 	private void stroke(StringBuilder strb)
 	{
-		Element path = doc.createElementNS(null, "path");
+		Element path = doc.createElement("path");
 		addStrokeAttributes(path);
 		setOpacity(path);
 		path.setTextContent(strb.toString());
@@ -261,8 +261,8 @@ public class IpePainter implements Painter
 
 	private void fill(StringBuilder strb)
 	{
-		Element path = doc.createElementNS(null, "path");
-		path.setAttributeNS(null, "fill", getCurrentColor());
+		Element path = doc.createElement("path");
+		path.setAttribute("fill", getCurrentColor());
 		setOpacity(path);
 		path.setTextContent(strb.toString());
 		append(path);
@@ -273,7 +273,7 @@ public class IpePainter implements Painter
 		if (color.getAlpha() != 1) {
 			double alpha = color.getAlpha();
 			int a = (int) (Math.round(alpha * 10) * 10);
-			path.setAttributeNS(null, "opacity", a + "%");
+			path.setAttribute("opacity", a + "%");
 		}
 	}
 
@@ -521,15 +521,15 @@ public class IpePainter implements Painter
 	private void addStrokeAttributes(Element element)
 	{
 		if (dash == null) {
-			element.setAttributeNS(null, "stroke", getCurrentColor());
+			element.setAttribute("stroke", getCurrentColor());
 			element.setAttribute("join", join != null ? join : "1");
-			element.setAttributeNS(null, "pen", width + "");
-			element.setAttributeNS(null, "cap", "1");
+			element.setAttribute("pen", width + "");
+			element.setAttribute("cap", "1");
 		} else {
-			element.setAttributeNS(null, "stroke", getCurrentColor());
-			element.setAttributeNS(null, "pen", width + "");
-			element.setAttributeNS(null, "cap", "1");
-			element.setAttributeNS(null, "join", "1");
+			element.setAttribute("stroke", getCurrentColor());
+			element.setAttribute("pen", width + "");
+			element.setAttribute("cap", "1");
+			element.setAttribute("join", "1");
 			StringBuilder strb = new StringBuilder();
 			for (int i = 0; i < dash.length; i++) {
 				strb.append(dash[i]);
@@ -537,8 +537,7 @@ public class IpePainter implements Painter
 					strb.append(" ");
 				}
 			}
-			element.setAttributeNS(null, "dash", "[" + strb.toString() + "] "
-					+ phase);
+			element.setAttribute("dash", "[" + strb.toString() + "] " + phase);
 		}
 
 	}
