@@ -133,7 +133,6 @@ public class IpePainter implements Painter
 	public void drawRect(int x, int y, int width, int height)
 	{
 		Rectangle rect = new Rectangle(x, y, width, height);
-		setMiterJoin();
 		String j = join;
 		setMiterJoin();
 		draw(rect);
@@ -144,7 +143,6 @@ public class IpePainter implements Painter
 	public void drawRect(double x, double y, double width, double height)
 	{
 		Rectangle2D rect = new Rectangle2D.Double(x, y, width, height);
-		setMiterJoin();
 		String j = join;
 		setMiterJoin();
 		draw(rect);
