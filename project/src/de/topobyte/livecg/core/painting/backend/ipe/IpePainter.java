@@ -534,13 +534,11 @@ public class IpePainter implements Painter
 			for (int i = 0; i < dash.length; i++) {
 				strb.append(dash[i]);
 				if (i < dash.length - 1) {
-					strb.append(",");
+					strb.append(" ");
 				}
 			}
-			element.setAttributeNS(null, "stroke-dasharray", strb.toString());
-			element.setAttributeNS(null, "stroke-dashoffset", "" + phase);
-			element.setAttributeNS(null, "stroke-opacity",
-					"" + color.getAlpha());
+			element.setAttributeNS(null, "dash", "[" + strb.toString() + "] "
+					+ phase);
 		}
 
 	}
