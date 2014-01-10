@@ -53,6 +53,8 @@ import de.topobyte.livecg.algorithms.polygon.shortestpath.ShortestPathAlgorithm;
 import de.topobyte.livecg.algorithms.polygon.shortestpath.ShortestPathConfig;
 import de.topobyte.livecg.algorithms.polygon.shortestpath.ShortestPathHelper;
 import de.topobyte.livecg.algorithms.polygon.shortestpath.ShortestPathPainter;
+import de.topobyte.livecg.algorithms.polygon.shortestpath.status.ShortestPathPosition;
+import de.topobyte.livecg.algorithms.polygon.shortestpath.status.ShortestPathStatusParser;
 import de.topobyte.livecg.algorithms.voronoi.fortune.FortunesSweep;
 import de.topobyte.livecg.algorithms.voronoi.fortune.geometry.Point;
 import de.topobyte.livecg.algorithms.voronoi.fortune.status.EventPosition;
@@ -388,6 +390,19 @@ public class CreateImage
 			ShortestPathAlgorithm alg = new ShortestPathAlgorithm(polygon,
 					nodes.getA(), nodes.getB());
 			ShortestPathConfig config = new ShortestPathConfig();
+
+			if (argStatus.hasValue()) {
+				String statusArgument = argStatus.getValue();
+				try {
+					ShortestPathPosition status = ShortestPathStatusParser
+							.parse(statusArgument);
+					alg.setStatus(status.getDiagonal(), status.getSub());
+				} catch (IllegalArgumentException e) {
+					System.out.println("Invalid format for status");
+					System.exit(1);
+				}
+			}
+
 			algorithm = alg;
 			sceneAlgorithm = alg;
 			algorithmPainter = new ShortestPathPainter(alg, config, null);
