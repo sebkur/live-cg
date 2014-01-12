@@ -53,6 +53,9 @@ import de.topobyte.livecg.algorithms.polygon.shortestpath.ShortestPathAlgorithm;
 import de.topobyte.livecg.algorithms.polygon.shortestpath.ShortestPathConfig;
 import de.topobyte.livecg.algorithms.polygon.shortestpath.ShortestPathHelper;
 import de.topobyte.livecg.algorithms.polygon.shortestpath.ShortestPathPainter;
+import de.topobyte.livecg.algorithms.polygon.shortestpath.ShortestPathPropertyParser;
+import de.topobyte.livecg.algorithms.polygon.shortestpath.status.ExplicitShortestPathPosition;
+import de.topobyte.livecg.algorithms.polygon.shortestpath.status.FinishedShortestPathPosition;
 import de.topobyte.livecg.algorithms.polygon.shortestpath.status.ShortestPathPosition;
 import de.topobyte.livecg.algorithms.polygon.shortestpath.status.ShortestPathStatusParser;
 import de.topobyte.livecg.algorithms.voronoi.fortune.FortunesSweep;
@@ -386,17 +389,38 @@ public class CreateImage
 				System.exit(1);
 			}
 			Polygon polygon = content.getPolygons().get(0);
-			PairOfNodes nodes = ShortestPathHelper.determineGoodNodes(polygon);
+			ShortestPathConfig config = new ShortestPathConfig();
+
+			ShortestPathPropertyParser parser = new ShortestPathPropertyParser(
+					config);
+			parser.parse(properties);
+
+			PairOfNodes nodes;
+			if (parser.getStart() != null && parser.getTarget() != null) {
+				int nStart = parser.getStart();
+				int nTarget = parser.getTarget();
+				Node start = polygon.getShell().getNode(nStart);
+				Node target = polygon.getShell().getNode(nTarget);
+				nodes = new PairOfNodes(start, target);
+			} else {
+				nodes = ShortestPathHelper.determineGoodNodes(polygon);
+			}
+
 			ShortestPathAlgorithm alg = new ShortestPathAlgorithm(polygon,
 					nodes.getA(), nodes.getB());
-			ShortestPathConfig config = new ShortestPathConfig();
 
 			if (argStatus.hasValue()) {
 				String statusArgument = argStatus.getValue();
 				try {
 					ShortestPathPosition status = ShortestPathStatusParser
 							.parse(statusArgument);
-					alg.setStatus(status.getDiagonal(), status.getSub());
+					if (status instanceof FinishedShortestPathPosition) {
+						int numberOfSteps = alg.getNumberOfSteps();
+						alg.setStatus(numberOfSteps, 0);
+					} else if (status instanceof ExplicitShortestPathPosition) {
+						ExplicitShortestPathPosition pos = (ExplicitShortestPathPosition) status;
+						alg.setStatus(pos.getDiagonal(), pos.getSub());
+					}
 				} catch (IllegalArgumentException e) {
 					System.out.println("Invalid format for status");
 					System.exit(1);

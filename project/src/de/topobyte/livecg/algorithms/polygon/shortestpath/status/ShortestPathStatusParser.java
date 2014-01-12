@@ -17,16 +17,18 @@
  */
 package de.topobyte.livecg.algorithms.polygon.shortestpath.status;
 
-
 public class ShortestPathStatusParser
 {
 
 	public static ShortestPathPosition parse(String argument)
 	{
 		if (!argument.contains(";")) {
+			if (argument.equals("finished")) {
+				return new FinishedShortestPathPosition();
+			}
 			try {
 				int diagonal = Integer.parseInt(argument);
-				return new ShortestPathPosition(diagonal, 0);
+				return new ExplicitShortestPathPosition(diagonal, 0);
 			} catch (NumberFormatException e) {
 				throw new IllegalArgumentException();
 			}
@@ -34,7 +36,7 @@ public class ShortestPathStatusParser
 			String[] parts = argument.split(";");
 			int diagonal = Integer.parseInt(parts[0]);
 			int sub = Integer.parseInt(parts[1]);
-			return new ShortestPathPosition(diagonal, sub);
+			return new ExplicitShortestPathPosition(diagonal, sub);
 		}
 	}
 

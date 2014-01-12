@@ -17,7 +17,26 @@
  */
 package de.topobyte.livecg.algorithms.polygon.shortestpath.status;
 
-public interface ShortestPathPosition
+public class ExplicitShortestPathPosition implements ShortestPathPosition
 {
+
+	private int diagonal;
+	private int sub;
+
+	public ExplicitShortestPathPosition(int diagonal, int sub)
+	{
+		this.diagonal = diagonal;
+		this.sub = sub;
+	}
+
+	public int getDiagonal()
+	{
+		return diagonal;
+	}
+
+	public int getSub()
+	{
+		return sub;
+	}
 
 }

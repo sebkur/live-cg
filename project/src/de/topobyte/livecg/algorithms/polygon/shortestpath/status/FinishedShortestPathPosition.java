@@ -17,7 +17,7 @@
  */
 package de.topobyte.livecg.algorithms.polygon.shortestpath.status;
 
-public interface ShortestPathPosition
+public class FinishedShortestPathPosition implements ShortestPathPosition
 {
 
 }
