@@ -78,6 +78,17 @@ public class ChansAlgorithm extends DefaultSceneAlgorithm
 		return data;
 	}
 
+	public boolean isAtStart()
+	{
+		return data.getPhase() == Phase.FIND_LEFTMOST_NODES
+				&& data.getNumberOfLeftmostNodesFound() == 0;
+	}
+
+	public boolean isFinished()
+	{
+		return data.getPhase() == Phase.DONE;
+	}
+
 	public void nextStep()
 	{
 		if (data.getPhase() != Phase.DONE) {
@@ -228,5 +239,11 @@ public class ChansAlgorithm extends DefaultSceneAlgorithm
 			}
 		}
 		return leftMostPolygon;
+	}
+
+	public int getNumberOfNodesOnHull()
+	{
+		List<Node> hull = data.getHull();
+		return hull == null ? 0 : hull.size();
 	}
 }

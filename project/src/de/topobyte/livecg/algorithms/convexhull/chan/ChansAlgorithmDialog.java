@@ -18,18 +18,25 @@
 package de.topobyte.livecg.algorithms.convexhull.chan;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
 import javax.swing.AbstractAction;
 import javax.swing.ActionMap;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.InputMap;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
+import javax.swing.JSlider;
 import javax.swing.KeyStroke;
+import javax.swing.border.TitledBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import de.topobyte.livecg.core.export.ExportUtil;
 import de.topobyte.livecg.core.scrolling.ScrollableView;
@@ -43,11 +50,19 @@ public class ChansAlgorithmDialog
 
 	private ChansAlgorithmPanel cap;
 
+	private JSlider sliderMajor;
+	private JSlider sliderMinor;
+
 	public ChansAlgorithmDialog(ChansAlgorithm algorithm)
 	{
 		this.algorithm = algorithm;
 
 		frame = new JFrame("Chan's Algorithm");
+
+		System.out.println(algorithm.getPolygons());
+		ChanUtil chanUtil = new ChanUtil(algorithm.getPolygons());
+		System.out.println("Major steps: " + chanUtil.getNumberOfMajorSteps());
+		System.out.println("Total steps: " + chanUtil.getTotalNumberOfSteps());
 
 		JPanel main = new JPanel();
 		frame.setContentPane(main);
@@ -59,7 +74,19 @@ public class ChansAlgorithmDialog
 		ScrollableView<ChansAlgorithmPanel> scrollableView = new ScrollableView<ChansAlgorithmPanel>(
 				cap);
 
-		main.add(toolbar, BorderLayout.NORTH);
+		sliderMajor = new JSlider(0, chanUtil.getNumberOfMajorSteps());
+		sliderMajor.setPaintTicks(true);
+		sliderMajor.setMajorTickSpacing(1);
+		sliderMajor.setValue(0);
+		sliderMajor.setBorder(new TitledBorder("Major"));
+
+		Box north = new Box(BoxLayout.Y_AXIS);
+		toolbar.setAlignmentX(Component.LEFT_ALIGNMENT);
+		sliderMajor.setAlignmentX(Component.LEFT_ALIGNMENT);
+		north.add(toolbar);
+		north.add(sliderMajor);
+
+		main.add(north, BorderLayout.NORTH);
 		main.add(scrollableView, BorderLayout.CENTER);
 
 		/*
@@ -95,11 +122,46 @@ public class ChansAlgorithmDialog
 				ChansAlgorithmDialog.this.algorithm.nextStep();
 			}
 		});
+
+		sliderMajor.addChangeListener(new ChangeListener() {
+
+			@Override
+			public void stateChanged(ChangeEvent e)
+			{
+				setMajorStep();
+			}
+		});
 	}
 
 	public JFrame getFrame()
 	{
 		return frame;
+	}
+
+	protected void setMajorStep()
+	{
+		int value = sliderMajor.getValue();
+		int hullSize = algorithm.getNumberOfNodesOnHull();
+		if (value == hullSize) {
+			return;
+		}
+		if (value > hullSize) {
+			while (algorithm.getNumberOfNodesOnHull() < value) {
+				algorithm.nextStep();
+			}
+		}
+		if (value < hullSize) {
+			if (value == 0) {
+				while (!algorithm.isAtStart()) {
+					algorithm.previousStep();
+				}
+			} else {
+				while (algorithm.getNumberOfNodesOnHull() > value) {
+					algorithm.previousStep();
+				}
+			}
+		}
+		cap.repaint();
 	}
 
 }
