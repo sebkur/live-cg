@@ -85,7 +85,7 @@ public class BufferAlgorithm extends DefaultSceneAlgorithm
 	{
 		Rectangle bbox = BoundingBoxes.get(polygon);
 		if (result != null) {
-			bbox = BoundingBoxes.get(bbox, BoundingBoxes.get(result));
+			bbox = Rectangles.union(bbox, BoundingBoxes.get(result));
 		}
 		Rectangle scene = Rectangles.extend(bbox, 15);
 		return scene;

@@ -59,7 +59,7 @@ public class ChansAlgorithm extends DefaultSceneAlgorithm
 	{
 		Rectangle scene = BoundingBoxes.get(polygons.get(0));
 		for (Polygon p : polygons) {
-			scene = BoundingBoxes.get(scene, BoundingBoxes.get(p));
+			scene = Rectangles.union(scene, BoundingBoxes.get(p));
 		}
 		scene = Rectangles.extend(scene, 15);
 		return scene;

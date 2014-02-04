@@ -31,4 +31,13 @@ public class Rectangles
 		ymax += extent;
 		return new Rectangle(xmin, ymin, xmax, ymax);
 	}
+
+	public static Rectangle union(Rectangle a, Rectangle b)
+	{
+		double xmin = Math.min(a.getX1(), b.getX1());
+		double xmax = Math.max(a.getX2(), b.getX2());
+		double ymin = Math.min(a.getY1(), b.getY1());
+		double ymax = Math.max(a.getY2(), b.getY2());
+		return new Rectangle(xmin, ymin, xmax, ymax);
+	}
 }
