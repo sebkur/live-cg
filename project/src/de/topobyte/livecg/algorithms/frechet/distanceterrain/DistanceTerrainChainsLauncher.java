@@ -15,34 +15,27 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.topobyte.livecg.ui.geometryeditor.action.visualizations;
+package de.topobyte.livecg.algorithms.frechet.distanceterrain;
 
-import java.awt.event.ActionEvent;
+import java.util.List;
 
-import de.topobyte.livecg.datastructures.dcel.DcelDialog;
-import de.topobyte.livecg.ui.action.BasicAction;
+import de.topobyte.livecg.algorithms.frechet.ui.DistanceTerrainDialog;
+import de.topobyte.livecg.core.geometry.geom.Chain;
+import de.topobyte.livecg.ui.ContentLauncher;
 import de.topobyte.livecg.ui.geometryeditor.Content;
-import de.topobyte.livecg.ui.geometryeditor.GeometryEditPane;
 
-public class DcelAction extends BasicAction
+public class DistanceTerrainChainsLauncher implements ContentLauncher
 {
 
-	private static final long serialVersionUID = -2845627216951446330L;
-
-	private GeometryEditPane editPane;
-
-	public DcelAction(GeometryEditPane editPane)
-	{
-		super("DCEL of the Arrangement", "Display the DCEL of the Arrangement",
-				"res/images/24x24/multipolygon.png");
-		this.editPane = editPane;
-	}
-
 	@Override
-	public void actionPerformed(ActionEvent e)
+	public void launch(Content content)
 	{
-		Content content = editPane.getContent();
-		new DcelDialog(content);
+		List<Chain> lines = content.getChains();
+		if (lines.size() < 2) {
+			System.out.println("not enough lines");
+			return;
+		}
+		new DistanceTerrainDialog(content);
 	}
 
 }

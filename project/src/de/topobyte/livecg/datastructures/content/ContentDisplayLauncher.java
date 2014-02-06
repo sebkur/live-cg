@@ -15,35 +15,18 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.topobyte.livecg.ui.geometryeditor.action.visualizations;
+package de.topobyte.livecg.datastructures.content;
 
-import java.awt.event.ActionEvent;
-
-import de.topobyte.livecg.algorithms.jts.buffer.BufferDialog;
-import de.topobyte.livecg.ui.action.BasicAction;
+import de.topobyte.livecg.ui.ContentLauncher;
 import de.topobyte.livecg.ui.geometryeditor.Content;
-import de.topobyte.livecg.ui.geometryeditor.GeometryEditPane;
 
-public class PolygonBufferAction extends BasicAction
+public class ContentDisplayLauncher implements ContentLauncher
 {
 
-	private static final long serialVersionUID = 8237600362605952257L;
-
-	private GeometryEditPane editPane;
-
-	public PolygonBufferAction(GeometryEditPane editPane)
-	{
-		super("Polygon Buffer", "Visualize the Polygon Buffer",
-				"res/images/24x24/multipolygon.png");
-		this.editPane = editPane;
-	}
-
 	@Override
-	public void actionPerformed(ActionEvent event)
+	public void launch(Content content)
 	{
-		Content content = editPane.getContent();
-		BufferDialog dialog = new BufferDialog(content);
-		dialog.getFrame().setVisible(true);
+		new ContentDialog(content);
 	}
 
 }

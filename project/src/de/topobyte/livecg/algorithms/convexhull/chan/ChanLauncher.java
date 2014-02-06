@@ -15,14 +15,11 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.topobyte.livecg.ui.geometryeditor.action.visualizations;
+package de.topobyte.livecg.algorithms.convexhull.chan;
 
-import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.topobyte.livecg.algorithms.convexhull.chan.ChansAlgorithm;
-import de.topobyte.livecg.algorithms.convexhull.chan.ChansAlgorithmDialog;
 import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.core.geometry.geom.ChainHelper;
 import de.topobyte.livecg.core.geometry.geom.CloseabilityException;
@@ -30,28 +27,15 @@ import de.topobyte.livecg.core.geometry.geom.CopyUtil;
 import de.topobyte.livecg.core.geometry.geom.CopyUtil.PolygonMode;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
 import de.topobyte.livecg.core.geometry.geom.PolygonHelper;
-import de.topobyte.livecg.ui.action.BasicAction;
+import de.topobyte.livecg.ui.ContentLauncher;
 import de.topobyte.livecg.ui.geometryeditor.Content;
-import de.topobyte.livecg.ui.geometryeditor.GeometryEditPane;
 
-public class ChansAlgorithmAction extends BasicAction
+public class ChanLauncher implements ContentLauncher
 {
 
-	private static final long serialVersionUID = 8082551211695240945L;
-
-	private GeometryEditPane editPane;
-
-	public ChansAlgorithmAction(GeometryEditPane editPane)
-	{
-		super("Chan's Algorithm", "Visualize Chan's Algorithm",
-				"res/images/24x24/multipolygon.png");
-		this.editPane = editPane;
-	}
-
 	@Override
-	public void actionPerformed(ActionEvent event)
+	public void launch(Content content)
 	{
-		Content content = editPane.getContent();
 		List<Polygon> viable = new ArrayList<Polygon>();
 		for (Polygon polygon : content.getPolygons()) {
 			if (polygon.getHoles().size() == 0) {
@@ -84,4 +68,5 @@ public class ChansAlgorithmAction extends BasicAction
 		ChansAlgorithm algorithm = new ChansAlgorithm(polygons);
 		new ChansAlgorithmDialog(algorithm);
 	}
+
 }

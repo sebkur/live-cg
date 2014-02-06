@@ -15,43 +15,29 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.topobyte.livecg.ui.geometryeditor.action.visualizations;
+package de.topobyte.livecg.algorithms.frechet.freespace;
 
 import java.awt.event.ActionEvent;
-import java.util.List;
 
-import de.topobyte.livecg.algorithms.frechet.ui.FreeSpaceDialog1;
-import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.ui.action.BasicAction;
-import de.topobyte.livecg.ui.geometryeditor.Content;
-import de.topobyte.livecg.ui.geometryeditor.GeometryEditPane;
 
-public class FreeSpaceChainsAction extends BasicAction
+public class FreeSpaceSegmentsAction extends BasicAction
 {
 
-	private static final long serialVersionUID = 4601842937930128005L;
+	private static final long serialVersionUID = -2630257708226818189L;
 
-	private GeometryEditPane editPane;
-
-	public FreeSpaceChainsAction(GeometryEditPane editPane)
+	public FreeSpaceSegmentsAction()
 	{
 		super(
-				"Free Space (chains)",
+				"Free Space (segments)",
 				"Visualize the Free Space Diagram used to compute the Fréchet Distance",
 				"res/images/24x24/way.png");
-		this.editPane = editPane;
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent event)
 	{
-		Content content = editPane.getContent();
-		List<Chain> chains = content.getChains();
-		if (chains.size() < 2) {
-			System.out.println("not enough chains");
-			return;
-		}
-		new FreeSpaceDialog1(content);
+		new FreeSpaceSegmentsLauncher().launch();
 	}
 
 }

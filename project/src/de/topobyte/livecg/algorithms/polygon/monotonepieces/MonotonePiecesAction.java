@@ -15,18 +15,11 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.topobyte.livecg.ui.geometryeditor.action.visualizations;
+package de.topobyte.livecg.algorithms.polygon.monotonepieces;
 
 import java.awt.event.ActionEvent;
-import java.util.List;
 
-import de.topobyte.livecg.algorithms.polygon.monotonepieces.MonotonePiecesAlgorithm;
-import de.topobyte.livecg.algorithms.polygon.monotonepieces.MonotonePiecesDialog;
-import de.topobyte.livecg.core.geometry.geom.CopyUtil;
-import de.topobyte.livecg.core.geometry.geom.CopyUtil.PolygonMode;
-import de.topobyte.livecg.core.geometry.geom.Polygon;
 import de.topobyte.livecg.ui.action.BasicAction;
-import de.topobyte.livecg.ui.geometryeditor.Content;
 import de.topobyte.livecg.ui.geometryeditor.GeometryEditPane;
 
 public class MonotonePiecesAction extends BasicAction
@@ -47,16 +40,7 @@ public class MonotonePiecesAction extends BasicAction
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
-		Content content = editPane.getContent();
-		List<Polygon> polygons = content.getPolygons();
-		if (polygons.size() < 1) {
-			return;
-		}
-		Polygon polygon = polygons.get(0);
-		polygon = CopyUtil.copy(polygon, PolygonMode.REUSE_NOTHING);
-
-		MonotonePiecesAlgorithm algorithm = new MonotonePiecesAlgorithm(polygon);
-		new MonotonePiecesDialog(algorithm);
+		new MonotonePiecesLauncher().launch(editPane.getContent());
 	}
 
 }

@@ -15,43 +15,31 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.topobyte.livecg.ui.geometryeditor.action.visualizations;
+package de.topobyte.livecg.algorithms.jts.buffer;
 
 import java.awt.event.ActionEvent;
-import java.util.List;
 
-import de.topobyte.livecg.algorithms.frechet.ui.DistanceTerrainDialog;
-import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.ui.action.BasicAction;
-import de.topobyte.livecg.ui.geometryeditor.Content;
 import de.topobyte.livecg.ui.geometryeditor.GeometryEditPane;
 
-public class DistanceTerrainChainsAction extends BasicAction
+public class PolygonBufferAction extends BasicAction
 {
 
-	private static final long serialVersionUID = 6994631580523463972L;
+	private static final long serialVersionUID = 8237600362605952257L;
 
 	private GeometryEditPane editPane;
 
-	public DistanceTerrainChainsAction(GeometryEditPane editPane)
+	public PolygonBufferAction(GeometryEditPane editPane)
 	{
-		super(
-				"Distance Terrain (chains)",
-				"Visualize the Distance Terrain used to compute the Fréchet Distance",
-				"res/images/24x24/way.png");
+		super("Polygon Buffer", "Visualize the Polygon Buffer",
+				"res/images/24x24/multipolygon.png");
 		this.editPane = editPane;
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent event)
 	{
-		Content content = editPane.getContent();
-		List<Chain> lines = content.getChains();
-		if (lines.size() < 2) {
-			System.out.println("not enough lines");
-			return;
-		}
-		new DistanceTerrainDialog(content);
+		new PolygonBufferLauncher().launch(editPane.getContent());
 	}
 
 }

@@ -29,7 +29,20 @@ import javax.swing.JMenuItem;
 import javax.swing.KeyStroke;
 
 import de.topobyte.livecg.LiveCG;
+import de.topobyte.livecg.algorithms.convexhull.chan.ChansAlgorithmAction;
+import de.topobyte.livecg.algorithms.frechet.distanceterrain.DistanceTerrainChainsAction;
+import de.topobyte.livecg.algorithms.frechet.distanceterrain.DistanceTerrainSegmentsAction;
+import de.topobyte.livecg.algorithms.frechet.freespace.FreeSpaceChainsAction;
+import de.topobyte.livecg.algorithms.frechet.freespace.FreeSpaceSegmentsAction;
+import de.topobyte.livecg.algorithms.jts.buffer.PolygonBufferAction;
+import de.topobyte.livecg.algorithms.polygon.monotonepieces.MonotonePiecesAction;
+import de.topobyte.livecg.algorithms.polygon.monotonepieces.TriangulationAction;
+import de.topobyte.livecg.algorithms.polygon.monotonepieces.TriangulationDualGraphAction;
+import de.topobyte.livecg.algorithms.polygon.shortestpath.ShortestPathInPolygonAction;
+import de.topobyte.livecg.algorithms.voronoi.fortune.FortunesSweepAction;
 import de.topobyte.livecg.core.scrolling.ZoomAction;
+import de.topobyte.livecg.datastructures.content.ContentDisplayAction;
+import de.topobyte.livecg.datastructures.dcel.DcelAction;
 import de.topobyte.livecg.ui.geometryeditor.action.CopyAction;
 import de.topobyte.livecg.ui.geometryeditor.action.FilePropertiesAction;
 import de.topobyte.livecg.ui.geometryeditor.action.MouseAction;
@@ -42,19 +55,6 @@ import de.topobyte.livecg.ui.geometryeditor.action.SelectAllAction;
 import de.topobyte.livecg.ui.geometryeditor.action.SelectNothingAction;
 import de.topobyte.livecg.ui.geometryeditor.action.ShowContentDialogAction;
 import de.topobyte.livecg.ui.geometryeditor.action.ShowObjectDialogAction;
-import de.topobyte.livecg.ui.geometryeditor.action.visualizations.ChansAlgorithmAction;
-import de.topobyte.livecg.ui.geometryeditor.action.visualizations.ContentAction;
-import de.topobyte.livecg.ui.geometryeditor.action.visualizations.DcelAction;
-import de.topobyte.livecg.ui.geometryeditor.action.visualizations.DistanceTerrainChainsAction;
-import de.topobyte.livecg.ui.geometryeditor.action.visualizations.DistanceTerrainSegmentsAction;
-import de.topobyte.livecg.ui.geometryeditor.action.visualizations.FortunesSweepAction;
-import de.topobyte.livecg.ui.geometryeditor.action.visualizations.FreeSpaceChainsAction;
-import de.topobyte.livecg.ui.geometryeditor.action.visualizations.FreeSpaceSegmentsAction;
-import de.topobyte.livecg.ui.geometryeditor.action.visualizations.MonotonePiecesAction;
-import de.topobyte.livecg.ui.geometryeditor.action.visualizations.PolygonBufferAction;
-import de.topobyte.livecg.ui.geometryeditor.action.visualizations.ShortestPathInPolygonAction;
-import de.topobyte.livecg.ui.geometryeditor.action.visualizations.TriangulationAction;
-import de.topobyte.livecg.ui.geometryeditor.action.visualizations.TriangulationDualGraphAction;
 import de.topobyte.livecg.ui.geometryeditor.mousemode.MouseMode;
 import de.topobyte.livecg.ui.geometryeditor.mousemode.MouseModeDescriptions;
 import de.topobyte.livecg.ui.geometryeditor.mousemode.MouseModeProvider;
@@ -205,7 +205,7 @@ public class Menu extends JMenuBar
 		JMenu polygons = new JMenu("Polygons");
 		polygons.setIcon(folder);
 
-		JMenuItem content = new JMenuItem(new ContentAction(editPane));
+		JMenuItem content = new JMenuItem(new ContentDisplayAction(editPane));
 		JMenuItem dcel = new JMenuItem(new DcelAction(editPane));
 
 		JMenuItem freeSpaceSegments = new JMenuItem(

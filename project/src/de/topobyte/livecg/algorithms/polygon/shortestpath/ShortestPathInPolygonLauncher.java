@@ -15,16 +15,11 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.topobyte.livecg.ui.geometryeditor.action.visualizations;
+package de.topobyte.livecg.algorithms.polygon.shortestpath;
 
-import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.topobyte.livecg.algorithms.polygon.shortestpath.PairOfNodes;
-import de.topobyte.livecg.algorithms.polygon.shortestpath.ShortestPathAlgorithm;
-import de.topobyte.livecg.algorithms.polygon.shortestpath.ShortestPathDialog;
-import de.topobyte.livecg.algorithms.polygon.shortestpath.ShortestPathHelper;
 import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.core.geometry.geom.ChainHelper;
 import de.topobyte.livecg.core.geometry.geom.CloseabilityException;
@@ -33,30 +28,16 @@ import de.topobyte.livecg.core.geometry.geom.CopyUtil.PolygonMode;
 import de.topobyte.livecg.core.geometry.geom.Node;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
 import de.topobyte.livecg.core.geometry.geom.PolygonHelper;
-import de.topobyte.livecg.ui.action.BasicAction;
+import de.topobyte.livecg.ui.ContentLauncher;
 import de.topobyte.livecg.ui.console.AlgorithmConsoleDialog;
 import de.topobyte.livecg.ui.geometryeditor.Content;
-import de.topobyte.livecg.ui.geometryeditor.GeometryEditPane;
 
-public class ShortestPathInPolygonAction extends BasicAction
+public class ShortestPathInPolygonLauncher implements ContentLauncher
 {
 
-	private static final long serialVersionUID = 8237600362605952257L;
-
-	private GeometryEditPane editPane;
-
-	public ShortestPathInPolygonAction(GeometryEditPane editPane)
-	{
-		super("Shortest Path in Polygon",
-				"Visualize the Shortest Path in Polygon Algorithm",
-				"res/images/24x24/multipolygon.png");
-		this.editPane = editPane;
-	}
-
 	@Override
-	public void actionPerformed(ActionEvent event)
+	public void launch(Content content)
 	{
-		Content content = editPane.getContent();
 		List<Polygon> polygons = content.getPolygons();
 		List<Polygon> viable = new ArrayList<Polygon>();
 		for (Polygon polygon : polygons) {

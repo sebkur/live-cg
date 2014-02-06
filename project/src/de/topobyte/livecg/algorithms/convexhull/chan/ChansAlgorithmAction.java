@@ -15,30 +15,30 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.topobyte.livecg.ui.geometryeditor.action.visualizations;
+package de.topobyte.livecg.algorithms.convexhull.chan;
 
 import java.awt.event.ActionEvent;
 
-import de.topobyte.livecg.algorithms.frechet.ui.RunDualSegmentEditorFreespace;
 import de.topobyte.livecg.ui.action.BasicAction;
+import de.topobyte.livecg.ui.geometryeditor.GeometryEditPane;
 
-public class FreeSpaceSegmentsAction extends BasicAction
+public class ChansAlgorithmAction extends BasicAction
 {
 
-	private static final long serialVersionUID = -2630257708226818189L;
+	private static final long serialVersionUID = 8082551211695240945L;
 
-	public FreeSpaceSegmentsAction()
+	private GeometryEditPane editPane;
+
+	public ChansAlgorithmAction(GeometryEditPane editPane)
 	{
-		super(
-				"Free Space (segments)",
-				"Visualize the Free Space Diagram used to compute the Fréchet Distance",
-				"res/images/24x24/way.png");
+		super("Chan's Algorithm", "Visualize Chan's Algorithm",
+				"res/images/24x24/multipolygon.png");
+		this.editPane = editPane;
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent event)
 	{
-		RunDualSegmentEditorFreespace.runProgrammatically(false);
+		new ChanLauncher().launch(editPane.getContent());
 	}
-
 }

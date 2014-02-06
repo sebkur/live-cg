@@ -15,34 +15,33 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.topobyte.livecg.ui.geometryeditor.action.visualizations;
+package de.topobyte.livecg.algorithms.frechet.distanceterrain;
 
 import java.awt.event.ActionEvent;
 
-import de.topobyte.livecg.datastructures.content.ContentDialog;
 import de.topobyte.livecg.ui.action.BasicAction;
-import de.topobyte.livecg.ui.geometryeditor.Content;
 import de.topobyte.livecg.ui.geometryeditor.GeometryEditPane;
 
-public class ContentAction extends BasicAction
+public class DistanceTerrainChainsAction extends BasicAction
 {
 
-	private static final long serialVersionUID = -2845627216951446330L;
+	private static final long serialVersionUID = 6994631580523463972L;
 
 	private GeometryEditPane editPane;
 
-	public ContentAction(GeometryEditPane editPane)
+	public DistanceTerrainChainsAction(GeometryEditPane editPane)
 	{
-		super("Geometry view", "Open a view of the geometries",
-				"res/images/24x24/multipolygon.png");
+		super(
+				"Distance Terrain (chains)",
+				"Visualize the Distance Terrain used to compute the Fréchet Distance",
+				"res/images/24x24/way.png");
 		this.editPane = editPane;
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent e)
+	public void actionPerformed(ActionEvent event)
 	{
-		Content content = editPane.getContent();
-		new ContentDialog(content);
+		new DistanceTerrainChainsLauncher().launch(editPane.getContent());
 	}
 
 }

@@ -15,30 +15,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.topobyte.livecg.ui.geometryeditor.action.visualizations;
+package de.topobyte.livecg.ui;
 
-import java.awt.event.ActionEvent;
-
-import de.topobyte.livecg.algorithms.frechet.ui.RunDualSegmentEditorDistanceTerrain;
-import de.topobyte.livecg.ui.action.BasicAction;
-
-public class DistanceTerrainSegmentsAction extends BasicAction
+public interface SimpleLauncher
 {
-
-	private static final long serialVersionUID = 3999319262987241522L;
-
-	public DistanceTerrainSegmentsAction()
-	{
-		super(
-				"Distance Terrain (segments)",
-				"Visualize the Distance Terrain used to compute the Fréchet Distance",
-				"res/images/24x24/way.png");
-	}
-
-	@Override
-	public void actionPerformed(ActionEvent event)
-	{
-		RunDualSegmentEditorDistanceTerrain.runProgrammatically(false);
-	}
-
+	public void launch();
 }
