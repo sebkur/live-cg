@@ -71,9 +71,7 @@ public class ShowVisualization
 		Options options = new Options();
 		OptionHelper.add(options, OPTION_CONFIG, true, false, "path", "config file");
 		OptionHelper.add(options, OPTION_VISUALIZATION, true, true, "type", 
-					"type of visualization. one of " +
-					"<geometry, dcel, fortune, monotone, triangulation, " +
-					"spip, freespace, distanceterrain, chan, buffer>");
+				"type of visualization. one of <" + VisualizationUtil.getListOfAvailableVisualizations() + ">");
 		OptionHelper.add(options, OPTION_STATUS, true, false, "status to " +
 				"set the algorithm to. The format depends on the algorithm");
 		// @formatter:on

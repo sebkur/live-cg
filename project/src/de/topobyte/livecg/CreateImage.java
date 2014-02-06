@@ -137,9 +137,7 @@ public class CreateImage
 		OptionHelper.add(options, OPTION_OUTPUT_FORMAT, true, true, "type",
 					"type of output. one of <png,svg,tikz,ipe>");
 		OptionHelper.add(options, OPTION_VISUALIZATION, true, true, "type", 
-					"type of visualization. one of " +
-					"<geometry, dcel, fortune, monotone, triangulation, " +
-					"spip, freespace, distanceterrain, chan, buffer>");
+					"type of visualization. one of <" + VisualizationUtil.getListOfAvailableVisualizations() + ">");
 		OptionHelper.add(options, OPTION_STATUS, true, false, "status to " +
 				"set the algorithm to. The format depends on the algorithm");
 		// @formatter:on
