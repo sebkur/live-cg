@@ -43,6 +43,10 @@ import de.topobyte.livecg.algorithms.frechet.distanceterrain.DistanceTerrainProp
 import de.topobyte.livecg.algorithms.frechet.freespace.FreeSpaceConfig;
 import de.topobyte.livecg.algorithms.frechet.freespace.FreeSpacePainterChains;
 import de.topobyte.livecg.algorithms.frechet.freespace.FreeSpacePropertyParser;
+import de.topobyte.livecg.algorithms.jts.buffer.BufferAlgorithm;
+import de.topobyte.livecg.algorithms.jts.buffer.BufferConfig;
+import de.topobyte.livecg.algorithms.jts.buffer.BufferPainter;
+import de.topobyte.livecg.algorithms.jts.buffer.BufferPropertyParser;
 import de.topobyte.livecg.algorithms.polygon.monotonepieces.MonotonePiecesAlgorithm;
 import de.topobyte.livecg.algorithms.polygon.monotonepieces.MonotonePiecesConfig;
 import de.topobyte.livecg.algorithms.polygon.monotonepieces.MonotonePiecesPainter;
@@ -135,7 +139,7 @@ public class CreateImage
 		OptionHelper.add(options, OPTION_VISUALIZATION, true, true, "type", 
 					"type of visualization. one of " +
 					"<geometry, dcel, fortune, monotone, triangulation, " +
-					"spip, freespace, distanceterrain, chan>");
+					"spip, freespace, distanceterrain, chan, buffer>");
 		OptionHelper.add(options, OPTION_STATUS, true, false, "status to " +
 				"set the algorithm to. The format depends on the algorithm");
 		// @formatter:on
@@ -381,6 +385,25 @@ public class CreateImage
 					.getExtendedGraph());
 			algorithmPainter = new MonotonePiecesTriangulationPainter(alg,
 					config, colorMap, null);
+			break;
+		}
+		case BUFFER: {
+			if (content.getPolygons().size() < 1) {
+				System.err.println("This visualization requires a polygon");
+				System.exit(1);
+			}
+			Polygon polygon = content.getPolygons().get(0);
+
+			BufferPropertyParser parser = new BufferPropertyParser();
+			parser.parse(properties);
+
+			int distance = parser.getDistance();
+			BufferAlgorithm alg = new BufferAlgorithm(polygon, distance);
+			BufferConfig config = new BufferConfig();
+			algorithm = alg;
+			sceneAlgorithm = alg;
+
+			algorithmPainter = new BufferPainter(alg, config, null);
 			break;
 		}
 		case SPIP: {
