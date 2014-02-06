@@ -17,7 +17,11 @@
  */
 package de.topobyte.livecg.algorithms.jts.buffer;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.vividsolutions.jts.geom.Geometry;
+import com.vividsolutions.jts.geom.GeometryCollection;
 
 import de.topobyte.livecg.core.algorithm.DefaultSceneAlgorithm;
 import de.topobyte.livecg.core.geometry.geom.BoundingBoxes;
@@ -26,13 +30,12 @@ import de.topobyte.livecg.core.geometry.geom.Polygon;
 import de.topobyte.livecg.core.geometry.geom.Rectangle;
 import de.topobyte.livecg.core.geometry.geom.Rectangles;
 
-// TODO: handle MultiPolygon results correctly (occur with negative distance values)
 public class BufferAlgorithm extends DefaultSceneAlgorithm
 {
 
 	private Polygon polygon;
 	private int distance;
-	private Polygon result;
+	private List<Polygon> result = new ArrayList<Polygon>();
 
 	public BufferAlgorithm(Polygon polygon, int distance)
 	{
@@ -57,7 +60,7 @@ public class BufferAlgorithm extends DefaultSceneAlgorithm
 		return polygon;
 	}
 
-	public Polygon getResult()
+	public List<Polygon> getResult()
 	{
 		return result;
 	}
@@ -67,12 +70,22 @@ public class BufferAlgorithm extends DefaultSceneAlgorithm
 		JtsUtil jtsUtil = new JtsUtil();
 		com.vividsolutions.jts.geom.Polygon p = jtsUtil.toJts(polygon);
 		Geometry buffer = p.buffer(distance);
-		if (!(buffer instanceof com.vividsolutions.jts.geom.Polygon)) {
-			result = null;
+		result.clear();
+		if (buffer instanceof com.vividsolutions.jts.geom.Polygon) {
+			com.vividsolutions.jts.geom.Polygon r = (com.vividsolutions.jts.geom.Polygon) buffer;
+			result.add(jtsUtil.fromJts(r));
 			return;
+		} else if (buffer instanceof GeometryCollection) {
+			GeometryCollection collection = (GeometryCollection) buffer;
+			for (int i = 0; i < collection.getNumGeometries(); i++) {
+				Geometry part = collection.getGeometryN(i);
+				if (!(part instanceof com.vividsolutions.jts.geom.Polygon)) {
+					continue;
+				}
+				com.vividsolutions.jts.geom.Polygon r = (com.vividsolutions.jts.geom.Polygon) part;
+				result.add(jtsUtil.fromJts(r));
+			}
 		}
-		com.vividsolutions.jts.geom.Polygon r = (com.vividsolutions.jts.geom.Polygon) buffer;
-		result = jtsUtil.fromJts(r);
 	}
 
 	public void update()
@@ -85,7 +98,9 @@ public class BufferAlgorithm extends DefaultSceneAlgorithm
 	{
 		Rectangle bbox = BoundingBoxes.get(polygon);
 		if (result != null) {
-			bbox = Rectangles.union(bbox, BoundingBoxes.get(result));
+			for (Polygon p : result) {
+				bbox = Rectangles.union(bbox, BoundingBoxes.get(p));
+			}
 		}
 		Rectangle scene = Rectangles.extend(bbox, 15);
 		return scene;

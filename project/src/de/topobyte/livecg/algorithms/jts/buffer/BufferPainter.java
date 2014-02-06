@@ -17,6 +17,9 @@
  */
 package de.topobyte.livecg.algorithms.jts.buffer;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import de.topobyte.livecg.core.geometry.geom.Polygon;
 import de.topobyte.livecg.core.painting.Color;
 import de.topobyte.livecg.core.painting.Painter;
@@ -48,15 +51,17 @@ public class BufferPainter extends TransformingAlgorithmPainter
 		preparePaint();
 		fillBackground(colorBG);
 
-		Polygon buffer = algorithm.getResult();
-		Polygon tBuffer = null;
-		if (buffer != null) {
-			tBuffer = transformer.transform(buffer);
+		List<Polygon> buffer = algorithm.getResult();
+		List<Polygon> tBuffer = new ArrayList<Polygon>();
+		for (Polygon p : buffer) {
+			tBuffer.add(transformer.transform(p));
 		}
 
-		if (buffer != null && config.getDistance() > 0) {
+		if (config.getDistance() > 0) {
 			painter.setColor(colorBufferFill);
-			painter.fillPolygon(tBuffer);
+			for (Polygon p : tBuffer) {
+				painter.fillPolygon(p);
+			}
 		}
 
 		Polygon tOriginal = transformer.transform(algorithm.getOriginal());
@@ -67,14 +72,18 @@ public class BufferPainter extends TransformingAlgorithmPainter
 			painter.drawPolygon(tOriginal);
 		}
 
-		if (buffer != null && config.getDistance() != 0) {
+		if (config.getDistance() != 0) {
 			painter.setColor(colorBufferOutline);
-			painter.drawPolygon(tBuffer);
+			for (Polygon p : tBuffer) {
+				painter.drawPolygon(p);
+			}
 		}
 
-		if (buffer != null && config.getDistance() < 0) {
+		if (config.getDistance() < 0) {
 			painter.setColor(colorBufferFill);
-			painter.fillPolygon(tBuffer);
+			for (Polygon p : tBuffer) {
+				painter.fillPolygon(p);
+			}
 		}
 	}
 }
