@@ -38,10 +38,11 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import de.topobyte.livecg.core.algorithm.AlgorithmWatcher;
 import de.topobyte.livecg.core.export.ExportUtil;
 import de.topobyte.livecg.core.scrolling.ScrollableView;
 
-public class ChansAlgorithmDialog
+public class ChansAlgorithmDialog implements AlgorithmWatcher
 {
 
 	private JFrame frame;
@@ -63,6 +64,8 @@ public class ChansAlgorithmDialog
 		ChanUtil chanUtil = new ChanUtil(algorithm.getPolygons());
 		System.out.println("Major steps: " + chanUtil.getNumberOfMajorSteps());
 		System.out.println("Total steps: " + chanUtil.getTotalNumberOfSteps());
+
+		algorithm.addAlgorithmWatcher(this);
 
 		JPanel main = new JPanel();
 		frame.setContentPane(main);
@@ -156,12 +159,20 @@ public class ChansAlgorithmDialog
 					algorithm.previousStep();
 				}
 			} else {
-				while (algorithm.getNumberOfNodesOnHull() > value) {
+				while (algorithm.getNumberOfNodesOnHull() >= value) {
 					algorithm.previousStep();
 				}
+				algorithm.nextStep();
 			}
 		}
 		cap.repaint();
+	}
+
+	@Override
+	public void updateAlgorithmStatus()
+	{
+		int n = algorithm.getNumberOfNodesOnHull();
+		sliderMajor.setValue(n);
 	}
 
 }
