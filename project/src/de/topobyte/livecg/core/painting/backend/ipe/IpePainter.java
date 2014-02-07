@@ -20,6 +20,7 @@ package de.topobyte.livecg.core.painting.backend.ipe;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import noawt.java.awt.Rectangle;
 import noawt.java.awt.Shape;
@@ -93,7 +94,7 @@ public class IpePainter implements Painter
 			ipestyle.appendChild(opacity);
 			opacity.setAttribute("name", i + "%");
 			opacity.setAttribute("value",
-					String.format("%.2f", i / (double) 100));
+					String.format(Locale.US, "%.2f", i / (double) 100));
 		}
 
 		page = doc.createElement("page");
@@ -245,7 +246,7 @@ public class IpePainter implements Painter
 		float r = ((color.getRGB() & 0xFF0000) >>> 16) / 255.0f;
 		float g = ((color.getRGB() & 0xFF00) >>> 8) / 255.0f;
 		float b = ((color.getRGB() & 0xFF)) / 255.0f;
-		return String.format("%f %f %f", r, g, b);
+		return String.format(Locale.US, "%f %f %f", r, g, b);
 	}
 
 	private void stroke(StringBuilder strb)
