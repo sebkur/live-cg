@@ -34,12 +34,12 @@ for format in png svg tikz ipe; do
 
 done
 
-for file in "test/ipe/"*.ipe; do
+for file in $(find test/ipe -maxdepth 1 -name "*.ipe"); do
 	echo $file
 	ipetoipe -pdf "$file"
 done
 
-for file in "test/tikz/"*.tikz; do
+for file in $(find test/tikz -maxdepth 1 -name "*.tikz"); do
 	dir=$(dirname "$file")
 	name=$(basename "$file" .tikz)
 	latex="$dir/$name.latex"
