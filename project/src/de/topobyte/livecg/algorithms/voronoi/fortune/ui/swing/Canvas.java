@@ -40,7 +40,7 @@ public class Canvas extends JPanel implements AlgorithmWatcher, SizeProvider
 	private static final long serialVersionUID = 461591430129084653L;
 
 	private FortunesSweep algorithm;
-	private FortunePainter algorithmPainter;
+	private FortunePainter visualizationPainter;
 	private AwtPainter painter;
 
 	public Canvas(FortunesSweep algorithm, FortuneConfig config, int width, int height)
@@ -48,7 +48,7 @@ public class Canvas extends JPanel implements AlgorithmWatcher, SizeProvider
 		this.algorithm = algorithm;
 
 		painter = new AwtPainter(null);
-		algorithmPainter = new FortunePainter(algorithm, config, painter);
+		visualizationPainter = new FortunePainter(algorithm, config, painter);
 
 		addMouseListener(new MouseAdapter() {
 
@@ -79,9 +79,9 @@ public class Canvas extends JPanel implements AlgorithmWatcher, SizeProvider
 				RenderingHints.VALUE_ANTIALIAS_ON);
 
 		painter.setGraphics(g2d);
-		algorithmPainter.setWidth(getWidth());
-		algorithmPainter.setHeight(getHeight());
-		algorithmPainter.paint();
+		visualizationPainter.setWidth(getWidth());
+		visualizationPainter.setHeight(getHeight());
+		visualizationPainter.paint();
 	}
 
 	public void addRandomPoints()

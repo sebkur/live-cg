@@ -29,10 +29,10 @@ import de.topobyte.livecg.core.lina.Matrix;
 import de.topobyte.livecg.core.lina.Vector2;
 import de.topobyte.livecg.core.painting.Color;
 import de.topobyte.livecg.core.painting.Painter;
-import de.topobyte.livecg.core.painting.TransformingAlgorithmPainter;
+import de.topobyte.livecg.core.painting.TransformingVisualizationPainter;
 import de.topobyte.livecg.core.scrolling.TransformHelper;
 
-public abstract class DcelPainter extends TransformingAlgorithmPainter
+public abstract class DcelPainter extends TransformingVisualizationPainter
 {
 
 	private String q(String property)

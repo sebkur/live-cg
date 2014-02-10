@@ -23,10 +23,10 @@ import de.topobyte.livecg.core.geometry.geom.Polygon;
 import de.topobyte.livecg.core.geometry.geom.Rectangle;
 import de.topobyte.livecg.core.painting.Color;
 import de.topobyte.livecg.core.painting.Painter;
-import de.topobyte.livecg.core.painting.TransformingAlgorithmPainter;
+import de.topobyte.livecg.core.painting.TransformingVisualizationPainter;
 import de.topobyte.livecg.ui.geometryeditor.Content;
 
-public class ContentPainter extends TransformingAlgorithmPainter
+public class ContentPainter extends TransformingVisualizationPainter
 {
 
 	private Content content;

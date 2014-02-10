@@ -28,7 +28,7 @@ import de.topobyte.livecg.core.VisualizationSetup;
 import de.topobyte.livecg.core.geometry.geom.Node;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
 import de.topobyte.livecg.core.geometry.geom.Rectangle;
-import de.topobyte.livecg.core.painting.AlgorithmPainter;
+import de.topobyte.livecg.core.painting.VisualizationPainter;
 import de.topobyte.livecg.ui.geometryeditor.Content;
 
 public class ShortestPathVisualizationSetup implements VisualizationSetup
@@ -80,14 +80,14 @@ public class ShortestPathVisualizationSetup implements VisualizationSetup
 			}
 		}
 
-		AlgorithmPainter algorithmPainter = new ShortestPathPainter(algorithm,
+		VisualizationPainter visualizationPainter = new ShortestPathPainter(algorithm,
 				config, null);
 
 		Rectangle scene = algorithm.getScene();
 		int width = (int) Math.ceil(scene.getWidth() * zoom);
 		int height = (int) Math.ceil(scene.getHeight() * zoom);
 
-		return new SetupResult(width, height, algorithmPainter);
+		return new SetupResult(width, height, visualizationPainter);
 	}
 
 }

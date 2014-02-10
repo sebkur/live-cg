@@ -17,7 +17,7 @@
  */
 package de.topobyte.livecg.core.painting;
 
-public abstract class BasicAlgorithmPainter implements AlgorithmPainter
+public abstract class BasicVisualizationPainter implements VisualizationPainter
 {
 
 	protected Painter painter;
@@ -27,7 +27,7 @@ public abstract class BasicAlgorithmPainter implements AlgorithmPainter
 	protected double positionX = 0;
 	protected double positionY = 0;
 
-	public BasicAlgorithmPainter(Painter painter)
+	public BasicVisualizationPainter(Painter painter)
 	{
 		this.painter = painter;
 	}

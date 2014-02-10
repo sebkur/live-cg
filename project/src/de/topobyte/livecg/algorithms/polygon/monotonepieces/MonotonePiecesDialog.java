@@ -28,7 +28,7 @@ import javax.swing.JPanel;
 
 import de.topobyte.livecg.core.export.ExportUtil;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
-import de.topobyte.livecg.core.painting.AlgorithmPainter;
+import de.topobyte.livecg.core.painting.VisualizationPainter;
 import de.topobyte.livecg.core.scrolling.ScrollableView;
 import de.topobyte.livecg.util.coloring.ColorMapBuilder;
 
@@ -64,7 +64,7 @@ public class MonotonePiecesDialog
 		Map<Polygon, Color> colorMap = ColorMapBuilder.buildColorMap(algorithm
 				.getExtendedGraph());
 
-		AlgorithmPainter painter = new MonotonePiecesPainter(algorithm,
+		VisualizationPainter painter = new MonotonePiecesPainter(algorithm,
 				polygonConfig, colorMap, null);
 
 		JMenuBar menu = new JMenuBar();

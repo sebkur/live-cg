@@ -25,7 +25,7 @@ import de.topobyte.livecg.core.SetupResult;
 import de.topobyte.livecg.core.VisualizationSetup;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
 import de.topobyte.livecg.core.geometry.geom.Rectangle;
-import de.topobyte.livecg.core.painting.AlgorithmPainter;
+import de.topobyte.livecg.core.painting.VisualizationPainter;
 import de.topobyte.livecg.ui.geometryeditor.Content;
 import de.topobyte.livecg.util.coloring.ColorMapBuilder;
 
@@ -45,7 +45,7 @@ public class MonotonePiecesVisualizationSetup implements VisualizationSetup
 		MonotonePiecesConfig config = new MonotonePiecesConfig();
 		Map<Polygon, Color> colorMap = ColorMapBuilder.buildColorMap(algorithm
 				.getExtendedGraph());
-		AlgorithmPainter algorithmPainter = new MonotonePiecesPainter(
+		VisualizationPainter visualizationPainter = new MonotonePiecesPainter(
 				algorithm, config, colorMap, null);
 
 		Rectangle scene = algorithm.getScene();
@@ -53,7 +53,7 @@ public class MonotonePiecesVisualizationSetup implements VisualizationSetup
 		int width = (int) Math.ceil(scene.getWidth() * zoom);
 		int height = (int) Math.ceil(scene.getHeight() * zoom);
 
-		return new SetupResult(width, height, algorithmPainter);
+		return new SetupResult(width, height, visualizationPainter);
 	}
 
 }

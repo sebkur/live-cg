@@ -17,20 +17,21 @@
  */
 package de.topobyte.livecg.core;
 
-import de.topobyte.livecg.core.painting.AlgorithmPainter;
+import de.topobyte.livecg.core.painting.VisualizationPainter;
 
 public class SetupResult
 {
 
 	private int width;
 	private int height;
-	private AlgorithmPainter algorithmPainter;
+	private VisualizationPainter visualizationPainter;
 
-	public SetupResult(int width, int height, AlgorithmPainter algorithmPainter)
+	public SetupResult(int width, int height,
+			VisualizationPainter visualizationPainter)
 	{
 		this.width = width;
 		this.height = height;
-		this.algorithmPainter = algorithmPainter;
+		this.visualizationPainter = visualizationPainter;
 	}
 
 	public int getWidth()
@@ -43,9 +44,9 @@ public class SetupResult
 		return height;
 	}
 
-	public AlgorithmPainter getAlgorithmPainter()
+	public VisualizationPainter getVisualizationPainter()
 	{
-		return algorithmPainter;
+		return visualizationPainter;
 	}
 
 }

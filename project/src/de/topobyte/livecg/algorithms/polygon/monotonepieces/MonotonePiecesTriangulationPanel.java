@@ -44,7 +44,7 @@ public class MonotonePiecesTriangulationPanel extends ScenePanel implements
 
 		colorMap = ColorMapBuilder.buildColorMap(algorithm.getExtendedGraph());
 
-		algorithmPainter = new MonotonePiecesTriangulationPainter(algorithm,
+		visualizationPainter = new MonotonePiecesTriangulationPainter(algorithm,
 				polygonConfig, colorMap, painter);
 	}
 

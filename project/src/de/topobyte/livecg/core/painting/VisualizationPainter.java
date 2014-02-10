@@ -19,7 +19,7 @@ package de.topobyte.livecg.core.painting;
 
 import de.topobyte.livecg.core.scrolling.Viewport;
 
-public interface AlgorithmPainter extends Viewport
+public interface VisualizationPainter extends Viewport
 {
 
 	public int getWidth();

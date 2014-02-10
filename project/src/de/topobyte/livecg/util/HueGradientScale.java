@@ -24,7 +24,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 
 import de.topobyte.livecg.core.export.IpeExporter;
-import de.topobyte.livecg.core.painting.BasicAlgorithmPainter;
+import de.topobyte.livecg.core.painting.BasicVisualizationPainter;
 import de.topobyte.livecg.core.painting.Color;
 import de.topobyte.livecg.core.painting.Image;
 import de.topobyte.livecg.core.painting.Painter;
@@ -41,7 +41,7 @@ public class HueGradientScale
 		IpeExporter.exportIpe(file, painter, 40, 200);
 	}
 
-	private static class TestPainter extends BasicAlgorithmPainter
+	private static class TestPainter extends BasicVisualizationPainter
 	{
 
 		public TestPainter(Painter painter)

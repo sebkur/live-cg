@@ -22,7 +22,7 @@ import java.util.Properties;
 import de.topobyte.livecg.core.SetupResult;
 import de.topobyte.livecg.core.VisualizationSetup;
 import de.topobyte.livecg.core.geometry.geom.Rectangle;
-import de.topobyte.livecg.core.painting.AlgorithmPainter;
+import de.topobyte.livecg.core.painting.VisualizationPainter;
 import de.topobyte.livecg.ui.geometryeditor.Content;
 
 public class ContentVisualizationSetup implements VisualizationSetup
@@ -34,13 +34,13 @@ public class ContentVisualizationSetup implements VisualizationSetup
 	{
 		Rectangle scene = content.getScene();
 		ContentConfig config = new ContentConfig();
-		AlgorithmPainter algorithmPainter = new ContentPainter(
+		VisualizationPainter visualizationPainter = new ContentPainter(
 				content.getScene(), content, config, null);
 
 		int width = (int) Math.ceil(scene.getWidth() * zoom);
 		int height = (int) Math.ceil(scene.getHeight() * zoom);
 
-		return new SetupResult(width, height, algorithmPainter);
+		return new SetupResult(width, height, visualizationPainter);
 	}
 
 }

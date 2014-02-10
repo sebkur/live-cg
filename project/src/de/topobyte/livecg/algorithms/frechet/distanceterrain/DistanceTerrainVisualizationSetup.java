@@ -23,7 +23,7 @@ import java.util.Properties;
 import de.topobyte.livecg.core.SetupResult;
 import de.topobyte.livecg.core.VisualizationSetup;
 import de.topobyte.livecg.core.geometry.geom.Chain;
-import de.topobyte.livecg.core.painting.AlgorithmPainter;
+import de.topobyte.livecg.core.painting.VisualizationPainter;
 import de.topobyte.livecg.ui.geometryeditor.Content;
 
 public class DistanceTerrainVisualizationSetup implements VisualizationSetup
@@ -44,13 +44,13 @@ public class DistanceTerrainVisualizationSetup implements VisualizationSetup
 
 		new DistanceTerrainPropertyParser(config).parse(properties);
 
-		AlgorithmPainter algorithmPainter = new DistanceTerrainPainterChains(
+		VisualizationPainter visualizationPainter = new DistanceTerrainPainterChains(
 				config, chain1, chain2, null);
 		int cellSize = 50;
 		int width = chain1.getNumberOfNodes() * cellSize;
 		int height = chain2.getNumberOfNodes() * cellSize;
 
-		return new SetupResult(width, height, algorithmPainter);
+		return new SetupResult(width, height, visualizationPainter);
 	}
 
 }

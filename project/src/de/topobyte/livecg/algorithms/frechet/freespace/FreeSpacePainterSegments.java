@@ -29,12 +29,12 @@ import de.topobyte.livecg.algorithms.frechet.freespace.calc.FreeSpaceUtil;
 import de.topobyte.livecg.algorithms.frechet.freespace.calc.Interval;
 import de.topobyte.livecg.algorithms.frechet.freespace.calc.LineSegment;
 import de.topobyte.livecg.core.lina.Vector2;
-import de.topobyte.livecg.core.painting.BasicAlgorithmPainter;
+import de.topobyte.livecg.core.painting.BasicVisualizationPainter;
 import de.topobyte.livecg.core.painting.Color;
 import de.topobyte.livecg.core.painting.Painter;
 import de.topobyte.livecg.util.DoubleUtil;
 
-public class FreeSpacePainterSegments extends BasicAlgorithmPainter implements
+public class FreeSpacePainterSegments extends BasicVisualizationPainter implements
 		EpsilonSettable
 {
 

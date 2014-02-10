@@ -48,7 +48,7 @@ import de.topobyte.livecg.core.export.IpeExporter;
 import de.topobyte.livecg.core.export.SvgExporter;
 import de.topobyte.livecg.core.export.TikzExporter;
 import de.topobyte.livecg.core.geometry.io.ContentReader;
-import de.topobyte.livecg.core.painting.AlgorithmPainter;
+import de.topobyte.livecg.core.painting.VisualizationPainter;
 import de.topobyte.livecg.datastructures.content.ContentVisualizationSetup;
 import de.topobyte.livecg.datastructures.dcel.DcelVisualizationSetup;
 import de.topobyte.livecg.ui.geometryeditor.Content;
@@ -222,16 +222,16 @@ public class CreateImage
 		int width = setupResult.getWidth();
 		int height = setupResult.getHeight();
 
-		AlgorithmPainter algorithmPainter = setupResult.getAlgorithmPainter();
+		VisualizationPainter visualizationPainter = setupResult.getVisualizationPainter();
 
 		File output = new File(argOutput.getValue());
 
-		algorithmPainter.setZoom(zoom);
+		visualizationPainter.setZoom(zoom);
 
 		switch (exportFormat) {
 		case IPE: {
 			try {
-				IpeExporter.exportIpe(output, algorithmPainter, width, height);
+				IpeExporter.exportIpe(output, visualizationPainter, width, height);
 			} catch (Exception e) {
 				System.err.println("Error while exporting. Exception type: "
 						+ e.getClass().getSimpleName() + ", message: "
@@ -242,7 +242,7 @@ public class CreateImage
 		}
 		case PNG: {
 			try {
-				GraphicsExporter.exportPNG(output, algorithmPainter, width,
+				GraphicsExporter.exportPNG(output, visualizationPainter, width,
 						height);
 			} catch (IOException e) {
 				System.err.println("Error while exporting. Exception type: "
@@ -254,7 +254,7 @@ public class CreateImage
 		}
 		case SVG: {
 			try {
-				SvgExporter.exportSVG(output, algorithmPainter, width, height);
+				SvgExporter.exportSVG(output, visualizationPainter, width, height);
 			} catch (Exception e) {
 				System.err.println("Error while exporting. Exception type: "
 						+ e.getClass().getSimpleName() + ", message: "
@@ -266,7 +266,7 @@ public class CreateImage
 		case TIKZ: {
 			try {
 				TikzExporter
-						.exportTikz(output, algorithmPainter, width, height);
+						.exportTikz(output, visualizationPainter, width, height);
 			} catch (Exception e) {
 				System.err.println("Error while exporting. Exception type: "
 						+ e.getClass().getSimpleName() + ", message: "

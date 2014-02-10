@@ -25,7 +25,7 @@ import javax.swing.JFileChooser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.topobyte.livecg.core.painting.AlgorithmPainter;
+import de.topobyte.livecg.core.painting.VisualizationPainter;
 import de.topobyte.livecg.core.scrolling.HasScene;
 import de.topobyte.livecg.core.scrolling.Viewport;
 import de.topobyte.livecg.ui.filefilters.FileFilterIpe;
@@ -39,10 +39,10 @@ public class ExportIpeActionZoomed<T extends Viewport & HasScene> extends
 			.getLogger(ExportIpeActionZoomed.class);
 
 	public ExportIpeActionZoomed(Component component,
-			AlgorithmPainter algorithmPainter, T dimensionProvider)
+			VisualizationPainter visualizationPainter, T dimensionProvider)
 	{
 		super("Export Ipe", "Export the current view to a Ipe file", null,
-				component, algorithmPainter, dimensionProvider);
+				component, visualizationPainter, dimensionProvider);
 	}
 
 	@Override
@@ -56,7 +56,7 @@ public class ExportIpeActionZoomed<T extends Viewport & HasScene> extends
 	protected void export(File file, int width, int height)
 	{
 		try {
-			IpeExporter.exportIpe(file, algorithmPainter, width, height);
+			IpeExporter.exportIpe(file, visualizationPainter, width, height);
 		} catch (Exception ex) {
 			logger.error("unable to export image (Exception): "
 					+ ex.getMessage());

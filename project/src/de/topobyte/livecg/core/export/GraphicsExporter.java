@@ -25,13 +25,13 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import de.topobyte.livecg.core.painting.AlgorithmPainter;
+import de.topobyte.livecg.core.painting.VisualizationPainter;
 import de.topobyte.livecg.core.painting.backend.awt.AwtPainter;
 
 public class GraphicsExporter
 {
 
-	public static void exportPNG(File file, AlgorithmPainter algorithmPainter,
+	public static void exportPNG(File file, VisualizationPainter visualizationPainter,
 			int width, int height) throws IOException
 	{
 		BufferedImage image = new BufferedImage(width, height,
@@ -43,10 +43,10 @@ public class GraphicsExporter
 
 		AwtPainter painter = new AwtPainter(graphics);
 
-		algorithmPainter.setPainter(painter);
-		algorithmPainter.setWidth(width);
-		algorithmPainter.setHeight(height);
-		algorithmPainter.paint();
+		visualizationPainter.setPainter(painter);
+		visualizationPainter.setWidth(width);
+		visualizationPainter.setHeight(height);
+		visualizationPainter.paint();
 
 		ImageIO.write(image, "png", file);
 	}

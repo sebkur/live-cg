@@ -26,7 +26,7 @@ import javax.swing.JFileChooser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.topobyte.livecg.core.painting.AlgorithmPainter;
+import de.topobyte.livecg.core.painting.VisualizationPainter;
 import de.topobyte.livecg.ui.action.BasicAction;
 
 public abstract class ExportActionOriginalSize extends BasicAction
@@ -37,16 +37,16 @@ public abstract class ExportActionOriginalSize extends BasicAction
 			.getLogger(ExportActionOriginalSize.class);
 
 	private Component component;
-	protected AlgorithmPainter algorithmPainter;
+	protected VisualizationPainter visualizationPainter;
 	protected SizeProvider sizeProvider;
 
 	public ExportActionOriginalSize(String name, String description,
 			String icon, Component component,
-			AlgorithmPainter algorithmPainter, SizeProvider sizeProvider)
+			VisualizationPainter visualizationPainter, SizeProvider sizeProvider)
 	{
 		super(name, description, icon);
 		this.component = component;
-		this.algorithmPainter = algorithmPainter;
+		this.visualizationPainter = visualizationPainter;
 		this.sizeProvider = sizeProvider;
 	}
 
@@ -67,7 +67,7 @@ public abstract class ExportActionOriginalSize extends BasicAction
 		File file = fc.getSelectedFile();
 		lastDirectoryService.setLastActiveDirectory(file.getParentFile());
 
-		algorithmPainter.setZoom(1);
+		visualizationPainter.setZoom(1);
 
 		export(file);
 	}

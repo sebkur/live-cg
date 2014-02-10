@@ -26,7 +26,7 @@ import de.topobyte.livecg.core.geometry.dcel.DcelConverter;
 import de.topobyte.livecg.core.geometry.dcel.DcelUtil;
 import de.topobyte.livecg.core.geometry.geom.Rectangle;
 import de.topobyte.livecg.core.geometry.geom.Rectangles;
-import de.topobyte.livecg.core.painting.AlgorithmPainter;
+import de.topobyte.livecg.core.painting.VisualizationPainter;
 import de.topobyte.livecg.ui.geometryeditor.Content;
 
 public class DcelVisualizationSetup implements VisualizationSetup
@@ -41,13 +41,13 @@ public class DcelVisualizationSetup implements VisualizationSetup
 		Rectangle bbox = DcelUtil.getBoundingBox(dcel);
 		Rectangle scene = Rectangles.extend(bbox, margin);
 		DcelConfig config = new DcelConfig();
-		AlgorithmPainter algorithmPainter = new InstanceDcelPainter(scene,
+		VisualizationPainter visualizationPainter = new InstanceDcelPainter(scene,
 				dcel, config, null);
 
 		int width = (int) Math.ceil(scene.getWidth() * zoom);
 		int height = (int) Math.ceil(scene.getHeight() * zoom);
 
-		return new SetupResult(width, height, algorithmPainter);
+		return new SetupResult(width, height, visualizationPainter);
 	}
 
 }

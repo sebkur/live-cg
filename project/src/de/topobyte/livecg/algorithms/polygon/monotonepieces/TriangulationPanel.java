@@ -41,7 +41,7 @@ public class TriangulationPanel extends ScenePanel implements PolygonPanel,
 		super(scene(polygon, margin));
 		this.config = config;
 
-		algorithmPainter = new TriangulationPainter(scene, polygon, diagonals,
+		visualizationPainter = new TriangulationPainter(scene, polygon, diagonals,
 				graph, config, painter);
 	}
 

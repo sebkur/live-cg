@@ -30,7 +30,7 @@ public class ChansAlgorithmPanel extends ScenePanel implements SizeProvider,
 	{
 		super(algorithm.getScene());
 
-		algorithmPainter = new ChansAlgorithmPainter(algorithm, painter);
+		visualizationPainter = new ChansAlgorithmPainter(algorithm, painter);
 
 		algorithm.addAlgorithmWatcher(this);
 	}

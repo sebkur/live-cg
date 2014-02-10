@@ -27,7 +27,7 @@ public class BufferPanel extends ScenePanel implements SizeProvider,
 
 	private static final long serialVersionUID = 479795971427192954L;
 
-	private BufferPainter algorithmPainter;
+	private BufferPainter visualizationPainter;
 
 	private BufferAlgorithm algorithm;
 
@@ -35,8 +35,8 @@ public class BufferPanel extends ScenePanel implements SizeProvider,
 	{
 		super(algorithm.getScene());
 		this.algorithm = algorithm;
-		algorithmPainter = new BufferPainter(algorithm, config, painter);
-		super.algorithmPainter = algorithmPainter;
+		visualizationPainter = new BufferPainter(algorithm, config, painter);
+		super.visualizationPainter = visualizationPainter;
 		config.addConfigChangedListener(this);
 	}
 
@@ -44,7 +44,7 @@ public class BufferPanel extends ScenePanel implements SizeProvider,
 	public void configChanged()
 	{
 		this.scene = algorithm.getScene();
-		algorithmPainter.setScene(algorithm.getScene());
+		visualizationPainter.setScene(algorithm.getScene());
 		checkBounds();
 		repaint();
 	}

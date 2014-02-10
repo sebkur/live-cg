@@ -35,13 +35,13 @@ import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import de.topobyte.livecg.core.painting.AlgorithmPainter;
+import de.topobyte.livecg.core.painting.VisualizationPainter;
 import de.topobyte.livecg.core.painting.backend.ipe.IpePainter;
 
 public class IpeExporter
 {
 
-	public static void exportIpe(File file, AlgorithmPainter algorithmPainter,
+	public static void exportIpe(File file, VisualizationPainter visualizationPainter,
 			int width, int height) throws TransformerException, IOException,
 			ParserConfigurationException
 	{
@@ -60,10 +60,10 @@ public class IpeExporter
 
 		IpePainter painter = new IpePainter(doc, ipeRoot, width, height);
 
-		algorithmPainter.setPainter(painter);
-		algorithmPainter.setWidth(width);
-		algorithmPainter.setHeight(height);
-		algorithmPainter.paint();
+		visualizationPainter.setPainter(painter);
+		visualizationPainter.setWidth(width);
+		visualizationPainter.setHeight(height);
+		visualizationPainter.paint();
 
 		TransformerFactory transformerFactory = TransformerFactory
 				.newInstance();

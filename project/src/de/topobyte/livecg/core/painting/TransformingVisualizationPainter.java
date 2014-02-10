@@ -23,14 +23,14 @@ import de.topobyte.livecg.core.geometry.geom.Rectangle;
 import de.topobyte.livecg.core.lina.Matrix;
 import de.topobyte.livecg.core.scrolling.TransformHelper;
 
-public abstract class TransformingAlgorithmPainter extends
-		BasicAlgorithmPainter
+public abstract class TransformingVisualizationPainter extends
+		BasicVisualizationPainter
 {
 
 	protected Rectangle scene;
 	protected GeometryTransformer transformer;
 
-	public TransformingAlgorithmPainter(Rectangle scene, Painter painter)
+	public TransformingVisualizationPainter(Rectangle scene, Painter painter)
 	{
 		super(painter);
 		this.scene = scene;

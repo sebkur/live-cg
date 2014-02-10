@@ -23,9 +23,9 @@ import java.util.List;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
 import de.topobyte.livecg.core.painting.Color;
 import de.topobyte.livecg.core.painting.Painter;
-import de.topobyte.livecg.core.painting.TransformingAlgorithmPainter;
+import de.topobyte.livecg.core.painting.TransformingVisualizationPainter;
 
-public class BufferPainter extends TransformingAlgorithmPainter
+public class BufferPainter extends TransformingVisualizationPainter
 {
 
 	private BufferAlgorithm algorithm;

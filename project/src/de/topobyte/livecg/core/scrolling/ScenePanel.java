@@ -30,7 +30,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.topobyte.livecg.core.geometry.geom.Rectangle;
-import de.topobyte.livecg.core.painting.AlgorithmPainter;
+import de.topobyte.livecg.core.painting.VisualizationPainter;
 import de.topobyte.livecg.core.painting.backend.awt.AwtPainter;
 import de.topobyte.livecg.util.SwingUtil;
 
@@ -52,7 +52,7 @@ public class ScenePanel extends JPanel implements ViewportWithSignals,
 
 	protected AwtPainter painter;
 
-	protected AlgorithmPainter algorithmPainter;
+	protected VisualizationPainter visualizationPainter;
 
 	public ScenePanel(Rectangle scene)
 	{
@@ -79,9 +79,9 @@ public class ScenePanel extends JPanel implements ViewportWithSignals,
 		SwingUtil.useAntialiasing(g, true);
 
 		painter.setGraphics(g);
-		algorithmPainter.setWidth(getWidth());
-		algorithmPainter.setHeight(getHeight());
-		algorithmPainter.paint();
+		visualizationPainter.setWidth(getWidth());
+		visualizationPainter.setHeight(getHeight());
+		visualizationPainter.paint();
 	}
 
 	@Override
@@ -117,19 +117,19 @@ public class ScenePanel extends JPanel implements ViewportWithSignals,
 	private void internalSetZoom(double value)
 	{
 		zoom = value;
-		algorithmPainter.setZoom(value);
+		visualizationPainter.setZoom(value);
 	}
 
 	private void internalSetPositionX(double value)
 	{
 		positionX = value;
-		algorithmPainter.setPositionX(value);
+		visualizationPainter.setPositionX(value);
 	}
 
 	private void internalSetPositionY(double value)
 	{
 		positionY = value;
-		algorithmPainter.setPositionY(value);
+		visualizationPainter.setPositionY(value);
 	}
 
 	@Override
@@ -168,8 +168,8 @@ public class ScenePanel extends JPanel implements ViewportWithSignals,
 
 	protected void checkBounds()
 	{
-		if (algorithmPainter == null) {
-			logger.error("algorithmPainter is null. Have you forgotten to set this field in your subclass?");
+		if (visualizationPainter == null) {
+			logger.error("visualizationPainter is null. Have you forgotten to set this field in your subclass?");
 		}
 		boolean update = false;
 		if (-positionX + getWidth() / zoom > getScene().getWidth() + margin) {

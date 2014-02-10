@@ -31,7 +31,7 @@ import de.topobyte.livecg.core.geometry.geom.CopyUtil.PolygonMode;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
 import de.topobyte.livecg.core.geometry.geom.PolygonHelper;
 import de.topobyte.livecg.core.geometry.geom.Rectangle;
-import de.topobyte.livecg.core.painting.AlgorithmPainter;
+import de.topobyte.livecg.core.painting.VisualizationPainter;
 import de.topobyte.livecg.ui.geometryeditor.Content;
 
 public class ChanVisualizationSetup implements VisualizationSetup
@@ -70,14 +70,14 @@ public class ChanVisualizationSetup implements VisualizationSetup
 			}
 		}
 		ChansAlgorithm alg = new ChansAlgorithm(polygons);
-		AlgorithmPainter algorithmPainter = new ChansAlgorithmPainter(alg, null);
+		VisualizationPainter visualizationPainter = new ChansAlgorithmPainter(alg, null);
 
 		Rectangle scene = alg.getScene();
 
 		int width = (int) Math.ceil(scene.getWidth() * zoom);
 		int height = (int) Math.ceil(scene.getHeight() * zoom);
 
-		return new SetupResult(width, height, algorithmPainter);
+		return new SetupResult(width, height, visualizationPainter);
 	}
 
 }

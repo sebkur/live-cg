@@ -21,13 +21,13 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-import de.topobyte.livecg.core.painting.AlgorithmPainter;
+import de.topobyte.livecg.core.painting.VisualizationPainter;
 import de.topobyte.livecg.core.painting.backend.tikz.TikzPainter;
 
 public class TikzExporter
 {
 
-	public static void exportTikz(File file, AlgorithmPainter algorithmPainter,
+	public static void exportTikz(File file, VisualizationPainter visualizationPainter,
 			int width, int height) throws IOException
 	{
 		File parent = file.getParentFile();
@@ -60,10 +60,10 @@ public class TikzExporter
 		TikzPainter painter = new TikzPainter(header, buffer, scale, width,
 				imageWidth, images, imageDir);
 
-		algorithmPainter.setPainter(painter);
-		algorithmPainter.setWidth(width);
-		algorithmPainter.setHeight(height);
-		algorithmPainter.paint();
+		visualizationPainter.setPainter(painter);
+		visualizationPainter.setWidth(width);
+		visualizationPainter.setHeight(height);
+		visualizationPainter.paint();
 
 		buffer.append("\\end{tikzpicture}");
 

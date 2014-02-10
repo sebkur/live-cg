@@ -27,7 +27,7 @@ import javax.xml.transform.TransformerException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.topobyte.livecg.core.painting.AlgorithmPainter;
+import de.topobyte.livecg.core.painting.VisualizationPainter;
 import de.topobyte.livecg.core.scrolling.HasScene;
 import de.topobyte.livecg.core.scrolling.Viewport;
 import de.topobyte.livecg.ui.filefilters.FileFilterSvg;
@@ -41,10 +41,10 @@ public class ExportSvgActionZoomed<T extends Viewport & HasScene> extends
 			.getLogger(ExportSvgActionZoomed.class);
 
 	public ExportSvgActionZoomed(Component component,
-			AlgorithmPainter algorithmPainter, T dimensionProvider)
+			VisualizationPainter visualizationPainter, T dimensionProvider)
 	{
 		super("Export SVG", "Export the current view to a SVG image", null,
-				component, algorithmPainter, dimensionProvider);
+				component, visualizationPainter, dimensionProvider);
 	}
 
 	@Override
@@ -58,7 +58,7 @@ public class ExportSvgActionZoomed<T extends Viewport & HasScene> extends
 	protected void export(File file, int width, int height)
 	{
 		try {
-			SvgExporter.exportSVG(file, algorithmPainter, width, height);
+			SvgExporter.exportSVG(file, visualizationPainter, width, height);
 		} catch (IOException ex) {
 			logger.error("unable to export image (IOException): "
 					+ ex.getMessage());

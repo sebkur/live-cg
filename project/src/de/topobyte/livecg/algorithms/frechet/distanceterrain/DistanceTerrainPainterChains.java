@@ -20,12 +20,12 @@ package de.topobyte.livecg.algorithms.frechet.distanceterrain;
 import de.topobyte.livecg.algorithms.frechet.freespace.calc.LineSegment;
 import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.core.geometry.geom.Coordinate;
-import de.topobyte.livecg.core.painting.BasicAlgorithmPainter;
+import de.topobyte.livecg.core.painting.BasicVisualizationPainter;
 import de.topobyte.livecg.core.painting.Color;
 import de.topobyte.livecg.core.painting.Image;
 import de.topobyte.livecg.core.painting.Painter;
 
-public class DistanceTerrainPainterChains extends BasicAlgorithmPainter
+public class DistanceTerrainPainterChains extends BasicVisualizationPainter
 {
 
 	private Color colorCellBoundaries = new Color(0x000000);

@@ -27,7 +27,7 @@ import javax.xml.transform.TransformerException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.topobyte.livecg.core.painting.AlgorithmPainter;
+import de.topobyte.livecg.core.painting.VisualizationPainter;
 import de.topobyte.livecg.ui.filefilters.FileFilterSvg;
 
 public class ExportSvgActionOriginalSize extends ExportActionOriginalSize
@@ -38,10 +38,10 @@ public class ExportSvgActionOriginalSize extends ExportActionOriginalSize
 			.getLogger(ExportSvgActionOriginalSize.class);
 
 	public ExportSvgActionOriginalSize(Component component,
-			AlgorithmPainter algorithmPainter, SizeProvider sizeProvider)
+			VisualizationPainter visualizationPainter, SizeProvider sizeProvider)
 	{
 		super("Export SVG", "Export the current view to a SVG image", null,
-				component, algorithmPainter, sizeProvider);
+				component, visualizationPainter, sizeProvider);
 	}
 
 	@Override
@@ -55,7 +55,7 @@ public class ExportSvgActionOriginalSize extends ExportActionOriginalSize
 	protected void export(File file)
 	{
 		try {
-			SvgExporter.exportSVG(file, algorithmPainter,
+			SvgExporter.exportSVG(file, visualizationPainter,
 					sizeProvider.getWidth(), sizeProvider.getHeight());
 		} catch (IOException ex) {
 			logger.error("unable to export image (IOException): "

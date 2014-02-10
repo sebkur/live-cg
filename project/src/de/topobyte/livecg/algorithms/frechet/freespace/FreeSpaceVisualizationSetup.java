@@ -23,7 +23,7 @@ import java.util.Properties;
 import de.topobyte.livecg.core.SetupResult;
 import de.topobyte.livecg.core.VisualizationSetup;
 import de.topobyte.livecg.core.geometry.geom.Chain;
-import de.topobyte.livecg.core.painting.AlgorithmPainter;
+import de.topobyte.livecg.core.painting.VisualizationPainter;
 import de.topobyte.livecg.ui.geometryeditor.Content;
 
 public class FreeSpaceVisualizationSetup implements VisualizationSetup
@@ -45,13 +45,13 @@ public class FreeSpaceVisualizationSetup implements VisualizationSetup
 
 		new FreeSpacePropertyParser(config).parse(properties);
 
-		AlgorithmPainter algorithmPainter = new FreeSpacePainterChains(config,
+		VisualizationPainter visualizationPainter = new FreeSpacePainterChains(config,
 				epsilon, chain1, chain2, null);
 		int cellSize = 50;
 		int width = chain1.getNumberOfNodes() * cellSize;
 		int height = chain2.getNumberOfNodes() * cellSize;
 
-		return new SetupResult(width, height, algorithmPainter);
+		return new SetupResult(width, height, visualizationPainter);
 	}
 
 }

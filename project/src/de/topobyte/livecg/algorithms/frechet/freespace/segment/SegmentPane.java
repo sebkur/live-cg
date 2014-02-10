@@ -40,7 +40,7 @@ public class SegmentPane extends JPanel implements SegmentChangeListener,
 	private static final long serialVersionUID = 8167797259833415618L;
 
 	private AwtPainter painter;
-	private FreeSpacePainterSegments algorithmPainter;
+	private FreeSpacePainterSegments visualizationPainter;
 
 	private int epsilon;
 	private LineSegment seg1;
@@ -50,7 +50,7 @@ public class SegmentPane extends JPanel implements SegmentChangeListener,
 	{
 		this.epsilon = epsilon;
 		painter = new AwtPainter(null);
-		algorithmPainter = new FreeSpacePainterSegments(config, epsilon,
+		visualizationPainter = new FreeSpacePainterSegments(config, epsilon,
 				painter);
 		updateReachableSpace();
 	}
@@ -59,7 +59,7 @@ public class SegmentPane extends JPanel implements SegmentChangeListener,
 	public void setEpsilon(int epsilon)
 	{
 		this.epsilon = epsilon;
-		algorithmPainter.setEpsilon(epsilon);
+		visualizationPainter.setEpsilon(epsilon);
 		updateReachableSpace();
 		repaint();
 	}
@@ -67,14 +67,14 @@ public class SegmentPane extends JPanel implements SegmentChangeListener,
 	public void setSegment1(LineSegment seg1)
 	{
 		this.seg1 = seg1;
-		algorithmPainter.setSegment1(seg1);
+		visualizationPainter.setSegment1(seg1);
 		updateReachableSpace();
 	}
 
 	public void setSegment2(LineSegment seg2)
 	{
 		this.seg2 = seg2;
-		algorithmPainter.setSegment2(seg2);
+		visualizationPainter.setSegment2(seg2);
 		updateReachableSpace();
 	}
 
@@ -92,8 +92,8 @@ public class SegmentPane extends JPanel implements SegmentChangeListener,
 		SwingUtil.useAntialiasing(g, true);
 
 		painter.setGraphics(g);
-		algorithmPainter.setSize(getWidth(), getHeight());
-		algorithmPainter.paint();
+		visualizationPainter.setSize(getWidth(), getHeight());
+		visualizationPainter.paint();
 	}
 
 	private void updateReachableSpace()
@@ -119,8 +119,8 @@ public class SegmentPane extends JPanel implements SegmentChangeListener,
 			BR1 = new Interval(BF1.getStart(), BF1.getEnd());
 		}
 
-		algorithmPainter.setBR1(BR1);
-		algorithmPainter.setLR1(LR1);
+		visualizationPainter.setBR1(BR1);
+		visualizationPainter.setLR1(LR1);
 	}
 
 }

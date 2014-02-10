@@ -25,7 +25,7 @@ import javax.swing.JFileChooser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.topobyte.livecg.core.painting.AlgorithmPainter;
+import de.topobyte.livecg.core.painting.VisualizationPainter;
 import de.topobyte.livecg.ui.filefilters.FileFilterIpe;
 
 public class ExportIpeActionOriginalSize extends ExportActionOriginalSize
@@ -36,10 +36,10 @@ public class ExportIpeActionOriginalSize extends ExportActionOriginalSize
 			.getLogger(ExportIpeActionOriginalSize.class);
 
 	public ExportIpeActionOriginalSize(Component component,
-			AlgorithmPainter algorithmPainter, SizeProvider sizeProvider)
+			VisualizationPainter visualizationPainter, SizeProvider sizeProvider)
 	{
 		super("Export Ipe", "Export the current view to a Ipe file", null,
-				component, algorithmPainter, sizeProvider);
+				component, visualizationPainter, sizeProvider);
 	}
 
 	@Override
@@ -53,7 +53,7 @@ public class ExportIpeActionOriginalSize extends ExportActionOriginalSize
 	protected void export(File file)
 	{
 		try {
-			IpeExporter.exportIpe(file, algorithmPainter,
+			IpeExporter.exportIpe(file, visualizationPainter,
 					sizeProvider.getWidth(), sizeProvider.getHeight());
 		} catch (Exception ex) {
 			logger.error("unable to export image (Exception): "

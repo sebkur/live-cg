@@ -26,7 +26,7 @@ import javax.swing.JFileChooser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.topobyte.livecg.core.painting.AlgorithmPainter;
+import de.topobyte.livecg.core.painting.VisualizationPainter;
 import de.topobyte.livecg.ui.filefilters.FileFilterBitmap;
 
 public class ExportBitmapActionOriginalSize extends ExportActionOriginalSize
@@ -38,10 +38,10 @@ public class ExportBitmapActionOriginalSize extends ExportActionOriginalSize
 			.getLogger(ExportBitmapActionOriginalSize.class);
 
 	public ExportBitmapActionOriginalSize(Component component,
-			AlgorithmPainter algorithmPainter, SizeProvider sizeProvider)
+			VisualizationPainter visualizationPainter, SizeProvider sizeProvider)
 	{
 		super("Export Bitmap", "Export the current view to a bitmap", null,
-				component, algorithmPainter, sizeProvider);
+				component, visualizationPainter, sizeProvider);
 	}
 
 	@Override
@@ -55,7 +55,7 @@ public class ExportBitmapActionOriginalSize extends ExportActionOriginalSize
 	protected void export(File file)
 	{
 		try {
-			GraphicsExporter.exportPNG(file, algorithmPainter,
+			GraphicsExporter.exportPNG(file, visualizationPainter,
 					sizeProvider.getWidth(), sizeProvider.getHeight());
 		} catch (IOException ex) {
 			logger.error("unable to export image: " + ex.getMessage());

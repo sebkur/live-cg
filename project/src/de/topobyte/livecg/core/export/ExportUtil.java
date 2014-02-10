@@ -22,7 +22,7 @@ import java.awt.Component;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
-import de.topobyte.livecg.core.painting.AlgorithmPainter;
+import de.topobyte.livecg.core.painting.VisualizationPainter;
 import de.topobyte.livecg.core.scrolling.HasScene;
 import de.topobyte.livecg.core.scrolling.Viewport;
 
@@ -30,7 +30,7 @@ public class ExportUtil
 {
 
 	public static void addExportItems(JMenu menu, Component component,
-			AlgorithmPainter painter, SizeProvider sizeProvider)
+			VisualizationPainter painter, SizeProvider sizeProvider)
 	{
 		addExportPngItem(menu, component, painter, sizeProvider);
 		addExportSvgItem(menu, component, painter, sizeProvider);
@@ -39,7 +39,7 @@ public class ExportUtil
 	}
 
 	public static <T extends Viewport & HasScene> void addExportZoomedItems(
-			JMenu menu, Component component, AlgorithmPainter painter,
+			JMenu menu, Component component, VisualizationPainter painter,
 			T dimensionProvider)
 	{
 		addExportPngZoomedItem(menu, component, painter, dimensionProvider);
@@ -49,7 +49,7 @@ public class ExportUtil
 	}
 
 	public static void addExportSvgItem(JMenu menu, Component component,
-			AlgorithmPainter painter, SizeProvider sizeProvider)
+			VisualizationPainter painter, SizeProvider sizeProvider)
 	{
 		JMenuItem exportSvg = new JMenuItem(new ExportSvgActionOriginalSize(
 				component, painter, sizeProvider));
@@ -57,7 +57,7 @@ public class ExportUtil
 	}
 
 	public static void addExportPngItem(JMenu menu, Component component,
-			AlgorithmPainter painter, SizeProvider sizeProvider)
+			VisualizationPainter painter, SizeProvider sizeProvider)
 	{
 		JMenuItem exportBitmap = new JMenuItem(
 				new ExportBitmapActionOriginalSize(component, painter,
@@ -66,7 +66,7 @@ public class ExportUtil
 	}
 
 	public static void addExportTikzItem(JMenu menu, Component component,
-			AlgorithmPainter painter, SizeProvider sizeProvider)
+			VisualizationPainter painter, SizeProvider sizeProvider)
 	{
 		JMenuItem exportTikz = new JMenuItem(new ExportTikzActionOriginalSize(
 				component, painter, sizeProvider));
@@ -74,7 +74,7 @@ public class ExportUtil
 	}
 
 	public static void addExportIpeItem(JMenu menu, Component component,
-			AlgorithmPainter painter, SizeProvider sizeProvider)
+			VisualizationPainter painter, SizeProvider sizeProvider)
 	{
 		JMenuItem exportIpe = new JMenuItem(new ExportIpeActionOriginalSize(
 				component, painter, sizeProvider));
@@ -82,7 +82,7 @@ public class ExportUtil
 	}
 
 	public static <T extends Viewport & HasScene> void addExportSvgZoomedItem(
-			JMenu menu, Component component, AlgorithmPainter painter,
+			JMenu menu, Component component, VisualizationPainter painter,
 			T dimensionProvider)
 	{
 		JMenuItem exportSvg = new JMenuItem(new ExportSvgActionZoomed<T>(
@@ -91,7 +91,7 @@ public class ExportUtil
 	}
 
 	public static <T extends Viewport & HasScene> void addExportPngZoomedItem(
-			JMenu menu, Component component, AlgorithmPainter painter,
+			JMenu menu, Component component, VisualizationPainter painter,
 			T dimensionProvider)
 	{
 		JMenuItem exportBitmap = new JMenuItem(new ExportBitmapActionZoomed<T>(
@@ -100,7 +100,7 @@ public class ExportUtil
 	}
 
 	public static <T extends Viewport & HasScene> void addExportTikzZoomedItem(
-			JMenu menu, Component component, AlgorithmPainter painter,
+			JMenu menu, Component component, VisualizationPainter painter,
 			T dimensionProvider)
 	{
 		JMenuItem exportTikz = new JMenuItem(new ExportTikzActionZoomed<T>(
@@ -109,7 +109,7 @@ public class ExportUtil
 	}
 
 	public static <T extends Viewport & HasScene> void addExportIpeZoomedItem(
-			JMenu menu, Component component, AlgorithmPainter painter,
+			JMenu menu, Component component, VisualizationPainter painter,
 			T dimensionProvider)
 	{
 		JMenuItem exportIpe = new JMenuItem(new ExportIpeActionZoomed<T>(

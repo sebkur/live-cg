@@ -28,12 +28,12 @@ import de.topobyte.livecg.core.geometry.geom.Polygon;
 import de.topobyte.livecg.core.geometry.geom.Rectangle;
 import de.topobyte.livecg.core.painting.Color;
 import de.topobyte.livecg.core.painting.Painter;
-import de.topobyte.livecg.core.painting.TransformingAlgorithmPainter;
+import de.topobyte.livecg.core.painting.TransformingVisualizationPainter;
 import de.topobyte.livecg.util.circular.IntRing;
 import de.topobyte.livecg.util.graph.Edge;
 import de.topobyte.livecg.util.graph.Graph;
 
-public class TriangulationPainter extends TransformingAlgorithmPainter
+public class TriangulationPainter extends TransformingVisualizationPainter
 {
 
 	private Polygon polygon;

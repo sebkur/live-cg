@@ -29,9 +29,9 @@ import de.topobyte.livecg.core.geometry.geom.Polygon;
 import de.topobyte.livecg.core.geometry.geom.PolygonHelper;
 import de.topobyte.livecg.core.painting.Color;
 import de.topobyte.livecg.core.painting.Painter;
-import de.topobyte.livecg.core.painting.TransformingAlgorithmPainter;
+import de.topobyte.livecg.core.painting.TransformingVisualizationPainter;
 
-public class ChansAlgorithmPainter extends TransformingAlgorithmPainter
+public class ChansAlgorithmPainter extends TransformingVisualizationPainter
 {
 
 	private ChansAlgorithm algorithm;

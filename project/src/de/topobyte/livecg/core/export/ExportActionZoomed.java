@@ -27,7 +27,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.topobyte.livecg.core.geometry.geom.Rectangle;
-import de.topobyte.livecg.core.painting.AlgorithmPainter;
+import de.topobyte.livecg.core.painting.VisualizationPainter;
 import de.topobyte.livecg.core.scrolling.HasScene;
 import de.topobyte.livecg.core.scrolling.Viewport;
 import de.topobyte.livecg.ui.action.BasicAction;
@@ -42,17 +42,17 @@ public abstract class ExportActionZoomed<T extends Viewport & HasScene> extends
 			.getLogger(ExportActionZoomed.class);
 
 	private Component component;
-	protected AlgorithmPainter algorithmPainter;
+	protected VisualizationPainter visualizationPainter;
 
 	private T dimensionProvider;
 
 	public ExportActionZoomed(String name, String description, String icon,
-			Component component, AlgorithmPainter algorithmPainter,
+			Component component, VisualizationPainter visualizationPainter,
 			T dimensionProvider)
 	{
 		super(name, description, icon);
 		this.component = component;
-		this.algorithmPainter = algorithmPainter;
+		this.visualizationPainter = visualizationPainter;
 		this.dimensionProvider = dimensionProvider;
 	}
 
@@ -79,7 +79,7 @@ public abstract class ExportActionZoomed<T extends Viewport & HasScene> extends
 
 		int iwidth = (int) Math.ceil(width);
 		int iheight = (int) Math.ceil(height);
-		algorithmPainter.setZoom(dimensionProvider.getZoom());
+		visualizationPainter.setZoom(dimensionProvider.getZoom());
 
 		export(file, iwidth, iheight);
 	}

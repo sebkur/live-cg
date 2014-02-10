@@ -33,7 +33,7 @@ import de.topobyte.livecg.core.VisualizationSetup;
 import de.topobyte.livecg.core.geometry.geom.Coordinate;
 import de.topobyte.livecg.core.geometry.geom.Node;
 import de.topobyte.livecg.core.geometry.geom.Rectangle;
-import de.topobyte.livecg.core.painting.AlgorithmPainter;
+import de.topobyte.livecg.core.painting.VisualizationPainter;
 import de.topobyte.livecg.ui.geometryeditor.Content;
 import de.topobyte.livecg.ui.geometryeditor.ContentHelper;
 
@@ -80,14 +80,14 @@ public class FortunesSweepVisualizationSetup implements VisualizationSetup
 		config.setDrawCircles(true);
 		config.setDrawDcel(true);
 		config.setDrawDelaunay(false);
-		AlgorithmPainter algorithmPainter = new FortunePainter(algorithm,
+		VisualizationPainter visualizationPainter = new FortunePainter(algorithm,
 				config, null);
 
 		Rectangle scene = content.getScene();
 		int width = (int) Math.ceil(scene.getWidth() * zoom);
 		int height = (int) Math.ceil(scene.getHeight() * zoom);
 
-		return new SetupResult(width, height, algorithmPainter);
+		return new SetupResult(width, height, visualizationPainter);
 	}
 
 }

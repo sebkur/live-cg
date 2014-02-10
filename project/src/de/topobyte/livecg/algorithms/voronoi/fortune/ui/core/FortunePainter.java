@@ -37,13 +37,13 @@ import de.topobyte.livecg.core.config.LiveConfig;
 import de.topobyte.livecg.core.geometry.dcel.DCEL;
 import de.topobyte.livecg.core.geometry.geom.Coordinate;
 import de.topobyte.livecg.core.geometry.geom.Rectangle;
-import de.topobyte.livecg.core.painting.BasicAlgorithmPainter;
+import de.topobyte.livecg.core.painting.BasicVisualizationPainter;
 import de.topobyte.livecg.core.painting.Color;
 import de.topobyte.livecg.core.painting.Painter;
 import de.topobyte.livecg.datastructures.dcel.DcelConfig;
 import de.topobyte.livecg.datastructures.dcel.DcelPainter;
 
-public class FortunePainter extends BasicAlgorithmPainter
+public class FortunePainter extends BasicVisualizationPainter
 {
 
 	private FortunesSweep algorithm;

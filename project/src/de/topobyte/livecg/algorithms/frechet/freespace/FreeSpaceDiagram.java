@@ -33,7 +33,7 @@ public class FreeSpaceDiagram extends JPanel implements EpsilonSettable,
 	private static final long serialVersionUID = 5024820193840910054L;
 
 	private AwtPainter painter;
-	private FreeSpacePainterChains algorithmPainter;
+	private FreeSpacePainterChains visualizationPainter;
 
 	private int epsilon;
 
@@ -41,7 +41,7 @@ public class FreeSpaceDiagram extends JPanel implements EpsilonSettable,
 	{
 		this.epsilon = epsilon;
 		painter = new AwtPainter(null);
-		algorithmPainter = new FreeSpacePainterChains(config, epsilon, chain1,
+		visualizationPainter = new FreeSpacePainterChains(config, epsilon, chain1,
 				chain2, painter);
 	}
 
@@ -61,9 +61,9 @@ public class FreeSpaceDiagram extends JPanel implements EpsilonSettable,
 
 		painter.setGraphics(g);
 
-		algorithmPainter.setEpsilon(epsilon);
-		algorithmPainter.setWidth(getWidth());
-		algorithmPainter.setHeight(getHeight());
-		algorithmPainter.paint();
+		visualizationPainter.setEpsilon(epsilon);
+		visualizationPainter.setWidth(getWidth());
+		visualizationPainter.setHeight(getHeight());
+		visualizationPainter.paint();
 	}
 }

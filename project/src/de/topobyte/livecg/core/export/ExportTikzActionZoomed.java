@@ -26,7 +26,7 @@ import javax.swing.JFileChooser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.topobyte.livecg.core.painting.AlgorithmPainter;
+import de.topobyte.livecg.core.painting.VisualizationPainter;
 import de.topobyte.livecg.core.scrolling.HasScene;
 import de.topobyte.livecg.core.scrolling.Viewport;
 import de.topobyte.livecg.ui.filefilters.FileFilterTikz;
@@ -40,10 +40,10 @@ public class ExportTikzActionZoomed<T extends Viewport & HasScene> extends
 			.getLogger(ExportTikzActionZoomed.class);
 
 	public ExportTikzActionZoomed(Component component,
-			AlgorithmPainter algorithmPainter, T dimensionProvider)
+			VisualizationPainter visualizationPainter, T dimensionProvider)
 	{
 		super("Export TikZ", "Export the current view to a TikZ image", null,
-				component, algorithmPainter, dimensionProvider);
+				component, visualizationPainter, dimensionProvider);
 	}
 
 	@Override
@@ -57,7 +57,7 @@ public class ExportTikzActionZoomed<T extends Viewport & HasScene> extends
 	protected void export(File file, int width, int height)
 	{
 		try {
-			TikzExporter.exportTikz(file, algorithmPainter, width, height);
+			TikzExporter.exportTikz(file, visualizationPainter, width, height);
 		} catch (IOException ex) {
 			logger.error("unable to export image (IOException): "
 					+ ex.getMessage());

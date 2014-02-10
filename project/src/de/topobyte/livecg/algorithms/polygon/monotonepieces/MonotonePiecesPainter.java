@@ -29,9 +29,9 @@ import de.topobyte.livecg.core.geometry.geom.Node;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
 import de.topobyte.livecg.core.painting.Color;
 import de.topobyte.livecg.core.painting.Painter;
-import de.topobyte.livecg.core.painting.TransformingAlgorithmPainter;
+import de.topobyte.livecg.core.painting.TransformingVisualizationPainter;
 
-public class MonotonePiecesPainter extends TransformingAlgorithmPainter
+public class MonotonePiecesPainter extends TransformingVisualizationPainter
 {
 
 	private Polygon polygon;
