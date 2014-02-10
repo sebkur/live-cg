@@ -15,32 +15,37 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.topobyte.livecg.algorithms.polygon.monotonepieces;
+package de.topobyte.livecg.core;
 
-import java.awt.event.ActionEvent;
+import de.topobyte.livecg.core.painting.AlgorithmPainter;
 
-import de.topobyte.livecg.ui.action.BasicAction;
-import de.topobyte.livecg.ui.geometryeditor.GeometryEditPane;
-
-public class TriangulationAction extends BasicAction
+public class SetupResult
 {
 
-	private static final long serialVersionUID = -602204318277526170L;
+	private int width;
+	private int height;
+	private AlgorithmPainter algorithmPainter;
 
-	private GeometryEditPane editPane;
-
-	public TriangulationAction(GeometryEditPane editPane)
+	public SetupResult(int width, int height, AlgorithmPainter algorithmPainter)
 	{
-		super("Triangulation (via monotone pieces)",
-				"Show the triangulation of the polygon",
-				"res/images/24x24/multipolygon.png");
-		this.editPane = editPane;
+		this.width = width;
+		this.height = height;
+		this.algorithmPainter = algorithmPainter;
 	}
 
-	@Override
-	public void actionPerformed(ActionEvent e)
+	public int getWidth()
 	{
-		new MonotonePiecesTriangulationLauncher().launch(editPane.getContent());
+		return width;
+	}
+
+	public int getHeight()
+	{
+		return height;
+	}
+
+	public AlgorithmPainter getAlgorithmPainter()
+	{
+		return algorithmPainter;
 	}
 
 }

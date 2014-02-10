@@ -17,12 +17,8 @@
  */
 package de.topobyte.livecg;
 
-import java.awt.Color;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.cli.CommandLine;
@@ -35,72 +31,27 @@ import org.apache.commons.cli.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.topobyte.livecg.algorithms.convexhull.chan.ChansAlgorithm;
-import de.topobyte.livecg.algorithms.convexhull.chan.ChansAlgorithmPainter;
-import de.topobyte.livecg.algorithms.frechet.distanceterrain.DistanceTerrainConfig;
-import de.topobyte.livecg.algorithms.frechet.distanceterrain.DistanceTerrainPainterChains;
-import de.topobyte.livecg.algorithms.frechet.distanceterrain.DistanceTerrainPropertyParser;
-import de.topobyte.livecg.algorithms.frechet.freespace.FreeSpaceConfig;
-import de.topobyte.livecg.algorithms.frechet.freespace.FreeSpacePainterChains;
-import de.topobyte.livecg.algorithms.frechet.freespace.FreeSpacePropertyParser;
-import de.topobyte.livecg.algorithms.jts.buffer.BufferAlgorithm;
-import de.topobyte.livecg.algorithms.jts.buffer.BufferConfig;
-import de.topobyte.livecg.algorithms.jts.buffer.BufferPainter;
-import de.topobyte.livecg.algorithms.jts.buffer.BufferPropertyParser;
-import de.topobyte.livecg.algorithms.polygon.monotonepieces.MonotonePiecesAlgorithm;
-import de.topobyte.livecg.algorithms.polygon.monotonepieces.MonotonePiecesConfig;
-import de.topobyte.livecg.algorithms.polygon.monotonepieces.MonotonePiecesPainter;
-import de.topobyte.livecg.algorithms.polygon.monotonepieces.MonotonePiecesTriangulationAlgorithm;
-import de.topobyte.livecg.algorithms.polygon.monotonepieces.MonotonePiecesTriangulationPainter;
-import de.topobyte.livecg.algorithms.polygon.shortestpath.PairOfNodes;
-import de.topobyte.livecg.algorithms.polygon.shortestpath.ShortestPathAlgorithm;
-import de.topobyte.livecg.algorithms.polygon.shortestpath.ShortestPathConfig;
-import de.topobyte.livecg.algorithms.polygon.shortestpath.ShortestPathHelper;
-import de.topobyte.livecg.algorithms.polygon.shortestpath.ShortestPathPainter;
-import de.topobyte.livecg.algorithms.polygon.shortestpath.ShortestPathPropertyParser;
-import de.topobyte.livecg.algorithms.polygon.shortestpath.status.ExplicitShortestPathPosition;
-import de.topobyte.livecg.algorithms.polygon.shortestpath.status.FinishedShortestPathPosition;
-import de.topobyte.livecg.algorithms.polygon.shortestpath.status.ShortestPathPosition;
-import de.topobyte.livecg.algorithms.polygon.shortestpath.status.ShortestPathStatusParser;
-import de.topobyte.livecg.algorithms.voronoi.fortune.FortunesSweep;
-import de.topobyte.livecg.algorithms.voronoi.fortune.geometry.Point;
-import de.topobyte.livecg.algorithms.voronoi.fortune.status.EventPosition;
-import de.topobyte.livecg.algorithms.voronoi.fortune.status.FortuneStatusParser;
-import de.topobyte.livecg.algorithms.voronoi.fortune.status.PixelPosition;
-import de.topobyte.livecg.algorithms.voronoi.fortune.status.Position;
-import de.topobyte.livecg.algorithms.voronoi.fortune.ui.core.FortuneConfig;
-import de.topobyte.livecg.algorithms.voronoi.fortune.ui.core.FortunePainter;
-import de.topobyte.livecg.core.algorithm.Algorithm;
-import de.topobyte.livecg.core.algorithm.SceneAlgorithm;
+import de.topobyte.livecg.algorithms.convexhull.chan.ChanVisualizationSetup;
+import de.topobyte.livecg.algorithms.frechet.distanceterrain.DistanceTerrainVisualizationSetup;
+import de.topobyte.livecg.algorithms.frechet.freespace.FreeSpaceVisualizationSetup;
+import de.topobyte.livecg.algorithms.jts.buffer.BufferVisualizationSetup;
+import de.topobyte.livecg.algorithms.polygon.monotonepieces.MonotonePiecesTriangulationVisualizationSetup;
+import de.topobyte.livecg.algorithms.polygon.monotonepieces.MonotonePiecesVisualizationSetup;
+import de.topobyte.livecg.algorithms.polygon.shortestpath.ShortestPathVisualizationSetup;
+import de.topobyte.livecg.algorithms.voronoi.fortune.FortunesSweepVisualizationSetup;
+import de.topobyte.livecg.core.SetupResult;
+import de.topobyte.livecg.core.VisualizationSetup;
 import de.topobyte.livecg.core.config.LiveConfig;
 import de.topobyte.livecg.core.export.ExportFormat;
 import de.topobyte.livecg.core.export.GraphicsExporter;
 import de.topobyte.livecg.core.export.IpeExporter;
 import de.topobyte.livecg.core.export.SvgExporter;
 import de.topobyte.livecg.core.export.TikzExporter;
-import de.topobyte.livecg.core.geometry.dcel.DCEL;
-import de.topobyte.livecg.core.geometry.dcel.DcelConverter;
-import de.topobyte.livecg.core.geometry.dcel.DcelUtil;
-import de.topobyte.livecg.core.geometry.geom.Chain;
-import de.topobyte.livecg.core.geometry.geom.ChainHelper;
-import de.topobyte.livecg.core.geometry.geom.CloseabilityException;
-import de.topobyte.livecg.core.geometry.geom.Coordinate;
-import de.topobyte.livecg.core.geometry.geom.CopyUtil;
-import de.topobyte.livecg.core.geometry.geom.CopyUtil.PolygonMode;
-import de.topobyte.livecg.core.geometry.geom.Node;
-import de.topobyte.livecg.core.geometry.geom.Polygon;
-import de.topobyte.livecg.core.geometry.geom.PolygonHelper;
-import de.topobyte.livecg.core.geometry.geom.Rectangle;
-import de.topobyte.livecg.core.geometry.geom.Rectangles;
 import de.topobyte.livecg.core.geometry.io.ContentReader;
 import de.topobyte.livecg.core.painting.AlgorithmPainter;
-import de.topobyte.livecg.datastructures.content.ContentConfig;
-import de.topobyte.livecg.datastructures.content.ContentPainter;
-import de.topobyte.livecg.datastructures.dcel.DcelConfig;
-import de.topobyte.livecg.datastructures.dcel.InstanceDcelPainter;
+import de.topobyte.livecg.datastructures.content.ContentVisualizationSetup;
+import de.topobyte.livecg.datastructures.dcel.DcelVisualizationSetup;
 import de.topobyte.livecg.ui.geometryeditor.Content;
-import de.topobyte.livecg.ui.geometryeditor.ContentHelper;
-import de.topobyte.livecg.util.coloring.ColorMapBuilder;
 import de.topobyte.misc.util.enums.EnumNameLookup;
 import de.topobyte.utilities.apache.commons.cli.ArgumentHelper;
 import de.topobyte.utilities.apache.commons.cli.OptionHelper;
@@ -208,279 +159,72 @@ public class CreateImage
 
 		Properties properties = line.getOptionProperties(OPTION_PROPERTIES);
 
-		Algorithm algorithm = null;
-		Rectangle explicitScene = null;
-		Rectangle scene = null;
-		SceneAlgorithm sceneAlgorithm = null;
-		AlgorithmPainter algorithmPainter = null;
-
-		int margin = 15;
 		double zoom = 1;
+
+		String statusArgument = null;
+		if (argStatus.hasValue()) {
+			statusArgument = argStatus.getValue();
+		}
+
+		VisualizationSetup setup = null;
 
 		switch (visualization) {
 		case GEOMETRY: {
-			scene = content.getScene();
-			ContentConfig config = new ContentConfig();
-			algorithmPainter = new ContentPainter(scene, content, config, null);
+			setup = new ContentVisualizationSetup();
 			break;
 		}
 		case DCEL: {
-			DCEL dcel = DcelConverter.convert(content);
-			Rectangle bbox = DcelUtil.getBoundingBox(dcel);
-			scene = Rectangles.extend(bbox, margin);
-			DcelConfig config = new DcelConfig();
-			algorithmPainter = new InstanceDcelPainter(scene, dcel, config,
-					null);
+			setup = new DcelVisualizationSetup();
 			break;
 		}
 		case FREESPACE: {
-			List<Chain> chains = content.getChains();
-			if (chains.size() < 2) {
-				System.err.println("Not enough chains");
-				System.exit(1);
-			}
-			Chain chain1 = chains.get(0);
-			Chain chain2 = chains.get(1);
-			int epsilon = 100;
-			FreeSpaceConfig config = new FreeSpaceConfig();
-
-			new FreeSpacePropertyParser(config).parse(properties);
-
-			algorithmPainter = new FreeSpacePainterChains(config, epsilon,
-					chain1, chain2, null);
-			int cellSize = 50;
-			int width = chain1.getNumberOfNodes() * cellSize;
-			int height = chain2.getNumberOfNodes() * cellSize;
-			explicitScene = new Rectangle(0, 0, width, height);
+			setup = new FreeSpaceVisualizationSetup();
 			break;
 		}
 		case DISTANCETERRAIN: {
-			List<Chain> chains = content.getChains();
-			if (chains.size() < 2) {
-				System.err.println("Not enough chains");
-				System.exit(1);
-			}
-			Chain chain1 = chains.get(0);
-			Chain chain2 = chains.get(1);
-			DistanceTerrainConfig config = new DistanceTerrainConfig();
-
-			new DistanceTerrainPropertyParser(config).parse(properties);
-
-			algorithmPainter = new DistanceTerrainPainterChains(config, chain1,
-					chain2, null);
-			int cellSize = 50;
-			int width = chain1.getNumberOfNodes() * cellSize;
-			int height = chain2.getNumberOfNodes() * cellSize;
-			explicitScene = new Rectangle(0, 0, width, height);
+			setup = new DistanceTerrainVisualizationSetup();
 			break;
 		}
 		case CHAN: {
-			List<Polygon> viable = new ArrayList<Polygon>();
-			for (Polygon polygon : content.getPolygons()) {
-				if (polygon.getHoles().size() == 0) {
-					viable.add(polygon);
-				}
-				// TODO: if polygon is convex
-			}
-			if (viable.size() < 2) {
-				System.err.println("Not enough viable polygons");
-				System.exit(1);
-			}
-
-			List<Polygon> polygons = new ArrayList<Polygon>();
-
-			for (Polygon polygon : viable) {
-				if (PolygonHelper.isCounterClockwiseOriented(polygon)) {
-					polygons.add(CopyUtil.copy(polygon,
-							PolygonMode.REUSE_NOTHING));
-				} else {
-					Chain shell = polygon.getShell();
-					try {
-						polygon = new Polygon(ChainHelper.invert(shell), null);
-						polygons.add(CopyUtil.copy(polygon,
-								PolygonMode.REUSE_NOTHING));
-					} catch (CloseabilityException e) {
-						// Should not happen
-					}
-				}
-			}
-			ChansAlgorithm alg = new ChansAlgorithm(polygons);
-			algorithm = alg;
-			sceneAlgorithm = alg;
-			algorithmPainter = new ChansAlgorithmPainter(alg, null);
-			break;
-		}
-		case FORTUNE: {
-			List<Node> nodes = ContentHelper.collectNodes(content);
-			FortunesSweep alg = new FortunesSweep();
-
-			List<Point> sites = new ArrayList<Point>();
-			for (Node node : nodes) {
-				Coordinate c = node.getCoordinate();
-				sites.add(new Point(c.getX() * zoom, c.getY() * zoom));
-			}
-			alg.setSites(sites);
-
-			if (argStatus.hasValue()) {
-				String statusArgument = argStatus.getValue();
-				try {
-					Position status = FortuneStatusParser.parse(statusArgument);
-					if (status instanceof PixelPosition) {
-						PixelPosition pp = (PixelPosition) status;
-						alg.setSweep(pp.getPosition());
-					} else if (status instanceof EventPosition) {
-						EventPosition ep = (EventPosition) status;
-						for (int i = 0; i < ep.getEvent(); i++) {
-							if (alg.getEventQueue().size() != 0) {
-								alg.nextEvent();
-							} else {
-								alg.setSweep(alg.getSweepX() + 1000);
-							}
-						}
-					}
-				} catch (IllegalArgumentException e) {
-					System.out.println("Invalid format for status");
-					System.exit(1);
-				}
-			}
-
-			algorithm = alg;
-			FortuneConfig config = new FortuneConfig();
-			config.setDrawCircles(true);
-			config.setDrawDcel(true);
-			config.setDrawDelaunay(false);
-			algorithmPainter = new FortunePainter(alg, config, null);
+			setup = new ChanVisualizationSetup();
 			break;
 		}
 		case MONOTONE: {
-			if (content.getPolygons().size() < 1) {
-				System.err.println("This visualization requires a polygon");
-				System.exit(1);
-			}
-			Polygon polygon = content.getPolygons().get(0);
-			MonotonePiecesAlgorithm alg = new MonotonePiecesAlgorithm(polygon);
-			MonotonePiecesConfig config = new MonotonePiecesConfig();
-			algorithm = alg;
-			sceneAlgorithm = alg;
-			Map<Polygon, Color> colorMap = ColorMapBuilder.buildColorMap(alg
-					.getExtendedGraph());
-			algorithmPainter = new MonotonePiecesPainter(alg, config, colorMap,
-					null);
+			setup = new MonotonePiecesVisualizationSetup();
 			break;
 		}
 		case TRIANGULATION: {
-			if (content.getPolygons().size() < 1) {
-				System.err.println("This visualization requires a polygon");
-				System.exit(1);
-			}
-			Polygon polygon = content.getPolygons().get(0);
-			MonotonePiecesTriangulationAlgorithm alg = new MonotonePiecesTriangulationAlgorithm(
-					polygon);
-			MonotonePiecesConfig config = new MonotonePiecesConfig();
-			algorithm = alg;
-			sceneAlgorithm = alg;
-			Map<Polygon, Color> colorMap = ColorMapBuilder.buildColorMap(alg
-					.getExtendedGraph());
-			algorithmPainter = new MonotonePiecesTriangulationPainter(alg,
-					config, colorMap, null);
+			setup = new MonotonePiecesTriangulationVisualizationSetup();
 			break;
 		}
 		case BUFFER: {
-			if (content.getPolygons().size() < 1) {
-				System.err.println("This visualization requires a polygon");
-				System.exit(1);
-			}
-			Polygon polygon = content.getPolygons().get(0);
-
-			BufferPropertyParser parser = new BufferPropertyParser();
-			parser.parse(properties);
-
-			int distance = parser.getDistance();
-			BufferAlgorithm alg = new BufferAlgorithm(polygon, distance);
-			BufferConfig config = new BufferConfig();
-			algorithm = alg;
-			sceneAlgorithm = alg;
-
-			algorithmPainter = new BufferPainter(alg, config, null);
+			setup = new BufferVisualizationSetup();
+			break;
+		}
+		case FORTUNE: {
+			setup = new FortunesSweepVisualizationSetup();
 			break;
 		}
 		case SPIP: {
-			if (content.getPolygons().size() < 1) {
-				System.err.println("This visualization requires a polygon");
-				System.exit(1);
-			}
-			Polygon polygon = content.getPolygons().get(0);
-			ShortestPathConfig config = new ShortestPathConfig();
-
-			ShortestPathPropertyParser parser = new ShortestPathPropertyParser(
-					config);
-			parser.parse(properties);
-
-			PairOfNodes nodes;
-			if (parser.getStart() != null && parser.getTarget() != null) {
-				int nStart = parser.getStart();
-				int nTarget = parser.getTarget();
-				Node start = polygon.getShell().getNode(nStart);
-				Node target = polygon.getShell().getNode(nTarget);
-				nodes = new PairOfNodes(start, target);
-			} else {
-				nodes = ShortestPathHelper.determineGoodNodes(polygon);
-			}
-
-			ShortestPathAlgorithm alg = new ShortestPathAlgorithm(polygon,
-					nodes.getA(), nodes.getB());
-
-			if (argStatus.hasValue()) {
-				String statusArgument = argStatus.getValue();
-				try {
-					ShortestPathPosition status = ShortestPathStatusParser
-							.parse(statusArgument);
-					if (status instanceof FinishedShortestPathPosition) {
-						int numberOfSteps = alg.getNumberOfSteps();
-						alg.setStatus(numberOfSteps, 0);
-					} else if (status instanceof ExplicitShortestPathPosition) {
-						ExplicitShortestPathPosition pos = (ExplicitShortestPathPosition) status;
-						alg.setStatus(pos.getDiagonal(), pos.getSub());
-					}
-				} catch (IllegalArgumentException e) {
-					System.out.println("Invalid format for status");
-					System.exit(1);
-				}
-			}
-
-			algorithm = alg;
-			sceneAlgorithm = alg;
-			algorithmPainter = new ShortestPathPainter(alg, config, null);
+			setup = new ShortestPathVisualizationSetup();
 			break;
 		}
 		}
 
-		if (algorithmPainter == null) {
+		if (setup == null) {
 			System.err.println("Not yet implemented");
 			System.exit(1);
 		}
 
+		SetupResult setupResult = setup.setup(content, statusArgument,
+				properties, zoom);
+
+		int width = setupResult.getWidth();
+		int height = setupResult.getHeight();
+
+		AlgorithmPainter algorithmPainter = setupResult.getAlgorithmPainter();
+
 		File output = new File(argOutput.getValue());
-
-		// Default dimension from content scene
-		Rectangle contentScene = content.getScene();
-		int width = (int) Math.ceil(contentScene.getWidth() * zoom);
-		int height = (int) Math.ceil(contentScene.getHeight() * zoom);
-
-		if (explicitScene != null) {
-			// First try the explicit scene
-			width = (int) Math.ceil(explicitScene.getWidth());
-			height = (int) Math.ceil(explicitScene.getHeight());
-		} else if (sceneAlgorithm != null) {
-			// Otherwise, see If the algorithm provides a scene
-			Rectangle algScene = sceneAlgorithm.getScene();
-			width = (int) Math.ceil(algScene.getWidth() * zoom);
-			height = (int) Math.ceil(algScene.getHeight() * zoom);
-		} else if (scene != null) {
-			// Otherwise, see if the setup defined a scene
-			width = (int) Math.ceil(scene.getWidth() * zoom);
-			height = (int) Math.ceil(scene.getHeight() * zoom);
-		}
 
 		algorithmPainter.setZoom(zoom);
 

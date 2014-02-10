@@ -25,7 +25,7 @@ import de.topobyte.livecg.core.geometry.geom.Polygon;
 import de.topobyte.livecg.ui.ContentLauncher;
 import de.topobyte.livecg.ui.geometryeditor.Content;
 
-public class TriangulationLauncher implements ContentLauncher
+public class MonotonePiecesTriangulationLauncher implements ContentLauncher
 {
 
 	@Override

@@ -35,7 +35,7 @@ public class PropertyParseHelper
 			if (property == null) {
 				return;
 			}
-			boolean value = PropertyParser.parseBooleanProperty(property);
+			boolean value = parseBooleanProperty(property);
 			callback.success(value);
 		} catch (PropertyParseException e) {
 			logger.warn("Problem while parsing property '" + name + "': "
@@ -51,11 +51,35 @@ public class PropertyParseHelper
 			if (property == null) {
 				return;
 			}
-			int value = PropertyParser.parseIntegerProperty(property);
+			int value = parseIntegerProperty(property);
 			callback.success(value);
 		} catch (PropertyParseException e) {
 			logger.warn("Problem while parsing property '" + name + "': "
 					+ e.getMessage());
+		}
+	}
+
+	public static boolean parseBooleanProperty(String value)
+			throws PropertyParseException
+	{
+		String lower = value.toLowerCase();
+		if (lower.equals("true") || lower.equals("yes")) {
+			return true;
+		}
+		if (lower.equals("false") || lower.equals("no")) {
+			return false;
+		}
+		throw new PropertyParseException("not a valid boolean: '" + value + "'");
+	}
+
+	public static int parseIntegerProperty(String value)
+			throws PropertyParseException
+	{
+		try {
+			return Integer.parseInt(value);
+		} catch (NumberFormatException e) {
+			throw new PropertyParseException("not a valid integer: '" + value
+					+ "'");
 		}
 	}
 }

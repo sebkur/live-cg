@@ -15,33 +15,15 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.topobyte.livecg.core.properties;
+package de.topobyte.livecg.core;
 
-public class PropertyParser
+import java.util.Properties;
+
+import de.topobyte.livecg.ui.geometryeditor.Content;
+
+public interface VisualizationSetup
 {
 
-	public static boolean parseBooleanProperty(String value)
-			throws PropertyParseException
-	{
-		String lower = value.toLowerCase();
-		if (lower.equals("true") || lower.equals("yes")) {
-			return true;
-		}
-		if (lower.equals("false") || lower.equals("no")) {
-			return false;
-		}
-		throw new PropertyParseException("not a valid boolean: '" + value + "'");
-	}
-
-	public static int parseIntegerProperty(String value)
-			throws PropertyParseException
-	{
-		try {
-			return Integer.parseInt(value);
-		} catch (NumberFormatException e) {
-			throw new PropertyParseException("not a valid integer: '" + value
-					+ "'");
-		}
-	}
-
+	public SetupResult setup(Content content, String statusArgument,
+			Properties properties, double zoom);
 }
