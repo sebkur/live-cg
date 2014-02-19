@@ -21,6 +21,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import de.topobyte.livecg.algorithms.convexhull.chan.status.ChanPosition;
+import de.topobyte.livecg.algorithms.convexhull.chan.status.ChanStatusParser;
+import de.topobyte.livecg.algorithms.convexhull.chan.status.ExplicitChanPosition;
+import de.topobyte.livecg.algorithms.convexhull.chan.status.FinishedChanPosition;
 import de.topobyte.livecg.core.SetupResult;
 import de.topobyte.livecg.core.VisualizationSetup;
 import de.topobyte.livecg.core.geometry.geom.Chain;
@@ -69,10 +73,34 @@ public class ChanVisualizationSetup implements VisualizationSetup
 				}
 			}
 		}
-		ChansAlgorithm alg = new ChansAlgorithm(polygons);
-		VisualizationPainter visualizationPainter = new ChansAlgorithmPainter(alg, null);
+		ChansAlgorithm algorithm = new ChansAlgorithm(polygons);
 
-		Rectangle scene = alg.getScene();
+		if (statusArgument != null) {
+			try {
+				ChanPosition status = ChanStatusParser.parse(statusArgument);
+				if (status instanceof FinishedChanPosition) {
+					while (!algorithm.isFinished()) {
+						algorithm.nextStep();
+					}
+				} else if (status instanceof ExplicitChanPosition) {
+					ExplicitChanPosition pos = (ExplicitChanPosition) status;
+					while (algorithm.getNumberOfNodesOnHull() < pos.getMajor()) {
+						algorithm.nextStep();
+					}
+					for (int i = 0; i < pos.getMinor(); i++) {
+						algorithm.nextStep();
+					}
+				}
+			} catch (IllegalArgumentException e) {
+				System.out.println("Invalid format for status");
+				System.exit(1);
+			}
+		}
+
+		VisualizationPainter visualizationPainter = new ChansAlgorithmPainter(
+				algorithm, null);
+
+		Rectangle scene = algorithm.getScene();
 
 		int width = (int) Math.ceil(scene.getWidth() * zoom);
 		int height = (int) Math.ceil(scene.getHeight() * zoom);
