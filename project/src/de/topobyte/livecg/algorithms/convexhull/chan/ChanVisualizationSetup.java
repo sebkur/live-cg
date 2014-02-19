@@ -99,6 +99,9 @@ public class ChanVisualizationSetup implements VisualizationSetup
 
 		ChanConfig config = new ChanConfig();
 
+		ChanPropertyParser propertyParser = new ChanPropertyParser(config);
+		propertyParser.parse(properties);
+
 		VisualizationPainter visualizationPainter = new ChansAlgorithmPainter(
 				algorithm, config, null);
 
