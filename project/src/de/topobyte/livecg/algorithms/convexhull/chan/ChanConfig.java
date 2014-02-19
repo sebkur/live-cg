@@ -1,6 +1,6 @@
 /* This file is part of LiveCG.
  *
- * Copyright (C) 2013  Sebastian Kuerten
+ * Copyright (C) 2014  Sebastian Kuerten
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,29 +17,30 @@
  */
 package de.topobyte.livecg.algorithms.convexhull.chan;
 
-import de.topobyte.livecg.core.algorithm.AlgorithmWatcher;
-import de.topobyte.livecg.core.export.SizeProvider;
-import de.topobyte.livecg.core.scrolling.ScenePanel;
-
-public class ChansAlgorithmPanel extends ScenePanel implements SizeProvider,
-		AlgorithmWatcher
+public class ChanConfig
 {
-	private static final long serialVersionUID = -788826737883369137L;
 
-	public ChansAlgorithmPanel(ChansAlgorithm algorithm, ChanConfig config)
+	private boolean drawAlgorithmPhase = true;
+	private boolean drawPolygonNumbers = true;
+
+	public boolean isDrawAlgorithmPhase()
 	{
-		super(algorithm.getScene());
-
-		visualizationPainter = new ChansAlgorithmPainter(algorithm, config,
-				painter);
-
-		algorithm.addAlgorithmWatcher(this);
+		return drawAlgorithmPhase;
 	}
 
-	@Override
-	public void updateAlgorithmStatus()
+	public void setDrawAlgorithmPhase(boolean drawAlgorithmPhase)
 	{
-		repaint();
+		this.drawAlgorithmPhase = drawAlgorithmPhase;
+	}
+
+	public boolean isDrawPolygonNumbers()
+	{
+		return drawPolygonNumbers;
+	}
+
+	public void setDrawPolygonNumbers(boolean drawPolygonNumbers)
+	{
+		this.drawPolygonNumbers = drawPolygonNumbers;
 	}
 
 }

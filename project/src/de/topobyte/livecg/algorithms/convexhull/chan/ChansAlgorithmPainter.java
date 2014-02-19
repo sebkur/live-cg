@@ -35,11 +35,14 @@ public class ChansAlgorithmPainter extends TransformingVisualizationPainter
 {
 
 	private ChansAlgorithm algorithm;
+	private ChanConfig config;
 
-	public ChansAlgorithmPainter(ChansAlgorithm algorithm, Painter painter)
+	public ChansAlgorithmPainter(ChansAlgorithm algorithm, ChanConfig config,
+			Painter painter)
 	{
 		super(algorithm.getScene(), painter);
 		this.algorithm = algorithm;
+		this.config = config;
 	}
 
 	/*
@@ -66,9 +69,11 @@ public class ChansAlgorithmPainter extends TransformingVisualizationPainter
 
 		painter.setColor(new Color(0x000000));
 
-		Coordinate text = transformer.transform(new Coordinate(
-				scene.getX1() + 10, scene.getY1() + 20));
-		painter.drawString(phase.toString(), text.getX(), text.getY());
+		if (config.isDrawAlgorithmPhase()) {
+			Coordinate text = transformer.transform(new Coordinate(scene
+					.getX1() + 10, scene.getY1() + 20));
+			painter.drawString(phase.toString(), text.getX(), text.getY());
+		}
 
 		filled = new HashSet<Polygon>();
 
@@ -273,11 +278,15 @@ public class ChansAlgorithmPainter extends TransformingVisualizationPainter
 		}
 
 		// Ids
-		for (int i = 0; i < algorithm.getPolygons().size(); i++) {
-			painter.setColor(colorIds);
-			Polygon polygon = algorithm.getPolygons().get(i);
-			Coordinate c = transformer.transform(PolygonHelper.center(polygon));
-			painter.drawString(String.format("%d", i + 1), c.getX(), c.getY());
+		if (config.isDrawPolygonNumbers()) {
+			for (int i = 0; i < algorithm.getPolygons().size(); i++) {
+				painter.setColor(colorIds);
+				Polygon polygon = algorithm.getPolygons().get(i);
+				Coordinate c = transformer.transform(PolygonHelper
+						.center(polygon));
+				painter.drawString(String.format("%d", i + 1), c.getX(),
+						c.getY());
+			}
 		}
 	}
 }

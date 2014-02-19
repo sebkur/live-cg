@@ -28,6 +28,7 @@ import javax.xml.transform.TransformerException;
 
 import org.xml.sax.SAXException;
 
+import de.topobyte.livecg.algorithms.convexhull.chan.ChanConfig;
 import de.topobyte.livecg.algorithms.convexhull.chan.ChansAlgorithm;
 import de.topobyte.livecg.algorithms.convexhull.chan.ChansAlgorithmPainter;
 import de.topobyte.livecg.algorithms.frechet.distanceterrain.DistanceTerrainConfig;
@@ -281,8 +282,9 @@ public class Test
 			throws TransformerException, IOException
 	{
 		ChansAlgorithm chansAlgorithm = new ChansAlgorithm(polygons);
+		ChanConfig config = new ChanConfig();
 		ChansAlgorithmPainter algorithmPainter = new ChansAlgorithmPainter(
-				chansAlgorithm, null);
+				chansAlgorithm, config, null);
 
 		for (int i = 0; i < 50; i++) {
 			chansAlgorithm.nextStep();

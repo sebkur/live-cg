@@ -97,8 +97,10 @@ public class ChanVisualizationSetup implements VisualizationSetup
 			}
 		}
 
+		ChanConfig config = new ChanConfig();
+
 		VisualizationPainter visualizationPainter = new ChansAlgorithmPainter(
-				algorithm, null);
+				algorithm, config, null);
 
 		Rectangle scene = algorithm.getScene();
 

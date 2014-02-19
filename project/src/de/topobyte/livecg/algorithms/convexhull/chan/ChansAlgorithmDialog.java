@@ -71,9 +71,10 @@ public class ChansAlgorithmDialog implements AlgorithmWatcher
 		frame.setContentPane(main);
 		main.setLayout(new BorderLayout());
 
-		cap = new ChansAlgorithmPanel(algorithm);
+		ChanConfig config = new ChanConfig();
+		cap = new ChansAlgorithmPanel(algorithm, config);
 
-		Toolbar toolbar = new Toolbar(algorithm);
+		Settings toolbar = new Settings(algorithm, cap, config);
 		ScrollableView<ChansAlgorithmPanel> scrollableView = new ScrollableView<ChansAlgorithmPanel>(
 				cap);
 
@@ -97,7 +98,7 @@ public class ChansAlgorithmDialog implements AlgorithmWatcher
 		 */
 
 		ChansAlgorithmPainter painter = new ChansAlgorithmPainter(algorithm,
-				null);
+				config, null);
 
 		JMenuBar menu = new JMenuBar();
 
