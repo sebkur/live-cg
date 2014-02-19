@@ -4,7 +4,7 @@
 \clip (0,0) rectangle (1,-1);
 \draw[line width=0.25000mm, join=round, cap=round] (0.00000,0.00000)
 node[inner sep=0pt, below right]
- {\includegraphics[width=13.0cm]{/tmp/test6.tikz-images/image1.png}};
+ {\includegraphics[width=13.0cm]{test6.tikz-images/image1.png}};
 \draw[line width=0.25000mm, join=round, cap=round, color=000000] (0.00000,0.00000) -- (0.00000,-1.00000);
 \draw[line width=0.25000mm, join=round, cap=round, color=000000] (0.16500,0.00000) -- (0.16500,-1.00000);
 \draw[line width=0.25000mm, join=round, cap=round, color=000000] (0.33000,0.00000) -- (0.33000,-1.00000);
