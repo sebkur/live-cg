@@ -16,7 +16,7 @@ Building the distribution:
 
 ## Running
 Running from build directory:
-`./scripts/livecg.sh`
+`./scripts/livecg-ui`
 
 Running from distribution:
 `java -jar dist/livecg-fat.jar`
