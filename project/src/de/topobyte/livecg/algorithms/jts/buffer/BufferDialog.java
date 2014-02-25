@@ -17,7 +17,6 @@
  */
 package de.topobyte.livecg.algorithms.jts.buffer;
 
-import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.WindowAdapter;
@@ -80,10 +79,7 @@ public class BufferDialog implements ContentChangedListener, ChangeListener
 			}
 		});
 
-		JPanel diagramPanel = new JPanel(new BorderLayout());
-		diagramPanel.add(settings, BorderLayout.NORTH);
-		diagramPanel.add(scrollableView, BorderLayout.CENTER);
-		diagramPanel.setBorder(new TitledBorder("Polygon buffer"));
+		scrollableView.setBorder(new TitledBorder("Polygon buffer"));
 
 		GridBagConstraints c = new GridBagConstraints();
 		c.fill = GridBagConstraints.BOTH;
@@ -92,10 +88,12 @@ public class BufferDialog implements ContentChangedListener, ChangeListener
 		c.gridx = 0;
 		c.gridy = 0;
 		c.weighty = 0.0;
-		panel.add(slider, c);
+		panel.add(settings, c);
 		c.gridy = 1;
+		panel.add(slider, c);
+		c.gridy = 2;
 		c.weighty = 1.0;
-		panel.add(diagramPanel, c);
+		panel.add(scrollableView, c);
 
 		frame = new JFrame("Polygon buffer");
 		frame.setContentPane(panel);
