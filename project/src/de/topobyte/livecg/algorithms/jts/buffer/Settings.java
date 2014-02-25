@@ -23,6 +23,8 @@ import java.awt.event.ItemListener;
 import javax.swing.JToggleButton;
 import javax.swing.JToolBar;
 
+import de.topobyte.livecg.util.ZoomInput;
+
 public class Settings extends JToolBar implements ItemListener
 {
 
@@ -34,7 +36,7 @@ public class Settings extends JToolBar implements ItemListener
 
 	private static final String TEXT_DRAW_ORIGINAL = "Original";
 
-	public Settings(BufferConfig config)
+	public Settings(BufferPanel panel, BufferConfig config)
 	{
 		this.config = config;
 
@@ -50,6 +52,9 @@ public class Settings extends JToolBar implements ItemListener
 		}
 
 		buttons[0].setSelected(config.isDrawOriginal());
+
+		ZoomInput zoomInput = new ZoomInput(panel);
+		add(zoomInput);
 	}
 
 	@Override

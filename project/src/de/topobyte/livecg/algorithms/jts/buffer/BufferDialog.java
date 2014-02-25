@@ -65,7 +65,11 @@ public class BufferDialog implements ContentChangedListener, ChangeListener
 		slider.setValue(config.getDistance());
 		slider.setBorder(new TitledBorder("Distance"));
 
-		Settings settings = new Settings(config);
+		bufferPanel = new BufferPanel(algorithm, config);
+		ScrollableView<BufferPanel> scrollableView = new ScrollableView<BufferPanel>(
+				bufferPanel);
+
+		Settings settings = new Settings(bufferPanel, config);
 
 		config.addConfigChangedListener(new ConfigChangedListener() {
 
@@ -75,10 +79,6 @@ public class BufferDialog implements ContentChangedListener, ChangeListener
 				algorithm.setDistance(config.getDistance());
 			}
 		});
-
-		bufferPanel = new BufferPanel(algorithm, config);
-		ScrollableView<BufferPanel> scrollableView = new ScrollableView<BufferPanel>(
-				bufferPanel);
 
 		JPanel diagramPanel = new JPanel(new BorderLayout());
 		diagramPanel.add(settings, BorderLayout.NORTH);
