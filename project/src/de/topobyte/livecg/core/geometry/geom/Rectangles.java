@@ -34,6 +34,15 @@ public class Rectangles
 
 	public static Rectangle union(Rectangle a, Rectangle b)
 	{
+		if (a == null && b == null) {
+			return null;
+		}
+		if (a == null) {
+			return new Rectangle(b.getX1(), b.getY1(), b.getX2(), b.getY2());
+		}
+		if (b == null) {
+			return new Rectangle(a.getX1(), a.getY1(), a.getX2(), a.getY2());
+		}
 		double xmin = Math.min(a.getX1(), b.getX1());
 		double xmax = Math.max(a.getX2(), b.getX2());
 		double ymin = Math.min(a.getY1(), b.getY1());

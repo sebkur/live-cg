@@ -17,8 +17,19 @@
  */
 package de.topobyte.livecg.core.geometry.geom;
 
+import java.util.Collection;
+import java.util.Iterator;
+
+import de.topobyte.livecg.ui.geometryeditor.SetOfGeometries;
+
 public class BoundingBoxes
 {
+
+	public static Rectangle get(SetOfGeometries geoms)
+	{
+		return Rectangles.union(getForChains(geoms.getChains()),
+				getForPolygons(geoms.getPolygons()));
+	}
 
 	public static Rectangle get(Chain chain)
 	{
@@ -49,4 +60,29 @@ public class BoundingBoxes
 		return get(polygon.getShell());
 	}
 
+	public static Rectangle getForChains(Collection<Chain> chains)
+	{
+		if (chains.isEmpty()) {
+			return null;
+		}
+		Iterator<Chain> iterator = chains.iterator();
+		Rectangle r = get(iterator.next());
+		while (iterator.hasNext()) {
+			r = Rectangles.union(r, get(iterator.next()));
+		}
+		return r;
+	}
+
+	public static Rectangle getForPolygons(Collection<Polygon> polygons)
+	{
+		if (polygons.isEmpty()) {
+			return null;
+		}
+		Iterator<Polygon> iterator = polygons.iterator();
+		Rectangle r = get(iterator.next());
+		while (iterator.hasNext()) {
+			r = Rectangles.union(r, get(iterator.next()));
+		}
+		return r;
+	}
 }
