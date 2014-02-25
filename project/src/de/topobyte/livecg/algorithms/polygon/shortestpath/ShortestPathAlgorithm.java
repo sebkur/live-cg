@@ -245,6 +245,9 @@ public class ShortestPathAlgorithm extends DefaultSceneAlgorithm implements
 	{
 		int digits = (int) Math.ceil(Math.log(sleeve.getDiagonals().size())
 				/ Math.log(10));
+		if (digits <= 1) {
+			digits = 1;
+		}
 		markerPattern = String.format(markerPatternFactory, digits, digits);
 	}
 
