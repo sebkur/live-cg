@@ -3,7 +3,6 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" output="bin/test" path="src-test"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/oracle-java-6"/>
-	<classpathentry kind="lib" path="lib/jts-1.12.jar"/>
 	<classpathentry kind="lib" path="lib/log4j-1.2.16.jar"/>
 	<classpathentry kind="lib" path="lib/slf4j-api-1.6.1.jar"/>
 	<classpathentry kind="lib" path="lib/slf4j-log4j12-1.6.1.jar"/>
@@ -43,5 +42,6 @@
 	<classpathentry kind="lib" path="lib/misc-utils.jar"/>
 	<classpathentry kind="lib" path="lib/noawt.jar"/>
 	<classpathentry kind="lib" path="lib/noawt-clipper.jar"/>
+	<classpathentry kind="lib" path="lib/jts-1.13.jar"/>
 	<classpathentry kind="output" path="bin/main"/>
 </classpath>
