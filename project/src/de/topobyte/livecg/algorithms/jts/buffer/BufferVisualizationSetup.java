@@ -36,8 +36,9 @@ public class BufferVisualizationSetup implements VisualizationSetup
 		parser.parse(properties);
 
 		int distance = parser.getDistance();
-		BufferAlgorithm alg = new BufferAlgorithm(content, distance);
 		BufferConfig config = new BufferConfig();
+		config.setDistance(distance);
+		BufferAlgorithm alg = new BufferAlgorithm(content, config);
 
 		VisualizationPainter visualizationPainter = new BufferPainter(alg,
 				config, null);

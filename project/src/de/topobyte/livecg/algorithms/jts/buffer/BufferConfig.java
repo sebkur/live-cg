@@ -20,6 +20,8 @@ package de.topobyte.livecg.algorithms.jts.buffer;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.vividsolutions.jts.operation.buffer.BufferParameters;
+
 import de.topobyte.livecg.algorithms.frechet.distanceterrain.ConfigChangedListener;
 
 public class BufferConfig
@@ -27,6 +29,8 @@ public class BufferConfig
 
 	private boolean drawOriginal = true;
 	private int distance = 10;
+	private int capStyle = BufferParameters.CAP_ROUND;
+	private int joinStyle = BufferParameters.JOIN_ROUND;
 
 	private List<ConfigChangedListener> listeners = new ArrayList<ConfigChangedListener>();
 
@@ -65,6 +69,26 @@ public class BufferConfig
 		for (ConfigChangedListener listener : listeners) {
 			listener.configChanged();
 		}
+	}
+
+	public int getCapStyle()
+	{
+		return capStyle;
+	}
+
+	public void setCapStyle(int capStyle)
+	{
+		this.capStyle = capStyle;
+	}
+
+	public int getJoinStyle()
+	{
+		return joinStyle;
+	}
+
+	public void setJoinStyle(int joinStyle)
+	{
+		this.joinStyle = joinStyle;
 	}
 
 }

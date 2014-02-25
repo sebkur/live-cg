@@ -37,7 +37,8 @@ import de.topobyte.livecg.core.scrolling.ScrollableView;
 import de.topobyte.livecg.ui.geometryeditor.Content;
 import de.topobyte.livecg.ui.geometryeditor.ContentChangedListener;
 
-public class BufferDialog implements ContentChangedListener, ChangeListener
+public class BufferDialog implements ContentChangedListener, ChangeListener,
+		ConfigChangedListener
 {
 
 	private JFrame frame;
@@ -52,8 +53,9 @@ public class BufferDialog implements ContentChangedListener, ChangeListener
 	public BufferDialog(final Content content)
 	{
 		config = new BufferConfig();
+		config.addConfigChangedListener(this);
 
-		algorithm = new BufferAlgorithm(content, config.getDistance());
+		algorithm = new BufferAlgorithm(content, config);
 
 		int minValue = -200;
 		int maxValue = 500;
@@ -69,15 +71,6 @@ public class BufferDialog implements ContentChangedListener, ChangeListener
 				bufferPanel);
 
 		Settings settings = new Settings(bufferPanel, config);
-
-		config.addConfigChangedListener(new ConfigChangedListener() {
-
-			@Override
-			public void configChanged()
-			{
-				algorithm.setDistance(config.getDistance());
-			}
-		});
 
 		scrollableView.setBorder(new TitledBorder("Polygon buffer"));
 
@@ -136,6 +129,13 @@ public class BufferDialog implements ContentChangedListener, ChangeListener
 
 	@Override
 	public void contentChanged()
+	{
+		algorithm.update();
+		bufferPanel.repaint();
+	}
+
+	@Override
+	public void configChanged()
 	{
 		algorithm.update();
 		bufferPanel.repaint();

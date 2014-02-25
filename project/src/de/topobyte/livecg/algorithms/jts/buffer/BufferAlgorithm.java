@@ -23,6 +23,7 @@ import java.util.List;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.GeometryCollection;
 import com.vividsolutions.jts.operation.buffer.BufferOp;
+import com.vividsolutions.jts.operation.buffer.BufferParameters;
 
 import de.topobyte.livecg.core.algorithm.DefaultSceneAlgorithm;
 import de.topobyte.livecg.core.geometry.geom.BoundingBoxes;
@@ -36,24 +37,24 @@ public class BufferAlgorithm extends DefaultSceneAlgorithm
 {
 
 	private SetOfGeometries geometries;
-	private int distance;
+	private BufferConfig config;
 	private List<Polygon> result = new ArrayList<Polygon>();
 
-	public BufferAlgorithm(SetOfGeometries geometries, int distance)
+	public BufferAlgorithm(SetOfGeometries geometries, BufferConfig config)
 	{
 		this.geometries = geometries;
-		this.distance = distance;
+		this.config = config;
 		computeResult();
 	}
 
-	public int getDistance()
+	public BufferConfig getConfig()
 	{
-		return distance;
+		return config;
 	}
 
-	public void setDistance(int distance)
+	public void setConfig(BufferConfig config)
 	{
-		this.distance = distance;
+		this.config = config;
 		computeResult();
 	}
 
@@ -71,8 +72,13 @@ public class BufferAlgorithm extends DefaultSceneAlgorithm
 	{
 		JtsUtil jtsUtil = new JtsUtil();
 		GeometryCollection gc = jtsUtil.toJts(geometries);
-		BufferOp bufferOp = new BufferOp(gc);
-		Geometry buffer = bufferOp.getResultGeometry(distance);
+
+		BufferParameters parameters = new BufferParameters();
+		parameters.setEndCapStyle(config.getCapStyle());
+		parameters.setJoinStyle(config.getJoinStyle());
+
+		BufferOp bufferOp = new BufferOp(gc, parameters);
+		Geometry buffer = bufferOp.getResultGeometry(config.getDistance());
 		result.clear();
 		if (buffer instanceof com.vividsolutions.jts.geom.Polygon) {
 			com.vividsolutions.jts.geom.Polygon r = (com.vividsolutions.jts.geom.Polygon) buffer;
