@@ -18,6 +18,7 @@
 package de.topobyte.livecg.util.swing;
 
 import java.awt.Component;
+import java.awt.Dimension;
 
 import javax.swing.JComboBox;
 import javax.swing.JList;
@@ -41,6 +42,14 @@ public class KeyValueComboBox<K, V> extends JComboBox
 				setSelectedIndex(i);
 				break;
 			}
+		}
+	}
+
+	public void setMinPreferredWidth(int minWidth)
+	{
+		Dimension ps = getPreferredSize();
+		if (ps.width < minWidth) {
+			setPreferredSize(new Dimension(minWidth, ps.height));
 		}
 	}
 
