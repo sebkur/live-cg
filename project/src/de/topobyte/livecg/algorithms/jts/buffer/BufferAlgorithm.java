@@ -22,6 +22,7 @@ import java.util.List;
 
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.GeometryCollection;
+import com.vividsolutions.jts.operation.buffer.BufferOp;
 
 import de.topobyte.livecg.core.algorithm.DefaultSceneAlgorithm;
 import de.topobyte.livecg.core.geometry.geom.BoundingBoxes;
@@ -29,17 +30,18 @@ import de.topobyte.livecg.core.geometry.geom.JtsUtil;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
 import de.topobyte.livecg.core.geometry.geom.Rectangle;
 import de.topobyte.livecg.core.geometry.geom.Rectangles;
+import de.topobyte.livecg.ui.geometryeditor.SetOfGeometries;
 
 public class BufferAlgorithm extends DefaultSceneAlgorithm
 {
 
-	private Polygon polygon;
+	private SetOfGeometries geometries;
 	private int distance;
 	private List<Polygon> result = new ArrayList<Polygon>();
 
-	public BufferAlgorithm(Polygon polygon, int distance)
+	public BufferAlgorithm(SetOfGeometries geometries, int distance)
 	{
-		this.polygon = polygon;
+		this.geometries = geometries;
 		this.distance = distance;
 		computeResult();
 	}
@@ -55,9 +57,9 @@ public class BufferAlgorithm extends DefaultSceneAlgorithm
 		computeResult();
 	}
 
-	public Polygon getOriginal()
+	public SetOfGeometries getOriginal()
 	{
-		return polygon;
+		return geometries;
 	}
 
 	public List<Polygon> getResult()
@@ -68,8 +70,9 @@ public class BufferAlgorithm extends DefaultSceneAlgorithm
 	private void computeResult()
 	{
 		JtsUtil jtsUtil = new JtsUtil();
-		com.vividsolutions.jts.geom.Polygon p = jtsUtil.toJts(polygon);
-		Geometry buffer = p.buffer(distance);
+		GeometryCollection gc = jtsUtil.toJts(geometries);
+		BufferOp bufferOp = new BufferOp(gc);
+		Geometry buffer = bufferOp.getResultGeometry(distance);
 		result.clear();
 		if (buffer instanceof com.vividsolutions.jts.geom.Polygon) {
 			com.vividsolutions.jts.geom.Polygon r = (com.vividsolutions.jts.geom.Polygon) buffer;
@@ -96,7 +99,7 @@ public class BufferAlgorithm extends DefaultSceneAlgorithm
 	@Override
 	public Rectangle getScene()
 	{
-		Rectangle bbox = BoundingBoxes.get(polygon);
+		Rectangle bbox = BoundingBoxes.get(geometries);
 		if (result != null) {
 			for (Polygon p : result) {
 				bbox = Rectangles.union(bbox, BoundingBoxes.get(p));

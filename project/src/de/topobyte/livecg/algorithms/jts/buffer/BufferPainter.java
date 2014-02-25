@@ -20,10 +20,13 @@ package de.topobyte.livecg.algorithms.jts.buffer;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.topobyte.livecg.core.geometry.geom.Chain;
+import de.topobyte.livecg.core.geometry.geom.Coordinate;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
 import de.topobyte.livecg.core.painting.Color;
 import de.topobyte.livecg.core.painting.Painter;
 import de.topobyte.livecg.core.painting.TransformingVisualizationPainter;
+import de.topobyte.livecg.ui.geometryeditor.SetOfGeometries;
 
 public class BufferPainter extends TransformingVisualizationPainter
 {
@@ -64,12 +67,25 @@ public class BufferPainter extends TransformingVisualizationPainter
 			}
 		}
 
-		Polygon tOriginal = transformer.transform(algorithm.getOriginal());
 		if (config.isDrawOriginal()) {
-			painter.setColor(colorOriginalFill);
-			painter.fillPolygon(tOriginal);
-			painter.setColor(colorOriginalOutline);
-			painter.drawPolygon(tOriginal);
+			SetOfGeometries input = algorithm.getOriginal();
+			for (Polygon polygon : input.getPolygons()) {
+				Polygon tPolygon = transformer.transform(polygon);
+				painter.setColor(colorOriginalFill);
+				painter.fillPolygon(tPolygon);
+				painter.setColor(colorOriginalOutline);
+				painter.drawPolygon(tPolygon);
+			}
+			for (Chain chain : input.getChains()) {
+				Chain tChain = transformer.transform(chain);
+				painter.setColor(colorOriginalOutline);
+				if (chain.getNumberOfNodes() == 1) {
+					Coordinate c = tChain.getCoordinate(0);
+					painter.fillCircle(c.getX(), c.getY(), 1);
+				} else {
+					painter.drawChain(tChain);
+				}
+			}
 		}
 
 		if (config.getDistance() != 0) {

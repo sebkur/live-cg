@@ -33,7 +33,8 @@ public class TestBuffer
 	public static void main(String[] args) throws IOException,
 			ParserConfigurationException, SAXException
 	{
-		String path = "res/presets/polygons/Small.geom";
+		// String path = "res/presets/polygons/Small.geom";
+		String path = "res/presets/Startup.geom";
 		ContentReader contentReader = new ContentReader();
 		Content content = contentReader.read(new File(path));
 

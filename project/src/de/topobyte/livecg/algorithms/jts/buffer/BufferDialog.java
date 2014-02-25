@@ -22,7 +22,6 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -35,7 +34,6 @@ import javax.swing.event.ChangeListener;
 
 import de.topobyte.livecg.algorithms.frechet.distanceterrain.ConfigChangedListener;
 import de.topobyte.livecg.core.export.ExportUtil;
-import de.topobyte.livecg.core.geometry.geom.Polygon;
 import de.topobyte.livecg.core.scrolling.ScrollableView;
 import de.topobyte.livecg.ui.geometryeditor.Content;
 import de.topobyte.livecg.ui.geometryeditor.ContentChangedListener;
@@ -54,17 +52,9 @@ public class BufferDialog implements ContentChangedListener, ChangeListener
 
 	public BufferDialog(final Content content)
 	{
-		List<Polygon> polygons = content.getPolygons();
-		if (polygons.size() < 1) {
-			System.out.println("not enough polygons");
-			return;
-		}
-		System.out.println("showing buffer dialog");
-
 		config = new BufferConfig();
 
-		Polygon polygon = polygons.get(0);
-		algorithm = new BufferAlgorithm(polygon, config.getDistance());
+		algorithm = new BufferAlgorithm(content, config.getDistance());
 
 		int minValue = -200;
 		int maxValue = 500;

@@ -20,14 +20,23 @@ package de.topobyte.livecg.core.geometry.geom;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.vividsolutions.jts.geom.Geometry;
+import com.vividsolutions.jts.geom.GeometryCollection;
 import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.LineString;
 import com.vividsolutions.jts.geom.LinearRing;
+
+import de.topobyte.livecg.ui.geometryeditor.SetOfGeometries;
 
 public class JtsUtil
 {
 
 	private GeometryFactory factory = new GeometryFactory();
+
+	public com.vividsolutions.jts.geom.Coordinate toJts(Coordinate c)
+	{
+		return new com.vividsolutions.jts.geom.Coordinate(c.getX(), c.getY());
+	}
 
 	public Polygon fromJts(com.vividsolutions.jts.geom.Polygon polygon)
 	{
@@ -119,4 +128,19 @@ public class JtsUtil
 		return factory.createLinearRing(coords);
 	}
 
+	public GeometryCollection toJts(SetOfGeometries geometries)
+	{
+		List<Geometry> geoms = new ArrayList<Geometry>();
+		for (Polygon polygon : geometries.getPolygons()) {
+			geoms.add(toJts(polygon));
+		}
+		for (Chain chain : geometries.getChains()) {
+			if (chain.getNumberOfNodes() == 1) {
+				geoms.add(factory.createPoint(toJts(chain.getCoordinate(0))));
+			} else if (chain.getNumberOfNodes() > 1) {
+				geoms.add(toJtsString(chain));
+			}
+		}
+		return factory.createGeometryCollection(geoms.toArray(new Geometry[0]));
+	}
 }

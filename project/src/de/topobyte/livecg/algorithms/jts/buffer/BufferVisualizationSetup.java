@@ -21,7 +21,6 @@ import java.util.Properties;
 
 import de.topobyte.livecg.core.SetupResult;
 import de.topobyte.livecg.core.VisualizationSetup;
-import de.topobyte.livecg.core.geometry.geom.Polygon;
 import de.topobyte.livecg.core.geometry.geom.Rectangle;
 import de.topobyte.livecg.core.painting.VisualizationPainter;
 import de.topobyte.livecg.ui.geometryeditor.Content;
@@ -33,20 +32,15 @@ public class BufferVisualizationSetup implements VisualizationSetup
 	public SetupResult setup(Content content, String statusArgument,
 			Properties properties, double zoom)
 	{
-		if (content.getPolygons().size() < 1) {
-			System.err.println("This visualization requires a polygon");
-			System.exit(1);
-		}
-		Polygon polygon = content.getPolygons().get(0);
-
 		BufferPropertyParser parser = new BufferPropertyParser();
 		parser.parse(properties);
 
 		int distance = parser.getDistance();
-		BufferAlgorithm alg = new BufferAlgorithm(polygon, distance);
+		BufferAlgorithm alg = new BufferAlgorithm(content, distance);
 		BufferConfig config = new BufferConfig();
 
-		VisualizationPainter visualizationPainter = new BufferPainter(alg, config, null);
+		VisualizationPainter visualizationPainter = new BufferPainter(alg,
+				config, null);
 
 		Rectangle scene = alg.getScene();
 
