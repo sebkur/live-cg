@@ -67,8 +67,8 @@ public class BufferPainter extends TransformingVisualizationPainter
 			}
 		}
 
-		if (config.isDrawOriginal()) {
-			SetOfGeometries input = algorithm.getOriginal();
+		if (config.isDrawInput()) {
+			SetOfGeometries input = algorithm.getInput();
 			for (Polygon polygon : input.getPolygons()) {
 				Polygon tPolygon = transformer.transform(polygon);
 				painter.setColor(colorOriginalFill);

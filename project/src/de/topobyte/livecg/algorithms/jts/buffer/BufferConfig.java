@@ -27,21 +27,21 @@ import de.topobyte.livecg.algorithms.frechet.distanceterrain.ConfigChangedListen
 public class BufferConfig
 {
 
-	private boolean drawOriginal = true;
+	private boolean drawInput = true;
 	private int distance = 10;
 	private int capStyle = BufferParameters.CAP_ROUND;
 	private int joinStyle = BufferParameters.JOIN_ROUND;
 
 	private List<ConfigChangedListener> listeners = new ArrayList<ConfigChangedListener>();
 
-	public boolean isDrawOriginal()
+	public boolean isDrawInput()
 	{
-		return drawOriginal;
+		return drawInput;
 	}
 
-	public void setDrawOriginal(boolean drawOriginal)
+	public void setDrawInput(boolean drawInput)
 	{
-		this.drawOriginal = drawOriginal;
+		this.drawInput = drawInput;
 	}
 
 	public int getDistance()

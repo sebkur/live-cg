@@ -43,7 +43,7 @@ public class Settings extends JToolBar implements ItemListener, ActionListener
 
 	private JToggleButton[] buttons;
 
-	private static final String TEXT_DRAW_ORIGINAL = "Original";
+	private static final String TEXT_DRAW_INPUT = "Input";
 
 	private KeyValueComboBox<String, Integer> capSelector;
 	private KeyValueComboBox<String, Integer> joinSelector;
@@ -56,7 +56,7 @@ public class Settings extends JToolBar implements ItemListener, ActionListener
 
 		setFloatable(false);
 
-		String as[] = { TEXT_DRAW_ORIGINAL };
+		String as[] = { TEXT_DRAW_INPUT };
 		GridBagConstraints c = new GridBagConstraints();
 		c.anchor = GridBagConstraints.WEST;
 		c.fill = GridBagConstraints.VERTICAL;
@@ -68,7 +68,7 @@ public class Settings extends JToolBar implements ItemListener, ActionListener
 			add(buttons[i], c);
 		}
 
-		buttons[0].setSelected(config.isDrawOriginal());
+		buttons[0].setSelected(config.isDrawInput());
 
 		capSelector = new KeyValueComboBox<String, Integer>(new String[] {
 				"flat", "round", "square" }, new Integer[] {
@@ -107,8 +107,8 @@ public class Settings extends JToolBar implements ItemListener, ActionListener
 			JToggleButton button = (JToggleButton) e.getItem();
 			String s = button.getText();
 			boolean flag = button.isSelected();
-			if (s.equals(TEXT_DRAW_ORIGINAL)) {
-				config.setDrawOriginal(flag);
+			if (s.equals(TEXT_DRAW_INPUT)) {
+				config.setDrawInput(flag);
 			}
 		}
 		config.fireConfigChanged();

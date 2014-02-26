@@ -58,7 +58,7 @@ public class BufferAlgorithm extends DefaultSceneAlgorithm
 		computeResult();
 	}
 
-	public SetOfGeometries getOriginal()
+	public SetOfGeometries getInput()
 	{
 		return geometries;
 	}
