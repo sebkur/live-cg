@@ -32,6 +32,8 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
@@ -45,6 +47,9 @@ import de.topobyte.livecg.ui.geometryeditor.SetOfGeometries;
 
 public class SetOfGeometryReader extends DefaultHandler
 {
+
+	static final Logger logger = LoggerFactory
+			.getLogger(SetOfGeometryReader.class);
 
 	protected SetOfGeometries content;
 
@@ -70,7 +75,7 @@ public class SetOfGeometryReader extends DefaultHandler
 	}
 
 	protected enum Element {
-		Data, Node, Chain, Polygon, Shell, Hole
+		Data, Unknown, Node, Chain, Polygon, Shell, Hole
 	}
 
 	// Store the path within the XML document int this Stack
@@ -102,6 +107,7 @@ public class SetOfGeometryReader extends DefaultHandler
 	public void startElement(String uri, String localName, String qName,
 			Attributes attributes) throws SAXException
 	{
+		int depth = position.size();
 		buffer.setLength(0);
 		if (position.isEmpty()) {
 			if (qName.equals("data")) {
@@ -134,6 +140,10 @@ public class SetOfGeometryReader extends DefaultHandler
 				parseChain(attributes);
 			}
 		}
+		if (depth == position.size()) {
+			logger.info("unknown tag in input file: '" + qName + "'");
+			position.push(Element.Unknown);
+		}
 	}
 
 	@Override
@@ -144,6 +154,7 @@ public class SetOfGeometryReader extends DefaultHandler
 		switch (element) {
 		default:
 		case Data:
+		case Unknown:
 		case Node:
 			// Nothing to do for these
 			break;

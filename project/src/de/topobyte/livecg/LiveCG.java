@@ -116,9 +116,9 @@ public class LiveCG
 		try {
 			content = reader.read(input);
 		} catch (Exception e) {
-			logger.debug("unable to load startup geometry file", e);
-			logger.debug("Exception: " + e.getClass().getSimpleName());
-			logger.debug("Message: " + e.getMessage());
+			logger.info("unable to load startup geometry file", e);
+			logger.info("Exception: " + e.getClass().getSimpleName());
+			logger.info("Message: " + e.getMessage());
 		}
 
 		final LiveCG runner = new LiveCG();
