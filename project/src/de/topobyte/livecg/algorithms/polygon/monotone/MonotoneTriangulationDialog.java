@@ -61,7 +61,7 @@ public class MonotoneTriangulationDialog implements AlgorithmChangedListener,
 	{
 		this.algorithm = algorithm;
 
-		frame = new JFrame("Shortest Path in Polygons");
+		frame = new JFrame("Triangulating a Monotone Polygon");
 
 		JPanel main = new JPanel();
 		frame.setContentPane(main);

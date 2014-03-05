@@ -21,6 +21,7 @@ import java.util.List;
 
 import de.topobyte.livecg.algorithms.polygon.util.Diagonal;
 import de.topobyte.livecg.core.geometry.geom.Coordinate;
+import de.topobyte.livecg.core.geometry.geom.Node;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
 import de.topobyte.livecg.core.painting.Color;
 import de.topobyte.livecg.core.painting.Painter;
@@ -53,6 +54,8 @@ public class MonotoneTriangulationPainter extends
 		drawDiagonals();
 
 		drawPolygon();
+
+		drawNodes();
 	}
 
 	protected void fillPolygon()
@@ -80,6 +83,49 @@ public class MonotoneTriangulationPainter extends
 			Coordinate t1 = transformer.transform(c1);
 			Coordinate t2 = transformer.transform(c2);
 			painter.drawLine(t1.getX(), t1.getY(), t2.getX(), t2.getY());
+		}
+	}
+
+	private void drawNodes()
+	{
+		List<Node> nodes = algorithm.getNodes();
+		Color cDue = new Color(0xff0000);
+		Color cDone = new Color(0x00ff00);
+		Color cStack = new Color(0xffff00);
+		Color cOutline = new Color(0x000000);
+		double radius = 3;
+		if (algorithm.getStatus() < algorithm.getNumberOfSteps()) {
+			for (int i = 0; i < algorithm.getStatus(); i++) {
+				Node node = nodes.get(i);
+				Coordinate c = transformer.transform(node.getCoordinate());
+				painter.setColor(cDone);
+				painter.fillCircle(c.getX(), c.getY(), radius);
+				painter.setColor(cOutline);
+				painter.drawCircle(c.getX(), c.getY(), radius);
+			}
+			for (int i = algorithm.getStatus(); i < nodes.size(); i++) {
+				Node node = nodes.get(i);
+				Coordinate c = transformer.transform(node.getCoordinate());
+				painter.setColor(cDue);
+				painter.fillCircle(c.getX(), c.getY(), radius);
+				painter.setColor(cOutline);
+				painter.drawCircle(c.getX(), c.getY(), radius);
+			}
+			for (Node node : algorithm.getStack()) {
+				Coordinate c = transformer.transform(node.getCoordinate());
+				painter.setColor(cStack);
+				painter.fillCircle(c.getX(), c.getY(), radius);
+				painter.setColor(cOutline);
+				painter.drawCircle(c.getX(), c.getY(), radius);
+			}
+		} else {
+			for (Node node : algorithm.getNodes()) {
+				Coordinate c = transformer.transform(node.getCoordinate());
+				painter.setColor(cDone);
+				painter.fillCircle(c.getX(), c.getY(), radius);
+				painter.setColor(cOutline);
+				painter.drawCircle(c.getX(), c.getY(), radius);
+			}
 		}
 	}
 

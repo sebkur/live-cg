@@ -58,6 +58,9 @@ public class MonotoneTriangulationAlgorithm extends DefaultSceneAlgorithm
 	private Stack<Node> stack = new Stack<Node>();
 	private List<Diagonal> diagonals = new ArrayList<Diagonal>();
 
+	private int status = 0;
+	private int subStatus = 0;
+
 	public MonotoneTriangulationAlgorithm(Polygon polygon)
 	{
 		this.polygon = polygon;
@@ -72,12 +75,29 @@ public class MonotoneTriangulationAlgorithm extends DefaultSceneAlgorithm
 		storeSideInfo();
 
 		// Triangulate
-		triangulate(nodes);
+		computeUpToStatus();
+	}
+
+	private void computeUpToStatus()
+	{
+		diagonals.clear();
+		stack.clear();
+		triangulate();
 	}
 
 	public Polygon getPolygon()
 	{
 		return polygon;
+	}
+
+	public List<Node> getNodes()
+	{
+		return nodes;
+	}
+
+	public List<Node> getStack()
+	{
+		return stack;
 	}
 
 	public List<Diagonal> getDiagonals()
@@ -170,15 +190,17 @@ public class MonotoneTriangulationAlgorithm extends DefaultSceneAlgorithm
 		nodes.add(shell.getNode(maxIndex));
 	}
 
-	private void triangulate(List<Node> nodes)
+	private void triangulate()
 	{
-		logger.debug("Triangulating");
-		Node u1 = nodes.get(0);
-		Node u2 = nodes.get(1);
-		stack.push(u1);
-		stack.push(u2);
+		if (status > 0) {
+			logger.debug("Triangulating");
+			Node u1 = nodes.get(0);
+			Node u2 = nodes.get(1);
+			stack.push(u1);
+			stack.push(u2);
+		}
 
-		for (int j = 2; j < nodes.size() - 1; j++) {
+		for (int j = 2; j < nodes.size() - 1 && j <= status; j++) {
 			Node uj = nodes.get(j);
 			if (side.get(stack.top()) != side.get(uj)) {
 				Node first = stack.pop();
@@ -205,6 +227,10 @@ public class MonotoneTriangulationAlgorithm extends DefaultSceneAlgorithm
 				stack.push(last);
 				stack.push(uj);
 			}
+		}
+
+		if (status < nodes.size() - 1) {
+			return;
 		}
 
 		if (stack.size() > 2) {
@@ -246,11 +272,6 @@ public class MonotoneTriangulationAlgorithm extends DefaultSceneAlgorithm
 		return -1;
 	}
 
-	public int getNumberOfSteps()
-	{
-		return polygon.getShell().getNumberOfNodes();
-	}
-
 	@Override
 	public Rectangle getScene()
 	{
@@ -258,26 +279,33 @@ public class MonotoneTriangulationAlgorithm extends DefaultSceneAlgorithm
 		return Rectangles.extend(scene, 15);
 	}
 
-	public void setStatus(int major, int minor)
-	{
-		// TODO Auto-generated method stub
-	}
-
 	public int getStatus()
 	{
-		// TODO Auto-generated method stub
-		return 0;
+		return status;
 	}
 
 	public int getSubStatus()
 	{
-		// TODO Auto-generated method stub
-		return 0;
+		return subStatus;
+	}
+
+	public void setStatus(int major, int minor)
+	{
+		status = major;
+		subStatus = minor;
+		computeUpToStatus();
+		fireAlgorithmStatusChanged();
 	}
 
 	public void setSubStatus(int value)
 	{
-		// TODO Auto-generated method stub
+		subStatus = value;
+		fireAlgorithmStatusChanged();
+	}
+
+	public int getNumberOfSteps()
+	{
+		return polygon.getShell().getNumberOfNodes() - 1;
 	}
 
 	public int numberOfMinorSteps()
