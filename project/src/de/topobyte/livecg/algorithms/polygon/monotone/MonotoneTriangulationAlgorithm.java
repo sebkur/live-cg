@@ -57,6 +57,7 @@ public class MonotoneTriangulationAlgorithm extends DefaultSceneAlgorithm
 	private Map<Node, Side> side = new HashMap<Node, Side>();
 	private Stack<Node> stack = new Stack<Node>();
 	private List<Diagonal> diagonals = new ArrayList<Diagonal>();
+	private List<Diagonal> temporaryDiagonals = new ArrayList<Diagonal>();
 
 	private int status = 0;
 	private int subStatus = 0;
@@ -81,6 +82,7 @@ public class MonotoneTriangulationAlgorithm extends DefaultSceneAlgorithm
 	private void computeUpToStatus()
 	{
 		diagonals.clear();
+		temporaryDiagonals.clear();
 		stack.clear();
 		triangulate();
 	}
@@ -204,11 +206,12 @@ public class MonotoneTriangulationAlgorithm extends DefaultSceneAlgorithm
 			Node uj = nodes.get(j);
 			if (side.get(stack.top()) != side.get(uj)) {
 				Node first = stack.pop();
-				addDiagonal(uj, first);
+				addDiagonalReverse(uj, first);
 				while (stack.size() > 1) {
 					Node popped = stack.pop();
-					addDiagonal(uj, popped);
+					addDiagonalReverse(uj, popped);
 				}
+				commitDiagonals();
 				stack.pop();
 				stack.push(first);
 				stack.push(uj);
@@ -238,8 +241,9 @@ public class MonotoneTriangulationAlgorithm extends DefaultSceneAlgorithm
 			Node un = nodes.get(nodes.size() - 1);
 			while (stack.size() > 1) {
 				Node popped = stack.pop();
-				addDiagonal(un, popped);
+				addDiagonalReverse(un, popped);
 			}
+			commitDiagonals();
 		}
 	}
 
@@ -259,6 +263,22 @@ public class MonotoneTriangulationAlgorithm extends DefaultSceneAlgorithm
 		logger.debug("Adding diagonal: " + (findIndex(a) + 1) + ", "
 				+ (findIndex(b) + 1));
 		diagonals.add(new Diagonal(a, b));
+	}
+
+	private void addDiagonalReverse(Node a, Node b)
+	{
+		logger.debug("Adding diagonal: " + (findIndex(a) + 1) + ", "
+				+ (findIndex(b) + 1));
+		temporaryDiagonals.add(new Diagonal(a, b));
+	}
+
+	private void commitDiagonals()
+	{
+		int x = temporaryDiagonals.size() - 1;
+		for (int i = x; i >= 0; i--) {
+			diagonals.add(temporaryDiagonals.get(i));
+		}
+		temporaryDiagonals.clear();
 	}
 
 	private int findIndex(Node n)

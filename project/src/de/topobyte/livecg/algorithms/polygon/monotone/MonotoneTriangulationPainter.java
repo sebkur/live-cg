@@ -20,9 +20,12 @@ package de.topobyte.livecg.algorithms.polygon.monotone;
 import java.util.List;
 
 import de.topobyte.livecg.algorithms.polygon.util.Diagonal;
+import de.topobyte.livecg.algorithms.polygon.util.DiagonalUtil;
+import de.topobyte.livecg.core.geometry.geom.BoundingBoxes;
 import de.topobyte.livecg.core.geometry.geom.Coordinate;
 import de.topobyte.livecg.core.geometry.geom.Node;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
+import de.topobyte.livecg.core.geometry.geom.Rectangle;
 import de.topobyte.livecg.core.painting.Color;
 import de.topobyte.livecg.core.painting.Painter;
 import de.topobyte.livecg.core.painting.TransformingVisualizationPainter;
@@ -51,11 +54,9 @@ public class MonotoneTriangulationPainter extends
 
 		fillPolygon();
 
-		drawDiagonals();
-
 		drawPolygon();
 
-		drawNodes();
+		drawVarious();
 	}
 
 	protected void fillPolygon()
@@ -86,15 +87,64 @@ public class MonotoneTriangulationPainter extends
 		}
 	}
 
-	private void drawNodes()
+	private void drawVarious()
 	{
 		List<Node> nodes = algorithm.getNodes();
+		// Node info
 		Color cDue = new Color(0xff0000);
 		Color cDone = new Color(0x00ff00);
 		Color cStack = new Color(0xffff00);
 		Color cOutline = new Color(0x000000);
 		double radius = 3;
-		if (algorithm.getStatus() < algorithm.getNumberOfSteps()) {
+		// Other
+		Color cLast = new Color(0xffffff);
+		Color cReady = new Color(0x33ffffff, true);
+		double widLast = 4;
+
+		boolean unfinished = algorithm.getStatus() < algorithm
+				.getNumberOfSteps();
+
+		/*
+		 * Last diagonal
+		 */
+
+		List<Diagonal> diagonals = algorithm.getDiagonals();
+		if (!unfinished) {
+			painter.setColor(cReady);
+			painter.fillPolygon(transformer.transform(algorithm.getPolygon()));
+		} else if (diagonals.size() > 0) {
+			Diagonal diagonal = diagonals.get(diagonals.size() - 1);
+
+			List<Polygon> parts = DiagonalUtil.split(algorithm.getPolygon(),
+					diagonal);
+			Rectangle r0 = BoundingBoxes.get(parts.get(0));
+			Rectangle r1 = BoundingBoxes.get(parts.get(1));
+			Polygon p = r0.getY2() < r1.getY2() ? parts.get(0) : parts.get(1);
+			painter.setColor(cReady);
+			painter.fillPolygon(transformer.transform(p));
+
+			Coordinate a = transformer.transform(diagonal.getA()
+					.getCoordinate());
+			Coordinate b = transformer.transform(diagonal.getB()
+					.getCoordinate());
+			painter.setColor(cLast);
+			painter.setStrokeWidth(widLast);
+			painter.drawLine(a.getX(), a.getY(), b.getX(), b.getY());
+		}
+
+		painter.setStrokeWidth(1.0);
+
+		/*
+		 * Ready diagonals
+		 */
+
+		drawDiagonals();
+
+		/*
+		 * Nodes
+		 */
+
+		if (unfinished) {
 			for (int i = 0; i < algorithm.getStatus(); i++) {
 				Node node = nodes.get(i);
 				Coordinate c = transformer.transform(node.getCoordinate());
@@ -128,5 +178,4 @@ public class MonotoneTriangulationPainter extends
 			}
 		}
 	}
-
 }

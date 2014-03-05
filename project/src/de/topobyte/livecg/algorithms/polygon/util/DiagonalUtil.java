@@ -48,6 +48,20 @@ public class DiagonalUtil
 		return new SplitResult(pieces, graph);
 	}
 
+	public static List<Polygon> split(Polygon polygon, Diagonal diagonal)
+	{
+		Chain shell = polygon.getShell();
+		Map<Node, Integer> index = ChainHelper.buildNodeIndexLookup(shell);
+		int a = index.get(diagonal.getA());
+		int b = index.get(diagonal.getB());
+		Polygon polygonA = new Polygon(createChain(shell, a, b), null);
+		Polygon polygonB = new Polygon(createChain(shell, b, a), null);
+		ArrayList<Polygon> results = new ArrayList<Polygon>();
+		results.add(polygonA);
+		results.add(polygonB);
+		return results;
+	}
+
 	private static void split(PolygonGraph graph, List<Polygon> pieces,
 			Polygon polygon, Collection<Diagonal> diagonals)
 	{

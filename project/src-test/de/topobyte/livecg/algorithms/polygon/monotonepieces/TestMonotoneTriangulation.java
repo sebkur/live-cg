@@ -47,7 +47,7 @@ public class TestMonotoneTriangulation
 		BasicConfigurator.configure();
 		Logger.getRootLogger().setLevel(Level.DEBUG);
 
-		String path = "res/presets/polygons/Y-Monotone.geom";
+		String path = "res/presets/polygons/Y-Monotone3.geom";
 		ContentReader contentReader = new ContentReader();
 		Content content = contentReader.read(new File(path));
 		List<Polygon> polygons = content.getPolygons();
