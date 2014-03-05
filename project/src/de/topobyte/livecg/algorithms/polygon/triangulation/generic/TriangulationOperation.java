@@ -15,58 +15,40 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.topobyte.livecg.algorithms.polygon.monotonepieces;
+package de.topobyte.livecg.algorithms.polygon.triangulation.generic;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
+import de.topobyte.livecg.algorithms.polygon.monotone.MonotoneTriangulationOperation;
+import de.topobyte.livecg.algorithms.polygon.monotonepieces.MonotonePiecesOperation;
+import de.topobyte.livecg.algorithms.polygon.util.Diagonal;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
 
-public class MonotonePiecesTriangulationAlgorithm extends
-		MonotonePiecesAlgorithm
+public class TriangulationOperation
 {
+	private List<Diagonal> allDiagonals = new ArrayList<Diagonal>();
 
-	private List<List<Diagonal>> allDiagonals;
-	private Map<Polygon, SplitResult> splitResults;
-
-	public MonotonePiecesTriangulationAlgorithm(Polygon polygon)
+	public TriangulationOperation(Polygon polygon)
 	{
-		super(polygon);
-	}
+		MonotonePiecesOperation monotonePiecesOperation = new MonotonePiecesOperation(
+				polygon);
+		List<Polygon> monotonePieces = monotonePiecesOperation
+				.getMonotonePieces();
 
-	@Override
-	public void execute()
-	{
-		super.execute();
-		System.out.println("execute: " + this.getClass().getSimpleName());
-
-		allDiagonals = new ArrayList<List<Diagonal>>();
-		splitResults = new HashMap<Polygon, SplitResult>();
-
-		List<Polygon> monotonePieces = getMonotonePieces();
+		allDiagonals.addAll(monotonePiecesOperation.getDiagonals());
 		for (Polygon monotonePolygon : monotonePieces) {
 			MonotoneTriangulationOperation monotoneTriangulationOperation = new MonotoneTriangulationOperation(
 					monotonePolygon);
 			List<Diagonal> diagonals = monotoneTriangulationOperation
 					.getDiagonals();
-			allDiagonals.add(diagonals);
-
-			SplitResult splitResult = DiagonalUtil.split(monotonePolygon,
-					diagonals);
-			splitResults.put(monotonePolygon, splitResult);
+			allDiagonals.addAll(diagonals);
 		}
-
 	}
 
-	public List<List<Diagonal>> getAllDiagonals()
+	public List<Diagonal> getDiagonals()
 	{
-		return allDiagonals;
-	}
-
-	public SplitResult getSplitResult(Polygon piece)
-	{
-		return splitResults.get(piece);
+		return Collections.unmodifiableList(allDiagonals);
 	}
 }

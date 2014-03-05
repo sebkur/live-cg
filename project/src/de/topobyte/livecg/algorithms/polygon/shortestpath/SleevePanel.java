@@ -28,10 +28,10 @@ import java.util.Set;
 
 import javax.swing.JPanel;
 
-import de.topobyte.livecg.algorithms.polygon.monotonepieces.Diagonal;
-import de.topobyte.livecg.algorithms.polygon.monotonepieces.DiagonalUtil;
 import de.topobyte.livecg.algorithms.polygon.monotonepieces.SplitResult;
-import de.topobyte.livecg.algorithms.polygon.monotonepieces.TriangulationOperation;
+import de.topobyte.livecg.algorithms.polygon.triangulation.generic.TriangulationOperation;
+import de.topobyte.livecg.algorithms.polygon.util.Diagonal;
+import de.topobyte.livecg.algorithms.polygon.util.DiagonalUtil;
 import de.topobyte.livecg.core.geometry.geom.AwtHelper;
 import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.core.geometry.geom.Coordinate;

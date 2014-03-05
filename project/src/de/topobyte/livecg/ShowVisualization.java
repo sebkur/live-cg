@@ -35,8 +35,8 @@ import de.topobyte.livecg.algorithms.frechet.distanceterrain.DistanceTerrainChai
 import de.topobyte.livecg.algorithms.frechet.freespace.FreeSpaceChainsLauncher;
 import de.topobyte.livecg.algorithms.jts.buffer.PolygonBufferLauncher;
 import de.topobyte.livecg.algorithms.polygon.monotonepieces.MonotonePiecesLauncher;
-import de.topobyte.livecg.algorithms.polygon.monotonepieces.MonotonePiecesTriangulationLauncher;
 import de.topobyte.livecg.algorithms.polygon.shortestpath.ShortestPathInPolygonLauncher;
+import de.topobyte.livecg.algorithms.polygon.triangulation.viamonotonepieces.MonotonePiecesTriangulationLauncher;
 import de.topobyte.livecg.algorithms.voronoi.fortune.FortunesSweepLauncher;
 import de.topobyte.livecg.core.config.LiveConfig;
 import de.topobyte.livecg.core.geometry.io.ContentReader;

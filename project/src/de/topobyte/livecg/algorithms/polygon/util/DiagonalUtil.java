@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.topobyte.livecg.algorithms.polygon.monotonepieces;
+package de.topobyte.livecg.algorithms.polygon.util;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -25,6 +25,8 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.topobyte.livecg.algorithms.polygon.monotonepieces.PolygonGraph;
+import de.topobyte.livecg.algorithms.polygon.monotonepieces.SplitResult;
 import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.core.geometry.geom.ChainHelper;
 import de.topobyte.livecg.core.geometry.geom.CloseabilityException;
@@ -40,13 +42,13 @@ public class DiagonalUtil
 	public static SplitResult split(Polygon polygon,
 			Collection<Diagonal> diagonals)
 	{
-		Graph graph = new Graph(polygon);
+		PolygonGraph graph = new PolygonGraph(polygon);
 		List<Polygon> pieces = new ArrayList<Polygon>();
 		split(graph, pieces, polygon, diagonals);
 		return new SplitResult(pieces, graph);
 	}
 
-	private static void split(Graph graph, List<Polygon> pieces,
+	private static void split(PolygonGraph graph, List<Polygon> pieces,
 			Polygon polygon, Collection<Diagonal> diagonals)
 	{
 		if (diagonals.isEmpty()) {
@@ -116,7 +118,7 @@ public class DiagonalUtil
 		recurse(graph, pieces, polygonB, diagsB);
 	}
 
-	private static void recurse(Graph graph, List<Polygon> pieces,
+	private static void recurse(PolygonGraph graph, List<Polygon> pieces,
 			Polygon piece, List<Diagonal> diags)
 	{
 		if (diags.size() == 0) {

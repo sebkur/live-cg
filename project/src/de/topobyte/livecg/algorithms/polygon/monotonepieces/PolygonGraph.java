@@ -22,17 +22,18 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.topobyte.livecg.algorithms.polygon.util.Diagonal;
 import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.core.geometry.geom.Node;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
 import de.topobyte.livecg.util.graph.Edge;
 
-public class Graph extends
+public class PolygonGraph extends
 		de.topobyte.livecg.util.graph.Graph<Polygon, Diagonal>
 {
-	final static Logger logger = LoggerFactory.getLogger(Graph.class);
+	final static Logger logger = LoggerFactory.getLogger(PolygonGraph.class);
 
-	public Graph(Polygon polygon)
+	public PolygonGraph(Polygon polygon)
 	{
 		addNode(polygon);
 	}

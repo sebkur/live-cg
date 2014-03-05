@@ -23,6 +23,7 @@ import java.util.Map;
 import noawt.java.awt.geom.Arc2D;
 import noawt.java.awt.geom.Path2D;
 import noawt.java.awt.geom.Rectangle2D;
+import de.topobyte.livecg.algorithms.polygon.util.Diagonal;
 import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.core.geometry.geom.Coordinate;
 import de.topobyte.livecg.core.geometry.geom.Node;

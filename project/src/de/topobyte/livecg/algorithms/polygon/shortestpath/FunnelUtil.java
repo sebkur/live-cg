@@ -23,13 +23,13 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.topobyte.livecg.algorithms.polygon.monotonepieces.Diagonal;
 import de.topobyte.livecg.algorithms.polygon.shortestpath.steps.StepFunnelPathEmpty;
 import de.topobyte.livecg.algorithms.polygon.shortestpath.steps.StepLocateNextNode;
 import de.topobyte.livecg.algorithms.polygon.shortestpath.steps.StepMoveApexToLastNode;
 import de.topobyte.livecg.algorithms.polygon.shortestpath.steps.StepUpdateFunnel;
 import de.topobyte.livecg.algorithms.polygon.shortestpath.steps.StepWalkBackward;
 import de.topobyte.livecg.algorithms.polygon.shortestpath.steps.StepWalkForward;
+import de.topobyte.livecg.algorithms.polygon.util.Diagonal;
 import de.topobyte.livecg.core.algorithm.steps.Step;
 import de.topobyte.livecg.core.geometry.geom.GeomMath;
 import de.topobyte.livecg.core.geometry.geom.Node;

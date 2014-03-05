@@ -23,12 +23,12 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.topobyte.livecg.algorithms.polygon.monotonepieces.Diagonal;
-import de.topobyte.livecg.algorithms.polygon.monotonepieces.DiagonalUtil;
 import de.topobyte.livecg.algorithms.polygon.monotonepieces.SplitResult;
-import de.topobyte.livecg.algorithms.polygon.monotonepieces.TriangulationOperation;
 import de.topobyte.livecg.algorithms.polygon.shortestpath.steps.StepFinishAlgorithm;
 import de.topobyte.livecg.algorithms.polygon.shortestpath.steps.StepInitializeAlgorithm;
+import de.topobyte.livecg.algorithms.polygon.triangulation.generic.TriangulationOperation;
+import de.topobyte.livecg.algorithms.polygon.util.Diagonal;
+import de.topobyte.livecg.algorithms.polygon.util.DiagonalUtil;
 import de.topobyte.livecg.core.algorithm.DefaultSceneAlgorithm;
 import de.topobyte.livecg.core.algorithm.Explainable;
 import de.topobyte.livecg.core.algorithm.HasStatusMarker;

@@ -19,7 +19,7 @@ package de.topobyte.livecg.algorithms.polygon.shortestpath;
 
 import java.util.Set;
 
-import de.topobyte.livecg.algorithms.polygon.monotonepieces.Diagonal;
+import de.topobyte.livecg.algorithms.polygon.util.Diagonal;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
 import de.topobyte.livecg.util.Stack;
 import de.topobyte.livecg.util.graph.Edge;

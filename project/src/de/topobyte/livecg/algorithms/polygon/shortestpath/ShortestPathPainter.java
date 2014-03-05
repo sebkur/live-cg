@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Set;
 
 import noawt.java.awt.Shape;
-import de.topobyte.livecg.algorithms.polygon.monotonepieces.Diagonal;
+import de.topobyte.livecg.algorithms.polygon.util.Diagonal;
 import de.topobyte.livecg.core.config.LiveConfig;
 import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.core.geometry.geom.Coordinate;

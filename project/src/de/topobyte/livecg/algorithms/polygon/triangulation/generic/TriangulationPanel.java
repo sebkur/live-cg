@@ -15,10 +15,13 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.topobyte.livecg.algorithms.polygon.monotonepieces;
+package de.topobyte.livecg.algorithms.polygon.triangulation.generic;
 
 import java.util.List;
 
+import de.topobyte.livecg.algorithms.polygon.monotonepieces.MonotonePiecesConfig;
+import de.topobyte.livecg.algorithms.polygon.monotonepieces.PolygonPanel;
+import de.topobyte.livecg.algorithms.polygon.util.Diagonal;
 import de.topobyte.livecg.core.export.SizeProvider;
 import de.topobyte.livecg.core.geometry.geom.BoundingBoxes;
 import de.topobyte.livecg.core.geometry.geom.Polygon;

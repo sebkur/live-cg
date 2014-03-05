@@ -19,6 +19,7 @@ package de.topobyte.livecg.algorithms.polygon.monotonepieces;
 
 import java.util.List;
 
+import de.topobyte.livecg.algorithms.polygon.util.Diagonal;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
 import de.topobyte.livecg.util.graph.Graph;
 
