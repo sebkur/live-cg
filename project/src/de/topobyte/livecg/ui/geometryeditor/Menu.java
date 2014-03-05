@@ -35,6 +35,7 @@ import de.topobyte.livecg.algorithms.frechet.distanceterrain.DistanceTerrainSegm
 import de.topobyte.livecg.algorithms.frechet.freespace.FreeSpaceChainsAction;
 import de.topobyte.livecg.algorithms.frechet.freespace.FreeSpaceSegmentsAction;
 import de.topobyte.livecg.algorithms.jts.buffer.PolygonBufferAction;
+import de.topobyte.livecg.algorithms.polygon.monotone.MonotoneTriangulationAction;
 import de.topobyte.livecg.algorithms.polygon.monotonepieces.MonotonePiecesAction;
 import de.topobyte.livecg.algorithms.polygon.shortestpath.ShortestPathInPolygonAction;
 import de.topobyte.livecg.algorithms.polygon.triangulation.generic.TriangulationDualGraphAction;
@@ -219,6 +220,8 @@ public class Menu extends JMenuBar
 
 		JMenuItem monotonePieces = new JMenuItem(new MonotonePiecesAction(
 				editPane));
+		JMenuItem mtriangulation = new JMenuItem(
+				new MonotoneTriangulationAction(editPane));
 		JMenuItem triangulation = new JMenuItem(new TriangulationAction(
 				editPane));
 		JMenuItem triangulationWithDualGraph = new JMenuItem(
@@ -243,6 +246,7 @@ public class Menu extends JMenuBar
 		frechet.add(distanceTerrainSegments);
 		frechet.add(distanceTerrainChains);
 
+		polygons.add(mtriangulation);
 		polygons.add(monotonePieces);
 		polygons.add(triangulation);
 		polygons.add(triangulationWithDualGraph);
