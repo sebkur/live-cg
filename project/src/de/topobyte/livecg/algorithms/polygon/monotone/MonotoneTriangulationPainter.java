@@ -19,6 +19,7 @@ package de.topobyte.livecg.algorithms.polygon.monotone;
 
 import java.util.List;
 
+import de.topobyte.livecg.algorithms.polygon.monotonepieces.SplitResult;
 import de.topobyte.livecg.algorithms.polygon.util.Diagonal;
 import de.topobyte.livecg.algorithms.polygon.util.DiagonalUtil;
 import de.topobyte.livecg.core.geometry.geom.BoundingBoxes;
@@ -113,16 +114,21 @@ public class MonotoneTriangulationPainter extends
 			painter.setColor(cReady);
 			painter.fillPolygon(transformer.transform(algorithm.getPolygon()));
 		} else if (diagonals.size() > 0) {
+
+			Coordinate last = nodes.get(nodes.size() - 1).getCoordinate();
+			SplitResult split = DiagonalUtil.split(algorithm.getPolygon(),
+					diagonals);
+			List<Polygon> parts = split.getPolygons();
+			for (Polygon part : parts) {
+				Rectangle r = BoundingBoxes.get(part);
+				if (r.getY2() >= last.getY()) {
+					continue;
+				}
+				painter.setColor(cReady);
+				painter.fillPolygon(transformer.transform(part));
+			}
+
 			Diagonal diagonal = diagonals.get(diagonals.size() - 1);
-
-			List<Polygon> parts = DiagonalUtil.split(algorithm.getPolygon(),
-					diagonal);
-			Rectangle r0 = BoundingBoxes.get(parts.get(0));
-			Rectangle r1 = BoundingBoxes.get(parts.get(1));
-			Polygon p = r0.getY2() < r1.getY2() ? parts.get(0) : parts.get(1);
-			painter.setColor(cReady);
-			painter.fillPolygon(transformer.transform(p));
-
 			Coordinate a = transformer.transform(diagonal.getA()
 					.getCoordinate());
 			Coordinate b = transformer.transform(diagonal.getB()
