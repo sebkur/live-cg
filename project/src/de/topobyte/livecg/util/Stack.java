@@ -38,4 +38,9 @@ public class Stack<T> extends ArrayList<T>
 	{
 		return remove(size() - 1);
 	}
+
+	public T top(int n)
+	{
+		return get(size() - n - 1);
+	}
 }
