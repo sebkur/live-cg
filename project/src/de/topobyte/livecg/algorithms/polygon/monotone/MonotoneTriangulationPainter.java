@@ -74,10 +74,24 @@ public class MonotoneTriangulationPainter extends
 		painter.drawPolygon(tpolygon);
 	}
 
-	protected void drawDiagonals()
+	private void drawDiagonals()
 	{
 		painter.setColor(new Color(java.awt.Color.BLACK.getRGB()));
 		List<Diagonal> diagonals = algorithm.getDiagonals();
+
+		for (Diagonal diagonal : diagonals) {
+			Coordinate c1 = diagonal.getA().getCoordinate();
+			Coordinate c2 = diagonal.getB().getCoordinate();
+			Coordinate t1 = transformer.transform(c1);
+			Coordinate t2 = transformer.transform(c2);
+			painter.drawLine(t1.getX(), t1.getY(), t2.getX(), t2.getY());
+		}
+	}
+
+	private void drawMinorDiagonals()
+	{
+		painter.setColor(new Color(java.awt.Color.BLACK.getRGB()));
+		List<Diagonal> diagonals = algorithm.getMinorDiagonals();
 
 		for (Diagonal diagonal : diagonals) {
 			Coordinate c1 = diagonal.getA().getCoordinate();
@@ -106,7 +120,7 @@ public class MonotoneTriangulationPainter extends
 				.getNumberOfSteps();
 
 		/*
-		 * Last diagonal
+		 * Ready part highlight
 		 */
 
 		List<Diagonal> diagonals = algorithm.getDiagonals();
@@ -114,7 +128,6 @@ public class MonotoneTriangulationPainter extends
 			painter.setColor(cReady);
 			painter.fillPolygon(transformer.transform(algorithm.getPolygon()));
 		} else if (diagonals.size() > 0) {
-
 			Coordinate last = nodes.get(nodes.size() - 1).getCoordinate();
 			SplitResult split = DiagonalUtil.split(algorithm.getPolygon(),
 					diagonals);
@@ -127,7 +140,13 @@ public class MonotoneTriangulationPainter extends
 				painter.setColor(cReady);
 				painter.fillPolygon(transformer.transform(part));
 			}
+		}
 
+		/*
+		 * Last diagonal
+		 */
+
+		if (unfinished && diagonals.size() > 0) {
 			Diagonal diagonal = diagonals.get(diagonals.size() - 1);
 			Coordinate a = transformer.transform(diagonal.getA()
 					.getCoordinate());
@@ -136,15 +155,16 @@ public class MonotoneTriangulationPainter extends
 			painter.setColor(cLast);
 			painter.setStrokeWidth(widLast);
 			painter.drawLine(a.getX(), a.getY(), b.getX(), b.getY());
+			painter.setStrokeWidth(1.0);
 		}
-
-		painter.setStrokeWidth(1.0);
 
 		/*
 		 * Ready diagonals
 		 */
 
 		drawDiagonals();
+
+		drawMinorDiagonals();
 
 		/*
 		 * Nodes
