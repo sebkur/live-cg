@@ -221,9 +221,9 @@ public class MonotoneTriangulationAlgorithm extends DefaultSceneAlgorithm
 		if (status < nodes.size() - 2) {
 			Node uj = nodes.get(status + 1);
 			if (side.get(stack.top()) != side.get(uj)) {
-				return stack.size() - 1;
+				return stack.size();
 			} else {
-				int n = 0;
+				int n = 1;
 				Node last = stack.top();
 				for (int i = 0; i < stack.size() - 1; i++) {
 					Node top = stack.top(i + 1);
@@ -238,7 +238,7 @@ public class MonotoneTriangulationAlgorithm extends DefaultSceneAlgorithm
 			}
 		}
 
-		return 0;
+		return 1;
 	}
 
 	public List<Diagonal> getMinorDiagonals()
@@ -251,17 +251,17 @@ public class MonotoneTriangulationAlgorithm extends DefaultSceneAlgorithm
 		if (status > 0 && status < nodes.size() - 1) {
 			Node uj = nodes.get(status + 1);
 			if (side.get(stack.top()) != side.get(uj)) {
-				if (subStatus > 0) {
+				if (subStatus > 1) {
 					Node first = stack.top();
 					diagonals.add(new Diagonal(uj, first));
 				}
-				for (int i = 0; i < subStatus - 1; i++) {
+				for (int i = 0; i < subStatus - 2; i++) {
 					Node popped = stack.top(i + 1);
 					diagonals.add(new Diagonal(uj, popped));
 				}
 			} else {
 				Node last = stack.top();
-				for (int i = 0; i < subStatus; i++) {
+				for (int i = 0; i < subStatus - 1; i++) {
 					Node top = stack.top(i + 1);
 					if (!Util.canAdd(side.get(uj), uj, top, last)) {
 						break;

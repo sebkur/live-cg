@@ -230,7 +230,7 @@ public class MonotoneTriangulationPainter extends
 				painter.setStrokeWidth(WIDTH_NODE_OUTLINE);
 				painter.drawCircle(c.getX(), c.getY(), RADIUS_STACK);
 			}
-			if (algorithm.getStatus() > 0) {
+			if (algorithm.getStatus() > 0 && algorithm.getSubStatus() > 0) {
 				Coordinate c = transformer.transform(algorithm.getNodes()
 						.get(algorithm.getStatus() + 1).getCoordinate());
 				painter.setColor(COLOR_NODE_CURRENT);
