@@ -207,8 +207,34 @@ public class MonotoneTriangulationAlgorithm extends DefaultSceneAlgorithm
 
 	public int numberOfMinorSteps()
 	{
-		// TODO Auto-generated method stub
-		return 0;
+		if (status == 0) {
+			return 1;
+		}
+
+		List<Node> nodes = info.nodes;
+		Map<Node, Side> side = info.side;
+
+		if (status < nodes.size() - 1) {
+			Node uj = nodes.get(status + 1);
+			if (side.get(stack.top()) != side.get(uj)) {
+				return stack.size() - 1;
+			} else {
+				int n = 0;
+				Node last = stack.top();
+				for (int i = 0; i < stack.size() - 1; i++) {
+					Node top = stack.top(i + 1);
+					if (!Util.canAdd(side.get(uj), uj, top, last)) {
+						break;
+					} else {
+						n++;
+						last = top;
+					}
+				}
+				return n;
+			}
+		}
+
+		return 1;
 	}
 
 }

@@ -18,21 +18,16 @@
 package de.topobyte.livecg.algorithms.polygon.shortestpath;
 
 import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.util.HashMap;
-import java.util.Map;
 
-import javax.swing.Icon;
-import javax.swing.JButton;
 import javax.swing.JToggleButton;
 import javax.swing.JToolBar;
 
 import de.topobyte.livecg.core.algorithm.AlgorithmWatcher;
-import de.topobyte.livecg.util.ImageLoader;
 import de.topobyte.livecg.util.ZoomInput;
+import de.topobyte.livecg.util.controls.ControlManager;
+import de.topobyte.livecg.util.controls.Icons;
 
 public class Settings extends JToolBar implements ItemListener,
 		AlgorithmWatcher
@@ -45,23 +40,19 @@ public class Settings extends JToolBar implements ItemListener,
 	private ShortestPathConfig config;
 
 	private JToggleButton[] buttons;
-	private JButton[] control;
-	private Map<String, JButton> controlMap = new HashMap<String, JButton>();
+	private ControlManager controlManager;
 
 	private static final String TEXT_DRAW_DUAL_GRAPH = "Dual Graph";
+
+	private static final String NEXT1 = "next1";
+	private static final String NEXT2 = "next2";
+	private static final String PREV1 = "prev1";
+	private static final String PREV2 = "prev2";
 
 	private static final String TEXT_PREVIOUS_DIAG = "Previous diagonal";
 	private static final String TEXT_NEXT_DIAG = "Next diagonal";
 	private static final String TEXT_PREVIOUS = "Previous step";
 	private static final String TEXT_NEXT = "Next step";
-
-	private static final String[] names = { TEXT_PREVIOUS_DIAG, TEXT_NEXT_DIAG,
-			TEXT_PREVIOUS, TEXT_NEXT };
-	private static final String[] images = {
-			"res/images/24x24/media-skip-backward.png",
-			"res/images/24x24/media-skip-forward.png",
-			"res/images/24x24/media-seek-backward.png",
-			"res/images/24x24/media-seek-forward.png" };
 
 	public Settings(ShortestPathAlgorithm algorithm, ShortestPathPanel spp,
 			ShortestPathConfig config)
@@ -88,23 +79,19 @@ public class Settings extends JToolBar implements ItemListener,
 		ZoomInput zoom = new ZoomInput(spp);
 		add(zoom);
 
-		control = new JButton[names.length];
-		for (int i = 0; i < names.length; i++) {
-			Icon icon = ImageLoader.load(images[i]);
-			control[i] = new JButton(icon);
-			control[i].setToolTipText(names[i]);
-			final String name = names[i];
-			controlMap.put(name, control[i]);
-			add(control[i]);
-			control[i].addActionListener(new ActionListener() {
+		controlManager = new ControlManager() {
 
-				@Override
-				public void actionPerformed(ActionEvent e)
-				{
-					control(name);
-				}
-			});
-		}
+			@Override
+			protected void control(String key)
+			{
+				Settings.this.control(key);
+			}
+		};
+
+		add(controlManager.add(PREV1, Icons.SKIP_BACKWARD, TEXT_PREVIOUS_DIAG));
+		add(controlManager.add(NEXT1, Icons.SKIP_FORWARD, TEXT_NEXT_DIAG));
+		add(controlManager.add(PREV2, Icons.SEEK_BACKWARD, TEXT_PREVIOUS));
+		add(controlManager.add(NEXT2, Icons.SEEK_FORWARD, TEXT_NEXT));
 
 		algorithm.addAlgorithmWatcher(this);
 		setButtonStatesDependingOnAlgorithmStatus();
@@ -122,13 +109,13 @@ public class Settings extends JToolBar implements ItemListener,
 		spp.repaint();
 	}
 
-	protected void control(String name)
+	protected void control(String id)
 	{
-		if (name.equals(TEXT_PREVIOUS_DIAG)) {
+		if (id.equals(PREV1)) {
 			tryPreviousDiagonal(0);
-		} else if (name.equals(TEXT_NEXT_DIAG)) {
+		} else if (id.equals(NEXT1)) {
 			tryNextDiagonal();
-		} else if (name.equals(TEXT_PREVIOUS)) {
+		} else if (id.equals(PREV2)) {
 			int subStatus = algorithm.getSubStatus();
 			if (subStatus > 0) {
 				algorithm.setSubStatus(subStatus - 1);
@@ -136,7 +123,7 @@ public class Settings extends JToolBar implements ItemListener,
 			} else if (subStatus == 0) {
 				tryPreviousDiagonal(-1);
 			}
-		} else if (name.equals(TEXT_NEXT)) {
+		} else if (id.equals(NEXT2)) {
 			int subStatus = algorithm.getSubStatus();
 			int nostuf = algorithm.numberOfStepsToNextDiagonal();
 			if (subStatus < nostuf) {
@@ -181,9 +168,10 @@ public class Settings extends JToolBar implements ItemListener,
 						.numberOfStepsToNextDiagonal();
 		boolean prevDiagonal = algorithm.getStatus() != 0;
 		boolean prevStep = prevDiagonal || algorithm.getSubStatus() != 0;
-		controlMap.get(TEXT_PREVIOUS_DIAG).setEnabled(prevDiagonal);
-		controlMap.get(TEXT_NEXT_DIAG).setEnabled(nextDiagonal);
-		controlMap.get(TEXT_PREVIOUS).setEnabled(prevStep);
-		controlMap.get(TEXT_NEXT).setEnabled(nextStep);
+
+		controlManager.get(PREV1).setEnabled(prevDiagonal);
+		controlManager.get(NEXT1).setEnabled(nextDiagonal);
+		controlManager.get(PREV2).setEnabled(prevStep);
+		controlManager.get(NEXT2).setEnabled(nextStep);
 	}
 }
