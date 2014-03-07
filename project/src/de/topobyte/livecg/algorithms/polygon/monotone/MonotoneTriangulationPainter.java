@@ -22,6 +22,7 @@ import java.util.List;
 import de.topobyte.livecg.algorithms.polygon.monotonepieces.SplitResult;
 import de.topobyte.livecg.algorithms.polygon.util.Diagonal;
 import de.topobyte.livecg.algorithms.polygon.util.DiagonalUtil;
+import de.topobyte.livecg.core.config.LiveConfig;
 import de.topobyte.livecg.core.geometry.geom.BoundingBoxes;
 import de.topobyte.livecg.core.geometry.geom.Coordinate;
 import de.topobyte.livecg.core.geometry.geom.Node;
@@ -34,6 +35,45 @@ import de.topobyte.livecg.core.painting.TransformingVisualizationPainter;
 public class MonotoneTriangulationPainter extends
 		TransformingVisualizationPainter
 {
+	private String q(String property)
+	{
+		return "algorithm.polygon.monotone." + property;
+	}
+
+	private String qc(String property)
+	{
+		return q("colors." + property);
+	}
+
+	private Color COLOR_BG = LiveConfig.getColor(qc("background"));
+
+	private Color COLOR_POLYGON_INTERIOR = LiveConfig.getColor(qc("polygon"));
+	private Color COLOR_POLYGON_BOUNDARY = LiveConfig.getColor(qc("boundary"));
+
+	// Node info
+	private Color COLOR_NODE_OUTLINE = LiveConfig.getColor(qc("node.outline"));
+	private Color COLOR_NODE_DUE = LiveConfig.getColor(qc("node.due"));
+	private Color COLOR_NODE_STACK = LiveConfig.getColor(qc("node.stack"));
+	private Color COLOR_NODE_CURRENT = LiveConfig.getColor(qc("node.current"));
+	private Color COLOR_NODE_DONE = LiveConfig.getColor(qc("node.done"));
+	private double RADIUS_DUE = LiveConfig.getNumber(q("node.size.due"));
+	private double RADIUS_STACK = LiveConfig.getNumber(q("node.size.stack"));
+	private double RADIUS_CURRENT = LiveConfig
+			.getNumber(q("node.size.current"));
+	private double RADIUS_DONE = LiveConfig.getNumber(q("node.size.done"));
+
+	// Other
+	private Color COLOR_DIAGONALS = LiveConfig.getColor(qc("diagonals"));
+	private Color COLOR_LAST_DIAGONAL = LiveConfig
+			.getColor(qc("last_diagonal"));
+	private Color COLOR_POLYGON_DONE = LiveConfig.getColor(qc("polygon.done"));
+	private double WIDTH_BOUNDARY = LiveConfig.getNumber(q("width.polygon"));
+	private double WIDTH_LAST_DIAGONAL = LiveConfig
+			.getNumber(q("width.last_diagonal"));
+	private double WIDTH_DIAGONALS = LiveConfig.getNumber(q("width.diagonals"));
+	private double WIDTH_NODE_OUTLINE = LiveConfig
+			.getNumber(q("width.node_outline"));
+
 	private MonotoneTriangulationAlgorithm algorithm;
 	private MonotoneTriangulationConfig config;
 
@@ -51,7 +91,7 @@ public class MonotoneTriangulationPainter extends
 	{
 		preparePaint();
 
-		fillBackground(new Color(0xffffff));
+		fillBackground(COLOR_BG);
 
 		fillPolygon();
 
@@ -62,21 +102,23 @@ public class MonotoneTriangulationPainter extends
 
 	protected void fillPolygon()
 	{
-		painter.setColor(new Color(0x66ff0000, true));
+		painter.setColor(COLOR_POLYGON_INTERIOR);
 		Polygon tpolygon = transformer.transform(algorithm.getPolygon());
 		painter.fillPolygon(tpolygon);
 	}
 
 	protected void drawPolygon()
 	{
-		painter.setColor(new Color(java.awt.Color.BLACK.getRGB()));
+		painter.setColor(COLOR_POLYGON_BOUNDARY);
+		painter.setStrokeWidth(WIDTH_BOUNDARY);
 		Polygon tpolygon = transformer.transform(algorithm.getPolygon());
 		painter.drawPolygon(tpolygon);
 	}
 
 	private void drawDiagonals()
 	{
-		painter.setColor(new Color(java.awt.Color.BLACK.getRGB()));
+		painter.setColor(COLOR_DIAGONALS);
+		painter.setStrokeWidth(WIDTH_DIAGONALS);
 		List<Diagonal> diagonals = algorithm.getDiagonals();
 
 		for (Diagonal diagonal : diagonals) {
@@ -90,7 +132,8 @@ public class MonotoneTriangulationPainter extends
 
 	private void drawMinorDiagonals()
 	{
-		painter.setColor(new Color(java.awt.Color.BLACK.getRGB()));
+		painter.setColor(COLOR_DIAGONALS);
+		painter.setStrokeWidth(WIDTH_DIAGONALS);
 		List<Diagonal> diagonals = algorithm.getMinorDiagonals();
 
 		for (Diagonal diagonal : diagonals) {
@@ -105,17 +148,6 @@ public class MonotoneTriangulationPainter extends
 	private void drawVarious()
 	{
 		List<Node> nodes = algorithm.getNodes();
-		// Node info
-		Color cDue = new Color(0xff0000);
-		Color cDone = new Color(0x00ff00);
-		Color cStack = new Color(0xffff00);
-		Color cCurrent = new Color(0x0000ff);
-		Color cOutline = new Color(0x000000);
-		double radius = 3;
-		// Other
-		Color cLast = new Color(0xffffff);
-		Color cReady = new Color(0x33ffffff, true);
-		double widLast = 4;
 
 		boolean unfinished = algorithm.getStatus() < algorithm
 				.getNumberOfSteps();
@@ -126,7 +158,7 @@ public class MonotoneTriangulationPainter extends
 
 		List<Diagonal> diagonals = algorithm.getDiagonals();
 		if (!unfinished) {
-			painter.setColor(cReady);
+			painter.setColor(COLOR_POLYGON_DONE);
 			painter.fillPolygon(transformer.transform(algorithm.getPolygon()));
 		} else if (diagonals.size() > 0) {
 			Coordinate last = nodes.get(nodes.size() - 1).getCoordinate();
@@ -138,7 +170,7 @@ public class MonotoneTriangulationPainter extends
 				if (r.getY2() >= last.getY()) {
 					continue;
 				}
-				painter.setColor(cReady);
+				painter.setColor(COLOR_POLYGON_DONE);
 				painter.fillPolygon(transformer.transform(part));
 			}
 		}
@@ -153,8 +185,8 @@ public class MonotoneTriangulationPainter extends
 					.getCoordinate());
 			Coordinate b = transformer.transform(diagonal.getB()
 					.getCoordinate());
-			painter.setColor(cLast);
-			painter.setStrokeWidth(widLast);
+			painter.setColor(COLOR_LAST_DIAGONAL);
+			painter.setStrokeWidth(WIDTH_LAST_DIAGONAL);
 			painter.drawLine(a.getX(), a.getY(), b.getX(), b.getY());
 			painter.setStrokeWidth(1.0);
 		}
@@ -175,41 +207,46 @@ public class MonotoneTriangulationPainter extends
 			for (int i = 0; i < algorithm.getStatus(); i++) {
 				Node node = nodes.get(i);
 				Coordinate c = transformer.transform(node.getCoordinate());
-				painter.setColor(cDone);
-				painter.fillCircle(c.getX(), c.getY(), radius);
-				painter.setColor(cOutline);
-				painter.drawCircle(c.getX(), c.getY(), radius);
+				painter.setColor(COLOR_NODE_DONE);
+				painter.fillCircle(c.getX(), c.getY(), RADIUS_DONE);
+				painter.setColor(COLOR_NODE_OUTLINE);
+				painter.setStrokeWidth(WIDTH_NODE_OUTLINE);
+				painter.drawCircle(c.getX(), c.getY(), RADIUS_DONE);
 			}
 			for (int i = algorithm.getStatus(); i < nodes.size(); i++) {
 				Node node = nodes.get(i);
 				Coordinate c = transformer.transform(node.getCoordinate());
-				painter.setColor(cDue);
-				painter.fillCircle(c.getX(), c.getY(), radius);
-				painter.setColor(cOutline);
-				painter.drawCircle(c.getX(), c.getY(), radius);
+				painter.setColor(COLOR_NODE_DUE);
+				painter.fillCircle(c.getX(), c.getY(), RADIUS_DUE);
+				painter.setColor(COLOR_NODE_OUTLINE);
+				painter.setStrokeWidth(WIDTH_NODE_OUTLINE);
+				painter.drawCircle(c.getX(), c.getY(), RADIUS_DUE);
 			}
 			for (Node node : algorithm.getStack()) {
 				Coordinate c = transformer.transform(node.getCoordinate());
-				painter.setColor(cStack);
-				painter.fillCircle(c.getX(), c.getY(), radius);
-				painter.setColor(cOutline);
-				painter.drawCircle(c.getX(), c.getY(), radius);
+				painter.setColor(COLOR_NODE_STACK);
+				painter.fillCircle(c.getX(), c.getY(), RADIUS_STACK);
+				painter.setColor(COLOR_NODE_OUTLINE);
+				painter.setStrokeWidth(WIDTH_NODE_OUTLINE);
+				painter.drawCircle(c.getX(), c.getY(), RADIUS_STACK);
 			}
 			if (algorithm.getStatus() > 0) {
 				Coordinate c = transformer.transform(algorithm.getNodes()
 						.get(algorithm.getStatus() + 1).getCoordinate());
-				painter.setColor(cCurrent);
-				painter.fillCircle(c.getX(), c.getY(), radius);
-				painter.setColor(cOutline);
-				painter.drawCircle(c.getX(), c.getY(), radius);
+				painter.setColor(COLOR_NODE_CURRENT);
+				painter.fillCircle(c.getX(), c.getY(), RADIUS_CURRENT);
+				painter.setColor(COLOR_NODE_OUTLINE);
+				painter.setStrokeWidth(WIDTH_NODE_OUTLINE);
+				painter.drawCircle(c.getX(), c.getY(), RADIUS_CURRENT);
 			}
 		} else {
 			for (Node node : algorithm.getNodes()) {
 				Coordinate c = transformer.transform(node.getCoordinate());
-				painter.setColor(cDone);
-				painter.fillCircle(c.getX(), c.getY(), radius);
-				painter.setColor(cOutline);
-				painter.drawCircle(c.getX(), c.getY(), radius);
+				painter.setColor(COLOR_NODE_DONE);
+				painter.fillCircle(c.getX(), c.getY(), RADIUS_DONE);
+				painter.setColor(COLOR_NODE_OUTLINE);
+				painter.setStrokeWidth(WIDTH_NODE_OUTLINE);
+				painter.drawCircle(c.getX(), c.getY(), RADIUS_DONE);
 			}
 		}
 	}

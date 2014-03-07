@@ -116,3 +116,36 @@ algorithm.polygon.shortestpath.colors {
 	}
 	substatus.background = #ffffff
 }
+
+################################################################################
+# Triangulating Monotone Polygons
+################################################################################
+algorithm.polygon.monotone {
+	node.size {
+		stack = 4.0
+		current = 4.0
+		done = 4.0
+		due = 4.0
+	}
+	width {
+		polygon = 2.0
+		diagonals = 1.0
+		last_diagonal = 4.0
+		node_outline = 1.0
+	}
+	colors {
+		background = #ffffff
+		node {
+			due = #ff0000
+			done = #00ff00
+			stack = #ffff00
+			current = #00ffff
+			outline = #000000
+		}
+		boundary = #000000
+		diagonals = #000000
+		last_diagonal = #00ffffff
+		polygon = #dddddd
+		polygon.done = #3300ff00
+	}
+}
