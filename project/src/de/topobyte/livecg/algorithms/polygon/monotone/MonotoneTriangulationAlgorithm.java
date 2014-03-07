@@ -212,7 +212,7 @@ public class MonotoneTriangulationAlgorithm extends DefaultSceneAlgorithm
 	public int numberOfMinorSteps()
 	{
 		if (status == 0) {
-			return 1;
+			return 0;
 		}
 
 		List<Node> nodes = info.nodes;

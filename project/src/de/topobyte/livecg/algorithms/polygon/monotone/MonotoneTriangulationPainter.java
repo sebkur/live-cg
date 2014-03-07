@@ -109,6 +109,7 @@ public class MonotoneTriangulationPainter extends
 		Color cDue = new Color(0xff0000);
 		Color cDone = new Color(0x00ff00);
 		Color cStack = new Color(0xffff00);
+		Color cCurrent = new Color(0x0000ff);
 		Color cOutline = new Color(0x000000);
 		double radius = 3;
 		// Other
@@ -190,6 +191,14 @@ public class MonotoneTriangulationPainter extends
 			for (Node node : algorithm.getStack()) {
 				Coordinate c = transformer.transform(node.getCoordinate());
 				painter.setColor(cStack);
+				painter.fillCircle(c.getX(), c.getY(), radius);
+				painter.setColor(cOutline);
+				painter.drawCircle(c.getX(), c.getY(), radius);
+			}
+			if (algorithm.getStatus() > 0) {
+				Coordinate c = transformer.transform(algorithm.getNodes()
+						.get(algorithm.getStatus() + 1).getCoordinate());
+				painter.setColor(cCurrent);
 				painter.fillCircle(c.getX(), c.getY(), radius);
 				painter.setColor(cOutline);
 				painter.drawCircle(c.getX(), c.getY(), radius);
