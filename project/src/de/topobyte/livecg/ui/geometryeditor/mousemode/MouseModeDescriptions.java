@@ -28,9 +28,9 @@ public class MouseModeDescriptions
 		case SELECT_RECTANGULAR:
 			return "select rectangular";
 		case EDIT:
-			return "add nodes";
+			return "add";
 		case DELETE:
-			return "delete nodes";
+			return "delete";
 		case ROTATE:
 			return "rotate";
 		case SCALE:
@@ -50,7 +50,7 @@ public class MouseModeDescriptions
 		case EDIT:
 			return "add nodes";
 		case DELETE:
-			return "delete nodes";
+			return "delete nodes / objects";
 		case ROTATE:
 			return "rotate objects";
 		case SCALE:
