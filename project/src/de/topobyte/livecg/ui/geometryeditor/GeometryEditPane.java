@@ -96,6 +96,8 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 	private double positionY = 0;
 	private double zoom = 1;
 
+	private boolean debugHighlightEndpoints = false;
+
 	@Override
 	public double getPositionX()
 	{
@@ -678,7 +680,18 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 			Coordinate current = chain.getCoordinate(i);
 			int x = (int) Math.round(current.getX());
 			int y = (int) Math.round(current.getY());
-			p.drawRect(x - 2, y - 2, 4, 4);
+			int s = 4; // size of rectangle
+			int o = 2; // half rectangle size for shifting
+			if (!debugHighlightEndpoints) {
+				p.drawRect(x - o, y - o, s, s);
+			} else {
+				Node node = chain.getNode(i);
+				if (node.getEndpointChains().size() == 0) {
+					p.drawRect(x - o, y - o, s, s);
+				} else {
+					p.fillRect(x - o, y - o, s + 1, s + 1);
+				}
+			}
 		}
 		// label
 		if (name != null) {
@@ -1001,6 +1014,16 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 	public double getMargin()
 	{
 		return MARGIN;
+	}
+
+	public boolean isDebugHighlightEndpoints()
+	{
+		return debugHighlightEndpoints;
+	}
+
+	public void setDebugHighlightEndpoints(boolean debugHighlightEndpoints)
+	{
+		this.debugHighlightEndpoints = debugHighlightEndpoints;
 	}
 
 }
