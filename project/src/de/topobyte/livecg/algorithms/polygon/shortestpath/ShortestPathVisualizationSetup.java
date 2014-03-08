@@ -19,16 +19,16 @@ package de.topobyte.livecg.algorithms.polygon.shortestpath;
 
 import java.util.Properties;
 
-import de.topobyte.livecg.algorithms.polygon.shortestpath.status.ExplicitShortestPathPosition;
-import de.topobyte.livecg.algorithms.polygon.shortestpath.status.FinishedShortestPathPosition;
-import de.topobyte.livecg.algorithms.polygon.shortestpath.status.ShortestPathPosition;
-import de.topobyte.livecg.algorithms.polygon.shortestpath.status.ShortestPathStatusParser;
 import de.topobyte.livecg.core.SetupResult;
 import de.topobyte.livecg.core.VisualizationSetup;
 import de.topobyte.livecg.core.geometry.geom.Node;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
 import de.topobyte.livecg.core.geometry.geom.Rectangle;
 import de.topobyte.livecg.core.painting.VisualizationPainter;
+import de.topobyte.livecg.core.status.ExplicitPosition;
+import de.topobyte.livecg.core.status.FinishedPosition;
+import de.topobyte.livecg.core.status.Position;
+import de.topobyte.livecg.core.status.TwoLevelStatusParser;
 import de.topobyte.livecg.ui.geometryeditor.Content;
 
 public class ShortestPathVisualizationSetup implements VisualizationSetup
@@ -65,14 +65,13 @@ public class ShortestPathVisualizationSetup implements VisualizationSetup
 
 		if (statusArgument != null) {
 			try {
-				ShortestPathPosition status = ShortestPathStatusParser
-						.parse(statusArgument);
-				if (status instanceof FinishedShortestPathPosition) {
+				Position status = TwoLevelStatusParser.parse(statusArgument);
+				if (status instanceof FinishedPosition) {
 					int numberOfSteps = algorithm.getNumberOfSteps();
 					algorithm.setStatus(numberOfSteps, 0);
-				} else if (status instanceof ExplicitShortestPathPosition) {
-					ExplicitShortestPathPosition pos = (ExplicitShortestPathPosition) status;
-					algorithm.setStatus(pos.getDiagonal(), pos.getSub());
+				} else if (status instanceof ExplicitPosition) {
+					ExplicitPosition pos = (ExplicitPosition) status;
+					algorithm.setStatus(pos.getMajor(), pos.getMinor());
 				}
 			} catch (IllegalArgumentException e) {
 				System.out.println("Invalid format for status");
@@ -80,8 +79,8 @@ public class ShortestPathVisualizationSetup implements VisualizationSetup
 			}
 		}
 
-		VisualizationPainter visualizationPainter = new ShortestPathPainter(algorithm,
-				config, null);
+		VisualizationPainter visualizationPainter = new ShortestPathPainter(
+				algorithm, config, null);
 
 		Rectangle scene = algorithm.getScene();
 		int width = (int) Math.ceil(scene.getWidth() * zoom);

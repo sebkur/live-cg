@@ -15,9 +15,30 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.topobyte.livecg.algorithms.polygon.shortestpath.status;
+package de.topobyte.livecg.core.status;
 
-public interface ShortestPathPosition
+
+public class TwoLevelStatusParser
 {
+
+	public static Position parse(String argument)
+	{
+		if (!argument.contains(";")) {
+			if (argument.equals("finished")) {
+				return new FinishedPosition();
+			}
+			try {
+				int diagonal = Integer.parseInt(argument);
+				return new ExplicitPosition(diagonal, 0);
+			} catch (NumberFormatException e) {
+				throw new IllegalArgumentException();
+			}
+		} else {
+			String[] parts = argument.split(";");
+			int diagonal = Integer.parseInt(parts[0]);
+			int sub = Integer.parseInt(parts[1]);
+			return new ExplicitPosition(diagonal, sub);
+		}
+	}
 
 }

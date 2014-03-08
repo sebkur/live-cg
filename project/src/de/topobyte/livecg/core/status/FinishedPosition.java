@@ -15,28 +15,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.topobyte.livecg.algorithms.polygon.shortestpath.status;
+package de.topobyte.livecg.core.status;
 
-public class ExplicitShortestPathPosition implements ShortestPathPosition
+public class FinishedPosition implements Position
 {
-
-	private int diagonal;
-	private int sub;
-
-	public ExplicitShortestPathPosition(int diagonal, int sub)
-	{
-		this.diagonal = diagonal;
-		this.sub = sub;
-	}
-
-	public int getDiagonal()
-	{
-		return diagonal;
-	}
-
-	public int getSub()
-	{
-		return sub;
-	}
 
 }

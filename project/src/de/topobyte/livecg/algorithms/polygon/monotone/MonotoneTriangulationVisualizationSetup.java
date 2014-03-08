@@ -24,6 +24,10 @@ import de.topobyte.livecg.core.VisualizationSetup;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
 import de.topobyte.livecg.core.geometry.geom.Rectangle;
 import de.topobyte.livecg.core.painting.VisualizationPainter;
+import de.topobyte.livecg.core.status.ExplicitPosition;
+import de.topobyte.livecg.core.status.FinishedPosition;
+import de.topobyte.livecg.core.status.Position;
+import de.topobyte.livecg.core.status.TwoLevelStatusParser;
 import de.topobyte.livecg.ui.geometryeditor.Content;
 
 public class MonotoneTriangulationVisualizationSetup implements
@@ -50,6 +54,22 @@ public class MonotoneTriangulationVisualizationSetup implements
 
 		int width = (int) Math.ceil(scene.getWidth() * zoom);
 		int height = (int) Math.ceil(scene.getHeight() * zoom);
+
+		if (statusArgument != null) {
+			try {
+				Position status = TwoLevelStatusParser.parse(statusArgument);
+				if (status instanceof FinishedPosition) {
+					int numberOfSteps = algorithm.getNumberOfSteps();
+					algorithm.setStatus(numberOfSteps, 0);
+				} else if (status instanceof ExplicitPosition) {
+					ExplicitPosition pos = (ExplicitPosition) status;
+					algorithm.setStatus(pos.getMajor(), pos.getMinor());
+				}
+			} catch (IllegalArgumentException e) {
+				System.out.println("Invalid format for status");
+				System.exit(1);
+			}
+		}
 
 		return new SetupResult(width, height, visualizationPainter);
 	}

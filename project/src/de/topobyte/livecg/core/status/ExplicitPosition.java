@@ -15,15 +15,15 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.topobyte.livecg.algorithms.convexhull.chan.status;
+package de.topobyte.livecg.core.status;
 
-public class ExplicitChanPosition implements ChanPosition
+public class ExplicitPosition implements Position
 {
 
 	private int major;
 	private int minor;
 
-	public ExplicitChanPosition(int major, int minor)
+	public ExplicitPosition(int major, int minor)
 	{
 		this.major = major;
 		this.minor = minor;

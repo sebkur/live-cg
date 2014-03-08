@@ -21,10 +21,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
-import de.topobyte.livecg.algorithms.convexhull.chan.status.ChanPosition;
-import de.topobyte.livecg.algorithms.convexhull.chan.status.ChanStatusParser;
-import de.topobyte.livecg.algorithms.convexhull.chan.status.ExplicitChanPosition;
-import de.topobyte.livecg.algorithms.convexhull.chan.status.FinishedChanPosition;
 import de.topobyte.livecg.core.SetupResult;
 import de.topobyte.livecg.core.VisualizationSetup;
 import de.topobyte.livecg.core.geometry.geom.Chain;
@@ -36,6 +32,10 @@ import de.topobyte.livecg.core.geometry.geom.Polygon;
 import de.topobyte.livecg.core.geometry.geom.PolygonHelper;
 import de.topobyte.livecg.core.geometry.geom.Rectangle;
 import de.topobyte.livecg.core.painting.VisualizationPainter;
+import de.topobyte.livecg.core.status.ExplicitPosition;
+import de.topobyte.livecg.core.status.FinishedPosition;
+import de.topobyte.livecg.core.status.Position;
+import de.topobyte.livecg.core.status.TwoLevelStatusParser;
 import de.topobyte.livecg.ui.geometryeditor.Content;
 
 public class ChanVisualizationSetup implements VisualizationSetup
@@ -77,13 +77,13 @@ public class ChanVisualizationSetup implements VisualizationSetup
 
 		if (statusArgument != null) {
 			try {
-				ChanPosition status = ChanStatusParser.parse(statusArgument);
-				if (status instanceof FinishedChanPosition) {
+				Position status = TwoLevelStatusParser.parse(statusArgument);
+				if (status instanceof FinishedPosition) {
 					while (!algorithm.isFinished()) {
 						algorithm.nextStep();
 					}
-				} else if (status instanceof ExplicitChanPosition) {
-					ExplicitChanPosition pos = (ExplicitChanPosition) status;
+				} else if (status instanceof ExplicitPosition) {
+					ExplicitPosition pos = (ExplicitPosition) status;
 					while (algorithm.getNumberOfNodesOnHull() < pos.getMajor()) {
 						algorithm.nextStep();
 					}
