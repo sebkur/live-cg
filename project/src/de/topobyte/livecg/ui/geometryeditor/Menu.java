@@ -23,6 +23,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.swing.Icon;
+import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -46,6 +47,7 @@ import de.topobyte.livecg.datastructures.content.ContentDisplayAction;
 import de.topobyte.livecg.datastructures.dcel.DcelAction;
 import de.topobyte.livecg.ui.geometryeditor.action.CopyAction;
 import de.topobyte.livecg.ui.geometryeditor.action.FilePropertiesAction;
+import de.topobyte.livecg.ui.geometryeditor.action.HighlightEndpointNodesAction;
 import de.topobyte.livecg.ui.geometryeditor.action.MouseAction;
 import de.topobyte.livecg.ui.geometryeditor.action.NewAction;
 import de.topobyte.livecg.ui.geometryeditor.action.OpenAction;
@@ -80,6 +82,7 @@ public class Menu extends JMenuBar
 		JMenu visualizations = new JMenu("Visualizations");
 		JMenu view = new JMenu("View");
 		JMenu window = new JMenu("Window");
+		JMenu debug = new JMenu("Debug");
 		JMenu help = new JMenu("Help");
 		add(file);
 		add(tools);
@@ -88,6 +91,7 @@ public class Menu extends JMenuBar
 		add(visualizations);
 		add(view);
 		add(window);
+		add(debug);
 		add(help);
 
 		file.setMnemonic('F');
@@ -97,6 +101,7 @@ public class Menu extends JMenuBar
 		visualizations.setMnemonic('V');
 		view.setMnemonic('I');
 		window.setMnemonic('W');
+		debug.setMnemonic('D');
 		help.setMnemonic('H');
 
 		Icon folder = ImageLoader.load("res/images/24x24/folder.png");
@@ -284,6 +289,15 @@ public class Menu extends JMenuBar
 				new ShowContentDialogAction(liveCG));
 		window.add(showObjectDialog);
 		window.add(showContentDialog);
+
+		/*
+		 * Debug
+		 */
+
+		JCheckBoxMenuItem highlightEndpointNodes = new JCheckBoxMenuItem(
+				new HighlightEndpointNodesAction(editPane));
+		// highlightEndpointNodes.setSelected(b)
+		debug.add(highlightEndpointNodes);
 
 		/*
 		 * Help
