@@ -22,18 +22,18 @@ import java.util.List;
 import de.topobyte.livecg.algorithms.frechet.ui.DistanceTerrainDialog;
 import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.ui.ContentLauncher;
+import de.topobyte.livecg.ui.LaunchException;
 import de.topobyte.livecg.ui.geometryeditor.Content;
 
 public class DistanceTerrainChainsLauncher implements ContentLauncher
 {
 
 	@Override
-	public void launch(Content content)
+	public void launch(Content content) throws LaunchException
 	{
 		List<Chain> lines = content.getChains();
 		if (lines.size() < 2) {
-			System.out.println("not enough lines");
-			return;
+			throw new LaunchException("there are not enough chains");
 		}
 		new DistanceTerrainDialog(content);
 	}

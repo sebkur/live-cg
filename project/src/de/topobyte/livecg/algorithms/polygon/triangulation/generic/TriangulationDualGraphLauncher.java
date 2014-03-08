@@ -23,17 +23,18 @@ import de.topobyte.livecg.core.geometry.geom.CopyUtil;
 import de.topobyte.livecg.core.geometry.geom.CopyUtil.PolygonMode;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
 import de.topobyte.livecg.ui.ContentLauncher;
+import de.topobyte.livecg.ui.LaunchException;
 import de.topobyte.livecg.ui.geometryeditor.Content;
 
 public class TriangulationDualGraphLauncher implements ContentLauncher
 {
 
 	@Override
-	public void launch(Content content)
+	public void launch(Content content) throws LaunchException
 	{
 		List<Polygon> polygons = content.getPolygons();
 		if (polygons.size() < 1) {
-			return;
+			throw new LaunchException("there is no polygon");
 		}
 		Polygon polygon = polygons.get(0);
 		polygon = CopyUtil.copy(polygon, PolygonMode.REUSE_NOTHING);

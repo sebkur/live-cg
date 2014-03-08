@@ -19,6 +19,9 @@ package de.topobyte.livecg.algorithms.convexhull.chan;
 
 import java.awt.event.ActionEvent;
 
+import javax.swing.JOptionPane;
+
+import de.topobyte.livecg.ui.LaunchException;
 import de.topobyte.livecg.ui.action.BasicAction;
 import de.topobyte.livecg.ui.geometryeditor.GeometryEditPane;
 
@@ -39,6 +42,11 @@ public class ChansAlgorithmAction extends BasicAction
 	@Override
 	public void actionPerformed(ActionEvent event)
 	{
-		new ChanLauncher().launch(editPane.getContent());
+		try {
+			new ChanLauncher().launch(editPane.getContent());
+		} catch (LaunchException e) {
+			JOptionPane.showMessageDialog(editPane, e.getMessage(), "Error",
+					JOptionPane.ERROR_MESSAGE);
+		}
 	}
 }

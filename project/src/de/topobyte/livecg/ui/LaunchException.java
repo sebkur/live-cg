@@ -1,6 +1,6 @@
 /* This file is part of LiveCG.
  *
- * Copyright (C) 2013  Sebastian Kuerten
+ * Copyright (C) 2014  Sebastian Kuerten
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,23 +15,21 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.topobyte.livecg.datastructures.content;
+package de.topobyte.livecg.ui;
 
-import de.topobyte.livecg.ui.ContentLauncher;
-import de.topobyte.livecg.ui.LaunchException;
-import de.topobyte.livecg.ui.geometryeditor.Content;
-
-public class ContentDisplayLauncher implements ContentLauncher
+public class LaunchException extends Exception
 {
 
-	@Override
-	public void launch(Content content) throws LaunchException
+	private static final long serialVersionUID = 1L;
+
+	public LaunchException(String message)
 	{
-		if (content.getChains().size() == 0
-				&& content.getPolygons().size() == 0) {
-			throw new LaunchException("the scene contains no objects");
-		}
-		new ContentDialog(content);
+		super(message);
+	}
+
+	public LaunchException(String message, Throwable cause)
+	{
+		super(message, cause);
 	}
 
 }

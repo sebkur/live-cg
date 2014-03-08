@@ -29,6 +29,7 @@ import de.topobyte.livecg.core.geometry.geom.Node;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
 import de.topobyte.livecg.core.geometry.geom.PolygonHelper;
 import de.topobyte.livecg.ui.ContentLauncher;
+import de.topobyte.livecg.ui.LaunchException;
 import de.topobyte.livecg.ui.console.AlgorithmConsoleDialog;
 import de.topobyte.livecg.ui.geometryeditor.Content;
 
@@ -36,7 +37,7 @@ public class ShortestPathInPolygonLauncher implements ContentLauncher
 {
 
 	@Override
-	public void launch(Content content)
+	public void launch(Content content) throws LaunchException
 	{
 		List<Polygon> polygons = content.getPolygons();
 		List<Polygon> viable = new ArrayList<Polygon>();
@@ -46,8 +47,8 @@ public class ShortestPathInPolygonLauncher implements ContentLauncher
 			}
 		}
 		if (viable.size() < 1) {
-			System.out.println("no viable polygon");
-			return;
+			throw new LaunchException(
+					"there is no simple polygon without holes");
 		}
 		Polygon polygon = viable.get(0);
 		polygon = CopyUtil.copy(polygon, PolygonMode.REUSE_NOTHING);

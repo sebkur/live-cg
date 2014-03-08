@@ -19,6 +19,9 @@ package de.topobyte.livecg.algorithms.polygon.monotonepieces;
 
 import java.awt.event.ActionEvent;
 
+import javax.swing.JOptionPane;
+
+import de.topobyte.livecg.ui.LaunchException;
 import de.topobyte.livecg.ui.action.BasicAction;
 import de.topobyte.livecg.ui.geometryeditor.GeometryEditPane;
 
@@ -38,9 +41,14 @@ public class MonotonePiecesAction extends BasicAction
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent e)
+	public void actionPerformed(ActionEvent event)
 	{
-		new MonotonePiecesLauncher().launch(editPane.getContent());
+		try {
+			new MonotonePiecesLauncher().launch(editPane.getContent());
+		} catch (LaunchException e) {
+			JOptionPane.showMessageDialog(editPane, e.getMessage(), "Error",
+					JOptionPane.ERROR_MESSAGE);
+		}
 	}
 
 }

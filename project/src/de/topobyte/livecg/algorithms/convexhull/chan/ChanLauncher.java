@@ -28,24 +28,23 @@ import de.topobyte.livecg.core.geometry.geom.CopyUtil.PolygonMode;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
 import de.topobyte.livecg.core.geometry.geom.PolygonHelper;
 import de.topobyte.livecg.ui.ContentLauncher;
+import de.topobyte.livecg.ui.LaunchException;
 import de.topobyte.livecg.ui.geometryeditor.Content;
 
 public class ChanLauncher implements ContentLauncher
 {
 
 	@Override
-	public void launch(Content content)
+	public void launch(Content content) throws LaunchException
 	{
 		List<Polygon> viable = new ArrayList<Polygon>();
 		for (Polygon polygon : content.getPolygons()) {
 			if (polygon.getHoles().size() == 0) {
 				viable.add(polygon);
 			}
-			// TODO: if polygon is convex
 		}
 		if (viable.size() < 2) {
-			System.out.println("not enough viable polygons");
-			return;
+			throw new LaunchException("not enough convex polygons");
 		}
 
 		List<Polygon> polygons = new ArrayList<Polygon>();

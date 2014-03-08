@@ -18,14 +18,19 @@
 package de.topobyte.livecg.datastructures.dcel;
 
 import de.topobyte.livecg.ui.ContentLauncher;
+import de.topobyte.livecg.ui.LaunchException;
 import de.topobyte.livecg.ui.geometryeditor.Content;
 
 public class DcelLauncher implements ContentLauncher
 {
 
 	@Override
-	public void launch(Content content)
+	public void launch(Content content) throws LaunchException
 	{
+		if (content.getChains().size() == 0
+				&& content.getPolygons().size() == 0) {
+			throw new LaunchException("the scene contains no objects");
+		}
 		new DcelDialog(content);
 	}
 

@@ -19,6 +19,9 @@ package de.topobyte.livecg.datastructures.content;
 
 import java.awt.event.ActionEvent;
 
+import javax.swing.JOptionPane;
+
+import de.topobyte.livecg.ui.LaunchException;
 import de.topobyte.livecg.ui.action.BasicAction;
 import de.topobyte.livecg.ui.geometryeditor.GeometryEditPane;
 
@@ -37,9 +40,14 @@ public class ContentDisplayAction extends BasicAction
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent e)
+	public void actionPerformed(ActionEvent event)
 	{
-		new ContentDisplayLauncher().launch(editPane.getContent());
+		try {
+			new ContentDisplayLauncher().launch(editPane.getContent());
+		} catch (LaunchException e) {
+			JOptionPane.showMessageDialog(editPane, e.getMessage(), "Error",
+					JOptionPane.ERROR_MESSAGE);
+		}
 	}
 
 }

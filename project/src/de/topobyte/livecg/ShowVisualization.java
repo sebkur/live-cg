@@ -43,6 +43,7 @@ import de.topobyte.livecg.core.geometry.io.ContentReader;
 import de.topobyte.livecg.datastructures.content.ContentDisplayLauncher;
 import de.topobyte.livecg.datastructures.dcel.DcelLauncher;
 import de.topobyte.livecg.ui.ContentLauncher;
+import de.topobyte.livecg.ui.LaunchException;
 import de.topobyte.livecg.ui.geometryeditor.Content;
 import de.topobyte.misc.util.enums.EnumNameLookup;
 import de.topobyte.utilities.apache.commons.cli.ArgumentHelper;
@@ -181,6 +182,12 @@ public class ShowVisualization
 		}
 		}
 
-		launcher.launch(content);
+		try {
+			launcher.launch(content);
+		} catch (LaunchException e) {
+			System.err.println("Unable to start visualization");
+			System.err.println("Error message: " + e.getMessage());
+			System.exit(1);
+		}
 	}
 }

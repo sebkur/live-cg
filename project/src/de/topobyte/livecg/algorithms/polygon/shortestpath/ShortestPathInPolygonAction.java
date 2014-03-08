@@ -19,6 +19,9 @@ package de.topobyte.livecg.algorithms.polygon.shortestpath;
 
 import java.awt.event.ActionEvent;
 
+import javax.swing.JOptionPane;
+
+import de.topobyte.livecg.ui.LaunchException;
 import de.topobyte.livecg.ui.action.BasicAction;
 import de.topobyte.livecg.ui.geometryeditor.GeometryEditPane;
 
@@ -40,7 +43,12 @@ public class ShortestPathInPolygonAction extends BasicAction
 	@Override
 	public void actionPerformed(ActionEvent event)
 	{
-		new ShortestPathInPolygonLauncher().launch(editPane.getContent());
+		try {
+			new ShortestPathInPolygonLauncher().launch(editPane.getContent());
+		} catch (LaunchException e) {
+			JOptionPane.showMessageDialog(editPane, e.getMessage(), "Error",
+					JOptionPane.ERROR_MESSAGE);
+		}
 	}
 
 }

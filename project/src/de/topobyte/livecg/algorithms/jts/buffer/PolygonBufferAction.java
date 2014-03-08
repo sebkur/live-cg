@@ -19,6 +19,9 @@ package de.topobyte.livecg.algorithms.jts.buffer;
 
 import java.awt.event.ActionEvent;
 
+import javax.swing.JOptionPane;
+
+import de.topobyte.livecg.ui.LaunchException;
 import de.topobyte.livecg.ui.action.BasicAction;
 import de.topobyte.livecg.ui.geometryeditor.GeometryEditPane;
 
@@ -39,7 +42,12 @@ public class PolygonBufferAction extends BasicAction
 	@Override
 	public void actionPerformed(ActionEvent event)
 	{
-		new PolygonBufferLauncher().launch(editPane.getContent());
+		try {
+			new PolygonBufferLauncher().launch(editPane.getContent());
+		} catch (LaunchException e) {
+			JOptionPane.showMessageDialog(editPane, e.getMessage(), "Error",
+					JOptionPane.ERROR_MESSAGE);
+		}
 	}
 
 }
