@@ -21,13 +21,19 @@ package de.topobyte.livecg.core.geometry.geom;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.LineString;
 import com.vividsolutions.jts.geom.Point;
 
+import de.topobyte.livecg.util.circular.IntRing;
+
 public class Chain
 {
+	static Logger logger = LoggerFactory.getLogger(Chain.class);
 
 	private boolean closed = false;
 
@@ -336,4 +342,52 @@ public class Chain
 		}
 	}
 
+	public void splitAtNode(Node node)
+	{
+		if (closed) {
+			if (polygons.size() > 0) {
+				logger.error("unable to split ring used in a polygon");
+				return;
+			}
+			// TODO: what if it is contained twice?
+			// TODO: what if the node is part of another chain?
+			if (!nodes.contains(node)) {
+				return;
+			}
+			// It won't be closed afterwards
+			closed = false;
+			// Catch some special cases. The node to delete is the first or the
+			// last one
+			if (getFirstNode() == node) {
+				nodes.remove(0);
+				if (nodes.size() > 1) {
+					nodes.get(1).addEndpointChain(this);
+				}
+				return;
+			} else if (getLastNode() == node) {
+				nodes.remove(nodes.size() - 1);
+				if (nodes.size() > 1) {
+					nodes.get(nodes.size() - 1).addEndpointChain(this);
+				}
+				return;
+			}
+			// Now handle the normal case where it is somewhere in between
+			nodes.get(0).removeEndpointChain(this);
+			nodes.get(nodes.size() - 1).removeEndpointChain(this);
+			List<Node> oldNodes = new ArrayList<Node>(nodes);
+			int n = nodes.size();
+			int index = nodes.indexOf(node);
+			nodes.clear();
+			IntRing ring = new IntRing(n, index);
+			ring.next();
+			for (int i = 0; i < n - 1; i++) {
+				nodes.add(oldNodes.get(ring.value()));
+				ring.next();
+			}
+			nodes.get(0).addEndpointChain(this);
+			nodes.get(nodes.size() - 1).addEndpointChain(this);
+		} else {
+			// TODO: not closed
+		}
+	}
 }

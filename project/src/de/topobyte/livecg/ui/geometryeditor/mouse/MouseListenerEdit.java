@@ -126,6 +126,8 @@ public class MouseListenerEdit extends EditPaneMouseListener
 			result.addPointMode = AddPointMode.NEW;
 		} else if (chains.size() == 1 && nodes.size() == 1) {
 			// If one chain and one node is selected, extend the selected chain
+			// TODO: only if the selected node is an endpoint of the selected
+			// chain
 			Node node = nodes.iterator().next();
 			result.chain = chains.iterator().next();
 			result.addPointMode = AddPointMode.APPEND;

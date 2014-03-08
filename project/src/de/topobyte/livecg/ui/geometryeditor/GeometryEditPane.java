@@ -677,7 +677,8 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 		p.setColor(colorPoints);
 		p.setStrokeWidth(1.0);
 		for (int i = 0; i < n; i++) {
-			Coordinate current = chain.getCoordinate(i);
+			Node node = chain.getNode(i);
+			Coordinate current = node.getCoordinate();
 			int x = (int) Math.round(current.getX());
 			int y = (int) Math.round(current.getY());
 			int s = 4; // size of rectangle
@@ -685,7 +686,6 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 			if (!debugHighlightEndpoints) {
 				p.drawRect(x - o, y - o, s, s);
 			} else {
-				Node node = chain.getNode(i);
 				if (node.getEndpointChains().size() == 0) {
 					p.drawRect(x - o, y - o, s, s);
 				} else {

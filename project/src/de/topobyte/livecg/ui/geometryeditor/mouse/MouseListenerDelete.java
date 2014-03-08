@@ -46,7 +46,7 @@ public class MouseListenerDelete extends EditPaneMouseListener
 	{
 		Coordinate coord = getCoordinate(e);
 		if (e.getButton() == MouseEvent.BUTTON1) {
-			deleteNearestObject(coord);
+			deleteNearestObject(coord, e);
 
 			editPane.setMouseHighlight((Node) null);
 			editPane.setMouseHighlight((Chain) null);
@@ -55,10 +55,12 @@ public class MouseListenerDelete extends EditPaneMouseListener
 		}
 	}
 
-	private void deleteNearestObject(Coordinate coord)
+	private void deleteNearestObject(Coordinate coord, MouseEvent e)
 	{
 		SelectResult nearest = nearestObject(coord);
 		boolean changed = false;
+
+		boolean ctrl = e.isControlDown();
 
 		switch (nearest.mode) {
 		default:
@@ -71,12 +73,12 @@ public class MouseListenerDelete extends EditPaneMouseListener
 			if (selectedChains.size() == 0 && selectedPolygons.size() == 0) {
 				// Delete node from all contained elements
 				for (Chain c : node.getChains()) {
-					deleteNodeFromChain(c, node, false);
+					deleteNodeFromChain(c, node, false, ctrl);
 				}
 			} else {
 				// Delete node only from selected elements
 				for (Chain c : ListUtil.copy(selectedChains)) {
-					deleteNodeFromChain(c, node, false);
+					deleteNodeFromChain(c, node, false, ctrl);
 				}
 				for (Polygon p : ListUtil.copy(selectedPolygons)) {
 					deleteFromPolygon(p, node);
@@ -122,11 +124,11 @@ public class MouseListenerDelete extends EditPaneMouseListener
 	private void deleteFromPolygon(Polygon polygon, Node node)
 	{
 		Chain shell = polygon.getShell();
-		deleteNodeFromChain(shell, node, false);
+		deleteNodeFromChain(shell, node, false, false);
 	}
 
 	private void deleteNodeFromChain(Chain chain, Node node,
-			boolean moveSelectedNodes)
+			boolean moveSelectedNodes, boolean split)
 	{
 		if (moveSelectedNodes) {
 			if (editPane.getCurrentNodes().contains(node)) {
@@ -140,22 +142,26 @@ public class MouseListenerDelete extends EditPaneMouseListener
 				}
 			}
 		}
-		chain.remove(node);
-		if (chain.getNumberOfNodes() < 3 && chain.isClosed()) {
-			chain.setOpen();
-			for (Polygon polygon : ListUtil.copy(chain.getPolygons())) {
-				editPane.removePolygon(polygon);
-				editPane.getContent().addChain(chain);
-				chain.removePolygon(polygon);
-			}
-		}
-		if (chain.getNumberOfNodes() == 0) {
-			editPane.removeChain(chain);
-			for (Polygon p : chain.getPolygons()) {
-				if (chain == p.getShell()) {
-					editPane.removePolygon(p);
+		if (!split) {
+			chain.remove(node);
+			if (chain.getNumberOfNodes() < 3 && chain.isClosed()) {
+				chain.setOpen();
+				for (Polygon polygon : ListUtil.copy(chain.getPolygons())) {
+					editPane.removePolygon(polygon);
+					editPane.getContent().addChain(chain);
+					chain.removePolygon(polygon);
 				}
 			}
+			if (chain.getNumberOfNodes() == 0) {
+				editPane.removeChain(chain);
+				for (Polygon p : chain.getPolygons()) {
+					if (chain == p.getShell()) {
+						editPane.removePolygon(p);
+					}
+				}
+			}
+		} else {
+			chain.splitAtNode(node);
 		}
 		editPane.getContent().fireContentChanged();
 	}
