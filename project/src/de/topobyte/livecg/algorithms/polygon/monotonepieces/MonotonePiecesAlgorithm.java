@@ -57,7 +57,7 @@ public class MonotonePiecesAlgorithm extends DefaultSceneAlgorithm
 
 	protected void execute()
 	{
-		System.out.println("execute2: " + this.getClass().getSimpleName());
+		System.out.println("execute: " + this.getClass().getSimpleName());
 		monotonePiecesOperation = new MonotonePiecesOperation(polygon);
 		SplitResult split = monotonePiecesOperation
 				.getMonotonePiecesWithGraph();
