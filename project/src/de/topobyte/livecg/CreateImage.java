@@ -35,6 +35,7 @@ import de.topobyte.livecg.algorithms.convexhull.chan.ChanVisualizationSetup;
 import de.topobyte.livecg.algorithms.frechet.distanceterrain.DistanceTerrainVisualizationSetup;
 import de.topobyte.livecg.algorithms.frechet.freespace.FreeSpaceVisualizationSetup;
 import de.topobyte.livecg.algorithms.jts.buffer.BufferVisualizationSetup;
+import de.topobyte.livecg.algorithms.polygon.monotone.MonotoneTriangulationVisualizationSetup;
 import de.topobyte.livecg.algorithms.polygon.monotonepieces.MonotonePiecesVisualizationSetup;
 import de.topobyte.livecg.algorithms.polygon.shortestpath.ShortestPathVisualizationSetup;
 import de.topobyte.livecg.algorithms.polygon.triangulation.viamonotonepieces.MonotonePiecesTriangulationVisualizationSetup;
@@ -189,8 +190,12 @@ public class CreateImage
 			setup = new ChanVisualizationSetup();
 			break;
 		}
-		case MONOTONE: {
+		case MONOTONE_PIECES: {
 			setup = new MonotonePiecesVisualizationSetup();
+			break;
+		}
+		case MONOTONE_TRIANGULATION: {
+			setup = new MonotoneTriangulationVisualizationSetup();
 			break;
 		}
 		case TRIANGULATION: {
@@ -222,7 +227,8 @@ public class CreateImage
 		int width = setupResult.getWidth();
 		int height = setupResult.getHeight();
 
-		VisualizationPainter visualizationPainter = setupResult.getVisualizationPainter();
+		VisualizationPainter visualizationPainter = setupResult
+				.getVisualizationPainter();
 
 		File output = new File(argOutput.getValue());
 
@@ -231,7 +237,8 @@ public class CreateImage
 		switch (exportFormat) {
 		case IPE: {
 			try {
-				IpeExporter.exportIpe(output, visualizationPainter, width, height);
+				IpeExporter.exportIpe(output, visualizationPainter, width,
+						height);
 			} catch (Exception e) {
 				System.err.println("Error while exporting. Exception type: "
 						+ e.getClass().getSimpleName() + ", message: "
@@ -254,7 +261,8 @@ public class CreateImage
 		}
 		case SVG: {
 			try {
-				SvgExporter.exportSVG(output, visualizationPainter, width, height);
+				SvgExporter.exportSVG(output, visualizationPainter, width,
+						height);
 			} catch (Exception e) {
 				System.err.println("Error while exporting. Exception type: "
 						+ e.getClass().getSimpleName() + ", message: "
@@ -265,8 +273,8 @@ public class CreateImage
 		}
 		case TIKZ: {
 			try {
-				TikzExporter
-						.exportTikz(output, visualizationPainter, width, height);
+				TikzExporter.exportTikz(output, visualizationPainter, width,
+						height);
 			} catch (Exception e) {
 				System.err.println("Error while exporting. Exception type: "
 						+ e.getClass().getSimpleName() + ", message: "

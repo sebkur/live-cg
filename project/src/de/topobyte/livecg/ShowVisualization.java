@@ -34,6 +34,7 @@ import de.topobyte.livecg.algorithms.convexhull.chan.ChanLauncher;
 import de.topobyte.livecg.algorithms.frechet.distanceterrain.DistanceTerrainChainsLauncher;
 import de.topobyte.livecg.algorithms.frechet.freespace.FreeSpaceChainsLauncher;
 import de.topobyte.livecg.algorithms.jts.buffer.PolygonBufferLauncher;
+import de.topobyte.livecg.algorithms.polygon.monotone.MonotoneTriangulationLauncher;
 import de.topobyte.livecg.algorithms.polygon.monotonepieces.MonotonePiecesLauncher;
 import de.topobyte.livecg.algorithms.polygon.shortestpath.ShortestPathInPolygonLauncher;
 import de.topobyte.livecg.algorithms.polygon.triangulation.viamonotonepieces.MonotonePiecesTriangulationLauncher;
@@ -164,8 +165,12 @@ public class ShowVisualization
 			launcher = new FortunesSweepLauncher();
 			break;
 		}
-		case MONOTONE: {
+		case MONOTONE_PIECES: {
 			launcher = new MonotonePiecesLauncher();
+			break;
+		}
+		case MONOTONE_TRIANGULATION: {
+			launcher = new MonotoneTriangulationLauncher();
 			break;
 		}
 		case TRIANGULATION: {
