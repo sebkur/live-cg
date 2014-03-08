@@ -19,6 +19,8 @@ package de.topobyte.livecg.algorithms.polygon.monotonepieces;
 
 import java.util.List;
 
+import javax.swing.JFrame;
+
 import de.topobyte.livecg.core.geometry.geom.CopyUtil;
 import de.topobyte.livecg.core.geometry.geom.CopyUtil.PolygonMode;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
@@ -30,7 +32,7 @@ public class MonotonePiecesLauncher implements ContentLauncher
 {
 
 	@Override
-	public void launch(Content content) throws LaunchException
+	public void launch(Content content, boolean exit) throws LaunchException
 	{
 		List<Polygon> polygons = content.getPolygons();
 		if (polygons.size() < 1) {
@@ -40,7 +42,11 @@ public class MonotonePiecesLauncher implements ContentLauncher
 		polygon = CopyUtil.copy(polygon, PolygonMode.REUSE_NOTHING);
 
 		MonotonePiecesAlgorithm algorithm = new MonotonePiecesAlgorithm(polygon);
-		new MonotonePiecesDialog(algorithm);
+		MonotonePiecesDialog dialog = new MonotonePiecesDialog(algorithm);
+
+		if (exit) {
+			dialog.getFrame().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		}
 	}
 
 }

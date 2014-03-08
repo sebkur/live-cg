@@ -19,6 +19,8 @@ package de.topobyte.livecg.algorithms.polygon.monotone;
 
 import java.util.List;
 
+import javax.swing.JFrame;
+
 import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.core.geometry.geom.ChainHelper;
 import de.topobyte.livecg.core.geometry.geom.CloseabilityException;
@@ -34,7 +36,7 @@ public class MonotoneTriangulationLauncher implements ContentLauncher
 {
 
 	@Override
-	public void launch(Content content) throws LaunchException
+	public void launch(Content content, boolean exit) throws LaunchException
 	{
 		List<Polygon> polygons = content.getPolygons();
 		if (polygons.size() < 1) {
@@ -55,7 +57,12 @@ public class MonotoneTriangulationLauncher implements ContentLauncher
 
 		MonotoneTriangulationAlgorithm algorithm = new MonotoneTriangulationAlgorithm(
 				polygon);
-		new MonotoneTriangulationDialog(algorithm);
+		MonotoneTriangulationDialog dialog = new MonotoneTriangulationDialog(
+				algorithm);
+
+		if (exit) {
+			dialog.getFrame().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		}
 	}
 
 }

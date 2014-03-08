@@ -188,7 +188,7 @@ public class ShowVisualization
 		}
 
 		try {
-			launcher.launch(content);
+			launcher.launch(content, true);
 		} catch (LaunchException e) {
 			System.err.println("Unable to start visualization");
 			System.err.println("Error message: " + e.getMessage());

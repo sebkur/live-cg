@@ -43,7 +43,7 @@ public class DcelAction extends BasicAction
 	public void actionPerformed(ActionEvent event)
 	{
 		try {
-			new DcelLauncher().launch(editPane.getContent());
+			new DcelLauncher().launch(editPane.getContent(), false);
 		} catch (LaunchException e) {
 			JOptionPane.showMessageDialog(editPane, e.getMessage(), "Error",
 					JOptionPane.ERROR_MESSAGE);

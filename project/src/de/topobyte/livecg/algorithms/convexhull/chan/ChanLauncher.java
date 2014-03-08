@@ -20,6 +20,8 @@ package de.topobyte.livecg.algorithms.convexhull.chan;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JFrame;
+
 import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.core.geometry.geom.ChainHelper;
 import de.topobyte.livecg.core.geometry.geom.CloseabilityException;
@@ -35,7 +37,7 @@ public class ChanLauncher implements ContentLauncher
 {
 
 	@Override
-	public void launch(Content content) throws LaunchException
+	public void launch(Content content, boolean exit) throws LaunchException
 	{
 		List<Polygon> viable = new ArrayList<Polygon>();
 		for (Polygon polygon : content.getPolygons()) {
@@ -65,7 +67,11 @@ public class ChanLauncher implements ContentLauncher
 		}
 
 		ChansAlgorithm algorithm = new ChansAlgorithm(polygons);
-		new ChansAlgorithmDialog(algorithm);
+		ChansAlgorithmDialog dialog = new ChansAlgorithmDialog(algorithm);
+
+		if (exit) {
+			dialog.getFrame().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		}
 	}
 
 }

@@ -20,6 +20,8 @@ package de.topobyte.livecg.algorithms.polygon.shortestpath;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JFrame;
+
 import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.core.geometry.geom.ChainHelper;
 import de.topobyte.livecg.core.geometry.geom.CloseabilityException;
@@ -37,7 +39,7 @@ public class ShortestPathInPolygonLauncher implements ContentLauncher
 {
 
 	@Override
-	public void launch(Content content) throws LaunchException
+	public void launch(Content content, boolean exit) throws LaunchException
 	{
 		List<Polygon> polygons = content.getPolygons();
 		List<Polygon> viable = new ArrayList<Polygon>();
@@ -75,6 +77,10 @@ public class ShortestPathInPolygonLauncher implements ContentLauncher
 		console.setLocation(dialog.getFrame().getX()
 				+ dialog.getFrame().getWidth(), (int) console.getLocation()
 				.getY());
+
+		if (exit) {
+			dialog.getFrame().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		}
 	}
 
 }

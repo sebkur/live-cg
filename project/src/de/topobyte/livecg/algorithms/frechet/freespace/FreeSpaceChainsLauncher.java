@@ -19,6 +19,8 @@ package de.topobyte.livecg.algorithms.frechet.freespace;
 
 import java.util.List;
 
+import javax.swing.JFrame;
+
 import de.topobyte.livecg.algorithms.frechet.ui.FreeSpaceDialog1;
 import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.ui.ContentLauncher;
@@ -29,13 +31,17 @@ public class FreeSpaceChainsLauncher implements ContentLauncher
 {
 
 	@Override
-	public void launch(Content content) throws LaunchException
+	public void launch(Content content, boolean exit) throws LaunchException
 	{
 		List<Chain> chains = content.getChains();
 		if (chains.size() < 2) {
 			throw new LaunchException("there are not enough chains");
 		}
-		new FreeSpaceDialog1(content);
+		FreeSpaceDialog1 dialog = new FreeSpaceDialog1(content);
+
+		if (exit) {
+			dialog.getFrame().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		}
 	}
 
 }

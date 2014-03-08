@@ -43,7 +43,7 @@ public class ChansAlgorithmAction extends BasicAction
 	public void actionPerformed(ActionEvent event)
 	{
 		try {
-			new ChanLauncher().launch(editPane.getContent());
+			new ChanLauncher().launch(editPane.getContent(), false);
 		} catch (LaunchException e) {
 			JOptionPane.showMessageDialog(editPane, e.getMessage(), "Error",
 					JOptionPane.ERROR_MESSAGE);

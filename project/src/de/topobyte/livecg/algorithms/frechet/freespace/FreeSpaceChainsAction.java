@@ -45,7 +45,7 @@ public class FreeSpaceChainsAction extends BasicAction
 	public void actionPerformed(ActionEvent event)
 	{
 		try {
-			new FreeSpaceChainsLauncher().launch(editPane.getContent());
+			new FreeSpaceChainsLauncher().launch(editPane.getContent(), false);
 		} catch (LaunchException e) {
 			JOptionPane.showMessageDialog(editPane, e.getMessage(), "Error",
 					JOptionPane.ERROR_MESSAGE);

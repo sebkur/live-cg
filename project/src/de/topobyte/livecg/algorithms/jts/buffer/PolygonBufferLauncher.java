@@ -17,6 +17,8 @@
  */
 package de.topobyte.livecg.algorithms.jts.buffer;
 
+import javax.swing.JFrame;
+
 import de.topobyte.livecg.ui.ContentLauncher;
 import de.topobyte.livecg.ui.LaunchException;
 import de.topobyte.livecg.ui.geometryeditor.Content;
@@ -25,7 +27,7 @@ public class PolygonBufferLauncher implements ContentLauncher
 {
 
 	@Override
-	public void launch(Content content) throws LaunchException
+	public void launch(Content content, boolean exit) throws LaunchException
 	{
 		if (content.getChains().size() == 0
 				&& content.getPolygons().size() == 0) {
@@ -33,6 +35,10 @@ public class PolygonBufferLauncher implements ContentLauncher
 		}
 		BufferDialog dialog = new BufferDialog(content);
 		dialog.getFrame().setVisible(true);
+
+		if (exit) {
+			dialog.getFrame().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		}
 	}
 
 }

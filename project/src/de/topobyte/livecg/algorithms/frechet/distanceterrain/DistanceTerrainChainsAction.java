@@ -45,7 +45,8 @@ public class DistanceTerrainChainsAction extends BasicAction
 	public void actionPerformed(ActionEvent event)
 	{
 		try {
-			new DistanceTerrainChainsLauncher().launch(editPane.getContent());
+			new DistanceTerrainChainsLauncher().launch(editPane.getContent(),
+					false);
 		} catch (LaunchException e) {
 			JOptionPane.showMessageDialog(editPane, e.getMessage(), "Error",
 					JOptionPane.ERROR_MESSAGE);

@@ -21,5 +21,5 @@ import de.topobyte.livecg.ui.geometryeditor.Content;
 
 public interface ContentLauncher
 {
-	public void launch(Content content) throws LaunchException;
+	public void launch(Content content, boolean exit) throws LaunchException;
 }

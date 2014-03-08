@@ -19,6 +19,8 @@ package de.topobyte.livecg.algorithms.polygon.triangulation.viamonotonepieces;
 
 import java.util.List;
 
+import javax.swing.JFrame;
+
 import de.topobyte.livecg.core.geometry.geom.CopyUtil;
 import de.topobyte.livecg.core.geometry.geom.CopyUtil.PolygonMode;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
@@ -30,7 +32,7 @@ public class MonotonePiecesTriangulationLauncher implements ContentLauncher
 {
 
 	@Override
-	public void launch(Content content) throws LaunchException
+	public void launch(Content content, boolean exit) throws LaunchException
 	{
 		List<Polygon> polygons = content.getPolygons();
 		if (polygons.size() < 1) {
@@ -41,7 +43,12 @@ public class MonotonePiecesTriangulationLauncher implements ContentLauncher
 
 		MonotonePiecesTriangulationAlgorithm algorithm = new MonotonePiecesTriangulationAlgorithm(
 				polygon);
-		new MonotonePiecesTriangulationDialog(algorithm);
+		MonotonePiecesTriangulationDialog dialog = new MonotonePiecesTriangulationDialog(
+				algorithm);
+
+		if (exit) {
+			dialog.getFrame().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		}
 	}
 
 }

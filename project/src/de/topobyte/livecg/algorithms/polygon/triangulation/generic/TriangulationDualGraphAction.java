@@ -44,7 +44,8 @@ public class TriangulationDualGraphAction extends BasicAction
 	public void actionPerformed(ActionEvent event)
 	{
 		try {
-			new TriangulationDualGraphLauncher().launch(editPane.getContent());
+			new TriangulationDualGraphLauncher().launch(editPane.getContent(),
+					false);
 		} catch (LaunchException e) {
 			JOptionPane.showMessageDialog(editPane, e.getMessage(), "Error",
 					JOptionPane.ERROR_MESSAGE);

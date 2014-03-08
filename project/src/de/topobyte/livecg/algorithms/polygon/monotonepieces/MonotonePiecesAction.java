@@ -44,7 +44,7 @@ public class MonotonePiecesAction extends BasicAction
 	public void actionPerformed(ActionEvent event)
 	{
 		try {
-			new MonotonePiecesLauncher().launch(editPane.getContent());
+			new MonotonePiecesLauncher().launch(editPane.getContent(), false);
 		} catch (LaunchException e) {
 			JOptionPane.showMessageDialog(editPane, e.getMessage(), "Error",
 					JOptionPane.ERROR_MESSAGE);

@@ -41,7 +41,7 @@ public class FortunesSweepAction extends BasicAction
 	@Override
 	public void actionPerformed(ActionEvent event)
 	{
-		new FortunesSweepLauncher().launch(editPane.getContent());
+		new FortunesSweepLauncher().launch(editPane.getContent(), false);
 	}
 
 }

@@ -44,7 +44,8 @@ public class ShortestPathInPolygonAction extends BasicAction
 	public void actionPerformed(ActionEvent event)
 	{
 		try {
-			new ShortestPathInPolygonLauncher().launch(editPane.getContent());
+			new ShortestPathInPolygonLauncher().launch(editPane.getContent(),
+					false);
 		} catch (LaunchException e) {
 			JOptionPane.showMessageDialog(editPane, e.getMessage(), "Error",
 					JOptionPane.ERROR_MESSAGE);

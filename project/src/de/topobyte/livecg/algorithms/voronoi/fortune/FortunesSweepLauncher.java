@@ -34,7 +34,7 @@ public class FortunesSweepLauncher implements ContentLauncher
 {
 
 	@Override
-	public void launch(Content content)
+	public void launch(Content content, boolean exit)
 	{
 		List<Node> nodes = ContentHelper.collectNodes(content);
 
@@ -47,6 +47,10 @@ public class FortunesSweepLauncher implements ContentLauncher
 			sites.add(new Point(c.getX(), c.getY()));
 		}
 		dialog.getAlgorithm().setSites(sites);
+
+		if (exit) {
+			dialog.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		}
 	}
 
 }

@@ -19,6 +19,8 @@ package de.topobyte.livecg.algorithms.polygon.triangulation.generic;
 
 import java.util.List;
 
+import javax.swing.JFrame;
+
 import de.topobyte.livecg.core.geometry.geom.CopyUtil;
 import de.topobyte.livecg.core.geometry.geom.CopyUtil.PolygonMode;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
@@ -30,7 +32,7 @@ public class TriangulationDualGraphLauncher implements ContentLauncher
 {
 
 	@Override
-	public void launch(Content content) throws LaunchException
+	public void launch(Content content, boolean exit) throws LaunchException
 	{
 		List<Polygon> polygons = content.getPolygons();
 		if (polygons.size() < 1) {
@@ -39,7 +41,11 @@ public class TriangulationDualGraphLauncher implements ContentLauncher
 		Polygon polygon = polygons.get(0);
 		polygon = CopyUtil.copy(polygon, PolygonMode.REUSE_NOTHING);
 
-		new TriangulationDialog(polygon);
+		TriangulationDialog dialog = new TriangulationDialog(polygon);
+
+		if (exit) {
+			dialog.getFrame().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		}
 	}
 
 }
