@@ -45,12 +45,14 @@ public class ToRingsAction extends BasicAction
 	public void actionPerformed(ActionEvent e)
 	{
 		Chain shell = polygon.getShell();
+		shell.removePolygon(polygon);
 		Content content = editPane.getContent();
 		content.removePolygon(polygon);
 		editPane.removeCurrentPolygon(polygon);
 		content.addChain(shell);
 		for (Chain hole : polygon.getHoles()) {
 			content.addChain(hole);
+			hole.removePolygon(polygon);
 		}
 		content.fireContentChanged();
 	}
