@@ -49,8 +49,10 @@ public class MergeChainsAction extends BasicAction
 		for (Chain chain : chains) {
 			for (int i = 0; i < chain.getNumberOfNodes(); i++) {
 				Node node = chain.getNode(i);
-				// TODO: do not count closed chains
-				if (node.getEndpointChains().size() == 2) {
+				List<Chain> cs = node.getEndpointChains();
+				List<Chain> nonClosed = onlyNonClosed(cs);
+				if (nonClosed.size() == 2 && chains.contains(nonClosed.get(0))
+						&& chains.contains(nonClosed.get(1))) {
 					if (!nodes.contains(node)) {
 						nodes.add(node);
 					}
@@ -58,13 +60,14 @@ public class MergeChainsAction extends BasicAction
 			}
 		}
 		for (Node node : nodes) {
-			List<Chain> endpointChains = node.getEndpointChains();
-			if (endpointChains.size() == 1) {
-				Chain c = endpointChains.get(0);
+			List<Chain> cs = node.getEndpointChains();
+			List<Chain> nonClosed = onlyNonClosed(cs);
+			if (nonClosed.size() == 1) {
+				Chain c = nonClosed.get(0);
 				merge(c);
 			} else {
-				Chain c1 = endpointChains.get(0);
-				Chain c2 = endpointChains.get(1);
+				Chain c1 = nonClosed.get(0);
+				Chain c2 = nonClosed.get(1);
 				if (c1 == c2) {
 					merge(c1);
 				} else {
@@ -73,6 +76,17 @@ public class MergeChainsAction extends BasicAction
 			}
 		}
 		editPane.getContent().fireContentChanged();
+	}
+
+	private List<Chain> onlyNonClosed(List<Chain> cs)
+	{
+		List<Chain> nonClosed = new ArrayList<Chain>();
+		for (Chain c : cs) {
+			if (!c.isClosed()) {
+				nonClosed.add(c);
+			}
+		}
+		return nonClosed;
 	}
 
 	private void merge(Chain c)
