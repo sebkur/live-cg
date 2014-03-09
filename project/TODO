@@ -13,7 +13,9 @@ DONE Check that visualizations do not manipulate input geometries
 DONE Draw polygon as path in SPIP
 DONE Use current configuration for exporting at MonotonePieces and MontonePiecesTriangulation
 DONE Let right mouse button + drag pan the scene
+DONE Implement text output module
 
 Make SvgPainter create more readable files
 Add keyboard bindings: Ctrl + Arrow keys for panning the scene
-Implemented text output module
+The algorithm for partitioning a polygon into monotone pieces does not work in all cases 
+         when two nodes with the same y-coordinate exist
