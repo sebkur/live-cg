@@ -342,17 +342,17 @@ public class Chain
 		}
 	}
 
-	public void splitAtNode(Node node)
+	public Chain splitAtNode(Node node)
 	{
+		// TODO: what if it is contained twice?
+		// TODO: what if the node is part of another chain?
 		if (closed) {
 			if (polygons.size() > 0) {
 				logger.error("unable to split ring used in a polygon");
-				return;
+				return null;
 			}
-			// TODO: what if it is contained twice?
-			// TODO: what if the node is part of another chain?
 			if (!nodes.contains(node)) {
-				return;
+				return null;
 			}
 			// It won't be closed afterwards
 			closed = false;
@@ -361,15 +361,15 @@ public class Chain
 			if (getFirstNode() == node) {
 				nodes.remove(0);
 				if (nodes.size() > 1) {
-					nodes.get(1).addEndpointChain(this);
+					nodes.get(0).addEndpointChain(this);
 				}
-				return;
+				return null;
 			} else if (getLastNode() == node) {
 				nodes.remove(nodes.size() - 1);
 				if (nodes.size() > 1) {
 					nodes.get(nodes.size() - 1).addEndpointChain(this);
 				}
-				return;
+				return null;
 			}
 			// Now handle the normal case where it is somewhere in between
 			nodes.get(0).removeEndpointChain(this);
@@ -386,8 +386,43 @@ public class Chain
 			}
 			nodes.get(0).addEndpointChain(this);
 			nodes.get(nodes.size() - 1).addEndpointChain(this);
+			return null;
 		} else {
-			// TODO: not closed
+			if (!nodes.contains(node)) {
+				return null;
+			}
+			// Catch some special cases. The node to delete is the first or the
+			// last one
+			if (getFirstNode() == node) {
+				nodes.remove(0);
+				if (nodes.size() > 1) {
+					nodes.get(1).addEndpointChain(this);
+				}
+				return null;
+			} else if (getLastNode() == node) {
+				nodes.remove(nodes.size() - 1);
+				if (nodes.size() > 1) {
+					nodes.get(nodes.size() - 1).addEndpointChain(this);
+				}
+				return null;
+			}
+			// Now handle the normal case where it is somewhere in between
+			int n = nodes.size();
+			int index = nodes.indexOf(node);
+			Chain chain = new Chain();
+			for (int i = index + 1; i < n; i++) {
+				chain.nodes.add(nodes.get(i));
+			}
+			for (int i = n - 1; i >= index; i--) {
+				nodes.remove(i);
+			}
+			if (nodes.size() > 1) {
+				nodes.get(index - 1).addEndpointChain(this);
+			}
+			if (chain.nodes.size() > 1) {
+				chain.nodes.get(0).addEndpointChain(chain);
+			}
+			return chain;
 		}
 	}
 }

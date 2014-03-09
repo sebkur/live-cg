@@ -161,7 +161,10 @@ public class MouseListenerDelete extends EditPaneMouseListener
 				}
 			}
 		} else {
-			chain.splitAtNode(node);
+			Chain result = chain.splitAtNode(node);
+			if (result != null) {
+				editPane.getContent().addChain(result);
+			}
 		}
 		editPane.getContent().fireContentChanged();
 	}
