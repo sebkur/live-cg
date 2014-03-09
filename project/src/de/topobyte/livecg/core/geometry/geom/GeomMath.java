@@ -78,6 +78,9 @@ public class GeomMath
 		Vector2 v2 = new Vector2(cSuc.getX() - c.getX(), cSuc.getY() - c.getY());
 		double dotProduct = v1.dotProduct(v2);
 		double cosAngle = dotProduct / (v1.norm() * v2.norm());
+		if (cosAngle > 1) {
+			cosAngle = 1;
+		}
 		double angle = Math.acos(cosAngle);
 		double det = determinant(c, cPre, cSuc);
 		if (det > 0) {
