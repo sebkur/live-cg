@@ -414,6 +414,9 @@ public class Chain
 				chain.nodes.add(nodes.get(i));
 			}
 			for (int i = n - 1; i >= index; i--) {
+				Node moved = nodes.get(i);
+				moved.removeChain(this);
+				moved.addChain(chain);
 				nodes.remove(i);
 			}
 			if (nodes.size() > 1) {
