@@ -21,6 +21,9 @@ import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.core.geometry.geom.CloseabilityException;
 import de.topobyte.livecg.core.geometry.geom.Node;
@@ -31,6 +34,9 @@ public class MergeChainsAction extends BasicAction
 {
 
 	private static final long serialVersionUID = 7889373981786617466L;
+
+	final static Logger logger = LoggerFactory
+			.getLogger(MergeChainsAction.class);
 
 	private GeometryEditPane editPane;
 
@@ -59,9 +65,12 @@ public class MergeChainsAction extends BasicAction
 				}
 			}
 		}
+		printDebugInfo(nodes);
 		for (Node node : nodes) {
+			logger.debug("node: " + node);
 			List<Chain> cs = node.getEndpointChains();
 			List<Chain> nonClosed = onlyNonClosed(cs);
+			logger.debug("chains: " + nonClosed);
 			if (nonClosed.size() == 1) {
 				Chain c = nonClosed.get(0);
 				merge(c);
@@ -71,7 +80,7 @@ public class MergeChainsAction extends BasicAction
 				if (c1 == c2) {
 					merge(c1);
 				} else {
-					merge(c1, c2);
+					merge(node, c1, c2, nodes);
 				}
 			}
 		}
@@ -91,6 +100,7 @@ public class MergeChainsAction extends BasicAction
 
 	private void merge(Chain c)
 	{
+		logger.debug("merge: " + c);
 		c.removeLastPoint();
 		try {
 			c.setClosed(true);
@@ -99,37 +109,56 @@ public class MergeChainsAction extends BasicAction
 		}
 	}
 
-	private void merge(Chain c1, Chain c2)
+	private void merge(Node node, Chain c1, Chain c2, List<Node> nodes)
 	{
+		logger.debug("merge: " + c1 + " + " + c2);
+		printDebugInfo(nodes);
 		Node c2first = c2.getFirstNode();
 		Node c2last = c2.getLastNode();
-		if (c1.getFirstNode() == c2.getFirstNode()) {
+		if (node == c1.getFirstNode() && c1.getFirstNode() == c2.getFirstNode()) {
 			for (int i = 1; i < c2.getNumberOfNodes(); i++) {
 				Node n = c2.getNode(i);
 				c1.prependNode(n);
 				n.removeChain(c2);
 			}
-		} else if (c1.getFirstNode() == c2.getLastNode()) {
+		} else if (node == c1.getFirstNode()
+				&& c1.getFirstNode() == c2.getLastNode()) {
 			for (int i = c2.getNumberOfNodes() - 1; i >= 0; i--) {
 				Node n = c2.getNode(i);
 				c1.prependNode(n);
 				n.removeChain(c2);
 			}
-		} else if (c1.getLastNode() == c2.getFirstNode()) {
+		} else if (node == c1.getLastNode()
+				&& c1.getLastNode() == c2.getFirstNode()) {
 			for (int i = 1; i < c2.getNumberOfNodes(); i++) {
 				Node n = c2.getNode(i);
 				c1.appendNode(n);
 				n.removeChain(c2);
 			}
-		} else if (c1.getLastNode() == c2.getLastNode()) {
+		} else if (node == c1.getLastNode()
+				&& c1.getLastNode() == c2.getLastNode()) {
 			for (int i = c2.getNumberOfNodes() - 1; i >= 0; i--) {
 				Node n = c2.getNode(i);
 				c1.appendNode(n);
 				n.removeChain(c2);
 			}
 		}
+		printDebugInfo(nodes);
 		c2last.removeEndpointChain(c2);
 		c2first.removeEndpointChain(c2);
+		c2last.removeChain(c2);
+		c2first.removeChain(c2);
+		printDebugInfo(nodes);
 		editPane.removeChain(c2);
+	}
+
+	private void printDebugInfo(List<Node> nodes)
+	{
+		logger.debug("******** STATUS");
+		for (Node node : nodes) {
+			List<Chain> cs = node.getEndpointChains();
+			List<Chain> nonClosed = onlyNonClosed(cs);
+			logger.debug("chains: " + nonClosed);
+		}
 	}
 }

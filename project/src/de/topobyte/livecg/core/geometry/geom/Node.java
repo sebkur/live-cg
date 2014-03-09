@@ -17,15 +17,12 @@
  */
 package de.topobyte.livecg.core.geometry.geom;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Node
 {
 
 	private Coordinate coordinate;
-	private List<Chain> endpointChains = new ArrayList<Chain>();;
-	private List<Chain> chains = new ArrayList<Chain>();;
+	private ListSet<Chain> endpointChains = new ArrayListSet<Chain>();;
+	private ListSet<Chain> chains = new ArrayListSet<Chain>();;
 
 	public Node(Coordinate coordinate)
 	{
@@ -42,12 +39,12 @@ public class Node
 		this.coordinate = coordinate;
 	}
 
-	public List<Chain> getChains()
+	public ListSet<Chain> getChains()
 	{
 		return chains;
 	}
 
-	public List<Chain> getEndpointChains()
+	public ListSet<Chain> getEndpointChains()
 	{
 		return endpointChains;
 	}

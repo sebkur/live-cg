@@ -55,7 +55,8 @@ public class Chain
 		node.addChain(this);
 		node.addEndpointChain(this);
 		nodes.add(0, node);
-		if (first != null && first != node) {
+		if (first != null) {
+			System.out.println("rem: " + node + " -> " + this);
 			first.removeEndpointChain(this);
 		}
 	}
@@ -75,7 +76,7 @@ public class Chain
 		node.addChain(this);
 		node.addEndpointChain(this);
 		nodes.add(node);
-		if (last != null && last != node) {
+		if (last != null) {
 			last.removeEndpointChain(this);
 		}
 	}
