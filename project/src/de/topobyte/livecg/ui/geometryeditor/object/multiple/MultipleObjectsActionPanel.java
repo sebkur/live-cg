@@ -30,6 +30,7 @@ import de.topobyte.livecg.core.geometry.geom.Node;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
 import de.topobyte.livecg.ui.geometryeditor.GeometryEditPane;
 import de.topobyte.livecg.ui.geometryeditor.object.action.ConvexHullAction;
+import de.topobyte.livecg.ui.geometryeditor.object.multiple.action.MergeChainsAction;
 import de.topobyte.livecg.ui.geometryeditor.object.multiple.action.ShowFilterMenuAction;
 import de.topobyte.livecg.ui.geometryeditor.object.multiple.action.ToPolygonAction;
 import de.topobyte.swing.layout.GridBagHelper;
@@ -40,7 +41,7 @@ public class MultipleObjectsActionPanel extends JPanel
 	private static final long serialVersionUID = 6408336797693213234L;
 
 	private GeometryEditPane editPane;
-	private JButton toPolygon;
+	private JButton mergeChains, toPolygon;
 
 	public MultipleObjectsActionPanel(GeometryEditPane editPane)
 	{
@@ -56,6 +57,11 @@ public class MultipleObjectsActionPanel extends JPanel
 		filters.setAction(filtersAction);
 		filters.setMargin(new Insets(0, 0, 0, 0));
 
+		MergeChainsAction mergeChainsAction = new MergeChainsAction(editPane);
+		mergeChains = new JButton(mergeChainsAction);
+		mergeChains.setMargin(new Insets(0, 0, 0, 0));
+		mergeChains.setText(null);
+
 		ToPolygonAction toPolygonAction = new ToPolygonAction(editPane);
 		toPolygon = new JButton(toPolygonAction);
 		toPolygon.setMargin(new Insets(0, 0, 0, 0));
@@ -69,6 +75,7 @@ public class MultipleObjectsActionPanel extends JPanel
 		c.fill = GridBagConstraints.BOTH;
 		GridBagHelper.setGxGy(c, GridBagConstraints.RELATIVE, 0);
 		add(filters, c);
+		add(mergeChains, c);
 		add(toPolygon, c);
 		add(convexHull, c);
 	}
@@ -91,5 +98,6 @@ public class MultipleObjectsActionPanel extends JPanel
 			}
 		}
 		toPolygon.setEnabled(onlyRings);
+		mergeChains.setEnabled(chains.size() > 1);
 	}
 }
