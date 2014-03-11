@@ -142,7 +142,7 @@ public class MouseListenerDelete extends EditPaneMouseListener
 				}
 			}
 		}
-		if (!split) {
+		if (!split || chain.getNumberOfNodes() == 1) {
 			chain.remove(node);
 			if (chain.getNumberOfNodes() < 3 && chain.isClosed()) {
 				chain.setOpen();
