@@ -21,7 +21,11 @@ import java.util.Properties;
 
 import de.topobyte.livecg.core.SetupResult;
 import de.topobyte.livecg.core.VisualizationSetup;
+import de.topobyte.livecg.core.geometry.geom.Chain;
+import de.topobyte.livecg.core.geometry.geom.ChainHelper;
+import de.topobyte.livecg.core.geometry.geom.CloseabilityException;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
+import de.topobyte.livecg.core.geometry.geom.PolygonHelper;
 import de.topobyte.livecg.core.geometry.geom.Rectangle;
 import de.topobyte.livecg.core.painting.VisualizationPainter;
 import de.topobyte.livecg.core.status.ExplicitPosition;
@@ -43,6 +47,16 @@ public class MonotoneTriangulationVisualizationSetup implements
 			System.exit(1);
 		}
 		Polygon polygon = content.getPolygons().get(0);
+
+		if (!PolygonHelper.isCounterClockwiseOriented(polygon)) {
+			Chain shell = polygon.getShell();
+			try {
+				polygon = new Polygon(ChainHelper.invert(shell), null);
+			} catch (CloseabilityException e) {
+				// Should not happen
+			}
+		}
+
 		MonotoneTriangulationAlgorithm algorithm = new MonotoneTriangulationAlgorithm(
 				polygon);
 		MonotoneTriangulationConfig config = new MonotoneTriangulationConfig();
