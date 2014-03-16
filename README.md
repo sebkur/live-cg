@@ -17,9 +17,13 @@ Building the distribution:
 ## Running
 Running from build directory:
 `./scripts/livecg-ui`
+`./scripts/livecg-create-image`
+`./scripts/livecg-visualization`
 
 Running from distribution:
-`java -jar dist/livecg-fat.jar`
+`java -jar dist/livecg-ui.jar`
+`java -jar dist/livecg-create-image.jar`
+`java -jar dist/livecg-visualization.jar`
 
 # Editor
 ## Key Bindings
