@@ -78,10 +78,36 @@
 		</jar>
 	</target>
 
-	<target name="dist-fat" depends="compile" description="generate the distribution">
-		<jar jarfile="${dist}/livecg-fat.jar" basedir="${build.main}">
+	<target name="dist-fat" depends="dist-fat-ui, dist-fat-create-image, dist-fat-visualization" />
+
+	<target name="dist-fat-ui" depends="compile" description="generate the distribution">
+		<jar jarfile="${dist}/livecg-ui.jar" basedir="${build.main}">
 			<manifest>
 				<attribute name="Main-Class" value="de.topobyte.livecg.LiveCG" />
+			</manifest>
+			<zipgroupfileset dir="lib" includes="*.jar" />
+			<zipgroupfileset dir="lib/batik" includes="*.jar" />
+			<fileset dir="." includes="res/**"/>
+			<fileset dir="." includes="log4j.properties"/>
+		</jar>
+	</target>
+
+	<target name="dist-fat-create-image" depends="compile" description="generate the distribution">
+		<jar jarfile="${dist}/livecg-create-image.jar" basedir="${build.main}">
+			<manifest>
+				<attribute name="Main-Class" value="de.topobyte.livecg.CreateImage" />
+			</manifest>
+			<zipgroupfileset dir="lib" includes="*.jar" />
+			<zipgroupfileset dir="lib/batik" includes="*.jar" />
+			<fileset dir="." includes="res/**"/>
+			<fileset dir="." includes="log4j.properties"/>
+		</jar>
+	</target>
+
+	<target name="dist-fat-visualization" depends="compile" description="generate the distribution">
+		<jar jarfile="${dist}/livecg-visualization.jar" basedir="${build.main}">
+			<manifest>
+				<attribute name="Main-Class" value="de.topobyte.livecg.ShowVisualization" />
 			</manifest>
 			<zipgroupfileset dir="lib" includes="*.jar" />
 			<zipgroupfileset dir="lib/batik" includes="*.jar" />
