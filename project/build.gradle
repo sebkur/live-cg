@@ -1,0 +1,28 @@
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.3'
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'maven'
+
+group = pGroup
+version = pVersion
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'com.vividsolutions:jts:1.13'
+    compile 'org.apache.xmlgraphics:batik-svg-dom:1.7'
+    compile 'commons-cli:commons-cli:1.2'
+    compile 'commons-codec:commons-codec:1.10'
+    compile 'gov.nist.math:jama:1.0.3'
+
+    compile fileTree(dir: 'lib', include: ['*.jar'])
+
+    compile 'org.slf4j:slf4j-api:1.6.1'
+    runtime 'org.slf4j:slf4j-log4j12:1.6.1'
+    runtime 'log4j:log4j:1.2.16'
+}
