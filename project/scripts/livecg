@@ -5,16 +5,14 @@ if [ "$#" -lt "1" ]; then
 	exit 1
 fi
 
-# find java claspath
-DIR=`dirname $0`
-#echo "we are operating from: $DIR"
-CLASSPATH=.
-CLASSPATH+=:$DIR/../lib/*
-CLASSPATH+=:$DIR/../lib/batik/*
-CLASSPATH+=:$DIR/../bin/main/
-CLASSPATH+=:$DIR/../bin/test/
-CLASSPATH+=:$DIR/../
-#echo "CLASSPATH=$CLASSPATH"
+DIR=$(dirname $0)
+LIBS="$DIR/../build/lib-run"
 
-CMD="java -cp $CLASSPATH"
-exec $CMD "$@"
+if [ ! -d "$LIBS" ]; then
+	echo "Please run 'gradle createRuntime'"
+	exit 1
+fi
+
+CLASSPATH="$LIBS/*"
+
+exec java -cp "$CLASSPATH" "$@"
