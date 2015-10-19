@@ -8,7 +8,7 @@ algorithms from computational geometry.
 
 # Running the application
 
-## Using gradle:
+## Using gradle
 You can run the main UI using gradle directly:
 
     gradle run
