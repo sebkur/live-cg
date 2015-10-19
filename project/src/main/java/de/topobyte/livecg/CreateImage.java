@@ -53,8 +53,8 @@ import de.topobyte.livecg.core.painting.VisualizationPainter;
 import de.topobyte.livecg.datastructures.content.ContentVisualizationSetup;
 import de.topobyte.livecg.datastructures.dcel.DcelVisualizationSetup;
 import de.topobyte.livecg.ui.geometryeditor.Content;
-import de.topobyte.misc.util.enums.EnumNameLookup;
 import de.topobyte.utilities.apache.commons.cli.ArgumentHelper;
+import de.topobyte.utilities.apache.commons.cli.EnumArgument;
 import de.topobyte.utilities.apache.commons.cli.OptionHelper;
 import de.topobyte.utilities.apache.commons.cli.StringOption;
 
@@ -75,11 +75,11 @@ public class CreateImage
 
 	public static void main(String[] args)
 	{
-		EnumNameLookup<ExportFormat> exportSwitch = new EnumNameLookup<ExportFormat>(
-				ExportFormat.class, true);
+		EnumArgument<ExportFormat> exportSwitch = new EnumArgument<>(
+				ExportFormat.class);
 
-		EnumNameLookup<Visualization> visualizationSwitch = new EnumNameLookup<Visualization>(
-				Visualization.class, true);
+		EnumArgument<Visualization> visualizationSwitch = new EnumArgument<>(
+				Visualization.class);
 
 		// @formatter:off
 		Options options = new Options();
@@ -127,7 +127,7 @@ public class CreateImage
 				OPTION_VISUALIZATION);
 		StringOption argStatus = ArgumentHelper.getString(line, OPTION_STATUS);
 
-		ExportFormat exportFormat = exportSwitch.find(argOutputFormat
+		ExportFormat exportFormat = exportSwitch.parse(argOutputFormat
 				.getValue());
 		if (exportFormat == null) {
 			System.err.println("Unsupported output format '"
@@ -135,8 +135,8 @@ public class CreateImage
 			System.exit(1);
 		}
 
-		Visualization visualization = visualizationSwitch.find(argVisualization
-				.getValue());
+		Visualization visualization = visualizationSwitch
+				.parse(argVisualization.getValue());
 		if (visualization == null) {
 			System.err.println("Unsupported visualization '"
 					+ argVisualization.getValue() + "'");

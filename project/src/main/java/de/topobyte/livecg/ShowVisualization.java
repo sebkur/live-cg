@@ -46,8 +46,8 @@ import de.topobyte.livecg.datastructures.dcel.DcelLauncher;
 import de.topobyte.livecg.ui.ContentLauncher;
 import de.topobyte.livecg.ui.LaunchException;
 import de.topobyte.livecg.ui.geometryeditor.Content;
-import de.topobyte.misc.util.enums.EnumNameLookup;
 import de.topobyte.utilities.apache.commons.cli.ArgumentHelper;
+import de.topobyte.utilities.apache.commons.cli.EnumArgument;
 import de.topobyte.utilities.apache.commons.cli.OptionHelper;
 import de.topobyte.utilities.apache.commons.cli.StringOption;
 
@@ -66,8 +66,8 @@ public class ShowVisualization
 
 	public static void main(String[] args)
 	{
-		EnumNameLookup<Visualization> visualizationSwitch = new EnumNameLookup<Visualization>(
-				Visualization.class, true);
+		EnumArgument<Visualization> visualizationSwitch = new EnumArgument<>(
+				Visualization.class);
 
 		// @formatter:off
 		Options options = new Options();
@@ -115,7 +115,7 @@ public class ShowVisualization
 				OPTION_VISUALIZATION);
 		StringOption argStatus = ArgumentHelper.getString(line, OPTION_STATUS);
 
-		Visualization visualization = visualizationSwitch.find(argVisualization
+		Visualization visualization = visualizationSwitch.parse(argVisualization
 				.getValue());
 		if (visualization == null) {
 			System.err.println("Unsupported visualization '"
