@@ -10,6 +10,9 @@ group = pGroup
 version = pVersion
 
 repositories {
+    maven {
+        url 'http://mvn.topobyte.de'
+    }
     mavenCentral()
 }
 
