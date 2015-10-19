@@ -17,6 +17,8 @@ repositories {
 }
 
 dependencies {
+    compile 'de.topobyte:commons-cli-helper:0.0.1'
+
     compile 'com.vividsolutions:jts:1.13'
     compile 'org.apache.xmlgraphics:batik-svg-dom:1.7'
     compile 'commons-cli:commons-cli:1.2'
