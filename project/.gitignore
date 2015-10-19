@@ -4,3 +4,4 @@ dist
 .classpath
 .settings
 .gradle
+build
