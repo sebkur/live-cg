@@ -31,8 +31,8 @@ import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.LineString;
 import com.vividsolutions.jts.geom.Polygon;
 
-import de.topobyte.carbon.geo.draw.IdentityCoordinateTransformer;
-import de.topobyte.carbon.geometry.transformation.GeometryTransformator;
+import de.topobyte.jgs.transform.IdentityCoordinateTransformer;
+import de.topobyte.jts2awt.Jts2Awt;
 import de.topobyte.livecg.algorithms.frechet.freespace.EpsilonSettable;
 import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.core.geometry.geom.Coordinate;
@@ -142,7 +142,7 @@ public class LineSegmentView extends JPanel implements EpsilonSettable
 								current.getX(), current.getY()) };
 				LineString seg = factory.createLineString(cs);
 				Geometry buffer = seg.buffer(epsilon);
-				Area area = GeometryTransformator.toShape((Polygon) buffer,
+				Area area = Jts2Awt.toShape((Polygon) buffer,
 						new IdentityCoordinateTransformer());
 				g.fill(area);
 				last = current;
