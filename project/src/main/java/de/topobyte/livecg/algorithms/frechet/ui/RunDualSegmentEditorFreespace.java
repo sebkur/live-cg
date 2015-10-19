@@ -28,8 +28,6 @@ import java.awt.event.MouseWheelEvent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import org.apache.log4j.BasicConfigurator;
-
 import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.core.geometry.geom.Coordinate;
 
@@ -41,8 +39,6 @@ public class RunDualSegmentEditorFreespace
 
 	public static void runProgrammatically(boolean exitOnClose)
 	{
-		BasicConfigurator.configure();
-
 		final JFrame frame = new JFrame();
 		frame.setSize(1200, 440);
 		if (exitOnClose) {
