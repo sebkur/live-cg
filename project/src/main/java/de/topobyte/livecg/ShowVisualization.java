@@ -73,7 +73,7 @@ public class ShowVisualization
 		Options options = new Options();
 		OptionHelper.add(options, OPTION_CONFIG, true, false, "path", "config file");
 		OptionHelper.add(options, OPTION_VISUALIZATION, true, true, "type", 
-				"type of visualization. one of <" + VisualizationUtil.getListOfAvailableVisualizations() + ">");
+				"type of visualization. one of " + visualizationSwitch.getPossibleNames(true));
 		OptionHelper.add(options, OPTION_STATUS, true, false, "status to " +
 				"set the algorithm to. The format depends on the algorithm");
 		// @formatter:on
@@ -115,8 +115,8 @@ public class ShowVisualization
 				OPTION_VISUALIZATION);
 		StringOption argStatus = ArgumentHelper.getString(line, OPTION_STATUS);
 
-		Visualization visualization = visualizationSwitch.parse(argVisualization
-				.getValue());
+		Visualization visualization = visualizationSwitch
+				.parse(argVisualization.getValue());
 		if (visualization == null) {
 			System.err.println("Unsupported visualization '"
 					+ argVisualization.getValue() + "'");

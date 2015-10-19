@@ -89,7 +89,7 @@ public class CreateImage
 		OptionHelper.add(options, OPTION_OUTPUT_FORMAT, true, true, "type",
 					"type of output. one of <png,svg,tikz,ipe>");
 		OptionHelper.add(options, OPTION_VISUALIZATION, true, true, "type", 
-					"type of visualization. one of <" + VisualizationUtil.getListOfAvailableVisualizations() + ">");
+					"type of visualization. one of " + visualizationSwitch.getPossibleNames(true));
 		OptionHelper.add(options, OPTION_STATUS, true, false, "status to " +
 				"set the algorithm to. The format depends on the algorithm");
 		// @formatter:on
