@@ -6,24 +6,39 @@ LIVE Interactive Visualization Environment for Computational Geometry
 This project aims to create a system for interactive visualization of 
 algorithms from computational geometry.
 
-# Building and running
-## Building
-Compiling:
-`ant compile`
+# Running the application
 
-Building the distribution:
-`ant dist`
+## Using gradle:
+You can run the main UI using gradle directly:
 
-## Running
-Running from build directory:
-`./scripts/livecg-ui`
-`./scripts/livecg-create-image`
-`./scripts/livecg-visualization`
+    gradle run
 
-Running from distribution:
-`java -jar dist/livecg-ui.jar`
-`java -jar dist/livecg-create-image.jar`
-`java -jar dist/livecg-visualization.jar`
+## Using scripts
+Setup the execution environment:
+
+    gradle createRuntime
+
+Then you can run the main executables from the build directory:
+
+    ./scripts/livecg-ui
+    ./scripts/livecg-create-image
+    ./scripts/livecg-visualization
+
+## Using standalone JAR files
+Build the JAR files:
+
+    gradle fatJars
+
+Then run them like this:
+
+    java -jar dist/livecg-ui.jar
+    java -jar dist/livecg-create-image.jar
+    java -jar dist/livecg-visualization.jar
+
+# Setting up the development environment
+You can create an Eclipse project like this:
+
+    gradle cleanEclipse eclipse
 
 # Editor
 ## Key Bindings
