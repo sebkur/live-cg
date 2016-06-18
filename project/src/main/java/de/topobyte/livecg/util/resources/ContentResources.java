@@ -1,6 +1,6 @@
 /* This file is part of LiveCG.
  *
- * Copyright (C) 2013  Sebastian Kuerten
+ * Copyright (C) 2016 Sebastian Kuerten
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,28 +15,31 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.topobyte.livecg.algorithms.frechet.freespace;
+
+package de.topobyte.livecg.util.resources;
 
 import java.io.IOException;
+import java.io.InputStream;
 
-import javax.swing.JFrame;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
-import de.topobyte.livecg.algorithms.frechet.ui.FreeSpaceDialog1;
+import de.topobyte.livecg.core.geometry.io.ContentReader;
 import de.topobyte.livecg.ui.geometryeditor.Content;
-import de.topobyte.livecg.util.resources.ContentResources;
 
-public class TestFreeSpace1
+public class ContentResources
 {
-	public static void main(String[] args) throws IOException,
+
+	public static Content load(String path) throws IOException,
 			ParserConfigurationException, SAXException
 	{
-		String path = "res/presets/frechet/Paper.geom";
-		Content content = ContentResources.load(path);
-
-		FreeSpaceDialog1 dialog = new FreeSpaceDialog1(content);
-		dialog.getFrame().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		ResourceFile resourceFile = ResourceLoader.open(path);
+		ContentReader contentReader = new ContentReader();
+		InputStream input = resourceFile.open();
+		Content content = contentReader.read(input);
+		input.close();
+		return content;
 	}
+
 }

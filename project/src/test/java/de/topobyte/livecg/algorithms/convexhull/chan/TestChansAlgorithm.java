@@ -17,7 +17,6 @@
  */
 package de.topobyte.livecg.algorithms.convexhull.chan;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,8 +33,8 @@ import de.topobyte.livecg.core.geometry.geom.ChainHelper;
 import de.topobyte.livecg.core.geometry.geom.CloseabilityException;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
 import de.topobyte.livecg.core.geometry.geom.PolygonHelper;
-import de.topobyte.livecg.core.geometry.io.ContentReader;
 import de.topobyte.livecg.ui.geometryeditor.Content;
+import de.topobyte.livecg.util.resources.ContentResources;
 
 public class TestChansAlgorithm
 {
@@ -46,9 +45,8 @@ public class TestChansAlgorithm
 		Logger.getLogger(ChansAlgorithm.class).setLevel(Level.DEBUG);
 
 		String path = "res/presets/chan/Chan1.geom";
-		ContentReader contentReader = new ContentReader();
+		Content content = ContentResources.load(path);
 
-		Content content = contentReader.read(new File(path));
 		List<Polygon> polygons = new ArrayList<Polygon>();
 
 		for (Polygon polygon : content.getPolygons()) {

@@ -17,7 +17,6 @@
  */
 package de.topobyte.livecg.algorithms.polygon.shortestpath;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -34,10 +33,10 @@ import de.topobyte.livecg.core.geometry.geom.CloseabilityException;
 import de.topobyte.livecg.core.geometry.geom.Node;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
 import de.topobyte.livecg.core.geometry.geom.PolygonHelper;
-import de.topobyte.livecg.core.geometry.io.ContentReader;
 import de.topobyte.livecg.ui.console.AlgorithmConsoleDialog;
 import de.topobyte.livecg.ui.geometryeditor.Content;
 import de.topobyte.livecg.util.LocationUtil;
+import de.topobyte.livecg.util.resources.ContentResources;
 
 public class TestShortestPath
 {
@@ -62,8 +61,7 @@ public class TestShortestPath
 		a = 20;
 		b = 7;
 
-		ContentReader contentReader = new ContentReader();
-		Content content = contentReader.read(new File(path));
+		Content content = ContentResources.load(path);
 		List<Polygon> polygons = content.getPolygons();
 		Polygon polygon = polygons.get(0);
 		if (!PolygonHelper.isCounterClockwiseOriented(polygon)) {

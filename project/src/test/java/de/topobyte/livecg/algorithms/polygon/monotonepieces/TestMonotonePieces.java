@@ -17,7 +17,6 @@
  */
 package de.topobyte.livecg.algorithms.polygon.monotonepieces;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -30,8 +29,8 @@ import org.apache.log4j.Logger;
 import org.xml.sax.SAXException;
 
 import de.topobyte.livecg.core.geometry.geom.Polygon;
-import de.topobyte.livecg.core.geometry.io.ContentReader;
 import de.topobyte.livecg.ui.geometryeditor.Content;
+import de.topobyte.livecg.util.resources.ContentResources;
 
 public class TestMonotonePieces
 {
@@ -42,8 +41,7 @@ public class TestMonotonePieces
 		Logger.getRootLogger().setLevel(Level.DEBUG);
 
 		String path = "res/presets/polygons/Small.geom";
-		ContentReader contentReader = new ContentReader();
-		Content content = contentReader.read(new File(path));
+		Content content = ContentResources.load(path);
 		List<Polygon> polygons = content.getPolygons();
 		Polygon polygon = polygons.get(0);
 

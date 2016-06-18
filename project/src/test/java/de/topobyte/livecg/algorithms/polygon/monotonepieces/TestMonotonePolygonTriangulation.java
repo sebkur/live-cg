@@ -17,7 +17,6 @@
  */
 package de.topobyte.livecg.algorithms.polygon.monotonepieces;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -36,8 +35,8 @@ import de.topobyte.livecg.core.geometry.geom.ChainHelper;
 import de.topobyte.livecg.core.geometry.geom.CloseabilityException;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
 import de.topobyte.livecg.core.geometry.geom.PolygonHelper;
-import de.topobyte.livecg.core.geometry.io.ContentReader;
 import de.topobyte.livecg.ui.geometryeditor.Content;
+import de.topobyte.livecg.util.resources.ContentResources;
 
 public class TestMonotonePolygonTriangulation
 {
@@ -48,8 +47,7 @@ public class TestMonotonePolygonTriangulation
 		Logger.getRootLogger().setLevel(Level.DEBUG);
 
 		String path = "res/presets/polygons/Y-Monotone2.geom";
-		ContentReader contentReader = new ContentReader();
-		Content content = contentReader.read(new File(path));
+		Content content = ContentResources.load(path);
 		List<Polygon> polygons = content.getPolygons();
 		Polygon polygon = polygons.get(0);
 		if (!PolygonHelper.isCounterClockwiseOriented(polygon)) {

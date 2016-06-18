@@ -17,7 +17,6 @@
  */
 package de.topobyte.livecg.algorithms.jts.buffer;
 
-import java.io.File;
 import java.io.IOException;
 
 import javax.swing.JFrame;
@@ -25,8 +24,8 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
-import de.topobyte.livecg.core.geometry.io.ContentReader;
 import de.topobyte.livecg.ui.geometryeditor.Content;
+import de.topobyte.livecg.util.resources.ContentResources;
 
 public class TestBuffer
 {
@@ -35,8 +34,7 @@ public class TestBuffer
 	{
 		// String path = "res/presets/polygons/Small.geom";
 		String path = "res/presets/Startup.geom";
-		ContentReader contentReader = new ContentReader();
-		Content content = contentReader.read(new File(path));
+		Content content = ContentResources.load(path);
 
 		BufferDialog dialog = new BufferDialog(content);
 		dialog.getFrame().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

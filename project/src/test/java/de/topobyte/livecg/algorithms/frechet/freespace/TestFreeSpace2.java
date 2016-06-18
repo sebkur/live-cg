@@ -17,7 +17,6 @@
  */
 package de.topobyte.livecg.algorithms.frechet.freespace;
 
-import java.io.File;
 import java.io.IOException;
 
 import javax.swing.JFrame;
@@ -26,8 +25,8 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 
 import de.topobyte.livecg.algorithms.frechet.ui.FreeSpaceDialog2;
-import de.topobyte.livecg.core.geometry.io.ContentReader;
 import de.topobyte.livecg.ui.geometryeditor.Content;
+import de.topobyte.livecg.util.resources.ContentResources;
 
 public class TestFreeSpace2
 {
@@ -35,8 +34,7 @@ public class TestFreeSpace2
 			ParserConfigurationException, SAXException
 	{
 		String path = "res/presets/frechet/Paper.geom";
-		ContentReader contentReader = new ContentReader();
-		Content content = contentReader.read(new File(path));
+		Content content = ContentResources.load(path);
 
 		FreeSpaceDialog2 dialog = new FreeSpaceDialog2(content);
 		dialog.getFrame().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
