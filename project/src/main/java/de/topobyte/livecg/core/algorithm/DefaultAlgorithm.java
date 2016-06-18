@@ -23,8 +23,8 @@ import java.util.List;
 public class DefaultAlgorithm implements Algorithm
 {
 
-	private List<AlgorithmWatcher> aws = new ArrayList<AlgorithmWatcher>();
-	private List<AlgorithmChangedListener> acls = new ArrayList<AlgorithmChangedListener>();
+	private List<AlgorithmWatcher> aws = new ArrayList<>();
+	private List<AlgorithmChangedListener> acls = new ArrayList<>();
 
 	@Override
 	public void addAlgorithmWatcher(AlgorithmWatcher listener)

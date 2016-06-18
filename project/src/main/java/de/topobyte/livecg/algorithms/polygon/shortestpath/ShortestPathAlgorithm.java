@@ -76,7 +76,7 @@ public class ShortestPathAlgorithm extends DefaultSceneAlgorithm implements
 	private int subStatus;
 	private Data data;
 
-	private List<Data> history = new ArrayList<Data>();
+	private List<Data> history = new ArrayList<>();
 
 	/*
 	 * We need the pattern to pad with enough zeros to allow for a useful
@@ -480,7 +480,7 @@ public class ShortestPathAlgorithm extends DefaultSceneAlgorithm implements
 
 	public List<Step> stepsToNextDiagonal()
 	{
-		List<Step> steps = new ArrayList<Step>();
+		List<Step> steps = new ArrayList<>();
 
 		if (status == 0) {
 			return steps;
@@ -531,7 +531,7 @@ public class ShortestPathAlgorithm extends DefaultSceneAlgorithm implements
 		return FunnelUtil.getNthNodeOfFunnelTraversal(data, next, on, s);
 	}
 
-	private List<String> messages = new ArrayList<String>();
+	private List<String> messages = new ArrayList<>();
 
 	private void addMessage(String text)
 	{

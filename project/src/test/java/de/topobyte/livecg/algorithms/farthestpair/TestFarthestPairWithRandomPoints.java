@@ -49,7 +49,7 @@ public class TestFarthestPairWithRandomPoints
 		Random random = new Random(0);
 
 		for (int i = 0; i < 10000; i++) {
-			List<Node> nodes = new ArrayList<Node>();
+			List<Node> nodes = new ArrayList<>();
 			for (int k = 0; k < 50; k++) {
 				int x = random.nextInt(400) + 10;
 				int y = random.nextInt(400) + 10;

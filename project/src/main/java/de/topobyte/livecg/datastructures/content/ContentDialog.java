@@ -47,7 +47,7 @@ public class ContentDialog
 		ContentPanel contentPanel = new ContentPanel(content, config, margin);
 		Settings settings = new Settings(contentPanel);
 
-		ScrollableView<ContentPanel> scrollableView = new ScrollableView<ContentPanel>(
+		ScrollableView<ContentPanel> scrollableView = new ScrollableView<>(
 				contentPanel);
 
 		main.add(settings, BorderLayout.NORTH);

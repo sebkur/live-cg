@@ -26,8 +26,8 @@ import de.topobyte.livecg.core.geometry.geom.Polygon;
 public class SetOfGeometries
 {
 
-	protected List<Chain> chains = new ArrayList<Chain>();
-	protected List<Polygon> polygons = new ArrayList<Polygon>();
+	protected List<Chain> chains = new ArrayList<>();
+	protected List<Polygon> polygons = new ArrayList<>();
 
 	public List<Chain> getChains()
 	{

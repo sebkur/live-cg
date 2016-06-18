@@ -31,7 +31,7 @@ public class EventQueue
 
 	public EventQueue()
 	{
-		points = new AvlTree<EventPoint>(new Comparator<EventPoint>() {
+		points = new AvlTree<>(new Comparator<EventPoint>() {
 
 			@Override
 			public int compare(EventPoint e1, EventPoint e2)
@@ -116,7 +116,7 @@ public class EventQueue
 		return points.get(index);
 	}
 
-	private List<EventQueueListener> listeners = new ArrayList<EventQueueListener>();
+	private List<EventQueueListener> listeners = new ArrayList<>();
 
 	public void addEventQueueListener(EventQueueListener listener)
 	{

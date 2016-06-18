@@ -24,7 +24,7 @@ import java.util.List;
 public class PointSet
 {
 
-	private List<Point> points = new ArrayList<Point>();
+	private List<Point> points = new ArrayList<>();
 
 	public void add(Point point)
 	{

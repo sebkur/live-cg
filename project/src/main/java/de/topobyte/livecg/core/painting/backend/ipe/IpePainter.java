@@ -376,7 +376,7 @@ public class IpePainter implements Painter
 		if (clipShapes == null) {
 			return null;
 		}
-		List<Shape> copy = new ArrayList<Shape>();
+		List<Shape> copy = new ArrayList<>();
 		for (Shape s : clipShapes) {
 			copy.add(s);
 		}
@@ -405,7 +405,7 @@ public class IpePainter implements Painter
 	public void clipArea(Shape shape)
 	{
 		if (clipShapes == null) {
-			clipShapes = new ArrayList<Shape>();
+			clipShapes = new ArrayList<>();
 		}
 		shape = applyTransforms(shape);
 		clipShapes.add(shape);

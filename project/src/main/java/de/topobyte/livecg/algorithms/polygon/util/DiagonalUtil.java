@@ -43,7 +43,7 @@ public class DiagonalUtil
 			Collection<Diagonal> diagonals)
 	{
 		PolygonGraph graph = new PolygonGraph(polygon);
-		List<Polygon> pieces = new ArrayList<Polygon>();
+		List<Polygon> pieces = new ArrayList<>();
 		split(graph, pieces, polygon, diagonals);
 		return new SplitResult(pieces, graph);
 	}
@@ -56,7 +56,7 @@ public class DiagonalUtil
 		int b = index.get(diagonal.getB());
 		Polygon polygonA = new Polygon(createChain(shell, a, b), null);
 		Polygon polygonB = new Polygon(createChain(shell, b, a), null);
-		ArrayList<Polygon> results = new ArrayList<Polygon>();
+		ArrayList<Polygon> results = new ArrayList<>();
 		results.add(polygonA);
 		results.add(polygonB);
 		return results;
@@ -100,11 +100,11 @@ public class DiagonalUtil
 		// Now assign diagonals to subpolygons
 		IntRingInterval intA = new IntRingInterval(shell.getNumberOfNodes(), a,
 				b);
-		List<Diagonal> diagsA = new ArrayList<Diagonal>();
+		List<Diagonal> diagsA = new ArrayList<>();
 
 		IntRingInterval intB = new IntRingInterval(shell.getNumberOfNodes(), b,
 				a);
-		List<Diagonal> diagsB = new ArrayList<Diagonal>();
+		List<Diagonal> diagsB = new ArrayList<>();
 
 		for (Diagonal d : diagonals) {
 			if (d == diagonal) {

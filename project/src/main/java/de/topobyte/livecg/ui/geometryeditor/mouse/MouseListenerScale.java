@@ -36,7 +36,7 @@ public class MouseListenerScale extends EditPaneMouseListener
 
 	private static final double MOUSE_TOLERANCE_HANDLES = 12;
 
-	private static Map<Position, Integer> resizeCursors = new HashMap<Position, Integer>();
+	private static Map<Position, Integer> resizeCursors = new HashMap<>();
 	static {
 		resizeCursors.put(Position.N, Cursor.N_RESIZE_CURSOR);
 		resizeCursors.put(Position.NE, Cursor.NE_RESIZE_CURSOR);
@@ -50,7 +50,7 @@ public class MouseListenerScale extends EditPaneMouseListener
 
 	private ScaleInfo scaleInfo = null;
 
-	private Map<Node, Coordinate> originalPositions = new HashMap<Node, Coordinate>();
+	private Map<Node, Coordinate> originalPositions = new HashMap<>();
 
 	public MouseListenerScale(GeometryEditPane editPane)
 	{

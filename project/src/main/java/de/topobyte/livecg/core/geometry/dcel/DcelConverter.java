@@ -48,8 +48,8 @@ public class DcelConverter
 
 	private Content content;
 	private DCEL dcel = new DCEL();
-	private Map<Node, Vertex> nodeToVertex = new HashMap<Node, Vertex>();
-	private Map<Vertex, List<HalfEdge>> vertexToOutgoingHalfedges = new HashMap<Vertex, List<HalfEdge>>();
+	private Map<Node, Vertex> nodeToVertex = new HashMap<>();
+	private Map<Vertex, List<HalfEdge>> vertexToOutgoingHalfedges = new HashMap<>();
 
 	private DcelConverter(Content content)
 	{
@@ -143,7 +143,7 @@ public class DcelConverter
 	{
 		List<HalfEdge> halfEdges = vertexToOutgoingHalfedges.get(v);
 		if (halfEdges == null) {
-			halfEdges = new ArrayList<HalfEdge>();
+			halfEdges = new ArrayList<>();
 			vertexToOutgoingHalfedges.put(v, halfEdges);
 		}
 		halfEdges.add(he);
@@ -172,14 +172,14 @@ public class DcelConverter
 			e2.setPrev(e1.getTwin());
 			e1.setPrev(e2.getTwin());
 		} else {
-			List<ObjectWithDouble<HalfEdge>> objects = new ArrayList<ObjectWithDouble<HalfEdge>>();
+			List<ObjectWithDouble<HalfEdge>> objects = new ArrayList<>();
 			for (HalfEdge e : halfEdges) {
 				Coordinate c = e.getOrigin().getCoordinate();
 				Coordinate cSuc = e.getTwin().getOrigin().getCoordinate();
 				Coordinate cPre = new Coordinate(c.getX(), c.getY() + 100);
 				double angle = GeomMath.angle(c, cPre, cSuc);
-				ObjectWithDouble<HalfEdge> object = new ObjectWithDouble<HalfEdge>(
-						e, angle);
+				ObjectWithDouble<HalfEdge> object = new ObjectWithDouble<>(e,
+						angle);
 				objects.add(object);
 			}
 			Collections.sort(objects);

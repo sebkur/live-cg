@@ -75,7 +75,7 @@ public class ChansAlgorithmDialog implements AlgorithmWatcher
 		cap = new ChansAlgorithmPanel(algorithm, config);
 
 		Settings toolbar = new Settings(algorithm, cap, config);
-		ScrollableView<ChansAlgorithmPanel> scrollableView = new ScrollableView<ChansAlgorithmPanel>(
+		ScrollableView<ChansAlgorithmPanel> scrollableView = new ScrollableView<>(
 				cap);
 
 		sliderMajor = new JSlider(0, chanUtil.getNumberOfMajorSteps());

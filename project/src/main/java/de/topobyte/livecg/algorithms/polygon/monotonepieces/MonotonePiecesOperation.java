@@ -48,14 +48,14 @@ public class MonotonePiecesOperation
 			.getLogger(MonotonePiecesOperation.class);
 
 	private Polygon polygon;
-	private Map<Node, VertexType> types = new HashMap<Node, VertexType>();
+	private Map<Node, VertexType> types = new HashMap<>();
 
-	private Map<Node, Integer> index = new HashMap<Node, Integer>();
-	private Map<Integer, Node> helpers = new HashMap<Integer, Node>();
+	private Map<Node, Integer> index = new HashMap<>();
+	private Map<Integer, Node> helpers = new HashMap<>();
 
-	private List<Diagonal> diagonals = new ArrayList<Diagonal>();
+	private List<Diagonal> diagonals = new ArrayList<>();
 
-	private Set<Node> connected = new HashSet<Node>();
+	private Set<Node> connected = new HashSet<>();
 
 	public MonotonePiecesOperation(Polygon polygon)
 	{
@@ -121,7 +121,7 @@ public class MonotonePiecesOperation
 		 * Create priority queue
 		 */
 
-		PriorityQueue<Node> queue = new PriorityQueue<Node>(11,
+		PriorityQueue<Node> queue = new PriorityQueue<>(11,
 				new Comparator<Node>() {
 
 					@Override

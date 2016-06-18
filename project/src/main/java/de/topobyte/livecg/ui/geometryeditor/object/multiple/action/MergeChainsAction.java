@@ -50,7 +50,7 @@ public class MergeChainsAction extends BasicAction
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
-		List<Node> nodes = new ArrayList<Node>();
+		List<Node> nodes = new ArrayList<>();
 		List<Chain> chains = editPane.getCurrentChains();
 		for (Chain chain : chains) {
 			for (int i = 0; i < chain.getNumberOfNodes(); i++) {
@@ -89,7 +89,7 @@ public class MergeChainsAction extends BasicAction
 
 	private List<Chain> onlyNonClosed(List<Chain> cs)
 	{
-		List<Chain> nonClosed = new ArrayList<Chain>();
+		List<Chain> nonClosed = new ArrayList<>();
 		for (Chain c : cs) {
 			if (!c.isClosed()) {
 				nonClosed.add(c);

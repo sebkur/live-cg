@@ -68,7 +68,7 @@ public class ChansAlgorithm extends DefaultSceneAlgorithm
 
 	private Data data = new Data();
 
-	private List<Data> history = new ArrayList<Data>();
+	private List<Data> history = new ArrayList<>();
 
 	public Data getData()
 	{

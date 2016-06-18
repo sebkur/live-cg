@@ -38,7 +38,7 @@ public class BufferAlgorithm extends DefaultSceneAlgorithm
 
 	private SetOfGeometries geometries;
 	private BufferConfig config;
-	private List<Polygon> result = new ArrayList<Polygon>();
+	private List<Polygon> result = new ArrayList<>();
 
 	public BufferAlgorithm(SetOfGeometries geometries, BufferConfig config)
 	{

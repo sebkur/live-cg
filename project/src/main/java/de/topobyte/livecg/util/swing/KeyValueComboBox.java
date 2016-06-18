@@ -57,7 +57,7 @@ public class KeyValueComboBox<K, V> extends JComboBox
 	{
 		Data<K, V>[] data = new Data[names.length];
 		for (int i = 0; i < names.length; i++) {
-			data[i] = new Data<K, V>(names[i], values[i]);
+			data[i] = new Data<>(names[i], values[i]);
 		}
 		return data;
 	}

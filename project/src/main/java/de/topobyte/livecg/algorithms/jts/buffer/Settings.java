@@ -70,15 +70,15 @@ public class Settings extends JToolBar implements ItemListener, ActionListener
 
 		buttons[0].setSelected(config.isDrawInput());
 
-		capSelector = new KeyValueComboBox<String, Integer>(new String[] {
-				"flat", "round", "square" }, new Integer[] {
-				BufferParameters.CAP_FLAT, BufferParameters.CAP_ROUND,
-				BufferParameters.CAP_SQUARE }, config.getCapStyle());
+		capSelector = new KeyValueComboBox<>(new String[] { "flat", "round",
+				"square" }, new Integer[] { BufferParameters.CAP_FLAT,
+				BufferParameters.CAP_ROUND, BufferParameters.CAP_SQUARE },
+				config.getCapStyle());
 
-		joinSelector = new KeyValueComboBox<String, Integer>(new String[] {
-				"bevel", "mitre", "round" }, new Integer[] {
-				BufferParameters.JOIN_BEVEL, BufferParameters.JOIN_MITRE,
-				BufferParameters.JOIN_ROUND }, config.getJoinStyle());
+		joinSelector = new KeyValueComboBox<>(new String[] { "bevel", "mitre",
+				"round" }, new Integer[] { BufferParameters.JOIN_BEVEL,
+				BufferParameters.JOIN_MITRE, BufferParameters.JOIN_ROUND },
+				config.getJoinStyle());
 
 		capSelector.setMinPreferredWidth(100);
 		joinSelector.setMinPreferredWidth(100);

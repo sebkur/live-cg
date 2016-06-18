@@ -28,7 +28,7 @@ public class ContentHelper
 {
 	public static List<Node> collectNodes(Content content)
 	{
-		List<Node> nodes = new ArrayList<Node>();
+		List<Node> nodes = new ArrayList<>();
 
 		for (Chain chain : content.getChains()) {
 			collectNodes(nodes, chain);

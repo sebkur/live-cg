@@ -111,7 +111,7 @@ public class FunnelUtil
 	static List<Step> stepsToUpdateFunnel(Data data, Diagonal next, Side on,
 			Node notYetOnChain)
 	{
-		List<Step> steps = new ArrayList<Step>();
+		List<Step> steps = new ArrayList<>();
 
 		steps.add(new StepLocateNextNode());
 

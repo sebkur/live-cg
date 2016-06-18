@@ -31,7 +31,7 @@ public class Polygon
 		this.shell = shell;
 		shell.addPolygon(this);
 		if (holes == null) {
-			this.holes = new ArrayList<Chain>();
+			this.holes = new ArrayList<>();
 		} else {
 			this.holes = holes;
 		}

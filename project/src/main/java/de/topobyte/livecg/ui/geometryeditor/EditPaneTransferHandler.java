@@ -85,7 +85,7 @@ public class EditPaneTransferHandler extends TransferHandler
 		System.out.println("import");
 		Transferable tr = ts.getTransferable();
 		boolean handleable = false;
-		List<File> handleFiles = new ArrayList<File>();
+		List<File> handleFiles = new ArrayList<>();
 
 		if (tr.isDataFlavorSupported(DataFlavor.javaFileListFlavor)) {
 			try {
@@ -133,7 +133,7 @@ public class EditPaneTransferHandler extends TransferHandler
 
 	static List<File> createFileArray(BufferedReader bReader)
 	{
-		List<File> list = new java.util.ArrayList<File>();
+		List<File> list = new java.util.ArrayList<>();
 		try {
 			java.lang.String line = null;
 			while ((line = bReader.readLine()) != null) {

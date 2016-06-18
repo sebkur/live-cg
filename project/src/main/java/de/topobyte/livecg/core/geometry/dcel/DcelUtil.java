@@ -81,9 +81,9 @@ public class DcelUtil
 	{
 		DCEL clone = new DCEL();
 
-		Map<Vertex, Vertex> vs = new HashMap<Vertex, Vertex>();
-		Map<HalfEdge, HalfEdge> es = new HashMap<HalfEdge, HalfEdge>();
-		Map<Face, Face> fs = new HashMap<Face, Face>();
+		Map<Vertex, Vertex> vs = new HashMap<>();
+		Map<HalfEdge, HalfEdge> es = new HashMap<>();
+		Map<Face, Face> fs = new HashMap<>();
 
 		// Copy vertices
 		for (Vertex v : dcel.getVertices()) {

@@ -41,8 +41,8 @@ public class Info
 	private int minIndex = -1;
 	private int maxIndex = -1;
 
-	List<Node> nodes = new ArrayList<Node>();
-	Map<Node, Side> side = new HashMap<Node, Side>();
+	List<Node> nodes = new ArrayList<>();
+	Map<Node, Side> side = new HashMap<>();
 
 	Info(Polygon polygon)
 	{

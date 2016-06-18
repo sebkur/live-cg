@@ -54,7 +54,7 @@ public class Controls extends JToolBar implements ActionListener
 
 	private static String KEY_ADD_RANDOM = "add-random";
 
-	private static Map<String, String> texts = new HashMap<String, String>();
+	private static Map<String, String> texts = new HashMap<>();
 	static {
 		texts.put(KEY_PLAY, "Play");
 		texts.put(KEY_PLAY_REVERSE, "Play Reverse");
@@ -68,7 +68,7 @@ public class Controls extends JToolBar implements ActionListener
 		texts.put(KEY_ADD_RANDOM, "Add random points");
 	}
 
-	private static Map<String, String> paths = new HashMap<String, String>();
+	private static Map<String, String> paths = new HashMap<>();
 	static {
 		paths.put(KEY_PLAY, "res/images/24x24/media-playback-start.png");
 		paths.put(KEY_PLAY_REVERSE,
@@ -84,7 +84,7 @@ public class Controls extends JToolBar implements ActionListener
 		paths.put(KEY_ADD_RANDOM, null);
 	}
 
-	private Map<String, Icon> icons = new HashMap<String, Icon>();
+	private Map<String, Icon> icons = new HashMap<>();
 
 	public Controls(FortuneDialog fortune, FortunesSweep algorithm)
 	{
@@ -98,7 +98,7 @@ public class Controls extends JToolBar implements ActionListener
 			icons.put(key, icon);
 		}
 
-		Map<String, JButton> buttonMap = new HashMap<String, JButton>();
+		Map<String, JButton> buttonMap = new HashMap<>();
 
 		String keys[] = { KEY_PLAY, KEY_PLAY_REVERSE, KEY_PREVIOUS_EVENT,
 				KEY_NEXT_EVENT, KEY_PREV_PIXEL, KEY_NEXT_PIXEL, KEY_RESTART,

@@ -27,7 +27,7 @@ public class CrossingsTest
 
 	public CrossingsTest(Chain chain)
 	{
-		this.chains = new ArrayList<Chain>();
+		this.chains = new ArrayList<>();
 		chains.add(chain);
 	}
 

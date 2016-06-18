@@ -47,7 +47,7 @@ public class FortunesSweepVisualizationSetup implements VisualizationSetup
 		List<Node> nodes = ContentHelper.collectNodes(content);
 		FortunesSweep algorithm = new FortunesSweep();
 
-		List<Point> sites = new ArrayList<Point>();
+		List<Point> sites = new ArrayList<>();
 		for (Node node : nodes) {
 			Coordinate c = node.getCoordinate();
 			sites.add(new Point(c.getX() * zoom, c.getY() * zoom));

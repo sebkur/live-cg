@@ -28,10 +28,10 @@ import de.topobyte.livecg.util.CloneUtil;
 public class Data
 {
 
-	private List<Node> commonPath = new ArrayList<Node>();
-	private List<Node> leftPath = new ArrayList<Node>();
-	private List<Node> rightPath = new ArrayList<Node>();
-	private Map<Side, List<Node>> funnelChains = new HashMap<Side, List<Node>>();
+	private List<Node> commonPath = new ArrayList<>();
+	private List<Node> leftPath = new ArrayList<>();
+	private List<Node> rightPath = new ArrayList<>();
+	private Map<Side, List<Node>> funnelChains = new HashMap<>();
 
 	private Data()
 	{

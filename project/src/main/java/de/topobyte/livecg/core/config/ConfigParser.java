@@ -61,7 +61,7 @@ public class ConfigParser
 		return parser.config;
 	}
 
-	private Stack<String> prefixes = new Stack<String>();
+	private Stack<String> prefixes = new Stack<>();
 
 	private void parseLine(String line)
 	{

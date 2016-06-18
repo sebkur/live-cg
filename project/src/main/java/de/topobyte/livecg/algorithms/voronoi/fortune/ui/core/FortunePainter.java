@@ -315,7 +315,7 @@ public class FortunePainter extends BasicVisualizationPainter
 		// draw at least one segment to avoid gaps in corner cases
 		boolean firstSegment = true;
 
-		List<Coordinate> coords = new ArrayList<Coordinate>();
+		List<Coordinate> coords = new ArrayList<>();
 		coords.add(new Coordinate(x1, y1));
 		// loop over y values
 		for (double y2 = yTop + yStep; y2 < yMax || firstSegment; y2 += yStep) {

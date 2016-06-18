@@ -42,7 +42,7 @@ public class ShortestPathInPolygonLauncher implements ContentLauncher
 	public void launch(Content content, boolean exit) throws LaunchException
 	{
 		List<Polygon> polygons = content.getPolygons();
-		List<Polygon> viable = new ArrayList<Polygon>();
+		List<Polygon> viable = new ArrayList<>();
 		for (Polygon polygon : polygons) {
 			if (polygon.getHoles().size() == 0) {
 				viable.add(polygon);

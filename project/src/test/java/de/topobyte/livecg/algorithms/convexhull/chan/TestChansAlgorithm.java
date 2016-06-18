@@ -47,7 +47,7 @@ public class TestChansAlgorithm
 		String path = "res/presets/chan/Chan1.geom";
 		Content content = ContentResources.load(path);
 
-		List<Polygon> polygons = new ArrayList<Polygon>();
+		List<Polygon> polygons = new ArrayList<>();
 
 		for (Polygon polygon : content.getPolygons()) {
 			if (PolygonHelper.isCounterClockwiseOriented(polygon)) {

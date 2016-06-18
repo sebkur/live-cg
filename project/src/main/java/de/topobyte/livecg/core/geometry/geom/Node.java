@@ -24,8 +24,8 @@ public class Node
 {
 
 	private Coordinate coordinate;
-	private List<Chain> endpointChains = new ArrayList<Chain>();;
-	private List<Chain> chains = new ArrayList<Chain>();;
+	private List<Chain> endpointChains = new ArrayList<>();;
+	private List<Chain> chains = new ArrayList<>();;
 
 	public Node(Coordinate coordinate)
 	{

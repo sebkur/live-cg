@@ -73,7 +73,7 @@ public class MonotoneTriangulationDialog implements AlgorithmChangedListener,
 
 		mtp = new MonotoneTriangulationPanel(algorithm, config);
 
-		ScrollableView<MonotoneTriangulationPanel> scrollableView = new ScrollableView<MonotoneTriangulationPanel>(
+		ScrollableView<MonotoneTriangulationPanel> scrollableView = new ScrollableView<>(
 				mtp);
 
 		Settings settings = new Settings(algorithm, mtp, config);

@@ -39,7 +39,7 @@ public class PanMouseAdapter<T extends JComponent & Viewport & HasScene & HasMar
 	{
 		this.view = view;
 
-		calculator = new ViewportMath<T>(view);
+		calculator = new ViewportMath<>(view);
 	}
 
 	@Override

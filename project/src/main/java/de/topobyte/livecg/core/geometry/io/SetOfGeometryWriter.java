@@ -75,7 +75,7 @@ public class SetOfGeometryWriter
 		}
 	}
 
-	private Map<Node, Integer> nodeToId = new HashMap<Node, Integer>();
+	private Map<Node, Integer> nodeToId = new HashMap<>();
 
 	private void writeNodes(Chain chain) throws IOException
 	{

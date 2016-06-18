@@ -26,7 +26,7 @@ public class DistanceTerrainConfig
 	private boolean drawGrid = true;
 	private int scale = 600;
 
-	private List<ConfigChangedListener> listeners = new ArrayList<ConfigChangedListener>();
+	private List<ConfigChangedListener> listeners = new ArrayList<>();
 
 	public boolean isDrawGrid()
 	{

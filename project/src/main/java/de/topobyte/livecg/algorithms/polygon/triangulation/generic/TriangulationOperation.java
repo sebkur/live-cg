@@ -28,7 +28,7 @@ import de.topobyte.livecg.core.geometry.geom.Polygon;
 
 public class TriangulationOperation
 {
-	private List<Diagonal> allDiagonals = new ArrayList<Diagonal>();
+	private List<Diagonal> allDiagonals = new ArrayList<>();
 
 	public TriangulationOperation(Polygon polygon)
 	{

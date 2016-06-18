@@ -38,8 +38,8 @@ public class GraphFinder
 
 	private Graph<Polygon, Diagonal> graph;
 
-	private Stack<Polygon> path = new Stack<Polygon>();
-	private Stack<Diagonal> pathDiagonals = new Stack<Diagonal>();
+	private Stack<Polygon> path = new Stack<>();
+	private Stack<Diagonal> pathDiagonals = new Stack<>();
 
 	private GraphFinder(Graph<Polygon, Diagonal> graph)
 	{

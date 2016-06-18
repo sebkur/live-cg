@@ -28,7 +28,7 @@ public class FreeSpaceConfig
 	private boolean drawReachableSpaceMarkers = false;
 	private boolean drawFreeSpaceMarkers = false;
 
-	private List<ConfigChangedListener> listeners = new ArrayList<ConfigChangedListener>();
+	private List<ConfigChangedListener> listeners = new ArrayList<>();
 
 	public boolean isDrawGrid()
 	{

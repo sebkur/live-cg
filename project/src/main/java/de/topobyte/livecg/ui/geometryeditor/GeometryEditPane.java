@@ -88,9 +88,9 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 
 	private Content content;
 
-	private List<Node> currentNodes = new ArrayList<Node>();
-	private List<Chain> currentChains = new ArrayList<Chain>();
-	private List<Polygon> currentPolygons = new ArrayList<Polygon>();
+	private List<Node> currentNodes = new ArrayList<>();
+	private List<Chain> currentChains = new ArrayList<>();
+	private List<Polygon> currentPolygons = new ArrayList<>();
 
 	private double positionX = 0;
 	private double positionY = 0;
@@ -148,7 +148,7 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 		return zoom;
 	}
 
-	private List<ViewportListener> viewportListeners = new ArrayList<ViewportListener>();
+	private List<ViewportListener> viewportListeners = new ArrayList<>();
 
 	@Override
 	public void addViewportListener(ViewportListener listener)
@@ -292,7 +292,7 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 		repaint();
 	}
 
-	private List<MouseModeListener> listeners = new ArrayList<MouseModeListener>();
+	private List<MouseModeListener> listeners = new ArrayList<>();
 
 	@Override
 	public void addMouseModeListener(MouseModeListener listener)
@@ -834,7 +834,7 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 		return false;
 	}
 
-	private List<SelectionChangedListener> selectionListenerns = new ArrayList<SelectionChangedListener>();
+	private List<SelectionChangedListener> selectionListenerns = new ArrayList<>();
 
 	public void addSelectionChangedListener(SelectionChangedListener l)
 	{
@@ -853,7 +853,7 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 		}
 	}
 
-	private List<ContentReferenceChangedListener> contentReferenceChangedListeners = new ArrayList<ContentReferenceChangedListener>();
+	private List<ContentReferenceChangedListener> contentReferenceChangedListeners = new ArrayList<>();
 
 	public void addContentReferenceChangedListener(
 			ContentReferenceChangedListener l)
@@ -881,7 +881,7 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 			removeCurrentChain(chain);
 		}
 		// Remove nodes from current-nodes that were only present in this object
-		List<Node> gone = new ArrayList<Node>();
+		List<Node> gone = new ArrayList<>();
 		for (Node node : currentNodes) {
 			if (node.getChains().size() == 1
 					&& node.getChains().get(0) == chain) {
@@ -904,13 +904,13 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 		// Remove nodes from current-nodes that were only present in this object
 		// -> This is a little more tricky than for chains, first find all
 		// chains used by the polygon
-		List<Chain> chains = new ArrayList<Chain>();
+		List<Chain> chains = new ArrayList<>();
 		chains.add(polygon.getShell());
 		for (Chain hole : polygon.getHoles()) {
 			chains.add(hole);
 		}
 		// -> Then look at nodes
-		List<Node> gone = new ArrayList<Node>();
+		List<Node> gone = new ArrayList<>();
 		for (Node node : currentNodes) {
 			boolean keep = false;
 			for (Chain c : node.getChains()) {
@@ -956,7 +956,7 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 
 	public Set<Node> getSelectedNodes()
 	{
-		Set<Node> nodes = new HashSet<Node>();
+		Set<Node> nodes = new HashSet<>();
 		for (Node node : currentNodes) {
 			nodes.add(node);
 		}

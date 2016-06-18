@@ -56,7 +56,7 @@ public class Content extends SetOfGeometries
 
 	public Set<Chain> getChainsNear(Coordinate coordinate)
 	{
-		Set<Chain> results = new HashSet<Chain>();
+		Set<Chain> results = new HashSet<>();
 		for (Chain chain : chains) {
 			if (chain.hasPointWithinThreshold(coordinate, 4)) {
 				results.add(chain);
@@ -65,7 +65,7 @@ public class Content extends SetOfGeometries
 		return results;
 	}
 
-	private List<ContentChangedListener> contentListenerns = new ArrayList<ContentChangedListener>();
+	private List<ContentChangedListener> contentListenerns = new ArrayList<>();
 
 	public void addContentChangedListener(ContentChangedListener l)
 	{

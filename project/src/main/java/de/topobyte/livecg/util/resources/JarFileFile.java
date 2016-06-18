@@ -95,7 +95,7 @@ public class JarFileFile implements ResourceFile
 	@Override
 	public List<ResourceFile> listFiles()
 	{
-		List<ResourceFile> files = new ArrayList<ResourceFile>();
+		List<ResourceFile> files = new ArrayList<>();
 		Set<String> sub = jarDict.getFiles(relativePath);
 		for (String s : sub) {
 			String path = relativePath + "/" + s;

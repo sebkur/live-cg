@@ -33,7 +33,7 @@ public class ShortestPathHelper
 
 	public static PairOfNodes determineGoodNodes(Polygon polygon)
 	{
-		List<Polygon> list = new ArrayList<Polygon>();
+		List<Polygon> list = new ArrayList<>();
 		list.add(polygon);
 		Polygon convexHull = ConvexHullOperation.compute(null, null, list);
 		FarthestPairResult farthestPair = ShamosFarthestPairOperation

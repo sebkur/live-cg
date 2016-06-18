@@ -77,7 +77,7 @@ public class OpenAction extends FortuneAction
 			} catch (IOException ex) {
 				// ignore
 			}
-			List<Point> sites = new ArrayList<Point>();
+			List<Point> sites = new ArrayList<>();
 			for (de.topobyte.livecg.core.geometry.pointset.Point point : pointSet
 					.getPoints()) {
 				sites.add(new Point(point.getX(), point.getY()));

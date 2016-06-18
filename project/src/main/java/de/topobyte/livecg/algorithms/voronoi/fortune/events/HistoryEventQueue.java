@@ -33,7 +33,7 @@ public class HistoryEventQueue extends EventQueue
 	static final Logger logger = LoggerFactory
 			.getLogger(HistoryEventQueue.class);
 
-	private Map<EventPoint, List<EventQueueModification>> modifications = new HashMap<EventPoint, List<EventQueueModification>>();
+	private Map<EventPoint, List<EventQueueModification>> modifications = new HashMap<>();
 
 	private FortunesSweep algorithm;
 
@@ -49,7 +49,7 @@ public class HistoryEventQueue extends EventQueue
 		List<EventQueueModification> changes;
 		changes = modifications.get(reason);
 		if (changes == null) {
-			changes = new ArrayList<EventQueueModification>();
+			changes = new ArrayList<>();
 			modifications.put(reason, changes);
 		}
 
@@ -70,7 +70,7 @@ public class HistoryEventQueue extends EventQueue
 		if (remove) {
 			List<EventQueueModification> changes = modifications.get(reason);
 			if (changes == null) {
-				changes = new ArrayList<EventQueueModification>();
+				changes = new ArrayList<>();
 				modifications.put(reason, changes);
 			}
 			EventQueueModification modification = new EventQueueModification(

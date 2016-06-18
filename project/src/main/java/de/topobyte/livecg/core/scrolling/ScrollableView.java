@@ -52,19 +52,19 @@ public class ScrollableView<T extends JComponent & ViewportWithSignals & HasScen
 				InputEvent.CTRL_DOWN_MASK), "Ctrl+1");
 
 		ActionMap actionMap = getActionMap();
-		actionMap.put("Ctrl++", new ZoomAction<T>(view, ZoomAction.Type.IN));
-		actionMap.put("Ctrl+-", new ZoomAction<T>(view, ZoomAction.Type.OUT));
-		actionMap.put("Ctrl+1", new ZoomAction<T>(view,
-				ZoomAction.Type.IDENTITY));
+		actionMap.put("Ctrl++", new ZoomAction<>(view, ZoomAction.Type.IN));
+		actionMap.put("Ctrl+-", new ZoomAction<>(view, ZoomAction.Type.OUT));
+		actionMap.put("Ctrl+1",
+				new ZoomAction<>(view, ZoomAction.Type.IDENTITY));
 
 		JScrollBar scrollerH = new JScrollBar(JScrollBar.HORIZONTAL);
 		JScrollBar scrollerV = new JScrollBar(JScrollBar.VERTICAL);
 
-		SceneBoundedRangeModel<T> rangeH = new SceneBoundedRangeModel<T>(view,
+		SceneBoundedRangeModel<T> rangeH = new SceneBoundedRangeModel<>(view,
 				true);
 		scrollerH.setModel(rangeH);
 
-		SceneBoundedRangeModel<T> rangeV = new SceneBoundedRangeModel<T>(view,
+		SceneBoundedRangeModel<T> rangeV = new SceneBoundedRangeModel<>(view,
 				false);
 		scrollerV.setModel(rangeV);
 
@@ -80,7 +80,7 @@ public class ScrollableView<T extends JComponent & ViewportWithSignals & HasScen
 		GridBagHelper.setWxWyF(c, 0.0, 1.0, GridBagConstraints.BOTH);
 		add(scrollerV, c);
 
-		PanMouseAdapter<T> panAdapter = new PanMouseAdapter<T>(view);
+		PanMouseAdapter<T> panAdapter = new PanMouseAdapter<>(view);
 		addMouseListener(panAdapter);
 		addMouseMotionListener(panAdapter);
 	}

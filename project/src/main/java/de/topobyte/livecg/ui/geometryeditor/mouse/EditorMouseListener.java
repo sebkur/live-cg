@@ -27,7 +27,7 @@ import de.topobyte.livecg.ui.geometryeditor.mousemode.MouseMode;
 
 public class EditorMouseListener extends EditPaneMouseListener
 {
-	private Map<MouseMode, ViewportMouseListener> listeners = new HashMap<MouseMode, ViewportMouseListener>();
+	private Map<MouseMode, ViewportMouseListener> listeners = new HashMap<>();
 
 	public EditorMouseListener(GeometryEditPane editPane)
 	{

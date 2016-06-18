@@ -35,7 +35,7 @@ public class GeometryTransfer
 	private SetOfGeometries from;
 	private SetOfGeometries to;
 
-	private Map<Node, Node> nl = new HashMap<Node, Node>();
+	private Map<Node, Node> nl = new HashMap<>();
 
 	private GeometryTransfer(SetOfGeometries from, SetOfGeometries to)
 	{
@@ -109,7 +109,7 @@ public class GeometryTransfer
 	private Polygon copyPolygon(Polygon polygon)
 	{
 		Chain shell = copyChain(polygon.getShell());
-		List<Chain> holes = new ArrayList<Chain>();
+		List<Chain> holes = new ArrayList<>();
 		for (Chain hole : polygon.getHoles()) {
 			holes.add(copyChain(hole));
 		}

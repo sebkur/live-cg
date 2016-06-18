@@ -34,8 +34,8 @@ public class ColorMapBuilder
 
 	public static <N, E> Map<N, Color> buildColorMap(Graph<N, E> graph)
 	{
-		Map<N, Float> hues = new HashMap<N, Float>();
-		Map<N, Color> map = new HashMap<N, Color>();
+		Map<N, Float> hues = new HashMap<>();
+		Map<N, Color> map = new HashMap<>();
 
 		float s = 90, l = 50;
 
@@ -56,7 +56,7 @@ public class ColorMapBuilder
 			Map<N, Float> hues)
 	{
 		// Build list of neighbors' hue values
-		List<Float> neighborHues = new ArrayList<Float>();
+		List<Float> neighborHues = new ArrayList<>();
 		Set<Edge<N, E>> edges = graph.getEdgesOut(n);
 		for (Edge<N, E> edge : edges) {
 			N neighbor = edge.getTarget();

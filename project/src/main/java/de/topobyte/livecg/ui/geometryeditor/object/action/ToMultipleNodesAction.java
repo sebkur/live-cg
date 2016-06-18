@@ -65,7 +65,7 @@ public class ToMultipleNodesAction extends BasicAction
 
 	private List<Integer> getNodePositions(Chain chain)
 	{
-		List<Integer> indices = new ArrayList<Integer>();
+		List<Integer> indices = new ArrayList<>();
 		for (int i = 0; i < chain.getNumberOfNodes(); i++) {
 			Node node = chain.getNode(i);
 			if (node == this.node) {

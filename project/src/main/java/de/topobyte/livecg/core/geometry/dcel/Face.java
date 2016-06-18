@@ -29,7 +29,7 @@ public class Face
 	public Face(HalfEdge outerComponent)
 	{
 		this.outerComponent = outerComponent;
-		innerComponents = new ArrayList<HalfEdge>();
+		innerComponents = new ArrayList<>();
 	}
 
 	public HalfEdge getOuterComponent()

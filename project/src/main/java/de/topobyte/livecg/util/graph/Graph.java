@@ -26,10 +26,10 @@ import java.util.Set;
 public class Graph<T, E>
 {
 
-	private Set<T> nodes = new HashSet<T>();
+	private Set<T> nodes = new HashSet<>();
 
-	private Map<T, Set<Edge<T, E>>> edgesOut = new HashMap<T, Set<Edge<T, E>>>();
-	private Map<T, Set<Edge<T, E>>> edgesIn = new HashMap<T, Set<Edge<T, E>>>();
+	private Map<T, Set<Edge<T, E>>> edgesOut = new HashMap<>();
+	private Map<T, Set<Edge<T, E>>> edgesIn = new HashMap<>();
 
 	public void addNode(T node)
 	{
@@ -56,7 +56,7 @@ public class Graph<T, E>
 
 	public void addEdge(T from, T to, E data)
 	{
-		Edge<T, E> edge = new Edge<T, E>(from, to, data);
+		Edge<T, E> edge = new Edge<>(from, to, data);
 		edgesOut.get(from).add(edge);
 		edgesIn.get(to).add(edge);
 	}

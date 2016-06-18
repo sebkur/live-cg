@@ -55,7 +55,7 @@ public class BufferPainter extends TransformingVisualizationPainter
 		fillBackground(colorBG);
 
 		List<Polygon> buffer = algorithm.getResult();
-		List<Polygon> tBuffer = new ArrayList<Polygon>();
+		List<Polygon> tBuffer = new ArrayList<>();
 		for (Polygon p : buffer) {
 			tBuffer.add(transformer.transform(p));
 		}

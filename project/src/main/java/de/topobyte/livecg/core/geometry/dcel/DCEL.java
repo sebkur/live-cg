@@ -23,9 +23,9 @@ import java.util.List;
 public class DCEL
 {
 
-	List<Vertex> vertices = new ArrayList<Vertex>();
-	List<HalfEdge> halfedges = new ArrayList<HalfEdge>();
-	List<Face> faces = new ArrayList<Face>();
+	List<Vertex> vertices = new ArrayList<>();
+	List<HalfEdge> halfedges = new ArrayList<>();
+	List<Face> faces = new ArrayList<>();
 
 	public List<Vertex> getVertices()
 	{

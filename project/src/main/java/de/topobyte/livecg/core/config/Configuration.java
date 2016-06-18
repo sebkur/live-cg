@@ -24,8 +24,8 @@ import de.topobyte.livecg.core.painting.Color;
 
 public class Configuration
 {
-	Map<String, Color> colors = new HashMap<String, Color>();
-	Map<String, Double> numbers = new HashMap<String, Double>();
+	Map<String, Color> colors = new HashMap<>();
+	Map<String, Double> numbers = new HashMap<>();
 
 	public Color getColor(String key)
 	{

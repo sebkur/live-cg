@@ -26,7 +26,7 @@ import de.topobyte.livecg.core.geometry.geom.Node;
 public class Path
 {
 
-	private List<Node> nodes = new ArrayList<Node>();
+	private List<Node> nodes = new ArrayList<>();
 
 	public Path(Node start, Node node)
 	{

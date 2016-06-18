@@ -32,7 +32,7 @@ public class BufferConfig
 	private int capStyle = BufferParameters.CAP_ROUND;
 	private int joinStyle = BufferParameters.JOIN_ROUND;
 
-	private List<ConfigChangedListener> listeners = new ArrayList<ConfigChangedListener>();
+	private List<ConfigChangedListener> listeners = new ArrayList<>();
 
 	public boolean isDrawInput()
 	{

@@ -142,7 +142,7 @@ public class TikzPainter implements Painter
 		return String.format("line width=%.5fmm", convertToMM(width));
 	}
 
-	private Set<String> definedNames = new HashSet<String>();
+	private Set<String> definedNames = new HashSet<>();
 
 	private String appendColorDefine()
 	{
@@ -571,7 +571,7 @@ public class TikzPainter implements Painter
 	public void clipArea(Shape shape)
 	{
 		if (clipShapes == null) {
-			clipShapes = new ArrayList<Shape>();
+			clipShapes = new ArrayList<>();
 		}
 		shape = applyUserTransforms(shape);
 		clipShapes.add(shape);

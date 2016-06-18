@@ -85,7 +85,7 @@ public class ExportUtil
 			JMenu menu, Component component, VisualizationPainter painter,
 			T dimensionProvider)
 	{
-		JMenuItem exportSvg = new JMenuItem(new ExportSvgActionZoomed<T>(
+		JMenuItem exportSvg = new JMenuItem(new ExportSvgActionZoomed<>(
 				component, painter, dimensionProvider));
 		menu.add(exportSvg);
 	}
@@ -94,7 +94,7 @@ public class ExportUtil
 			JMenu menu, Component component, VisualizationPainter painter,
 			T dimensionProvider)
 	{
-		JMenuItem exportBitmap = new JMenuItem(new ExportBitmapActionZoomed<T>(
+		JMenuItem exportBitmap = new JMenuItem(new ExportBitmapActionZoomed<>(
 				component, painter, dimensionProvider));
 		menu.add(exportBitmap);
 	}
@@ -103,7 +103,7 @@ public class ExportUtil
 			JMenu menu, Component component, VisualizationPainter painter,
 			T dimensionProvider)
 	{
-		JMenuItem exportTikz = new JMenuItem(new ExportTikzActionZoomed<T>(
+		JMenuItem exportTikz = new JMenuItem(new ExportTikzActionZoomed<>(
 				component, painter, dimensionProvider));
 		menu.add(exportTikz);
 	}
@@ -112,7 +112,7 @@ public class ExportUtil
 			JMenu menu, Component component, VisualizationPainter painter,
 			T dimensionProvider)
 	{
-		JMenuItem exportIpe = new JMenuItem(new ExportIpeActionZoomed<T>(
+		JMenuItem exportIpe = new JMenuItem(new ExportIpeActionZoomed<>(
 				component, painter, dimensionProvider));
 		menu.add(exportIpe);
 	}

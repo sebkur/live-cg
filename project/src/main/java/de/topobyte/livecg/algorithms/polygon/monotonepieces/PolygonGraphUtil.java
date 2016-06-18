@@ -37,7 +37,7 @@ public class PolygonGraphUtil
 	public static Graph<Polygon, Object> addNodeEdges(
 			Graph<Polygon, Diagonal> graph)
 	{
-		de.topobyte.livecg.util.graph.Graph<Polygon, Object> g = new de.topobyte.livecg.util.graph.Graph<Polygon, Object>();
+		de.topobyte.livecg.util.graph.Graph<Polygon, Object> g = new de.topobyte.livecg.util.graph.Graph<>();
 		// Add nodes from graph to g
 		for (Polygon p : graph.getNodes()) {
 			g.addNode(p);
@@ -50,14 +50,14 @@ public class PolygonGraphUtil
 			}
 		}
 		// Create new edges for connecting nodes
-		Map<Node, List<Polygon>> map = new HashMap<Node, List<Polygon>>();
+		Map<Node, List<Polygon>> map = new HashMap<>();
 		for (Polygon p : graph.getNodes()) {
 			Chain shell = p.getShell();
 			for (int i = 0; i < shell.getNumberOfNodes(); i++) {
 				Node node = shell.getNode(i);
 				List<Polygon> polygons = map.get(node);
 				if (polygons == null) {
-					polygons = new ArrayList<Polygon>();
+					polygons = new ArrayList<>();
 					map.put(node, polygons);
 				}
 				polygons.add(p);

@@ -132,7 +132,7 @@ public class SegmentEditPane extends JPanel implements ViewportWithSignals
 		}
 	}
 
-	private List<SegmentChangeListener> listeners = new ArrayList<SegmentChangeListener>();
+	private List<SegmentChangeListener> listeners = new ArrayList<>();
 
 	public void addLineChangeListener(SegmentChangeListener listener)
 	{
@@ -175,7 +175,7 @@ public class SegmentEditPane extends JPanel implements ViewportWithSignals
 		// ignore
 	}
 
-	private List<ViewportListener> viewportListeners = new ArrayList<ViewportListener>();
+	private List<ViewportListener> viewportListeners = new ArrayList<>();
 
 	@Override
 	public void addViewportListener(ViewportListener listener)

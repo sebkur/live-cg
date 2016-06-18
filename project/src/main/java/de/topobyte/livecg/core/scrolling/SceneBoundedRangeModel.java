@@ -46,7 +46,7 @@ public class SceneBoundedRangeModel<T extends JComponent & ViewportWithSignals &
 		this.view = view;
 		this.horizontal = horizontal;
 
-		calculator = new ViewportMath<T>(view);
+		calculator = new ViewportMath<>(view);
 
 		view.addComponentListener(new ComponentAdapter() {
 
@@ -172,7 +172,7 @@ public class SceneBoundedRangeModel<T extends JComponent & ViewportWithSignals &
 				value, extent, min, max, adjusting));
 	}
 
-	private List<ChangeListener> listeners = new ArrayList<ChangeListener>();
+	private List<ChangeListener> listeners = new ArrayList<>();
 
 	@Override
 	public void addChangeListener(ChangeListener listener)

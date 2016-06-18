@@ -53,7 +53,7 @@ public class DcelDialog
 		DcelPanel dcelPanel = new DcelPanel(dcel, config, margin);
 		Settings settings = new Settings(dcelPanel);
 
-		ScrollableView<DcelPanel> scrollableView = new ScrollableView<DcelPanel>(
+		ScrollableView<DcelPanel> scrollableView = new ScrollableView<>(
 				dcelPanel);
 
 		main.add(settings, BorderLayout.NORTH);

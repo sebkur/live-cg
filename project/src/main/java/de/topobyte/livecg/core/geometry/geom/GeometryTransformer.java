@@ -66,7 +66,7 @@ public class GeometryTransformer
 		Chain shell = polygon.getShell();
 		List<Chain> holes = polygon.getHoles();
 		Chain tshell = transform(shell);
-		List<Chain> tholes = new ArrayList<Chain>();
+		List<Chain> tholes = new ArrayList<>();
 		for (Chain hole : holes) {
 			tholes.add(transform(hole));
 		}

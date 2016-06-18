@@ -39,7 +39,7 @@ public class ArcNode extends ParabolaPoint
 	private ArcNode next, prev;
 	private CirclePoint circlePoint;
 	private Point startOfTrace;
-	private Stack<Point> startOfTraceBackup = new Stack<Point>();
+	private Stack<Point> startOfTraceBackup = new Stack<>();
 	private HalfEdge edge;
 
 	public ArcNode(Point point)

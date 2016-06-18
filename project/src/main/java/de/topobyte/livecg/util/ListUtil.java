@@ -24,7 +24,7 @@ public class ListUtil
 {
 	public static <T> List<T> copy(List<T> list)
 	{
-		ArrayList<T> results = new ArrayList<T>();
+		ArrayList<T> results = new ArrayList<>();
 		for (T object : list) {
 			results.add(object);
 		}

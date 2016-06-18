@@ -38,8 +38,8 @@ public class MonotoneTriangulationOperation
 	private Polygon polygon;
 
 	private Info info;
-	private Stack<Node> stack = new Stack<Node>();
-	private List<Diagonal> diagonals = new ArrayList<Diagonal>();
+	private Stack<Node> stack = new Stack<>();
+	private List<Diagonal> diagonals = new ArrayList<>();
 
 	public MonotoneTriangulationOperation(Polygon polygon)
 	{

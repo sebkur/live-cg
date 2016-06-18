@@ -45,7 +45,7 @@ public class CopyUtil
 		case REUSE_CHAINS:
 			Chain shell = polygon.getShell();
 			List<Chain> holes = polygon.getHoles();
-			List<Chain> holesCopy = new ArrayList<Chain>();
+			List<Chain> holesCopy = new ArrayList<>();
 			for (Chain hole : holes) {
 				holesCopy.add(hole);
 			}
@@ -60,7 +60,7 @@ public class CopyUtil
 	private static Polygon copyPolygonDeep(Polygon polygon, ChainMode mode)
 	{
 		Chain shell = copy(polygon.getShell(), mode);
-		List<Chain> holes = new ArrayList<Chain>();
+		List<Chain> holes = new ArrayList<>();
 		for (Chain hole : holes) {
 			holes.add(copy(hole, mode));
 		}

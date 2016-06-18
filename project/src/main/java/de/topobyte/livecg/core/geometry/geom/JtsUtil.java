@@ -43,7 +43,7 @@ public class JtsUtil
 		LineString jShell = polygon.getExteriorRing();
 		Chain shell = fromJtsString(jShell);
 
-		List<Chain> holes = new ArrayList<Chain>();
+		List<Chain> holes = new ArrayList<>();
 		for (int i = 0; i < polygon.getNumInteriorRing(); i++) {
 			holes.add(fromJtsString(polygon.getInteriorRingN(i)));
 		}
@@ -130,7 +130,7 @@ public class JtsUtil
 
 	public GeometryCollection toJts(SetOfGeometries geometries)
 	{
-		List<Geometry> geoms = new ArrayList<Geometry>();
+		List<Geometry> geoms = new ArrayList<>();
 		for (Polygon polygon : geometries.getPolygons()) {
 			geoms.add(toJts(polygon));
 		}

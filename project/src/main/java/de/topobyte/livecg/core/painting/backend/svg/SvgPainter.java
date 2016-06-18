@@ -317,7 +317,7 @@ public class SvgPainter implements Painter
 	private static final String CLIP_PATH_PREFIX = "clip";
 	private int clipId = 1;
 	private List<Integer> clipIds = null;
-	private Map<Integer, Shape> clipShapes = new HashMap<Integer, Shape>();
+	private Map<Integer, Shape> clipShapes = new HashMap<>();
 
 	@Override
 	public Object getClip()
@@ -325,7 +325,7 @@ public class SvgPainter implements Painter
 		if (clipIds == null) {
 			return null;
 		}
-		List<Integer> copy = new ArrayList<Integer>();
+		List<Integer> copy = new ArrayList<>();
 		for (int i : clipIds) {
 			copy.add(i);
 		}
@@ -355,7 +355,7 @@ public class SvgPainter implements Painter
 	{
 		int index = clipId++;
 		if (clipIds == null) {
-			clipIds = new ArrayList<Integer>();
+			clipIds = new ArrayList<>();
 		}
 		clipIds.add(index);
 		clipShapes.put(index, shape);

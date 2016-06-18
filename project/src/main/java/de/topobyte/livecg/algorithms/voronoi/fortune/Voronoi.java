@@ -34,9 +34,9 @@ public class Voronoi
 {
 	final static Logger logger = LoggerFactory.getLogger(Voronoi.class);
 
-	private List<Point> sites = new ArrayList<Point>();
-	private List<Edge> edges = new ArrayList<Edge>();
-	private Map<Point, List<Edge>> pointToEdges = new HashMap<Point, List<Edge>>();
+	private List<Point> sites = new ArrayList<>();
+	private List<Edge> edges = new ArrayList<>();
+	private Map<Point, List<Edge>> pointToEdges = new HashMap<>();
 	private DCEL dcel = new DCEL();
 
 	public Voronoi()
@@ -109,13 +109,13 @@ public class Voronoi
 		edges.add(edge);
 		List<Edge> start = pointToEdges.get(edge.getStart());
 		if (start == null) {
-			start = new ArrayList<Edge>();
+			start = new ArrayList<>();
 			pointToEdges.put(edge.getStart(), start);
 		}
 		start.add(edge);
 		List<Edge> end = pointToEdges.get(edge.getEnd());
 		if (end == null) {
-			end = new ArrayList<Edge>();
+			end = new ArrayList<>();
 			pointToEdges.put(edge.getEnd(), end);
 		}
 		end.add(edge);

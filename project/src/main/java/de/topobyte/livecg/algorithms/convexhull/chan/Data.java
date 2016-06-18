@@ -31,7 +31,7 @@ public class Data implements Cloneable
 	private Phase phase = Phase.FIND_LEFTMOST_NODES;
 	private List<Node> hull;
 
-	private Map<Polygon, Integer> leftMostNodesIndices = new HashMap<Polygon, Integer>();
+	private Map<Polygon, Integer> leftMostNodesIndices = new HashMap<>();
 
 	private Polygon leftMostPolygon;
 	private Node overallLeftMostNode;
@@ -39,7 +39,7 @@ public class Data implements Cloneable
 
 	private int polygonId = 0;
 	private int position = -1;
-	private Map<Integer, Integer> positions = new HashMap<Integer, Integer>();
+	private Map<Integer, Integer> positions = new HashMap<>();
 	private int bestPolygonId = -1;
 
 	@Override
@@ -146,7 +146,7 @@ public class Data implements Cloneable
 
 	public void initializeHull()
 	{
-		hull = new ArrayList<Node>();
+		hull = new ArrayList<>();
 	}
 
 	public void appendToHull(Node node)

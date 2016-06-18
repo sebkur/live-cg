@@ -42,9 +42,9 @@ public class MonotoneTriangulationAlgorithm extends DefaultSceneAlgorithm
 	private Polygon polygon;
 
 	private Info info;
-	private Stack<Node> stack = new Stack<Node>();
-	private List<Diagonal> diagonals = new ArrayList<Diagonal>();
-	private List<Diagonal> temporaryDiagonals = new ArrayList<Diagonal>();
+	private Stack<Node> stack = new Stack<>();
+	private List<Diagonal> diagonals = new ArrayList<>();
+	private List<Diagonal> temporaryDiagonals = new ArrayList<>();
 
 	private int status = 0;
 	private int subStatus = 0;
@@ -243,7 +243,7 @@ public class MonotoneTriangulationAlgorithm extends DefaultSceneAlgorithm
 
 	public List<Diagonal> getMinorDiagonals()
 	{
-		List<Diagonal> diagonals = new ArrayList<Diagonal>();
+		List<Diagonal> diagonals = new ArrayList<>();
 
 		List<Node> nodes = info.nodes;
 		Map<Node, Side> side = info.side;

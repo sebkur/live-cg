@@ -87,13 +87,13 @@ public class SetOfGeometryReader extends DefaultHandler
 	}
 
 	// Store the path within the XML document int this Stack
-	protected Stack<Element> position = new Stack<Element>();
+	protected Stack<Element> position = new Stack<>();
 	// Collect text received via 'characters()' in this buffer
 	private StringBuffer buffer = new StringBuffer();
 	// Map ids of nodes to node instances
-	private Map<Integer, Node> idToNode = new HashMap<Integer, Node>();
+	private Map<Integer, Node> idToNode = new HashMap<>();
 	// A temporary storage for a chain's node references
-	private List<Integer> ids = new ArrayList<Integer>();
+	private List<Integer> ids = new ArrayList<>();
 	// A temporary storage for chain's closed attribute
 	private boolean closed = false;
 	// Store polygon's shell here
@@ -137,7 +137,7 @@ public class SetOfGeometryReader extends DefaultHandler
 			} else if (qName.equals("polygon")) {
 				position.push(Element.Polygon);
 				shell = null;
-				holes = new ArrayList<Chain>();
+				holes = new ArrayList<>();
 			}
 		} else if (position.peek() == Element.Polygon) {
 			if (qName.equals("shell")) {

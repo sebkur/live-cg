@@ -137,7 +137,7 @@ public class Menu extends JMenuBar
 		 * Tools
 		 */
 
-		Map<MouseMode, Integer> mouseModeAccelerators = new HashMap<MouseMode, Integer>();
+		Map<MouseMode, Integer> mouseModeAccelerators = new HashMap<>();
 		mouseModeAccelerators.put(MouseMode.SELECT_MOVE, KeyEvent.VK_Q);
 		mouseModeAccelerators.put(MouseMode.ROTATE, KeyEvent.VK_W);
 		mouseModeAccelerators.put(MouseMode.SCALE, KeyEvent.VK_E);
@@ -263,12 +263,12 @@ public class Menu extends JMenuBar
 		 * View
 		 */
 
-		JMenuItem itemZoomIn = new JMenuItem(new ZoomAction<GeometryEditPane>(
-				editPane, ZoomAction.Type.IN));
-		JMenuItem itemZoomOut = new JMenuItem(new ZoomAction<GeometryEditPane>(
-				editPane, ZoomAction.Type.OUT));
-		JMenuItem itemZoom100 = new JMenuItem(new ZoomAction<GeometryEditPane>(
-				editPane, ZoomAction.Type.IDENTITY));
+		JMenuItem itemZoomIn = new JMenuItem(new ZoomAction<>(editPane,
+				ZoomAction.Type.IN));
+		JMenuItem itemZoomOut = new JMenuItem(new ZoomAction<>(editPane,
+				ZoomAction.Type.OUT));
+		JMenuItem itemZoom100 = new JMenuItem(new ZoomAction<>(editPane,
+				ZoomAction.Type.IDENTITY));
 		view.add(itemZoomIn);
 		view.add(itemZoomOut);
 		view.add(itemZoom100);

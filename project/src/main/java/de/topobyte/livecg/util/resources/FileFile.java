@@ -66,7 +66,7 @@ public class FileFile implements ResourceFile
 		if (files == null) {
 			return null;
 		}
-		List<ResourceFile> results = new ArrayList<ResourceFile>();
+		List<ResourceFile> results = new ArrayList<>();
 		for (File file : files) {
 			results.add(new FileFile(file));
 		}

@@ -94,7 +94,7 @@ public class FortunesSweep extends DefaultAlgorithm
 
 	public FortunesSweep()
 	{
-		sites = new ArrayList<Point>();
+		sites = new ArrayList<>();
 		voronoi = new Voronoi();
 		init();
 	}
@@ -195,7 +195,7 @@ public class FortunesSweep extends DefaultAlgorithm
 		sweepX = 0;
 		arcs = null;
 		events.clear();
-		executedEvents = new Stack<EventPoint>();
+		executedEvents = new Stack<>();
 		currentEvent = null;
 		voronoi.clear();
 		delaunay = new Delaunay();
@@ -371,7 +371,7 @@ public class FortunesSweep extends DefaultAlgorithm
 
 	public synchronized void clear()
 	{
-		sites = new ArrayList<Point>();
+		sites = new ArrayList<>();
 		voronoi = new Voronoi();
 		restart();
 	}

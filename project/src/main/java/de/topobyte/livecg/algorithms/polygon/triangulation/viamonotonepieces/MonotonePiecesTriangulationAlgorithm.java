@@ -47,8 +47,8 @@ public class MonotonePiecesTriangulationAlgorithm extends
 		super.execute();
 		System.out.println("execute: " + this.getClass().getSimpleName());
 
-		allDiagonals = new ArrayList<List<Diagonal>>();
-		splitResults = new HashMap<Polygon, SplitResult>();
+		allDiagonals = new ArrayList<>();
+		splitResults = new HashMap<>();
 
 		List<Polygon> monotonePieces = getMonotonePieces();
 		for (Polygon monotonePolygon : monotonePieces) {

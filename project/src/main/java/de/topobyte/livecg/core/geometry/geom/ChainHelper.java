@@ -36,7 +36,7 @@ public class ChainHelper
 
 	public static Map<Node, Integer> buildNodeIndexLookup(Chain chain)
 	{
-		Map<Node, Integer> index = new HashMap<Node, Integer>();
+		Map<Node, Integer> index = new HashMap<>();
 		for (int i = 0; i < chain.getNumberOfNodes(); i++) {
 			Node node = chain.getNode(i);
 			index.put(node, i);

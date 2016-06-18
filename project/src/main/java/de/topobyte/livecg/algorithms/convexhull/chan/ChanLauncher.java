@@ -39,7 +39,7 @@ public class ChanLauncher implements ContentLauncher
 	@Override
 	public void launch(Content content, boolean exit) throws LaunchException
 	{
-		List<Polygon> viable = new ArrayList<Polygon>();
+		List<Polygon> viable = new ArrayList<>();
 		for (Polygon polygon : content.getPolygons()) {
 			if (polygon.getHoles().size() == 0) {
 				viable.add(polygon);
@@ -49,7 +49,7 @@ public class ChanLauncher implements ContentLauncher
 			throw new LaunchException("not enough convex polygons");
 		}
 
-		List<Polygon> polygons = new ArrayList<Polygon>();
+		List<Polygon> polygons = new ArrayList<>();
 
 		for (Polygon polygon : viable) {
 			if (PolygonHelper.isCounterClockwiseOriented(polygon)) {

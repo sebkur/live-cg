@@ -36,7 +36,7 @@ public class ConvexHullOperation
 	public static Polygon compute(List<Node> nodes, List<Chain> chains,
 			List<Polygon> polygons)
 	{
-		List<com.vividsolutions.jts.geom.Coordinate> coordinates = new ArrayList<com.vividsolutions.jts.geom.Coordinate>();
+		List<com.vividsolutions.jts.geom.Coordinate> coordinates = new ArrayList<>();
 		if (nodes != null) {
 			for (Node node : nodes) {
 				com.vividsolutions.jts.geom.Coordinate c = convert(node

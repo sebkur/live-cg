@@ -45,7 +45,7 @@ public class ChanVisualizationSetup implements VisualizationSetup
 	public SetupResult setup(Content content, String statusArgument,
 			Properties properties, double zoom)
 	{
-		List<Polygon> viable = new ArrayList<Polygon>();
+		List<Polygon> viable = new ArrayList<>();
 		for (Polygon polygon : content.getPolygons()) {
 			if (polygon.getHoles().size() == 0) {
 				viable.add(polygon);
@@ -57,7 +57,7 @@ public class ChanVisualizationSetup implements VisualizationSetup
 			System.exit(1);
 		}
 
-		List<Polygon> polygons = new ArrayList<Polygon>();
+		List<Polygon> polygons = new ArrayList<>();
 
 		for (Polygon polygon : viable) {
 			if (PolygonHelper.isCounterClockwiseOriented(polygon)) {

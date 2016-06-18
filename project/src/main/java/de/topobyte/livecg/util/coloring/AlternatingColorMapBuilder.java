@@ -31,7 +31,7 @@ public class AlternatingColorMapBuilder
 	public static <N, E> Map<N, Color> buildColorMap(Graph<N, E> graph,
 			Color a, Color b)
 	{
-		Map<N, Color> map = new HashMap<N, Color>();
+		Map<N, Color> map = new HashMap<>();
 
 		N n0 = graph.getNodes().iterator().next();
 		traverse(graph, n0, map, a, b);

@@ -200,7 +200,7 @@ public class ScenePanel extends JPanel implements ViewportWithSignals,
 		fireViewportListenersViewportChanged();
 	}
 
-	private List<ViewportListener> viewportListeners = new ArrayList<ViewportListener>();
+	private List<ViewportListener> viewportListeners = new ArrayList<>();
 
 	@Override
 	public void addViewportListener(ViewportListener listener)

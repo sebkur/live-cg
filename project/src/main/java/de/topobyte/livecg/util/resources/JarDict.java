@@ -30,7 +30,7 @@ public class JarDict
 	private class PathElement
 	{
 		private JarEntry entry = null;
-		private Map<String, PathElement> entries = new TreeMap<String, PathElement>(
+		private Map<String, PathElement> entries = new TreeMap<>(
 				new FileNameComparator());
 	}
 

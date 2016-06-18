@@ -48,11 +48,10 @@ public class MonotonePiecesDialog
 		MonotonePiecesConfig polygonConfig = new MonotonePiecesConfig();
 		MonotonePiecesPanel mpp = new MonotonePiecesPanel(algorithm,
 				polygonConfig);
-		ScrollableView<MonotonePiecesPanel> scrollableView = new ScrollableView<MonotonePiecesPanel>(
+		ScrollableView<MonotonePiecesPanel> scrollableView = new ScrollableView<>(
 				mpp);
 
-		Settings<MonotonePiecesPanel> settings = new Settings<MonotonePiecesPanel>(
-				mpp);
+		Settings<MonotonePiecesPanel> settings = new Settings<>(mpp);
 
 		main.add(settings, BorderLayout.NORTH);
 		main.add(scrollableView, BorderLayout.CENTER);

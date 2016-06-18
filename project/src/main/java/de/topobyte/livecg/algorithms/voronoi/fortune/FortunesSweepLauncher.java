@@ -41,7 +41,7 @@ public class FortunesSweepLauncher implements ContentLauncher
 		FortuneDialog dialog = new FortuneDialog();
 		dialog.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-		List<Point> sites = new ArrayList<Point>();
+		List<Point> sites = new ArrayList<>();
 		for (Node node : nodes) {
 			Coordinate c = node.getCoordinate();
 			sites.add(new Point(c.getX(), c.getY()));

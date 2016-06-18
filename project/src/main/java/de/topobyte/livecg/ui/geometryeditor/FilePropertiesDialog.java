@@ -87,7 +87,7 @@ public class FilePropertiesDialog extends JDialog
 		JButton buttonOk = new JButton("OK");
 		JButton buttonCancel = new JButton("Cancel");
 
-		List<JButton> buttons = new ArrayList<JButton>();
+		List<JButton> buttons = new ArrayList<>();
 		buttons.add(buttonOk);
 		buttons.add(buttonCancel);
 

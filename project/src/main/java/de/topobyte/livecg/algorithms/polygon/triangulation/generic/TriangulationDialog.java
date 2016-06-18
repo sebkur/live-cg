@@ -62,11 +62,10 @@ public class TriangulationDialog
 		MonotonePiecesConfig config = new MonotonePiecesConfig();
 		TriangulationPanel tp = new TriangulationPanel(polygon, diagonals,
 				graph, config, margin);
-		ScrollableView<TriangulationPanel> scrollableView = new ScrollableView<TriangulationPanel>(
+		ScrollableView<TriangulationPanel> scrollableView = new ScrollableView<>(
 				tp);
 
-		Settings<TriangulationPanel> settings = new Settings<TriangulationPanel>(
-				tp);
+		Settings<TriangulationPanel> settings = new Settings<>(tp);
 
 		main.add(settings, BorderLayout.NORTH);
 		main.add(scrollableView, BorderLayout.CENTER);

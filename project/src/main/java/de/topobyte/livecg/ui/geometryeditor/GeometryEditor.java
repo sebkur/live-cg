@@ -63,15 +63,15 @@ public class GeometryEditor extends JPanel
 			}
 		});
 
-		SceneBoundedRangeModel<GeometryEditPane> rangeH = new SceneBoundedRangeModel<GeometryEditPane>(
+		SceneBoundedRangeModel<GeometryEditPane> rangeH = new SceneBoundedRangeModel<>(
 				editPane, true);
 		scrollerH.setModel(rangeH);
 
-		SceneBoundedRangeModel<GeometryEditPane> rangeV = new SceneBoundedRangeModel<GeometryEditPane>(
+		SceneBoundedRangeModel<GeometryEditPane> rangeV = new SceneBoundedRangeModel<>(
 				editPane, false);
 		scrollerV.setModel(rangeV);
 
-		PanMouseAdapter<GeometryEditPane> panAdapter = new PanMouseAdapter<GeometryEditPane>(
+		PanMouseAdapter<GeometryEditPane> panAdapter = new PanMouseAdapter<>(
 				editPane);
 		editPane.addMouseListener(panAdapter);
 		editPane.addMouseMotionListener(panAdapter);

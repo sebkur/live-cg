@@ -75,7 +75,7 @@ public class ChansAlgorithmPainter extends TransformingVisualizationPainter
 			painter.drawString(phase.toString(), text.getX(), text.getY());
 		}
 
-		filled = new HashSet<Polygon>();
+		filled = new HashSet<>();
 
 		/*
 		 * Polygon interior
@@ -197,7 +197,7 @@ public class ChansAlgorithmPainter extends TransformingVisualizationPainter
 		if (phase.ordinal() >= Phase.INITIALIZED_DATASTRUCTURES.ordinal()) {
 			painter.setColor(colorHull);
 			List<Node> hull = data.getHull();
-			List<Coordinate> hullCoordinates = new ArrayList<Coordinate>();
+			List<Coordinate> hullCoordinates = new ArrayList<>();
 			for (int i = 0; i < hull.size(); i++) {
 				Node node = hull.get(i);
 				hullCoordinates

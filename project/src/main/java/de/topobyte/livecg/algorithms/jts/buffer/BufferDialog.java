@@ -67,7 +67,7 @@ public class BufferDialog implements ContentChangedListener, ChangeListener,
 		slider.setBorder(new TitledBorder("Distance"));
 
 		bufferPanel = new BufferPanel(algorithm, config);
-		ScrollableView<BufferPanel> scrollableView = new ScrollableView<BufferPanel>(
+		ScrollableView<BufferPanel> scrollableView = new ScrollableView<>(
 				bufferPanel);
 
 		Settings settings = new Settings(bufferPanel, config);

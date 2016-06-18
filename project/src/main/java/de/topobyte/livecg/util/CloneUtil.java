@@ -30,7 +30,7 @@ public class CloneUtil
 		if (input == null) {
 			return null;
 		}
-		List<T> copy = new ArrayList<T>();
+		List<T> copy = new ArrayList<>();
 		for (T object : input) {
 			copy.add(object);
 		}
@@ -42,7 +42,7 @@ public class CloneUtil
 		if (input == null) {
 			return null;
 		}
-		Map<K, V> copy = new HashMap<K, V>();
+		Map<K, V> copy = new HashMap<>();
 		for (Entry<K, V> entry : input.entrySet()) {
 			copy.put(entry.getKey(), entry.getValue());
 		}

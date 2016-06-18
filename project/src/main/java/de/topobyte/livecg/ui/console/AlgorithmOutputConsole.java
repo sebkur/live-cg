@@ -54,7 +54,7 @@ public class AlgorithmOutputConsole extends OutputConsole implements
 		}
 	}
 
-	private SortedMap<String, Entry> positions = new TreeMap<String, Entry>();
+	private SortedMap<String, Entry> positions = new TreeMap<>();
 
 	private void appendExplanation()
 	{

@@ -28,7 +28,7 @@ public class ChanUtil
 
 	private int total = 0;
 	private int major = 0;
-	private Map<Integer, Integer> steps = new HashMap<Integer, Integer>();
+	private Map<Integer, Integer> steps = new HashMap<>();
 
 	public ChanUtil(List<Polygon> polygons)
 	{

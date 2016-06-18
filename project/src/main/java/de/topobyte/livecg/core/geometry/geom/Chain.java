@@ -37,8 +37,8 @@ public class Chain
 
 	private boolean closed = false;
 
-	private List<Node> nodes = new ArrayList<Node>();
-	private List<Polygon> polygons = new ArrayList<Polygon>();
+	private List<Node> nodes = new ArrayList<>();
+	private List<Polygon> polygons = new ArrayList<>();
 
 	public void prependPoint(Coordinate coordinate)
 	{
@@ -374,7 +374,7 @@ public class Chain
 			// Now handle the normal case where it is somewhere in between
 			nodes.get(0).removeEndpointChain(this);
 			nodes.get(nodes.size() - 1).removeEndpointChain(this);
-			List<Node> oldNodes = new ArrayList<Node>(nodes);
+			List<Node> oldNodes = new ArrayList<>(nodes);
 			int n = nodes.size();
 			int index = nodes.indexOf(node);
 			nodes.clear();

@@ -30,7 +30,7 @@ import de.topobyte.livecg.util.ImageLoader;
 public abstract class ControlManager
 {
 
-	private Map<String, JButton> buttons = new HashMap<String, JButton>();
+	private Map<String, JButton> buttons = new HashMap<>();
 
 	public JButton add(final String key, Icons icon, String tooltip)
 	{
