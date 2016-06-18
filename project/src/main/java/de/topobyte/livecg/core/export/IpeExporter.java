@@ -41,8 +41,9 @@ import de.topobyte.livecg.core.painting.backend.ipe.IpePainter;
 public class IpeExporter
 {
 
-	public static void exportIpe(File file, VisualizationPainter visualizationPainter,
-			int width, int height) throws TransformerException, IOException,
+	public static void exportIpe(File file,
+			VisualizationPainter visualizationPainter, int width, int height)
+			throws TransformerException, IOException,
 			ParserConfigurationException
 	{
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();

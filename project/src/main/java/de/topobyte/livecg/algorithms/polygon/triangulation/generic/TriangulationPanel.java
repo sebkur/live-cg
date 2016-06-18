@@ -39,13 +39,14 @@ public class TriangulationPanel extends ScenePanel implements PolygonPanel,
 	private MonotonePiecesConfig config;
 
 	public TriangulationPanel(Polygon polygon, List<Diagonal> diagonals,
-			Graph<Polygon, Diagonal> graph, MonotonePiecesConfig config, int margin)
+			Graph<Polygon, Diagonal> graph, MonotonePiecesConfig config,
+			int margin)
 	{
 		super(scene(polygon, margin));
 		this.config = config;
 
-		visualizationPainter = new TriangulationPainter(scene, polygon, diagonals,
-				graph, config, painter);
+		visualizationPainter = new TriangulationPainter(scene, polygon,
+				diagonals, graph, config, painter);
 	}
 
 	private static Rectangle scene(Polygon polygon, double margin)

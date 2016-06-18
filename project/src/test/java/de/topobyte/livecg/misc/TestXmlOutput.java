@@ -45,7 +45,7 @@ public class TestXmlOutput
 		Document doc = impl.createDocument(svgNS, "svg", null);
 
 		Element svgRoot = doc.getDocumentElement();
-		
+
 		Element element = doc.createElementNS(svgNS, "image");
 		svgRoot.appendChild(element);
 

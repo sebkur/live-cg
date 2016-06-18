@@ -34,8 +34,8 @@ import de.topobyte.livecg.core.painting.Color;
 import de.topobyte.livecg.core.painting.Painter;
 import de.topobyte.livecg.util.DoubleUtil;
 
-public class FreeSpacePainterSegments extends BasicVisualizationPainter implements
-		EpsilonSettable
+public class FreeSpacePainterSegments extends BasicVisualizationPainter
+		implements EpsilonSettable
 {
 
 	private LineSegment seg1 = null;

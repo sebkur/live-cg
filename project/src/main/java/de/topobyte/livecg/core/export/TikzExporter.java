@@ -27,8 +27,9 @@ import de.topobyte.livecg.core.painting.backend.tikz.TikzPainter;
 public class TikzExporter
 {
 
-	public static void exportTikz(File file, VisualizationPainter visualizationPainter,
-			int width, int height) throws IOException
+	public static void exportTikz(File file,
+			VisualizationPainter visualizationPainter, int width, int height)
+			throws IOException
 	{
 		File parent = file.getParentFile();
 		String name = file.getName();

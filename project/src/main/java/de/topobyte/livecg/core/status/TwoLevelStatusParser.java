@@ -17,7 +17,6 @@
  */
 package de.topobyte.livecg.core.status;
 
-
 public class TwoLevelStatusParser
 {
 

@@ -80,8 +80,8 @@ public class FortunesSweepVisualizationSetup implements VisualizationSetup
 		config.setDrawCircles(true);
 		config.setDrawDcel(true);
 		config.setDrawDelaunay(false);
-		VisualizationPainter visualizationPainter = new FortunePainter(algorithm,
-				config, null);
+		VisualizationPainter visualizationPainter = new FortunePainter(
+				algorithm, config, null);
 
 		Rectangle scene = content.getScene();
 		int width = (int) Math.ceil(scene.getWidth() * zoom);

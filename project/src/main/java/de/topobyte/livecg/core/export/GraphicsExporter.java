@@ -31,8 +31,9 @@ import de.topobyte.livecg.core.painting.backend.awt.AwtPainter;
 public class GraphicsExporter
 {
 
-	public static void exportPNG(File file, VisualizationPainter visualizationPainter,
-			int width, int height) throws IOException
+	public static void exportPNG(File file,
+			VisualizationPainter visualizationPainter, int width, int height)
+			throws IOException
 	{
 		BufferedImage image = new BufferedImage(width, height,
 				BufferedImage.TYPE_4BYTE_ABGR);

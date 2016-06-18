@@ -315,7 +315,8 @@ public class ShortestPathPainter extends TransformingVisualizationPainter
 			Coordinate t = transformer.transform(c);
 			if (apexVisible) {
 				painter.setColor(COLOR_APEX);
-				painter.fill(ShapeUtilNoAwt.createArc(t.getX(), t.getY(), SIZE_APEX));
+				painter.fill(ShapeUtilNoAwt.createArc(t.getX(), t.getY(),
+						SIZE_APEX));
 			}
 		}
 
@@ -354,15 +355,16 @@ public class ShortestPathPainter extends TransformingVisualizationPainter
 		Coordinate tStart = transformer.transform(cStart);
 		Coordinate tTarget = transformer.transform(cTarget);
 
-		Shape arcStart = ShapeUtilNoAwt.createArc(tStart.getX(), tStart.getY(), r);
-		Shape arcTarget = ShapeUtilNoAwt
-				.createArc(tTarget.getX(), tTarget.getY(), r);
-		Shape arcStartIn = ShapeUtilNoAwt.createArc(tStart.getX(), tStart.getY(), r
-				- w / 2);
-		Shape arcTargetIn = ShapeUtilNoAwt.createArc(tTarget.getX(), tTarget.getY(),
-				r - w / 2);
-		Shape arcStartOut = ShapeUtilNoAwt.createArc(tStart.getX(), tStart.getY(), r
-				+ w / 2);
+		Shape arcStart = ShapeUtilNoAwt.createArc(tStart.getX(), tStart.getY(),
+				r);
+		Shape arcTarget = ShapeUtilNoAwt.createArc(tTarget.getX(),
+				tTarget.getY(), r);
+		Shape arcStartIn = ShapeUtilNoAwt.createArc(tStart.getX(),
+				tStart.getY(), r - w / 2);
+		Shape arcTargetIn = ShapeUtilNoAwt.createArc(tTarget.getX(),
+				tTarget.getY(), r - w / 2);
+		Shape arcStartOut = ShapeUtilNoAwt.createArc(tStart.getX(),
+				tStart.getY(), r + w / 2);
 		Shape arcTargetOut = ShapeUtilNoAwt.createArc(tTarget.getX(),
 				tTarget.getY(), r + w / 2);
 
@@ -485,7 +487,8 @@ public class ShortestPathPainter extends TransformingVisualizationPainter
 		} else {
 			painter.setColor(COLOR_RIGHT_TOP);
 		}
-		painter.fill(ShapeUtilNoAwt.createArc(c.getX(), c.getY(), SIZE_FINAL_NODES));
+		painter.fill(ShapeUtilNoAwt.createArc(c.getX(), c.getY(),
+				SIZE_FINAL_NODES));
 	}
 
 }

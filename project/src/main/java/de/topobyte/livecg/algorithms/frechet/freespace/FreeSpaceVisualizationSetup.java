@@ -45,8 +45,8 @@ public class FreeSpaceVisualizationSetup implements VisualizationSetup
 
 		new FreeSpacePropertyParser(config).parse(properties);
 
-		VisualizationPainter visualizationPainter = new FreeSpacePainterChains(config,
-				epsilon, chain1, chain2, null);
+		VisualizationPainter visualizationPainter = new FreeSpacePainterChains(
+				config, epsilon, chain1, chain2, null);
 		int cellSize = 50;
 		int width = chain1.getNumberOfNodes() * cellSize;
 		int height = chain2.getNumberOfNodes() * cellSize;

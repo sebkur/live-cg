@@ -39,8 +39,9 @@ import de.topobyte.livecg.core.painting.backend.svg.SvgPainter;
 public class SvgExporter
 {
 
-	public static void exportSVG(File file, VisualizationPainter visualizationPainter,
-			int width, int height) throws TransformerException, IOException
+	public static void exportSVG(File file,
+			VisualizationPainter visualizationPainter, int width, int height)
+			throws TransformerException, IOException
 	{
 		DOMImplementation impl = SVGDOMImplementation.getDOMImplementation();
 		String svgNS = SVGDOMImplementation.SVG_NAMESPACE_URI;

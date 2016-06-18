@@ -43,7 +43,8 @@ public class Canvas extends JPanel implements AlgorithmWatcher, SizeProvider
 	private FortunePainter visualizationPainter;
 	private AwtPainter painter;
 
-	public Canvas(FortunesSweep algorithm, FortuneConfig config, int width, int height)
+	public Canvas(FortunesSweep algorithm, FortuneConfig config, int width,
+			int height)
 	{
 		this.algorithm = algorithm;
 

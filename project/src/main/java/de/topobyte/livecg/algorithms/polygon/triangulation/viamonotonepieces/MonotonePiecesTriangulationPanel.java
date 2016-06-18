@@ -39,15 +39,16 @@ public class MonotonePiecesTriangulationPanel extends ScenePanel implements
 	private MonotonePiecesConfig polygonConfig;
 
 	public MonotonePiecesTriangulationPanel(
-			MonotonePiecesTriangulationAlgorithm algorithm, MonotonePiecesConfig polygonConfig)
+			MonotonePiecesTriangulationAlgorithm algorithm,
+			MonotonePiecesConfig polygonConfig)
 	{
 		super(algorithm.getScene());
 		this.polygonConfig = polygonConfig;
 
 		colorMap = ColorMapBuilder.buildColorMap(algorithm.getExtendedGraph());
 
-		visualizationPainter = new MonotonePiecesTriangulationPainter(algorithm,
-				polygonConfig, colorMap, painter);
+		visualizationPainter = new MonotonePiecesTriangulationPainter(
+				algorithm, polygonConfig, colorMap, painter);
 	}
 
 	@Override

@@ -51,8 +51,8 @@ public class MonotonePiecesPanel extends ScenePanel implements PolygonPanel,
 
 		colorMap = ColorMapBuilder.buildColorMap(algorithm.getExtendedGraph());
 
-		visualizationPainter = new MonotonePiecesPainter(algorithm, polygonConfig,
-				colorMap, painter);
+		visualizationPainter = new MonotonePiecesPainter(algorithm,
+				polygonConfig, colorMap, painter);
 	}
 
 	@Override

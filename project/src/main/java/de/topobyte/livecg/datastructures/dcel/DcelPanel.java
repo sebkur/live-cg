@@ -36,7 +36,8 @@ public class DcelPanel extends ScenePanel implements SizeProvider
 		super(scene(dcel, margin));
 		this.config = config;
 
-		visualizationPainter = new InstanceDcelPainter(scene, dcel, config, painter);
+		visualizationPainter = new InstanceDcelPainter(scene, dcel, config,
+				painter);
 	}
 
 	private static Rectangle scene(DCEL dcel, int margin)

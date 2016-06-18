@@ -131,8 +131,8 @@ public class SceneBoundedRangeModel<T extends JComponent & ViewportWithSignals &
 	public void setValue(int newValue)
 	{
 		logger.debug("setValue(" + newValue + ")");
-		double viewportOffset = calculator
-				.getViewportOffset(newValue, horizontal);
+		double viewportOffset = calculator.getViewportOffset(newValue,
+				horizontal);
 		if (horizontal) {
 			view.setPositionX(viewportOffset);
 		} else {

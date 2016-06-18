@@ -41,8 +41,8 @@ public class DcelVisualizationSetup implements VisualizationSetup
 		Rectangle bbox = DcelUtil.getBoundingBox(dcel);
 		Rectangle scene = Rectangles.extend(bbox, margin);
 		DcelConfig config = new DcelConfig();
-		VisualizationPainter visualizationPainter = new InstanceDcelPainter(scene,
-				dcel, config, null);
+		VisualizationPainter visualizationPainter = new InstanceDcelPainter(
+				scene, dcel, config, null);
 
 		int width = (int) Math.ceil(scene.getWidth() * zoom);
 		int height = (int) Math.ceil(scene.getHeight() * zoom);

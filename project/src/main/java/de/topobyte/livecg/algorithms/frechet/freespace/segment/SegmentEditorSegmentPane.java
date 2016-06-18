@@ -31,8 +31,8 @@ public class SegmentEditorSegmentPane extends SegmentPane implements
 	private SegmentEditor editor1;
 	private SegmentEditor editor2;
 
-	public SegmentEditorSegmentPane(FreeSpaceConfig config, SegmentEditor editor1,
-			SegmentEditor editor2, int epsilon)
+	public SegmentEditorSegmentPane(FreeSpaceConfig config,
+			SegmentEditor editor1, SegmentEditor editor2, int epsilon)
 	{
 		super(config, epsilon);
 		this.editor1 = editor1;

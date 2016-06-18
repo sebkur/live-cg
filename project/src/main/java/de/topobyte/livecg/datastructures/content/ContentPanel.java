@@ -33,7 +33,8 @@ public class ContentPanel extends ScenePanel implements SizeProvider
 		super(content.getScene());
 		this.config = config;
 
-		visualizationPainter = new ContentPainter(scene, content, config, painter);
+		visualizationPainter = new ContentPainter(scene, content, config,
+				painter);
 	}
 
 	public ContentConfig getConfig()

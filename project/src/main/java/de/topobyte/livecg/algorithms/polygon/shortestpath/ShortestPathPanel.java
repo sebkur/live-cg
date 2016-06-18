@@ -29,12 +29,14 @@ public class ShortestPathPanel extends ScenePanel implements SizeProvider
 
 	private ShortestPathPainter visualizationPainter;
 
-	public ShortestPathPanel(ShortestPathAlgorithm algorithm, ShortestPathConfig config)
+	public ShortestPathPanel(ShortestPathAlgorithm algorithm,
+			ShortestPathConfig config)
 	{
 		super(algorithm.getScene());
 		this.algorithm = algorithm;
 
-		visualizationPainter = new ShortestPathPainter(algorithm, config, painter);
+		visualizationPainter = new ShortestPathPainter(algorithm, config,
+				painter);
 		super.visualizationPainter = visualizationPainter;
 	}
 

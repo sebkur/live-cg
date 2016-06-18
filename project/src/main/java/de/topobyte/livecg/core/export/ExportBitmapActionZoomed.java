@@ -58,7 +58,8 @@ public class ExportBitmapActionZoomed<T extends Viewport & HasScene> extends
 	protected void export(File file, int width, int height)
 	{
 		try {
-			GraphicsExporter.exportPNG(file, visualizationPainter, width, height);
+			GraphicsExporter.exportPNG(file, visualizationPainter, width,
+					height);
 		} catch (IOException ex) {
 			logger.error("unable to export image: " + ex.getMessage());
 		}

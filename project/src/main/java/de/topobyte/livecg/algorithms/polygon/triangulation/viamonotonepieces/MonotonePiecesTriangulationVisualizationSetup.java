@@ -30,7 +30,8 @@ import de.topobyte.livecg.core.painting.VisualizationPainter;
 import de.topobyte.livecg.ui.geometryeditor.Content;
 import de.topobyte.livecg.util.coloring.ColorMapBuilder;
 
-public class MonotonePiecesTriangulationVisualizationSetup implements VisualizationSetup
+public class MonotonePiecesTriangulationVisualizationSetup implements
+		VisualizationSetup
 {
 
 	@Override
