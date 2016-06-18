@@ -30,7 +30,12 @@ public class FilterAction extends BasicAction
 	private static final long serialVersionUID = -9125573108574206860L;
 
 	public enum ObjectType {
-		Node, Chain, Ring, Polygon
+
+		Node,
+		Chain,
+		Ring,
+		Polygon
+
 	}
 
 	private GeometryEditPane editPane;

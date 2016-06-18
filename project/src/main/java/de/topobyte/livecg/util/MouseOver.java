@@ -18,5 +18,9 @@
 package de.topobyte.livecg.util;
 
 public enum MouseOver {
-	NONE, OVER, ACTIVE
+
+	NONE,
+	OVER,
+	ACTIVE
+
 }

@@ -26,7 +26,10 @@ public class Borders
 {
 
 	public enum BorderState {
-		NORMAL, INVALID
+
+		NORMAL,
+		INVALID
+
 	}
 
 	public static Border createBorder(BorderState state)
@@ -38,4 +41,5 @@ public class Borders
 		}
 		return null;
 	}
+
 }

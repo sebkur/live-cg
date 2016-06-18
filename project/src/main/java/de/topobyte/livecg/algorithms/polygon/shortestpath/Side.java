@@ -18,7 +18,9 @@
 package de.topobyte.livecg.algorithms.polygon.shortestpath;
 
 public enum Side {
-	LEFT, RIGHT;
+
+	LEFT,
+	RIGHT;
 
 	public Side other()
 	{
@@ -28,4 +30,5 @@ public enum Side {
 			return LEFT;
 		}
 	}
+
 }

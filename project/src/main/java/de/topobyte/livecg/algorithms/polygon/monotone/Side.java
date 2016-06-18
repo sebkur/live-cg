@@ -18,5 +18,8 @@
 package de.topobyte.livecg.algorithms.polygon.monotone;
 
 public enum Side {
-	LEFT, RIGHT;
+
+	LEFT,
+	RIGHT;
+
 }

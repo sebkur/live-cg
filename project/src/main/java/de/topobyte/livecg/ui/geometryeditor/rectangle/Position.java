@@ -18,5 +18,14 @@
 package de.topobyte.livecg.ui.geometryeditor.rectangle;
 
 public enum Position {
-	N, NE, E, SE, S, SW, W, NW;
+
+	N,
+	NE,
+	E,
+	SE,
+	S,
+	SW,
+	W,
+	NW;
+
 }

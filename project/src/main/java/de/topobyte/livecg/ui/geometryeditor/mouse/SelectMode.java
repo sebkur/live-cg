@@ -18,5 +18,10 @@
 package de.topobyte.livecg.ui.geometryeditor.mouse;
 
 public enum SelectMode {
-	NONE, NODE, CHAIN, POLYGON
+
+	NONE,
+	NODE,
+	CHAIN,
+	POLYGON
+
 }

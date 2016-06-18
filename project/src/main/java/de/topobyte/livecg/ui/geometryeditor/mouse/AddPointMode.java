@@ -18,5 +18,11 @@
 package de.topobyte.livecg.ui.geometryeditor.mouse;
 
 public enum AddPointMode {
-	NONE, NEW, APPEND, PREPEND, NEW_WITH_SELECTED
+
+	NONE,
+	NEW,
+	APPEND,
+	PREPEND,
+	NEW_WITH_SELECTED
+
 }

@@ -21,7 +21,10 @@ public class EventQueueModification
 {
 
 	public enum Type {
-		ADD, REMOVE
+
+		ADD,
+		REMOVE
+
 	}
 
 	private double x;
@@ -57,4 +60,5 @@ public class EventQueueModification
 				type.toString(), eventPoint.getClass(), eventPoint.getX(),
 				eventPoint.getY());
 	}
+
 }

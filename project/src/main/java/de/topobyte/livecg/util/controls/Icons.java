@@ -18,7 +18,11 @@
 package de.topobyte.livecg.util.controls;
 
 public enum Icons {
-	SKIP_FORWARD, SKIP_BACKWARD, SEEK_FORWARD, SEEK_BACKWARD;
+
+	SKIP_FORWARD,
+	SKIP_BACKWARD,
+	SEEK_FORWARD,
+	SEEK_BACKWARD;
 
 	public static String getPath(Icons icon)
 	{
@@ -35,4 +39,5 @@ public enum Icons {
 			return null;
 		}
 	}
+
 }

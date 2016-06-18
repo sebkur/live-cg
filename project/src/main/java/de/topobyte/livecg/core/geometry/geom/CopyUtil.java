@@ -24,11 +24,18 @@ public class CopyUtil
 {
 
 	public enum PolygonMode {
-		REUSE_CHAINS, REUSE_NODES, REUSE_NOTHING
+
+		REUSE_CHAINS,
+		REUSE_NODES,
+		REUSE_NOTHING
+
 	}
 
 	public enum ChainMode {
-		REUSE_NODES, REUSE_NOTHING
+
+		REUSE_NODES,
+		REUSE_NOTHING
+
 	}
 
 	public static Polygon copy(Polygon polygon, PolygonMode mode)

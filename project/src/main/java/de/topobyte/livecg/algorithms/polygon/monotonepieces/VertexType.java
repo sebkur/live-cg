@@ -18,5 +18,11 @@
 package de.topobyte.livecg.algorithms.polygon.monotonepieces;
 
 public enum VertexType {
-	START, END, REGULAR, SPLIT, MERGE
+
+	START,
+	END,
+	REGULAR,
+	SPLIT,
+	MERGE
+
 }

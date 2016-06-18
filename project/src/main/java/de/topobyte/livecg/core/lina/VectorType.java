@@ -18,5 +18,8 @@
 package de.topobyte.livecg.core.lina;
 
 public enum VectorType {
-	Row, Column
+
+	Row,
+	Column
+
 }

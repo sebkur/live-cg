@@ -19,6 +19,9 @@ package de.topobyte.livecg.core.export;
 
 public enum ExportFormat {
 
-	PNG, SVG, TIKZ, IPE;
+	PNG,
+	SVG,
+	TIKZ,
+	IPE;
 
 }

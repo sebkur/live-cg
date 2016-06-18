@@ -27,7 +27,11 @@ public class ZoomAction<T extends JComponent & Viewport> extends BasicAction
 {
 
 	public enum Type {
-		IN, OUT, IDENTITY
+
+		IN,
+		OUT,
+		IDENTITY
+
 	}
 
 	private static final long serialVersionUID = -3260994363917453585L;

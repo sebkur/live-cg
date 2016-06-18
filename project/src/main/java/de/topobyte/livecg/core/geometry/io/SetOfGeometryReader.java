@@ -75,7 +75,15 @@ public class SetOfGeometryReader extends DefaultHandler
 	}
 
 	protected enum Element {
-		Data, Unknown, Node, Chain, Polygon, Shell, Hole
+
+		Data,
+		Unknown,
+		Node,
+		Chain,
+		Polygon,
+		Shell,
+		Hole
+
 	}
 
 	// Store the path within the XML document int this Stack

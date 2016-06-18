@@ -18,5 +18,11 @@
 package de.topobyte.livecg.ui.geometryeditor.object;
 
 public enum Mode {
-	NOTHING, NODE, CHAIN, POLYGON, MULTIPLE
+
+	NOTHING,
+	NODE,
+	CHAIN,
+	POLYGON,
+	MULTIPLE
+
 }
