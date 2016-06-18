@@ -17,11 +17,7 @@
  */
 package de.topobyte.livecg.misc;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.PrintWriter;
 
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
