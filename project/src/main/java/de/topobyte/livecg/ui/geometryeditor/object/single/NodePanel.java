@@ -29,15 +29,15 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 
+import de.topobyte.awt.util.GridBagConstraintsEditor;
 import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.core.geometry.geom.Coordinate;
 import de.topobyte.livecg.core.geometry.geom.Node;
 import de.topobyte.livecg.ui.geometryeditor.GeometryEditPane;
 import de.topobyte.livecg.ui.misc.Borders;
 import de.topobyte.livecg.ui.misc.Borders.BorderState;
-import de.topobyte.swing.DocumentAdapter;
-import de.topobyte.swing.JPanelTextField;
-import de.topobyte.swing.layout.GridBagHelper;
+import de.topobyte.swing.util.DocumentAdapter;
+import de.topobyte.swing.util.JPanelTextField;
 
 public class NodePanel extends JPanel
 {
@@ -68,29 +68,30 @@ public class NodePanel extends JPanel
 		setNoPreferredWidth(inputY.getTextField());
 
 		GridBagConstraints c = new GridBagConstraints();
+		GridBagConstraintsEditor editor = new GridBagConstraintsEditor(c);
 
 		int y = 0;
 
-		GridBagHelper.setGxGyGwGh(c, 0, y, 2, 1);
-		c.anchor = GridBagConstraints.LINE_START;
+		editor.gridPos(0, y).gridSize(2, 1);
+		editor.anchor(GridBagConstraints.LINE_START);
 		add(label, c);
 
-		GridBagHelper.setGxGyGwGh(c, 0, ++y, 2, 1);
+		editor.gridPos(0, ++y).gridSize(2, 1);
 		add(actionPanel, c);
 
-		GridBagHelper.setGxGyGwGh(c, 0, ++y, 1, 1);
-		GridBagHelper.setWxWyF(c, 1.0, 0.0, GridBagConstraints.HORIZONTAL);
+		editor.gridPos(0, ++y).gridSize(1, 1);
+		editor.weight(1.0, 0.0).fill(GridBagConstraints.HORIZONTAL);
 
-		c.gridx = 0;
+		editor.gridX(0);
 		add(inputX, c);
-		c.gridx = 1;
+		editor.gridX(1);
 		add(inputY, c);
 
-		GridBagHelper.setGxGyGwGh(c, 0, ++y, 2, 1);
+		editor.gridPos(0, ++y).gridSize(2, 1);
 		add(labelInfo, c);
 
-		GridBagHelper.setGxGyGwGh(c, 0, ++y, 2, 1);
-		GridBagHelper.setWxWyF(c, 1.0, 1.0, GridBagConstraints.BOTH);
+		editor.gridPos(0, ++y).gridSize(2, 1);
+		editor.weight(1.0, 1.0).fill(GridBagConstraints.BOTH);
 		add(new JPanel(), c);
 
 		update();

@@ -39,7 +39,7 @@ import org.slf4j.LoggerFactory;
 import de.topobyte.livecg.LiveCG;
 import de.topobyte.livecg.preferences.Configuration;
 import de.topobyte.livecg.preferences.PreferenceManager;
-import de.topobyte.swing.ButtonPane;
+import de.topobyte.livecg.util.ButtonPane;
 
 public class PreferencesDialog extends JDialog
 {

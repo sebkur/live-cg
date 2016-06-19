@@ -24,10 +24,10 @@ import java.awt.Insets;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import de.topobyte.awt.util.GridBagConstraintsEditor;
 import de.topobyte.livecg.core.geometry.geom.Node;
 import de.topobyte.livecg.ui.geometryeditor.GeometryEditPane;
 import de.topobyte.livecg.ui.geometryeditor.object.action.ToMultipleNodesAction;
-import de.topobyte.swing.layout.GridBagHelper;
 
 public class NodeActionPanel extends JPanel
 {
@@ -41,6 +41,7 @@ public class NodeActionPanel extends JPanel
 		setLayout(new GridBagLayout());
 
 		GridBagConstraints c = new GridBagConstraints();
+		GridBagConstraintsEditor editor = new GridBagConstraintsEditor(c);
 
 		ToMultipleNodesAction toMultipleNodesAction = new ToMultipleNodesAction(
 				editPane, node);
@@ -50,9 +51,8 @@ public class NodeActionPanel extends JPanel
 
 		toMultipleNodesAction.setEnabled(node.getChains().size() > 1);
 
-		c.fill = GridBagConstraints.BOTH;
-		GridBagHelper.setGxGy(c, GridBagConstraints.RELATIVE, 0);
+		editor.gridPos(GridBagConstraints.RELATIVE, 0);
+		editor.fill(GridBagConstraints.BOTH);
 		add(toMultipleNodes, c);
 	}
-
 }

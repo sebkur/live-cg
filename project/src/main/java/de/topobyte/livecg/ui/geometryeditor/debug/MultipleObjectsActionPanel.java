@@ -22,8 +22,8 @@ import java.awt.GridBagLayout;
 
 import javax.swing.JPanel;
 
+import de.topobyte.awt.util.GridBagConstraintsEditor;
 import de.topobyte.livecg.ui.geometryeditor.GeometryEditPane;
-import de.topobyte.swing.layout.GridBagHelper;
 
 public class MultipleObjectsActionPanel extends JPanel
 {
@@ -39,9 +39,10 @@ public class MultipleObjectsActionPanel extends JPanel
 		setLayout(new GridBagLayout());
 
 		GridBagConstraints c = new GridBagConstraints();
+		GridBagConstraintsEditor editor = new GridBagConstraintsEditor(c);
 
-		c.fill = GridBagConstraints.BOTH;
-		GridBagHelper.setGxGy(c, GridBagConstraints.RELATIVE, 0);
+		editor.fill(GridBagConstraints.BOTH);
+		editor.gridPos(GridBagConstraints.RELATIVE, 0);
 	}
 
 	public void update()

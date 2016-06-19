@@ -23,7 +23,7 @@ import java.awt.GridBagLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import de.topobyte.swing.layout.GridBagHelper;
+import de.topobyte.awt.util.GridBagConstraintsEditor;
 
 public class NothingPanel extends JPanel
 {
@@ -37,14 +37,15 @@ public class NothingPanel extends JPanel
 		JLabel label = new JLabel("no active object");
 
 		GridBagConstraints c = new GridBagConstraints();
+		GridBagConstraintsEditor editor = new GridBagConstraintsEditor(c);
 
 		c.anchor = GridBagConstraints.LINE_START;
 
-		GridBagHelper.setGxGy(c, 0, 0);
+		editor.gridPos(0, 0);
 		add(label, c);
 
-		GridBagHelper.setGxGy(c, 0, 1);
-		GridBagHelper.setWxWyF(c, 1.0, 1.0, GridBagConstraints.BOTH);
+		editor.gridPos(0, 1);
+		editor.weight(1.0, 1.0).fill(GridBagConstraints.BOTH);
 		add(new JPanel(), c);
 	}
 

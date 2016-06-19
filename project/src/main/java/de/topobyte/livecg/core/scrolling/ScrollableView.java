@@ -29,7 +29,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.KeyStroke;
 
-import de.topobyte.swing.layout.GridBagHelper;
+import de.topobyte.awt.util.GridBagConstraintsEditor;
 
 public class ScrollableView<T extends JComponent & ViewportWithSignals & HasScene & HasMargin>
 		extends JPanel
@@ -42,6 +42,7 @@ public class ScrollableView<T extends JComponent & ViewportWithSignals & HasScen
 		super(new GridBagLayout());
 
 		GridBagConstraints c = new GridBagConstraints();
+		GridBagConstraintsEditor editor = new GridBagConstraintsEditor(c);
 
 		InputMap inputMap = getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
 		inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_PLUS,
@@ -68,16 +69,15 @@ public class ScrollableView<T extends JComponent & ViewportWithSignals & HasScen
 				false);
 		scrollerV.setModel(rangeV);
 
-		GridBagHelper.setGxGy(c, 0, 0);
-		GridBagHelper.setWxWyF(c, 1.0, 1.0, GridBagConstraints.BOTH);
+		editor.fill(GridBagConstraints.BOTH);
+
+		editor.gridPos(0, 0).weight(1.0, 1.0);
 		add(view, c);
 
-		GridBagHelper.setGxGy(c, 0, 1);
-		GridBagHelper.setWxWyF(c, 1.0, 0.0, GridBagConstraints.BOTH);
+		editor.gridPos(0, 1).weight(1.0, 0.0);
 		add(scrollerH, c);
 
-		GridBagHelper.setGxGy(c, 1, 0);
-		GridBagHelper.setWxWyF(c, 0.0, 1.0, GridBagConstraints.BOTH);
+		editor.gridPos(1, 0).weight(0.0, 1.0);
 		add(scrollerV, c);
 
 		PanMouseAdapter<T> panAdapter = new PanMouseAdapter<>(view);

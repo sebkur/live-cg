@@ -23,9 +23,9 @@ import java.awt.GridBagLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import de.topobyte.awt.util.GridBagConstraintsEditor;
 import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.ui.geometryeditor.GeometryEditPane;
-import de.topobyte.swing.layout.GridBagHelper;
 
 public class PolygonalChainPanel extends JPanel
 {
@@ -45,16 +45,16 @@ public class PolygonalChainPanel extends JPanel
 		actionPanel = new PolygonalChainActionPanel(editPane, chain);
 
 		GridBagConstraints c = new GridBagConstraints();
+		GridBagConstraintsEditor editor = new GridBagConstraintsEditor(c);
+		editor.anchor(GridBagConstraints.LINE_START);
 
-		c.anchor = GridBagConstraints.LINE_START;
-
-		GridBagHelper.setGxGy(c, 0, 0);
+		editor.gridPos(0, 0);
 		add(label, c);
-		GridBagHelper.setGxGy(c, 0, 1);
+		editor.gridPos(0, 1);
 		add(actionPanel, c);
 
-		GridBagHelper.setGxGy(c, 0, 2);
-		GridBagHelper.setWxWyF(c, 1.0, 1.0, GridBagConstraints.BOTH);
+		editor.gridPos(0, 2);
+		editor.weight(1.0, 1.0).fill(GridBagConstraints.BOTH);
 		add(new JPanel(), c);
 
 		update();

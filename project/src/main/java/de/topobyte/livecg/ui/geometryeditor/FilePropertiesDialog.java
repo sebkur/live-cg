@@ -32,9 +32,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import de.topobyte.awt.util.GridBagConstraintsEditor;
 import de.topobyte.livecg.core.geometry.geom.Rectangle;
-import de.topobyte.swing.ButtonPane;
-import de.topobyte.swing.layout.GridBagHelper;
+import de.topobyte.livecg.util.ButtonPane;
 
 public class FilePropertiesDialog extends JDialog
 {
@@ -59,6 +59,7 @@ public class FilePropertiesDialog extends JDialog
 		tHeight = new JTextField(getText(height));
 
 		GridBagConstraints c = new GridBagConstraints();
+		GridBagConstraintsEditor editor = new GridBagConstraintsEditor(c);
 
 		/*
 		 * Table
@@ -66,18 +67,18 @@ public class FilePropertiesDialog extends JDialog
 		JPanel table = new JPanel();
 		table.setLayout(new GridBagLayout());
 
-		GridBagHelper.setWxWyF(c, 0.0, 0.0, GridBagConstraints.NONE);
-		GridBagHelper.setGxGy(c, 0, 0);
+		editor.gridPos(0, 0);
+		editor.weight(0.0, 0.0).fill(GridBagConstraints.NONE);
 		table.add(lWidth, c);
 
-		GridBagHelper.setGxGy(c, 0, 1);
+		editor.gridPos(0, 1);
 		table.add(lHeight, c);
 
-		GridBagHelper.setWxWyF(c, 1.0, 0.0, GridBagConstraints.BOTH);
-		GridBagHelper.setGxGy(c, 1, 0);
+		editor.gridPos(1, 0);
+		editor.weight(1.0, 0.0).fill(GridBagConstraints.BOTH);
 		table.add(tWidth, c);
 
-		GridBagHelper.setGxGy(c, 1, 1);
+		editor.gridPos(1, 1);
 		table.add(tHeight, c);
 
 		/*
@@ -103,12 +104,12 @@ public class FilePropertiesDialog extends JDialog
 
 		table.setBorder(BorderFactory.createTitledBorder("Scene dimension"));
 
-		GridBagHelper.setWxWyF(c, 1.0, 1.0, GridBagConstraints.BOTH);
-		GridBagHelper.setGxGy(c, 0, 0);
+		editor.gridPos(0, 0);
+		editor.weight(1.0, 1.0).fill(GridBagConstraints.BOTH);
 		panel.add(table, c);
 
-		GridBagHelper.setWxWyF(c, 1.0, 0.0, GridBagConstraints.BOTH);
-		GridBagHelper.setGxGy(c, 0, 1);
+		editor.gridPos(0, 1);
+		editor.weight(1.0, 0.0).fill(GridBagConstraints.BOTH);
 		panel.add(buttonPane, c);
 
 		/*

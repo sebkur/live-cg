@@ -24,8 +24,8 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import de.topobyte.awt.util.GridBagConstraintsEditor;
 import de.topobyte.livecg.ui.geometryeditor.GeometryEditPane;
-import de.topobyte.swing.layout.GridBagHelper;
 
 public class MultiplePanel extends JPanel
 {
@@ -44,18 +44,17 @@ public class MultiplePanel extends JPanel
 		actions = new MultipleObjectsActionPanel(editPane);
 
 		GridBagConstraints c = new GridBagConstraints();
+		GridBagConstraintsEditor editor = new GridBagConstraintsEditor(c);
+		editor.anchor(GridBagConstraints.LINE_START);
 
-		c.anchor = GridBagConstraints.LINE_START;
-
-		GridBagHelper.setGxGy(c, 0, 0);
+		editor.gridPos(0, 0);
 		add(actions, c);
 
 		model = new MultipleObjectsListModel(editPane);
 		list = new JList(model);
 		JScrollPane jsp = new JScrollPane(list);
 
-		GridBagHelper.setGxGy(c, 0, 2);
-		GridBagHelper.setWxWyF(c, 1.0, 1.0, GridBagConstraints.BOTH);
+		editor.gridPos(0, 2).weight(1.0, 1.0).fill(GridBagConstraints.BOTH);
 		add(jsp, c);
 	}
 

@@ -26,13 +26,13 @@ import java.awt.event.MouseEvent;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 
+import de.topobyte.awt.util.GridBagConstraintsEditor;
 import de.topobyte.livecg.core.scrolling.PanMouseAdapter;
 import de.topobyte.livecg.core.scrolling.SceneBoundedRangeModel;
 import de.topobyte.livecg.ui.geometryeditor.mouse.ScaleMouseListener;
 import de.topobyte.livecg.ui.geometryeditor.scale.Scale;
 import de.topobyte.livecg.ui.geometryeditor.scale.ScaleX;
 import de.topobyte.livecg.ui.geometryeditor.scale.ScaleY;
-import de.topobyte.swing.layout.GridBagHelper;
 
 public class GeometryEditor extends JPanel
 {
@@ -82,25 +82,23 @@ public class GeometryEditor extends JPanel
 
 		setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
+		GridBagConstraintsEditor editor = new GridBagConstraintsEditor(c);
 
-		GridBagHelper.setGxGy(c, 1, 1);
-		GridBagHelper.setWxWyF(c, 1.0, 1.0, GridBagConstraints.BOTH);
+		editor.fill(GridBagConstraints.BOTH);
+
+		editor.gridPos(1, 1).weight(1.0, 1.0);
 		add(editPane, c);
 
-		GridBagHelper.setGxGy(c, 1, 0);
-		GridBagHelper.setWxWyF(c, 1.0, 0.0, GridBagConstraints.BOTH);
+		editor.gridPos(1, 0).weight(1.0, 0.0);
 		add(scaleX, c);
 
-		GridBagHelper.setGxGy(c, 0, 1);
-		GridBagHelper.setWxWyF(c, 0.0, 1.0, GridBagConstraints.BOTH);
+		editor.gridPos(0, 1).weight(0.0, 1.0);
 		add(scaleY, c);
 
-		GridBagHelper.setGxGy(c, 1, 2);
-		GridBagHelper.setWxWyF(c, 1.0, 0.0, GridBagConstraints.BOTH);
+		editor.gridPos(1, 2).weight(1.0, 0.0);
 		add(scrollerH, c);
 
-		GridBagHelper.setGxGy(c, 2, 1);
-		GridBagHelper.setWxWyF(c, 0.0, 1.0, GridBagConstraints.BOTH);
+		editor.gridPos(2, 1).weight(0.0, 1.0);
 		add(scrollerV, c);
 	}
 

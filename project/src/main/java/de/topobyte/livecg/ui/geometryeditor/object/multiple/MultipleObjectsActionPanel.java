@@ -25,6 +25,7 @@ import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import de.topobyte.awt.util.GridBagConstraintsEditor;
 import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.core.geometry.geom.Node;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
@@ -33,7 +34,6 @@ import de.topobyte.livecg.ui.geometryeditor.object.action.ConvexHullAction;
 import de.topobyte.livecg.ui.geometryeditor.object.multiple.action.MergeChainsAction;
 import de.topobyte.livecg.ui.geometryeditor.object.multiple.action.ShowFilterMenuAction;
 import de.topobyte.livecg.ui.geometryeditor.object.multiple.action.ToPolygonAction;
-import de.topobyte.swing.layout.GridBagHelper;
 
 public class MultipleObjectsActionPanel extends JPanel
 {
@@ -50,6 +50,7 @@ public class MultipleObjectsActionPanel extends JPanel
 		setLayout(new GridBagLayout());
 
 		GridBagConstraints c = new GridBagConstraints();
+		GridBagConstraintsEditor editor = new GridBagConstraintsEditor(c);
 
 		JButton filters = new JButton();
 		ShowFilterMenuAction filtersAction = new ShowFilterMenuAction(editPane,
@@ -72,8 +73,8 @@ public class MultipleObjectsActionPanel extends JPanel
 		convexHull.setMargin(new Insets(0, 0, 0, 0));
 		convexHull.setText(null);
 
-		c.fill = GridBagConstraints.BOTH;
-		GridBagHelper.setGxGy(c, GridBagConstraints.RELATIVE, 0);
+		editor.gridPos(GridBagConstraints.RELATIVE, 0);
+		editor.fill(GridBagConstraints.BOTH);
 		add(filters, c);
 		add(mergeChains, c);
 		add(toPolygon, c);
