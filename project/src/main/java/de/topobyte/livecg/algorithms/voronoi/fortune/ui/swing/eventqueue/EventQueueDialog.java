@@ -44,7 +44,7 @@ public class EventQueueDialog extends JDialog
 		final EventQueueModel eventQueueModel = new EventQueueModel(algorithm);
 
 		JScrollPane jsp = new JScrollPane();
-		final JList list = new JList(eventQueueModel);
+		final JList<EventQueueModel.Element> list = new JList<>(eventQueueModel);
 		jsp.setViewportView(list);
 
 		panel.add(jsp, BorderLayout.CENTER);

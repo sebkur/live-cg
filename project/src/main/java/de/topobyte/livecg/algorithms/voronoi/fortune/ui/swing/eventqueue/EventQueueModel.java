@@ -26,8 +26,8 @@ import de.topobyte.livecg.algorithms.voronoi.fortune.events.EventQueue;
 import de.topobyte.livecg.algorithms.voronoi.fortune.events.EventQueueListener;
 import de.topobyte.livecg.algorithms.voronoi.fortune.events.SitePoint;
 
-public class EventQueueModel extends AbstractListModel implements
-		EventQueueListener
+public class EventQueueModel extends AbstractListModel<EventQueueModel.Element>
+		implements EventQueueListener
 {
 
 	private static final long serialVersionUID = 1L;
@@ -76,7 +76,7 @@ public class EventQueueModel extends AbstractListModel implements
 	}
 
 	@Override
-	public Object getElementAt(int index)
+	public Element getElementAt(int index)
 	{
 		EventPoint eventPoint = copy.get(index);
 		return new Element(eventPoint);

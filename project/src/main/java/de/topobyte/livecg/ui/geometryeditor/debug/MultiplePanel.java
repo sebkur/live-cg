@@ -32,7 +32,7 @@ public class MultiplePanel extends JPanel
 
 	private static final long serialVersionUID = 8238596802096261201L;
 
-	private JList list;
+	private JList<String> list;
 	private MultipleObjectsListModel model;
 
 	private MultipleObjectsActionPanel actions;
@@ -51,7 +51,7 @@ public class MultiplePanel extends JPanel
 		add(actions, c);
 
 		model = new MultipleObjectsListModel(editPane);
-		list = new JList(model);
+		list = new JList<>(model);
 		JScrollPane jsp = new JScrollPane(list);
 
 		editor.gridPos(0, 2).weight(1.0, 1.0).fill(GridBagConstraints.BOTH);

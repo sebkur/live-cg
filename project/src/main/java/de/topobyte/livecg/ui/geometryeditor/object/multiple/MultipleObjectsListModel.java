@@ -28,7 +28,7 @@ import de.topobyte.livecg.core.geometry.geom.Node;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
 import de.topobyte.livecg.ui.geometryeditor.GeometryEditPane;
 
-public class MultipleObjectsListModel extends AbstractListModel
+public class MultipleObjectsListModel extends AbstractListModel<String>
 {
 
 	private static final long serialVersionUID = 2246583987524119020L;
@@ -50,7 +50,7 @@ public class MultipleObjectsListModel extends AbstractListModel
 	}
 
 	@Override
-	public Object getElementAt(int index)
+	public String getElementAt(int index)
 	{
 		List<Node> nodes = editPane.getCurrentNodes();
 		List<Chain> chains = editPane.getCurrentChains();
