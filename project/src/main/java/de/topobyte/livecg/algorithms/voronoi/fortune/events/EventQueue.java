@@ -22,7 +22,7 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
-import de.topobyte.adt.avltree.AvlTree;
+import de.topobyte.adt.trees.avltree.AvlTree;
 
 public class EventQueue
 {
