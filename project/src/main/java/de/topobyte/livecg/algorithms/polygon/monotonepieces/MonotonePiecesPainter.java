@@ -23,6 +23,7 @@ import java.util.Map;
 import noawt.java.awt.geom.Arc2D;
 import noawt.java.awt.geom.Path2D;
 import noawt.java.awt.geom.Rectangle2D;
+import de.topobyte.chromaticity.ColorCode;
 import de.topobyte.livecg.algorithms.polygon.util.Diagonal;
 import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.core.geometry.geom.Coordinate;
@@ -39,11 +40,11 @@ public class MonotonePiecesPainter extends TransformingVisualizationPainter
 	private MonotonePiecesOperation monotonePiecesOperation;
 	private List<Polygon> monotonePieces;
 	private MonotonePiecesConfig polygonConfig;
-	private Map<Polygon, java.awt.Color> colorMap;
+	private Map<Polygon, ColorCode> colorMap;
 
 	public MonotonePiecesPainter(MonotonePiecesAlgorithm algorithm,
 			MonotonePiecesConfig polygonConfig,
-			Map<Polygon, java.awt.Color> colorMap, Painter painter)
+			Map<Polygon, ColorCode> colorMap, Painter painter)
 	{
 		super(algorithm.getScene(), painter);
 		this.polygon = algorithm.getPolygon();
@@ -84,8 +85,8 @@ public class MonotonePiecesPainter extends TransformingVisualizationPainter
 	{
 		for (int i = 0; i < monotonePieces.size(); i++) {
 			Polygon piece = monotonePieces.get(i);
-			java.awt.Color color = colorMap.get(piece);
-			painter.setColor(new Color(color.getRGB()));
+			ColorCode color = colorMap.get(piece);
+			painter.setColor(new Color(color.getValue()));
 			Polygon tpiece = transformer.transform(piece);
 			painter.fillPolygon(tpiece);
 		}

@@ -17,10 +17,10 @@
  */
 package de.topobyte.livecg.algorithms.polygon.monotonepieces;
 
-import java.awt.Color;
 import java.util.Map;
 import java.util.Properties;
 
+import de.topobyte.chromaticity.ColorCode;
 import de.topobyte.livecg.core.SetupResult;
 import de.topobyte.livecg.core.VisualizationSetup;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
@@ -43,8 +43,8 @@ public class MonotonePiecesVisualizationSetup implements VisualizationSetup
 		Polygon polygon = content.getPolygons().get(0);
 		MonotonePiecesAlgorithm algorithm = new MonotonePiecesAlgorithm(polygon);
 		MonotonePiecesConfig config = new MonotonePiecesConfig();
-		Map<Polygon, Color> colorMap = ColorMapBuilder.buildColorMap(algorithm
-				.getExtendedGraph());
+		Map<Polygon, ColorCode> colorMap = ColorMapBuilder
+				.buildColorMap(algorithm.getExtendedGraph());
 		VisualizationPainter visualizationPainter = new MonotonePiecesPainter(
 				algorithm, config, colorMap, null);
 

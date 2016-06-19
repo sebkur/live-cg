@@ -20,6 +20,7 @@ package de.topobyte.livecg.algorithms.polygon.triangulation.viamonotonepieces;
 import java.util.List;
 import java.util.Map;
 
+import de.topobyte.chromaticity.ColorCode;
 import de.topobyte.livecg.algorithms.polygon.monotonepieces.MonotonePiecesConfig;
 import de.topobyte.livecg.algorithms.polygon.monotonepieces.MonotonePiecesPainter;
 import de.topobyte.livecg.algorithms.polygon.monotonepieces.SplitResult;
@@ -40,7 +41,7 @@ public class MonotonePiecesTriangulationPainter extends MonotonePiecesPainter
 	public MonotonePiecesTriangulationPainter(
 			MonotonePiecesTriangulationAlgorithm algorithm,
 			MonotonePiecesConfig polygonConfig,
-			Map<Polygon, java.awt.Color> colorMap, Painter painter)
+			Map<Polygon, ColorCode> colorMap, Painter painter)
 	{
 		super(algorithm, polygonConfig, colorMap, painter);
 		this.algorithm = algorithm;

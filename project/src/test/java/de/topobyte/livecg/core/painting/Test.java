@@ -17,7 +17,6 @@
  */
 package de.topobyte.livecg.core.painting;
 
-import java.awt.Color;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -28,6 +27,7 @@ import javax.xml.transform.TransformerException;
 
 import org.xml.sax.SAXException;
 
+import de.topobyte.chromaticity.ColorCode;
 import de.topobyte.livecg.algorithms.convexhull.chan.ChanConfig;
 import de.topobyte.livecg.algorithms.convexhull.chan.ChansAlgorithm;
 import de.topobyte.livecg.algorithms.convexhull.chan.ChansAlgorithmPainter;
@@ -223,8 +223,8 @@ public class Test
 		MonotonePiecesAlgorithm algorithm = new MonotonePiecesAlgorithm(polygon);
 
 		MonotonePiecesConfig polygonConfig = new MonotonePiecesConfig();
-		Map<Polygon, Color> colorMap = ColorMapBuilder.buildColorMap(algorithm
-				.getExtendedGraph());
+		Map<Polygon, ColorCode> colorMap = ColorMapBuilder
+				.buildColorMap(algorithm.getExtendedGraph());
 		MonotonePiecesPainter triangulationPainter = new MonotonePiecesPainter(
 				algorithm, polygonConfig, colorMap, null);
 
@@ -243,8 +243,8 @@ public class Test
 				polygon);
 
 		MonotonePiecesConfig polygonConfig = new MonotonePiecesConfig();
-		Map<Polygon, Color> colorMap = ColorMapBuilder.buildColorMap(algorithm
-				.getExtendedGraph());
+		Map<Polygon, ColorCode> colorMap = ColorMapBuilder
+				.buildColorMap(algorithm.getExtendedGraph());
 		MonotonePiecesTriangulationPainter triangulationPainter = new MonotonePiecesTriangulationPainter(
 				algorithm, polygonConfig, colorMap, null);
 

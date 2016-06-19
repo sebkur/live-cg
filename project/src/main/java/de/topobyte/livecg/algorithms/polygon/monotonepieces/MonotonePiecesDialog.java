@@ -18,7 +18,6 @@
 package de.topobyte.livecg.algorithms.polygon.monotonepieces;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.util.Map;
 
 import javax.swing.JFrame;
@@ -26,6 +25,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 
+import de.topobyte.chromaticity.ColorCode;
 import de.topobyte.livecg.core.export.ExportUtil;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
 import de.topobyte.livecg.core.painting.VisualizationPainter;
@@ -60,8 +60,8 @@ public class MonotonePiecesDialog
 		 * Menu
 		 */
 
-		Map<Polygon, Color> colorMap = ColorMapBuilder.buildColorMap(algorithm
-				.getExtendedGraph());
+		Map<Polygon, ColorCode> colorMap = ColorMapBuilder
+				.buildColorMap(algorithm.getExtendedGraph());
 
 		VisualizationPainter painter = new MonotonePiecesPainter(algorithm,
 				polygonConfig, colorMap, null);

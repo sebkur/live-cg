@@ -17,10 +17,10 @@
  */
 package de.topobyte.livecg.algorithms.polygon.triangulation.viamonotonepieces;
 
-import java.awt.Color;
 import java.util.Map;
 import java.util.Properties;
 
+import de.topobyte.chromaticity.ColorCode;
 import de.topobyte.livecg.algorithms.polygon.monotonepieces.MonotonePiecesConfig;
 import de.topobyte.livecg.core.SetupResult;
 import de.topobyte.livecg.core.VisualizationSetup;
@@ -46,8 +46,8 @@ public class MonotonePiecesTriangulationVisualizationSetup implements
 		MonotonePiecesTriangulationAlgorithm algorithm = new MonotonePiecesTriangulationAlgorithm(
 				polygon);
 		MonotonePiecesConfig config = new MonotonePiecesConfig();
-		Map<Polygon, Color> colorMap = ColorMapBuilder.buildColorMap(algorithm
-				.getExtendedGraph());
+		Map<Polygon, ColorCode> colorMap = ColorMapBuilder
+				.buildColorMap(algorithm.getExtendedGraph());
 		VisualizationPainter visualizationPainter = new MonotonePiecesTriangulationPainter(
 				algorithm, config, colorMap, null);
 

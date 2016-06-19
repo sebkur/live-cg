@@ -17,7 +17,7 @@
  */
 package de.topobyte.livecg.util.colorgradient;
 
-import de.topobyte.color.util.HSLColor;
+import de.topobyte.chromaticity.HSLColor;
 import de.topobyte.livecg.core.painting.Color;
 
 public class HueGradient implements Gradient
@@ -28,7 +28,7 @@ public class HueGradient implements Gradient
 	{
 		float hue = ((float) value * 360) % 360;
 		HSLColor hsl = new HSLColor(hue, 100, 50);
-		return new Color(hsl.getRGB().getRGB());
+		return new Color(hsl.getRGB().getValue());
 	}
 
 }

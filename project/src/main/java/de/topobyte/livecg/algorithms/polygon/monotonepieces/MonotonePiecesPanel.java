@@ -17,12 +17,12 @@
  */
 package de.topobyte.livecg.algorithms.polygon.monotonepieces;
 
-import java.awt.Color;
 import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.topobyte.chromaticity.ColorCode;
 import de.topobyte.livecg.core.export.SizeProvider;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
 import de.topobyte.livecg.core.scrolling.HasMargin;
@@ -39,7 +39,7 @@ public class MonotonePiecesPanel extends ScenePanel implements PolygonPanel,
 	final static Logger logger = LoggerFactory
 			.getLogger(MonotonePiecesPanel.class);
 
-	private Map<Polygon, Color> colorMap;
+	private Map<Polygon, ColorCode> colorMap;
 
 	private MonotonePiecesConfig polygonConfig;
 

@@ -17,9 +17,9 @@
  */
 package de.topobyte.livecg.algorithms.polygon.triangulation.viamonotonepieces;
 
-import java.awt.Color;
 import java.util.Map;
 
+import de.topobyte.chromaticity.ColorCode;
 import de.topobyte.livecg.algorithms.polygon.monotonepieces.MonotonePiecesConfig;
 import de.topobyte.livecg.algorithms.polygon.monotonepieces.PolygonPanel;
 import de.topobyte.livecg.core.export.SizeProvider;
@@ -34,7 +34,7 @@ public class MonotonePiecesTriangulationPanel extends ScenePanel implements
 
 	private static final long serialVersionUID = 2129465700417909129L;
 
-	private Map<Polygon, Color> colorMap;
+	private Map<Polygon, ColorCode> colorMap;
 
 	private MonotonePiecesConfig polygonConfig;
 

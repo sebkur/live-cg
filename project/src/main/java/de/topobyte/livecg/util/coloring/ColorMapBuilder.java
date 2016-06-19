@@ -17,7 +17,6 @@
  */
 package de.topobyte.livecg.util.coloring;
 
-import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -25,17 +24,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import de.topobyte.color.util.HSLColor;
+import de.topobyte.chromaticity.ColorCode;
+import de.topobyte.chromaticity.HSLColor;
 import de.topobyte.livecg.util.graph.Edge;
 import de.topobyte.livecg.util.graph.Graph;
 
 public class ColorMapBuilder
 {
 
-	public static <N, E> Map<N, Color> buildColorMap(Graph<N, E> graph)
+	public static <N, E> Map<N, ColorCode> buildColorMap(Graph<N, E> graph)
 	{
 		Map<N, Float> hues = new HashMap<>();
-		Map<N, Color> map = new HashMap<>();
+		Map<N, ColorCode> map = new HashMap<>();
 
 		float s = 90, l = 50;
 
@@ -45,7 +45,7 @@ public class ColorMapBuilder
 		for (N n : graph.getNodes()) {
 			float h = hues.get(n);
 			HSLColor hsl = new HSLColor(h, s, l);
-			Color color = hsl.getRGB();
+			ColorCode color = hsl.getRGB();
 			map.put(n, color);
 		}
 
