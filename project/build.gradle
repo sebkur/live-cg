@@ -22,6 +22,8 @@ dependencies {
     compile 'de.topobyte:adt-tree:0.0.6'
     compile 'de.topobyte:awt-utils:0.0.2'
     compile 'de.topobyte:swing-utils:0.0.1'
+    compile 'de.topobyte:no-awt:0.0.1'
+    compile 'de.topobyte:no-awt-javagraphics-clipper:0.0.1'
 
     compile 'com.vividsolutions:jts:1.13'
     compile 'org.apache.xmlgraphics:batik-svg-dom:1.7'
