@@ -37,10 +37,10 @@ import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
 import de.topobyte.livecg.core.geometry.geom.Polygon;
-import de.topobyte.livecg.core.geometry.io.ContentReader;
 import de.topobyte.livecg.core.painting.Color;
 import de.topobyte.livecg.core.painting.backend.svg.SvgPainter;
 import de.topobyte.livecg.ui.geometryeditor.Content;
+import de.topobyte.livecg.util.resources.ContentResources;
 
 public class TestSvgDrawPolygon
 {
@@ -50,8 +50,7 @@ public class TestSvgDrawPolygon
 		File file = new File("/tmp/polygon.svg");
 		String path = "res/presets/polygons/Hole.geom";
 
-		ContentReader contentReader = new ContentReader();
-		Content content = contentReader.read(new File(path));
+		Content content = ContentResources.load(path);
 		List<Polygon> polygons = content.getPolygons();
 		Polygon polygon = polygons.get(0);
 

@@ -62,4 +62,5 @@ public class TestFortunesSweep
 
 		algorithm.restart();
 	}
+
 }

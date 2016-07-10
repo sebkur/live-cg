@@ -17,7 +17,6 @@
  */
 package de.topobyte.livecg.datastructures.dcel;
 
-import java.io.File;
 import java.io.IOException;
 
 import javax.swing.JFrame;
@@ -25,9 +24,8 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
-import de.topobyte.livecg.core.geometry.io.ContentReader;
-import de.topobyte.livecg.datastructures.dcel.DcelDialog;
 import de.topobyte.livecg.ui.geometryeditor.Content;
+import de.topobyte.livecg.util.resources.ContentResources;
 
 public class TestBuildDCEL
 {
@@ -35,8 +33,7 @@ public class TestBuildDCEL
 			ParserConfigurationException, SAXException
 	{
 		String path = "res/presets/Startup.geom";
-		ContentReader contentReader = new ContentReader();
-		Content content = contentReader.read(new File(path));
+		Content content = ContentResources.load(path);
 
 		// DCEL dcel = DcelConverter.convert(content);
 

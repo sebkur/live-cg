@@ -20,7 +20,6 @@ package de.topobyte.livecg.ui.console;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
 import java.io.IOException;
 
 import javax.swing.JButton;
@@ -36,8 +35,8 @@ import de.topobyte.livecg.algorithms.polygon.shortestpath.ShortestPathAlgorithm;
 import de.topobyte.livecg.algorithms.polygon.shortestpath.ShortestPathHelper;
 import de.topobyte.livecg.core.geometry.geom.Node;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
-import de.topobyte.livecg.core.geometry.io.ContentReader;
 import de.topobyte.livecg.ui.geometryeditor.Content;
+import de.topobyte.livecg.util.resources.ContentResources;
 
 public class TestOutputConsole
 {
@@ -48,8 +47,7 @@ public class TestOutputConsole
 		 * An Algorithm
 		 */
 		String path = "res/presets/polygons/Big.geom";
-		ContentReader contentReader = new ContentReader();
-		Content content = contentReader.read(new File(path));
+		Content content = ContentResources.load(path);
 		Polygon polygon = content.getPolygons().get(0);
 
 		PairOfNodes nodes = ShortestPathHelper.determineGoodNodes(polygon);
