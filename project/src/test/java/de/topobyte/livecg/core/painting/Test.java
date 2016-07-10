@@ -60,7 +60,6 @@ import de.topobyte.livecg.core.geometry.geom.CopyUtil.PolygonMode;
 import de.topobyte.livecg.core.geometry.geom.Node;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
 import de.topobyte.livecg.core.geometry.geom.Rectangle;
-import de.topobyte.livecg.core.geometry.io.ContentReader;
 import de.topobyte.livecg.datastructures.content.ContentConfig;
 import de.topobyte.livecg.datastructures.content.ContentPainter;
 import de.topobyte.livecg.datastructures.dcel.DcelConfig;
@@ -69,6 +68,7 @@ import de.topobyte.livecg.datastructures.dcel.InstanceDcelPainter;
 import de.topobyte.livecg.ui.geometryeditor.Content;
 import de.topobyte.livecg.ui.geometryeditor.ContentHelper;
 import de.topobyte.livecg.util.coloring.ColorMapBuilder;
+import de.topobyte.livecg.util.resources.ContentResources;
 
 public class Test
 {
@@ -95,12 +95,10 @@ public class Test
 	public static void main(String[] args) throws IOException,
 			ParserConfigurationException, SAXException, TransformerException
 	{
-		ContentReader contentReader = new ContentReader();
-
 		// Geometery, DCEL
 
 		String path1 = "res/presets/Startup.geom";
-		Content content1 = contentReader.read(new File(path1));
+		Content content1 = ContentResources.load(path1);
 
 		geometry(svg(), tikz(), content1);
 
@@ -110,7 +108,7 @@ public class Test
 		// Triangulations
 
 		String path2 = "res/presets/polygons/Big.geom";
-		Content content2 = contentReader.read(new File(path2));
+		Content content2 = ContentResources.load(path2);
 		Polygon polygon = content2.getPolygons().get(0);
 
 		next();
@@ -124,7 +122,7 @@ public class Test
 		// Frechet
 
 		String path3 = "res/presets/frechet/Paper.geom";
-		Content content3 = contentReader.read(new File(path3));
+		Content content3 = ContentResources.load(path3);
 
 		List<Chain> chains = content3.getChains();
 		Chain chain1 = chains.get(0);
@@ -144,7 +142,7 @@ public class Test
 		// Chan's Algorithm
 
 		String path4 = "res/presets/chan/Chan1.geom";
-		Content content4 = contentReader.read(new File(path4));
+		Content content4 = ContentResources.load(path4);
 
 		List<Polygon> polygons = content4.getPolygons();
 
@@ -154,7 +152,7 @@ public class Test
 		// Fortune's Sweep
 
 		String path5 = "res/presets/voronoi/Points1.geom";
-		Content content5 = contentReader.read(new File(path5));
+		Content content5 = ContentResources.load(path5);
 
 		next();
 		fortune(svg(), tikz(), content5);
