@@ -24,7 +24,8 @@ import javax.swing.JComboBox;
 import javax.swing.JList;
 import javax.swing.plaf.basic.BasicComboBoxRenderer;
 
-public class KeyValueComboBox<K, V> extends JComboBox
+public class KeyValueComboBox<K, V> extends
+		JComboBox<KeyValueComboBox.Data<K, V>>
 {
 
 	private static final long serialVersionUID = -1L;
@@ -74,7 +75,7 @@ public class KeyValueComboBox<K, V> extends JComboBox
 					cellHasFocus);
 
 			if (value != null) {
-				Data<K, V> item = (Data) value;
+				Data<K, V> item = (Data<K, V>) value;
 				setText(item.name.toString());
 			} else {
 				setText("default");
@@ -90,14 +91,14 @@ public class KeyValueComboBox<K, V> extends JComboBox
 		if (index < 0) {
 			return null;
 		}
-		Data<K, V> data = (Data) getItemAt(index);
+		Data<K, V> data = getItemAt(index);
 		if (data == null) {
 			return null;
 		}
 		return data.value;
 	}
 
-	private static class Data<K, V>
+	public static class Data<K, V>
 	{
 		K name;
 		V value;
@@ -108,5 +109,16 @@ public class KeyValueComboBox<K, V> extends JComboBox
 			this.value = value;
 		}
 
+		public K getName()
+		{
+			return name;
+		}
+
+		public V getValue()
+		{
+			return value;
+		}
+
 	}
+
 }
