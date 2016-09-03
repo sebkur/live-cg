@@ -22,13 +22,13 @@ import java.awt.Graphics2D;
 
 import javax.swing.JPanel;
 
+import de.topobyte.awt.util.GraphicsUtil;
 import de.topobyte.livecg.algorithms.frechet.distanceterrain.ConfigChangedListener;
 import de.topobyte.livecg.algorithms.frechet.distanceterrain.DistanceTerrainConfig;
 import de.topobyte.livecg.algorithms.frechet.distanceterrain.DistanceTerrainPainterSegments;
 import de.topobyte.livecg.algorithms.frechet.freespace.calc.LineSegment;
 import de.topobyte.livecg.core.painting.backend.awt.AwtPainter;
 import de.topobyte.livecg.ui.segmenteditor.SegmentChangeListener;
-import de.topobyte.livecg.util.SwingUtil;
 
 public class SegmentPane extends JPanel implements SegmentChangeListener,
 		ConfigChangedListener
@@ -69,7 +69,7 @@ public class SegmentPane extends JPanel implements SegmentChangeListener,
 	{
 		super.paint(graphics);
 		Graphics2D g = (Graphics2D) graphics;
-		SwingUtil.useAntialiasing(g, true);
+		GraphicsUtil.useAntialiasing(g, true);
 
 		painter.setGraphics(g);
 		terrainPainter.setWidth(getWidth());

@@ -18,13 +18,13 @@
 package de.topobyte.livecg.core.export;
 
 import java.awt.Graphics2D;
-import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import de.topobyte.awt.util.GraphicsUtil;
 import de.topobyte.livecg.core.painting.VisualizationPainter;
 import de.topobyte.livecg.core.painting.backend.awt.AwtPainter;
 
@@ -39,8 +39,7 @@ public class GraphicsExporter
 				BufferedImage.TYPE_4BYTE_ABGR);
 
 		Graphics2D graphics = image.createGraphics();
-		graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-				RenderingHints.VALUE_ANTIALIAS_ON);
+		GraphicsUtil.useAntialiasing(graphics, true);
 
 		AwtPainter painter = new AwtPainter(graphics);
 

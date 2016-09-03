@@ -35,7 +35,7 @@ import de.topobyte.livecg.core.geometry.io.ContentReader;
 import de.topobyte.livecg.ui.action.BasicAction;
 import de.topobyte.livecg.ui.geometryeditor.Content;
 import de.topobyte.livecg.ui.geometryeditor.GeometryEditPane;
-import de.topobyte.livecg.util.SwingUtil;
+import de.topobyte.swing.util.Components;
 
 public class OpenAction extends BasicAction
 {
@@ -58,7 +58,7 @@ public class OpenAction extends BasicAction
 	@Override
 	public void actionPerformed(ActionEvent event)
 	{
-		JFrame frame = SwingUtil.getContainingFrame(component);
+		JFrame frame = Components.getContainingFrame(component);
 		JFileChooser chooser = new JFileChooser();
 		int value = chooser.showOpenDialog(frame);
 		if (value == JFileChooser.APPROVE_OPTION) {

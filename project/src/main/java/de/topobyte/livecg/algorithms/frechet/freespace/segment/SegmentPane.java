@@ -22,8 +22,9 @@ import java.awt.Graphics2D;
 
 import javax.swing.JPanel;
 
-import de.topobyte.livecg.algorithms.frechet.freespace.FreeSpaceConfig;
+import de.topobyte.awt.util.GraphicsUtil;
 import de.topobyte.livecg.algorithms.frechet.freespace.EpsilonSettable;
+import de.topobyte.livecg.algorithms.frechet.freespace.FreeSpaceConfig;
 import de.topobyte.livecg.algorithms.frechet.freespace.FreeSpacePainterSegments;
 import de.topobyte.livecg.algorithms.frechet.freespace.calc.FreeSpaceUtil;
 import de.topobyte.livecg.algorithms.frechet.freespace.calc.Interval;
@@ -31,7 +32,6 @@ import de.topobyte.livecg.algorithms.frechet.freespace.calc.LineSegment;
 import de.topobyte.livecg.core.painting.backend.awt.AwtPainter;
 import de.topobyte.livecg.ui.segmenteditor.SegmentChangeListener;
 import de.topobyte.livecg.util.DoubleUtil;
-import de.topobyte.livecg.util.SwingUtil;
 
 public class SegmentPane extends JPanel implements SegmentChangeListener,
 		EpsilonSettable
@@ -89,7 +89,7 @@ public class SegmentPane extends JPanel implements SegmentChangeListener,
 	public void paint(Graphics graphics)
 	{
 		Graphics2D g = (Graphics2D) graphics;
-		SwingUtil.useAntialiasing(g, true);
+		GraphicsUtil.useAntialiasing(g, true);
 
 		painter.setGraphics(g);
 		visualizationPainter.setSize(getWidth(), getHeight());

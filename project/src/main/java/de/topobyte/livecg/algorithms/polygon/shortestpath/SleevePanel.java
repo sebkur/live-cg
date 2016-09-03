@@ -28,6 +28,7 @@ import java.util.Set;
 
 import javax.swing.JPanel;
 
+import de.topobyte.awt.util.GraphicsUtil;
 import de.topobyte.livecg.algorithms.polygon.monotonepieces.SplitResult;
 import de.topobyte.livecg.algorithms.polygon.triangulation.generic.TriangulationOperation;
 import de.topobyte.livecg.algorithms.polygon.util.Diagonal;
@@ -39,7 +40,6 @@ import de.topobyte.livecg.core.geometry.geom.Node;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
 import de.topobyte.livecg.core.geometry.geom.PolygonHelper;
 import de.topobyte.livecg.util.ShapeUtilAwt;
-import de.topobyte.livecg.util.SwingUtil;
 import de.topobyte.livecg.util.circular.IntRing;
 import de.topobyte.livecg.util.graph.Edge;
 import de.topobyte.livecg.util.graph.Graph;
@@ -99,7 +99,7 @@ public class SleevePanel extends JPanel
 	public void paint(Graphics graphics)
 	{
 		Graphics2D g = (Graphics2D) graphics;
-		SwingUtil.useAntialiasing(g, true);
+		GraphicsUtil.useAntialiasing(g, true);
 
 		Area shape = AwtHelper.toShape(polygon);
 		g.setColor(new Color(0x66ff0000, true));

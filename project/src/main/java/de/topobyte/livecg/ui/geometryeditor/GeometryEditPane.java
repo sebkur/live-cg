@@ -40,6 +40,7 @@ import noawt.java.awt.geom.Area;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.topobyte.awt.util.GraphicsUtil;
 import de.topobyte.livecg.core.config.LiveConfig;
 import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.core.geometry.geom.Coordinate;
@@ -63,7 +64,6 @@ import de.topobyte.livecg.ui.geometryeditor.mouse.EditorMouseListener;
 import de.topobyte.livecg.ui.geometryeditor.mousemode.MouseMode;
 import de.topobyte.livecg.ui.geometryeditor.mousemode.MouseModeListener;
 import de.topobyte.livecg.ui.geometryeditor.mousemode.MouseModeProvider;
-import de.topobyte.livecg.util.SwingUtil;
 
 public class GeometryEditPane extends JPanel implements MouseModeProvider,
 		ContentChangedListener, ViewportWithSignals, HasScene, HasMargin
@@ -459,7 +459,7 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 	{
 		super.paint(graphics);
 		Graphics2D g = (Graphics2D) graphics;
-		SwingUtil.useAntialiasing(g, true);
+		GraphicsUtil.useAntialiasing(g, true);
 
 		AwtPainter painter = new AwtPainter(g);
 		paint(painter);

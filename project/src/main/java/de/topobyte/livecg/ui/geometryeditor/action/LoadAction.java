@@ -37,7 +37,7 @@ import com.vividsolutions.jts.io.WKTReader;
 import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.ui.action.BasicAction;
 import de.topobyte.livecg.ui.geometryeditor.GeometryEditPane;
-import de.topobyte.livecg.util.SwingUtil;
+import de.topobyte.swing.util.Components;
 
 public class LoadAction extends BasicAction
 {
@@ -60,7 +60,7 @@ public class LoadAction extends BasicAction
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
-		JFrame frame = SwingUtil.getContainingFrame(component);
+		JFrame frame = Components.getContainingFrame(component);
 		JFileChooser chooser = new JFileChooser();
 		int value = chooser.showOpenDialog(frame);
 		if (value == JFileChooser.APPROVE_OPTION) {

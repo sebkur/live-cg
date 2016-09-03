@@ -26,11 +26,11 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
+import de.topobyte.awt.util.GraphicsUtil;
 import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.core.geometry.geom.Coordinate;
-import de.topobyte.livecg.core.scrolling.ViewportWithSignals;
 import de.topobyte.livecg.core.scrolling.ViewportListener;
-import de.topobyte.livecg.util.SwingUtil;
+import de.topobyte.livecg.core.scrolling.ViewportWithSignals;
 
 public class SegmentEditPane extends JPanel implements ViewportWithSignals
 {
@@ -101,9 +101,9 @@ public class SegmentEditPane extends JPanel implements ViewportWithSignals
 			Color colorPoints, Color colorPoint0)
 	{
 		int n = editable.getNumberOfNodes();
-		SwingUtil.useAntialiasing(g, true);
+		GraphicsUtil.useAntialiasing(g, true);
 		// line segments
-		SwingUtil.useAntialiasing(g, true);
+		GraphicsUtil.useAntialiasing(g, true);
 		g.setColor(colorLine);
 		g.setStroke(new BasicStroke(1.0f));
 		Coordinate last = editable.getCoordinate(0);
@@ -116,7 +116,7 @@ public class SegmentEditPane extends JPanel implements ViewportWithSignals
 			g.drawLine(x1, y1, x2, y2);
 			last = current;
 		}
-		SwingUtil.useAntialiasing(g, false);
+		GraphicsUtil.useAntialiasing(g, false);
 		// points
 		g.setStroke(new BasicStroke(1.0f));
 		for (int i = 0; i < n; i++) {

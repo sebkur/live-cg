@@ -32,7 +32,7 @@ import javax.swing.JToolBar;
 import com.vividsolutions.jts.operation.buffer.BufferParameters;
 
 import de.topobyte.livecg.util.ZoomInput;
-import de.topobyte.livecg.util.swing.KeyValueComboBox;
+import de.topobyte.swing.util.combobox.KeyValueComboBox;
 
 public class Settings extends JToolBar implements ItemListener, ActionListener
 {

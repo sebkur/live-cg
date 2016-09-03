@@ -22,10 +22,10 @@ import java.awt.Graphics2D;
 
 import javax.swing.JPanel;
 
+import de.topobyte.awt.util.GraphicsUtil;
 import de.topobyte.livecg.core.export.SizeProvider;
 import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.core.painting.backend.awt.AwtPainter;
-import de.topobyte.livecg.util.SwingUtil;
 
 public class FreeSpaceDiagram extends JPanel implements EpsilonSettable,
 		SizeProvider
@@ -58,7 +58,7 @@ public class FreeSpaceDiagram extends JPanel implements EpsilonSettable,
 	{
 		super.paint(graphics);
 		Graphics2D g = (Graphics2D) graphics;
-		SwingUtil.useAntialiasing(g, true);
+		GraphicsUtil.useAntialiasing(g, true);
 
 		painter.setGraphics(g);
 

@@ -29,10 +29,10 @@ import javax.swing.JPanel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.topobyte.awt.util.GraphicsUtil;
 import de.topobyte.livecg.core.geometry.geom.Rectangle;
 import de.topobyte.livecg.core.painting.VisualizationPainter;
 import de.topobyte.livecg.core.painting.backend.awt.AwtPainter;
-import de.topobyte.livecg.util.SwingUtil;
 
 public class ScenePanel extends JPanel implements ViewportWithSignals,
 		HasScene, HasMargin
@@ -76,7 +76,7 @@ public class ScenePanel extends JPanel implements ViewportWithSignals,
 	{
 		super.paint(graphics);
 		Graphics2D g = (Graphics2D) graphics;
-		SwingUtil.useAntialiasing(g, true);
+		GraphicsUtil.useAntialiasing(g, true);
 
 		painter.setGraphics(g);
 		visualizationPainter.setWidth(getWidth());
