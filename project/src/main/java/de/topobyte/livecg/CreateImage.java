@@ -23,7 +23,7 @@ import java.util.Properties;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
-import org.apache.commons.cli.GnuParser;
+import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
@@ -101,7 +101,7 @@ public class CreateImage
 		propertyOption.setValueSeparator('=');
 		options.addOption(propertyOption);
 
-		CommandLineParser clp = new GnuParser();
+		CommandLineParser clp = new DefaultParser();
 
 		CommandLine line = null;
 		try {
