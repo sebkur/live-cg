@@ -68,7 +68,7 @@ public class CreateImage
 	private static final String OPTION_CONFIG = "config";
 	private static final String OPTION_INPUT = "input";
 	private static final String OPTION_OUTPUT = "output";
-	private static final String OPTION_OUTPUT_FORMAT = "output_format";
+	private static final String OPTION_OUTPUT_FORMAT = "output-format";
 	private static final String OPTION_VISUALIZATION = "visualization";
 	private static final String OPTION_STATUS = "status";
 	private static final String OPTION_PROPERTIES = "D";
