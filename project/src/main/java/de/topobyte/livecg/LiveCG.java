@@ -50,9 +50,9 @@ import de.topobyte.livecg.ui.geometryeditor.debug.ContentDialog;
 import de.topobyte.livecg.ui.geometryeditor.mouse.StatusBarMouseListener;
 import de.topobyte.livecg.ui.geometryeditor.object.ObjectDialog;
 import de.topobyte.livecg.util.LocationUtil;
-import de.topobyte.utilities.apache.commons.cli.ArgumentHelper;
 import de.topobyte.utilities.apache.commons.cli.OptionHelper;
-import de.topobyte.utilities.apache.commons.cli.StringOption;
+import de.topobyte.utilities.apache.commons.cli.parsing.ArgumentHelper;
+import de.topobyte.utilities.apache.commons.cli.parsing.StringOption;
 
 public class LiveCG
 {
@@ -68,7 +68,7 @@ public class LiveCG
 	{
 		// @formatter:off
 		Options options = new Options();
-		OptionHelper.add(options, OPTION_CONFIG, true, false, "path", "config file");
+		OptionHelper.addL(options, OPTION_CONFIG, true, false, "path", "config file");
 		// @formatter:on
 
 		CommandLineParser clp = new GnuParser();

@@ -53,10 +53,10 @@ import de.topobyte.livecg.core.painting.VisualizationPainter;
 import de.topobyte.livecg.datastructures.content.ContentVisualizationSetup;
 import de.topobyte.livecg.datastructures.dcel.DcelVisualizationSetup;
 import de.topobyte.livecg.ui.geometryeditor.Content;
-import de.topobyte.utilities.apache.commons.cli.ArgumentHelper;
-import de.topobyte.utilities.apache.commons.cli.EnumArgument;
 import de.topobyte.utilities.apache.commons.cli.OptionHelper;
-import de.topobyte.utilities.apache.commons.cli.StringOption;
+import de.topobyte.utilities.apache.commons.cli.parsing.ArgumentHelper;
+import de.topobyte.utilities.apache.commons.cli.parsing.EnumArgument;
+import de.topobyte.utilities.apache.commons.cli.parsing.StringOption;
 
 public class CreateImage
 {
@@ -83,14 +83,14 @@ public class CreateImage
 
 		// @formatter:off
 		Options options = new Options();
-		OptionHelper.add(options, OPTION_CONFIG, true, false, "path", "config file");
-		OptionHelper.add(options, OPTION_INPUT, true, true, "file", "input geometry file");
-		OptionHelper.add(options, OPTION_OUTPUT, true, true, "file", "output file");
-		OptionHelper.add(options, OPTION_OUTPUT_FORMAT, true, true, "type",
+		OptionHelper.addL(options, OPTION_CONFIG, true, false, "path", "config file");
+		OptionHelper.addL(options, OPTION_INPUT, true, true, "file", "input geometry file");
+		OptionHelper.addL(options, OPTION_OUTPUT, true, true, "file", "output file");
+		OptionHelper.addL(options, OPTION_OUTPUT_FORMAT, true, true, "type",
 					"type of output. one of <png,svg,tikz,ipe>");
-		OptionHelper.add(options, OPTION_VISUALIZATION, true, true, "type", 
+		OptionHelper.addL(options, OPTION_VISUALIZATION, true, true, "type",
 					"type of visualization. one of " + visualizationSwitch.getPossibleNames(true));
-		OptionHelper.add(options, OPTION_STATUS, true, false, "status to " +
+		OptionHelper.addL(options, OPTION_STATUS, true, false, "status to " +
 				"set the algorithm to. The format depends on the algorithm");
 		// @formatter:on
 
