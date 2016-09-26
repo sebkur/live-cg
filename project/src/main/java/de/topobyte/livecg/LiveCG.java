@@ -21,7 +21,11 @@ package de.topobyte.livecg;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Window;
+import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -68,7 +72,8 @@ public class LiveCG
 	{
 		// @formatter:off
 		Options options = new Options();
-		OptionHelper.addL(options, OPTION_CONFIG, true, false, "path", "config file");
+		OptionHelper.addL(options, OPTION_CONFIG, true, false, "path",
+				"config file");
 		// @formatter:on
 
 		CommandLineParser clp = new DefaultParser();
@@ -113,6 +118,16 @@ public class LiveCG
 		ContentReader reader = new ContentReader();
 		InputStream input = Thread.currentThread().getContextClassLoader()
 				.getResourceAsStream(filename);
+
+		if (input == null) {
+			Path path = Paths.get(filename);
+			try {
+				input = Files.newInputStream(path);
+			} catch (IOException e) {
+				logger.error("unable to load file", e);
+			}
+		}
+
 		try {
 			content = reader.read(input);
 		} catch (Exception e) {
