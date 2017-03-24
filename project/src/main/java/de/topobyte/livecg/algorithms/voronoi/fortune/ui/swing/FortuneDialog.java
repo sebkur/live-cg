@@ -37,12 +37,12 @@ import de.topobyte.livecg.algorithms.voronoi.fortune.FortunesSweep;
 import de.topobyte.livecg.algorithms.voronoi.fortune.ui.core.FortuneConfig;
 import de.topobyte.livecg.algorithms.voronoi.fortune.ui.core.FortunePainter;
 import de.topobyte.livecg.algorithms.voronoi.fortune.ui.swing.action.OpenAction;
+import de.topobyte.livecg.algorithms.voronoi.fortune.ui.swing.action.QuitAction;
 import de.topobyte.livecg.algorithms.voronoi.fortune.ui.swing.action.SaveAction;
 import de.topobyte.livecg.algorithms.voronoi.fortune.ui.swing.eventqueue.EventQueueDialog;
 import de.topobyte.livecg.core.config.LiveConfig;
 import de.topobyte.livecg.core.export.ExportUtil;
 import de.topobyte.livecg.core.painting.Color;
-import de.topobyte.livecg.ui.action.QuitAction;
 
 public class FortuneDialog extends JFrame implements Runnable
 {

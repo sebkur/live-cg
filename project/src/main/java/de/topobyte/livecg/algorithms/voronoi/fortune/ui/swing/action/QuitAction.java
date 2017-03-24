@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.topobyte.livecg.ui.action;
+package de.topobyte.livecg.algorithms.voronoi.fortune.ui.swing.action;
 
 import java.awt.event.ActionEvent;
 
