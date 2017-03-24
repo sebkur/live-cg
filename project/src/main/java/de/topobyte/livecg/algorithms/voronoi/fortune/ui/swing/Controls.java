@@ -29,7 +29,7 @@ import javax.swing.JButton;
 import javax.swing.JToolBar;
 
 import de.topobyte.livecg.algorithms.voronoi.fortune.FortunesSweep;
-import de.topobyte.livecg.util.ImageLoader;
+import de.topobyte.swing.util.ImageLoader;
 
 public class Controls extends JToolBar implements ActionListener
 {

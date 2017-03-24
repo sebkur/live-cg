@@ -50,4 +50,5 @@ public class StatusBar extends JPanel
 	{
 		label.setText(text);
 	}
+
 }

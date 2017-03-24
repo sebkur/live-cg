@@ -20,9 +20,6 @@ package de.topobyte.livecg.algorithms.polygon.monotonepieces;
 import java.util.List;
 import java.util.Map;
 
-import noawt.java.awt.geom.Arc2D;
-import noawt.java.awt.geom.Path2D;
-import noawt.java.awt.geom.Rectangle2D;
 import de.topobyte.chromaticity.ColorCode;
 import de.topobyte.livecg.algorithms.polygon.util.Diagonal;
 import de.topobyte.livecg.core.geometry.geom.Chain;
@@ -32,6 +29,9 @@ import de.topobyte.livecg.core.geometry.geom.Polygon;
 import de.topobyte.livecg.core.painting.Color;
 import de.topobyte.livecg.core.painting.Painter;
 import de.topobyte.livecg.core.painting.TransformingVisualizationPainter;
+import noawt.java.awt.geom.Arc2D;
+import noawt.java.awt.geom.Path2D;
+import noawt.java.awt.geom.Rectangle2D;
 
 public class MonotonePiecesPainter extends TransformingVisualizationPainter
 {

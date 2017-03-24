@@ -22,10 +22,10 @@ import java.awt.event.ActionEvent;
 import javax.swing.JOptionPane;
 
 import de.topobyte.livecg.ui.LaunchException;
-import de.topobyte.livecg.ui.action.BasicAction;
 import de.topobyte.livecg.ui.geometryeditor.GeometryEditPane;
+import de.topobyte.swing.util.action.SimpleAction;
 
-public class ChansAlgorithmAction extends BasicAction
+public class ChansAlgorithmAction extends SimpleAction
 {
 
 	private static final long serialVersionUID = 8082551211695240945L;
@@ -49,4 +49,5 @@ public class ChansAlgorithmAction extends BasicAction
 					JOptionPane.ERROR_MESSAGE);
 		}
 	}
+
 }

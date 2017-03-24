@@ -25,7 +25,7 @@ import java.util.Map;
 import javax.swing.Icon;
 import javax.swing.JButton;
 
-import de.topobyte.livecg.util.ImageLoader;
+import de.topobyte.swing.util.ImageLoader;
 
 public abstract class ControlManager
 {

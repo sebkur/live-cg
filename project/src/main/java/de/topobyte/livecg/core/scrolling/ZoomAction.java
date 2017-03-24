@@ -21,9 +21,9 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.JComponent;
 
-import de.topobyte.livecg.ui.action.BasicAction;
+import de.topobyte.swing.util.action.SimpleAction;
 
-public class ZoomAction<T extends JComponent & Viewport> extends BasicAction
+public class ZoomAction<T extends JComponent & Viewport> extends SimpleAction
 {
 
 	public enum Type {

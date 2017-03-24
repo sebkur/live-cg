@@ -24,10 +24,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.topobyte.livecg.LiveCG;
-import de.topobyte.livecg.ui.action.BasicAction;
 import de.topobyte.livecg.ui.geometryeditor.preferences.PreferencesDialog;
+import de.topobyte.swing.util.action.SimpleAction;
 
-public class PreferencesAction extends BasicAction
+public class PreferencesAction extends SimpleAction
 {
 
 	private static final long serialVersionUID = 6677047849839688978L;

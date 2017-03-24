@@ -24,11 +24,11 @@ import java.util.List;
 import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.core.geometry.geom.Node;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
-import de.topobyte.livecg.ui.action.BasicAction;
 import de.topobyte.livecg.ui.geometryeditor.Content;
 import de.topobyte.livecg.ui.geometryeditor.GeometryEditPane;
+import de.topobyte.swing.util.action.SimpleAction;
 
-public class SelectAllAction extends BasicAction
+public class SelectAllAction extends SimpleAction
 {
 
 	private static final long serialVersionUID = 1880883173731363076L;

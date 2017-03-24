@@ -21,7 +21,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
-import noawt.java.awt.Shape;
 import de.topobyte.livecg.algorithms.polygon.util.Diagonal;
 import de.topobyte.livecg.core.config.LiveConfig;
 import de.topobyte.livecg.core.geometry.geom.Chain;
@@ -35,6 +34,7 @@ import de.topobyte.livecg.core.painting.TransformingVisualizationPainter;
 import de.topobyte.livecg.util.MouseOver;
 import de.topobyte.livecg.util.ShapeUtilNoAwt;
 import de.topobyte.livecg.util.graph.Edge;
+import noawt.java.awt.Shape;
 
 public class ShortestPathPainter extends TransformingVisualizationPainter
 {

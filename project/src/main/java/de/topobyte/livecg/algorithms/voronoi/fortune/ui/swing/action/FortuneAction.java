@@ -18,9 +18,9 @@
 package de.topobyte.livecg.algorithms.voronoi.fortune.ui.swing.action;
 
 import de.topobyte.livecg.algorithms.voronoi.fortune.ui.swing.FortuneDialog;
-import de.topobyte.livecg.ui.action.BasicAction;
+import de.topobyte.swing.util.action.SimpleAction;
 
-public abstract class FortuneAction extends BasicAction
+public abstract class FortuneAction extends SimpleAction
 {
 	private static final long serialVersionUID = 1L;
 

@@ -24,12 +24,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.topobyte.livecg.core.geometry.io.ContentReader;
-import de.topobyte.livecg.ui.action.BasicAction;
 import de.topobyte.livecg.ui.geometryeditor.Content;
 import de.topobyte.livecg.ui.geometryeditor.GeometryEditPane;
 import de.topobyte.livecg.util.resources.ResourceFile;
+import de.topobyte.swing.util.action.SimpleAction;
 
-public class PresetMenuAction extends BasicAction
+public class PresetMenuAction extends SimpleAction
 {
 
 	private static final long serialVersionUID = -5166457918173320012L;

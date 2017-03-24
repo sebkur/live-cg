@@ -19,12 +19,6 @@ package de.topobyte.livecg.algorithms.frechet.freespace;
 
 import java.util.Random;
 
-import noawt.java.awt.Shape;
-import noawt.java.awt.geom.AffineTransform;
-import noawt.java.awt.geom.Arc2D;
-import noawt.java.awt.geom.Area;
-import noawt.java.awt.geom.NoninvertibleTransformException;
-import noawt.java.awt.geom.Rectangle2D;
 import de.topobyte.livecg.algorithms.frechet.freespace.calc.FreeSpaceUtil;
 import de.topobyte.livecg.algorithms.frechet.freespace.calc.Interval;
 import de.topobyte.livecg.algorithms.frechet.freespace.calc.LineSegment;
@@ -33,6 +27,12 @@ import de.topobyte.livecg.core.painting.BasicVisualizationPainter;
 import de.topobyte.livecg.core.painting.Color;
 import de.topobyte.livecg.core.painting.Painter;
 import de.topobyte.livecg.util.DoubleUtil;
+import noawt.java.awt.Shape;
+import noawt.java.awt.geom.AffineTransform;
+import noawt.java.awt.geom.Arc2D;
+import noawt.java.awt.geom.Area;
+import noawt.java.awt.geom.NoninvertibleTransformException;
+import noawt.java.awt.geom.Rectangle2D;
 
 public class FreeSpacePainterSegments extends BasicVisualizationPainter
 		implements EpsilonSettable

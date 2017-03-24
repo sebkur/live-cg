@@ -20,13 +20,15 @@ package de.topobyte.livecg.ui.misc;
 
 import java.awt.event.ActionEvent;
 
+import de.topobyte.swing.util.action.SimpleAction;
+
 public class ExitAction extends SimpleAction
 {
 
 	public ExitAction()
 	{
 		super("Exit", "Exit the program");
-		setIconFromResource("org/freedesktop/tango/22x22/actions/system-log-out.png");
+		setIcon("org/freedesktop/tango/22x22/actions/system-log-out.png");
 	}
 
 	private static final long serialVersionUID = -3413663891048957511L;

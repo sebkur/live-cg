@@ -17,7 +17,6 @@
  */
 package de.topobyte.livecg.datastructures.dcel;
 
-import noawt.java.awt.geom.GeneralPath;
 import de.topobyte.livecg.core.config.LiveConfig;
 import de.topobyte.livecg.core.geometry.dcel.DCEL;
 import de.topobyte.livecg.core.geometry.dcel.DcelUtil;
@@ -31,6 +30,7 @@ import de.topobyte.livecg.core.painting.Color;
 import de.topobyte.livecg.core.painting.Painter;
 import de.topobyte.livecg.core.painting.TransformingVisualizationPainter;
 import de.topobyte.livecg.core.scrolling.TransformHelper;
+import noawt.java.awt.geom.GeneralPath;
 
 public abstract class DcelPainter extends TransformingVisualizationPainter
 {

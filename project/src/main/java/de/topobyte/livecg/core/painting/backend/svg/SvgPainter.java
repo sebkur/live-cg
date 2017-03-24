@@ -28,10 +28,6 @@ import java.util.Map;
 
 import javax.imageio.ImageIO;
 
-import noawt.java.awt.Shape;
-import noawt.java.awt.geom.AffineTransform;
-import noawt.java.awt.geom.Rectangle2D;
-
 import org.apache.batik.dom.svg.SVGDOMImplementation;
 import org.apache.commons.codec.binary.Base64;
 import org.slf4j.Logger;
@@ -46,6 +42,9 @@ import de.topobyte.livecg.core.painting.Color;
 import de.topobyte.livecg.core.painting.Image;
 import de.topobyte.livecg.core.painting.Painter;
 import de.topobyte.livecg.core.painting.backend.ImageUtil;
+import noawt.java.awt.Shape;
+import noawt.java.awt.geom.AffineTransform;
+import noawt.java.awt.geom.Rectangle2D;
 
 public class SvgPainter implements Painter
 {

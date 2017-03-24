@@ -17,7 +17,6 @@
  */
 package de.topobyte.livecg.algorithms.frechet.freespace;
 
-import noawt.java.awt.geom.AffineTransform;
 import de.topobyte.livecg.algorithms.frechet.FrechetUtil;
 import de.topobyte.livecg.algorithms.frechet.freespace.calc.LineSegment;
 import de.topobyte.livecg.algorithms.frechet.freespace.calc.ReachableSpace;
@@ -25,6 +24,7 @@ import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.core.painting.BasicVisualizationPainter;
 import de.topobyte.livecg.core.painting.Color;
 import de.topobyte.livecg.core.painting.Painter;
+import noawt.java.awt.geom.AffineTransform;
 
 public class FreeSpacePainterChains extends BasicVisualizationPainter implements
 		EpsilonSettable

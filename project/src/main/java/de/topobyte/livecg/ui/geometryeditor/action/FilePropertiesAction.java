@@ -26,13 +26,13 @@ import javax.swing.JFrame;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.topobyte.livecg.ui.action.BasicAction;
 import de.topobyte.livecg.ui.geometryeditor.Content;
 import de.topobyte.livecg.ui.geometryeditor.FilePropertiesDialog;
 import de.topobyte.livecg.ui.geometryeditor.GeometryEditPane;
 import de.topobyte.swing.util.Components;
+import de.topobyte.swing.util.action.SimpleAction;
 
-public class FilePropertiesAction extends BasicAction
+public class FilePropertiesAction extends SimpleAction
 {
 
 	private static final long serialVersionUID = 8520412983084660304L;

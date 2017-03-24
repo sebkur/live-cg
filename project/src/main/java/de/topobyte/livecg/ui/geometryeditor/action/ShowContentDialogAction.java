@@ -20,9 +20,9 @@ package de.topobyte.livecg.ui.geometryeditor.action;
 import java.awt.event.ActionEvent;
 
 import de.topobyte.livecg.LiveCG;
-import de.topobyte.livecg.ui.action.BasicAction;
+import de.topobyte.swing.util.action.SimpleAction;
 
-public class ShowContentDialogAction extends BasicAction
+public class ShowContentDialogAction extends SimpleAction
 {
 
 	private static final long serialVersionUID = 1200273618665720148L;

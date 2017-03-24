@@ -28,12 +28,12 @@ import org.slf4j.LoggerFactory;
 import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.core.geometry.geom.Node;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
-import de.topobyte.livecg.ui.action.BasicAction;
 import de.topobyte.livecg.ui.geometryeditor.GeometryEditPane;
 import de.topobyte.livecg.ui.geometryeditor.SetOfGeometries;
 import de.topobyte.livecg.ui.geometryeditor.clipboard.GeometryTransferable;
+import de.topobyte.swing.util.action.SimpleAction;
 
-public class CopyAction extends BasicAction
+public class CopyAction extends SimpleAction
 {
 
 	private static final long serialVersionUID = 5990737748224404622L;

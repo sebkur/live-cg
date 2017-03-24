@@ -22,10 +22,10 @@ import java.awt.event.ActionEvent;
 import javax.swing.JOptionPane;
 
 import de.topobyte.livecg.ui.LaunchException;
-import de.topobyte.livecg.ui.action.BasicAction;
 import de.topobyte.livecg.ui.geometryeditor.GeometryEditPane;
+import de.topobyte.swing.util.action.SimpleAction;
 
-public class TriangulationDualGraphAction extends BasicAction
+public class TriangulationDualGraphAction extends SimpleAction
 {
 
 	private static final long serialVersionUID = -602204318277526170L;

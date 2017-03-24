@@ -65,7 +65,7 @@ import de.topobyte.livecg.ui.geometryeditor.presets.PresetMenu;
 import de.topobyte.livecg.ui.misc.AboutAction;
 import de.topobyte.livecg.ui.misc.ExitAction;
 import de.topobyte.livecg.ui.misc.LicenseAction;
-import de.topobyte.livecg.util.ImageLoader;
+import de.topobyte.swing.util.ImageLoader;
 
 public class Menu extends JMenuBar
 {

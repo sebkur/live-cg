@@ -19,14 +19,16 @@ package de.topobyte.livecg.ui.action;
 
 import java.awt.event.ActionEvent;
 
-public class QuitAction extends BasicAction
+import de.topobyte.swing.util.action.SimpleAction;
+
+public class QuitAction extends SimpleAction
 {
 
 	private static final long serialVersionUID = 1L;
 
 	public QuitAction()
 	{
-		super("Quit", "Exit the application", null);
+		super("Quit", "Exit the application");
 	}
 
 	@Override

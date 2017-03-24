@@ -23,11 +23,11 @@ import java.awt.event.ActionEvent;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 
-import de.topobyte.livecg.ui.action.BasicAction;
 import de.topobyte.livecg.ui.geometryeditor.GeometryEditPane;
 import de.topobyte.livecg.ui.geometryeditor.object.multiple.action.FilterAction.ObjectType;
+import de.topobyte.swing.util.action.SimpleAction;
 
-public class ShowFilterMenuAction extends BasicAction
+public class ShowFilterMenuAction extends SimpleAction
 {
 
 	private static final long serialVersionUID = -8993679410125030493L;

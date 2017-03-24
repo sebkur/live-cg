@@ -19,9 +19,9 @@ package de.topobyte.livecg.algorithms.frechet.freespace;
 
 import java.awt.event.ActionEvent;
 
-import de.topobyte.livecg.ui.action.BasicAction;
+import de.topobyte.swing.util.action.SimpleAction;
 
-public class FreeSpaceSegmentsAction extends BasicAction
+public class FreeSpaceSegmentsAction extends SimpleAction
 {
 
 	private static final long serialVersionUID = -2630257708226818189L;

@@ -19,9 +19,9 @@ package de.topobyte.livecg.algorithms.frechet.distanceterrain;
 
 import java.awt.event.ActionEvent;
 
-import de.topobyte.livecg.ui.action.BasicAction;
+import de.topobyte.swing.util.action.SimpleAction;
 
-public class DistanceTerrainSegmentsAction extends BasicAction
+public class DistanceTerrainSegmentsAction extends SimpleAction
 {
 
 	private static final long serialVersionUID = 3999319262987241522L;

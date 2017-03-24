@@ -30,12 +30,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.topobyte.livecg.core.geometry.io.ContentWriter;
-import de.topobyte.livecg.ui.action.BasicAction;
 import de.topobyte.livecg.ui.geometryeditor.Content;
 import de.topobyte.livecg.ui.geometryeditor.GeometryEditPane;
 import de.topobyte.swing.util.Components;
+import de.topobyte.swing.util.action.SimpleAction;
 
-public class SaveAction extends BasicAction
+public class SaveAction extends SimpleAction
 {
 
 	private static final long serialVersionUID = 5846324015237476127L;

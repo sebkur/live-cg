@@ -22,11 +22,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import noawt.java.awt.Rectangle;
-import noawt.java.awt.Shape;
-import noawt.java.awt.geom.AffineTransform;
-import noawt.java.awt.geom.Rectangle2D;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
@@ -42,6 +37,10 @@ import de.topobyte.livecg.core.lina.Matrix;
 import de.topobyte.livecg.core.painting.Color;
 import de.topobyte.livecg.core.painting.Image;
 import de.topobyte.livecg.core.painting.Painter;
+import noawt.java.awt.Rectangle;
+import noawt.java.awt.Shape;
+import noawt.java.awt.geom.AffineTransform;
+import noawt.java.awt.geom.Rectangle2D;
 
 public class IpePainter implements Painter
 {

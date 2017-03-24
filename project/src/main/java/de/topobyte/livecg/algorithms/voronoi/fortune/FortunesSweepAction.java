@@ -19,10 +19,10 @@ package de.topobyte.livecg.algorithms.voronoi.fortune;
 
 import java.awt.event.ActionEvent;
 
-import de.topobyte.livecg.ui.action.BasicAction;
 import de.topobyte.livecg.ui.geometryeditor.GeometryEditPane;
+import de.topobyte.swing.util.action.SimpleAction;
 
-public class FortunesSweepAction extends BasicAction
+public class FortunesSweepAction extends SimpleAction
 {
 
 	private static final long serialVersionUID = 6593980335787529594L;

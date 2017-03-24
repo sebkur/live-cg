@@ -27,10 +27,10 @@ import org.slf4j.LoggerFactory;
 import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.core.geometry.geom.CloseabilityException;
 import de.topobyte.livecg.core.geometry.geom.Node;
-import de.topobyte.livecg.ui.action.BasicAction;
 import de.topobyte.livecg.ui.geometryeditor.GeometryEditPane;
+import de.topobyte.swing.util.action.SimpleAction;
 
-public class MergeChainsAction extends BasicAction
+public class MergeChainsAction extends SimpleAction
 {
 
 	private static final long serialVersionUID = 7889373981786617466L;

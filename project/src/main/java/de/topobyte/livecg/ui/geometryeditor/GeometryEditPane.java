@@ -35,8 +35,6 @@ import javax.swing.InputMap;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 
-import noawt.java.awt.geom.Area;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -64,6 +62,7 @@ import de.topobyte.livecg.ui.geometryeditor.mouse.EditorMouseListener;
 import de.topobyte.livecg.ui.geometryeditor.mousemode.MouseMode;
 import de.topobyte.livecg.ui.geometryeditor.mousemode.MouseModeListener;
 import de.topobyte.livecg.ui.geometryeditor.mousemode.MouseModeProvider;
+import noawt.java.awt.geom.Area;
 
 public class GeometryEditPane extends JPanel implements MouseModeProvider,
 		ContentChangedListener, ViewportWithSignals, HasScene, HasMargin

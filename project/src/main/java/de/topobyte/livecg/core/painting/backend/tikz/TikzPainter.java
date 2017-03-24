@@ -27,11 +27,6 @@ import java.util.Set;
 
 import javax.imageio.ImageIO;
 
-import noawt.java.awt.Shape;
-import noawt.java.awt.geom.AffineTransform;
-import noawt.java.awt.geom.Area;
-import noawt.java.awt.geom.Rectangle2D;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -47,6 +42,10 @@ import de.topobyte.livecg.core.painting.Image;
 import de.topobyte.livecg.core.painting.Painter;
 import de.topobyte.livecg.core.painting.backend.ImageUtil;
 import de.topobyte.livecg.util.CloneUtil;
+import noawt.java.awt.Shape;
+import noawt.java.awt.geom.AffineTransform;
+import noawt.java.awt.geom.Area;
+import noawt.java.awt.geom.Rectangle2D;
 
 public class TikzPainter implements Painter
 {

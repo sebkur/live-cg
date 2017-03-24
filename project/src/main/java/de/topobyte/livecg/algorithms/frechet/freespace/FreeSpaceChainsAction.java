@@ -22,10 +22,10 @@ import java.awt.event.ActionEvent;
 import javax.swing.JOptionPane;
 
 import de.topobyte.livecg.ui.LaunchException;
-import de.topobyte.livecg.ui.action.BasicAction;
 import de.topobyte.livecg.ui.geometryeditor.GeometryEditPane;
+import de.topobyte.swing.util.action.SimpleAction;
 
-public class FreeSpaceChainsAction extends BasicAction
+public class FreeSpaceChainsAction extends SimpleAction
 {
 
 	private static final long serialVersionUID = 4601842937930128005L;

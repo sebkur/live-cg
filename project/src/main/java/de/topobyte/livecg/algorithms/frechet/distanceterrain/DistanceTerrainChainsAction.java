@@ -22,10 +22,10 @@ import java.awt.event.ActionEvent;
 import javax.swing.JOptionPane;
 
 import de.topobyte.livecg.ui.LaunchException;
-import de.topobyte.livecg.ui.action.BasicAction;
 import de.topobyte.livecg.ui.geometryeditor.GeometryEditPane;
+import de.topobyte.swing.util.action.SimpleAction;
 
-public class DistanceTerrainChainsAction extends BasicAction
+public class DistanceTerrainChainsAction extends SimpleAction
 {
 
 	private static final long serialVersionUID = 6994631580523463972L;

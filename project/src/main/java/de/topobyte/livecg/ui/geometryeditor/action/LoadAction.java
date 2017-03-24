@@ -35,11 +35,11 @@ import com.vividsolutions.jts.io.ParseException;
 import com.vividsolutions.jts.io.WKTReader;
 
 import de.topobyte.livecg.core.geometry.geom.Chain;
-import de.topobyte.livecg.ui.action.BasicAction;
 import de.topobyte.livecg.ui.geometryeditor.GeometryEditPane;
 import de.topobyte.swing.util.Components;
+import de.topobyte.swing.util.action.SimpleAction;
 
-public class LoadAction extends BasicAction
+public class LoadAction extends SimpleAction
 {
 
 	private static final long serialVersionUID = -4452993048850158926L;

@@ -25,9 +25,9 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
 import de.topobyte.livecg.ui.geometryeditor.GeometryEditPane;
-import de.topobyte.livecg.util.ImageLoader;
 import de.topobyte.livecg.util.resources.ResourceFile;
 import de.topobyte.livecg.util.resources.ResourceLoader;
+import de.topobyte.swing.util.ImageLoader;
 
 public class PresetMenu
 {

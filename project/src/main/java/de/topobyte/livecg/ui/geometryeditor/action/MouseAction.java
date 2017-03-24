@@ -25,12 +25,12 @@ import javax.swing.Action;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.topobyte.livecg.ui.action.BasicAction;
 import de.topobyte.livecg.ui.geometryeditor.mousemode.MouseMode;
 import de.topobyte.livecg.ui.geometryeditor.mousemode.MouseModeListener;
 import de.topobyte.livecg.ui.geometryeditor.mousemode.MouseModeProvider;
+import de.topobyte.swing.util.action.SimpleAction;
 
-public class MouseAction extends BasicAction implements MouseModeListener
+public class MouseAction extends SimpleAction implements MouseModeListener
 {
 
 	private static final long serialVersionUID = 5507751575393463234L;

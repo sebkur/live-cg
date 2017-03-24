@@ -33,13 +33,13 @@ import org.slf4j.LoggerFactory;
 import org.xml.sax.SAXException;
 
 import de.topobyte.livecg.core.geometry.io.SetOfGeometryReader;
-import de.topobyte.livecg.ui.action.BasicAction;
 import de.topobyte.livecg.ui.geometryeditor.GeometryEditPane;
 import de.topobyte.livecg.ui.geometryeditor.SetOfGeometries;
 import de.topobyte.livecg.ui.geometryeditor.clipboard.GeometryTransfer;
 import de.topobyte.livecg.ui.geometryeditor.clipboard.GeometryTransferable;
+import de.topobyte.swing.util.action.SimpleAction;
 
-public class PasteAction extends BasicAction
+public class PasteAction extends SimpleAction
 {
 
 	private static final long serialVersionUID = -1907505828869493624L;

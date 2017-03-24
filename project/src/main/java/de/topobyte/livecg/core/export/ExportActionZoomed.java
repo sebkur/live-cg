@@ -30,10 +30,10 @@ import de.topobyte.livecg.core.geometry.geom.Rectangle;
 import de.topobyte.livecg.core.painting.VisualizationPainter;
 import de.topobyte.livecg.core.scrolling.HasScene;
 import de.topobyte.livecg.core.scrolling.Viewport;
-import de.topobyte.livecg.ui.action.BasicAction;
+import de.topobyte.swing.util.action.SimpleAction;
 
 public abstract class ExportActionZoomed<T extends Viewport & HasScene> extends
-		BasicAction
+		SimpleAction
 {
 
 	private static final long serialVersionUID = 1L;

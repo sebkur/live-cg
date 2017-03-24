@@ -17,12 +17,12 @@
  */
 package de.topobyte.livecg.core.painting.backend.tikz;
 
+import de.topobyte.livecg.core.geometry.geom.Coordinate;
+import de.topobyte.livecg.core.painting.backend.PathBuilder;
 import noawt.com.bric.geom.Clipper;
 import noawt.java.awt.Shape;
 import noawt.java.awt.geom.GeneralPath;
 import noawt.java.awt.geom.Rectangle2D;
-import de.topobyte.livecg.core.geometry.geom.Coordinate;
-import de.topobyte.livecg.core.painting.backend.PathBuilder;
 
 public class TikzPathBuilder extends PathBuilder
 {

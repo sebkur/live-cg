@@ -28,8 +28,8 @@ import javax.swing.JButton;
 import javax.swing.JToggleButton;
 import javax.swing.JToolBar;
 
-import de.topobyte.livecg.util.ImageLoader;
 import de.topobyte.livecg.util.ZoomInput;
+import de.topobyte.swing.util.ImageLoader;
 
 public class Settings extends JToolBar implements ItemListener
 {

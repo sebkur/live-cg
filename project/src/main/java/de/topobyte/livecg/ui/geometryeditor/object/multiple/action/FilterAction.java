@@ -20,11 +20,11 @@ package de.topobyte.livecg.ui.geometryeditor.object.multiple.action;
 import java.awt.event.ActionEvent;
 
 import de.topobyte.livecg.core.geometry.geom.Chain;
-import de.topobyte.livecg.ui.action.BasicAction;
 import de.topobyte.livecg.ui.geometryeditor.GeometryEditPane;
 import de.topobyte.livecg.util.ListUtil;
+import de.topobyte.swing.util.action.SimpleAction;
 
-public class FilterAction extends BasicAction
+public class FilterAction extends SimpleAction
 {
 
 	private static final long serialVersionUID = -9125573108574206860L;

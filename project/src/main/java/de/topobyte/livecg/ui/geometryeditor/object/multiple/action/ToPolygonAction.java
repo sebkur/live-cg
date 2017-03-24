@@ -23,12 +23,12 @@ import java.util.List;
 import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.core.geometry.geom.CrossingsTestHelper;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
-import de.topobyte.livecg.ui.action.BasicAction;
 import de.topobyte.livecg.ui.geometryeditor.Content;
 import de.topobyte.livecg.ui.geometryeditor.GeometryEditPane;
 import de.topobyte.livecg.util.ListUtil;
+import de.topobyte.swing.util.action.SimpleAction;
 
-public class ToPolygonAction extends BasicAction
+public class ToPolygonAction extends SimpleAction
 {
 
 	private static final long serialVersionUID = -7826180655312955433L;

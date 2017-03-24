@@ -23,9 +23,6 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.util.List;
 
-import noawt.java.awt.Shape;
-import noawt.java.awt.geom.AffineTransform;
-import noawt.java.awt.geom.Rectangle2D;
 import de.topobyte.livecg.core.geometry.geom.AwtHelper;
 import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.core.geometry.geom.Coordinate;
@@ -36,6 +33,9 @@ import de.topobyte.livecg.core.painting.Painter;
 import de.topobyte.livecg.core.painting.backend.ImageUtil;
 import de.topobyte.livecg.util.NoAwtUtil;
 import de.topobyte.livecg.util.ShapeUtilAwt;
+import noawt.java.awt.Shape;
+import noawt.java.awt.geom.AffineTransform;
+import noawt.java.awt.geom.Rectangle2D;
 
 public class AwtPainter implements Painter
 {
