@@ -17,14 +17,14 @@ repositories {
 }
 
 dependencies {
-    compile 'de.topobyte:commons-cli-helper:0.0.3'
+    compile 'de.topobyte:commons-cli-helper:0.0.5'
     compile 'de.topobyte:jts2awt:0.0.1'
     compile 'de.topobyte:adt-tree:0.0.6'
     compile 'de.topobyte:awt-utils:0.0.3'
-    compile 'de.topobyte:swing-utils:0.0.7'
+    compile 'de.topobyte:swing-utils:0.0.8'
     compile 'de.topobyte:no-awt:0.0.1'
     compile 'de.topobyte:no-awt-javagraphics-clipper:0.0.1'
-    compile 'de.topobyte:chromaticity-core:0.0.1'
+    compile 'de.topobyte:chromaticity-core:0.0.2'
 
     compile 'com.vividsolutions:jts:1.13'
     compile 'org.apache.xmlgraphics:batik-svg-dom:1.7'
