@@ -21,11 +21,11 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import de.topobyte.livecg.core.geometry.geom.Coordinate;
-import de.topobyte.livecg.core.geometry.geom.GeometryTransformer;
+import de.topobyte.livecg.core.geometry.geom.CoordinateTransformer;
 import de.topobyte.livecg.core.lina.Matrix;
 
-public class ViewportMouseAdapter<T extends Viewport & HasScene> extends
-		MouseAdapter
+public class ViewportMouseAdapter<T extends Viewport & HasScene>
+		extends MouseAdapter
 {
 	private T viewport;
 
@@ -36,9 +36,9 @@ public class ViewportMouseAdapter<T extends Viewport & HasScene> extends
 
 	public Coordinate getSceneCoordinate(MouseEvent e)
 	{
-		Matrix matrix = TransformHelper.createInverseMatrix(
-				viewport.getScene(), viewport);
-		GeometryTransformer transformer = new GeometryTransformer(matrix);
+		Matrix matrix = TransformHelper.createInverseMatrix(viewport.getScene(),
+				viewport);
+		CoordinateTransformer transformer = new CoordinateTransformer(matrix);
 		Coordinate c = transformer
 				.transform(new Coordinate(e.getX(), e.getY()));
 		return c;

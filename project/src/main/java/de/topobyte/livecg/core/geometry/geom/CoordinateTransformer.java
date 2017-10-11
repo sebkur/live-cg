@@ -17,22 +17,20 @@
  */
 package de.topobyte.livecg.core.geometry.geom;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import de.topobyte.livecg.core.lina.Matrix;
 import de.topobyte.livecg.core.lina.Vector;
 import de.topobyte.livecg.core.lina.VectorType;
 
-public class GeometryTransformer extends CoordinateTransformer
+public class CoordinateTransformer
 {
 
-	public GeometryTransformer(Matrix matrix)
+	protected Matrix matrix;
+
+	public CoordinateTransformer(Matrix matrix)
 	{
-		super(matrix);
+		this.matrix = matrix;
 	}
 
-	@Override
 	public Coordinate transform(Coordinate c)
 	{
 		Vector v = new Vector(3, VectorType.Column);
@@ -45,40 +43,4 @@ public class GeometryTransformer extends CoordinateTransformer
 		return new Coordinate(x, y);
 	}
 
-	public Chain transform(Chain chain)
-	{
-		Chain r = new Chain();
-		for (int i = 0; i < chain.getNumberOfNodes(); i++) {
-			Coordinate c = chain.getCoordinate(i);
-			Coordinate ct = transform(c);
-			r.appendPoint(ct);
-		}
-		try {
-			r.setClosed(chain.isClosed());
-		} catch (CloseabilityException e) {
-			// should not happen
-		}
-		return r;
-	}
-
-	public Polygon transform(Polygon polygon)
-	{
-		Chain shell = polygon.getShell();
-		List<Chain> holes = polygon.getHoles();
-		Chain tshell = transform(shell);
-		List<Chain> tholes = new ArrayList<>();
-		for (Chain hole : holes) {
-			tholes.add(transform(hole));
-		}
-		return new Polygon(tshell, tholes);
-	}
-
-	public Rectangle transform(Rectangle rectangle)
-	{
-		Coordinate c1 = new Coordinate(rectangle.getX1(), rectangle.getY1());
-		Coordinate c2 = new Coordinate(rectangle.getX2(), rectangle.getY2());
-		Coordinate tc1 = transform(c1);
-		Coordinate tc2 = transform(c2);
-		return new Rectangle(tc1.getX(), tc1.getY(), tc2.getX(), tc2.getY());
-	}
 }
