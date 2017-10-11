@@ -55,11 +55,6 @@ public class Coordinate
 		this.y = y;
 	}
 
-	public com.vividsolutions.jts.geom.Coordinate createCoordinate()
-	{
-		return new com.vividsolutions.jts.geom.Coordinate(x, y);
-	}
-
 	public double distance(Coordinate c)
 	{
 		double a = x - c.x;

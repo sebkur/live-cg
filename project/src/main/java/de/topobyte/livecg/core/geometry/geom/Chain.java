@@ -192,14 +192,15 @@ public class Chain
 		int n = nodes.size();
 
 		GeometryFactory factory = new GeometryFactory();
+		JtsUtil jts = new JtsUtil();
 		if (n == 0) {
-			Point point = factory.createPoint(nodes.get(0).getCoordinate()
-					.createCoordinate());
+			Point point = factory
+					.createPoint(jts.toJts(nodes.get(0).getCoordinate()));
 			return point;
 		}
 		com.vividsolutions.jts.geom.Coordinate[] coords = new com.vividsolutions.jts.geom.Coordinate[n];
 		for (int i = 0; i < n; i++) {
-			coords[i] = nodes.get(i).getCoordinate().createCoordinate();
+			coords[i] = jts.toJts(nodes.get(i).getCoordinate());
 		}
 		LineString line = factory.createLineString(coords);
 		return line;
