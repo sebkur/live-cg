@@ -24,16 +24,16 @@ import java.util.Set;
 import de.topobyte.livecg.algorithms.polygon.monotonepieces.MonotonePiecesConfig;
 import de.topobyte.livecg.algorithms.polygon.util.Diagonal;
 import de.topobyte.livecg.core.geometry.geom.Chain;
-import de.topobyte.livecg.core.geometry.geom.Coordinate;
 import de.topobyte.livecg.core.geometry.geom.Node;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
-import de.topobyte.livecg.core.geometry.geom.Rectangle;
 import de.topobyte.livecg.core.painting.Color;
 import de.topobyte.livecg.core.painting.Painter;
 import de.topobyte.livecg.core.painting.TransformingVisualizationPainter;
 import de.topobyte.livecg.util.circular.IntRing;
 import de.topobyte.livecg.util.graph.Edge;
 import de.topobyte.livecg.util.graph.Graph;
+import de.topobyte.viewports.geometry.Coordinate;
+import de.topobyte.viewports.geometry.Rectangle;
 
 public class TriangulationPainter extends TransformingVisualizationPainter
 {

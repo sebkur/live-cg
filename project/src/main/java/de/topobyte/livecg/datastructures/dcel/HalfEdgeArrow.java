@@ -19,9 +19,9 @@ package de.topobyte.livecg.datastructures.dcel;
 
 import de.topobyte.livecg.core.geometry.dcel.HalfEdge;
 import de.topobyte.livecg.core.geometry.dcel.Vertex;
-import de.topobyte.livecg.core.geometry.geom.Coordinate;
 import de.topobyte.livecg.core.geometry.geom.GeomMath;
 import de.topobyte.livecg.core.lina.Vector2;
+import de.topobyte.viewports.geometry.Coordinate;
 
 public class HalfEdgeArrow
 {

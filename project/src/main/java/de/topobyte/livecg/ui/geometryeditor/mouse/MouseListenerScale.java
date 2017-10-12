@@ -23,13 +23,13 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import de.topobyte.livecg.core.geometry.geom.Coordinate;
 import de.topobyte.livecg.core.geometry.geom.Node;
-import de.topobyte.livecg.core.geometry.geom.Rectangle;
 import de.topobyte.livecg.core.lina.Vector2;
 import de.topobyte.livecg.ui.geometryeditor.GeometryEditPane;
 import de.topobyte.livecg.ui.geometryeditor.rectangle.EightHandles;
 import de.topobyte.livecg.ui.geometryeditor.rectangle.Position;
+import de.topobyte.viewports.geometry.Coordinate;
+import de.topobyte.viewports.geometry.Rectangle;
 
 public class MouseListenerScale extends EditPaneMouseListener
 {

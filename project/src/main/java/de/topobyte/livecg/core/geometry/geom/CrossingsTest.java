@@ -20,6 +20,8 @@ package de.topobyte.livecg.core.geometry.geom;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.topobyte.viewports.geometry.Coordinate;
+
 public class CrossingsTest
 {
 
@@ -57,19 +59,20 @@ public class CrossingsTest
 		Coordinate c0 = ring.getCoordinate(n - 1);
 		Coordinate c1 = ring.getCoordinate(0);
 
-		boolean yflag0 = (c0.y >= ty);
+		boolean yflag0 = (c0.getY() >= ty);
 
 		for (int j = 0; j < n; j++) {
-			boolean yflag1 = (c1.y >= ty);
+			boolean yflag1 = (c1.getY() >= ty);
 			if (yflag0 != yflag1) {
-				boolean xflag0 = (c0.x >= tx);
-				boolean xflag1 = (c1.x >= tx);
+				boolean xflag0 = (c0.getX() >= tx);
+				boolean xflag1 = (c1.getX() >= tx);
 				if (xflag0 == xflag1) {
 					if (xflag0) {
 						crossings += (yflag0 ? -1 : 1);
 					}
 				} else {
-					if ((c1.x - (c1.y - ty) * (c0.x - c1.x) / (c0.y - c1.y)) >= tx) {
+					if ((c1.getX() - (c1.getY() - ty) * (c0.getX() - c1.getX())
+							/ (c0.getY() - c1.getY())) >= tx) {
 						crossings += (yflag0 ? -1 : 1);
 					}
 				}

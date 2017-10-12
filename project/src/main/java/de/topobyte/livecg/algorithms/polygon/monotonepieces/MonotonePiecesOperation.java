@@ -34,12 +34,12 @@ import de.topobyte.livecg.algorithms.polygon.util.DiagonalUtil;
 import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.core.geometry.geom.ChainHelper;
 import de.topobyte.livecg.core.geometry.geom.CloseabilityException;
-import de.topobyte.livecg.core.geometry.geom.Coordinate;
 import de.topobyte.livecg.core.geometry.geom.GeomMath;
 import de.topobyte.livecg.core.geometry.geom.Node;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
 import de.topobyte.livecg.core.geometry.geom.PolygonHelper;
 import de.topobyte.livecg.util.circular.IntRing;
+import de.topobyte.viewports.geometry.Coordinate;
 
 public class MonotonePiecesOperation
 {

@@ -17,6 +17,8 @@
  */
 package de.topobyte.livecg.core.geometry.geom;
 
+import de.topobyte.viewports.geometry.Rectangle;
+
 public class Rectangles
 {
 	public static Rectangle extend(Rectangle r, double extent)

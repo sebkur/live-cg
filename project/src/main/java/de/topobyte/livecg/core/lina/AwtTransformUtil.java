@@ -17,6 +17,7 @@
  */
 package de.topobyte.livecg.core.lina;
 
+import de.topobyte.lina.Matrix;
 import noawt.java.awt.geom.AffineTransform;
 
 public class AwtTransformUtil

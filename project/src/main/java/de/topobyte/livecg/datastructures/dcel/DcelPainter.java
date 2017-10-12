@@ -17,19 +17,19 @@
  */
 package de.topobyte.livecg.datastructures.dcel;
 
+import de.topobyte.lina.Matrix;
 import de.topobyte.livecg.core.config.LiveConfig;
 import de.topobyte.livecg.core.geometry.dcel.DCEL;
 import de.topobyte.livecg.core.geometry.dcel.DcelUtil;
 import de.topobyte.livecg.core.geometry.dcel.HalfEdge;
 import de.topobyte.livecg.core.geometry.dcel.Vertex;
-import de.topobyte.livecg.core.geometry.geom.Coordinate;
-import de.topobyte.livecg.core.geometry.geom.Rectangle;
-import de.topobyte.livecg.core.lina.Matrix;
 import de.topobyte.livecg.core.lina.Vector2;
 import de.topobyte.livecg.core.painting.Color;
 import de.topobyte.livecg.core.painting.Painter;
 import de.topobyte.livecg.core.painting.TransformingVisualizationPainter;
-import de.topobyte.livecg.core.scrolling.TransformHelper;
+import de.topobyte.viewports.geometry.Coordinate;
+import de.topobyte.viewports.geometry.Rectangle;
+import de.topobyte.viewports.scrolling.TransformHelper;
 import noawt.java.awt.geom.GeneralPath;
 
 public abstract class DcelPainter extends TransformingVisualizationPainter

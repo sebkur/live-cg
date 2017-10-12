@@ -25,12 +25,12 @@ import de.topobyte.livecg.algorithms.polygon.monotonepieces.MonotonePiecesConfig
 import de.topobyte.livecg.algorithms.polygon.monotonepieces.MonotonePiecesPainter;
 import de.topobyte.livecg.algorithms.polygon.monotonepieces.SplitResult;
 import de.topobyte.livecg.algorithms.polygon.util.Diagonal;
-import de.topobyte.livecg.core.geometry.geom.Coordinate;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
 import de.topobyte.livecg.core.painting.Color;
 import de.topobyte.livecg.core.painting.Painter;
 import de.topobyte.livecg.util.coloring.AlternatingColorMapBuilder;
 import de.topobyte.livecg.util.graph.Graph;
+import de.topobyte.viewports.geometry.Coordinate;
 
 public class MonotonePiecesTriangulationPainter extends MonotonePiecesPainter
 {

@@ -33,10 +33,10 @@ import de.topobyte.livecg.algorithms.polygon.util.DiagonalUtil;
 import de.topobyte.livecg.core.export.ExportUtil;
 import de.topobyte.livecg.core.geometry.geom.BoundingBoxes;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
-import de.topobyte.livecg.core.geometry.geom.Rectangle;
 import de.topobyte.livecg.core.geometry.geom.Rectangles;
-import de.topobyte.livecg.core.scrolling.ScrollableView;
 import de.topobyte.livecg.util.graph.Graph;
+import de.topobyte.viewports.geometry.Rectangle;
+import de.topobyte.viewports.scrolling.ScrollableView;
 
 public class TriangulationDialog
 {

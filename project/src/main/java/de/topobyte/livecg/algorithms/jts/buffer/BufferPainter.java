@@ -21,12 +21,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.topobyte.livecg.core.geometry.geom.Chain;
-import de.topobyte.livecg.core.geometry.geom.Coordinate;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
 import de.topobyte.livecg.core.painting.Color;
 import de.topobyte.livecg.core.painting.Painter;
 import de.topobyte.livecg.core.painting.TransformingVisualizationPainter;
 import de.topobyte.livecg.ui.geometryeditor.SetOfGeometries;
+import de.topobyte.viewports.geometry.Coordinate;
 
 public class BufferPainter extends TransformingVisualizationPainter
 {

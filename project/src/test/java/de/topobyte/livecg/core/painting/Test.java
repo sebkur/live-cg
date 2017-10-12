@@ -54,12 +54,10 @@ import de.topobyte.livecg.core.export.TikzExporter;
 import de.topobyte.livecg.core.geometry.dcel.DCEL;
 import de.topobyte.livecg.core.geometry.dcel.DcelConverter;
 import de.topobyte.livecg.core.geometry.geom.Chain;
-import de.topobyte.livecg.core.geometry.geom.Coordinate;
 import de.topobyte.livecg.core.geometry.geom.CopyUtil;
 import de.topobyte.livecg.core.geometry.geom.CopyUtil.PolygonMode;
 import de.topobyte.livecg.core.geometry.geom.Node;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
-import de.topobyte.livecg.core.geometry.geom.Rectangle;
 import de.topobyte.livecg.datastructures.content.ContentConfig;
 import de.topobyte.livecg.datastructures.content.ContentPainter;
 import de.topobyte.livecg.datastructures.dcel.DcelConfig;
@@ -69,6 +67,8 @@ import de.topobyte.livecg.ui.geometryeditor.Content;
 import de.topobyte.livecg.ui.geometryeditor.ContentHelper;
 import de.topobyte.livecg.util.coloring.ColorMapBuilder;
 import de.topobyte.livecg.util.resources.ContentResources;
+import de.topobyte.viewports.geometry.Coordinate;
+import de.topobyte.viewports.geometry.Rectangle;
 
 public class Test
 {

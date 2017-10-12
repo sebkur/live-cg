@@ -18,13 +18,13 @@
 package de.topobyte.livecg.datastructures.content;
 
 import de.topobyte.livecg.core.geometry.geom.Chain;
-import de.topobyte.livecg.core.geometry.geom.Coordinate;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
-import de.topobyte.livecg.core.geometry.geom.Rectangle;
 import de.topobyte.livecg.core.painting.Color;
 import de.topobyte.livecg.core.painting.Painter;
 import de.topobyte.livecg.core.painting.TransformingVisualizationPainter;
 import de.topobyte.livecg.ui.geometryeditor.Content;
+import de.topobyte.viewports.geometry.Coordinate;
+import de.topobyte.viewports.geometry.Rectangle;
 
 public class ContentPainter extends TransformingVisualizationPainter
 {

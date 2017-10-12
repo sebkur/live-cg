@@ -29,9 +29,9 @@ import de.topobyte.livecg.core.algorithm.DefaultSceneAlgorithm;
 import de.topobyte.livecg.core.geometry.geom.BoundingBoxes;
 import de.topobyte.livecg.core.geometry.geom.JtsUtil;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
-import de.topobyte.livecg.core.geometry.geom.Rectangle;
 import de.topobyte.livecg.core.geometry.geom.Rectangles;
 import de.topobyte.livecg.ui.geometryeditor.SetOfGeometries;
+import de.topobyte.viewports.geometry.Rectangle;
 
 public class BufferAlgorithm extends DefaultSceneAlgorithm
 {

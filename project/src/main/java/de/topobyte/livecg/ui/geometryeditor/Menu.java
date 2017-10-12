@@ -42,7 +42,6 @@ import de.topobyte.livecg.algorithms.polygon.shortestpath.ShortestPathInPolygonA
 import de.topobyte.livecg.algorithms.polygon.triangulation.generic.TriangulationDualGraphAction;
 import de.topobyte.livecg.algorithms.polygon.triangulation.viamonotonepieces.TriangulationAction;
 import de.topobyte.livecg.algorithms.voronoi.fortune.FortunesSweepAction;
-import de.topobyte.livecg.core.scrolling.ZoomAction;
 import de.topobyte.livecg.datastructures.content.ContentDisplayAction;
 import de.topobyte.livecg.datastructures.dcel.DcelAction;
 import de.topobyte.livecg.ui.geometryeditor.action.CopyAction;
@@ -66,6 +65,7 @@ import de.topobyte.livecg.ui.misc.AboutAction;
 import de.topobyte.livecg.ui.misc.ExitAction;
 import de.topobyte.livecg.ui.misc.LicenseAction;
 import de.topobyte.swing.util.ImageLoader;
+import de.topobyte.viewports.scrolling.ZoomAction;
 
 public class Menu extends JMenuBar
 {

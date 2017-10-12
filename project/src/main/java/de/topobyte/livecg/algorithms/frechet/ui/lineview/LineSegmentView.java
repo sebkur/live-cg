@@ -35,7 +35,7 @@ import de.topobyte.jgs.transform.IdentityCoordinateTransformer;
 import de.topobyte.jts2awt.Jts2Awt;
 import de.topobyte.livecg.algorithms.frechet.freespace.EpsilonSettable;
 import de.topobyte.livecg.core.geometry.geom.Chain;
-import de.topobyte.livecg.core.geometry.geom.Coordinate;
+import de.topobyte.viewports.geometry.Coordinate;
 
 public class LineSegmentView extends JPanel implements EpsilonSettable
 {

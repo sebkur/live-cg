@@ -28,9 +28,9 @@ import javax.swing.JPanel;
 
 import de.topobyte.awt.util.GraphicsUtil;
 import de.topobyte.livecg.core.geometry.geom.Chain;
-import de.topobyte.livecg.core.geometry.geom.Coordinate;
-import de.topobyte.livecg.core.scrolling.ViewportListener;
-import de.topobyte.livecg.core.scrolling.ViewportWithSignals;
+import de.topobyte.viewports.geometry.Coordinate;
+import de.topobyte.viewports.scrolling.ViewportListener;
+import de.topobyte.viewports.scrolling.ViewportWithSignals;
 
 public class SegmentEditPane extends JPanel implements ViewportWithSignals
 {

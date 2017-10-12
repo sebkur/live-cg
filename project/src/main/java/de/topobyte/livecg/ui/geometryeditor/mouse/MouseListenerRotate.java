@@ -23,10 +23,10 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.topobyte.livecg.core.geometry.geom.Coordinate;
 import de.topobyte.livecg.core.geometry.geom.Node;
 import de.topobyte.livecg.core.lina.Vector2;
 import de.topobyte.livecg.ui.geometryeditor.GeometryEditPane;
+import de.topobyte.viewports.geometry.Coordinate;
 
 public class MouseListenerRotate extends EditPaneMouseListener
 {

@@ -24,11 +24,11 @@ import javax.swing.JFrame;
 
 import de.topobyte.livecg.algorithms.voronoi.fortune.geometry.Point;
 import de.topobyte.livecg.algorithms.voronoi.fortune.ui.swing.FortuneDialog;
-import de.topobyte.livecg.core.geometry.geom.Coordinate;
 import de.topobyte.livecg.core.geometry.geom.Node;
 import de.topobyte.livecg.ui.ContentLauncher;
 import de.topobyte.livecg.ui.geometryeditor.Content;
 import de.topobyte.livecg.ui.geometryeditor.ContentHelper;
+import de.topobyte.viewports.geometry.Coordinate;
 
 public class FortunesSweepLauncher implements ContentLauncher
 {

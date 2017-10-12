@@ -21,10 +21,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import de.topobyte.livecg.core.geometry.geom.Coordinate;
+import de.topobyte.lina.Matrix;
 import de.topobyte.livecg.core.geometry.geom.GeometryTransformer;
-import de.topobyte.livecg.core.geometry.geom.Rectangle;
-import de.topobyte.livecg.core.lina.Matrix;
+import de.topobyte.viewports.geometry.Coordinate;
+import de.topobyte.viewports.geometry.Rectangle;
 
 public class DcelUtil
 {

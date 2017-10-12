@@ -27,6 +27,7 @@ import com.vividsolutions.jts.geom.LineString;
 import com.vividsolutions.jts.geom.LinearRing;
 
 import de.topobyte.livecg.ui.geometryeditor.SetOfGeometries;
+import de.topobyte.viewports.geometry.Coordinate;
 
 public class JtsUtil
 {

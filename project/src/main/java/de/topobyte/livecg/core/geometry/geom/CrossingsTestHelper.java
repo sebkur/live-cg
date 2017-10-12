@@ -17,6 +17,8 @@
  */
 package de.topobyte.livecg.core.geometry.geom;
 
+import de.topobyte.viewports.geometry.Coordinate;
+
 public class CrossingsTestHelper
 {
 	public static boolean covers(Chain chain, Chain other)

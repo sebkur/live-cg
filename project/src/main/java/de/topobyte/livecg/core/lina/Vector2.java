@@ -17,7 +17,7 @@
  */
 package de.topobyte.livecg.core.lina;
 
-import de.topobyte.livecg.core.geometry.geom.Coordinate;
+import de.topobyte.viewports.geometry.Coordinate;
 
 public class Vector2
 {

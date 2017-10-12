@@ -33,8 +33,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import de.topobyte.awt.util.GridBagConstraintsEditor;
-import de.topobyte.livecg.core.geometry.geom.Rectangle;
 import de.topobyte.livecg.util.ButtonPane;
+import de.topobyte.viewports.geometry.Rectangle;
 
 public class FilePropertiesDialog extends JDialog
 {

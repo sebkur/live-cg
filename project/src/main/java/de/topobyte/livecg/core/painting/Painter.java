@@ -20,8 +20,8 @@ package de.topobyte.livecg.core.painting;
 import java.util.List;
 
 import de.topobyte.livecg.core.geometry.geom.Chain;
-import de.topobyte.livecg.core.geometry.geom.Coordinate;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
+import de.topobyte.viewports.geometry.Coordinate;
 import noawt.java.awt.Shape;
 import noawt.java.awt.geom.AffineTransform;
 

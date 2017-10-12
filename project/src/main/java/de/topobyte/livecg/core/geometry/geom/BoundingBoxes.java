@@ -21,6 +21,8 @@ import java.util.Collection;
 import java.util.Iterator;
 
 import de.topobyte.livecg.ui.geometryeditor.SetOfGeometries;
+import de.topobyte.viewports.geometry.Coordinate;
+import de.topobyte.viewports.geometry.Rectangle;
 
 public class BoundingBoxes
 {

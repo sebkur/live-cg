@@ -17,7 +17,7 @@
  */
 package de.topobyte.livecg.ui.geometryeditor.rectangle;
 
-import de.topobyte.livecg.core.geometry.geom.Rectangle;
+import de.topobyte.viewports.geometry.Rectangle;
 
 public class EightHandles
 {

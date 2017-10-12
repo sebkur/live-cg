@@ -23,10 +23,10 @@ import java.util.Locale;
 import javax.swing.AbstractListModel;
 
 import de.topobyte.livecg.core.geometry.geom.Chain;
-import de.topobyte.livecg.core.geometry.geom.Coordinate;
 import de.topobyte.livecg.core.geometry.geom.Node;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
 import de.topobyte.livecg.ui.geometryeditor.GeometryEditPane;
+import de.topobyte.viewports.geometry.Coordinate;
 
 public class MultipleObjectsListModel extends AbstractListModel<String>
 {

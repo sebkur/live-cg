@@ -26,13 +26,13 @@ import de.topobyte.livecg.core.geometry.geom.ChainHelper;
 import de.topobyte.livecg.core.geometry.geom.CloseabilityException;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
 import de.topobyte.livecg.core.geometry.geom.PolygonHelper;
-import de.topobyte.livecg.core.geometry.geom.Rectangle;
 import de.topobyte.livecg.core.painting.VisualizationPainter;
 import de.topobyte.livecg.core.status.ExplicitPosition;
 import de.topobyte.livecg.core.status.FinishedPosition;
 import de.topobyte.livecg.core.status.Position;
 import de.topobyte.livecg.core.status.TwoLevelStatusParser;
 import de.topobyte.livecg.ui.geometryeditor.Content;
+import de.topobyte.viewports.geometry.Rectangle;
 
 public class MonotoneTriangulationVisualizationSetup implements
 		VisualizationSetup

@@ -27,12 +27,12 @@ import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 
 import de.topobyte.awt.util.GridBagConstraintsEditor;
-import de.topobyte.livecg.core.scrolling.PanMouseAdapter;
-import de.topobyte.livecg.core.scrolling.SceneBoundedRangeModel;
 import de.topobyte.livecg.ui.geometryeditor.mouse.ScaleMouseListener;
 import de.topobyte.livecg.ui.geometryeditor.scale.Scale;
 import de.topobyte.livecg.ui.geometryeditor.scale.ScaleX;
 import de.topobyte.livecg.ui.geometryeditor.scale.ScaleY;
+import de.topobyte.viewports.scrolling.PanMouseAdapter;
+import de.topobyte.viewports.scrolling.SceneBoundedRangeModel;
 
 public class GeometryEditor extends JPanel
 {

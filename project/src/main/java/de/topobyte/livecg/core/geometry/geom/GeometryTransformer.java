@@ -20,9 +20,12 @@ package de.topobyte.livecg.core.geometry.geom;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.topobyte.livecg.core.lina.Matrix;
-import de.topobyte.livecg.core.lina.Vector;
-import de.topobyte.livecg.core.lina.VectorType;
+import de.topobyte.lina.Matrix;
+import de.topobyte.lina.Vector;
+import de.topobyte.lina.VectorType;
+import de.topobyte.viewports.geometry.Coordinate;
+import de.topobyte.viewports.geometry.CoordinateTransformer;
+import de.topobyte.viewports.geometry.Rectangle;
 
 public class GeometryTransformer extends CoordinateTransformer
 {

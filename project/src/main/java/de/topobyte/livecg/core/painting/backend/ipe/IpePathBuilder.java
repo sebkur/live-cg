@@ -22,8 +22,8 @@ import java.util.Locale;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.topobyte.livecg.core.geometry.geom.Coordinate;
 import de.topobyte.livecg.core.painting.backend.PathBuilder;
+import de.topobyte.viewports.geometry.Coordinate;
 
 public class IpePathBuilder extends PathBuilder
 {

@@ -34,9 +34,9 @@ import de.topobyte.livecg.algorithms.farthestpair.FarthestPairResult;
 import de.topobyte.livecg.algorithms.farthestpair.NaiveFarthestPairOperation;
 import de.topobyte.livecg.algorithms.farthestpair.ShamosFarthestPairOperation;
 import de.topobyte.livecg.core.geometry.geom.Chain;
-import de.topobyte.livecg.core.geometry.geom.Coordinate;
 import de.topobyte.livecg.core.geometry.geom.Node;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
+import de.topobyte.viewports.geometry.Coordinate;
 
 public class TestFarthestPairWithRandomPoints
 {

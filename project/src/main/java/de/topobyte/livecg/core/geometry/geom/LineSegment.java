@@ -17,6 +17,8 @@
  */
 package de.topobyte.livecg.core.geometry.geom;
 
+import de.topobyte.viewports.geometry.Coordinate;
+
 public class LineSegment
 {
 

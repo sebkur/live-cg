@@ -18,6 +18,8 @@
 package de.topobyte.livecg.core.geometry.geom;
 
 import de.topobyte.livecg.core.lina.Vector2;
+import de.topobyte.viewports.geometry.Coordinate;
+import de.topobyte.viewports.geometry.Rectangle;
 
 public class GeomMath
 {

@@ -22,10 +22,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.topobyte.livecg.core.geometry.geom.Chain;
-import de.topobyte.livecg.core.geometry.geom.Coordinate;
 import de.topobyte.livecg.core.geometry.geom.Node;
 import de.topobyte.livecg.ui.geometryeditor.GeometryEditPane;
 import de.topobyte.swing.util.action.SimpleAction;
+import de.topobyte.viewports.geometry.Coordinate;
 
 public class ToMultipleNodesAction extends SimpleAction
 {

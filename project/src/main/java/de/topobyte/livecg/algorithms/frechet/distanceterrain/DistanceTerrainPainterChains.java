@@ -19,11 +19,11 @@ package de.topobyte.livecg.algorithms.frechet.distanceterrain;
 
 import de.topobyte.livecg.algorithms.frechet.freespace.calc.LineSegment;
 import de.topobyte.livecg.core.geometry.geom.Chain;
-import de.topobyte.livecg.core.geometry.geom.Coordinate;
 import de.topobyte.livecg.core.painting.BasicVisualizationPainter;
 import de.topobyte.livecg.core.painting.Color;
 import de.topobyte.livecg.core.painting.Image;
 import de.topobyte.livecg.core.painting.Painter;
+import de.topobyte.viewports.geometry.Coordinate;
 
 public class DistanceTerrainPainterChains extends BasicVisualizationPainter
 {

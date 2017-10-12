@@ -20,6 +20,8 @@ package de.topobyte.livecg.core.geometry.geom;
 import java.awt.geom.Area;
 import java.awt.geom.Path2D;
 
+import de.topobyte.viewports.geometry.Coordinate;
+
 public class AwtHelper
 {
 	public static Area toShape(Polygon p)

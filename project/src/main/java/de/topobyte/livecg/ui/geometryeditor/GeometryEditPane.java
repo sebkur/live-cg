@@ -39,29 +39,29 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.topobyte.awt.util.GraphicsUtil;
+import de.topobyte.lina.AffineTransformUtil;
+import de.topobyte.lina.Matrix;
 import de.topobyte.livecg.core.config.LiveConfig;
 import de.topobyte.livecg.core.geometry.geom.Chain;
-import de.topobyte.livecg.core.geometry.geom.Coordinate;
 import de.topobyte.livecg.core.geometry.geom.GeometryTransformer;
 import de.topobyte.livecg.core.geometry.geom.LineSegment;
 import de.topobyte.livecg.core.geometry.geom.NoAwtHelper;
 import de.topobyte.livecg.core.geometry.geom.Node;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
-import de.topobyte.livecg.core.geometry.geom.Rectangle;
-import de.topobyte.livecg.core.lina.AffineTransformUtil;
-import de.topobyte.livecg.core.lina.Matrix;
 import de.topobyte.livecg.core.painting.Color;
 import de.topobyte.livecg.core.painting.Painter;
 import de.topobyte.livecg.core.painting.backend.awt.AwtPainter;
-import de.topobyte.livecg.core.scrolling.HasMargin;
-import de.topobyte.livecg.core.scrolling.HasScene;
-import de.topobyte.livecg.core.scrolling.ViewportListener;
-import de.topobyte.livecg.core.scrolling.ViewportWithSignals;
 import de.topobyte.livecg.ui.geometryeditor.action.OpenCloseRingAction;
 import de.topobyte.livecg.ui.geometryeditor.mouse.EditorMouseListener;
 import de.topobyte.livecg.ui.geometryeditor.mousemode.MouseMode;
 import de.topobyte.livecg.ui.geometryeditor.mousemode.MouseModeListener;
 import de.topobyte.livecg.ui.geometryeditor.mousemode.MouseModeProvider;
+import de.topobyte.viewports.geometry.Coordinate;
+import de.topobyte.viewports.geometry.Rectangle;
+import de.topobyte.viewports.scrolling.HasMargin;
+import de.topobyte.viewports.scrolling.HasScene;
+import de.topobyte.viewports.scrolling.ViewportListener;
+import de.topobyte.viewports.scrolling.ViewportWithSignals;
 import noawt.java.awt.geom.Area;
 
 public class GeometryEditPane extends JPanel implements MouseModeProvider,

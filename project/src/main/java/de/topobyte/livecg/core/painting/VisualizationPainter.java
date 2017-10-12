@@ -17,7 +17,7 @@
  */
 package de.topobyte.livecg.core.painting;
 
-import de.topobyte.livecg.core.scrolling.Viewport;
+import de.topobyte.viewports.scrolling.Viewport;
 
 public interface VisualizationPainter extends Viewport
 {

@@ -24,10 +24,10 @@ import de.topobyte.chromaticity.ColorCode;
 import de.topobyte.livecg.core.SetupResult;
 import de.topobyte.livecg.core.VisualizationSetup;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
-import de.topobyte.livecg.core.geometry.geom.Rectangle;
 import de.topobyte.livecg.core.painting.VisualizationPainter;
 import de.topobyte.livecg.ui.geometryeditor.Content;
 import de.topobyte.livecg.util.coloring.ColorMapBuilder;
+import de.topobyte.viewports.geometry.Rectangle;
 
 public class MonotonePiecesVisualizationSetup implements VisualizationSetup
 {

@@ -17,7 +17,7 @@
  */
 package de.topobyte.livecg.core.algorithm;
 
-import de.topobyte.livecg.core.geometry.geom.Rectangle;
+import de.topobyte.viewports.geometry.Rectangle;
 
 public interface SceneAlgorithm extends Algorithm
 {

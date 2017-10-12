@@ -40,7 +40,7 @@ import javax.swing.event.ChangeListener;
 
 import de.topobyte.livecg.core.algorithm.AlgorithmWatcher;
 import de.topobyte.livecg.core.export.ExportUtil;
-import de.topobyte.livecg.core.scrolling.ScrollableView;
+import de.topobyte.viewports.scrolling.ScrollableView;
 
 public class ChansAlgorithmDialog implements AlgorithmWatcher
 {

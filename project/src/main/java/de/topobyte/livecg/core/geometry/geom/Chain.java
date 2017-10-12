@@ -30,6 +30,7 @@ import com.vividsolutions.jts.geom.LineString;
 import com.vividsolutions.jts.geom.Point;
 
 import de.topobyte.livecg.util.circular.IntRing;
+import de.topobyte.viewports.geometry.Coordinate;
 
 public class Chain
 {

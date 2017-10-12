@@ -17,9 +17,9 @@
  */
 package de.topobyte.livecg.ui.geometryeditor.mouse;
 
-import de.topobyte.livecg.core.geometry.geom.Coordinate;
-import de.topobyte.livecg.core.geometry.geom.Rectangle;
 import de.topobyte.livecg.ui.geometryeditor.rectangle.Position;
+import de.topobyte.viewports.geometry.Coordinate;
+import de.topobyte.viewports.geometry.Rectangle;
 
 public class ScaleInfo
 {

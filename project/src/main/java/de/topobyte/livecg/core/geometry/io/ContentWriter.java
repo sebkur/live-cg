@@ -23,8 +23,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import de.topobyte.livecg.core.geometry.geom.Rectangle;
 import de.topobyte.livecg.ui.geometryeditor.Content;
+import de.topobyte.viewports.geometry.Rectangle;
 
 public class ContentWriter extends SetOfGeometryWriter
 {

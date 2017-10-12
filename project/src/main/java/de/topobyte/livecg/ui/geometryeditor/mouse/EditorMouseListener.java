@@ -24,6 +24,7 @@ import java.util.Map;
 
 import de.topobyte.livecg.ui.geometryeditor.GeometryEditPane;
 import de.topobyte.livecg.ui.geometryeditor.mousemode.MouseMode;
+import de.topobyte.viewports.scrolling.ViewportMouseListener;
 
 public class EditorMouseListener extends EditPaneMouseListener
 {

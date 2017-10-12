@@ -17,11 +17,11 @@
  */
 package de.topobyte.livecg.core.painting;
 
-import de.topobyte.livecg.core.geometry.geom.Coordinate;
+import de.topobyte.lina.Matrix;
 import de.topobyte.livecg.core.geometry.geom.GeometryTransformer;
-import de.topobyte.livecg.core.geometry.geom.Rectangle;
-import de.topobyte.livecg.core.lina.Matrix;
-import de.topobyte.livecg.core.scrolling.TransformHelper;
+import de.topobyte.viewports.geometry.Coordinate;
+import de.topobyte.viewports.geometry.Rectangle;
+import de.topobyte.viewports.scrolling.TransformHelper;
 
 public abstract class TransformingVisualizationPainter extends
 		BasicVisualizationPainter

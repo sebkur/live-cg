@@ -24,10 +24,10 @@ import de.topobyte.livecg.core.VisualizationSetup;
 import de.topobyte.livecg.core.geometry.dcel.DCEL;
 import de.topobyte.livecg.core.geometry.dcel.DcelConverter;
 import de.topobyte.livecg.core.geometry.dcel.DcelUtil;
-import de.topobyte.livecg.core.geometry.geom.Rectangle;
 import de.topobyte.livecg.core.geometry.geom.Rectangles;
 import de.topobyte.livecg.core.painting.VisualizationPainter;
 import de.topobyte.livecg.ui.geometryeditor.Content;
+import de.topobyte.viewports.geometry.Rectangle;
 
 public class DcelVisualizationSetup implements VisualizationSetup
 {

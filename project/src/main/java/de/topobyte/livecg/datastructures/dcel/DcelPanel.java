@@ -20,9 +20,9 @@ package de.topobyte.livecg.datastructures.dcel;
 import de.topobyte.livecg.core.export.SizeProvider;
 import de.topobyte.livecg.core.geometry.dcel.DCEL;
 import de.topobyte.livecg.core.geometry.dcel.DcelUtil;
-import de.topobyte.livecg.core.geometry.geom.Rectangle;
 import de.topobyte.livecg.core.geometry.geom.Rectangles;
 import de.topobyte.livecg.core.scrolling.ScenePanel;
+import de.topobyte.viewports.geometry.Rectangle;
 
 public class DcelPanel extends ScenePanel implements SizeProvider
 {

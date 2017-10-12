@@ -26,8 +26,8 @@ import javax.swing.JPanel;
 import org.apache.log4j.BasicConfigurator;
 
 import de.topobyte.livecg.core.geometry.geom.Chain;
-import de.topobyte.livecg.core.geometry.geom.Coordinate;
 import de.topobyte.livecg.ui.segmenteditor.SegmentEditor;
+import de.topobyte.viewports.geometry.Coordinate;
 
 public class TestSegmentEditor
 {

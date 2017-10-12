@@ -20,8 +20,8 @@ package de.topobyte.livecg.algorithms.farthestpair;
 import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.core.geometry.geom.ChainHelper;
 import de.topobyte.livecg.core.geometry.geom.CloseabilityException;
-import de.topobyte.livecg.core.geometry.geom.Coordinate;
 import de.topobyte.livecg.core.geometry.geom.PolygonHelper;
+import de.topobyte.viewports.geometry.Coordinate;
 
 public class ShamosFarthestPairOperation
 {

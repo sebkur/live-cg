@@ -33,9 +33,9 @@ import javax.swing.event.ChangeListener;
 
 import de.topobyte.livecg.algorithms.frechet.distanceterrain.ConfigChangedListener;
 import de.topobyte.livecg.core.export.ExportUtil;
-import de.topobyte.livecg.core.scrolling.ScrollableView;
 import de.topobyte.livecg.ui.geometryeditor.Content;
 import de.topobyte.livecg.ui.geometryeditor.ContentChangedListener;
+import de.topobyte.viewports.scrolling.ScrollableView;
 
 public class BufferDialog implements ContentChangedListener, ChangeListener,
 		ConfigChangedListener

@@ -35,7 +35,6 @@ import de.topobyte.livecg.algorithms.polygon.util.Diagonal;
 import de.topobyte.livecg.algorithms.polygon.util.DiagonalUtil;
 import de.topobyte.livecg.core.geometry.geom.AwtHelper;
 import de.topobyte.livecg.core.geometry.geom.Chain;
-import de.topobyte.livecg.core.geometry.geom.Coordinate;
 import de.topobyte.livecg.core.geometry.geom.Node;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
 import de.topobyte.livecg.core.geometry.geom.PolygonHelper;
@@ -43,6 +42,7 @@ import de.topobyte.livecg.util.ShapeUtilAwt;
 import de.topobyte.livecg.util.circular.IntRing;
 import de.topobyte.livecg.util.graph.Edge;
 import de.topobyte.livecg.util.graph.Graph;
+import de.topobyte.viewports.geometry.Coordinate;
 
 public class SleevePanel extends JPanel
 {

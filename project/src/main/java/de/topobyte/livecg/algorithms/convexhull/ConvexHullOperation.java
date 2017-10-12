@@ -26,9 +26,9 @@ import com.vividsolutions.jts.geom.GeometryFactory;
 
 import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.core.geometry.geom.CloseabilityException;
-import de.topobyte.livecg.core.geometry.geom.Coordinate;
 import de.topobyte.livecg.core.geometry.geom.Node;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
+import de.topobyte.viewports.geometry.Coordinate;
 
 public class ConvexHullOperation
 {

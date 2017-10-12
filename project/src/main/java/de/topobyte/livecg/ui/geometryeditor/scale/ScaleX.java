@@ -20,7 +20,7 @@ package de.topobyte.livecg.ui.geometryeditor.scale;
 
 import java.awt.Dimension;
 
-import de.topobyte.livecg.core.scrolling.ViewportWithSignals;
+import de.topobyte.viewports.scrolling.ViewportWithSignals;
 
 public class ScaleX extends Scale
 {

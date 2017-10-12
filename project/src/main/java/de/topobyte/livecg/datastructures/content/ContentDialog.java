@@ -25,9 +25,9 @@ import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 
 import de.topobyte.livecg.core.export.ExportUtil;
-import de.topobyte.livecg.core.geometry.geom.Rectangle;
-import de.topobyte.livecg.core.scrolling.ScrollableView;
 import de.topobyte.livecg.ui.geometryeditor.Content;
+import de.topobyte.viewports.geometry.Rectangle;
+import de.topobyte.viewports.scrolling.ScrollableView;
 
 public class ContentDialog
 {

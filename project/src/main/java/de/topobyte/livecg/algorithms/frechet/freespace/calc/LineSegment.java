@@ -17,8 +17,8 @@
  */
 package de.topobyte.livecg.algorithms.frechet.freespace.calc;
 
-import de.topobyte.livecg.core.geometry.geom.Coordinate;
 import de.topobyte.livecg.core.lina.Vector2;
+import de.topobyte.viewports.geometry.Coordinate;
 
 public class LineSegment
 {

@@ -20,7 +20,7 @@ package de.topobyte.livecg.core.painting.backend;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.topobyte.livecg.core.geometry.geom.Coordinate;
+import de.topobyte.viewports.geometry.Coordinate;
 import noawt.java.awt.Shape;
 import noawt.java.awt.geom.AffineTransform;
 import noawt.java.awt.geom.PathIterator;

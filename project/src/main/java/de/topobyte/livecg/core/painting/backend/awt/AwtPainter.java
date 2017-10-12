@@ -25,7 +25,6 @@ import java.util.List;
 
 import de.topobyte.livecg.core.geometry.geom.AwtHelper;
 import de.topobyte.livecg.core.geometry.geom.Chain;
-import de.topobyte.livecg.core.geometry.geom.Coordinate;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
 import de.topobyte.livecg.core.painting.Color;
 import de.topobyte.livecg.core.painting.Image;
@@ -33,6 +32,7 @@ import de.topobyte.livecg.core.painting.Painter;
 import de.topobyte.livecg.core.painting.backend.ImageUtil;
 import de.topobyte.livecg.util.NoAwtUtil;
 import de.topobyte.livecg.util.ShapeUtilAwt;
+import de.topobyte.viewports.geometry.Coordinate;
 import noawt.java.awt.Shape;
 import noawt.java.awt.geom.AffineTransform;
 import noawt.java.awt.geom.Rectangle2D;

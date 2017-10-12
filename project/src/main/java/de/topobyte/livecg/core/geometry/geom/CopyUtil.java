@@ -20,6 +20,8 @@ package de.topobyte.livecg.core.geometry.geom;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.topobyte.viewports.geometry.Coordinate;
+
 public class CopyUtil
 {
 

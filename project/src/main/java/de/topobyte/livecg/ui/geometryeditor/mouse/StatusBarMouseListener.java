@@ -19,8 +19,9 @@ package de.topobyte.livecg.ui.geometryeditor.mouse;
 
 import java.awt.event.MouseEvent;
 
-import de.topobyte.livecg.core.scrolling.ViewportWithSignals;
 import de.topobyte.livecg.ui.geometryeditor.StatusBar;
+import de.topobyte.viewports.scrolling.ViewportMouseListener;
+import de.topobyte.viewports.scrolling.ViewportWithSignals;
 
 public class StatusBarMouseListener extends ViewportMouseListener
 {

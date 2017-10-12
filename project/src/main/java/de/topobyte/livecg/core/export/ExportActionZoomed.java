@@ -26,11 +26,11 @@ import javax.swing.JFileChooser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.topobyte.livecg.core.geometry.geom.Rectangle;
 import de.topobyte.livecg.core.painting.VisualizationPainter;
-import de.topobyte.livecg.core.scrolling.HasScene;
-import de.topobyte.livecg.core.scrolling.Viewport;
 import de.topobyte.swing.util.action.SimpleAction;
+import de.topobyte.viewports.geometry.Rectangle;
+import de.topobyte.viewports.scrolling.HasScene;
+import de.topobyte.viewports.scrolling.Viewport;
 
 public abstract class ExportActionZoomed<T extends Viewport & HasScene> extends
 		SimpleAction

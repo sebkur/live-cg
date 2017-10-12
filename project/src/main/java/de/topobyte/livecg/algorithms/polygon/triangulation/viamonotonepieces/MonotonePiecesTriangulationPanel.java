@@ -25,8 +25,8 @@ import de.topobyte.livecg.algorithms.polygon.monotonepieces.PolygonPanel;
 import de.topobyte.livecg.core.export.SizeProvider;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
 import de.topobyte.livecg.core.scrolling.ScenePanel;
-import de.topobyte.livecg.core.scrolling.ViewportWithSignals;
 import de.topobyte.livecg.util.coloring.ColorMapBuilder;
+import de.topobyte.viewports.scrolling.ViewportWithSignals;
 
 public class MonotonePiecesTriangulationPanel extends ScenePanel implements
 		PolygonPanel, SizeProvider, ViewportWithSignals

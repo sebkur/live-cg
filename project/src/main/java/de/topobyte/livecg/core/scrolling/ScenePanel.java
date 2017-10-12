@@ -19,36 +19,22 @@ package de.topobyte.livecg.core.scrolling;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.swing.JPanel;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.topobyte.awt.util.GraphicsUtil;
-import de.topobyte.livecg.core.geometry.geom.Rectangle;
 import de.topobyte.livecg.core.painting.VisualizationPainter;
 import de.topobyte.livecg.core.painting.backend.awt.AwtPainter;
+import de.topobyte.viewports.BaseScenePanel;
+import de.topobyte.viewports.geometry.Rectangle;
 
-public class ScenePanel extends JPanel implements ViewportWithSignals,
-		HasScene, HasMargin
+public class ScenePanel extends BaseScenePanel
 {
 
 	private static final long serialVersionUID = 7575070738666558877L;
 
 	final static Logger logger = LoggerFactory.getLogger(ScenePanel.class);
-
-	protected Rectangle scene;
-
-	protected int margin = 15;
-
-	protected double positionX = 0;
-	protected double positionY = 0;
-	protected double zoom = 1;
 
 	protected AwtPainter painter;
 
@@ -56,19 +42,9 @@ public class ScenePanel extends JPanel implements ViewportWithSignals,
 
 	public ScenePanel(Rectangle scene)
 	{
-		this.scene = scene;
+		super(scene);
 
 		painter = new AwtPainter(null);
-
-		addComponentListener(new ComponentAdapter() {
-
-			@Override
-			public void componentResized(ComponentEvent e)
-			{
-				checkBounds();
-			}
-
-		});
 	}
 
 	@Override
@@ -85,146 +61,34 @@ public class ScenePanel extends JPanel implements ViewportWithSignals,
 	}
 
 	@Override
-	public Rectangle getScene()
+	protected void internalSetZoom(double value)
 	{
-		return scene;
+		super.internalSetZoom(value);
+		visualizationPainter.setZoom(zoom);
 	}
 
 	@Override
-	public double getMargin()
+	protected void internalSetPositionX(double value)
 	{
-		return margin;
-	}
-
-	@Override
-	public double getPositionX()
-	{
-		return positionX;
-	}
-
-	@Override
-	public double getPositionY()
-	{
-		return positionY;
-	}
-
-	@Override
-	public double getZoom()
-	{
-		return zoom;
-	}
-
-	private void internalSetZoom(double value)
-	{
-		zoom = value;
-		visualizationPainter.setZoom(value);
-	}
-
-	private void internalSetPositionX(double value)
-	{
-		positionX = value;
+		super.internalSetPositionX(value);
 		visualizationPainter.setPositionX(value);
 	}
 
-	private void internalSetPositionY(double value)
+	@Override
+	protected void internalSetPositionY(double value)
 	{
-		positionY = value;
+		super.internalSetPositionY(value);
 		visualizationPainter.setPositionY(value);
 	}
 
 	@Override
-	public void setPositionX(double value)
-	{
-		internalSetPositionX(value);
-		fireViewportListenersViewportChanged();
-	}
-
-	@Override
-	public void setPositionY(double value)
-	{
-		internalSetPositionY(value);
-		fireViewportListenersViewportChanged();
-	}
-
-	@Override
-	public void setZoom(double zoom)
-	{
-		setZoomCentered(zoom);
-	}
-
-	public void setZoomCentered(double zoom)
-	{
-		double mx = -positionX + getWidth() / this.zoom / 2.0;
-		double my = -positionY + getHeight() / this.zoom / 2.0;
-
-		internalSetZoom(zoom);
-		internalSetPositionX(getWidth() / zoom / 2.0 - mx);
-		internalSetPositionY(getHeight() / zoom / 2.0 - my);
-
-		checkBounds();
-		fireViewportListenersZoomChanged();
-		repaint();
-	}
-
 	protected void checkBounds()
 	{
 		if (visualizationPainter == null) {
-			logger.error("visualizationPainter is null. Have you forgotten to set this field in your subclass?");
+			logger.error(
+					"visualizationPainter is null. Have you forgotten to set this field in your subclass?");
 		}
-		boolean update = false;
-		if (-positionX + getWidth() / zoom > getScene().getWidth() + margin) {
-			logger.debug("Moved out of viewport at right");
-			internalSetPositionX(getWidth() / zoom - getScene().getWidth()
-					- margin);
-			update = true;
-		}
-		if (positionX > margin) {
-			logger.debug("Scrolled too much to the left");
-			internalSetPositionX(margin);
-			update = true;
-		}
-		if (-positionY + getHeight() / zoom > getScene().getHeight() + margin) {
-			logger.debug("Moved out of viewport at bottom");
-			internalSetPositionY(getHeight() / zoom - getScene().getHeight()
-					- margin);
-			update = true;
-		}
-		if (positionY > margin) {
-			logger.debug("Scrolled too much to the top");
-			internalSetPositionY(margin);
-			update = true;
-		}
-		if (update) {
-			repaint();
-		}
-		fireViewportListenersViewportChanged();
+		super.checkBounds();
 	}
 
-	private List<ViewportListener> viewportListeners = new ArrayList<>();
-
-	@Override
-	public void addViewportListener(ViewportListener listener)
-	{
-		viewportListeners.add(listener);
-	}
-
-	@Override
-	public void removeViewportListener(ViewportListener listener)
-	{
-		viewportListeners.remove(listener);
-	}
-
-	private void fireViewportListenersViewportChanged()
-	{
-		for (ViewportListener listener : viewportListeners) {
-			listener.viewportChanged();
-		}
-	}
-
-	private void fireViewportListenersZoomChanged()
-	{
-		for (ViewportListener listener : viewportListeners) {
-			listener.zoomChanged();
-		}
-	}
 }

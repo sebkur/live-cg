@@ -29,8 +29,8 @@ import de.topobyte.chromaticity.ColorCode;
 import de.topobyte.livecg.core.export.ExportUtil;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
 import de.topobyte.livecg.core.painting.VisualizationPainter;
-import de.topobyte.livecg.core.scrolling.ScrollableView;
 import de.topobyte.livecg.util.coloring.ColorMapBuilder;
+import de.topobyte.viewports.scrolling.ScrollableView;
 
 public class MonotonePiecesDialog
 {

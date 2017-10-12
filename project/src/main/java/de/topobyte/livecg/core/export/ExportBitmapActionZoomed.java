@@ -27,9 +27,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.topobyte.livecg.core.painting.VisualizationPainter;
-import de.topobyte.livecg.core.scrolling.HasScene;
-import de.topobyte.livecg.core.scrolling.Viewport;
 import de.topobyte.livecg.ui.filefilters.FileFilterBitmap;
+import de.topobyte.viewports.scrolling.HasScene;
+import de.topobyte.viewports.scrolling.Viewport;
 
 public class ExportBitmapActionZoomed<T extends Viewport & HasScene> extends
 		ExportActionZoomed<T>

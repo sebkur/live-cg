@@ -17,8 +17,8 @@
  */
 package de.topobyte.livecg.core.painting.backend.tikz;
 
-import de.topobyte.livecg.core.geometry.geom.Coordinate;
 import de.topobyte.livecg.core.painting.backend.PathBuilder;
+import de.topobyte.viewports.geometry.Coordinate;
 import noawt.com.bric.geom.Clipper;
 import noawt.java.awt.Shape;
 import noawt.java.awt.geom.GeneralPath;

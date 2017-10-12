@@ -25,10 +25,10 @@ import org.slf4j.LoggerFactory;
 import de.topobyte.chromaticity.ColorCode;
 import de.topobyte.livecg.core.export.SizeProvider;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
-import de.topobyte.livecg.core.scrolling.HasMargin;
 import de.topobyte.livecg.core.scrolling.ScenePanel;
-import de.topobyte.livecg.core.scrolling.ViewportWithSignals;
 import de.topobyte.livecg.util.coloring.ColorMapBuilder;
+import de.topobyte.viewports.scrolling.HasMargin;
+import de.topobyte.viewports.scrolling.ViewportWithSignals;
 
 public class MonotonePiecesPanel extends ScenePanel implements PolygonPanel,
 		SizeProvider, ViewportWithSignals, HasMargin

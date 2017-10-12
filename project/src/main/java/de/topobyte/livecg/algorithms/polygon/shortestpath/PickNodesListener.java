@@ -19,14 +19,14 @@ package de.topobyte.livecg.algorithms.polygon.shortestpath;
 
 import java.awt.event.MouseEvent;
 
-import de.topobyte.livecg.core.geometry.geom.Coordinate;
 import de.topobyte.livecg.core.geometry.geom.CrossingsTest;
 import de.topobyte.livecg.core.geometry.geom.Node;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
-import de.topobyte.livecg.core.scrolling.ViewportMouseAdapter;
 import de.topobyte.livecg.util.MouseOver;
+import de.topobyte.viewports.geometry.Coordinate;
+import de.topobyte.viewports.scrolling.ViewportMouseListener;
 
-public class PickNodesListener extends ViewportMouseAdapter<ShortestPathPanel>
+public class PickNodesListener extends ViewportMouseListener
 {
 
 	private static final int SELECTION_THRESHOLD = 10;
@@ -101,10 +101,10 @@ public class PickNodesListener extends ViewportMouseAdapter<ShortestPathPanel>
 		Node target = null;
 
 		if (pressedStart) {
-			start = new Node(getSceneCoordinate(e));
+			start = new Node(getCoordinate(e));
 		}
 		if (pressedTarget) {
-			target = new Node(getSceneCoordinate(e));
+			target = new Node(getCoordinate(e));
 		}
 		if (pressedStart || pressedTarget) {
 			pressedStart = false;
@@ -141,9 +141,9 @@ public class PickNodesListener extends ViewportMouseAdapter<ShortestPathPanel>
 			return;
 		}
 		if (pressedStart) {
-			spp.getPainter().setDragStart(getSceneCoordinate(e));
+			spp.getPainter().setDragStart(getCoordinate(e));
 		} else if (pressedTarget) {
-			spp.getPainter().setDragTarget(getSceneCoordinate(e));
+			spp.getPainter().setDragTarget(getCoordinate(e));
 		}
 		spp.repaint();
 	}
@@ -151,7 +151,7 @@ public class PickNodesListener extends ViewportMouseAdapter<ShortestPathPanel>
 	private boolean isOn(MouseEvent e, Node node)
 	{
 		Coordinate c = node.getCoordinate();
-		Coordinate cM = getSceneCoordinate(e);
+		Coordinate cM = getCoordinate(e);
 		return cM.distance(c) < SELECTION_THRESHOLD;
 	}
 

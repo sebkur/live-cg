@@ -21,11 +21,11 @@ import java.awt.event.MouseEvent;
 import java.util.List;
 
 import de.topobyte.livecg.core.geometry.geom.Chain;
-import de.topobyte.livecg.core.geometry.geom.Coordinate;
 import de.topobyte.livecg.core.geometry.geom.Node;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
 import de.topobyte.livecg.ui.geometryeditor.GeometryEditPane;
 import de.topobyte.livecg.util.ListUtil;
+import de.topobyte.viewports.geometry.Coordinate;
 
 public class MouseListenerDelete extends EditPaneMouseListener
 {

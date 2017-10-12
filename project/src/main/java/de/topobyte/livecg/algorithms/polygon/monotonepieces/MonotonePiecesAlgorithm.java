@@ -23,9 +23,9 @@ import de.topobyte.livecg.algorithms.polygon.util.Diagonal;
 import de.topobyte.livecg.core.algorithm.DefaultSceneAlgorithm;
 import de.topobyte.livecg.core.geometry.geom.BoundingBoxes;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
-import de.topobyte.livecg.core.geometry.geom.Rectangle;
 import de.topobyte.livecg.core.geometry.geom.Rectangles;
 import de.topobyte.livecg.util.graph.Graph;
+import de.topobyte.viewports.geometry.Rectangle;
 
 public class MonotonePiecesAlgorithm extends DefaultSceneAlgorithm
 {

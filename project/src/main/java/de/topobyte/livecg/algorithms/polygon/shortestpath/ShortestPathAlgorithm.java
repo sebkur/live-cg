@@ -40,9 +40,9 @@ import de.topobyte.livecg.core.geometry.geom.CrossingsTest;
 import de.topobyte.livecg.core.geometry.geom.GeomMath;
 import de.topobyte.livecg.core.geometry.geom.Node;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
-import de.topobyte.livecg.core.geometry.geom.Rectangle;
 import de.topobyte.livecg.core.geometry.geom.Rectangles;
 import de.topobyte.livecg.util.graph.Graph;
+import de.topobyte.viewports.geometry.Rectangle;
 
 public class ShortestPathAlgorithm extends DefaultSceneAlgorithm implements
 		Explainable, HasStatusMarker

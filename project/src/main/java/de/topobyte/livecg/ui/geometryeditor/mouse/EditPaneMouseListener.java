@@ -18,10 +18,11 @@
 package de.topobyte.livecg.ui.geometryeditor.mouse;
 
 import de.topobyte.livecg.core.geometry.geom.Chain;
-import de.topobyte.livecg.core.geometry.geom.Coordinate;
 import de.topobyte.livecg.core.geometry.geom.Node;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
 import de.topobyte.livecg.ui.geometryeditor.GeometryEditPane;
+import de.topobyte.viewports.geometry.Coordinate;
+import de.topobyte.viewports.scrolling.ViewportMouseListener;
 
 public class EditPaneMouseListener extends ViewportMouseListener
 {

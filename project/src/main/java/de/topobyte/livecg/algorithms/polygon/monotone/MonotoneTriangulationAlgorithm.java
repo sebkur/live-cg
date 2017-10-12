@@ -29,9 +29,9 @@ import de.topobyte.livecg.core.algorithm.DefaultSceneAlgorithm;
 import de.topobyte.livecg.core.geometry.geom.BoundingBoxes;
 import de.topobyte.livecg.core.geometry.geom.Node;
 import de.topobyte.livecg.core.geometry.geom.Polygon;
-import de.topobyte.livecg.core.geometry.geom.Rectangle;
 import de.topobyte.livecg.core.geometry.geom.Rectangles;
 import de.topobyte.livecg.util.Stack;
+import de.topobyte.viewports.geometry.Rectangle;
 
 public class MonotoneTriangulationAlgorithm extends DefaultSceneAlgorithm
 {

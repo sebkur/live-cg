@@ -17,6 +17,7 @@
  */
 package de.topobyte.livecg.core.geometry.geom;
 
+import de.topobyte.viewports.geometry.Coordinate;
 import noawt.java.awt.geom.Area;
 import noawt.java.awt.geom.Path2D;
 

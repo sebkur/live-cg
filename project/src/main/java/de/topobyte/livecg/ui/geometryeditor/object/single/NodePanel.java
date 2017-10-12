@@ -31,13 +31,13 @@ import javax.swing.event.DocumentEvent;
 
 import de.topobyte.awt.util.GridBagConstraintsEditor;
 import de.topobyte.livecg.core.geometry.geom.Chain;
-import de.topobyte.livecg.core.geometry.geom.Coordinate;
 import de.topobyte.livecg.core.geometry.geom.Node;
 import de.topobyte.livecg.ui.geometryeditor.GeometryEditPane;
 import de.topobyte.livecg.ui.misc.Borders;
 import de.topobyte.livecg.ui.misc.Borders.BorderState;
 import de.topobyte.swing.util.DocumentAdapter;
 import de.topobyte.swing.util.JPanelTextField;
+import de.topobyte.viewports.geometry.Coordinate;
 
 public class NodePanel extends JPanel
 {

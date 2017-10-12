@@ -23,8 +23,8 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
 import de.topobyte.livecg.core.painting.VisualizationPainter;
-import de.topobyte.livecg.core.scrolling.HasScene;
-import de.topobyte.livecg.core.scrolling.Viewport;
+import de.topobyte.viewports.scrolling.HasScene;
+import de.topobyte.viewports.scrolling.Viewport;
 
 public class ExportUtil
 {

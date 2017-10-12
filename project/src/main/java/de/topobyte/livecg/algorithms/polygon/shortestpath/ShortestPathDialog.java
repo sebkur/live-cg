@@ -40,7 +40,7 @@ import de.topobyte.livecg.core.algorithm.AlgorithmWatcher;
 import de.topobyte.livecg.core.algorithm.steps.RepeatedStep;
 import de.topobyte.livecg.core.algorithm.steps.Step;
 import de.topobyte.livecg.core.export.ExportUtil;
-import de.topobyte.livecg.core.scrolling.ScrollableView;
+import de.topobyte.viewports.scrolling.ScrollableView;
 
 public class ShortestPathDialog implements AlgorithmChangedListener,
 		AlgorithmWatcher

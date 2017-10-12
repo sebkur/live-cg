@@ -19,8 +19,8 @@ package de.topobyte.livecg.core.painting.backend.svg;
 
 import java.util.Locale;
 
-import de.topobyte.livecg.core.geometry.geom.Coordinate;
 import de.topobyte.livecg.core.painting.backend.PathBuilder;
+import de.topobyte.viewports.geometry.Coordinate;
 
 public class SvgPathBuilder extends PathBuilder
 {

@@ -19,6 +19,10 @@ package de.topobyte.livecg.core.lina;
 
 import java.util.Random;
 
+import de.topobyte.lina.Matrix;
+import de.topobyte.lina.Vector;
+import de.topobyte.lina.VectorType;
+
 public class TestLina
 {
 	public static void main(String[] args)
