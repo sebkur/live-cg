@@ -26,12 +26,12 @@ dependencies {
     compile 'de.topobyte:no-awt-javagraphics-clipper:0.0.1'
     compile 'de.topobyte:chromaticity-core:0.0.2'
     compile 'de.topobyte:viewports-swing:0.0.1'
+    compile 'de.topobyte:linear-algebra:0.0.2'
 
     compile 'com.vividsolutions:jts:1.13'
     compile 'org.apache.xmlgraphics:batik-svg-dom:1.7'
     compile 'commons-cli:commons-cli:1.2'
     compile 'commons-codec:commons-codec:1.10'
-    compile 'gov.nist.math:jama:1.0.3'
     compile 'org.freedesktop.tango:tango-icon-theme:0.8.90'
 
     compile 'org.slf4j:slf4j-api:1.6.1'
