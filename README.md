@@ -31,9 +31,9 @@ Build the JAR files:
 
 Then run them like this:
 
-    java -jar dist/livecg-ui.jar
-    java -jar dist/livecg-create-image.jar
-    java -jar dist/livecg-visualization.jar
+    java -jar build/libs/livecg-ui.jar
+    java -jar build/libs/livecg-create-image.jar
+    java -jar build/libs/livecg-visualization.jar
 
 # Setting up the development environment
 You can create an Eclipse project like this:
