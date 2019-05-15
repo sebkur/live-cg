@@ -11,12 +11,12 @@ algorithms from computational geometry.
 ## Using gradle
 You can run the main UI using gradle directly:
 
-    gradle run
+    ./gradlew run
 
 ## Using scripts
 Setup the execution environment:
 
-    gradle createRuntime
+    ./gradlew createRuntime
 
 Then you can run the main executables from the build directory:
 
@@ -27,7 +27,7 @@ Then you can run the main executables from the build directory:
 ## Using standalone JAR files
 Build the JAR files:
 
-    gradle fatJars
+    ./gradlew fatJars
 
 Then run them like this:
 
@@ -38,7 +38,7 @@ Then run them like this:
 # Setting up the development environment
 You can create an Eclipse project like this:
 
-    gradle cleanEclipse eclipse
+    ./gradlew cleanEclipse eclipse
 
 # Editor
 ## Key Bindings
