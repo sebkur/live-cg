@@ -9,6 +9,9 @@ apply plugin: 'maven'
 group = pGroup
 version = pVersion
 
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
 repositories {
     maven {
         url 'http://mvn.topobyte.de'
