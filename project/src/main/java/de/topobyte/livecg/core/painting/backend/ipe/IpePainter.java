@@ -537,7 +537,6 @@ public class IpePainter implements Painter
 			}
 			element.setAttribute("dash", "[" + strb.toString() + "] " + phase);
 		}
-
 	}
 
 	@Override
