@@ -73,7 +73,7 @@ public class IpePainter implements Painter
 
 		mxWs = AffineTransformUtil.scale(1, -1).multiplyFromRight(
 				AffineTransformUtil.translate(0, -y));
-		;
+
 		trWs = new GeometryTransformer(mxWs);
 
 		atWs = new AffineTransform();
