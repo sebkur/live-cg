@@ -27,12 +27,11 @@ import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 
+import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.io.ParseException;
+import org.locationtech.jts.io.WKTReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.vividsolutions.jts.geom.Geometry;
-import com.vividsolutions.jts.io.ParseException;
-import com.vividsolutions.jts.io.WKTReader;
 
 import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.ui.geometryeditor.GeometryEditPane;
@@ -71,8 +70,8 @@ public class LoadAction extends SimpleAction
 				Geometry geometry = wktReader.read(new FileReader(file));
 				Chain chain = Chain.fromLineString(geometry);
 				if (chain == null) {
-					System.out
-							.println("loaded geometry is not a valid LineString");
+					System.out.println(
+							"loaded geometry is not a valid LineString");
 				} else {
 					editPane.getContent().addChain(chain);
 					editPane.getContent().fireContentChanged();

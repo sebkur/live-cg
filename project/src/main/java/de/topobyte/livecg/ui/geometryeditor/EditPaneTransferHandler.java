@@ -32,12 +32,11 @@ import java.util.List;
 
 import javax.swing.TransferHandler;
 
+import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.io.ParseException;
+import org.locationtech.jts.io.WKTReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.vividsolutions.jts.geom.Geometry;
-import com.vividsolutions.jts.io.ParseException;
-import com.vividsolutions.jts.io.WKTReader;
 
 import de.topobyte.livecg.core.geometry.geom.Chain;
 
@@ -139,8 +138,9 @@ public class EditPaneTransferHandler extends TransferHandler
 			while ((line = bReader.readLine()) != null) {
 				try {
 					// kde seems to append a 0 char to the end of the reader
-					if (ZERO_CHAR_STRING.equals(line))
+					if (ZERO_CHAR_STRING.equals(line)) {
 						continue;
+					}
 
 					File file = new File(new java.net.URI(line));
 					list.add(file);

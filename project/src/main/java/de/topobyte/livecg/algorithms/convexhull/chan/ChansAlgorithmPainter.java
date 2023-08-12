@@ -70,8 +70,8 @@ public class ChansAlgorithmPainter extends TransformingVisualizationPainter
 		painter.setColor(new Color(0x000000));
 
 		if (config.isDrawAlgorithmPhase()) {
-			Coordinate text = transformer.transform(new Coordinate(scene
-					.getX1() + 10, scene.getY1() + 20));
+			Coordinate text = transformer.transform(
+					new Coordinate(scene.getX1() + 10, scene.getY1() + 20));
 			painter.drawString(phase.toString(), text.getX(), text.getY());
 		}
 
@@ -171,8 +171,8 @@ public class ChansAlgorithmPainter extends TransformingVisualizationPainter
 		 */
 
 		// Leftmost nodes that have already been found
-		if (phase.ordinal() >= Phase.FIND_LEFTMOST_NODES.ordinal()
-				&& phase.ordinal() < Phase.INITIALIZED_DATASTRUCTURES.ordinal()) {
+		if (phase.ordinal() >= Phase.FIND_LEFTMOST_NODES.ordinal() && phase
+				.ordinal() < Phase.INITIALIZED_DATASTRUCTURES.ordinal()) {
 			painter.setColor(colorNodes);
 			for (Polygon polygon : algorithm.getPolygons()) {
 				Node node = data.getLeftMostNode(polygon);
@@ -219,8 +219,8 @@ public class ChansAlgorithmPainter extends TransformingVisualizationPainter
 				&& phase != Phase.BEST_TANGENT_FOUND && phase != Phase.DONE) {
 			painter.setColor(colorTangents);
 			painter.setStrokeWidth(widthTangents);
-			Coordinate current = transformer.transform(data.getCurrentNode()
-					.getCoordinate());
+			Coordinate current = transformer
+					.transform(data.getCurrentNode().getCoordinate());
 
 			for (int i = 0; i < algorithm.getPolygons().size(); i++) {
 				int pos = data.getPosition(i);
@@ -238,8 +238,8 @@ public class ChansAlgorithmPainter extends TransformingVisualizationPainter
 		if (phase == Phase.LOOK_FOR_TANGENTS) {
 			painter.setColor(colorSearchTangent);
 			painter.setStrokeWidth(widthSearchTangent);
-			Coordinate current = transformer.transform(data.getCurrentNode()
-					.getCoordinate());
+			Coordinate current = transformer
+					.transform(data.getCurrentNode().getCoordinate());
 
 			if (data.getPosition() >= 0) {
 				Polygon p = algorithm.getPolygons().get(data.getPolygonId());
@@ -282,8 +282,8 @@ public class ChansAlgorithmPainter extends TransformingVisualizationPainter
 			for (int i = 0; i < algorithm.getPolygons().size(); i++) {
 				painter.setColor(colorIds);
 				Polygon polygon = algorithm.getPolygons().get(i);
-				Coordinate c = transformer.transform(PolygonHelper
-						.center(polygon));
+				Coordinate c = transformer
+						.transform(PolygonHelper.center(polygon));
 				painter.drawString(String.format("%d", i + 1), c.getX(),
 						c.getY());
 			}

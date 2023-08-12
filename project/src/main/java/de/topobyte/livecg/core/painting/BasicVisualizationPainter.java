@@ -97,4 +97,16 @@ public abstract class BasicVisualizationPainter implements VisualizationPainter
 	{
 		this.positionY = y;
 	}
+
+	@Override
+	public double getViewportWidth()
+	{
+		return getWidth();
+	}
+
+	@Override
+	public double getViewportHeight()
+	{
+		return getHeight();
+	}
 }

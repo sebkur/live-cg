@@ -19,19 +19,20 @@ repositories {
 }
 
 dependencies {
-    implementation 'de.topobyte:commons-cli-helper:0.0.6'
-    implementation 'de.topobyte:jts2awt:0.0.1'
-    implementation 'de.topobyte:adt-tree:0.0.10'
+    implementation 'de.topobyte:commons-cli-helper:0.1.0'
+    implementation 'de.topobyte:jts2awt:0.2.0'
+    implementation 'de.topobyte:jgs:0.0.1'
+    implementation 'de.topobyte:adt-tree:0.0.11'
     implementation 'de.topobyte:awt-utils:0.0.3'
     implementation 'de.topobyte:swing-utils:0.0.13'
     implementation 'de.topobyte:no-awt:0.0.1'
     implementation 'de.topobyte:no-awt-javagraphics-clipper:0.0.1'
     implementation 'de.topobyte:chromaticity-core:0.0.2'
-    implementation 'de.topobyte:viewports-swing:0.0.1'
+    implementation 'de.topobyte:viewports-swing:0.0.3'
     implementation 'de.topobyte:linear-algebra:0.0.2'
     implementation 'de.topobyte:shared-preferences:0.0.1'
+    implementation 'org.locationtech.jts:jts-core:1.19.0'
 
-    implementation 'com.vividsolutions:jts:1.13'
     implementation 'org.apache.xmlgraphics:batik-svg-dom:1.7'
     implementation 'commons-cli:commons-cli:1.2'
     implementation 'commons-codec:commons-codec:1.10'

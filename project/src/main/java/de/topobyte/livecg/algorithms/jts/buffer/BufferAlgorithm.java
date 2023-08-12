@@ -20,10 +20,10 @@ package de.topobyte.livecg.algorithms.jts.buffer;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.vividsolutions.jts.geom.Geometry;
-import com.vividsolutions.jts.geom.GeometryCollection;
-import com.vividsolutions.jts.operation.buffer.BufferOp;
-import com.vividsolutions.jts.operation.buffer.BufferParameters;
+import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.geom.GeometryCollection;
+import org.locationtech.jts.operation.buffer.BufferOp;
+import org.locationtech.jts.operation.buffer.BufferParameters;
 
 import de.topobyte.livecg.core.algorithm.DefaultSceneAlgorithm;
 import de.topobyte.livecg.core.geometry.geom.BoundingBoxes;
@@ -80,18 +80,18 @@ public class BufferAlgorithm extends DefaultSceneAlgorithm
 		BufferOp bufferOp = new BufferOp(gc, parameters);
 		Geometry buffer = bufferOp.getResultGeometry(config.getDistance());
 		result.clear();
-		if (buffer instanceof com.vividsolutions.jts.geom.Polygon) {
-			com.vividsolutions.jts.geom.Polygon r = (com.vividsolutions.jts.geom.Polygon) buffer;
+		if (buffer instanceof org.locationtech.jts.geom.Polygon) {
+			org.locationtech.jts.geom.Polygon r = (org.locationtech.jts.geom.Polygon) buffer;
 			result.add(jtsUtil.fromJts(r));
 			return;
 		} else if (buffer instanceof GeometryCollection) {
 			GeometryCollection collection = (GeometryCollection) buffer;
 			for (int i = 0; i < collection.getNumGeometries(); i++) {
 				Geometry part = collection.getGeometryN(i);
-				if (!(part instanceof com.vividsolutions.jts.geom.Polygon)) {
+				if (!(part instanceof org.locationtech.jts.geom.Polygon)) {
 					continue;
 				}
-				com.vividsolutions.jts.geom.Polygon r = (com.vividsolutions.jts.geom.Polygon) part;
+				org.locationtech.jts.geom.Polygon r = (org.locationtech.jts.geom.Polygon) part;
 				result.add(jtsUtil.fromJts(r));
 			}
 		}

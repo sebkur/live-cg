@@ -23,8 +23,8 @@ import de.topobyte.viewports.geometry.Coordinate;
 import de.topobyte.viewports.geometry.Rectangle;
 import de.topobyte.viewports.scrolling.TransformHelper;
 
-public abstract class TransformingVisualizationPainter extends
-		BasicVisualizationPainter
+public abstract class TransformingVisualizationPainter
+		extends BasicVisualizationPainter
 {
 
 	protected Rectangle scene;
@@ -50,11 +50,11 @@ public abstract class TransformingVisualizationPainter extends
 	protected void fillBackground(Color color)
 	{
 		painter.setColor(color);
-		Coordinate t1 = transformer.transform(new Coordinate(scene.getX1(),
-				scene.getY1()));
-		Coordinate t2 = transformer.transform(new Coordinate(scene.getX2(),
-				scene.getY2()));
-		painter.fillRect(t1.getX(), t1.getY(), t2.getX() - t1.getX(), t2.getY()
-				- t1.getY());
+		Coordinate t1 = transformer
+				.transform(new Coordinate(scene.getX1(), scene.getY1()));
+		Coordinate t2 = transformer
+				.transform(new Coordinate(scene.getX2(), scene.getY2()));
+		painter.fillRect(t1.getX(), t1.getY(), t2.getX() - t1.getX(),
+				t2.getY() - t1.getY());
 	}
 }

@@ -20,9 +20,9 @@ package de.topobyte.livecg.algorithms.convexhull;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.vividsolutions.jts.algorithm.ConvexHull;
-import com.vividsolutions.jts.geom.Geometry;
-import com.vividsolutions.jts.geom.GeometryFactory;
+import org.locationtech.jts.algorithm.ConvexHull;
+import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.geom.GeometryFactory;
 
 import de.topobyte.livecg.core.geometry.geom.Chain;
 import de.topobyte.livecg.core.geometry.geom.CloseabilityException;
@@ -36,11 +36,11 @@ public class ConvexHullOperation
 	public static Polygon compute(List<Node> nodes, List<Chain> chains,
 			List<Polygon> polygons)
 	{
-		List<com.vividsolutions.jts.geom.Coordinate> coordinates = new ArrayList<>();
+		List<org.locationtech.jts.geom.Coordinate> coordinates = new ArrayList<>();
 		if (nodes != null) {
 			for (Node node : nodes) {
-				com.vividsolutions.jts.geom.Coordinate c = convert(node
-						.getCoordinate());
+				org.locationtech.jts.geom.Coordinate c = convert(
+						node.getCoordinate());
 				add(coordinates, c);
 			}
 		}
@@ -58,24 +58,24 @@ public class ConvexHullOperation
 			}
 		}
 
-		com.vividsolutions.jts.geom.Coordinate[] coords = coordinates
-				.toArray(new com.vividsolutions.jts.geom.Coordinate[0]);
+		org.locationtech.jts.geom.Coordinate[] coords = coordinates
+				.toArray(new org.locationtech.jts.geom.Coordinate[0]);
 		ConvexHull convexHull = new ConvexHull(coords, new GeometryFactory());
 		Geometry hull = convexHull.getConvexHull();
 
-		if (!(hull instanceof com.vividsolutions.jts.geom.Polygon)) {
+		if (!(hull instanceof org.locationtech.jts.geom.Polygon)) {
 			System.out.println("not a polygon");
 			System.out.println(hull);
 			return null;
 		}
 
-		com.vividsolutions.jts.geom.Polygon hullPolygon = (com.vividsolutions.jts.geom.Polygon) hull;
-		com.vividsolutions.jts.geom.Coordinate[] hullPoints = hullPolygon
+		org.locationtech.jts.geom.Polygon hullPolygon = (org.locationtech.jts.geom.Polygon) hull;
+		org.locationtech.jts.geom.Coordinate[] hullPoints = hullPolygon
 				.getCoordinates();
 
 		Chain chain = new Chain();
 		for (int i = 0; i < hullPoints.length - 1; i++) {
-			com.vividsolutions.jts.geom.Coordinate c = hullPoints[i];
+			org.locationtech.jts.geom.Coordinate c = hullPoints[i];
 			chain.appendPoint(new Coordinate(c.x, c.y));
 		}
 
@@ -89,13 +89,13 @@ public class ConvexHullOperation
 		return polygon;
 	}
 
-	private static com.vividsolutions.jts.geom.Coordinate convert(Coordinate c)
+	private static org.locationtech.jts.geom.Coordinate convert(Coordinate c)
 	{
-		return new com.vividsolutions.jts.geom.Coordinate(c.getX(), c.getY());
+		return new org.locationtech.jts.geom.Coordinate(c.getX(), c.getY());
 	}
 
 	private static void add(Chain chain,
-			List<com.vividsolutions.jts.geom.Coordinate> coordinates)
+			List<org.locationtech.jts.geom.Coordinate> coordinates)
 	{
 		for (int i = 0; i < chain.getNumberOfNodes(); i++) {
 			add(coordinates, convert(chain.getCoordinate(i)));
@@ -103,12 +103,12 @@ public class ConvexHullOperation
 	}
 
 	private static void add(
-			List<com.vividsolutions.jts.geom.Coordinate> coordinates,
-			com.vividsolutions.jts.geom.Coordinate c)
+			List<org.locationtech.jts.geom.Coordinate> coordinates,
+			org.locationtech.jts.geom.Coordinate c)
 	{
 		// Do not add equal coordinates twice because JTS gets a hiccup in that
 		// case
-		for (com.vividsolutions.jts.geom.Coordinate o : coordinates) {
+		for (org.locationtech.jts.geom.Coordinate o : coordinates) {
 			if (o.x == c.x && o.y == c.y) {
 				return;
 			}

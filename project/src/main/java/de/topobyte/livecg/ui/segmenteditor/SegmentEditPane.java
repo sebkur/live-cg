@@ -209,4 +209,16 @@ public class SegmentEditPane extends JPanel implements ViewportWithSignals
 		// TODO Auto-generated method stub
 
 	}
+
+	@Override
+	public double getViewportWidth()
+	{
+		return getWidth();
+	}
+
+	@Override
+	public double getViewportHeight()
+	{
+		return getHeight();
+	}
 }

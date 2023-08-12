@@ -29,7 +29,7 @@ import javax.swing.JPanel;
 import javax.swing.JToggleButton;
 import javax.swing.JToolBar;
 
-import com.vividsolutions.jts.operation.buffer.BufferParameters;
+import org.locationtech.jts.operation.buffer.BufferParameters;
 
 import de.topobyte.livecg.util.ZoomInput;
 import de.topobyte.swing.util.combobox.KeyValueComboBox;
@@ -70,14 +70,18 @@ public class Settings extends JToolBar implements ItemListener, ActionListener
 
 		buttons[0].setSelected(config.isDrawInput());
 
-		capSelector = new KeyValueComboBox<>(new String[] { "flat", "round",
-				"square" }, new Integer[] { BufferParameters.CAP_FLAT,
-				BufferParameters.CAP_ROUND, BufferParameters.CAP_SQUARE },
+		capSelector = new KeyValueComboBox<>(
+				new String[] { "flat", "round", "square" },
+				new Integer[] { BufferParameters.CAP_FLAT,
+						BufferParameters.CAP_ROUND,
+						BufferParameters.CAP_SQUARE },
 				config.getCapStyle());
 
-		joinSelector = new KeyValueComboBox<>(new String[] { "bevel", "mitre",
-				"round" }, new Integer[] { BufferParameters.JOIN_BEVEL,
-				BufferParameters.JOIN_MITRE, BufferParameters.JOIN_ROUND },
+		joinSelector = new KeyValueComboBox<>(
+				new String[] { "bevel", "mitre", "round" },
+				new Integer[] { BufferParameters.JOIN_BEVEL,
+						BufferParameters.JOIN_MITRE,
+						BufferParameters.JOIN_ROUND },
 				config.getJoinStyle());
 
 		capSelector.setMinPreferredWidth(100);

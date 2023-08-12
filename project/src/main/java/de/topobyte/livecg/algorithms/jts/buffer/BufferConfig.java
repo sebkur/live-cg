@@ -20,7 +20,7 @@ package de.topobyte.livecg.algorithms.jts.buffer;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.vividsolutions.jts.operation.buffer.BufferParameters;
+import org.locationtech.jts.operation.buffer.BufferParameters;
 
 import de.topobyte.livecg.algorithms.frechet.distanceterrain.ConfigChangedListener;
 

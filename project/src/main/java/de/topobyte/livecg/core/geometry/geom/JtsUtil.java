@@ -20,11 +20,11 @@ package de.topobyte.livecg.core.geometry.geom;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.vividsolutions.jts.geom.Geometry;
-import com.vividsolutions.jts.geom.GeometryCollection;
-import com.vividsolutions.jts.geom.GeometryFactory;
-import com.vividsolutions.jts.geom.LineString;
-import com.vividsolutions.jts.geom.LinearRing;
+import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.geom.GeometryCollection;
+import org.locationtech.jts.geom.GeometryFactory;
+import org.locationtech.jts.geom.LineString;
+import org.locationtech.jts.geom.LinearRing;
 
 import de.topobyte.livecg.ui.geometryeditor.SetOfGeometries;
 import de.topobyte.viewports.geometry.Coordinate;
@@ -34,12 +34,12 @@ public class JtsUtil
 
 	private GeometryFactory factory = new GeometryFactory();
 
-	public com.vividsolutions.jts.geom.Coordinate toJts(Coordinate c)
+	public org.locationtech.jts.geom.Coordinate toJts(Coordinate c)
 	{
-		return new com.vividsolutions.jts.geom.Coordinate(c.getX(), c.getY());
+		return new org.locationtech.jts.geom.Coordinate(c.getX(), c.getY());
 	}
 
-	public Polygon fromJts(com.vividsolutions.jts.geom.Polygon polygon)
+	public Polygon fromJts(org.locationtech.jts.geom.Polygon polygon)
 	{
 		LineString jShell = polygon.getExteriorRing();
 		Chain shell = fromJtsString(jShell);
@@ -52,7 +52,7 @@ public class JtsUtil
 		return new Polygon(shell, holes);
 	}
 
-	public com.vividsolutions.jts.geom.Polygon toJts(Polygon polygon)
+	public org.locationtech.jts.geom.Polygon toJts(Polygon polygon)
 	{
 		Chain shell = polygon.getShell();
 		LinearRing jShell = toJtsRing(shell);
@@ -77,7 +77,7 @@ public class JtsUtil
 			num -= 1;
 		}
 		for (int i = 0; i < num; i++) {
-			com.vividsolutions.jts.geom.Coordinate c = string.getCoordinateN(i);
+			org.locationtech.jts.geom.Coordinate c = string.getCoordinateN(i);
 			chain.appendPoint(new Coordinate(c.x, c.y));
 		}
 		if (isRing) {
@@ -97,16 +97,17 @@ public class JtsUtil
 			// Repeat first coordinate if we create a ring
 			n += 1;
 		}
-		com.vividsolutions.jts.geom.Coordinate[] coords = new com.vividsolutions.jts.geom.Coordinate[n];
+		org.locationtech.jts.geom.Coordinate[] coords = new org.locationtech.jts.geom.Coordinate[n];
 		for (int i = 0; i < chain.getNumberOfNodes(); i++) {
 			Coordinate c = chain.getCoordinate(i);
-			coords[i] = new com.vividsolutions.jts.geom.Coordinate(c.getX(),
+			coords[i] = new org.locationtech.jts.geom.Coordinate(c.getX(),
 					c.getY());
 		}
 		if (chain.isClosed()) {
 			Coordinate c = chain.getCoordinate(0);
-			coords[chain.getNumberOfNodes()] = new com.vividsolutions.jts.geom.Coordinate(
-					c.getX(), c.getY());
+			coords[chain
+					.getNumberOfNodes()] = new org.locationtech.jts.geom.Coordinate(
+							c.getX(), c.getY());
 		}
 		if (chain.isClosed()) {
 			return factory.createLinearRing(coords);
@@ -116,16 +117,17 @@ public class JtsUtil
 
 	public LinearRing toJtsRing(Chain chain)
 	{
-		com.vividsolutions.jts.geom.Coordinate[] coords = new com.vividsolutions.jts.geom.Coordinate[chain
+		org.locationtech.jts.geom.Coordinate[] coords = new org.locationtech.jts.geom.Coordinate[chain
 				.getNumberOfNodes() + 1];
 		for (int i = 0; i < chain.getNumberOfNodes(); i++) {
 			Coordinate c = chain.getCoordinate(i);
-			coords[i] = new com.vividsolutions.jts.geom.Coordinate(c.getX(),
+			coords[i] = new org.locationtech.jts.geom.Coordinate(c.getX(),
 					c.getY());
 		}
 		Coordinate c = chain.getCoordinate(0);
-		coords[chain.getNumberOfNodes()] = new com.vividsolutions.jts.geom.Coordinate(
-				c.getX(), c.getY());
+		coords[chain
+				.getNumberOfNodes()] = new org.locationtech.jts.geom.Coordinate(
+						c.getX(), c.getY());
 		return factory.createLinearRing(coords);
 	}
 

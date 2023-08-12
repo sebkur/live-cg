@@ -252,8 +252,9 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 		ActionMap actionMap = getActionMap();
 
 		inputMap.put(
-				KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_DOWN_MASK
-						| InputEvent.SHIFT_MASK), "c-o");
+				KeyStroke.getKeyStroke(KeyEvent.VK_O,
+						InputEvent.CTRL_DOWN_MASK | InputEvent.SHIFT_MASK),
+				"c-o");
 
 		OpenCloseRingAction openCloseRingAction = new OpenCloseRingAction(this);
 
@@ -493,8 +494,8 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 		}
 
 		if (mouseHighlightPolygon != null) {
-			Chain tchain = transformer.transform(mouseHighlightPolygon
-					.getShell());
+			Chain tchain = transformer
+					.transform(mouseHighlightPolygon.getShell());
 			drawHighlight(p, tchain, colorMouseHighlightChain);
 		}
 
@@ -521,8 +522,8 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 		if (currentChains.size() > 0) {
 			for (Chain chain : currentChains) {
 				Chain tchain = transformer.transform(chain);
-				draw(p, tchain, colorEditingChainLines,
-						colorEditingChainPoints, null);
+				draw(p, tchain, colorEditingChainLines, colorEditingChainPoints,
+						null);
 
 				p.setColor(colorLastEditingLinePoints);
 				Coordinate c = chain.getLastCoordinate();
@@ -601,10 +602,10 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 					tselectionRectangle.getX2());
 			double y = Math.min(tselectionRectangle.getY1(),
 					tselectionRectangle.getY2());
-			double width = Math.abs(tselectionRectangle.getX2()
-					- tselectionRectangle.getX1());
-			double height = Math.abs(tselectionRectangle.getY2()
-					- tselectionRectangle.getY1());
+			double width = Math.abs(
+					tselectionRectangle.getX2() - tselectionRectangle.getX1());
+			double height = Math.abs(
+					tselectionRectangle.getY2() - tselectionRectangle.getY1());
 			p.setColor(colorSelectionRectangle);
 			p.drawRect((int) Math.round(x), (int) Math.round(y),
 					(int) Math.round(width), (int) Math.round(height));
@@ -617,24 +618,28 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 			double height = tobjects.getY2() - tobjects.getY1();
 			p.setColor(colorRotationRectangle);
 			p.drawRect((int) Math.round(tobjects.getX1()),
-					(int) Math.round(tobjects.getY1()),
-					(int) Math.round(width), (int) Math.round(height));
+					(int) Math.round(tobjects.getY1()), (int) Math.round(width),
+					(int) Math.round(height));
 
 			double s = 6;
 			// Corners
-			p.drawRect(tobjects.getX1() - s / 2, tobjects.getY1() - s / 2, s, s);
-			p.drawRect(tobjects.getX1() - s / 2, tobjects.getY2() - s / 2, s, s);
-			p.drawRect(tobjects.getX2() - s / 2, tobjects.getY1() - s / 2, s, s);
-			p.drawRect(tobjects.getX2() - s / 2, tobjects.getY2() - s / 2, s, s);
+			p.drawRect(tobjects.getX1() - s / 2, tobjects.getY1() - s / 2, s,
+					s);
+			p.drawRect(tobjects.getX1() - s / 2, tobjects.getY2() - s / 2, s,
+					s);
+			p.drawRect(tobjects.getX2() - s / 2, tobjects.getY1() - s / 2, s,
+					s);
+			p.drawRect(tobjects.getX2() - s / 2, tobjects.getY2() - s / 2, s,
+					s);
 			// Sides
-			p.drawRect(tobjects.getX1() - s / 2 + width / 2, tobjects.getY1()
-					- s / 2, s, s);
-			p.drawRect(tobjects.getX1() - s / 2 + width / 2, tobjects.getY2()
-					- s / 2, s, s);
-			p.drawRect(tobjects.getX1() - s / 2, tobjects.getY1() - s / 2
-					+ height / 2, s, s);
-			p.drawRect(tobjects.getX2() - s / 2, tobjects.getY1() - s / 2
-					+ height / 2, s, s);
+			p.drawRect(tobjects.getX1() - s / 2 + width / 2,
+					tobjects.getY1() - s / 2, s, s);
+			p.drawRect(tobjects.getX1() - s / 2 + width / 2,
+					tobjects.getY2() - s / 2, s, s);
+			p.drawRect(tobjects.getX1() - s / 2,
+					tobjects.getY1() - s / 2 + height / 2, s, s);
+			p.drawRect(tobjects.getX2() - s / 2,
+					tobjects.getY1() - s / 2 + height / 2, s, s);
 		}
 	}
 
@@ -1023,6 +1028,18 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 	public void setDebugHighlightEndpoints(boolean debugHighlightEndpoints)
 	{
 		this.debugHighlightEndpoints = debugHighlightEndpoints;
+	}
+
+	@Override
+	public double getViewportWidth()
+	{
+		return getWidth();
+	}
+
+	@Override
+	public double getViewportHeight()
+	{
+		return getHeight();
 	}
 
 }

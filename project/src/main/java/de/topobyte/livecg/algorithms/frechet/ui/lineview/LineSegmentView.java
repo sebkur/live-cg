@@ -26,10 +26,10 @@ import java.awt.geom.Area;
 
 import javax.swing.JPanel;
 
-import com.vividsolutions.jts.geom.Geometry;
-import com.vividsolutions.jts.geom.GeometryFactory;
-import com.vividsolutions.jts.geom.LineString;
-import com.vividsolutions.jts.geom.Polygon;
+import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.geom.GeometryFactory;
+import org.locationtech.jts.geom.LineString;
+import org.locationtech.jts.geom.Polygon;
 
 import de.topobyte.jgs.transform.IdentityCoordinateTransformer;
 import de.topobyte.jts2awt.Jts2Awt;
@@ -99,8 +99,8 @@ public class LineSegmentView extends JPanel implements EpsilonSettable
 			int halfHeight = heightEpsilonBar / 2;
 			int ypos = height - offsetEpsilon - halfHeight;
 			g.drawLine(offsetEpsilon, ypos, offsetEpsilon + epsilon, ypos);
-			g.drawLine(offsetEpsilon, ypos - halfHeight, offsetEpsilon, ypos
-					+ halfHeight);
+			g.drawLine(offsetEpsilon, ypos - halfHeight, offsetEpsilon,
+					ypos + halfHeight);
 			g.drawLine(offsetEpsilon + epsilon, ypos - halfHeight,
 					offsetEpsilon + epsilon, ypos + halfHeight);
 		}
@@ -135,11 +135,11 @@ public class LineSegmentView extends JPanel implements EpsilonSettable
 			last = editable.getCoordinate(0);
 			for (int i = 1; i < n; i++) {
 				Coordinate current = editable.getCoordinate(i);
-				com.vividsolutions.jts.geom.Coordinate[] cs = new com.vividsolutions.jts.geom.Coordinate[] {
-						new com.vividsolutions.jts.geom.Coordinate(last.getX(),
+				org.locationtech.jts.geom.Coordinate[] cs = new org.locationtech.jts.geom.Coordinate[] {
+						new org.locationtech.jts.geom.Coordinate(last.getX(),
 								last.getY()),
-						new com.vividsolutions.jts.geom.Coordinate(
-								current.getX(), current.getY()) };
+						new org.locationtech.jts.geom.Coordinate(current.getX(),
+								current.getY()) };
 				LineString seg = factory.createLineString(cs);
 				Geometry buffer = seg.buffer(epsilon);
 				Area area = Jts2Awt.toShape((Polygon) buffer,

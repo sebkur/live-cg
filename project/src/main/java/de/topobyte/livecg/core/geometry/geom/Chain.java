@@ -21,13 +21,12 @@ package de.topobyte.livecg.core.geometry.geom;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.geom.GeometryFactory;
+import org.locationtech.jts.geom.LineString;
+import org.locationtech.jts.geom.Point;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.vividsolutions.jts.geom.Geometry;
-import com.vividsolutions.jts.geom.GeometryFactory;
-import com.vividsolutions.jts.geom.LineString;
-import com.vividsolutions.jts.geom.Point;
 
 import de.topobyte.livecg.util.circular.IntRing;
 import de.topobyte.viewports.geometry.Coordinate;
@@ -199,7 +198,7 @@ public class Chain
 					.createPoint(jts.toJts(nodes.get(0).getCoordinate()));
 			return point;
 		}
-		com.vividsolutions.jts.geom.Coordinate[] coords = new com.vividsolutions.jts.geom.Coordinate[n];
+		org.locationtech.jts.geom.Coordinate[] coords = new org.locationtech.jts.geom.Coordinate[n];
 		for (int i = 0; i < n; i++) {
 			coords[i] = jts.toJts(nodes.get(i).getCoordinate());
 		}
@@ -244,8 +243,7 @@ public class Chain
 		Chain chain = new Chain();
 		LineString string = (LineString) geometry;
 		for (int i = 0; i < string.getNumPoints(); i++) {
-			com.vividsolutions.jts.geom.Coordinate cn = string
-					.getCoordinateN(i);
+			org.locationtech.jts.geom.Coordinate cn = string.getCoordinateN(i);
 			chain.appendPoint(new Coordinate(cn.x, cn.y));
 		}
 		return chain;
