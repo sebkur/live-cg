@@ -645,7 +645,7 @@ public class GeometryEditPane extends JPanel implements MouseModeProvider,
 
 	private String getName(int i)
 	{
-		return new Character((char) ('A' + i)).toString();
+		return Character.valueOf((char) ('A' + i)).toString();
 	}
 
 	private void draw(Painter p, Chain chain, Color colorLines,

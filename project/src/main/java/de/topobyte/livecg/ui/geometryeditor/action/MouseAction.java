@@ -112,7 +112,8 @@ public class MouseAction extends SimpleAction implements MouseModeListener
 	public Object getValue(String key)
 	{
 		if (key.equals(Action.SELECTED_KEY)) {
-			return new Boolean(mouseModeProvider.getMouseMode() == mouseMode);
+			return Boolean
+					.valueOf(mouseModeProvider.getMouseMode() == mouseMode);
 		}
 		return super.getValue(key);
 	}
