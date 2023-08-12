@@ -54,6 +54,8 @@ import de.topobyte.livecg.ui.geometryeditor.debug.ContentDialog;
 import de.topobyte.livecg.ui.geometryeditor.mouse.StatusBarMouseListener;
 import de.topobyte.livecg.ui.geometryeditor.object.ObjectDialog;
 import de.topobyte.livecg.util.LocationUtil;
+import de.topobyte.shared.preferences.SharedPreferences;
+import de.topobyte.swing.util.SwingUtils;
 import de.topobyte.utilities.apache.commons.cli.OptionHelper;
 import de.topobyte.utilities.apache.commons.cli.parsing.ArgumentHelper;
 import de.topobyte.utilities.apache.commons.cli.parsing.StringOption;
@@ -93,6 +95,8 @@ public class LiveCG
 			String configPath = config.getValue();
 			LiveConfig.setPath(configPath);
 		}
+
+		SwingUtils.setUiScale(SharedPreferences.getUIScale());
 
 		Configuration configuration = PreferenceManager.getConfiguration();
 		String lookAndFeel = configuration.getSelectedLookAndFeel();
@@ -196,8 +200,8 @@ public class LiveCG
 		StatusBarMouseListener statusBarMouseListener = new StatusBarMouseListener(
 				geometryEditor.getEditPane(), statusBar);
 		geometryEditor.getEditPane().addMouseListener(statusBarMouseListener);
-		geometryEditor.getEditPane().addMouseMotionListener(
-				statusBarMouseListener);
+		geometryEditor.getEditPane()
+				.addMouseMotionListener(statusBarMouseListener);
 
 		GridBagConstraints c = new GridBagConstraints();
 
