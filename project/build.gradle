@@ -64,7 +64,7 @@ task jarUI(type: Jar) {
         attributes 'Main-Class': 'de.topobyte.livecg.LiveCG'
     }
     duplicatesStrategy(DuplicatesStrategy.EXCLUDE)
-    baseName = 'livecg-ui'
+    archiveBaseName = 'livecg-ui'
     from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
     with jar
 }
@@ -74,7 +74,7 @@ task jarCreateImage(type: Jar) {
         attributes 'Main-Class': 'de.topobyte.livecg.CreateImage'
     }
     duplicatesStrategy(DuplicatesStrategy.EXCLUDE)
-    baseName = 'livecg-create-image'
+    archiveBaseName = 'livecg-create-image'
     from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
     with jar
 }
@@ -84,7 +84,7 @@ task jarShowVisualization(type: Jar) {
         attributes 'Main-Class': 'de.topobyte.livecg.ShowVisualization'
     }
     duplicatesStrategy(DuplicatesStrategy.EXCLUDE)
-    baseName = 'livecg-visualization'
+    archiveBaseName = 'livecg-visualization'
     from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
     with jar
 }
